@@ -67,9 +67,9 @@
                      '</form>';
         }
 
-        $data = '<div class="ui-widget infoBoxContainer">' .
-                  '  <div class="ui-widget-header infoBoxHeading">' . MODULE_BOXES_MANUFACTURERS_BOX_TITLE . '</div>' .
-                  '  <div class="ui-widget-content infoBoxContents">' . $content . '</div>' .
+        $data = '<div class="panel panel-default">' .
+                  '  <div class="panel-heading">' . MODULE_BOXES_MANUFACTURERS_BOX_TITLE . '</div>' .
+                  '  <div class="panel-body">' . $content . '</div>' .
                   '</div>';
       }
 

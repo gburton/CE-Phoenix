@@ -58,9 +58,9 @@
         $reviews_box_contents .= '<div class="ui-widget-content infoBoxContents">' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</div>';
       }
 
-      $data = '<div class="ui-widget infoBoxContainer">' .
-              '  <div class="ui-widget-header infoBoxHeading"><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . MODULE_BOXES_REVIEWS_BOX_TITLE . '</a></div>' .
-              '  ' . $reviews_box_contents .
+      $data = '<div class="panel panel-default">' .
+              '  <div class="panel-heading"><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . MODULE_BOXES_REVIEWS_BOX_TITLE . '</a></div>' .
+              '  <div class="panel-body">' . $reviews_box_contents . '</div>' . 
               '</div>';
 
       $oscTemplate->addBlock($data, $this->group);

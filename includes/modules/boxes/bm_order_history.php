@@ -43,7 +43,7 @@
           }
           $product_ids = substr($product_ids, 0, -1);
 
-          $customer_orders_string = '<table border="0" width="100%" cellspacing="0" cellpadding="1" class="ui-widget-content infoBoxContents">';
+          $customer_orders_string = '<table border="0" width="100%" cellspacing="0" cellpadding="1">';
           $products_query = tep_db_query("select products_id, products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id in (" . $product_ids . ") and language_id = '" . (int)$languages_id . "' order by products_name");
           while ($products = tep_db_fetch_array($products_query)) {
             $customer_orders_string .= '  <tr>' .
@@ -53,9 +53,9 @@
           }
           $customer_orders_string .= '</table>';
 
-          $data = '<div class="ui-widget infoBoxContainer">' .
-                  '  <div class="ui-widget-header infoBoxHeading">' . MODULE_BOXES_ORDER_HISTORY_BOX_TITLE . '</div>' .
-                  '  ' . $customer_orders_string .
+          $data = '<div class="panel panel-default">' .
+                  '  <div class="panel-heading">' . MODULE_BOXES_ORDER_HISTORY_BOX_TITLE . '</div>' .
+                  '  <div class="panel-body">' . $customer_orders_string . '</div>' . 
                   '</div>';
 
           $oscTemplate->addBlock($data, $this->group);

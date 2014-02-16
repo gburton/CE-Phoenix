@@ -36,7 +36,7 @@
       $cart_contents_string = '';
 
       if ($cart->count_contents() > 0) {
-        $cart_contents_string = '<table border="0" width="100%" cellspacing="0" cellpadding="0" class="ui-widget-content infoBoxContents">';
+        $cart_contents_string = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
         $products = $cart->get_products();
         for ($i=0, $n=sizeof($products); $i<$n; $i++) {
           $cart_contents_string .= '<tr><td align="right" valign="top">';
@@ -74,12 +74,12 @@
                                  '<tr><td colspan="2" align="right">' . $currencies->format($cart->show_total()) . '</td></tr>' .
                                  '</table>';
       } else {
-        $cart_contents_string .= '<div class="ui-widget-content infoBoxContents">' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</div>';
+        $cart_contents_string .= '<p>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
       }
 
-      $data = '<div class="ui-widget infoBoxContainer">' .
-              '  <div class="ui-widget-header infoBoxHeading"><a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '">' . MODULE_BOXES_SHOPPING_CART_BOX_TITLE . '</a></div>' .
-              '  ' . $cart_contents_string .
+      $data = '<div class="panel panel-default">' .
+              '  <div class="panel-heading"><a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '">' . MODULE_BOXES_SHOPPING_CART_BOX_TITLE . '</a></div>' .
+              '  <div class="panel-body">' . $cart_contents_string . '</div>' .
               '</div>';
 
       $oscTemplate->addBlock($data, $this->group);
