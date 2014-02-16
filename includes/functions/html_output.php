@@ -165,7 +165,7 @@
 
 ////
 // Output a form input field
-  function tep_draw_input_field($name, $value = '', $parameters = '', $type = 'text', $reinsert_value = true) {
+  function tep_draw_input_field($name, $value = '', $parameters = '', $type = 'text', $reinsert_value = true, $class = 'class="form-control"') {
     global $HTTP_GET_VARS, $HTTP_POST_VARS;
 
     $field = '<input type="' . tep_output_string($type) . '" name="' . tep_output_string($name) . '"';
@@ -183,6 +183,8 @@
     }
 
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
+    
+    if (tep_not_null($class)) $field .= ' ' . $class;
 
     $field .= ' />';
 
@@ -191,7 +193,7 @@
 
 ////
 // Output a form password field
-  function tep_draw_password_field($name, $value = '', $parameters = 'maxlength="40"') {
+  function tep_draw_password_field($name, $value = '', $parameters = '') {
     return tep_draw_input_field($name, $value, $parameters, 'password', false);
   }
 
@@ -297,7 +299,7 @@
 
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
 
-    $field .= '>';
+    $field .= ' class="form-control">';
 
     if (empty($default) && ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) ) {
       if (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) {
@@ -337,7 +339,7 @@
 
 ////
 // Output a jQuery UI Button
-  function tep_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null) {
+  function tep_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null, $style = null) {
     static $button_counter = 1;
 
     $types = array('submit', 'button', 'reset');
@@ -358,23 +360,32 @@
       $priority = 'secondary';
     }
 
-    $button = '<span class="tdbLink">';
+    $button = NULL;
 
     if ( ($params['type'] == 'button') && isset($link) ) {
-      $button .= '<a id="tdb' . $button_counter . '" href="' . $link . '"';
+      $button .= '<a id="btn' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
         $button .= ' target="_blank"';
       }
     } else {
-      $button .= '<button id="tdb' . $button_counter . '" type="' . tep_output_string($params['type']) . '"';
+      $button .= '<button class="btn btn-success" type="' . tep_output_string($params['type']) . '"';
     }
 
     if ( isset($params['params']) ) {
       $button .= ' ' . $params['params'];
     }
 
+    $button .= 'class="btn ';
+
+    $button .= (isset($style)) ? $style : 'btn-default';
+    $button .= '"';
+    
     $button .= '>' . $title;
+
+    if (isset($icon) && tep_not_null($icon)) {
+     $button .= ' <span class="glyphicon ' . $icon . '"></span> ';
+    }
 
     if ( ($params['type'] == 'button') && isset($link) ) {
       $button .= '</a>';
@@ -382,34 +393,8 @@
       $button .= '</button>';
     }
 
-    $button .= '</span><script type="text/javascript">$("#tdb' . $button_counter . '").button(';
-
-    $args = array();
-
-    if ( isset($icon) ) {
-      if ( !isset($params['iconpos']) ) {
-        $params['iconpos'] = 'left';
-      }
-
-      if ( $params['iconpos'] == 'left' ) {
-        $args[] = 'icons:{primary:"ui-icon-' . $icon . '"}';
-      } else {
-        $args[] = 'icons:{secondary:"ui-icon-' . $icon . '"}';
-      }
-    }
-
-    if (empty($title)) {
-      $args[] = 'text:false';
-    }
-
-    if (!empty($args)) {
-      $button .= '{' . implode(',', $args) . '}';
-    }
-
-    $button .= ').addClass("ui-priority-' . $priority . '").parent().removeClass("tdbLink");</script>';
-
     $button_counter++;
 
     return $button;
   }
-?>
+  
