@@ -33,9 +33,10 @@
   </div>
 </div>
 
-<div class="grid_24 ui-widget infoBoxContainer">
-  <div class="ui-widget-header infoBoxHeading"><?php echo '&nbsp;&nbsp;' . $breadcrumb->trail(' &raquo; '); ?></div>
-</div>
+<div class="clearfix"></div>
+
+<?php echo $breadcrumb->trail(); ?>
+
 
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
