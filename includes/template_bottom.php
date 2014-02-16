@@ -17,8 +17,10 @@
   if ($oscTemplate->hasBlocks('boxes_column_left')) {
 ?>
 
-<div id="columnLeft" class="grid_<?php echo $oscTemplate->getGridColumnWidth(); ?> pull_<?php echo $oscTemplate->getGridContentWidth(); ?>">
-  <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
+<div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
+  <ul class="nav nav-list">
+    <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
+  </ul>
 </div>
 
 <?php
@@ -27,13 +29,17 @@
   if ($oscTemplate->hasBlocks('boxes_column_right')) {
 ?>
 
-<div id="columnRight" class="grid_<?php echo $oscTemplate->getGridColumnWidth(); ?>">
-  <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
+<div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
+  <ul class="nav nav-list">
+    <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
+  </ul>
 </div>
 
 <?php
   }
 ?>
+
+</div> <!-- row -->
 
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 

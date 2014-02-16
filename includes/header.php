@@ -11,14 +11,15 @@
 */
 
   if ($messageStack->size('header') > 0) {
-    echo '<div class="grid_24">' . $messageStack->output('header') . '</div>';
+    echo '<div class="col-md-12">' . $messageStack->output('header') . '</div>';
   }
 ?>
 
-<div id="header" class="grid_24">
-  <div id="storeLogo"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
+<div id="header" class="col-md-12">
+  <div class="col-md-6"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
 
-  <div id="headerShortcuts">
+  <div class="col-md-6 text-right">
+    <div class="btn-group">
 <?php
   echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'cart', tep_href_link(FILENAME_SHOPPING_CART)) .
        tep_draw_button(HEADER_TITLE_CHECKOUT, 'triangle-1-e', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL')) .
@@ -28,11 +29,8 @@
     echo tep_draw_button(HEADER_TITLE_LOGOFF, null, tep_href_link(FILENAME_LOGOFF, '', 'SSL'));
   }
 ?>
+    </div>
   </div>
-
-<script type="text/javascript">
-  $("#headerShortcuts").buttonset();
-</script>
 </div>
 
 <div class="grid_24 ui-widget infoBoxContainer">
