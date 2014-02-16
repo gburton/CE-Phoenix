@@ -14,4 +14,14 @@
   height: auto;
 }
 
+/* Alignment of Form Inputs ------------------------------------------------- */
+
+.form-control {
+  margin-bottom: 5px;
+  display: inline;
+}
+
+#bodyContent .form-control {
+  width: 90%;
+}
 
