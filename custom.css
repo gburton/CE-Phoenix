@@ -1,1 +1,17 @@
+/* Historical osCommerce ---------------------------------------------------- */
+
+.buttonSet {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.buttonAction {
+  float: right;
+}
+
+#piGal img {
+  max-width: 250px;
+  height: auto;
+}
+
 
