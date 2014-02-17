@@ -52,4 +52,7 @@ ul.accountLinkList {
   overflow: hidden;
 }
 
+p.lead del {
+  font-size: 0.5em;
+}
 
