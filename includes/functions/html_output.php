@@ -379,13 +379,14 @@
     $button .= 'class="btn ';
 
     $button .= (isset($style)) ? $style : 'btn-default';
-    $button .= '"';
-    
-    $button .= '>' . $title;
+
+    $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
-     $button .= ' <span class="glyphicon ' . $icon . '"></span> ';
+      $button .= ' <span class="glyphicon ' . $icon . '"></span> ';
     }
+
+    $button .= $title;
 
     if ( ($params['type'] == 'button') && isset($link) ) {
       $button .= '</a>';

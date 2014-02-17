@@ -369,7 +369,7 @@ function check_form_optional(form_name) {
       </table>
     </div>
 
-    <div style="float: right;"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'triangle-1-e', null, 'primary'); ?></div>
+    <div style="float: right;"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', null, 'primary'); ?></div>
   </div>
 
 <script type="text/javascript">
@@ -383,7 +383,7 @@ $('#coProgressBar').progressbar({
 ?>
 
   <div class="contentText">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL')); ?>
   </div>
 
 <?php

@@ -102,7 +102,7 @@
     <p><?php echo TEXT_NEW_CUSTOMER; ?></p>
     <p><?php echo TEXT_NEW_CUSTOMER_INTRODUCTION; ?></p>
 
-    <p align="right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'triangle-1-e', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL')); ?></p>
+    <p align="right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL')); ?></p>
   </div>
 </div>
 
@@ -127,7 +127,7 @@
 
     <p><?php echo '<a href="' . tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN . '</a>'; ?></p>
 
-    <p align="right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'key', null, 'primary'); ?></p>
+    <p align="right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'glyphicon-log-in', null, 'primary'); ?></p>
 
     </form>
   </div>

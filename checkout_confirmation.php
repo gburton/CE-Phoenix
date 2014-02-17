@@ -297,7 +297,7 @@
     echo $payment_modules->process_button();
   }
 
-  echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'check', null, 'primary');
+  echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon-ok', null, 'primary');
 ?>
 
     </div>

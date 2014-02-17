@@ -21,12 +21,12 @@
   <div class="col-md-6 text-right">
     <div class="btn-group">
 <?php
-  echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'cart', tep_href_link(FILENAME_SHOPPING_CART)) .
-       tep_draw_button(HEADER_TITLE_CHECKOUT, 'triangle-1-e', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL')) .
-       tep_draw_button(HEADER_TITLE_MY_ACCOUNT, 'person', tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+  echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'glyphicon-shopping-cart', tep_href_link(FILENAME_SHOPPING_CART)) .
+       tep_draw_button(HEADER_TITLE_CHECKOUT, 'glyphicon-chevron-right', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL')) .
+       tep_draw_button(HEADER_TITLE_MY_ACCOUNT, 'glyphicon-user', tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
 
   if (tep_session_is_registered('customer_id')) {
-    echo tep_draw_button(HEADER_TITLE_LOGOFF, null, tep_href_link(FILENAME_LOGOFF, '', 'SSL'));
+    echo tep_draw_button(HEADER_TITLE_LOGOFF, 'glyphicon-log-out', tep_href_link(FILENAME_LOGOFF, '', 'SSL'));
   }
 ?>
     </div>
