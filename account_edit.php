@@ -129,7 +129,7 @@
 
 <?php
   if ($messageStack->size('account_edit') > 0) {
-    echo $messageStack->output('account_edit');
+    echo '<div class="alert alert-warning">' . $messageStack->output('account_edit') . '</div>';
   }
 ?>
 

@@ -251,7 +251,7 @@ function check_form_optional(form_name) {
 
 <?php
   if ($messageStack->size('checkout_address') > 0) {
-    echo $messageStack->output('checkout_address');
+    echo '<div class="alert alert-warning">' . $messageStack->output('checkout_address') . '</div>';
   }
 ?>
 

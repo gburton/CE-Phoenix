@@ -113,7 +113,7 @@ function popupWindow(url) {
 
 <?php
   if ($messageStack->size('search') > 0) {
-    echo $messageStack->output('search');
+    echo '<div class="alert alert-warning">' . $messageStack->output('search') . '</div>';
   }
 ?>
 

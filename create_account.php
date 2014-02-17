@@ -264,7 +264,7 @@
 
 <?php
   if ($messageStack->size('create_account') > 0) {
-    echo $messageStack->output('create_account');
+    echo '<div class="alert alert-warning">' . $messageStack->output('create_account') . '</div>';
   }
 ?>
 

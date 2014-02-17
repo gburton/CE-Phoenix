@@ -63,7 +63,7 @@
 
 <?php
   if ($messageStack->size('password_forgotten') > 0) {
-    echo $messageStack->output('password_forgotten');
+    echo '<div class="alert alert-warning">' . $messageStack->output('password_forgotten') . '</div>';
   }
 
   if ($password_reset_initiated == true) {

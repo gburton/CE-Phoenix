@@ -113,7 +113,7 @@
 
 <?php
   if ($messageStack->size('friend') > 0) {
-    echo $messageStack->output('friend');
+    echo '<div class="alert alert-warning">' . $messageStack->output('friend') . '</div>';
   }
 ?>
 

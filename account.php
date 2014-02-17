@@ -30,7 +30,7 @@
 
 <?php
   if ($messageStack->size('account') > 0) {
-    echo $messageStack->output('account');
+    echo '<div class="alert alert-success">' . $messageStack->output('account') . '</div>';
   }
 ?>
 

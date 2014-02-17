@@ -5,14 +5,10 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
-
-  if ($messageStack->size('header') > 0) {
-    echo '<div class="col-md-12">' . $messageStack->output('header') . '</div>';
-  }
 ?>
 
 <div id="header" class="col-md-12">
@@ -33,6 +29,12 @@
   </div>
 </div>
 
+<?php
+if ($messageStack->size('header') > 0) {
+  echo '<div class="clearfix"></div>';
+  echo '<div class="alert alert-success">' . $messageStack->output('header') . '</div>';
+}
+?>
 <div class="clearfix"></div>
 
 <?php echo $breadcrumb->trail(); ?>

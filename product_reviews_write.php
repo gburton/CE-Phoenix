@@ -112,7 +112,7 @@ function checkForm() {
 
 <?php
   if ($messageStack->size('review') > 0) {
-    echo $messageStack->output('review');
+    echo '<div class="alert alert-warning">' . $messageStack->output('review') . '</div>';
   }
 ?>
 

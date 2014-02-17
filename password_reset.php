@@ -94,7 +94,7 @@
 
 <?php
   if ($messageStack->size('password_reset') > 0) {
-    echo $messageStack->output('password_reset');
+    echo '<div class="alert alert-warning">' . $messageStack->output('password_reset') . '</div>';
   }
 ?>
 
