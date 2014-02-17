@@ -40,3 +40,16 @@ ul.accountLinkList {
   width: 90%;
 }
 
+/* for the category list rework --------------------------------------------- */
+
+.list-group-item-heading {
+  height: 40px;
+  overflow: hidden;
+}
+
+.list-group-item-text {
+  height: 94px;
+  overflow: hidden;
+}
+
+
