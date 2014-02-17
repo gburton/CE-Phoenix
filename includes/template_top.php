@@ -45,16 +45,7 @@
  <script type="text/javascript" src="ext/jquery/jquery-1.8.0.min.js"></script>
  <script src="ext/bootstrap/js/bootstrap.min.js"></script>
 
-<?php
-if (basename($PHP_SELF) == FILENAME_PRODUCT_INFO) {
-  ?>
-  <script type="text/javascript" src="ext/photoset-grid/jquery.photoset-grid.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="ext/colorbox/colorbox.css" />
-  <script type="text/javascript" src="ext/colorbox/jquery.colorbox-min.js"></script>
-  <?php
-  }
-?>
-<?php echo $oscTemplate->getBlocks('header_tags'); ?>
+ <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
 
 <body>
