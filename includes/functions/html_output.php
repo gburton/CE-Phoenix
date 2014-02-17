@@ -369,7 +369,9 @@
         $button .= ' target="_blank"';
       }
     } else {
-      $button .= '<button class="btn btn-success" type="' . tep_output_string($params['type']) . '"';
+      $button .= '<button class="btn ';
+      $button .= (isset($style)) ? $style : 'btn-success';
+      $button .= '" type="' . tep_output_string($params['type']) . '"';
     }
 
     if ( isset($params['params']) ) {
