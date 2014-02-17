@@ -40,6 +40,12 @@ ul.accountLinkList {
   width: 90%;
 }
 
+/* for the product page rework ---------------------------------------------- */
+
+del {
+  font-size: 0.5em;
+}
+
 /* for the category list rework --------------------------------------------- */
 
 .list-group-item-heading {
