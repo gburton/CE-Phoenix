@@ -30,125 +30,59 @@
 <?php
   }
 
-  $prod_list_contents = '<div class="ui-widget infoBoxContainer">' .
-                        '  <div class="ui-widget-header ui-corner-top infoBoxHeading">' .
-                        '    <table border="0" width="100%" cellspacing="0" cellpadding="2" class="productListingHeader">' .
-                        '      <tr>';
-
-  for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
-    $lc_align = '';
-
-    switch ($column_list[$col]) {
-      case 'PRODUCT_LIST_MODEL':
-        $lc_text = TABLE_HEADING_MODEL;
-        $lc_align = '';
-        break;
-      case 'PRODUCT_LIST_NAME':
-        $lc_text = TABLE_HEADING_PRODUCTS;
-        $lc_align = '';
-        break;
-      case 'PRODUCT_LIST_MANUFACTURER':
-        $lc_text = TABLE_HEADING_MANUFACTURER;
-        $lc_align = '';
-        break;
-      case 'PRODUCT_LIST_PRICE':
-        $lc_text = TABLE_HEADING_PRICE;
-        $lc_align = 'right';
-        break;
-      case 'PRODUCT_LIST_QUANTITY':
-        $lc_text = TABLE_HEADING_QUANTITY;
-        $lc_align = 'right';
-        break;
-      case 'PRODUCT_LIST_WEIGHT':
-        $lc_text = TABLE_HEADING_WEIGHT;
-        $lc_align = 'right';
-        break;
-      case 'PRODUCT_LIST_IMAGE':
-        $lc_text = TABLE_HEADING_IMAGE;
-        $lc_align = 'center';
-        break;
-      case 'PRODUCT_LIST_BUY_NOW':
-        $lc_text = TABLE_HEADING_BUY_NOW;
-        $lc_align = 'center';
-        break;
-    }
-
-    if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
-      $lc_text = tep_create_sort_heading($HTTP_GET_VARS['sort'], $col+1, $lc_text);
-    }
-
-    $prod_list_contents .= '        <td' . (tep_not_null($lc_align) ? ' align="' . $lc_align . '"' : '') . '>' . $lc_text . '</td>';
-  }
-
-  $prod_list_contents .= '      </tr>' .
-                         '    </table>' .
-                         '  </div>';
-
   if ($listing_split->number_of_rows > 0) {
-    $rows = 0;
+    ?>
+    <div class="well well-sm">
+      <strong><?php echo TEXT_VIEW; ?></strong>
+      <div class="btn-group"><a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list"></span><?php echo TEXT_VIEW_LIST; ?></a> <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span><?php echo TEXT_VIEW_LIST; ?></a></div>
+    </div>
+    <?php
     $listing_query = tep_db_query($listing_split->sql_query);
 
-    $prod_list_contents .= '  <div class="ui-widget-content ui-corner-bottom productListTable">' .
-                           '    <table border="0" width="100%" cellspacing="0" cellpadding="2" class="productListingData">';
+    $prod_list_contents .= '<div id="products" class="row list-group">';
 
     while ($listing = tep_db_fetch_array($listing_query)) {
-      $rows++;
-
-      $prod_list_contents .= '      <tr>';
-
-      for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
-        switch ($column_list[$col]) {
-          case 'PRODUCT_LIST_MODEL':
-            $prod_list_contents .= '        <td>' . $listing['products_model'] . '</td>';
-            break;
-          case 'PRODUCT_LIST_NAME':
-            if (isset($HTTP_GET_VARS['manufacturers_id']) && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
-              $prod_list_contents .= '        <td><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a></td>';
-            } else {
-              $prod_list_contents .= '        <td><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a></td>';
-            }
-            break;
-          case 'PRODUCT_LIST_MANUFACTURER':
-            $prod_list_contents .= '        <td><a href="' . tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></td>';
-            break;
-          case 'PRODUCT_LIST_PRICE':
-            if (tep_not_null($listing['specials_new_products_price'])) {
-              $prod_list_contents .= '        <td align="right"><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del>&nbsp;&nbsp;<span class="productSpecialPrice">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></td>';
-            } else {
-              $prod_list_contents .= '        <td align="right">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</td>';
-            }
-            break;
-          case 'PRODUCT_LIST_QUANTITY':
-            $prod_list_contents .= '        <td align="right">' . $listing['products_quantity'] . '</td>';
-            break;
-          case 'PRODUCT_LIST_WEIGHT':
-            $prod_list_contents .= '        <td align="right">' . $listing['products_weight'] . '</td>';
-            break;
-          case 'PRODUCT_LIST_IMAGE':
-            if (isset($HTTP_GET_VARS['manufacturers_id'])  && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
-              $prod_list_contents .= '        <td align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
-            } else {
-              $prod_list_contents .= '        <td align="center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
-            }
-            break;
-          case 'PRODUCT_LIST_BUY_NOW':
-            $prod_list_contents .= '        <td align="center">' . tep_draw_button(IMAGE_BUTTON_BUY_NOW, 'glyphicon-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing['products_id'])) . '</td>';
-            break;
-        }
+      $prod_list_contents .= '<div class="item col-xs-4 col-lg-4">';
+      
+      $prod_list_contents .= '<div class="thumbnail">';
+      if (isset($HTTP_GET_VARS['manufacturers_id'])  && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
+        $prod_list_contents .= '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'class="group list-group-image"') . '</a>';
+      } else {
+        $prod_list_contents .= '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'class="group list-group-image"') . '</a>';
       }
+      $prod_list_contents .= '<div class="caption">';
+      $prod_list_contents .= '<h4 class="group inner list-group-item-heading">';
+      if (isset($HTTP_GET_VARS['manufacturers_id']) && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
+        $prod_list_contents .= '        <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>';
+      } else {
+        $prod_list_contents .= '        <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . $listing['products_name'] . '</a>';
+      }
+      $prod_list_contents .= '</h4>';
+      $prod_list_contents .= '<p class="group inner list-group-item-text product_text">' . strip_tags($listing['products_description'], '<br>') . '&hellip;</p>';
 
-      $prod_list_contents .= '      </tr>';
+      $prod_list_contents .= '<div class="row">';
+      $prod_list_contents .= '<div class="col-xs-12 col-md-6"><p class="lead">';
+      if (tep_not_null($listing['specials_new_products_price'])) {
+        $prod_list_contents .= '<del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del>&nbsp;&nbsp;<span class="productSpecialPrice">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>';
+      } else {
+        $prod_list_contents .= $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id']));
+      }
+      $prod_list_contents .= '</p></div>';
+      
+      $prod_list_contents .= '<div class="col-xs-12 col-md-6">' . tep_draw_button(IMAGE_BUTTON_BUY_NOW, 'cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing['products_id']), NULL, NULL, 'btn-success') . '</div>';
+      $prod_list_contents .= '</div>';
+      $prod_list_contents .= '</div>';
+      $prod_list_contents .= '</div>';
+      $prod_list_contents .= '</div>';
     }
 
-    $prod_list_contents .= '    </table>' .
-                           '  </div>' .
-                           '</div>';
+    $prod_list_contents .= '</div>';
 
     echo $prod_list_contents;
   } else {
 ?>
 
-    <p><?php echo TEXT_NO_PRODUCTS; ?></p>
+    <div class="alert alert-info"><?php echo TEXT_NO_PRODUCTS; ?></div>
 
 <?php
   }
@@ -168,4 +102,4 @@
   }
 ?>
 
-  </div>
+</div>

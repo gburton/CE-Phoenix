@@ -248,3 +248,9 @@ define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'The first four digits of the number ent
 
 define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a><br />Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
 
+// category views
+define('TEXT_VIEW', 'View: ');
+define('TEXT_VIEW_LIST', ' List');
+define('TEXT_VIEW_GRID', ' Grid');
+
+ 
