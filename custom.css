@@ -115,3 +115,6 @@ p.lead del {
 .list-group-item-text {
   margin: 0 0 11px;
 }
+
+/* Pagination  ------------------------------------------------------- */
+.pagenav{position:relative;top:-25px;left:3px;}
