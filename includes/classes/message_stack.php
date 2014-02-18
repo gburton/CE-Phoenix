@@ -33,7 +33,7 @@
 // class methods
     function add($class, $message, $type = 'error') {
       if ($type == 'error') {
-        $this->messages[] = array('params' => 'class="alert alert-error"', 'class' => $class, 'text' => $message);
+        $this->messages[] = array('params' => 'class="alert alert-danger"', 'class' => $class, 'text' => $message);
       } elseif ($type == 'warning') {
         $this->messages[] = array('params' => 'class="alert alert-warning"', 'class' => $class, 'text' => $message);
       } elseif ($type == 'success') {
