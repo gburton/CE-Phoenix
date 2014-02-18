@@ -253,4 +253,6 @@ define('TEXT_VIEW', 'View: ');
 define('TEXT_VIEW_LIST', ' List');
 define('TEXT_VIEW_GRID', ' Grid');
 
- 
+// search placeholder
+define('TEXT_SEARCH_PLACEHOLDER','Search');
+
