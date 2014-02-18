@@ -115,3 +115,14 @@ p.lead del {
 .list-group-item-text {
   margin: 0 0 11px;
 }
+
+
+/* Responsive Images  ------------------------------------------------------- */
+/* the inbuilt bootstrap responsive images class breaks the text-center class */
+
+.img-responsive {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
