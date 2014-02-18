@@ -18,15 +18,11 @@
 <?php
   if ( ($listing_split->number_of_rows > 0) && ( (PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3') ) ) {
 ?>
-
-   <div>
-    <span class="pull-right pagenav"><?php echo '<ul class="pagination">' . $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
-     <span><?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></span>
-    </div>
-
+<div class="row">
+  <div class="col-md-6 pagenumber"><?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></div>
+     <div class="col-md-6"><span class="pull-right pagenav"><?php echo '<ul class="pagination">' . $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></ul></span><span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span></div>
+</div>
     <br />
-
 <?php
   }
 
@@ -90,14 +86,10 @@
   if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3')) ) {
 ?>
 
-    <br />
-
-    <div>
-    <span class="pull-right pagenav"><?php echo '<ul class="pagination">' . $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
-     <span><?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></span>
-    </div>
-
+<div class="row">
+  <div class="col-md-6 pagenumber"><?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></div>
+     <div class="col-md-6"><span class="pull-right pagenav"><?php echo '<ul class="pagination">' . $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></ul></span><span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span></div>
+</div>
 <?php
   }
 ?>
