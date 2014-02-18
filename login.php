@@ -91,7 +91,7 @@
 
 <?php
   if ($messageStack->size('login') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('login') . '</div>';
+    echo $messageStack->output('login');
   }
 ?>
 

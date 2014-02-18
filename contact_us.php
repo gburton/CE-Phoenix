@@ -56,7 +56,7 @@
 
 <?php
   if ($messageStack->size('contact') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('contact') . '</div>';
+    echo $messageStack->output('contact');
   }
 
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'success')) {

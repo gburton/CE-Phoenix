@@ -44,7 +44,7 @@
 
 <?php
   if ($messageStack->size('product_reviews') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('product_reviews') . '</div>';
+    echo $messageStack->output('product_reviews');
   }
 ?>
 
