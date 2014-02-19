@@ -36,43 +36,32 @@
       $cart_contents_string = '';
 
       if ($cart->count_contents() > 0) {
-        $cart_contents_string = '<table border="0" width="100%" cellspacing="0" cellpadding="0">';
+        $cart_contents_string = '<ul class="shoppingCartList">';
         $products = $cart->get_products();
         for ($i=0, $n=sizeof($products); $i<$n; $i++) {
-          $cart_contents_string .= '<tr><td align="right" valign="top">';
 
+          $cart_contents_string .= '<li';
           if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
-            $cart_contents_string .= '<span class="newItemInCart">';
+            $cart_contents_string .= ' class="newItemInCart"';
           }
+          $cart_contents_string .= '>';
 
           $cart_contents_string .= $products[$i]['quantity'] . '&nbsp;x&nbsp;';
 
-          if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
-            $cart_contents_string .= '</span>';
-          }
-
-          $cart_contents_string .= '</td><td valign="top"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products[$i]['id']) . '">';
-
-          if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
-            $cart_contents_string .= '<span class="newItemInCart">';
-          }
+          $cart_contents_string .= '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products[$i]['id']) . '">';
 
           $cart_contents_string .= $products[$i]['name'];
 
-          if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
-            $cart_contents_string .= '</span>';
-          }
-
-          $cart_contents_string .= '</a></td></tr>';
+          $cart_contents_string .= '</a></li>';
 
           if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
             tep_session_unregister('new_products_id_in_cart');
           }
         }
 
-        $cart_contents_string .= '<tr><td colspan="2" style="padding-top: 5px; padding-bottom: 2px;">' . tep_draw_separator() . '</td></tr>' .
-                                 '<tr><td colspan="2" align="right">' . $currencies->format($cart->show_total()) . '</td></tr>' .
-                                 '</table>';
+        $cart_contents_string .= '<li class="text-right"><hr>' . $currencies->format($cart->show_total()) . '</li>' .
+                                 '</ul>';
+
       } else {
         $cart_contents_string .= '<p>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
       }

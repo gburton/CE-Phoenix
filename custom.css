@@ -29,6 +29,16 @@ ul.accountLinkList {
   line-height: 2;
 }
 
+ul.shoppingCartList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.shoppingCartList li.newItemInCart, ul.shoppingCartList li.newItemInCart A {
+  color: red;
+}
+
 /* Alignment of Form Inputs ------------------------------------------------- */
 
 .form-control {
