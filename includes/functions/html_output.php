@@ -405,3 +405,11 @@
     return $button;
   }
   
+  // review stars
+  function tep_draw_stars($rating = 0) {
+    $stars = str_repeat('<span class="glyphicon glyphicon-star"></span>', (int)$rating);
+    $stars .= str_repeat('<span class="glyphicon glyphicon-star-empty"></span>', 5-(int)$rating);
+
+    return $stars;
+  }
+  
