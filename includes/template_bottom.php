@@ -18,9 +18,7 @@
 ?>
 
 <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
-  <ul class="nav nav-list">
-    <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
-  </ul>
+  <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
 </div>
 
 <?php
@@ -30,9 +28,7 @@
 ?>
 
 <div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
-  <ul class="nav nav-list">
-    <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
-  </ul>
+  <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
 </div>
 
 <?php
