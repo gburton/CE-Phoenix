@@ -37,7 +37,10 @@
               '  <div class="panel-heading">' . MODULE_BOXES_SEARCH_BOX_TITLE . '</div>' .
               '  <div class="panel-body text-center">' .
               '    ' . tep_draw_form('quick_find', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', $request_type, false), 'get') .
-              '    ' . tep_draw_input_field('keywords', '', 'class="form-control" placeholder="BLAH BLAH"') . '&nbsp;' . tep_draw_hidden_field('search_in_description', '1') . tep_hide_session_id() . tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon-search', null) . '<br />' . MODULE_BOXES_SEARCH_BOX_TEXT . '<br /><a href="' . tep_href_link(FILENAME_ADVANCED_SEARCH) . '"><strong>' . MODULE_BOXES_SEARCH_BOX_ADVANCED_SEARCH . '</strong></a>' .
+              '    <div class="input-group">' .
+              '    ' . tep_draw_input_field('keywords', '', 'required class="form-control" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"') .
+              '      <span class="input-group-btn"><button type="submit" class="btn btn-search"><i class="glyphicon glyphicon-search"></i></button></span>' .
+              '    </div>' . tep_draw_hidden_field('search_in_description', '0') . tep_hide_session_id() . '<br />' . MODULE_BOXES_SEARCH_BOX_TEXT . '<br /><a href="' . tep_href_link(FILENAME_ADVANCED_SEARCH) . '"><strong>' . MODULE_BOXES_SEARCH_BOX_ADVANCED_SEARCH . '</strong></a>' .
               '    </form>' .
               '  </div>' .
               '</div>';

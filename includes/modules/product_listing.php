@@ -23,6 +23,7 @@
      <div class="col-md-6"><span class="pull-right pagenav"><?php echo '<ul class="pagination">' . $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?></ul></span><span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span></div>
 </div>
     <br />
+
 <?php
   }
 

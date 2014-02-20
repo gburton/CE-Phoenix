@@ -73,7 +73,7 @@
 
 ////
 // The HTML image wrapper function
-  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true) {
     if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
@@ -105,6 +105,10 @@
 
     if (tep_not_null($width) && tep_not_null($height)) {
       $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
+    }
+    
+    if (tep_not_null($responsive) && ($responsive === true)) {
+      $image .= ' class="img-responsive"';
     }
 
     if (tep_not_null($parameters)) $image .= ' ' . $parameters;
@@ -405,5 +409,5 @@ function tep_draw_stars($rating = 0) {
 $stars = str_repeat('<span class="glyphicon glyphicon-star"></span>', (int)$rating);
 $stars .= str_repeat('<span class="glyphicon glyphicon-star-empty"></span>', 5-(int)$rating);
 return $stars;
-}  
+}
 ?>

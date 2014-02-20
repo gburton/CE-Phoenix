@@ -260,7 +260,7 @@
 
 <?php
   if ($messageStack->size('addressbook') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('addressbook') . '</div>';
+    echo $messageStack->output('addressbook');
   }
 ?>
 

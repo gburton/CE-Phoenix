@@ -45,8 +45,7 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
+    <div class="row">
 <?php
     if (isset($cPath) && strpos('_', $cPath)) {
 // check to see if there are deeper categories within the current category
@@ -65,25 +64,22 @@
       $categories_query = tep_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.parent_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' order by sort_order, cd.categories_name");
     }
 
-    $number_of_categories = tep_db_num_rows($categories_query);
-
-    $rows = 0;
     while ($categories = tep_db_fetch_array($categories_query)) {
-      $rows++;
       $cPath_new = tep_get_path($categories['categories_id']);
-      $width = (int)(100 / MAX_DISPLAY_CATEGORIES_PER_ROW) . '%';
-      echo '        <td align="center" class="smallText" width="' . $width . '" valign="top"><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">' . tep_image(DIR_WS_IMAGES . $categories['categories_image'], $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '<br />' . $categories['categories_name'] . '</a></td>' . "\n";
-      if ((($rows / MAX_DISPLAY_CATEGORIES_PER_ROW) == floor($rows / MAX_DISPLAY_CATEGORIES_PER_ROW)) && ($rows != $number_of_categories)) {
-        echo '      </tr>' . "\n";
-        echo '      <tr>' . "\n";
-      }
+      echo '<div class="col-xs-6 col-sm-4">';
+      echo '  <div class="text-center">';
+      echo '    <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">' . tep_image(DIR_WS_IMAGES . $categories['categories_image'], $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '</a>';
+      echo '    <div class="caption text-center">';
+      echo '      <h5><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">' . $categories['categories_name'] . '</a></h5>';
+      echo '    </div>';
+      echo '  </div>';
+      echo '</div>';
     }
 
 // needed for the new products module shown below
     $new_products_category_id = $current_category_id;
 ?>
-      </tr>
-    </table>
+      </div>
 
     <br />
 

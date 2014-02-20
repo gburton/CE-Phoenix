@@ -31,7 +31,7 @@
 
 <?php
   if ($messageStack->size('addressbook') > 0) {
-    echo '<div class="alert alert-success">' . $messageStack->output('addressbook') . '</div>';
+    echo $messageStack->output('addressbook');
   }
 ?>
 

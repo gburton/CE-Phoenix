@@ -116,6 +116,15 @@ p.lead del {
   margin: 0 0 11px;
 }
 
+
+/* Responsive Images  ------------------------------------------------------- */
+/* the inbuilt bootstrap responsive images class breaks the text-center class */
+
+.img-responsive {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Pagination  ------------------------------------------------------- */
 .pagenav{position:relative;top:-25px;left:3px;}
 .pagenumber{margin-bottom:7px;}

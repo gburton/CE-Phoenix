@@ -49,20 +49,19 @@
 
         $rand_review_text = tep_break_string(tep_output_string_protected($rand_review['reviews_text']), 15, '-<br />');
 
-        $reviews_box_contents .= '<div><div class="text-center"><a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $random_product['products_id'] . '&reviews_id=' . $random_product['reviews_id']) . '">' . tep_image(DIR_WS_IMAGES . $random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></div><a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $random_product['products_id'] . '&reviews_id=' . $random_product['reviews_id']) . '">' . $rand_review_text . ' ..</a><br /><div class="ratings text-center" title="' . sprintf(MODULE_BOXES_REVIEWS_BOX_TEXT_OF_5_STARS, $random_product['reviews_rating']) . '">' . tep_draw_stars($random_product['reviews_rating'])
-        . '</div></div>';
+        $reviews_box_contents .= '<div class="text-center"><a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $random_product['products_id'] . '&reviews_id=' . $random_product['reviews_id']) . '">' . tep_image(DIR_WS_IMAGES . $random_product['products_image'], $random_product['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></div><a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $random_product['products_id'] . '&reviews_id=' . $random_product['reviews_id']) . '">' . $rand_review_text . ' ..</a><br /><div class="ratings text-center" title="' . sprintf(MODULE_BOXES_REVIEWS_BOX_TEXT_OF_5_STARS, $random_product['reviews_rating']) . '">' . tep_draw_stars($random_product['reviews_rating']) . '</div>';
       } elseif (isset($HTTP_GET_VARS['products_id'])) {
 // display 'write a review' box
-        $reviews_box_contents .= '<a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'products_id=' . $HTTP_GET_VARS['products_id']) . '"><span class="glyphicon glyphicon-pencil"></span> ' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
+        $reviews_box_contents .= '<span class="glyphicon glyphicon-thumbs-up"></span> <a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'products_id=' . $HTTP_GET_VARS['products_id']) . '">' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
       } else {
 // display 'no reviews' box
-        $reviews_box_contents .= '<div>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</div>';
+        $reviews_box_contents .= '<p>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</p>';
       }
 
       $data = '<div class="panel panel-default">' .
-              '  <div class="panel-heading">' . '<a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . MODULE_BOXES_REVIEWS_BOX_TITLE . '</a></div>' .
-              '  <div class="panel-body">' . $reviews_box_contents .
-              '</div></div>';
+              '  <div class="panel-heading"><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . MODULE_BOXES_REVIEWS_BOX_TITLE . '</a></div>' .
+              '  <div class="panel-body">' . $reviews_box_contents . '</div>' . 
+              '</div>';
 
       $oscTemplate->addBlock($data, $this->group);
     }

@@ -70,7 +70,7 @@
 
 <?php
   if ($messageStack->size('account_password') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('account_password') . '</div>';
+    echo $messageStack->output('account_password');
   }
 ?>
 

@@ -264,7 +264,7 @@
 
 <?php
   if ($messageStack->size('create_account') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('create_account') . '</div>';
+    echo $messageStack->output('create_account');
   }
 ?>
 
@@ -407,6 +407,7 @@
 <div class="col-md-9"><?php echo tep_draw_password_field('confirmation', '', 'class="form-control" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"'); ?></div>
     </div>
   </div>
+
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-user', null, 'primary'); ?></span>
   </div>

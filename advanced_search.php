@@ -101,10 +101,6 @@ function check_form() {
     return true;
   }
 }
-
-function popupWindow(url) {
-  window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')
-}
 //--></script>
 
 <div class="page-header">
@@ -113,7 +109,7 @@ function popupWindow(url) {
 
 <?php
   if ($messageStack->size('search') > 0) {
-    echo '<div class="alert alert-warning">' . $messageStack->output('search') . '</div>';
+    echo $messageStack->output('search');
   }
 ?>
 
@@ -124,30 +120,29 @@ function popupWindow(url) {
 
   <div class="contentText">
     <div>
-      <?php echo tep_draw_input_field('keywords', '', 'style="width: 100%"') . tep_draw_hidden_field('search_in_description', '1'); ?>
+      <?php echo tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '" style="width: 100%"') . tep_draw_hidden_field('search_in_description', '1'); ?>
     </div>
 
     <br />
 
     <div>
-      <span><?php echo '<a href="' . tep_href_link(FILENAME_POPUP_SEARCH_HELP) . '" target="_blank" onclick="$(\'#helpSearch\').dialog(\'open\'); return false;">' . TEXT_SEARCH_HELP_LINK . '</a>'; ?></span>
+      <span><a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a></span>
       <span style="float: right;"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon-search', null, 'primary'); ?></span>
     </div>
 
-    <div id="helpSearch" title="<?php echo HEADING_SEARCH_HELP; ?>">
-      <p><?php echo TEXT_SEARCH_HELP; ?></p>
+    <div class="modal fade" id="helpSearch" tabindex="-1" role="dialog" aria-labelledby="helpSearchLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove"></span></button>
+            <h4 class="modal-title"><?php echo HEADING_SEARCH_HELP; ?></h4>
+          </div>
+          <div class="modal-body">
+            <p><?php echo TEXT_SEARCH_HELP; ?></p>
+          </div>
+        </div>
+      </div>
     </div>
-
-<script type="text/javascript">
-$('#helpSearch').dialog({
-  autoOpen: false,
-  buttons: {
-    Ok: function() {
-      $(this).dialog('close');
-    }
-  }
-});
-</script>
 
     <br />
 
