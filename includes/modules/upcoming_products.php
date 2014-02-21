@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,24 +14,26 @@
   if (tep_db_num_rows($expected_query) > 0) {
 ?>
 
-  <div class="ui-widget infoBoxContainer">
-    <div class="ui-widget-header ui-corner-top infoBoxHeading">
-      <span><?php echo TABLE_HEADING_UPCOMING_PRODUCTS; ?></span>
-      <span style="float: right;"><?php echo TABLE_HEADING_DATE_EXPECTED; ?></span>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <div class="pull-left">
+        <?php echo TABLE_HEADING_UPCOMING_PRODUCTS; ?>
+      </div>
+      <div class="pull-right">
+        <?php echo TABLE_HEADING_DATE_EXPECTED; ?>
+      </div>
+      <div class="clearfix"></div>
     </div>
 
-    <div class="ui-widget-content ui-corner-bottom">
-      <table border="0" width="100%" cellspacing="0" cellpadding="2" class="productListTable">
+    <div class="panel-body">
 <?php
     while ($expected = tep_db_fetch_array($expected_query)) {
-      echo '        <tr>' . "\n" .
-           '          <td><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $expected['products_id']) . '">' . $expected['products_name'] . '</a></td>' . "\n" .
-           '          <td align="right">' . tep_date_short($expected['date_expected']) . '</td>' . "\n" .
-           '        </tr>' . "\n";
+      echo '<div class="pull-left"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $expected['products_id']) . '">' . $expected['products_name'] . '</a></div>' . "\n" .
+           '<div class="pull-right">' . tep_date_short($expected['date_expected']) . '</div>' .
+           '<div class="clearfix"></div>' . "\n";
     }
 ?>
 
-      </table>
     </div>
   </div>
 
