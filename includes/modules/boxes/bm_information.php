@@ -36,7 +36,7 @@
       $data = '<div class="panel panel-default">' .
               '  <div class="panel-heading">' . MODULE_BOXES_INFORMATION_BOX_TITLE . '</div>' .
               '  <div class="panel-body">' .
-              '    <ul class="informationBox">' .
+              '    <ul class="list-unstyled">' .
               '      <li><a href="' . tep_href_link(FILENAME_SHIPPING) . '">' . MODULE_BOXES_INFORMATION_BOX_SHIPPING . '</a></li>' .
               '      <li><a href="' . tep_href_link(FILENAME_PRIVACY) . '">' . MODULE_BOXES_INFORMATION_BOX_PRIVACY . '</a></li>' .
               '      <li><a href="' . tep_href_link(FILENAME_CONDITIONS) . '">' . MODULE_BOXES_INFORMATION_BOX_CONDITIONS . '</a></li>' .
