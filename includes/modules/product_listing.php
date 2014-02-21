@@ -44,7 +44,7 @@
     $prod_list_contents .= '<div id="products" class="row list-group">';
 
     while ($listing = tep_db_fetch_array($listing_query)) {
-      $prod_list_contents .= '<div class="item col-xs-4 col-lg-4">';
+      $prod_list_contents .= '<div class="item col-sm-6 col-md-4">';
       
       $prod_list_contents .= '<div class="thumbnail">';
       if (isset($HTTP_GET_VARS['manufacturers_id'])  && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
