@@ -15,7 +15,7 @@
 }
 
 .inputRequirement, .markProductOutOfStock, .stockWarning {
-  color: red;
+  color: #B33A3A;
 }
 
 .markProductOutOfStock, .stockWarning {
@@ -44,10 +44,6 @@ ul.shoppingCartList li.newItemInCart, ul.shoppingCartList li.newItemInCart A {
 .form-control {
   margin-bottom: 5px;
   display: inline;
-}
-
-#bodyContent .form-control {
-  width: 90%;
 }
 
 /* for the product page rework ---------------------------------------------- */
