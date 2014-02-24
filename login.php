@@ -95,44 +95,42 @@
   }
 ?>
 
-<div class="contentContainer" style="width: 45%; float: left;">
-  <h2><?php echo HEADING_NEW_CUSTOMER; ?></h2>
+<div class="row">
+  <div class="contentContainer col-sm-6">
+    <h2><?php echo HEADING_NEW_CUSTOMER; ?></h2>
 
-  <div class="contentText">
-    <p><?php echo TEXT_NEW_CUSTOMER; ?></p>
-    <p><?php echo TEXT_NEW_CUSTOMER_INTRODUCTION; ?></p>
+    <div class="contentText">
+      <p><?php echo TEXT_NEW_CUSTOMER; ?></p>
+      <p><?php echo TEXT_NEW_CUSTOMER_INTRODUCTION; ?></p>
 
-    <p class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL')); ?></p>
+      <p class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL')); ?></p>
+    </div>
   </div>
-</div>
 
-<div class="contentContainer" style="width: 45%; float: left; border-left: 1px dashed #ccc; padding-left: 3%; margin-left: 3%;">
-  <h2><?php echo HEADING_RETURNING_CUSTOMER; ?></h2>
+  <div class="contentContainer col-sm-6">
+    <h2><?php echo HEADING_RETURNING_CUSTOMER; ?></h2>
 
-  <div class="contentText">
-    <p><?php echo TEXT_RETURNING_CUSTOMER; ?></p>
+    <div class="contentText">
+      <p><?php echo TEXT_RETURNING_CUSTOMER; ?></p>
 
-    <?php echo tep_draw_form('login', tep_href_link(FILENAME_LOGIN, 'action=process', 'SSL'), 'post', '', true); ?>
+      <?php echo tep_draw_form('login', tep_href_link(FILENAME_LOGIN, 'action=process', 'SSL'), 'post', '', true); ?>
 
-    <div class="form-group">
-      <div class="col-sm-12 text-center">
-        <?php echo tep_draw_input_field('email_address', NULL, 'required id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"', 'email'); ?>
+      <div class="form-group">
+        <?php echo tep_draw_input_field('email_address', NULL, 'autofocus="autofocus" required id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"', 'email'); ?>
       </div>
-    </div>
 
-    <div class="form-group">
-      <div class="col-sm-12 text-center">
-        <?php echo tep_draw_password_field('password', NULL, 'required id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"'); ?>
+      <div class="form-group">
+        <?php echo tep_draw_password_field('password', NULL, 'required aria-required="true" id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"'); ?>
       </div>
+
+      <p class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'glyphicon-log-in', null, 'primary', NULL, 'btn-primary'); ?></p>
+
+      <hr>
+
+      <p><?php echo '<a href="' . tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN . '</a>'; ?></p>
+
+      </form>
     </div>
-
-    <p class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'glyphicon-log-in', null, 'primary', NULL, 'btn-primary'); ?></p>
-
-    <hr>
-
-    <p><?php echo '<a href="' . tep_href_link(FILENAME_PASSWORD_FORGOTTEN, '', 'SSL') . '">' . TEXT_PASSWORD_FORGOTTEN . '</a>'; ?></p>
-
-    </form>
   </div>
 </div>
 
