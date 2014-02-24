@@ -43,7 +43,6 @@
   define('FILENAME_NEW_PRODUCTS', 'new_products.php');
   define('FILENAME_PASSWORD_FORGOTTEN', 'password_forgotten.php');
   define('FILENAME_PASSWORD_RESET', 'password_reset.php');
-  define('FILENAME_POPUP_IMAGE', 'popup_image.php');
   define('FILENAME_POPUP_SEARCH_HELP', 'popup_search_help.php');
   define('FILENAME_PRIVACY', 'privacy.php');
   define('FILENAME_PRODUCT_INFO', 'product_info.php');
