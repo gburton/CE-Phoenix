@@ -77,31 +77,29 @@
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
 
-<?php echo tep_draw_form('account_notifications', tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_notifications', tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-  <h2><?php echo MY_NOTIFICATIONS_TITLE; ?></h2>
 
-  <div class="contentText">
+  <div class="alert alert-info">
     <?php echo MY_NOTIFICATIONS_DESCRIPTION; ?>
   </div>
 
-  <h2><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></h2>
-
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td width="30"><?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false), 'onclick="checkBox(\'product_global\')"'); ?></td>
-        <td><strong><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></strong><br /><?php echo GLOBAL_NOTIFICATIONS_DESCRIPTION; ?></td>
-      </tr>
-    </table>
+    <div class="form-group">
+      <label class="control-label col-xs-4"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
+      <div class="col-xs-8">
+        <label class="checkbox-inline">
+          <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false)); ?>
+        </label>
+        <?php if (tep_not_null(GLOBAL_NOTIFICATIONS_DESCRIPTION)) echo '<span class="help-block">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '</span>'; ?>
+      </div>
+    </div>
   </div>
 
 <?php
   if ($global['global_product_notifications'] != '1') {
 ?>
-
-  <h2><?php echo NOTIFICATIONS_TITLE; ?></h2>
 
   <div class="contentText">
 
@@ -111,27 +109,29 @@
     if ($products_check['total'] > 0) {
 ?>
 
-    <div><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
+    <div class="clearfix"></div>
+    <div class="alert alert-warning"><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+    <div class="contentText">
+      <div class="form-group">
+        <label class="control-label col-xs-4"><?php echo MY_NOTIFICATIONS_TITLE; ?></label>
+        <div class="col-xs-8">
 
 <?php
-      $counter = 0;
       $products_query = tep_db_query("select pd.products_id, pd.products_name from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_NOTIFICATIONS . " pn where pn.customers_id = '" . (int)$customer_id . "' and pn.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name");
       while ($products = tep_db_fetch_array($products_query)) {
 ?>
-
-      <tr>
-        <td width="30"><?php echo tep_draw_checkbox_field('products[' . $counter . ']', $products['products_id'], true, 'onclick="checkBox(\'products[' . $counter . ']\')"'); ?></td>
-        <td><strong><?php echo $products['products_name']; ?></strong></td>
-      </tr>
-
+      <label class="checkbox-inline">
+        <?php echo tep_draw_checkbox_field('products[' . $counter . ']', $products['products_id'], true); ?>
+      </label>
+      <?php echo '<span class="help-block">' . $products['products_name'] . '</span>'; ?>
 <?php
-        $counter++;
       }
 ?>
 
-    </table>
+        </div>
+      </div>
+    </div>
 
 <?php
     } else {
