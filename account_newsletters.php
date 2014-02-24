@@ -51,18 +51,19 @@
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
 
-<?php echo tep_draw_form('account_newsletter', tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_newsletter', tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-  <h2><?php echo MY_NEWSLETTERS_TITLE; ?></h2>
-
   <div class="contentText">
-    <table border="0" cellspacing="2" cellpadding="2">
-      <tr>
-        <td><?php echo tep_draw_checkbox_field('newsletter_general', '1', (($newsletter['customers_newsletter'] == '1') ? true : false), 'onclick="checkBox(\'newsletter_general\')"'); ?></td>
-        <td><strong><?php echo MY_NEWSLETTERS_GENERAL_NEWSLETTER; ?></strong><br /><?php echo MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION; ?></td>
-      </tr>
-    </table>
+    <div class="form-group">
+      <label class="control-label col-xs-4"><?php echo  MY_NEWSLETTERS_GENERAL_NEWSLETTER; ?></label>
+      <div class="col-xs-8">
+        <label class="checkbox-inline">
+          <?php echo tep_draw_checkbox_field('newsletter_general', '1', (($newsletter['customers_newsletter'] == '1') ? true : false)); ?>
+        </label>
+        <?php if (tep_not_null(MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION)) echo '<span class="help-block">' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '</span>'; ?>
+      </div>
+    </div>
   </div>
 
   <div class="buttonSet">
