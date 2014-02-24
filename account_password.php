@@ -74,7 +74,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'onsubmit="return check_form(account_password);"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(account_password);"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <p class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
