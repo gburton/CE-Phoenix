@@ -269,26 +269,35 @@
 ?>
 
 <div class="contentContainer">
-  <h2><?php echo DELETE_ADDRESS_TITLE; ?></h2>
 
-  <div class="contentText">
-    <p><?php echo DELETE_ADDRESS_DESCRIPTION; ?></p>
+  <div class="contentText row">
+    <div class="col-sm-8">
+      <div class="alert alert-warning"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-danger">
+        <div class="panel-heading"><?php echo DELETE_ADDRESS_TITLE; ?></div>
 
-    <p><?php echo tep_address_label($customer_id, $HTTP_GET_VARS['delete'], true, ' ', '<br />'); ?></p>
+        <div class="panel-body">
+          <?php echo tep_address_label($customer_id, (int)$HTTP_GET_VARS['delete'], true, ' ', '<br />'); ?>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <span style="float: right;"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'glyphicon-trash', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $HTTP_GET_VARS['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary'); ?></span>
+  <div class="buttonSet">
+    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'glyphicon-trash', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $HTTP_GET_VARS['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger'); ?></span>
 
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL')); ?>
   </div>
+
 </div>
 
 <?php
   } else {
 ?>
 
-<?php echo tep_draw_form('addressbook', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'onsubmit="return check_form(addressbook);"', true); ?>
+<?php echo tep_draw_form('addressbook', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(addressbook);"', true); ?>
 
 <div class="contentContainer">
 
@@ -298,8 +307,8 @@
     if (isset($HTTP_GET_VARS['edit']) && is_numeric($HTTP_GET_VARS['edit'])) {
 ?>
 
-  <div>
-    <span style="float: right;"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $HTTP_GET_VARS['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'glyphicon-refresh', null, 'primary'); ?></span>
+  <div class="buttonSet">
+    <span class="buttonAction"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $HTTP_GET_VARS['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'glyphicon-refresh', null, 'primary'); ?></span>
 
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL')); ?>
   </div>
