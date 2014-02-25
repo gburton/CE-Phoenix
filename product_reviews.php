@@ -49,7 +49,7 @@
 ?>
 
 <div class="page-header">
-  <h1 style="float: right;"><?php echo $products_price; ?></h1>
+  <h1 class="pull-right"><?php echo $products_price; ?></h1>
   <h1><?php echo $products_name; ?></h1>
 </div>
 
@@ -65,6 +65,8 @@
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
   </div>
 
+  <div class="clearfix"></div>
+
 <?php
   }
 
@@ -76,7 +78,7 @@
 ?>
 
   <div class="contentText">
-    <p style="float: right;"><?php echo TEXT_RESULT_PAGE . ' ' . $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></p>
+    <p class="pull-right"><?php echo TEXT_RESULT_PAGE . ' ' . $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></p>
 
     <p><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></p>
   </div>
@@ -89,23 +91,29 @@
     $reviews_query = tep_db_query($reviews_split->sql_query);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
 ?>
-
-  <div>
-    <span style="float: right;"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added'])); ?></span>
-    <h2><?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $product_info['products_id'] . '&reviews_id=' . $reviews['reviews_id']) . '">' . sprintf(TEXT_REVIEW_BY, tep_output_string_protected($reviews['customers_name'])) . '</a>'; ?></h2>
-  </div>
-
   <div class="contentText">
-    <?php echo tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br />') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : '') . '<br /><br /><i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($reviews['reviews_rating']), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])) . '</i>'; ?>
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <strong><?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS_INFO, 'products_id=' . $product_info['products_id'] . '&reviews_id=' . $reviews['reviews_id']) . '">' . sprintf(TEXT_REVIEW_BY, tep_output_string_protected($reviews['customers_name'])) . '</a>'; ?></strong>
+      </div>
+      <div class="panel-body">
+        <?php echo tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br />') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : ''); ?>
+      </div>
+      <div class="panel-footer">
+        <span class="pull-right"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added'])); ?></span>
+        <?php echo '<i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($reviews['reviews_rating']), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])) . '</i>'; ?>
+      </div>
+    </div>
   </div>
-
 <?php
     }
   } else {
 ?>
 
   <div class="contentText">
-    <?php echo TEXT_NO_REVIEWS; ?>
+    <div class="alert alert-info">
+      <?php echo TEXT_NO_REVIEWS; ?>
+    </div>
   </div>
 
 <?php
@@ -115,7 +123,7 @@
 ?>
 
   <div class="contentText">
-    <p style="float: right;"><?php echo TEXT_RESULT_PAGE . ' ' . $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></p>
+    <p class="pull-right"><?php echo TEXT_RESULT_PAGE . ' ' . $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></p>
 
     <p><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></p>
   </div>
@@ -127,7 +135,7 @@
   <br />
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary'); ?></span>
+    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></span>
 
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params())); ?>
   </div>
