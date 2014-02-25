@@ -100,7 +100,7 @@
         <?php echo tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br />') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : ''); ?>
       </div>
       <div class="panel-footer">
-        <span class="pull-right"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added'])); ?></span>
+        <span class="pull-right hidden-xs"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added'])); ?></span>
         <?php echo '<i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($reviews['reviews_rating']), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])) . '</i>'; ?>
       </div>
     </div>
