@@ -48,7 +48,7 @@
 ?>
 
 <div class="page-header">
-  <h1 style="float: right;"><?php echo $products_price; ?></h1>
+  <h1 class="pull-right"><?php echo $products_price; ?></h1>
   <h1><?php echo $products_name; ?></h1>
 </div>
 
@@ -58,26 +58,31 @@
   if (tep_not_null($review['products_image'])) {
 ?>
 
-  <div style="float: right; width: <?php echo SMALL_IMAGE_WIDTH+20; ?>px; text-align: center;">
+  <div class="pull-right text-center">
     <?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $review['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $review['products_image'], addslashes($review['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
   </div>
 
+  <div class="clearfix"></div>
+
 <?php
   }
 ?>
 
-  <div>
-    <span style="float: right;"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($review['date_added'])); ?></span>
-    <h2><?php echo sprintf(TEXT_REVIEW_BY, tep_output_string_protected($review['customers_name'])); ?></h2>
-  </div>
-
   <div class="contentText">
-    <?php echo tep_break_string(nl2br(tep_output_string_protected($review['reviews_text'])), 60, '-<br />') . '<br /><br /><i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($review['reviews_rating']), sprintf(TEXT_OF_5_STARS, $review['reviews_rating'])) . '</i>'; ?>
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <strong><?php echo sprintf(TEXT_REVIEW_BY, tep_output_string_protected($review['customers_name'])); ?></strong>
+      </div>
+      <div class="panel-body">
+        <?php echo tep_break_string(nl2br(tep_output_string_protected($review['reviews_text'])), 60, '-<br />'); ?>
+      </div>
+      <div class="panel-footer">
+        <span class="pull-right"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($review['date_added'])); ?></span>
+        <?php echo '<i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($review['reviews_rating']), sprintf(TEXT_OF_5_STARS, $review['reviews_rating'])) . '</i>'; ?></div>
+    </div>
   </div>
-
-  <br />
 
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params(array('reviews_id'))), 'primary'); ?></span>
