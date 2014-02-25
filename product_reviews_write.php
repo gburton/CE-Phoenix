@@ -116,7 +116,7 @@ function checkForm() {
   }
 ?>
 
-<?php echo tep_draw_form('product_reviews_write', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&products_id=' . $HTTP_GET_VARS['products_id']), 'post', 'onsubmit="return checkForm();"', true); ?>
+<?php echo tep_draw_form('product_reviews_write', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, 'action=process&products_id=' . $HTTP_GET_VARS['products_id']), 'post', 'class="form-horizontal" onsubmit="return checkForm();"', true); ?>
 
 <div class="contentContainer">
 
@@ -124,31 +124,54 @@ function checkForm() {
   if (tep_not_null($product_info['products_image'])) {
 ?>
 
-  <div style="float: right; width: <?php echo SMALL_IMAGE_WIDTH+20; ?>px; text-align: center;">
+  <div class="pull-right text-center">
     <?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
   </div>
+
+  <div class="clearfix"></div>
 
 <?php
   }
 ?>
 
   <div class="contentText">
-    <table border="0" cellspacing="0" cellpadding="2">
-      <tr>
-        <td class="fieldKey"><?php echo SUB_TITLE_FROM; ?></td>
-        <td class="fieldValue"><?php echo tep_output_string_protected($customer['customers_firstname'] . ' ' . $customer['customers_lastname']); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey" valign="top"><?php echo SUB_TITLE_REVIEW; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_textarea_field('review', 'soft', 60, 15) . '<br /><span style="float: right;">' . TEXT_NO_HTML . '</span>'; ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo SUB_TITLE_RATING; ?></td>
-        <td class="fieldValue"><?php echo TEXT_BAD . ' ' . tep_draw_radio_field('rating', '1') . ' ' . tep_draw_radio_field('rating', '2') . ' ' . tep_draw_radio_field('rating', '3') . ' ' . tep_draw_radio_field('rating', '4') . ' ' . tep_draw_radio_field('rating', '5') . ' ' . TEXT_GOOD; ?></td>
-      </tr>
-    </table>
+    <div class="row">
+      <p class="col-xs-3 text-right"><strong><?php echo SUB_TITLE_FROM; ?></strong></p>
+      <p class="col-xs-9"><?php echo tep_output_string_protected($customer['customers_firstname'] . ' ' . $customer['customers_lastname']); ?></p>
+    </div>
+    <div class="form-group has-feedback">
+      <label for="inputReview" class="control-label col-xs-3"><?php echo SUB_TITLE_REVIEW; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_textarea_field('review', 'soft', 60, 15, NULL, 'required aria-required="true" id="inputReview" placeholder="' . SUB_TITLE_REVIEW . '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-xs-3"><?php echo SUB_TITLE_RATING; ?></label>
+      <div class="col-xs-9">
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('rating', '1'); ?>
+        </label>
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('rating', '2'); ?>
+        </label>
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('rating', '3'); ?>
+        </label>
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('rating', '4'); ?>
+        </label>
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('rating', '5', 1); ?>
+        </label>
+        <?php echo '<div class="help-block justify" style="width: 150px;">' . TEXT_BAD . '<p class="pull-right">' . TEXT_GOOD . '</p></div>'; ?>
+      </div>
+    </div>
+
   </div>
 
   <div class="buttonSet">
