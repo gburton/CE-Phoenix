@@ -68,33 +68,47 @@
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
 
-<?php echo tep_draw_form('order', tep_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=update', 'SSL')); ?>
+<?php echo tep_draw_form('order', tep_href_link(FILENAME_CHECKOUT_SUCCESS, 'action=update', 'SSL', 'class="form-horizontal"')); ?>
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_SUCCESS; ?>
+    <div class="alert alert-success">
+      <?php echo TEXT_SUCCESS; ?>
+    </div>
   </div>
 
   <div class="contentText">
 
 <?php
   if ($global['global_product_notifications'] != '1') {
-    echo TEXT_NOTIFY_PRODUCTS . '<br /><p class="productsNotifications">';
-
+    echo '<div class="form-group">';
+    echo '  <label class="control-label col-xs-4">' . TEXT_NOTIFY_PRODUCTS. '</label>';
+    echo '  <div class="col-xs-8">';
     $products_displayed = array();
     for ($i=0, $n=sizeof($products_array); $i<$n; $i++) {
       if (!in_array($products_array[$i]['id'], $products_displayed)) {
-        echo tep_draw_checkbox_field('notify[]', $products_array[$i]['id']) . ' ' . $products_array[$i]['text'] . '<br />';
+        echo '<label class="checkbox-inline">';
+        echo tep_draw_checkbox_field('notify[]', $products_array[$i]['id']);
+        echo '</label>';
+        echo '<span class="help-block">' . $products_array[$i]['text']  . '</span>';
         $products_displayed[] = $products_array[$i]['id'];
       }
     }
 
-    echo '</p>';
+    echo '  </div>';
+    echo '</div>';
   }
-
-  echo TEXT_SEE_ORDERS . '<br /><br />' . TEXT_CONTACT_STORE_OWNER;
 ?>
+  </div>
 
+  <div class="clearfix"></div>
+
+  <div class="contentText">
+    <div class="alert alert-info">
+    <?php
+    echo TEXT_SEE_ORDERS . '<br /><br />' . TEXT_CONTACT_STORE_OWNER;
+    ?>
+    </div>
   </div>
 
   <div class="contentText">
