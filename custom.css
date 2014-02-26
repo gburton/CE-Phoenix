@@ -5,6 +5,10 @@
   margin-bottom: 10px;
 }
 
+.buttonSet { zoom: 1; }
+.buttonSet:before, .buttonSet:after { content: ""; display: table; }
+.buttonSet:after { clear: both; }
+
 .buttonAction {
   float: right;
 }
