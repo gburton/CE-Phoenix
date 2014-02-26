@@ -25,16 +25,17 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <div class="ui-widget infoBoxContainer" style=" width: 40%; float: right; padding: 0 0 10px 10px;">
-      <div class="ui-widget-header infoBoxHeading"><?php echo BOX_INFORMATION_HEADING; ?></div>
 
-      <div class="ui-widget-content infoBoxContents">
+    <div class="panel panel-danger">
+      <div class="panel-heading"><?php echo BOX_INFORMATION_HEADING; ?></div>
+      <div class="panel-body">
         <?php echo BOX_INFORMATION; ?>
       </div>
     </div>
 
     <?php echo TEXT_INFORMATION; ?>
   </div>
+
 
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?></span>
