@@ -28,10 +28,10 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_PRODUCT_NOT_FOUND; ?>
+    <div class="alert alert-warning"><?php echo TEXT_PRODUCT_NOT_FOUND; ?></div>
   </div>
 
-  <div style="float: right;">
+  <div class="pull-right">
     <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?>
   </div>
 </div>
@@ -56,10 +56,10 @@
     }
 ?>
 
-<?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product')); ?>
+<?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product', 'NONSSL', 'class="form-horizontal"')); ?>
 
 <div class="page-header">
-  <h1 style="float: right;"><?php echo $products_price; ?></h1>
+  <h1 class="pull-right"><?php echo $products_price; ?></h1>
   <h1><?php echo $products_name; ?></h1>
 </div>
 
@@ -76,7 +76,7 @@
         $photoset_layout = '1' . (tep_db_num_rows($pi_query) > 1 ? tep_db_num_rows($pi_query) - 1 : '');
 ?>
 
-    <div id="piGal" style="float: right;">
+    <div id="piGal" class="pull-right">
 
 <?php
         $pi_counter = 0;
@@ -102,7 +102,7 @@
       } else {
 ?>
 
-    <div id="piGal" style="float: right;">
+    <div id="piGal" class="pull-right">
       <?php echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name'])); ?>
     </div>
 
@@ -151,7 +151,7 @@ $(function() {
     if ($products_attributes['total'] > 0) {
 ?>
 
-    <p><?php echo TEXT_PRODUCT_OPTIONS; ?></p>
+    <h4><?php echo TEXT_PRODUCT_OPTIONS; ?></h4>
 
     <p>
 <?php
@@ -182,13 +182,13 @@ $(function() {
     }
 ?>
 
-    <div style="clear: both;"></div>
+    <div class="clearfix"></div>
 
 <?php
     if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
 ?>
 
-    <p style="text-align: center;"><?php echo sprintf(TEXT_DATE_AVAILABLE, tep_date_long($product_info['products_date_available'])); ?></p>
+    <div class="alert alert-info"><?php echo sprintf(TEXT_DATE_AVAILABLE, tep_date_long($product_info['products_date_available'])); ?></div>
 
 <?php
     }
