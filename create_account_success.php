@@ -33,7 +33,9 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_ACCOUNT_CREATED; ?>
+    <div class="alert alert-success">
+      <?php echo TEXT_ACCOUNT_CREATED; ?>
+    </div>
   </div>
 
   <div class="buttonSet">
