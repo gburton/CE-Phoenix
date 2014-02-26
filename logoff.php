@@ -34,7 +34,9 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_MAIN; ?>
+    <div class="alert alert-warning">
+      <?php echo TEXT_MAIN; ?>
+    </div>
   </div>
 
   <div class="buttonSet">
