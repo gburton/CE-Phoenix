@@ -64,10 +64,10 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_SUCCESS; ?>
+    <div class="alert alert-info"><?php echo TEXT_SUCCESS; ?></div>
   </div>
 
-  <div style="float: right;">
+  <div class="pull-right">
     <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?>
   </div>
 </div>
@@ -76,24 +76,37 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('contact_us', tep_href_link(FILENAME_CONTACT_US, 'action=send'), 'post', '', true); ?>
+<?php echo tep_draw_form('contact_us', tep_href_link(FILENAME_CONTACT_US, 'action=send'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_NAME; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_input_field('name'); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_EMAIL; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_input_field('email'); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey" valign="top"><?php echo ENTRY_ENQUIRY; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_textarea_field('enquiry', 'soft', 50, 15); ?></td>
-      </tr>
-    </table>
+    <div class="form-group has-feedback">
+      <label for="inputFromName" class="control-label col-xs-3"><?php echo ENTRY_NAME; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME . '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+      </div>
+    </div>
+    <div class="form-group has-feedback">
+      <label for="inputFromEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL . '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+      </div>
+    </div>
+    <div class="form-group has-feedback">
+      <label for="inputEnquiry" class="control-label col-xs-3"><?php echo ENTRY_ENQUIRY; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY . '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+      </div>
+    </div>
   </div>
 
   <div class="buttonSet">
