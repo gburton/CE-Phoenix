@@ -98,22 +98,26 @@
   }
 ?>
 
-<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'onsubmit="return check_form(password_reset);"', true); ?>
+<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(password_reset);"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
-    <div><?php echo TEXT_MAIN; ?></div>
-
-    <table border="0" cellspacing="2" cellpadding="2" width="100%">
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_PASSWORD; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_password_field('password'); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_password_field('confirmation'); ?></td>
-      </tr>
-    </table>
+    <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
+    
+    <div class="form-group has-feedback">
+      <label for="inputPassword" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD; ?></label>
+      <div class="col-xs-9">
+        <?php echo tep_draw_input_field('password', NULL, 'required aria-required="true"  autofocus="autofocus" id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"'); ?>
+        <?php echo FORM_REQUIRED_INPUT; ?>
+      </div>
+    </div>
+    <div class="form-group has-feedback">
+      <label for="inputConfirm" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
+      <div class="col-xs-9">
+        <?php echo tep_draw_input_field('confirmation', NULL, 'required aria-required="true" id="inputConfirm" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"'); ?>
+        <?php echo FORM_REQUIRED_INPUT; ?>
+      </div>
+    </div>
   </div>
 
   <div class="buttonSet">
