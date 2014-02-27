@@ -113,21 +113,26 @@ function check_form() {
   }
 ?>
 
-<?php echo tep_draw_form('advanced_search', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"') . tep_hide_session_id(); ?>
+<?php echo tep_draw_form('advanced_search', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', 'NONSSL', false), 'get', 'class="form-horizontal" onsubmit="return check_form(this);"') . tep_hide_session_id(); ?>
 
 <div class="contentContainer">
-  <h2><?php echo HEADING_SEARCH_CRITERIA; ?></h2>
 
   <div class="contentText">
-    <div>
-      <?php echo tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '" style="width: 100%"') . tep_draw_hidden_field('search_in_description', '1'); ?>
+    <div class="form-group has-feedback">
+      <label for="inputKeywords" class="control-label col-xs-3"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"');
+        echo FORM_REQUIRED_INPUT;
+        echo tep_draw_hidden_field('search_in_description', '1');
+        ?>
+      </div>
     </div>
 
-    <br />
+    <div class="buttonSet">
+      <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon-search', null, 'primary'); ?></span>
 
-    <div>
-      <span><a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a></span>
-      <span style="float: right;"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon-search', null, 'primary'); ?></span>
+      <a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a>
     </div>
 
     <div class="modal fade" id="helpSearch" tabindex="-1" role="dialog" aria-labelledby="helpSearchLabel" aria-hidden="true">
@@ -144,61 +149,88 @@ function check_form() {
       </div>
     </div>
 
-    <br />
+    <hr>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_CATEGORIES; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_pull_down_menu('categories_id', tep_get_categories(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES)))); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey">&nbsp;</td>
-        <td class="smallText"><?php echo tep_draw_checkbox_field('inc_subcat', '1', true) . ' ' . ENTRY_INCLUDE_SUBCATEGORIES; ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_MANUFACTURERS; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS)))); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_PRICE_FROM; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_input_field('pfrom'); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_PRICE_TO; ?></td>
-        <td class="fieldValue"><?php echo tep_draw_input_field('pto'); ?></td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_DATE_FROM; ?></td>
-        <td class="fieldValue">
-          <?php echo tep_draw_input_field('dfrom', '', 'id="dfrom"'); ?>
-          <script type="text/javascript">
-          var nowTemp = new Date();
-          var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-          $('#dfrom').datepicker({
-            dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
-            onRender: function(date) {
-              return date.valueOf() > now.valueOf() ? 'disabled' : '';
-            }
-          });
-          </script>
-        </td>
-      </tr>
-      <tr>
-        <td class="fieldKey"><?php echo ENTRY_DATE_TO; ?></td>
-        <td class="fieldValue">
-          <?php echo tep_draw_input_field('dto', '', 'id="dto"'); ?>
-          <script type="text/javascript">
-            $('#dto').datepicker({
-              dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
-              onRender: function(date) {
-                return date.valueOf() > now.valueOf() ? 'disabled' : '';
-              }
-            });
-          </script>
-        </td>
-      </tr>
-    </table>
+    <div class="form-group">
+      <label for="entryCategories" class="control-label col-xs-3"><?php echo ENTRY_CATEGORIES; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_pull_down_menu('categories_id', tep_get_categories(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES))), NULL, 'id="entryCategories"');
+        ?>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="entryIncludeSubs" class="control-label col-xs-3"><?php echo ENTRY_INCLUDE_SUBCATEGORIES; ?></label>
+      <div class="col-xs-9">
+        <div class="checkbox-inline">
+          <label>
+            <?php
+            echo tep_draw_checkbox_field('inc_subcat', '1', true, 'id="entryIncludeSubs"');
+            ?>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="entryManufacturers" class="control-label col-xs-3"><?php echo ENTRY_MANUFACTURERS; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS))), NULL, 'id="entryManufacturers"');
+        ?>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="PriceFrom" class="control-label col-xs-3"><?php echo ENTRY_PRICE_FROM; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('pfrom', '', 'id="PriceFrom" placeholder="' . ENTRY_PRICE_FROM . '"');
+        ?>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="PriceTo" class="control-label col-xs-3"><?php echo ENTRY_PRICE_TO; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('pto', '', 'id="PriceTo" placeholder="' . ENTRY_PRICE_TO . '"');
+        ?>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dfrom" class="control-label col-xs-3"><?php echo ENTRY_DATE_FROM; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_DATE_FROM . '"');
+        ?>
+      </div>
+      <script type="text/javascript">
+      var nowTemp = new Date();
+      var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+      $('#dfrom').datepicker({
+        dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
+        onRender: function(date) {
+          return date.valueOf() > now.valueOf() ? 'disabled' : '';
+        }
+      });
+      </script>
+    </div>
+    <div class="form-group">
+      <label for="dto" class="control-label col-xs-3"><?php echo ENTRY_DATE_TO; ?></label>
+      <div class="col-xs-9">
+        <?php
+        echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_DATE_TO . '"');
+        ?>
+      </div>
+      <script type="text/javascript">
+      $('#dto').datepicker({
+        dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
+        onRender: function(date) {
+          return date.valueOf() > now.valueOf() ? 'disabled' : '';
+        }
+      });
+      </script>
+    </div>
   </div>
+
 </div>
 
 </form>
