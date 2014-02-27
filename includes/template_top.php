@@ -41,6 +41,8 @@
  
  <!-- Custom -->
  <link href="custom.css" rel="stylesheet">
+ <!-- User -->
+ <link href="user.css" rel="stylesheet">
  
  <script type="text/javascript" src="ext/jquery/jquery-1.8.0.min.js"></script>
  <script src="ext/bootstrap/js/bootstrap.min.js"></script>
