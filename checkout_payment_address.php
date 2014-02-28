@@ -255,7 +255,7 @@ function check_form_optional(form_name) {
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'onsubmit="return check_form_optional(checkout_address);"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form_optional(checkout_address);"', true); ?>
 
 <div class="contentContainer">
 
@@ -265,36 +265,33 @@ function check_form_optional(form_name) {
 
   <h2><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h2>
 
-  <div class="contentText">
-    <div class="ui-widget infoBoxContainer" style="float: right;">
-      <div class="ui-widget-header infoBoxHeading"><?php echo TITLE_PAYMENT_ADDRESS; ?></div>
+  <div class="contentText row">
+    <div class="col-sm-8">
+      <div class="alert alert-warning"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading"><?php echo TITLE_PAYMENT_ADDRESS; ?></div>
 
-      <div class="ui-widget-content infoBoxContents">
-        <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
+        <div class="panel-body">
+          <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
+        </div>
       </div>
     </div>
-
-    <?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?>
   </div>
 
-  <div style="clear: both;"></div>
+  <div class="clearfix"></div>
+  
 
 <?php
     if ($addresses_count > 1) {
 ?>
 
   <h2><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+  
+  <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
 
-  <div class="contentText">
-    <div style="float: right;">
-      <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
-    </div>
-
-    <?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?>
-  </div>
-
-  <div class="contentText">
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+  <div class="contentText row">
 
 <?php
       $radio_buttons = 0;
@@ -303,26 +300,23 @@ function check_form_optional(form_name) {
       while ($addresses = tep_db_fetch_array($addresses_query)) {
         $format_id = tep_get_address_format_id($addresses['country_id']);
 
-       if ($addresses['address_book_id'] == $billto) {
-          echo '      <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-        } else {
-          echo '      <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-        }
-?>
 
-        <td><strong><?php echo $addresses['firstname'] . ' ' . $addresses['lastname']; ?></strong></td>
-        <td align="right"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $billto)); ?></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="padding-left: 15px;"><?php echo tep_address_format($format_id, $addresses, true, ' ', ', '); ?></td>
-      </tr>
+?>
+      <div class="col-sm-4">
+        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $customer_default_address_id) ? 'primary' : 'default'; ?>">
+          <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
+          <div class="panel-body">
+            <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
+          </div>
+          <div class="panel-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $billto)); ?></div>
+        </div>
+      </div>
 
 <?php
         $radio_buttons++;
       }
 ?>
 
-    </table>
   </div>
 
 <?php
@@ -333,10 +327,8 @@ function check_form_optional(form_name) {
 ?>
 
   <h2><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h2>
-
-  <div class="contentText">
-    <?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?>
-  </div>
+  
+  <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
 
   <?php require(DIR_WS_MODULES . 'checkout_new_address.php'); ?>
 
@@ -344,33 +336,37 @@ function check_form_optional(form_name) {
   }
 ?>
 
-  <div class="contentText">
-    <div style="float: left; width: 60%; padding-top: 5px; padding-left: 15%;">
-      <div id="coProgressBar" style="height: 5px;"></div>
-
-      <table border="0" width="100%" cellspacing="0" cellpadding="2">
-        <tr>
-          <td align="center" width="33%" class="checkoutBarFrom"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '" class="checkoutBarFrom">' . CHECKOUT_BAR_DELIVERY . '</a>'; ?></td>
-          <td align="center" width="33%" class="checkoutBarCurrent"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '" class="checkoutBarCurrent">' . CHECKOUT_BAR_PAYMENT . '</a>'; ?></td>
-          <td align="center" width="33%" class="checkoutBarTo"><?php echo CHECKOUT_BAR_CONFIRMATION; ?></td>
-        </tr>
-      </table>
-    </div>
-
-    <div style="float: right;"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', null, 'primary'); ?></div>
+  <div class="buttonSet">
+    <span class="buttonAction"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', null, 'primary'); ?></span>
   </div>
 
-<script type="text/javascript">
-$('#coProgressBar').progressbar({
-  value: 66
-});
-</script>
+  <div class="clearfix"></div>
+
+  <div class="contentText">
+    <div class="stepwizard">
+      <div class="stepwizard-row">
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-default btn-circle" disabled="disabled">1</button>
+          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
+        </div>
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-primary btn-circle">2</button>
+          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
+        </div>
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+          <p><?php echo CHECKOUT_BAR_CONFIRMATION; ?></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <?php
   if ($process == true) {
 ?>
 
-  <div class="contentText">
+  <div class="buttonSet">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')); ?>
   </div>
 
