@@ -277,39 +277,37 @@
   }
 ?>
 
+  <div style="float: right;">
+    <?php
+    if (is_array($payment_modules->modules)) {
+      echo $payment_modules->process_button();
+    }
+    echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon-ok', null, 'primary');
+    ?>
+  </div>
+
+  <div class="clearfix"></div>
+
   <div class="contentText">
-    <div style="float: left; width: 60%; padding-top: 5px; padding-left: 15%;">
-      <div id="coProgressBar" style="height: 5px;"></div>
-
-      <table border="0" width="100%" cellspacing="0" cellpadding="2">
-        <tr>
-          <td align="center" width="33%" class="checkoutBarFrom"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '" class="checkoutBarFrom">' . CHECKOUT_BAR_DELIVERY . '</a>'; ?></td>
-          <td align="center" width="33%" class="checkoutBarFrom"><?php echo '<a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '" class="checkoutBarFrom">' . CHECKOUT_BAR_PAYMENT . '</a>'; ?></td>
-          <td align="center" width="33%" class="checkoutBarCurrent"><?php echo CHECKOUT_BAR_CONFIRMATION; ?></td>
-        </tr>
-      </table>
-    </div>
-
-    <div style="float: right;">
-
-<?php
-  if (is_array($payment_modules->modules)) {
-    echo $payment_modules->process_button();
-  }
-
-  echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon-ok', null, 'primary');
-?>
-
+    <div class="stepwizard">
+      <div class="stepwizard-row">
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-default btn-circle" disabled="disabled">1</button>
+          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
+        </div>
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
+          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
+        </div>
+        <div class="stepwizard-step">
+          <button type="button" class="btn btn-primary btn-circle">3</button>
+          <p><?php echo CHECKOUT_BAR_CONFIRMATION; ?></p>
+        </div>
+      </div>
     </div>
   </div>
 
 </div>
-
-<script type="text/javascript">
-$('#coProgressBar').progressbar({
-  value: 100
-});
-</script>
 
 </form>
 
