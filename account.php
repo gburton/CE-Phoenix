@@ -57,7 +57,7 @@
 
   <div class="contentText">
     <ul class="accountLinkList">
-      <li><span class="glyphicon glyphicon-envelope"></span><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL') . '">' . EMAIL_NOTIFICATIONS_NEWSLETTERS . '</a>'; ?></li>
+      <li><span class="glyphicon glyphicon-envelope"></span> <?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL') . '">' . EMAIL_NOTIFICATIONS_NEWSLETTERS . '</a>'; ?></li>
       <li><span class="glyphicon glyphicon-send"></span> <?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL') . '">' . EMAIL_NOTIFICATIONS_PRODUCTS . '</a>'; ?></li>
     </ul>
   </div>
