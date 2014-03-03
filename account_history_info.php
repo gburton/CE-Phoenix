@@ -166,16 +166,15 @@
   <h2><?php echo HEADING_ORDER_HISTORY; ?></h2>
 
   <div class="contentText">
-    <ul class="list-group">
+    <dl class="dl-horizontal">
 <?php
   $statuses_query = tep_db_query("select os.orders_status_name, osh.date_added, osh.comments from " . TABLE_ORDERS_STATUS . " os, " . TABLE_ORDERS_STATUS_HISTORY . " osh where osh.orders_id = '" . (int)$HTTP_GET_VARS['order_id'] . "' and osh.orders_status_id = os.orders_status_id and os.language_id = '" . (int)$languages_id . "' and os.public_flag = '1' order by osh.date_added");
   while ($statuses = tep_db_fetch_array($statuses_query)) {
-    echo '<li class="list-group-item"><strong>' . tep_date_short($statuses['date_added']) . '</strong>';
-    echo '<span class="pull-right"><strong>' . $statuses['orders_status_name'] . '</strong></span>';
-    echo '<hr>' . (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments']))) . '</li>';
+    echo '<dt>' . tep_date_short($statuses['date_added']) . '<br>' . $statuses['orders_status_name'] . '</dt>';
+    echo '<dd>' . (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments']))) . '</dd>';
   }
 ?>
-    </ul>
+    </dl>
   </div>
 
 <?php
