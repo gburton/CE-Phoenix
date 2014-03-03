@@ -66,7 +66,7 @@
     }
 ?>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-condensed">
       <tbody>
 <?php
     for ($i=0, $n=sizeof($products); $i<$n; $i++) {
