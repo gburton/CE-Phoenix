@@ -105,70 +105,18 @@
 ?>
 
 <div class="contentContainer">
-  <h2><?php echo HEADING_SHIPPING_INFORMATION; ?></h2>
-
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
-      <tr>
+
+    <div class="panel panel-default">
+      <div class="panel-heading"><?php echo '<strong>' . HEADING_PRODUCTS . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_SHOPPING_CART), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+      <div class="panel-body">
+    <table width="100%" class="table-hover order_confirmation">
+     <tbody>
 
 <?php
-  if ($sendto != false) {
-?>
-
-        <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td><?php echo '<strong>' . HEADING_DELIVERY_ADDRESS . '</strong> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-          </tr>
-          <tr>
-            <td><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br />'); ?></td>
-          </tr>
-
-<?php
-    if ($order->info['shipping_method']) {
-?>
-
-          <tr>
-            <td><?php echo '<strong>' . HEADING_SHIPPING_METHOD . '</strong> <a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $order->info['shipping_method']; ?></td>
-          </tr>
-<?php
-    }
-?>
-
-        </table></td>
-
-<?php
-  }
-?>
-
-        <td width="<?php echo (($sendto != false) ? '70%' : '100%'); ?>" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-
-<?php
-  if (sizeof($order->info['tax_groups']) > 1) {
-?>
-
-          <tr>
-            <td colspan="2"><?php echo '<strong>' . HEADING_PRODUCTS . '</strong> <a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-            <td align="right"><strong><?php echo HEADING_TAX; ?></strong></td>
-            <td align="right"><strong><?php echo HEADING_TOTAL; ?></strong></td>
-          </tr>
-
-<?php
-  } else {
-?>
-
-          <tr>
-            <td colspan="3"><?php echo '<strong>' . HEADING_PRODUCTS . '</strong> <a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-          </tr>
-
-<?php
-  }
-
   for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
     echo '          <tr>' . "\n" .
-         '            <td align="right" valign="top" width="30">' . $order->products[$i]['qty'] . '&nbsp;x</td>' . "\n" .
+         '            <td align="right" valign="top" width="30">' . $order->products[$i]['qty'] . '&nbsp;x&nbsp;</td>' . "\n" .
          '            <td valign="top">' . $order->products[$i]['name'];
 
     if (STOCK_CHECK == 'true') {
@@ -190,31 +138,11 @@
   }
 ?>
 
-        </table></td>
-      </tr>
-    </table>
-  </div>
 
-  <h2><?php echo HEADING_BILLING_INFORMATION; ?></h2>
-
-  <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
-      <tr>
-        <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td><?php echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong> <a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-          </tr>
-          <tr>
-            <td><?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?></td>
-          </tr>
-          <tr>
-            <td><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong> <a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $order->info['payment_method']; ?></td>
-          </tr>
-        </table></td>
-        <td width="70%" valign="top" align="right"><table border="0" cellspacing="0" cellpadding="2">
+        </tbody>
+      </table>
+      <hr>
+      <table width="100%" class="pull-right">
 
 <?php
   if (MODULE_ORDER_TOTAL_INSTALLED) {
@@ -222,43 +150,91 @@
   }
 ?>
 
-        </table></td>
-      </tr>
-    </table>
+        </table>
+            </div>
+    </div>
+
+
+
   </div>
+
+  <div class="clearfix"></div>
+
+  <div class="row">
+    <?php
+    if ($sendto != false) {
+      ?>
+      <div class="col-sm-4">
+        <div class="panel panel-info">
+          <div class="panel-heading"><?php echo '<strong>' . HEADING_DELIVERY_ADDRESS . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+          <div class="panel-body">
+            <?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br />'); ?>
+          </div>
+        </div>
+      </div>
+      <?php
+    }
+    ?>
+    <div class="col-sm-4">
+      <div class="panel panel-warning">
+        <div class="panel-heading"><?php echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+        <div class="panel-body">
+          <?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      if ($order->info['shipping_method']) {
+        ?>
+        <div class="panel panel-info">
+          <div class="panel-heading"><?php echo '<strong>' . HEADING_SHIPPING_METHOD . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+          <div class="panel-body">
+            <?php echo $order->info['shipping_method']; ?>
+          </div>
+        </div>
+        <?php
+      }
+      ?>
+      <div class="panel panel-warning">
+        <div class="panel-heading"><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+        <div class="panel-body">
+          <?php echo $order->info['payment_method']; ?>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
 
 <?php
   if (is_array($payment_modules->modules)) {
     if ($confirmation = $payment_modules->confirmation()) {
 ?>
+  <hr>
 
   <h2><?php echo HEADING_PAYMENT_INFORMATION; ?></h2>
 
-  <div class="contentText">
-    <table border="0" cellspacing="0" cellpadding="2">
-      <tr>
-        <td colspan="4"><?php echo $confirmation['title']; ?></td>
-      </tr>
-
+  <div class="contentText row">
+    <div class="col-sm-6">
+      <div class="alert alert-danger">
+        <?php echo $confirmation['title']; ?>
+      </div>
+    </div>
 <?php
       if (isset($confirmation['fields'])) {
+        echo '<div class="col-sm-6">';
+        echo '  <div class="alert alert-info">';
         for ($i=0, $n=sizeof($confirmation['fields']); $i<$n; $i++) {
-?>
-
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-        <td class="main"><?php echo $confirmation['fields'][$i]['title']; ?></td>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '10', '1'); ?></td>
-        <td class="main"><?php echo $confirmation['fields'][$i]['field']; ?></td>
-      </tr>
-
-<?php
+          echo $confirmation['fields'][$i]['title'] . ' ' . $confirmation['fields'][$i]['field'];
         }
+        echo '  </div>';
+        echo '</div>';
       }
 ?>
-
-    </table>
   </div>
+  <div class="clearfix"></div>
 
 <?php
     }
@@ -266,24 +242,27 @@
 
   if (tep_not_null($order->info['comments'])) {
 ?>
+  <hr>
 
-  <h2><?php echo '<strong>' . HEADING_ORDER_COMMENTS . '</strong> <a href="' . tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL') . '"><span class="orderEdit">(' . TEXT_EDIT . ')</span></a>'; ?></h2>
+  <h2><?php echo '<strong>' . HEADING_ORDER_COMMENTS . '</strong>' . tep_draw_button(TEXT_EDIT, 'glyphicon-edit', tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></h2>
 
-  <div class="contentText">
+  <blockquote>
     <?php echo nl2br(tep_output_string_protected($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']); ?>
-  </div>
+  </blockquote>
 
 <?php
   }
 ?>
 
-  <div style="float: right;">
-    <?php
-    if (is_array($payment_modules->modules)) {
-      echo $payment_modules->process_button();
-    }
-    echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon-ok', null, 'primary');
-    ?>
+  <div class="buttonSet">
+    <span class="buttonAction">
+      <?php
+      if (is_array($payment_modules->modules)) {
+        echo $payment_modules->process_button();
+      }
+      echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon-ok', null, 'primary');
+      ?>
+    </span>
   </div>
 
   <div class="clearfix"></div>
