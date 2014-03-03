@@ -20,7 +20,7 @@
   if (!isset($HTTP_GET_VARS['order_id']) || (isset($HTTP_GET_VARS['order_id']) && !is_numeric($HTTP_GET_VARS['order_id']))) {
     tep_redirect(tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'));
   }
-  
+
   $customer_info_query = tep_db_query("select o.customers_id from " . TABLE_ORDERS . " o, " . TABLE_ORDERS_STATUS . " s where o.orders_id = '". (int)$HTTP_GET_VARS['order_id'] . "' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and s.public_flag = '1'");
   $customer_info = tep_db_fetch_array($customer_info_query);
   if ($customer_info['customers_id'] != $customer_id) {
@@ -44,44 +44,14 @@
 </div>
 
 <div class="contentContainer">
-  <h2><?php echo sprintf(HEADING_ORDER_NUMBER, $HTTP_GET_VARS['order_id']) . ' <span class="contentText">(' . $order->info['orders_status'] . ')</span>'; ?></h2>
 
   <div class="contentText">
-    <div>
-      <span style="float: right;"><?php echo HEADING_ORDER_TOTAL . ' ' . $order->info['total']; ?></span>
-      <?php echo HEADING_ORDER_DATE . ' ' . tep_date_long($order->info['date_purchased']); ?>
-    </div>
 
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
-      <tr>
+    <div class="panel panel-default">
+      <div class="panel-heading"><strong><?php echo sprintf(HEADING_ORDER_NUMBER, $HTTP_GET_VARS['order_id']) . ' <span class="badge pull-right">' . $order->info['orders_status'] . '</span>'; ?></strong></div>
+      <div class="panel-body">
 
-<?php
-  if ($order->delivery != false) {
-?>
-        <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td><strong><?php echo HEADING_DELIVERY_ADDRESS; ?></strong></td>
-          </tr>
-          <tr>
-            <td><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br />'); ?></td>
-          </tr>
-<?php
-    if (tep_not_null($order->info['shipping_method'])) {
-?>
-          <tr>
-            <td><strong><?php echo HEADING_SHIPPING_METHOD; ?></strong></td>
-          </tr>
-          <tr>
-            <td><?php echo $order->info['shipping_method']; ?></td>
-          </tr>
-<?php
-    }
-?>
-        </table></td>
-<?php
-  }
-?>
-        <td width="<?php echo (($order->delivery != false) ? '70%' : '100%'); ?>" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+        <table border="0" width="100%" cellspacing="0" cellpadding="2" class="table-hover order_confirmation">
 <?php
   if (sizeof($order->info['tax_groups']) > 1) {
 ?>
@@ -121,63 +91,91 @@
          '          </tr>' . "\n";
   }
 ?>
-        </table></td>
-      </tr>
-    </table>
-  </div>
-
-  <h2><?php echo HEADING_BILLING_INFORMATION; ?></h2>
-
-  <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
-      <tr>
-        <td width="30%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td><strong><?php echo HEADING_BILLING_ADDRESS; ?></strong></td>
-          </tr>
-          <tr>
-            <td><?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?></td>
-          </tr>
-          <tr>
-            <td><strong><?php echo HEADING_PAYMENT_METHOD; ?></strong></td>
-          </tr>
-          <tr>
-            <td><?php echo $order->info['payment_method']; ?></td>
-          </tr>
-        </table></td>
-        <td width="70%" valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+        </table>
+        <hr>
+        <table width="100%" class="pull-right">
 <?php
   for ($i=0, $n=sizeof($order->totals); $i<$n; $i++) {
     echo '          <tr>' . "\n" .
-         '            <td align="right" width="100%">' . $order->totals[$i]['title'] . '</td>' . "\n" .
+         '            <td align="right" width="100%">' . $order->totals[$i]['title'] . '&nbsp;</td>' . "\n" .
          '            <td align="right">' . $order->totals[$i]['text'] . '</td>' . "\n" .
          '          </tr>' . "\n";
   }
 ?>
-        </table></td>
-      </tr>
-    </table>
+        </table>
+      </div>
+
+
+      <div class="panel-footer">
+        <span class="pull-right hidden-xs"><?php echo HEADING_ORDER_TOTAL . ' ' . $order->info['total']; ?></span><?php echo HEADING_ORDER_DATE . ' ' . tep_date_long($order->info['date_purchased']); ?>
+      </div>
+    </div>
   </div>
+
+  <div class="clearfix"></div>
+
+  <div class="row">
+    <?php
+    if ($order->delivery != false) {
+      ?>
+      <div class="col-sm-4">
+        <div class="panel panel-info">
+          <div class="panel-heading"><?php echo '<strong>' . HEADING_DELIVERY_ADDRESS . '</strong>'; ?></div>
+          <div class="panel-body">
+            <?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, ' ', '<br />'); ?>
+          </div>
+        </div>
+      </div>
+      <?php
+    }
+    ?>
+    <div class="col-sm-4">
+      <div class="panel panel-warning">
+        <div class="panel-heading"><?php echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>'; ?></div>
+        <div class="panel-body">
+          <?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      if ($order->info['shipping_method']) {
+        ?>
+        <div class="panel panel-info">
+          <div class="panel-heading"><?php echo '<strong>' . HEADING_SHIPPING_METHOD . '</strong>'; ?></div>
+          <div class="panel-body">
+            <?php echo $order->info['shipping_method']; ?>
+          </div>
+        </div>
+        <?php
+      }
+      ?>
+      <div class="panel panel-warning">
+        <div class="panel-heading"><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong>'; ?></div>
+        <div class="panel-body">
+          <?php echo $order->info['payment_method']; ?>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <hr>
 
   <h2><?php echo HEADING_ORDER_HISTORY; ?></h2>
 
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
-      <tr>
-        <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+    <ul class="list-group">
 <?php
   $statuses_query = tep_db_query("select os.orders_status_name, osh.date_added, osh.comments from " . TABLE_ORDERS_STATUS . " os, " . TABLE_ORDERS_STATUS_HISTORY . " osh where osh.orders_id = '" . (int)$HTTP_GET_VARS['order_id'] . "' and osh.orders_status_id = os.orders_status_id and os.language_id = '" . (int)$languages_id . "' and os.public_flag = '1' order by osh.date_added");
   while ($statuses = tep_db_fetch_array($statuses_query)) {
-    echo '          <tr>' . "\n" .
-         '            <td valign="top" width="70">' . tep_date_short($statuses['date_added']) . '</td>' . "\n" .
-         '            <td valign="top" width="70">' . $statuses['orders_status_name'] . '</td>' . "\n" .
-         '            <td valign="top">' . (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments']))) . '</td>' . "\n" .
-         '          </tr>' . "\n";
+    echo '<li class="list-group-item"><strong>' . tep_date_short($statuses['date_added']) . '</strong>';
+    echo '<span class="pull-right"><strong>' . $statuses['orders_status_name'] . '</strong></span>';
+    echo '<hr>' . (empty($statuses['comments']) ? '&nbsp;' : nl2br(tep_output_string_protected($statuses['comments']))) . '</li>';
   }
 ?>
-        </table></td>
-      </tr>
-    </table>
+    </ul>
   </div>
 
 <?php
