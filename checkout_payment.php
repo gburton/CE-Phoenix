@@ -124,7 +124,7 @@ function rowOutEffect(object) {
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
 
-<?php echo tep_draw_form('checkout_payment', tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL'), 'post', 'onsubmit="return check_form();"', true); ?>
+<?php echo tep_draw_form('checkout_payment', tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form();"', true); ?>
 
 <div class="contentContainer">
 
@@ -144,19 +144,28 @@ function rowOutEffect(object) {
 
   <h2><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></h2>
 
-  <div class="contentText">
-    <div class="ui-widget infoBoxContainer" style="float: right;">
-      <div class="ui-widget-header infoBoxHeading"><?php echo TITLE_BILLING_ADDRESS; ?></div>
-
-      <div class="ui-widget-content infoBoxContents">
-        <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
+  <div class="contentText row">
+    <div class="col-sm-8">
+      <div class="alert alert-warning">
+        <?php echo TEXT_SELECTED_BILLING_DESTINATION; ?>
+        <div class="clearfix"></div>
+        <div class="pull-right">
+          <?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'glyphicon-home', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')); ?>
+        </div>
+        <div class="clearfix"></div>
       </div>
     </div>
-
-    <?php echo TEXT_SELECTED_BILLING_DESTINATION; ?><br /><br /><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'glyphicon-home', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')); ?>
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading"><?php echo TITLE_BILLING_ADDRESS; ?></div>
+        <div class="panel-body">
+          <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div style="clear: both;"></div>
+  <div class="clearfix"></div>
 
   <h2><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h2>
 
@@ -167,19 +176,25 @@ function rowOutEffect(object) {
 ?>
 
   <div class="contentText">
-    <div style="float: right;">
-      <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
+    <div class="alert alert-warning">
+      <div class="row">
+        <div class="col-xs-8">
+          <?php echo TEXT_SELECT_PAYMENT_METHOD; ?>
+        </div>
+        <div class="col-xs-4 text-right">
+          <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
+        </div>
+      </div>
     </div>
-
-    <?php echo TEXT_SELECT_PAYMENT_METHOD; ?>
   </div>
+
 
 <?php
     } elseif ($free_shipping == false) {
 ?>
 
   <div class="contentText">
-    <?php echo TEXT_ENTER_PAYMENT_INFORMATION; ?>
+    <div class="alert alert-info"><?php echo TEXT_ENTER_PAYMENT_INFORMATION; ?></div>
   </div>
 
 <?php
@@ -191,83 +206,56 @@ function rowOutEffect(object) {
 <?php
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
+    if (isset($quotes[$i]['error'])) {
 ?>
-
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
+      <div class="contentText">
+        <div class="alert alert-warning"><?php echo $selection[$i]['error']; ?></div>
+      </div>
 
 <?php
-    if ( ($selection[$i]['id'] == $payment) || ($n == 1) ) {
-      echo '      <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-    } else {
-      echo '      <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
-    }
+        } else {
+
 ?>
 
-        <td><strong><?php echo $selection[$i]['module']; ?></strong></td>
-        <td align="right">
-
-<?php
-    if (sizeof($selection) > 1) {
-      echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment));
-    } else {
-      echo tep_draw_hidden_field('payment', $selection[$i]['id']);
-    }
-?>
-
-        </td>
-      </tr>
-
-<?php
-    if (isset($selection[$i]['error'])) {
-?>
-
-      <tr>
-        <td colspan="2"><?php echo $selection[$i]['error']; ?></td>
-      </tr>
-
-<?php
-    } elseif (isset($selection[$i]['fields']) && is_array($selection[$i]['fields'])) {
-?>
-
-      <tr>
-        <td colspan="2"><table border="0" cellspacing="0" cellpadding="2">
-
-<?php
-      for ($j=0, $n2=sizeof($selection[$i]['fields']); $j<$n2; $j++) {
-?>
-
-          <tr>
-            <td><?php echo $selection[$i]['fields'][$j]['title']; ?></td>
-            <td><?php echo $selection[$i]['fields'][$j]['field']; ?></td>
-          </tr>
-
-<?php
-      }
-?>
-
-        </table></td>
-      </tr>
-
-<?php
-    }
-?>
-
-    </table>
+    <div class="form-group">
+      <label class="control-label col-xs-4"><strong><?php echo $selection[$i]['module']; ?></strong></label>
+      <div class="col-xs-8 col-xs-pull-1 text-right">
+        <label class="checkbox-inline">
+          <?php
+          if (sizeof($selection) > 1) {
+            echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment));
+          } else {
+            echo tep_draw_hidden_field('payment', $selection[$i]['id']);
+          }
+          ?>
+        </label>
+      </div>
+    </div>
 
 <?php
     $radio_buttons++;
   }
+}
 ?>
 
   </div>
 
-  <h2><?php echo TABLE_HEADING_COMMENTS; ?></h2>
+  <hr>
 
   <div class="contentText">
-    <?php echo tep_draw_textarea_field('comments', 'soft', '60', '5', $comments); ?>
+    <div class="form-group">
+      <label for="inputComments" class="control-label col-xs-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+      <div class="col-xs-8">
+        <?php
+        echo tep_draw_textarea_field('comments', 'soft', 60, 5, NULL, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
+        ?>
+      </div>
+    </div>
   </div>
 
-  <div style="float: right;"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', null, 'primary'); ?></div>
+  <div class="buttonSet">
+    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon-chevron-right', null, 'primary'); ?></span>
+  </div>
 
   <div class="clearfix"></div>
 
