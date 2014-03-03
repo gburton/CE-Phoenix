@@ -191,4 +191,7 @@ p.lead del {
   line-height: 1.428571429;
   border-radius: 15px;
 }
+/* Pagination  ------------------------------------------------------- */
+.pagenav{position:relative;top:-25px;left:3px;}
+.pagenumber{margin-bottom:7px;}
 
