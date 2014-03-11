@@ -59,9 +59,6 @@ define('HEADER_TITLE_CATALOG', 'Catalog');
 define('HEADER_TITLE_LOGOFF', 'Log Off');
 define('HEADER_TITLE_LOGIN', 'Log In');
 
-// footer text in includes/footer.php
-define('FOOTER_TEXT_REQUESTS_SINCE', 'requests since');
-
 // text for gender
 define('MALE', 'Male');
 define('FEMALE', 'Female');

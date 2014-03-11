@@ -139,18 +139,6 @@ CREATE TABLE configuration_group (
   PRIMARY KEY (configuration_group_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-DROP TABLE IF EXISTS counter;
-CREATE TABLE counter (
-  startdate char(8),
-  counter int(12)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
-DROP TABLE IF EXISTS counter_history;
-CREATE TABLE counter_history (
-  month char(8),
-  counter int(12)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 DROP TABLE IF EXISTS countries;
 CREATE TABLE countries (
   countries_id int NOT NULL auto_increment,

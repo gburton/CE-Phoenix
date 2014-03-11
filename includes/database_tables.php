@@ -21,8 +21,6 @@
   define('TABLE_CATEGORIES_DESCRIPTION', 'categories_description');
   define('TABLE_CONFIGURATION', 'configuration');
   define('TABLE_CONFIGURATION_GROUP', 'configuration_group');
-  define('TABLE_COUNTER', 'counter');
-  define('TABLE_COUNTER_HISTORY', 'counter_history');
   define('TABLE_COUNTRIES', 'countries');
   define('TABLE_CURRENCIES', 'currencies');
   define('TABLE_CUSTOMERS', 'customers');

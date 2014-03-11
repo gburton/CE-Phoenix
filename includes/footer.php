@@ -10,7 +10,6 @@
   Released under the GNU General Public License
 */
 
-  require(DIR_WS_INCLUDES . 'counter.php');
 ?>
 
 <p align="center"><?php echo FOOTER_TEXT_BODY; ?></p>
