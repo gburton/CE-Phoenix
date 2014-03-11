@@ -44,7 +44,7 @@
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
           $oscTemplate->addBlock('<script src="ext/datepicker/js/bootstrap-datepicker.js"></script>' . "\n", $this->group);
-          $oscTemplate->addBlock('<link rel="stylesheet" type="text/css" href="ext/datepicker/css/datepicker.css" />' . "\n", $this->group);
+          $oscTemplate->addBlock('<link rel="stylesheet" href="ext/datepicker/css/datepicker.css" />' . "\n", $this->group);
         }
       }
     }

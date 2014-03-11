@@ -44,7 +44,7 @@
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
           $oscTemplate->addBlock('<script src="ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n", $this->group);
-          $oscTemplate->addBlock('<link rel="stylesheet" type="text/css" href="ext/colorbox/colorbox.css" />' . "\n", $this->group);
+          $oscTemplate->addBlock('<link rel="stylesheet" href="ext/colorbox/colorbox.css" />' . "\n", $this->group);
           $oscTemplate->addBlock('<script src="ext/colorbox/jquery.colorbox-min.js"></script>' . "\n", $this->group);
         }
       }
