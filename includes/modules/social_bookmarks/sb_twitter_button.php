@@ -50,7 +50,7 @@
 
       $params = implode('&', $params);
 
-      return '<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script><a href="http://twitter.com/share?' . $params . '" target="_blank" class="twitter-share-button">' . tep_output_string_protected($this->public_title) . '</a>';
+      return '<script src="http://platform.twitter.com/widgets.js"></script><a href="http://twitter.com/share?' . $params . '" target="_blank" class="twitter-share-button">' . tep_output_string_protected($this->public_title) . '</a>';
     }
 
     function isEnabled() {

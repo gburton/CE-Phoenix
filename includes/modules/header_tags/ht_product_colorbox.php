@@ -43,9 +43,9 @@
         }
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
-          $oscTemplate->addBlock('<script type="text/javascript" src="ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script src="ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n", $this->group);
           $oscTemplate->addBlock('<link rel="stylesheet" type="text/css" href="ext/colorbox/colorbox.css" />' . "\n", $this->group);
-          $oscTemplate->addBlock('<script type="text/javascript" src="ext/colorbox/jquery.colorbox-min.js"></script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script src="ext/colorbox/jquery.colorbox-min.js"></script>' . "\n", $this->group);
         }
       }
     }
@@ -111,7 +111,7 @@
 
     $output .= tep_draw_hidden_field('configuration[' . $key . ']', '', 'id="htrn_files"');
 
-    $output .= '<script type="text/javascript">
+    $output .= '<script>
                 function htrn_update_cfg_value() {
                   var htrn_selected_files = \'\';
 

@@ -182,7 +182,7 @@
       <?php if (tep_not_null(ENTRY_DATE_OF_BIRTH_TEXT)) echo '<span class="help-block">' . ENTRY_DATE_OF_BIRTH_TEXT . '</span>'; ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
-    <script type="text/javascript">
+    <script>
     $('#dob').datepicker({
       dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
       viewMode: 2

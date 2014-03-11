@@ -76,7 +76,7 @@
     function javascript_validation() {
       $js = '';
       if (is_array($this->modules)) {
-        $js = '<script type="text/javascript"><!-- ' . "\n" .
+        $js = '<script><!-- ' . "\n" .
               'function check_form() {' . "\n" .
               '  var error = 0;' . "\n" .
               '  var error_message = "' . JS_ERROR . '";' . "\n" .

@@ -43,7 +43,7 @@
         }
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
-          $oscTemplate->addBlock('<script type="text/javascript" src="ext/datepicker/js/bootstrap-datepicker.js"></script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script src="ext/datepicker/js/bootstrap-datepicker.js"></script>' . "\n", $this->group);
           $oscTemplate->addBlock('<link rel="stylesheet" type="text/css" href="ext/datepicker/css/datepicker.css" />' . "\n", $this->group);
         }
       }
@@ -112,7 +112,7 @@
 
     $output .= tep_draw_hidden_field('configuration[' . $key . ']', '', 'id="htrn_files"');
 
-    $output .= '<script type="text/javascript">
+    $output .= '<script>
                 function htrn_update_cfg_value() {
                   var htrn_selected_files = \'\';
 

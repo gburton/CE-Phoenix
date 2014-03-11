@@ -33,7 +33,7 @@
       global $HTTP_GET_VARS, $oscTemplate;
 
 // add the js in the footer
-      $oscTemplate->addBlock('<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>', 'footer_scripts');
+      $oscTemplate->addBlock('<script src="//assets.pinterest.com/js/pinit.js"></script>', 'footer_scripts');
 
       $params = array();
 

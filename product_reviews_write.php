@@ -78,7 +78,7 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script type="text/javascript"><!--
+<script><!--
 function checkForm() {
   var error = 0;
   var error_message = "<?php echo JS_ERROR; ?>";

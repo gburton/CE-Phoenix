@@ -43,8 +43,8 @@
         }
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
-          $oscTemplate->addBlock('<script type="text/javascript" src="ext/jquery/cookie.js"></script>' . "\n", $this->group);
-          $oscTemplate->addBlock('<script type="text/javascript">$(function() { var cc = $.cookie(\'list_grid\'); if (cc == \'grid\') { $(\'#products .item\').removeClass(\'list-group-item\').addClass(\'grid-group-item\'); } else { $(\'#products .item\').removeClass(\'grid-group-item\').addClass(\'list-group-item\'); }});$(document).ready(function() {$(\'#list\').click(function(event){event.preventDefault();$(\'#products .item\').addClass(\'list-group-item\');$.cookie(\'list_grid\', \'list\');});$(\'#grid\').click(function(event){event.preventDefault();$(\'#products .item\').removeClass(\'list-group-item\');$(\'#products .item\').addClass(\'grid-group-item\');$.cookie(\'list_grid\', \'grid\');});});</script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script src="ext/jquery/cookie.js"></script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script>$(function() { var cc = $.cookie(\'list_grid\'); if (cc == \'grid\') { $(\'#products .item\').removeClass(\'list-group-item\').addClass(\'grid-group-item\'); } else { $(\'#products .item\').removeClass(\'grid-group-item\').addClass(\'list-group-item\'); }});$(document).ready(function() {$(\'#list\').click(function(event){event.preventDefault();$(\'#products .item\').addClass(\'list-group-item\');$.cookie(\'list_grid\', \'list\');});$(\'#grid\').click(function(event){event.preventDefault();$(\'#products .item\').removeClass(\'list-group-item\');$(\'#products .item\').addClass(\'grid-group-item\');$.cookie(\'list_grid\', \'grid\');});});</script>' . "\n", $this->group);
         }
       }
     }
@@ -113,7 +113,7 @@
 
     $output .= tep_draw_hidden_field('configuration[' . $key . ']', '', 'id="htrn_files"');
 
-    $output .= '<script type="text/javascript">
+    $output .= '<script>
                 function htrn_update_cfg_value() {
                   var htrn_selected_files = \'\';
 

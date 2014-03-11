@@ -19,8 +19,8 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script type="text/javascript" src="includes/general.js"></script>
-<script type="text/javascript"><!--
+<script src="includes/general.js"></script>
+<script><!--
 function check_form() {
   var error_message = "<?php echo JS_ERROR; ?>";
   var error_found = false;
@@ -202,7 +202,7 @@ function check_form() {
         echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_DATE_FROM . '"');
         ?>
       </div>
-      <script type="text/javascript">
+      <script>
       var nowTemp = new Date();
       var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
       $('#dfrom').datepicker({
@@ -220,7 +220,7 @@ function check_form() {
         echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_DATE_TO . '"');
         ?>
       </div>
-      <script type="text/javascript">
+      <script>
       $('#dto').datepicker({
         dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
         onRender: function(date) {

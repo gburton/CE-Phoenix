@@ -197,7 +197,7 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script type="text/javascript"><!--
+<script><!--
 var selected;
 
 function selectRowEffect(object, buttonSelect) {

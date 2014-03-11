@@ -111,7 +111,7 @@
     }
 ?>
 
-<script type="text/javascript">
+<script>
 $(function() {
   $('#piGal').css({
     'visibility': 'hidden'
