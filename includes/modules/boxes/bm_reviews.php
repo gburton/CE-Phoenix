@@ -58,7 +58,7 @@
         $reviews_box_contents .= '<p>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</p>';
       }
 
-      $data = '<div class="panel panel-default hidden-xs">' .
+      $data = '<div class="panel panel-default">' .
               '  <div class="panel-heading"><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . MODULE_BOXES_REVIEWS_BOX_TITLE . '</a></div>' .
               '  <div class="panel-body">' . $reviews_box_contents . '</div>' . 
               '</div>';

@@ -42,7 +42,7 @@
           if (tep_not_null($manufacturer['manufacturers_image'])) $manufacturer_info_string .= '<div>' . tep_image(DIR_WS_IMAGES . $manufacturer['manufacturers_image'], $manufacturer['manufacturers_name']) . '</div>';
           if (tep_not_null($manufacturer['manufacturers_url'])) $manufacturer_info_string .= '<div class="text-center"><a href="' . tep_href_link(FILENAME_REDIRECT, 'action=manufacturer&manufacturers_id=' . $manufacturer['manufacturers_id']) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a></div>';
 
-          $data = '<div class="panel panel-default hidden-xs">' .
+          $data = '<div class="panel panel-default">' .
                   '  <div class="panel-heading">' . MODULE_BOXES_MANUFACTURER_INFO_BOX_TITLE . '</div>' .
                   '  <div class="panel-body">' . $manufacturer_info_string . '</div>';
           $data .='  <div class="panel-footer clearfix"><a href="' . tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $manufacturer['manufacturers_id']) . '">' . MODULE_BOXES_MANUFACTURER_INFO_BOX_OTHER_PRODUCTS . '</a></div>';

@@ -47,7 +47,7 @@
           }
           $bestsellers_list .= '</ol>';
 
-          $data = '<div class="panel panel-default hidden-xs">' .
+          $data = '<div class="panel panel-default">' .
                   '  <div class="panel-heading">' . MODULE_BOXES_BEST_SELLERS_BOX_TITLE . '</div>' .
                   '  <div class="panel-body">' . $bestsellers_list . '</div>' .
                   '</div>';
