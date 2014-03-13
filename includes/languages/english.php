@@ -255,4 +255,7 @@ define('TEXT_SEARCH_PLACEHOLDER','Search');
 define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span> Required information');
 define('FORM_REQUIRED_INPUT', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>');
 
+// reviews
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
 

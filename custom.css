@@ -194,3 +194,9 @@ p.lead del {
 .pagenav{position:relative;top:-25px;left:3px;}
 .pagenumber{margin-bottom:7px;}
 
+/* Reviews ------------------------------------------------------------------ */
+
+.reviews blockquote p {
+  font-size: 0.8em;
+}
+
