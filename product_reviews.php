@@ -56,21 +56,31 @@
 <div class="contentContainer">
 
 <?php
+$average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
+$average = tep_db_fetch_array($average_query);
+echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+?>
+
+<?php
   if (tep_not_null($product_info['products_image'])) {
 ?>
 
-  <div style="float: right; width: <?php echo SMALL_IMAGE_WIDTH+20; ?>px; text-align: center;">
+  <div class="col-sm-4 text-center">
     <?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
   </div>
+  
+  <div class="clearfix"></div>
 
+  <hr>
+  
   <div class="clearfix"></div>
 
 <?php
   }
 
-  $reviews_query_raw = "select r.reviews_id, left(rd.reviews_text, 100) as reviews_text, r.reviews_rating, r.date_added, r.customers_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = 1 order by r.reviews_id desc";
+  $reviews_query_raw = "select r.reviews_id, rd.reviews_text, r.reviews_rating, r.date_added, r.customers_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = 1 order by r.reviews_rating desc";
   $reviews_split = new splitPageResults($reviews_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($reviews_split->number_of_rows > 0) {
@@ -83,26 +93,24 @@
   <br />
 <?php
     }
+?>
 
+    <div class="reviews">
+<?php
     $reviews_query = tep_db_query($reviews_split->sql_query);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
+      $review_name = tep_output_string_protected($reviews['customers_name']);
 ?>
-  <div class="contentText">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <strong><?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_REVIEWS, 'products_id=' . $product_info['products_id']) . '">' . sprintf(TEXT_REVIEW_BY, tep_output_string_protected($reviews['customers_name'])) . '</a>'; ?></strong>
-      </div>
-      <div class="panel-body">
-        <?php echo tep_break_string(tep_output_string_protected($reviews['reviews_text']), 60, '-<br />') . ((strlen($reviews['reviews_text']) >= 100) ? '..' : ''); ?>
-      </div>
-      <div class="panel-footer">
-        <span class="pull-right hidden-xs"><?php echo sprintf(TEXT_REVIEW_DATE_ADDED, tep_date_long($reviews['date_added'])); ?></span>
-        <?php echo '<i>' . sprintf(TEXT_REVIEW_RATING, tep_draw_stars($reviews['reviews_rating']), sprintf(TEXT_OF_5_STARS, $reviews['reviews_rating'])) . '</i>'; ?>
-      </div>
-    </div>
-  </div>
+      <blockquote class="col-sm-6">
+        <p><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
+        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
+      </blockquote>
 <?php
     }
+?>
+	</div>
+    <div class="clearfix"></div>
+<?php
   } else {
 ?>
 
