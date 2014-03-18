@@ -41,21 +41,19 @@
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
-  <tr class="headerError">
-    <td class="headerError"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?></td>
-  </tr>
-</table>
+<div class="alert alert-danger">
+  <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+  <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+</div>
 <?php
   }
 
   if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
 ?>
-<table border="0" width="100%" cellspacing="0" cellpadding="2">
-  <tr class="headerInfo">
-    <td class="headerInfo"><?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?></td>
-  </tr>
-</table>
+<div class="alert alert-info">
+  <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+  <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
+</div>
 <?php
   }
 ?>
