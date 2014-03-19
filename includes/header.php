@@ -35,8 +35,7 @@
 
 <div class="clearfix"></div>
 
-<?php echo $breadcrumb->trail(); ?>
-
+<div class="col-xs-12"><?php echo $breadcrumb->trail(); ?></div>
 
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
