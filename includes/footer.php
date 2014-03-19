@@ -26,6 +26,3 @@
   }
 ?>
 
-<script>
-$('.productListTable tr:nth-child(even)').addClass('alt');
-</script>
