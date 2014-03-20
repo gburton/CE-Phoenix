@@ -285,3 +285,23 @@ p.lead del {
     }
 }
 
+/* Footer ------------------------------------------------------------------- */
+.footer {
+  background: #eee;
+}
+
+.footer div {
+  padding: 5px 10px 0px 10px;
+}
+
+.footer-extra {
+  background: #111;
+  color: silver;
+  line-height: 3;
+  padding: 0px 10px 0px 10px;
+}
+
+.footer-extra A {
+  color: silver;
+}
+
