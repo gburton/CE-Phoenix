@@ -427,7 +427,7 @@
 <?php
   if (ACCOUNT_STATE == 'true') {
 ?>
-    <div class="form-group">
+    <div class="form-group has-feedback">
       <label for="inputState" class="control-label col-xs-3"><?php echo ENTRY_STATE; ?></label>
       <div class="col-xs-9">
         <?php
@@ -439,11 +439,14 @@
               $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
             }
             echo tep_draw_pull_down_menu('state', $zones_array, 0, 'id="inputState"');
+            echo FORM_REQUIRED_INPUT;
           } else {
             echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE . '"');
+            echo FORM_REQUIRED_INPUT;
           }
         } else {
           echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE    . '"');
+          echo FORM_REQUIRED_INPUT;
         }
         if (tep_not_null(ENTRY_STATE_TEXT)) echo '<span class="help-block">' . ENTRY_STATE_TEXT . '</span>';
         ?>
