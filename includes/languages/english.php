@@ -263,3 +263,6 @@ define('FORM_REQUIRED_INPUT', '<span class="glyphicon glyphicon-asterisk form-co
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
 define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
+
+// grid/list
+define('TEXT_SORT_BY', 'Sort By ');
