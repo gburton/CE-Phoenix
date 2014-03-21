@@ -86,6 +86,10 @@ p.lead del {
   padding-top: 10px;
 }
 
+.thumbnail .caption h5 {
+  min-height: 35px;
+}
+
 .item.list-group-item {
   float: none;
   width: 100%;
