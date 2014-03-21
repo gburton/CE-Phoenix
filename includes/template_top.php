@@ -52,7 +52,7 @@
 
 <body>
 
-<div id="bodyWrapper" class="container">
+<div id="bodyWrapper" class="container-fluid">
 
 <div class="row">
 
