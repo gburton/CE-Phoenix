@@ -271,12 +271,12 @@
     <div class="stepwizard">
       <div class="stepwizard-row">
         <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">1</button>
-          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
+          <a href="<?php echo tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'); ?>"><button type="button" class="btn btn-default btn-circle">1</button></a>
+          <p><a href="<?php echo tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'); ?>"><?php echo CHECKOUT_BAR_DELIVERY; ?></a></p>
         </div>
         <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
-          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
+          <a href="<?php echo tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'); ?>"><button type="button" class="btn btn-default btn-circle">2</button></a>
+          <p><a href="<?php echo tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'); ?>"><?php echo CHECKOUT_BAR_PAYMENT; ?></a></p>
         </div>
         <div class="stepwizard-step">
           <button type="button" class="btn btn-primary btn-circle">3</button>
