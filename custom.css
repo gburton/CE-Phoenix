@@ -134,7 +134,7 @@ p.lead del {
 /* Responsive Images  ------------------------------------------------------- */
 /* the inbuilt bootstrap responsive images class breaks the text-center class */
 
-.img-responsive {
+#bodyContent .img-responsive, #columnLeft .img-responsive, #columnRight .img-responsive {
   margin-left: auto;
   margin-right: auto;
 }
