@@ -15,10 +15,10 @@
   }
 ?>
 
-<div id="header" class="col-md-12">
-  <div class="col-md-6"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
+<div id="header">
+  <div class="col-sm-6"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
 
-  <div class="col-md-6 text-right">
+  <div class="col-sm-6 text-right">
     <div class="btn-group">
 <?php
   echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'glyphicon-shopping-cart', tep_href_link(FILENAME_SHOPPING_CART)) .
@@ -40,18 +40,24 @@
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
-<div class="alert alert-danger">
-  <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-  <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+<div class="clearfix"></div>
+<div class="col-xs-12">
+  <div class="alert alert-danger">
+    <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+    <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+  </div>
 </div>
 <?php
   }
 
   if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
 ?>
-<div class="alert alert-info">
-  <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-  <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
+<div class="clearfix"></div>
+<div class="col-xs-12">
+  <div class="alert alert-info">
+    <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+    <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
+  </div>
 </div>
 <?php
   }
