@@ -46,7 +46,7 @@
 
       if ($this->group == 'boxes_footer') {
         $data = '<div class="col-sm-3 col-lg-3">' .
-                '  <div class="contact">' .
+                '  <div class="footerbox contact">' .
                 '    <h2>' . MODULE_BOXES_CONTACT_BOX_TITLE . '</h2>';
       }
       else {

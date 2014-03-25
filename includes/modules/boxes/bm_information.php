@@ -44,7 +44,7 @@
 
       if ($this->group == 'boxes_footer') {
         $data =  '<div class="col-sm-3 col-lg-2">' .
-                 '  <div class="information">' .
+                 '  <div class="footerbox information">' .
                  '    <h2>' . MODULE_BOXES_INFORMATION_BOX_TITLE . '</h2>' .
                  '    <ul class="list-unstyled">';
       }
