@@ -292,17 +292,17 @@ p.lead del {
 /* Footer ------------------------------------------------------------------- */
 .footer {
   background: #eee;
+  border-top: 2px solid #ddd;
 }
 
-.footer div {
-  padding: 5px 10px 0px 10px;
+.footer .footerbox {
+  padding: 10px 10px 0px 10px;
 }
 
 .footer-extra {
   background: #111;
   color: silver;
   line-height: 3;
-  padding: 0px 10px 0px 10px;
 }
 
 .footer-extra A {

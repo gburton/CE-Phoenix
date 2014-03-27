@@ -37,9 +37,9 @@
 
 </div> <!-- row -->
 
-<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
-
 </div> <!-- bodyWrapper //-->
+
+<?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 
 <?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
 
