@@ -583,3 +583,17 @@ p.lead del {
 .timeline-body blockquote {
   font-size: 1em;
 }
+
+/* Nav Bars ----------------------------------------------------------------- */
+
+.navbar-no-corners {
+  border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-left: none;
+  border-right: none;
+}
+
+.navbar-no-margin {
+  margin-bottom: 0 !important;
+}
+
