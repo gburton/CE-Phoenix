@@ -114,22 +114,12 @@
 
 <div class="clearfix"></div>
 
-<div id="header">
-  <div class="col-sm-6"><?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?></div>
+<div class="col-sm-6">
+  <?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?>
+</div>
 
-  <div class="col-sm-6 text-right">
-    <div class="btn-group">
-<?php
-  echo tep_draw_button(HEADER_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'glyphicon-shopping-cart', tep_href_link(FILENAME_SHOPPING_CART)) .
-       tep_draw_button(HEADER_TITLE_CHECKOUT, 'glyphicon-chevron-right', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL')) .
-       tep_draw_button(HEADER_TITLE_MY_ACCOUNT, 'glyphicon-user', tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
-
-  if (tep_session_is_registered('customer_id')) {
-    echo tep_draw_button(HEADER_TITLE_LOGOFF, 'glyphicon-log-out', tep_href_link(FILENAME_LOGOFF, '', 'SSL'));
-  }
-?>
-    </div>
-  </div>
+<div class="col-sm-6">
+  <?php echo tep_navbar_search('btn-info', false); ?>
 </div>
 
 <div class="clearfix"></div>

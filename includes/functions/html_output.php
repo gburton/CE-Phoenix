@@ -413,3 +413,21 @@
     return $stars;
   }
   
+  function tep_navbar_search($btnclass ='btn-default', $description = true) {
+    global $request_type;
+
+    $search_link = '';
+    $search_link .= tep_draw_form('quick_find', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', $request_type, false), 'get', 'class="navbar-form"');
+    $search_link .= '    <div class="input-group">' .
+                            tep_draw_input_field('keywords', '', 'required class="form-control" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"') .
+                     '        <span class="input-group-btn"><button type="submit" class="btn ' . $btnclass .'"><i class="glyphicon glyphicon-search"></i></button></span>' .
+                     '    </div>';
+    if (tep_not_null($description) && ($description === true)) {
+      $search_link .= tep_draw_hidden_field('search_in_description', '1');
+    }
+    $search_link .=  tep_hide_session_id() . '</form>';
+
+	  return $search_link;
+  }
+  
+  
