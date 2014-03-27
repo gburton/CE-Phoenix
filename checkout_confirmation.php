@@ -217,11 +217,15 @@
   <h2><?php echo HEADING_PAYMENT_INFORMATION; ?></h2>
 
   <div class="contentText row">
-    <div class="col-sm-6">
-      <div class="alert alert-danger">
-        <?php echo $confirmation['title']; ?>
-      </div>
-    </div>
+<?php
+    if (tep_not_null($confirmation['title'])) {
+      echo '<div class="col-sm-6">';
+      echo '  <div class="alert alert-danger">';
+      echo $confirmation['title'];
+      echo '  </div>';
+      echo '</div>';
+    }
+?>
 <?php
       if (isset($confirmation['fields'])) {
         echo '<div class="col-sm-6">';
