@@ -29,6 +29,12 @@
 </div>
 
 <?php
+  if ($messageStack->size('product_action') > 0) {
+    echo $messageStack->output('product_action');
+  }
+?>
+
+<?php
   if ($cart->count_contents() > 0) {
 ?>
 

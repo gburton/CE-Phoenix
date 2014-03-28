@@ -13,6 +13,12 @@
   $listing_split = new splitPageResults($listing_sql, MAX_DISPLAY_SEARCH_RESULTS, 'p.products_id');
 ?>
 
+<?php
+  if ($messageStack->size('product_action') > 0) {
+    echo $messageStack->output('product_action');
+  }
+?>
+
   <div class="contentText">
 
 <?php

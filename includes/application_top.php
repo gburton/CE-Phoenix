@@ -302,6 +302,10 @@
 
 // action recorder
   include('includes/classes/action_recorder.php');
+// initialize the message stack for output messages
+  require(DIR_WS_CLASSES . 'alertbox.php');
+  require(DIR_WS_CLASSES . 'message_stack.php');
+  $messageStack = new messageStack;
 
 // Shopping cart actions
   if (isset($HTTP_GET_VARS['action'])) {
@@ -326,6 +330,7 @@
       case 'update_product' : for ($i=0, $n=sizeof($HTTP_POST_VARS['products_id']); $i<$n; $i++) {
                                 if (in_array($HTTP_POST_VARS['products_id'][$i], (is_array($HTTP_POST_VARS['cart_delete']) ? $HTTP_POST_VARS['cart_delete'] : array()))) {
                                   $cart->remove($HTTP_POST_VARS['products_id'][$i]);
+                                  $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($HTTP_POST_VARS['products_id'][$i])), 'warning');
                                 } else {
                                   $attributes = ($HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]]) ? $HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]] : '';
                                   $cart->add_cart($HTTP_POST_VARS['products_id'][$i], $HTTP_POST_VARS['cart_quantity'][$i], $attributes, false);
@@ -338,11 +343,13 @@
                                 $attributes = isset($HTTP_POST_VARS['id']) ? $HTTP_POST_VARS['id'] : '';
                                 $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $attributes))+1, $attributes);
                               }
+                              $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$HTTP_POST_VARS['products_id'])), 'success');
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer removes a product from their shopping cart
       case 'remove_product' : if (isset($HTTP_GET_VARS['products_id'])) {
                                 $cart->remove($HTTP_GET_VARS['products_id']);
+                                $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($HTTP_GET_VARS['products_id'])), 'warning');
                               }
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
@@ -352,6 +359,7 @@
                                   tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
                                 } else {
                                   $cart->add_cart($HTTP_GET_VARS['products_id'], $cart->get_quantity($HTTP_GET_VARS['products_id'])+1);
+                                  $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
                                 }
                               }
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
@@ -374,6 +382,7 @@
                                     tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . (int)$notify[$i] . "', '" . (int)$customer_id . "', now())");
                                   }
                                 }
+                                $messageStack->add_session('product_action', sprintf(PRODUCT_SUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
                                 tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
                               } else {
                                 $navigation->set_snapshot();
@@ -386,6 +395,7 @@
                                 if ($check['count'] > 0) {
                                   tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 }
+                                $messageStack->add_session('product_action', sprintf(PRODUCT_UNSUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'warning');
                                 tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
                               } else {
                                 $navigation->set_snapshot();
@@ -486,8 +496,3 @@
       $breadcrumb->add($model['products_model'], tep_href_link(FILENAME_PRODUCT_INFO, 'cPath=' . $cPath . '&products_id=' . $HTTP_GET_VARS['products_id']));
     }
   }
-
-// initialize the message stack for output messages
-  require(DIR_WS_CLASSES . 'alertbox.php');
-  require(DIR_WS_CLASSES . 'message_stack.php');
-  $messageStack = new messageStack;

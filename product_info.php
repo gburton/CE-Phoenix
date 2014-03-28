@@ -63,6 +63,12 @@
   <h1><?php echo $products_name; ?></h1>
 </div>
 
+<?php
+  if ($messageStack->size('product_action') > 0) {
+    echo $messageStack->output('product_action');
+  }
+?>
+
 <div class="contentContainer">
   <div class="contentText">
 

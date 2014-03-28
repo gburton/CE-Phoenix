@@ -43,6 +43,12 @@
   <h1><?php echo $category['categories_name']; ?></h1>
 </div>
 
+<?php
+  if ($messageStack->size('product_action') > 0) {
+    echo $messageStack->output('product_action');
+  }
+?>
+
 <div class="contentContainer">
   <div class="contentText">
     <div class="row">
@@ -247,6 +253,12 @@
 <div class="page-header">
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
+
+<?php
+  if ($messageStack->size('product_action') > 0) {
+    echo $messageStack->output('product_action');
+  }
+?>
 
 <div class="contentContainer">
   <div class="contentText">
