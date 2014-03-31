@@ -88,7 +88,7 @@
             $result .= $this->parent_end_string;
           }
 
-          $result .= $this->child_end_string;
+
 
           if ( isset($this->_data[$category_id]) && (($this->max_level == '0') || ($this->max_level > $level+1)) ) {
             if ( $this->follow_cpath === true ) {
@@ -99,6 +99,8 @@
               $result .= $this->_buildBranch($category_id, $level+1);
             }
           }
+          
+          $result .= $this->child_end_string;          
         }
       }
 
