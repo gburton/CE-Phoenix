@@ -49,6 +49,10 @@
           <ul class="dropdown-menu text-left">
           
           <?php
+          $lc_show_model = false;
+          $lc_show_manu = false;
+          $lc_show_qty = false;
+          $lc_show_lbs = false;
 		    for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
     switch ($column_list[$col]) {
       case 'PRODUCT_LIST_MODEL':
