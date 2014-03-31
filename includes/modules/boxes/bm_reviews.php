@@ -72,11 +72,11 @@
               '  <div class="panel-body">' . $reviews_box_contents . '</div>' .
               '</div>';
 
-      if ($this->group == 'boxes_product_page') {
+      if (($this->group == 'boxes_product_page') && (isset($HTTP_GET_VARS['products_id']))) {
         $review_query = tep_db_query("select SUBSTRING_INDEX(rd.reviews_text, ' ', 20) as reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read, p.products_id, p.products_price, p.products_tax_class_id, p.products_image, p.products_model, pd.products_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd, " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where r.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.products_id = p.products_id and p.products_status = '1' and r.reviews_status = '1' and p.products_id = pd.products_id and pd.language_id = '". (int)$languages_id . "' order by r.reviews_rating DESC limit " . (int)MODULE_BOXES_REVIEWS_LISTING_LIMIT);
 
         $data = NULL;
-        
+
         if (tep_db_num_rows($review_query) > 0) {
           $data .= '<div class="reviews col-xs-12">';
           $data .= '<h2>' . REVIEWS_TEXT_TITLE . '</h2><hr>';
