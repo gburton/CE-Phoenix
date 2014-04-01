@@ -43,7 +43,8 @@
    <script src="ext/bootstrap/js/respond.min.js"></script>
  <![endif]-->
 
- <script src="ext/jquery/jquery-1.8.0.min.js"></script>
+<!--<script src="ext/jquery/jquery-1.8.0.min.js"></script>// -->
+<!--<script src="ext/bootstrap/js/bootstrap.min.js"></script>// -->
 
  <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
