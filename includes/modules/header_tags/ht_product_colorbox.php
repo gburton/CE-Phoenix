@@ -46,6 +46,7 @@
           $oscTemplate->addBlock('<script src="ext/photoset-grid/jquery.photoset-grid.min.js"></script>' . "\n", $this->group);
           $oscTemplate->addBlock('<link rel="stylesheet" href="ext/colorbox/colorbox.css" />' . "\n", $this->group);
           $oscTemplate->addBlock('<script src="ext/colorbox/jquery.colorbox-min.js"></script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script>$(function(){$("#piGal").hide();var ImgCount=$("#piGal").data("imgcount");$("#piGal").photosetGrid({layout:""+ImgCount+"",width:"250px",highresLinks:true,rel:"pigallery",onComplete:function(){$("#piGal a").colorbox({maxHeight:"90%",maxWidth:"90%",rel:"pigallery"});$("#piGal img").each(function(){var imgid=$(this).attr("id").substring(9);if($("#piGalDiv_"+imgid).length)$(this).parent().colorbox({inline:true,href:"#piGalDiv_"+imgid})})}});$("#piGal").show()});</script>' . "\n", $this->group);
         }
       }
     }
