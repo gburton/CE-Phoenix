@@ -87,10 +87,14 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
 <div class="row">
-  <div class="col-md-6 pagenumber"><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></div>
-  <div class="col-md-6"><span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span><span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span></div>
+  <div class="col-sm-6 pagenumber hidden-xs">
+    <?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?>
+  </div>
+  <div class="col-sm-6">
+    <span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
+    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+  </div>
 </div>
-  <br />
 <?php
     }
 ?>
@@ -126,8 +130,13 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
   if (($reviews_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3'))) {
 ?>
 <div class="row">
-  <div class="col-md-6 pagenumber"><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></div>
-  <div class="col-md-6"><span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span><span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span></div>
+  <div class="col-sm-6 pagenumber hidden-xs">
+    <?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?>
+  </div>
+  <div class="col-sm-6">
+    <span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
+    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+  </div>
 </div>
 <?php
   }
