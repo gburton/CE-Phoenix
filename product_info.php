@@ -82,7 +82,7 @@
         $photoset_layout = '1' . (tep_db_num_rows($pi_query) > 1 ? tep_db_num_rows($pi_query) - 1 : '');
 ?>
 
-    <div id="piGal" class="pull-right">
+    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>" class="pull-right">
 
 <?php
         $pi_counter = 0;
