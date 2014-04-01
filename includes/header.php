@@ -114,17 +114,7 @@
 
 <div class="clearfix"></div>
 
-<div class="col-sm-6">
-  <?php echo '<a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a>'; ?>
-</div>
-
-<div class="col-sm-6">
-  <?php echo tep_navbar_search('btn-info', false); ?>
-</div>
-
-<div class="clearfix"></div>
-
-<div class="col-xs-12"><?php echo $breadcrumb->trail(); ?></div>
+<?php if ($oscTemplate->hasBlocks('boxes_header')) echo $oscTemplate->getBlocks('boxes_header'); ?>
 
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
