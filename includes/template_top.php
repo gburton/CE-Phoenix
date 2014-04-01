@@ -31,21 +31,19 @@
  
  <!-- Bootstrap -->
  <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+ <!-- Custom -->
+ <link href="custom.css" rel="stylesheet">
+ <!-- User -->
+ <link href="user.css" rel="stylesheet">
+ 
  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
  <!--[if lt IE 9]>
    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
    <script src="ext/bootstrap/js/respond.min.js"></script>
  <![endif]-->
- 
- <!-- Custom -->
- <link href="custom.css" rel="stylesheet">
- <!-- User -->
- <link href="user.css" rel="stylesheet">
- 
+
  <script src="ext/jquery/jquery-1.8.0.min.js"></script>
- <script src="ext/bootstrap/js/bootstrap.min.js"></script>
 
  <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
