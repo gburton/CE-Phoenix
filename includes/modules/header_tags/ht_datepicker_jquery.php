@@ -12,7 +12,7 @@
 
   class ht_datepicker_jquery {
     var $code = 'ht_datepicker_jquery';
-    var $group = 'header_tags';
+    var $group = 'footer_scripts';
     var $title;
     var $description;
     var $sort_order;
@@ -44,7 +44,13 @@
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
           $oscTemplate->addBlock('<script src="ext/datepicker/js/bootstrap-datepicker.js"></script>' . "\n", $this->group);
-          $oscTemplate->addBlock('<link rel="stylesheet" href="ext/datepicker/css/datepicker.css" />' . "\n", $this->group);
+          $oscTemplate->addBlock('<link rel="stylesheet" href="ext/datepicker/css/datepicker.css" />' . "\n", 'header_tags');
+          // create_account
+          // account edit
+          $oscTemplate->addBlock('<script>$(\'#dob\').datepicker({dateFormat: \'' . JQUERY_DATEPICKER_FORMAT . '\',viewMode: 2});</script>', $this->group);
+          // advanced search
+          $oscTemplate->addBlock('<script>var nowTemp = new Date(); var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0); $(\'#dfrom\').datepicker({dateFormat: \'' . JQUERY_DATEPICKER_FORMAT . '\',onRender: function(date) {return date.valueOf() > now.valueOf() ? \'disabled\' : \'\';}}); </script>', $this->group);
+          $oscTemplate->addBlock('<script>$(\'#dto\').datepicker({dateFormat: \'' . JQUERY_DATEPICKER_FORMAT . '\',onRender: function(date) {return date.valueOf() > now.valueOf() ? \'disabled\' : \'\';}});</script>', $this->group);
         }
       }
     }

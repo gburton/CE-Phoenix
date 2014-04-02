@@ -202,16 +202,6 @@ function check_form() {
         echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_DATE_FROM . '"');
         ?>
       </div>
-      <script>
-      var nowTemp = new Date();
-      var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
-      $('#dfrom').datepicker({
-        dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
-        onRender: function(date) {
-          return date.valueOf() > now.valueOf() ? 'disabled' : '';
-        }
-      });
-      </script>
     </div>
     <div class="form-group">
       <label for="dto" class="control-label col-xs-3"><?php echo ENTRY_DATE_TO; ?></label>
@@ -220,14 +210,6 @@ function check_form() {
         echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_DATE_TO . '"');
         ?>
       </div>
-      <script>
-      $('#dto').datepicker({
-        dateFormat: '<?php echo JQUERY_DATEPICKER_FORMAT; ?>',
-        onRender: function(date) {
-          return date.valueOf() > now.valueOf() ? 'disabled' : '';
-        }
-      });
-      </script>
     </div>
   </div>
 
