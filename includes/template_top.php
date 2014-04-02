@@ -35,7 +35,7 @@
  <link href="custom.css" rel="stylesheet">
  <!-- User -->
  <link href="user.css" rel="stylesheet">
- 
+
  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
  <!--[if lt IE 9]>
@@ -43,7 +43,7 @@
    <script src="ext/bootstrap/js/respond.min.js"></script>
  <![endif]-->
 
- <script src="ext/jquery/jquery-1.8.0.min.js"></script>
+ <script src="ext/jquery/jquery-1.11.0.min.js"></script>
 
  <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
