@@ -147,7 +147,12 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></span>
 
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params())); ?>
+    <?php
+    $back = sizeof($navigation->path)-2;
+    if (isset($navigation->path[$back])) {
+      echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon-chevron-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode']));
+    }
+    ?>
   </div>
 </div>
 
