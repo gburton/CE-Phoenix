@@ -60,8 +60,8 @@ define('HEADER_TITLE_LOGOFF', 'Log Off');
 define('HEADER_TITLE_LOGIN', 'Log In');
 
 // text for gender
-define('MALE', 'Male');
-define('FEMALE', 'Female');
+define('MALE', 'M<span class="hidden-xs">ale</span>');
+define('FEMALE', 'F<span class="hidden-xs">emale</span>');
 define('MALE_ADDRESS', 'Mr.');
 define('FEMALE_ADDRESS', 'Ms.');
 
