@@ -303,7 +303,7 @@ function check_form_optional(form_name) {
 
 ?>
       <div class="col-sm-4">
-        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $customer_default_address_id) ? 'primary' : 'default'; ?>">
+        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $billto) ? 'primary' : 'default'; ?>">
           <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
           <div class="panel-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>

@@ -312,7 +312,7 @@ function check_form_optional(form_name) {
         $format_id = tep_get_address_format_id($addresses['country_id']);
 ?>
       <div class="col-sm-4">
-        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $customer_default_address_id) ? 'primary' : 'default'; ?>">
+        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $sendto) ? 'primary' : 'default'; ?>">
           <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
           <div class="panel-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
