@@ -42,10 +42,8 @@
 <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 
 <script src="ext/jquery/jquery-1.11.0.min.js"></script>
-
-<?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
-
 <script src="ext/bootstrap/js/bootstrap.min.js"></script>
+<?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
 
 </body>
 </html>
