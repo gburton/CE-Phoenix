@@ -88,6 +88,7 @@
             $data .=   '</blockquote>';
           }
           $data .= '</div>';
+          $data .= '<div class="clearfix"></div>';
         }
       }
 
