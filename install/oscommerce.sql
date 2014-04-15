@@ -318,7 +318,7 @@ CREATE TABLE orders_products (
   orders_products_id int NOT NULL auto_increment,
   orders_id int NOT NULL,
   products_id int NOT NULL,
-  products_model varchar(12),
+  products_model varchar(64),
   products_name varchar(64) NOT NULL,
   products_price decimal(15,4) NOT NULL,
   final_price decimal(15,4) NOT NULL,
@@ -394,7 +394,7 @@ DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   products_id int NOT NULL auto_increment,
   products_quantity int(4) NOT NULL,
-  products_model varchar(12),
+  products_model varchar(64),
   products_image varchar(64),
   products_price decimal(15,4) NOT NULL,
   products_date_added datetime NOT NULL,
