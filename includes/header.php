@@ -116,6 +116,8 @@
 
 <?php if ($oscTemplate->hasBlocks('boxes_header')) echo $oscTemplate->getBlocks('boxes_header'); ?>
 
+<div class="clearfix"></div>
+
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
