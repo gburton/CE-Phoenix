@@ -193,7 +193,7 @@
     }
 
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
-    
+
     if (tep_not_null($class)) $field .= ' ' . $class;
 
     $field .= ' />';
@@ -379,8 +379,7 @@
         $button .= ' target="_blank"';
       }
     } else {
-      $button .= '<button class="btn ';
-      $button .= (isset($style)) ? $style : 'btn-success';
+      $button .= '<button ';
       $button .= '" type="' . tep_output_string($params['type']) . '"';
     }
 
@@ -388,7 +387,7 @@
       $button .= ' ' . $params['params'];
     }
 
-    $button .= 'class="btn ';
+    $button .= ' class="btn ';
 
     $button .= (isset($style)) ? $style : 'btn-default';
 
@@ -410,7 +409,7 @@
 
     return $button;
   }
-  
+
   // review stars
   function tep_draw_stars($rating = 0) {
     $stars = str_repeat('<span class="glyphicon glyphicon-star"></span>', (int)$rating);
@@ -418,7 +417,7 @@
 
     return $stars;
   }
-  
+
   function tep_navbar_search($btnclass ='btn-default', $description = true) {
     global $request_type;
 
