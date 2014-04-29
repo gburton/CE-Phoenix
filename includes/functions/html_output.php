@@ -379,7 +379,7 @@
         $button .= ' target="_blank"';
       }
     } else {
-      $button .= '<button class="btn ';
+      $button .= '<button ';
       $button .= (isset($style)) ? $style : 'btn-success';
       $button .= '" type="' . tep_output_string($params['type']) . '"';
     }
@@ -388,7 +388,7 @@
       $button .= ' ' . $params['params'];
     }
 
-    $button .= 'class="btn ';
+    $button .= ' class="btn ';
 
     $button .= (isset($style)) ? $style : 'btn-default';
 
