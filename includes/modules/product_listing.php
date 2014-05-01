@@ -101,6 +101,8 @@
     </div>
     <?php
     $listing_query = tep_db_query($listing_split->sql_query);
+    
+    $prod_list_contents = NULL;
 
 $prod_list_contents .= '<div id="product-listing">';
 	$prod_list_contents .= '  <ul class="inline-span">';
