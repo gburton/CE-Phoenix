@@ -33,7 +33,7 @@
     function execute() {
       global $request_type, $oscTemplate, $breadcrumb;
 
-      $data = '<div class="col-sm-12">' . $breadcrumb->trail() . '</div>';
+      $data = '<div class="clearfix"></div><div class="col-sm-12">' . $breadcrumb->trail() . '</div><div class="clearfix"></div>';
 
       $oscTemplate->addBlock($data, $this->group);
     }
