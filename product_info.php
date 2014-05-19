@@ -74,12 +74,11 @@
 
 <?php
     if (tep_not_null($product_info['products_image'])) {
-      $photoset_layout = '1';
+      $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_IMG_LAYOUT;
 
       $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
 
       if (tep_db_num_rows($pi_query) > 0) {
-        $photoset_layout = '1' . (tep_db_num_rows($pi_query) > 1 ? tep_db_num_rows($pi_query) - 1 : '');
 ?>
 
     <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>" class="pull-right">
