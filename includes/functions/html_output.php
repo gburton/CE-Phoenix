@@ -380,7 +380,7 @@
       }
     } else {
       $button .= '<button ';
-      $button .= '" type="' . tep_output_string($params['type']) . '"';
+      $button .= ' type="' . tep_output_string($params['type']) . '"';
     }
 
     if ( isset($params['params']) ) {
