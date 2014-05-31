@@ -24,7 +24,6 @@ Install as if this is a new osCommerce installation.  Then enter the admin area 
 2.  datepicker
 3.  grid/list view
 
-The functionality of these have been moved to header tag modules so that the site will only load them on the pages needed rather than on all pages.  At some point before final release I will ensure that these HT modules are loaded by default via the .sql installation procedure.
+The functionality of these have been moved to header tag modules so that the site will only load them on the pages needed rather than on all pages.  Admin > Modules > Header Tags > {install}
 
-
-
+You also need to install other components such as the logo, breadcrumb, footer boxes, side column boxes and so on.  Admin > Modules > Boxes > {install}.  Boxes can be sorted using the sort order, lowest is displayed first.
