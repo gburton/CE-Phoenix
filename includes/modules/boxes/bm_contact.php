@@ -26,8 +26,6 @@
         $this->sort_order = MODULE_BOXES_CONTACT_SORT_ORDER;
         $this->enabled = (MODULE_BOXES_CONTACT_STATUS == 'True');
 
-        $this->group = ((MODULE_BOXES_CONTACT_CONTENT_PLACEMENT == 'Left Column') ? 'boxes_column_left' : 'boxes_column_right');
-        
         switch (MODULE_BOXES_CONTACT_CONTENT_PLACEMENT) {
           case 'Left Column':
           $this->group = 'boxes_column_left';
