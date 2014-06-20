@@ -90,7 +90,7 @@
 
     if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
       $lc_text = tep_create_sort_heading($HTTP_GET_VARS['sort'], $col+1, $lc_text);
-	  echo '        <li><a href="#">' . $lc_text . '</a></li>';
+	  echo '        <li>' . $lc_text . '</li>';
     }
     
   }	
