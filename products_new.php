@@ -42,6 +42,8 @@
     if ($value > 0) $column_list[] = $key;
   }
 
+  $column_list[] = 'PRODUCT_LIST_ID';
+
   $select_column_list = '';
 
   for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
@@ -71,8 +73,8 @@
 
   if ( (!isset($HTTP_GET_VARS['sort'])) || (!preg_match('/^[1-8][ad]$/', $HTTP_GET_VARS['sort'])) || (substr($HTTP_GET_VARS['sort'], 0, 1) > sizeof($column_list)) ) {
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-      if ($column_list[$i] == 'PRODUCT_LIST_NAME') {
-        $HTTP_GET_VARS['sort'] = $i+1 . 'a';
+      if ($column_list[$i] == 'PRODUCT_LIST_ID') {
+        $HTTP_GET_VARS['sort'] = $i+1 . 'd';
         $listing_sql .= " order by p.products_id DESC";
         break;
       }
@@ -102,6 +104,9 @@
         break;
       case 'PRODUCT_LIST_PRICE':
         $listing_sql .= " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
+        break;
+      case 'PRODUCT_LIST_ID':
+        $listing_sql .= " order by p.products_id " . ($sort_order == 'd' ? 'desc' : '');
         break;
     }
   }

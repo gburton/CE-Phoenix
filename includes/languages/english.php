@@ -275,6 +275,7 @@ define('TABLE_HEADING_QUANTITY', 'Quantity');
 define('TABLE_HEADING_PRICE', 'Price');
 define('TABLE_HEADING_WEIGHT', 'Weight');
 define('TABLE_HEADING_BUY_NOW', 'Buy Now');
+define('TABLE_HEADING_LATEST_ADDED', 'Latest Products');
 
 //header titles
 define('HEADER_CART_CONTENTS', '<i class="glyphicon glyphicon-shopping-cart"></i> %s item(s) <span class="caret"></span>');

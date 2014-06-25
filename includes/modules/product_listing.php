@@ -86,6 +86,9 @@
       case 'PRODUCT_LIST_BUY_NOW':
         $lc_text = TABLE_HEADING_BUY_NOW;
         break;
+      case 'PRODUCT_LIST_ID':
+        $lc_text = TABLE_HEADING_LATEST_ADDED;
+        break;
     }
 
     if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
