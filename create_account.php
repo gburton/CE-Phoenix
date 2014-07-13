@@ -283,18 +283,16 @@
 <?php
   if (ACCOUNT_GENDER == 'true') {
 ?>
-    <div class="form-group">
+    <div class="form-group has-feedback">
       <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-xs-9">
-        <label class="checkbox-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', 1) . ' ' . MALE; ?>
+        <label class="radio-inline">
+          <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true"') . ' ' . MALE; ?>
         </label>
-        <label class="checkbox-inline">
+        <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
         </label>
-        <label class="checkbox-inline">
-          <?php echo FORM_REQUIRED_INPUT; ?>
-        </label>
+        <?php echo FORM_REQUIRED_INPUT; ?>
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </div>
     </div>

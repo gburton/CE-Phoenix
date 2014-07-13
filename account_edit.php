@@ -147,11 +147,17 @@
     }
     $female = !$male;
   ?>
-  <div class="form-group">
+  <div class="form-group has-feedback">
     <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
     <div class="col-xs-9">
-      <?php echo tep_draw_radio_field('gender', 'm', $male) . '&nbsp;&nbsp;' . MALE . '&nbsp;&nbsp;' . tep_draw_radio_field('gender', 'f', $female) . '&nbsp;&nbsp;' . FEMALE; ?>
+      <label class="radio-inline">
+        <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true"') . ' ' . MALE; ?>
+      </label>
+      <label class="radio-inline">
+        <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
+      </label>
       <?php echo FORM_REQUIRED_INPUT; ?>
+      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
     </div>
   </div>
   <?php
