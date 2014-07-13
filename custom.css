@@ -604,3 +604,8 @@ p.lead del {
   margin-bottom: 0 !important;
 }
 
+.searchbox-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
