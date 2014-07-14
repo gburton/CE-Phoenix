@@ -81,15 +81,12 @@
       echo '  </div>';
       echo '</div>';
     }
-
-// needed for the new products module shown below
-    $new_products_category_id = $current_category_id;
 ?>
       </div>
 
     <br />
 
-<?php include(DIR_WS_MODULES . FILENAME_NEW_PRODUCTS); ?>
+<?php if ($oscTemplate->hasBlocks('boxes_content')) echo $oscTemplate->getBlocks('boxes_content'); ?>
 
   </div>
 </div>
@@ -260,27 +257,13 @@
   }
 ?>
 
-<div class="contentContainer">
-  <div class="contentText">
-    <?php echo tep_customer_greeting(); ?>
-  </div>
+  <div class="contentContainer">
 
 <?php
-    if (tep_not_null(TEXT_MAIN)) {
+    if ($oscTemplate->hasBlocks('boxes_content')) echo $oscTemplate->getBlocks('boxes_content');
 ?>
 
-  <div class="contentText">
-    <?php echo TEXT_MAIN; ?>
   </div>
-
-<?php
-    }
-
-    include(DIR_WS_MODULES . FILENAME_NEW_PRODUCTS);
-    include(DIR_WS_MODULES . FILENAME_UPCOMING_PRODUCTS);
-?>
-
-</div>
 
 <?php
   }
