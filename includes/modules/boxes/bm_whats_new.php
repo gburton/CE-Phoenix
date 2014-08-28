@@ -68,7 +68,8 @@
         $data .=   '</div>';
 
         if ($this->group == 'boxes_footer') {
-          $data .=   '</div>';
+          $data .=   '  </div>' . 
+		             '</div>';
         }
 
         $oscTemplate->addBlock($data, $this->group);

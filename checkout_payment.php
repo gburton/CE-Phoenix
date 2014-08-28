@@ -190,7 +190,7 @@ function rowOutEffect(object) {
 
 
 <?php
-    } elseif ($free_shipping == false) {
+    } else {
 ?>
 
   <div class="contentText">

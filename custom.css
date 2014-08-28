@@ -17,6 +17,11 @@
   float: right;
 }
 
+#piGal {
+  float: right;
+  width: 250px;
+}
+
 #piGal img {
   max-width: 250px;
   height: auto;
@@ -609,3 +614,6 @@ p.lead del {
   margin-bottom: 10px;
 }
 
+.form-control-feedback{
+	padding-right:2%;
+}

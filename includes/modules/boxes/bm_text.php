@@ -30,11 +30,11 @@
           case 'Left Column':
           $this->group = 'boxes_column_left';
           break;
-          case 'Footer':
-          $this->group = 'boxes_footer';
+          case 'Right Column':
+          $this->group = 'boxes_column_right';
           break;
           default:
-          $this->group = 'boxes_column_right';
+          $this->group = 'boxes_footer';
         }
       }
     }

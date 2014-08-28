@@ -268,10 +268,9 @@
   }
 ?>
 
-<div class="row">
-  <p class="col-xs-9"><?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link(FILENAME_LOGIN, tep_get_all_get_params(), 'SSL')); ?></p>
-  <p class="col-xs-3 inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
-</div>
+
+  <p><?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link(FILENAME_LOGIN, tep_get_all_get_params(), 'SSL')); ?><span class="inputRequirement pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span></p>
+
 
 <?php echo tep_draw_form('create_account', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(create_account);"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
@@ -482,20 +481,20 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="inputNewsletter" class="control-label col-xs-3"><?php echo ENTRY_NEWSLETTER; ?></label>
-      <div class="col-xs-9">
-        <div class="checkbox-inline">
-          <label>
+      <div class="col-xs-offset-3 col-sm-9">
+        <div class="checkbox">
+          <label for="inputNewsletter">
             <?php
-            echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"');
-            ?>
+              echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"') . ' '  . ENTRY_NEWSLETTER; 
+			?>
           </label>
         </div>
-        <?php
+      <?php
         if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
-        ?>
+      ?>
       </div>
     </div>
+  
   </div>
 
   <h2><?php echo CATEGORY_PASSWORD; ?></h2>
