@@ -30,7 +30,7 @@
       <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-xs-9">
         <label class="radio-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true"') . ' ' . MALE; ?>
+          <?php echo tep_draw_radio_field('gender', 'm', $male) . ' ' . MALE; ?>
         </label>
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
