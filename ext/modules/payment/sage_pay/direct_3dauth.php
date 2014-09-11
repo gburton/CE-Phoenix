@@ -36,15 +36,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>">
 <title><?php echo MODULE_PAYMENT_SAGE_PAY_DIRECT_3DAUTH_TITLE; ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 <body>
-<FORM name="form" action="<?php echo $sage_pay_direct_acsurl; ?>" method="POST">
+<form name="form" action="<?php echo $sage_pay_direct_acsurl; ?>" method="POST">
 <input type="hidden" name="PaReq" value="<?php echo $sage_pay_direct_pareq; ?>" />
 <input type="hidden" name="TermUrl" value="<?php echo tep_href_link('ext/modules/payment/sage_pay/redirect.php', '', 'SSL'); ?>" />
 <input type="hidden" name="MD" value="<?php echo $sage_pay_direct_md; ?>" />
-<NOSCRIPT>
+<noscript>
 <?php echo '<center><p>' . MODULE_PAYMENT_SAGE_PAY_DIRECT_3DAUTH_INFO . '</p><p><input type="submit" value="' . MODULE_PAYMENT_SAGE_PAY_DIRECT_3DAUTH_BUTTON . '"/></p></center>'; ?>
-</NOSCRIPT>
+</noscript>
 <script><!--
 document.form.submit();
 //--></script>

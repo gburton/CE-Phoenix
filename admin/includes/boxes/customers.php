@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,11 +17,6 @@
         'code' => FILENAME_CUSTOMERS,
         'title' => BOX_CUSTOMERS_CUSTOMERS,
         'link' => tep_href_link(FILENAME_CUSTOMERS)
-      ),
-      array(
-        'code' => FILENAME_ORDERS,
-        'title' => BOX_CUSTOMERS_ORDERS,
-        'link' => tep_href_link(FILENAME_ORDERS)
       )
     )
   );

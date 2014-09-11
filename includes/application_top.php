@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2008 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
@@ -44,7 +44,8 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  $PHP_SELF = (((strlen(ini_get('cgi.fix_pathinfo')) > 0) && ((bool)ini_get('cgi.fix_pathinfo') == false)) || !isset($HTTP_SERVER_VARS['SCRIPT_NAME'])) ? basename($HTTP_SERVER_VARS['PHP_SELF']) : basename($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $PHP_SELF = substr($req['path'], ($request_type == 'NONSSL') ? strlen(DIR_WS_HTTP_CATALOG) : strlen(DIR_WS_HTTPS_CATALOG));
 
   if ($request_type == 'NONSSL') {
     define('DIR_WS_CATALOG', DIR_WS_HTTP_CATALOG);
@@ -147,11 +148,13 @@
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // set the session ID if it exists
-   if (isset($HTTP_POST_VARS[tep_session_name()])) {
-     tep_session_id($HTTP_POST_VARS[tep_session_name()]);
-   } elseif ( ($request_type == 'SSL') && isset($HTTP_GET_VARS[tep_session_name()]) ) {
-     tep_session_id($HTTP_GET_VARS[tep_session_name()]);
-   }
+  if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
+    if ( isset($HTTP_GET_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_GET_VARS[tep_session_name()])) ) {
+      tep_session_id($HTTP_GET_VARS[tep_session_name()]);
+    } elseif ( isset($HTTP_POST_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_POST_VARS[tep_session_name()])) ) {
+      tep_session_id($HTTP_POST_VARS[tep_session_name()]);
+    }
+  }
 
 // start the session
   $session_started = false;
@@ -318,7 +321,7 @@
       $goto =  FILENAME_SHOPPING_CART;
       $parameters = array('action', 'cPath', 'products_id', 'pid');
     } else {
-      $goto = basename($PHP_SELF);
+      $goto = $PHP_SELF;
       if ($HTTP_GET_VARS['action'] == 'buy_now') {
         $parameters = array('action', 'pid', 'products_id');
       } else {
@@ -372,7 +375,7 @@
                                 } elseif (isset($HTTP_POST_VARS['notify'])) {
                                   $notify = $HTTP_POST_VARS['notify'];
                                 } else {
-                                  tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+                                  tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                                 }
                                 if (!is_array($notify)) $notify = array($notify);
                                 for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
@@ -383,7 +386,7 @@
                                   }
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_SUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+                                tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
@@ -396,7 +399,7 @@
                                   tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_UNSUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'warning');
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
+                                tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));

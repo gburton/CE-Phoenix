@@ -12,4 +12,3 @@
 
   define('MODULE_BOXES_BREADCRUMB_TITLE', 'Breadcrumb');
   define('MODULE_BOXES_BREADCRUMB_DESCRIPTION', 'Show Breadcrumb in Header');
-
