@@ -1,7 +1,7 @@
-osCommerce-2334-bootstrap
+osCommerce-234-bootstrap
 =========================
 
-osCommerce 2.3.3.4 with Bootstrap, what more needs to be said.  
+osCommerce 2.3.4 with Bootstrap, what more needs to be said.  
 
 The point is to try to keep changes to a minimum as this will allow easy porting of Addons.
 
@@ -17,6 +17,7 @@ Fork this project and start coding.
 
 Not a Coder ...
 Please support this project by giving as much feedback as you possibly can.
+Or by donating to the coders.
 
 
 Installation
