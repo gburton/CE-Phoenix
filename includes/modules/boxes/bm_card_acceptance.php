@@ -51,7 +51,7 @@
         } else {
           $output =  '<div class="panel panel-default">' .
                      '  <div class="panel-heading">' . MODULE_BOXES_CARD_ACCEPTANCE_BOX_TITLE . '</div>' .
-                     '  <div class="panel-body" class="text-center">';
+                     '  <div class="panel-body text-center">';
 
         foreach ( explode(';', MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) as $logo ) {
           $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo));
