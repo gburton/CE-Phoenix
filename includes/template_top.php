@@ -44,9 +44,9 @@
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
 <body>
-  <div id="bodyWrapper" class="container-fluid">
-    <div class="row">
 
-      <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
 
-      <div id="bodyContent" class="col-md-<?php echo $oscTemplate->getGridContentWidth(); ?> <?php echo ($oscTemplate->hasBlocks('boxes_column_left') ? 'col-md-push-' . $oscTemplate->getGridColumnWidth() : ''); ?>">
+     <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
+     <div id="bodyWrapper" class="container-fluid">
+       <div class="row">
+        <div id="bodyContent" class="col-md-<?php echo $oscTemplate->getGridContentWidth(); ?> <?php echo ($oscTemplate->hasBlocks('boxes_column_left') ? 'col-md-push-' . $oscTemplate->getGridColumnWidth() : ''); ?>">
