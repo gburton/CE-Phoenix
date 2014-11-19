@@ -112,7 +112,7 @@ $prod_list_contents .= '<div id="product-listing">';
 
     while ($listing = tep_db_fetch_array($listing_query)) {
 		
-      $prod_list_contents .= '    <li class="listingContainer">';
+      $prod_list_contents .= '    <li class="listingContainer equal-height">';
       
       $prod_list_contents .= '      <div class="placeholder">';
       
