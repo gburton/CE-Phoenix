@@ -190,16 +190,6 @@
 
     <?php echo tep_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'glyphicon glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params())); ?>
   </div>
-  
-<?php
-    if ($oscTemplate->hasBlocks('boxes_product_page')) {
-?>
-    <div class="row">
-      <?php echo $oscTemplate->getBlocks('boxes_product_page'); ?>
-    </div>
-<?php
-    }
-?>
 
 <?php
     if ((USE_CACHE == 'true') && empty($SID)) {
