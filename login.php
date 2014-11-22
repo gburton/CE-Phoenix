@@ -90,29 +90,6 @@
     <?php echo $page_content; ?>
   </div>
 </div>
-<script>
-var login_modules_counter = 0;
-var login_modules_total = $('#loginModules .contentContainer').length;
-
-$('#loginModules .contentContainer').each(function(index, element) {
-  login_modules_counter++;
-/* dont think we need this for BS - but could be used for alternative output - like wrap - 
-  if ( login_modules_counter == 1 ) {
-    if ( $(this).hasClass('col-md-6') && ((index+1) != login_modules_total) ) {
-      $(this).addClass('alpha');
-    } else {
-      login_modules_counter = 0;
-    }
-  } else {
-    if ( $(this).hasClass('col-md-6') ) {
-      $(this).addClass('omega');
-    }
-
-    login_modules_counter = 0;
-  }
-*/
-});
-</script>
 
 <?php
   require(DIR_WS_INCLUDES . 'template_bottom.php');
