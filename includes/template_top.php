@@ -44,6 +44,9 @@
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
 <body>
+
+  <?php echo $oscTemplate->getContent('navigation'); ?>
+  
   <div id="bodyWrapper" class="container-fluid">
     <div class="row">
 
