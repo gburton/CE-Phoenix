@@ -33,7 +33,7 @@
     function execute() {
       global $request_type, $oscTemplate;
 
-      $data = '<div class="col-sm-6"><a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . 'store_logo.png', STORE_NAME) . '</a></div>';
+      $data = '<div class="col-sm-6"><a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . tep_image(DIR_WS_IMAGES . STORE_LOGO, STORE_NAME) . '</a></div>';
 
       $oscTemplate->addBlock($data, $this->group);
     }
