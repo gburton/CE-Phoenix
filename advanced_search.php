@@ -130,7 +130,7 @@ function check_form() {
     </div>
 
     <div class="buttonSet">
-      <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon-search', null, 'primary'); ?></span>
+      <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon glyphicon-search', null, 'primary'); ?></span>
 
       <a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a>
     </div>

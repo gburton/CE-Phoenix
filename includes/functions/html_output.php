@@ -394,7 +394,7 @@
     $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
-      $button .= ' <span class="glyphicon ' . $icon . '"></span> ';
+      $button .= ' <span class="' . $icon . '"></span> ';
     }
 
     $button .= $title;
