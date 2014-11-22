@@ -41,6 +41,9 @@
  
 <script src="ext/jquery/jquery-1.11.1.min.js"></script>
 
+<!-- font awesome -->
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
 <body>
