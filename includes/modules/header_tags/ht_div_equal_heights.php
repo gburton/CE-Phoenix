@@ -90,10 +90,7 @@ EOD;
     }
 
     function get_default_pages() {
-      return array('advanced_search_result.php',
-                   'index.php',
-                   'products_new.php',
-                   'specials.php');
+      return array('index.php');
     }
   }
 
