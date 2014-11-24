@@ -3,7 +3,14 @@
 
 
 /* Historical osCommerce ---------------------------------------------------- */
+/* GlyphIcon positioning for select menus */
+select ~ .form-control-feedback {
+ margin-right: 15px;
+}
 
+select[multiple] ~ .form-control-feedback {
+  margin-right: 0;
+}
 .buttonSet {
   margin-top: 10px;
   margin-bottom: 10px;
