@@ -10,5 +10,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_BOXES_BREADCRUMB_TITLE', 'Breadcrumb');
-  define('MODULE_BOXES_BREADCRUMB_DESCRIPTION', 'Show Breadcrumb in Header');
+  define('MODULE_CONTENT_HEADER_SEARCH_TITLE', 'Search Box');
+  define('MODULE_CONTENT_HEADER_SEARCH_DESCRIPTION', 'Adds your Search Box into the Header Area of your site.');
+

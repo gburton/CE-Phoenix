@@ -10,6 +10,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_BOXES_LOGO_TITLE', 'Logo');
-  define('MODULE_BOXES_LOGO_DESCRIPTION', 'Show Logo in Header');
+  define('MODULE_CONTENT_HEADER_LOGO_TITLE', 'Logo');
+  define('MODULE_CONTENT_HEADER_LOGO_DESCRIPTION', 'Adds your Logo into the Header Area of your site.');
 

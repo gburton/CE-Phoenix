@@ -15,7 +15,9 @@
   }
 ?>
 
-<?php if ($oscTemplate->hasBlocks('boxes_header')) echo $oscTemplate->getBlocks('boxes_header'); ?>
+<div class="modular-header">
+  <?php echo $oscTemplate->getContent('header'); ?>
+</div>
 
 <div class="clearfix"></div>
 
