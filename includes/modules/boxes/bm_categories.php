@@ -38,11 +38,12 @@
       $OSCOM_CategoryTree->setSpacerString('&nbsp;&nbsp;', 1);
 
       $OSCOM_CategoryTree->setParentGroupString('<ul class="nav nav-list">', '</ul>', true);
-
-      $data = '<div class="panel panel-default">' .
-              '  <div class="panel-heading">' . MODULE_BOXES_CATEGORIES_BOX_TITLE . '</div>' .
-              '  <div class="panel-body">' . $OSCOM_CategoryTree->getTree() . '</div>' .
-              '</div>';
+      
+      $category_tree = $OSCOM_CategoryTree->getTree();
+      
+      ob_start();
+      include(DIR_WS_MODULES . 'boxes/templates/categories.php');
+      $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);
     }

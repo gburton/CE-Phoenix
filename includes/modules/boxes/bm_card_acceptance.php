@@ -34,19 +34,17 @@
       global $PHP_SELF, $oscTemplate;
 
       if ( (substr(basename($PHP_SELF), 0, 8) != 'checkout') && tep_not_null(MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) ) {
-        
-        $output =  '<div class="panel panel-default">' .
-                   '  <div class="panel-heading">' . MODULE_BOXES_CARD_ACCEPTANCE_BOX_TITLE . '</div>' .
-                   '  <div class="panel-body text-center">';
+        $output = NULL;
 
         foreach ( explode(';', MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) as $logo ) {
           $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo));
         }
+                   
+        ob_start();
+        include(DIR_WS_MODULES . 'boxes/templates/card_acceptance.php');
+        $data = ob_get_clean();
 
-        $output .= '  </div>' .
-                   '</div>';
-
-        $oscTemplate->addBlock($output, $this->group);
+        $oscTemplate->addBlock($data, $this->group);
       }
     }
 

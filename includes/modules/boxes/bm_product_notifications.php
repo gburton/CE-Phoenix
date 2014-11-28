@@ -51,10 +51,9 @@
           $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><span class="glyphicon glyphicon-envelope"></span> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($HTTP_GET_VARS['products_id'])) .'</a>';
         }
         
-        $data = '<div class="panel panel-default">' .
-                '  <div class="panel-heading">' . '<a href="' . tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL') . '">' . MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE . '</a></div>' .
-                '  <div class="panel-body">' . $notif_contents . '</div>' .
-                '</div>';
+        ob_start();
+        include(DIR_WS_MODULES . 'boxes/templates/product_notifications.php');
+        $data = ob_get_clean();
                  
         $oscTemplate->addBlock($data, $this->group);
       }
