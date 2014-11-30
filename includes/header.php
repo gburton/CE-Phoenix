@@ -21,6 +21,8 @@
 
 <div class="clearfix"></div>
 
+<div class="body-sans-header clearfix">
+
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
