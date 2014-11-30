@@ -10,8 +10,8 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
-
+//  require('includes/application_top.php');
+$test
   require(DIR_WS_CLASSES . 'currencies.php');
   $currencies = new currencies();
 
