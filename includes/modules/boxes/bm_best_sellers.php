@@ -40,17 +40,15 @@
       }
 
       if (tep_db_num_rows($best_sellers_query) >= MIN_DISPLAY_BESTSELLERS) {
-        $bestsellers_list = '<ol style="margin: 0; padding-left: 25px;">';
+        $bestsellers_list = NULL;
+
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
           $bestsellers_list .= '<li><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a></li>';
         }
-        $bestsellers_list .= '</ol>';
 
-
-        $data =  '<div class="panel panel-default">' .
-                 '  <div class="panel-heading">' . MODULE_BOXES_BEST_SELLERS_BOX_TITLE . '</div>' .
-                 '  <div class="panel-body">' . $bestsellers_list . '</div>' .
-                 '</div>';
+        ob_start();
+        include(DIR_WS_MODULES . 'boxes/templates/best_sellers.php');
+        $data = ob_get_clean();
 
         $oscTemplate->addBlock($data, $this->group);
       }
