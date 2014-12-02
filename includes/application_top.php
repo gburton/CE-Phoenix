@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
 
   Released under the GNU General Public License
 */
@@ -44,8 +51,12 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
+/* ** Altered for SEO Header Tags RELOADED **
   $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'NONSSL') ? strlen(DIR_WS_HTTP_CATALOG) : strlen(DIR_WS_HTTPS_CATALOG));
+*/
+  $PHP_SELF = (((strlen(ini_get('cgi.fix_pathinfo')) > 0) && ((bool)ini_get('cgi.fix_pathinfo') == false)) || !isset($HTTP_SERVER_VARS['SCRIPT_NAME'])) ? basename($HTTP_SERVER_VARS['PHP_SELF']) : basename($HTTP_SERVER_VARS['SCRIPT_NAME']);
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
 
   if ($request_type == 'NONSSL') {
     define('DIR_WS_CATALOG', DIR_WS_HTTP_CATALOG);
@@ -148,6 +159,7 @@
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // set the session ID if it exists
+/* ** Altered for SEO Header Tags RELOADED **
   if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
     if ( isset($HTTP_GET_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_GET_VARS[tep_session_name()])) ) {
       tep_session_id($HTTP_GET_VARS[tep_session_name()]);
@@ -155,6 +167,13 @@
       tep_session_id($HTTP_POST_VARS[tep_session_name()]);
     }
   }
+*/
+   if (isset($HTTP_POST_VARS[tep_session_name()])) {
+     tep_session_id($HTTP_POST_VARS[tep_session_name()]);
+   } elseif ( ($request_type == 'SSL') && isset($HTTP_GET_VARS[tep_session_name()]) ) {
+     tep_session_id($HTTP_GET_VARS[tep_session_name()]);
+   }
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
 
 // start the session
   $session_started = false;
@@ -321,7 +340,11 @@
       $goto =  FILENAME_SHOPPING_CART;
       $parameters = array('action', 'cPath', 'products_id', 'pid');
     } else {
+/* ** Altered for SEO Header Tags RELOADED **
       $goto = $PHP_SELF;
+*/
+      $goto = basename($PHP_SELF);
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
       if ($HTTP_GET_VARS['action'] == 'buy_now') {
         $parameters = array('action', 'pid', 'products_id');
       } else {
@@ -375,7 +398,11 @@
                                 } elseif (isset($HTTP_POST_VARS['notify'])) {
                                   $notify = $HTTP_POST_VARS['notify'];
                                 } else {
+/* ** Altered for SEO Header Tags RELOADED **
                                   tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
+*/
+                                  tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
                                 }
                                 if (!is_array($notify)) $notify = array($notify);
                                 for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
@@ -386,7 +413,11 @@
                                   }
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_SUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
+/* ** Altered for SEO Header Tags RELOADED **
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
+*/
+                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
@@ -399,7 +430,11 @@
                                   tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_UNSUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'warning');
+/* ** Altered for SEO Header Tags RELOADED **
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
+*/
+                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
@@ -473,6 +508,7 @@
   $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link(FILENAME_DEFAULT));
 
 // add category names or the manufacturer name to the breadcrumb trail
+/* ** Altered for SEO Header Tags RELOADED **
   if (isset($cPath_array)) {
     for ($i=0, $n=sizeof($cPath_array); $i<$n; $i++) {
       $categories_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
@@ -490,10 +526,35 @@
       $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
     }
   }
-
+*/
+  if (isset($cPath_array)) {
+    for ($i=0, $n=sizeof($cPath_array); $i<$n; $i++) {
+      // header tags seo - reloaded
+      $categories_query = tep_db_query("select coalesce(NULLIF(categories_seo_title, ''), categories_name) as categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
+      // eof
+     if (tep_db_num_rows($categories_query) > 0) {
+        $categories = tep_db_fetch_array($categories_query);
+        $breadcrumb->add($categories['categories_name'], tep_href_link(FILENAME_DEFAULT, 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
+      } else {
+        break;
+      }
+    }
+  } elseif (isset($HTTP_GET_VARS['manufacturers_id'])) {
+    // header tags seo - reloaded
+    $manufacturers_query = tep_db_query("select coalesce(NULLIF(manufacturers_seo_title, ''), manufacturers_name) as manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
+    // eof
+    if (tep_db_num_rows($manufacturers_query)) {
+      $manufacturers = tep_db_fetch_array($manufacturers_query);
+      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
+    }
+  }
 // add the products model to the breadcrumb trail
   if (isset($HTTP_GET_VARS['products_id'])) {
+/* ** Altered for SEO Header Tags RELOADED **
     $model_query = tep_db_query("select products_model from " . TABLE_PRODUCTS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "'");
+*/
+    $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), p.products_model) as products_model from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
     if (tep_db_num_rows($model_query)) {
       $model = tep_db_fetch_array($model_query);
       $breadcrumb->add($model['products_model'], tep_href_link(FILENAME_PRODUCT_INFO, 'cPath=' . $cPath . '&products_id=' . $HTTP_GET_VARS['products_id']));
