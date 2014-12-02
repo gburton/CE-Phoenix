@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2003 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  
   Released under the GNU General Public License
 */
 
@@ -30,7 +37,10 @@
 
       for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
         if (isset($this->_trail[$i]['link']) && tep_not_null($this->_trail[$i]['link'])) {
+/* ** Altered for SEO Header Tags Reloaded **
           $trail_string .= '<li><a href="' . $this->_trail[$i]['link'] . '">' . $this->_trail[$i]['title'] . '</a></li>' . "\n";
+*/
+          $trail_string .= '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="' . $this->_trail[$i]['link'] . '">' . $this->_trail[$i]['title'] . '</a></li>' . "\n";
         } else {
           $trail_string .= '<li>' . $this->_trail[$i]['title'] . '</li>';
         }

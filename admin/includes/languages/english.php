@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  
   Released under the GNU General Public License
 */
 
@@ -301,4 +308,13 @@ define('WARNING_NO_FILE_UPLOADED', 'Warning: No file uploaded.');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 or less per column per row.</p><p>12/12 = 100% width, 6/12 = 50% width, 4/12 = 33% width.</p><p>Total of all columns in any one row must equal 12 (eg:  3 boxes of 4 columns each, 1 box of 12 columns and so on).</p>');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Definition for SEO Header Tags Reloaded
+  define('BOX_CUSTOMERS_ORDERS', 'Orders');
+  define('PLACEHOLDER_COMMA_SEPARATION', 'Must, Be, Comma, Separated');
 
