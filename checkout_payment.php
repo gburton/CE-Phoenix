@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Free Product Checkout added -- http://addons.oscommerce.com/info/8080
+  
   Released under the GNU General Public License
 */
 
@@ -77,6 +84,16 @@
 // load all enabled payment modules
   require(DIR_WS_CLASSES . 'payment.php');
   $payment_modules = new payment;
+
+/* ** Altered for Free Product Checkout ** */
+  // BOF skip if only 1 payment method available. IF YOU HAVE 2 PAYMENT METHODS then "set tep_count_payment_modules() == 2"
+	if (tep_count_payment_modules() == 1 ) {
+	$payment_select = $payment_modules->selection();
+	$payment = $payment_select[0]['id'];
+	if (!tep_session_is_registered('payment')) tep_session_register('payment');
+	tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, '', 'SSL'));
+	}
+/* ** EOF alteration for Free Product Checkout ** */
 
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_PAYMENT);
 
