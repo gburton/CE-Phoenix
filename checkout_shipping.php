@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Free Product Checkout added -- http://addons.oscommerce.com/info/8080
 
   Released under the GNU General Public License
 */
@@ -99,6 +106,21 @@
   } else {
     $free_shipping = false;
   }
+/* ** Altered for Free Product Checkout ** */
+  // BOF bypass if free shipping or order total is Zero
+  if ( ($free_shipping == true) || ($order->info['total'] == 0)) {
+	if (!tep_session_is_registered('shipping')) tep_session_register('shipping');
+	if ($free_shipping) {
+		$quote[0]['methods'][0]['title'] = FREE_SHIPPING_TITLE;
+		$quote[0]['methods'][0]['cost'] = '0';
+  	} else {
+		$quote = $shipping_modules->quote($method, $module);
+  	}
+  	$shipping = array('id' => $shipping,
+  	'title' => (($free_shipping == true) ? $quote[0]['methods'][0]['title'] : $quote[0]['module'] . ' (' . $quote[0]['methods'][0]['title'] . ')'),'cost' => $quote[0]['methods'][0]['cost']);
+  	tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+  }
+/* ** EOF alteration for Free Product Checkout ** */
 
 // process the selected shipping method
   if ( isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken) ) {

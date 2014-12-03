@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2012 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Order Editor added -- http://addons.oscommerce.com/info/7844
 
   Released under the GNU General Public License
 */
@@ -111,6 +118,9 @@
                           'billing_country' => $order->billing['country']['title'], 
                           'billing_address_format_id' => $order->billing['format_id'], 
                           'payment_method' => $order->info['payment_method'], 
+/* ** Altered for Order Editor ** */
+                          'shipping_module' => $shipping['id'],
+/* ** EOF alteration for Order Editor ** */
                           'cc_type' => $order->info['cc_type'], 
                           'cc_owner' => $order->info['cc_owner'], 
                           'cc_number' => $order->info['cc_number'], 
