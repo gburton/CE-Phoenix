@@ -90,3 +90,8 @@ Manual Order Maker
 1. Install the appropriate SQL files within the ../catalog/SQL_changes/
 				*NOTE: You can remove any SQL changes by using the appropriate uninstall sql file
 2. Go to the Administration Backend and change the options for "Configuration >> Order Editor". Be sure to read **each** description accurately before changing options.
+
+SMTP Email Configuration
+========================
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
+2. Configure your SMTP via the Administration backend configuration panel
