@@ -12,6 +12,7 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
+  Gergely SMTP Email Addition -- http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522  
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Order Editor added -- http://addons.oscommerce.com/info/7844
@@ -813,6 +814,14 @@
 
     return $string;
   }
+/* **Altered for Gergely SMTP Email Addition ** */
+function tep_cfg_password($password) {
+return preg_replace("|.|", "*", $password);
+}
+function tep_cfg_input_password($password) {
+return tep_draw_password_field('configuration_value', $password);
+}
+/* EOF Gergely SMTP Email Addition ** */
 
 ////
 // Alias function for module configuration keys
