@@ -1,0 +1,22 @@
+ALTER TABLE `reviews`
+ADD `is_testimonial` TINYINT( 1 ) NOT NULL DEFAULT  '0';
+
+ALTER TABLE `products_description`
+ADD `products_seo_title` VARCHAR( 128 ) NULL,
+ADD `products_seo_description` TEXT NULL,
+ADD `products_seo_keywords` VARCHAR( 128 ) NULL,
+ADD `products_mini_description` TEXT NULL;
+
+ALTER TABLE `categories_description`
+ADD `categories_description` TEXT NULL,
+ADD `categories_seo_title` VARCHAR( 128 ) NULL,
+ADD `categories_seo_description` TEXT NULL,
+ADD `categories_seo_keywords` VARCHAR( 128 ) NULL;
+
+ALTER TABLE `manufacturers`
+ADD `manufacturers_seo_title` VARCHAR( 128 ) NULL;
+
+ALTER TABLE `manufacturers_info`
+ADD `manufacturers_description` TEXT NULL,
+ADD `manufacturers_seo_description` TEXT NULL,
+ADD `manufacturers_seo_keywords` VARCHAR( 128 ) NULL;
