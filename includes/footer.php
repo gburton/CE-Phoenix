@@ -12,6 +12,8 @@
 
 ?>
 
+</div>
+
 <footer>
   <div class="footer">
     <div class="container-fluid">
