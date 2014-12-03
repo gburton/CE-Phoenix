@@ -110,3 +110,8 @@ SMTP Email Configuration
 ========================
 1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
 2. Configure your SMTP via the Administration backend configuration panel
+
+Alternative Administration System
+=================================
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
+2. Configure the AAS installation via the AAS left column boxes

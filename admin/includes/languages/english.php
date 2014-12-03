@@ -14,6 +14,7 @@
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
+  Alternative Administration System added -- http://addons.oscommerce.com/info/9135
   
   Released under the GNU General Public License
 */
@@ -321,4 +322,10 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
 // BOF Order Maker
   define('IMAGE_CREATE_ORDER', 'Create');
   define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
+// Alternative Administration System
+  define('BOX_HEADING_AAS','A.A.S.'); 
+  define('BOX_AAS_ACCESS_AAS','Access AAS'); 
+  define('BOX_AAS_SUPPORT','Support');
+  define('BOX_AAS_DISCUSSION_BOARD','Discussion Board'); 
+  define('BOX_AAS_DONATIONS','Make a Donation');  
 
