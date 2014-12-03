@@ -83,4 +83,10 @@ Free Product Checkout
 		  // BOF skip if only 1 payment method available. IF YOU HAVE 2 PAYMENT METHODS then "set tep_count_payment_modules() == 2"
 			if (tep_count_payment_modules() == 1 ) {
 
-Change the number based on how many payments you have available (Including the Free Product Checkout payment module itself).			
+Change the number based on how many payments you have available (Including the Free Product Checkout payment module itself).
+
+Manual Order Maker
+==================
+1. Install the appropriate SQL files within the ../catalog/SQL_changes/
+				*NOTE: You can remove any SQL changes by using the appropriate uninstall sql file
+2. Go to the Administration Backend and change the options for "Configuration >> Order Editor". Be sure to read **each** description accurately before changing options.				

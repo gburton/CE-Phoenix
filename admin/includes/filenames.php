@@ -6,7 +6,15 @@
   http://www.oscommerce.com
 
   Copyright (c) 2007 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Order Editor added -- http://addons.oscommerce.com/info/7844
+  Manual Order Maker -- http://addons.oscommerce.com/info/8334
+  
   Released under the GNU General Public License
 */
 
@@ -53,4 +61,17 @@
   define('FILENAME_VERSION_CHECK', 'version_check.php');
   define('FILENAME_WHOS_ONLINE', 'whos_online.php');
   define('FILENAME_ZONES', 'zones.php');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Order Editor
+  define('FILENAME_ORDERS_EDIT', 'edit_orders.php');
+  define('FILENAME_ORDERS_EDIT_ADD_PRODUCT', 'edit_orders_add_product.php');
+  define('FILENAME_ORDERS_EDIT_AJAX', 'edit_orders_ajax.php');
+// ### MANUAL ORDER MAKER ###
+  define('FILENAME_CREATE_ORDER_PROCESS', 'create_order_process.php');
+  define('FILENAME_CREATE_ORDER', 'create_order.php');
 ?>
