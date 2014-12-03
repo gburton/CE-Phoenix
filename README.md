@@ -73,3 +73,25 @@ SEO Header Tags RELOADED
 	b. ../catalog/includes/languages/english/specials.php
 	c. ../catalog/includes/languages/english/testimonials.php
 	
+Free Product Checkout
+=====================
+1. Go into your shops admin modules >> payment , choose and install the "Free Product"  module and fill out the required info.
+		-MUST: Go into your shops admin module >> paymet, set "Free Product" payment module as the first payment method for "Sort order of display". Make it 0 and the other payment method(s) higher.
+2. If you want to skip the payment page then you must change the count based on how many payments you have. 
+  **Edit ../catalog/checkout_payment.php around line 88:**
+		  
+		  // BOF skip if only 1 payment method available. IF YOU HAVE 2 PAYMENT METHODS then "set tep_count_payment_modules() == 2"
+			if (tep_count_payment_modules() == 1 ) {
+
+Change the number based on how many payments you have available (Including the Free Product Checkout payment module itself).
+
+Manual Order Maker
+==================
+1. Install the appropriate SQL files within the ../catalog/SQL_changes/
+				*NOTE: You can remove any SQL changes by using the appropriate uninstall sql file
+2. Go to the Administration Backend and change the options for "Configuration >> Order Editor". Be sure to read **each** description accurately before changing options.
+
+SMTP Email Configuration
+========================
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
+2. Configure your SMTP via the Administration backend configuration panel

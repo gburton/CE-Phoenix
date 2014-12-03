@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   
   Released under the GNU General Public License
 */
@@ -317,4 +318,7 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
 // Definition for SEO Header Tags Reloaded
   define('BOX_CUSTOMERS_ORDERS', 'Orders');
   define('PLACEHOLDER_COMMA_SEPARATION', 'Must, Be, Comma, Separated');
+// BOF Order Maker
+  define('IMAGE_CREATE_ORDER', 'Create');
+  define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
 

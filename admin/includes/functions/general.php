@@ -12,7 +12,11 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
+  Gergely SMTP Email Addition -- http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522  
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Manual Order Maker added -- http://addons.oscommerce.com/info/8334
+  Order Editor added -- http://addons.oscommerce.com/info/7844
+  
   Released under the GNU General Public License
 */
 
@@ -810,6 +814,14 @@
 
     return $string;
   }
+/* **Altered for Gergely SMTP Email Addition ** */
+function tep_cfg_password($password) {
+return preg_replace("|.|", "*", $password);
+}
+function tep_cfg_input_password($password) {
+return tep_draw_password_field('configuration_value', $password);
+}
+/* EOF Gergely SMTP Email Addition ** */
 
 ////
 // Alias function for module configuration keys
@@ -1628,4 +1640,83 @@
 
     return $product['products_name'];
   }
+
+/* ** Altered for Order Editor ** */
+  //////create a pull down for all payment installed payment methods for Order Editor configuration
+   
+  // Get list of all payment modules available
+  function tep_cfg_pull_down_payment_methods() {
+  global $language;
+  $enabled_payment = array();
+  $module_directory = DIR_FS_CATALOG_MODULES . 'payment/';
+  $file_extension = '.php';
+
+  if ($dir = @dir($module_directory)) {
+    while ($file = $dir->read()) {
+      if (!is_dir( $module_directory . $file)) {
+        if (substr($file, strrpos($file, '.')) == $file_extension) {
+          $directory_array[] = $file;
+        }
+      }
+    }
+    sort($directory_array);
+    $dir->close();
+  }
+
+  // For each available payment module, check if enabled
+  for ($i=0, $n=sizeof($directory_array); $i<$n; $i++) {
+    $file = $directory_array[$i];
+
+    include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/payment/' . $file);
+    include($module_directory . $file);
+
+    $class = substr($file, 0, strrpos($file, '.'));
+    if (tep_class_exists($class)) {
+      $module = new $class;
+      if ($module->check() > 0) {
+        // If module enabled create array of titles
+        $enabled_payment[] = array('id' => $module->title, 'text' => $module->title);
+                
+      }
+   }
+ }
+                                
+    $enabled_payment[] = array('id' => 'Other', 'text' => 'Other');     
+                
+                //draw the dropdown menu for payment methods and default to the order value
+          return tep_draw_pull_down_menu('configuration_value', $enabled_payment, '', ''); 
+                }
+
+
+/////end payment method dropdown
+
+////	Fix the Fatal error: Call to undefined function tep_add_base_ref()
+function tep_add_base_ref($string) {
+$i = 0;
+$output = '';
+$n=strlen($string);
+for ($i=0; $i<$n; $i++) {
+$char = substr($string, $i, 1);
+$char5 = substr($string, $i, 5);
+if ($char5 == 'src="' ) {$output .= 'src="' . HTTP_SERVER; $i = $i+4;}
+else {
+$output .= $char; 
+} }
+return $output;
+}
+/* ** EOF alteration for Order Editor ** */
+
+/* ** Altered for Manual Order Maker ** */
+// Returns the address_format_id for the given country
+// TABLES: countries;
+  function tep_get_address_format_id($country_id) {
+    $address_format_query = tep_db_query("select address_format_id as format_id from " . TABLE_COUNTRIES . " where countries_id = '" . (int)$country_id . "'");
+    if (tep_db_num_rows($address_format_query)) {
+      $address_format = tep_db_fetch_array($address_format_query);
+      return $address_format['format_id'];
+    } else {
+      return '1';
+    }
+  }
+/* ** EOF alteration for Manual Order Maker ** */
 /* ** EOF alterations for SEO Header Tags ** */
