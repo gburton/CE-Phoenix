@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
@@ -18,4 +18,4 @@
   define('MODULE_HEADER_TAGS_TWITTER_PRODUCT_CARD_TEXT_OUT_OF_STOCK', 'Out of Stock');
   define('MODULE_HEADER_TAGS_TWITTER_PRODUCT_CARD_TEXT_BUY_NOW', 'BUY NOW');
   define('MODULE_HEADER_TAGS_TWITTER_PRODUCT_CARD_TEXT_CONTACT_US', 'CONTACT US');
-?>
+

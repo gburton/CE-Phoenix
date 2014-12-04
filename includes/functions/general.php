@@ -4,7 +4,14 @@
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  
   Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
@@ -1393,4 +1400,22 @@
       return str_replace($from, $to, $string);
     }
   }
-?>
+/* ** Altered for SEO Header Tags Reloaded ** */
+    function osc_split_mini_description($products_precis) {
+    $content = strip_tags($products_precis);
+
+    if (strlen($content) > 156 ) {
+      $content = substr($content, 0, strpos($content, ' ', 156));
+    }
+    return $content;
+  }
+
+  function osc_get_mini_description($products_id) {
+    global $languages_id;
+
+    $product_query = tep_db_query("select coalesce(NULLIF(products_mini_description, ''), NULLIF(products_seo_description, ''), LEFT(products_description, 300)) as products_precis from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$products_id . "' and language_id = '" . (int)$languages_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return osc_split_mini_description($product['products_precis']);
+  }
+/* ** EOF alterations for SEO Header Tags Reloaded ** */

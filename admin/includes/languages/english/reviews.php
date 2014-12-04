@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2002 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  
   Released under the GNU General Public License
 */
 
@@ -44,4 +51,22 @@ define('TEXT_OF_5_STARS', '%s of 5 Stars!');
 define('TEXT_GOOD', '<small><font color="#ff0000"><strong>GOOD</strong></font></small>');
 define('TEXT_BAD', '<small><font color="#ff0000"><strong>BAD</strong></font></small>');
 define('TEXT_INFO_HEADING_DELETE_REVIEW', 'Delete Review');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Definition for SEO Header Tags Reloaded
+// admin add reviews
+define('IMAGE_BUTTON_ADD_REVIEW', 'Add A Review');
+// admin add testimonials
+define('IMAGE_BUTTON_ADD_TESTIMONIAL', 'Add A Testimonial');
+define('ENTRY_TESTIMONIAL', 'Testimonial:');
+define('ENTRY_NAME', 'Name:');
+define('TEXT_IMAGE_NONEXISTENT', 'No Image');
+define('ADMIN_TESTIMONIAL', 'Site Testimonial');
+define('TABLE_HEADING_TESTIMONIAL', 'Testimonial');
+define('IMAGE_ICON_TESTIMONIAL_YES', 'Testimonial');
+define('IMAGE_ICON_TESTIMONIAL_NO', 'Review');
 ?>

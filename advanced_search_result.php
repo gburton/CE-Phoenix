@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
 
   Released under the GNU General Public License
 */
@@ -230,7 +237,15 @@
           break;
         default:
           $keyword = tep_db_prepare_input($search_keywords[$i]);
+          /* ** Altered for SEO Header Tags RELOADED **
           $where_str .= "(pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+          */
+          $where_str .= "(";
+          if ( (defined('MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS')) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS != 'Meta') ) {
+            $where_str .= "pd.products_seo_keywords LIKE '%" . tep_db_input($keyword) . "%' OR ";
+          }
+          $where_str .= "pd.products_name like '%" . tep_db_input($keyword) . "%' or p.products_model like '%" . tep_db_input($keyword) . "%' or m.manufacturers_name like '%" . tep_db_input($keyword) . "%'";
+          /* ** EOF alteration for SEO Header Tags RELOADED ** */
           if (isset($HTTP_GET_VARS['search_in_description']) && ($HTTP_GET_VARS['search_in_description'] == '1')) $where_str .= " or pd.products_description like '%" . tep_db_input($keyword) . "%'";
           $where_str .= ')';
           break;
