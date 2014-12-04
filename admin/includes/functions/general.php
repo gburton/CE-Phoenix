@@ -804,14 +804,6 @@
 
     return $string;
   }
-////
-// Set password configuration for SMTP values
-function tep_cfg_password($password) {
-return preg_replace("|.|", "*", $password);
-}
-function tep_cfg_input_password($password) {
-return tep_draw_password_field('configuration_value', $password);
-}
 
 ////
 // Alias function for module configuration keys
