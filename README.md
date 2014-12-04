@@ -100,3 +100,7 @@ Alternative Administration System
 =================================
 1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
 2. Configure the AAS installation via the AAS left column boxes
+3. **BE SURE** that the following files are writeable by your WWW user
+	../catalog/admin/ext/aas/plugins/product_images/
+	../catalog/admin/ext/aas_modules/
+	
