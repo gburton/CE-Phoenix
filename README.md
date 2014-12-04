@@ -116,3 +116,11 @@ delete or change anything, you should either be 100% sure that you would like to
 or check each entry out before making an action.  There is plenty of information to help you
 with this... so just take the extra moment(s) necessary to avoid costly errors.
 
+KISS Image Thumbnailer
+======================
+By default, KISS Image Thumbnailer does not alter standard bootstrap view of products.
+The function is available for use, but not implemented.
+Be sure to change the KISSit Image Heigh and Width in ../catalog/includes/configure.php
+The following directory(ies) needs to be writeable by the WWW user:
+	../catalog/includes/modules/kiss_image_thumbnailer/thumbs/
+
