@@ -22,6 +22,7 @@ Manual Order Maker added - http://addons.oscommerce.com/info/8334/v,23
 Database Check Tool 1.4 added - http://addons.oscommerce.com/info/9087  
 Alternative Administration System added - http://addons.oscommerce.com/info/9135  
 Gergely SMTP Email Addition - http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522  
+Security Pro R11 -- http://addons.oscommerce.com/info/7708
   
 This is an attempt to get a strong working osc with some addons. This is NOT an independent project. Without the help of MANY coders that have contributed to osCommerce, this would not be possible. I did not code any of the modules, addons, or base software that you see here. Much of the effort has been completed by Gary Burton from osCommerce.  
   
@@ -123,4 +124,13 @@ The function is available for use, but not implemented.
 Be sure to change the KISSit Image Heigh and Width in ../catalog/includes/configure.php
 The following directory(ies) needs to be writeable by the WWW user:
 	../catalog/includes/modules/kiss_image_thumbnailer/thumbs/
+	
+Security Pro R11
+================
+If you would like a file to be excluded from the security cleansing, be sure to **MANUALLY** add that file in ../catalog/includes/application_top.php while uncommenting around line 65:
+  // If you need to exclude a file from cleansing then you can add it like below
+  //$security_pro->addExclusion( 'some_file.php' );
+
+__Try your hardest__ not to exclude files in this manner. If they are payment or shipping files then fine .. but not for badly written contributions, in these cases the contribution should be modified so that it no longer passes bad characters.
+Also never be tempted to weaken Security Pro by adding characters to the whitelist, you will restrict the scripts ability to do its job.
 

@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Security Pro R11 added -- http://addons.oscommerce.com/info/7708
 
   Released under the GNU General Public License
 */
@@ -58,6 +59,14 @@
   $PHP_SELF = (((strlen(ini_get('cgi.fix_pathinfo')) > 0) && ((bool)ini_get('cgi.fix_pathinfo') == false)) || !isset($HTTP_SERVER_VARS['SCRIPT_NAME'])) ? basename($HTTP_SERVER_VARS['PHP_SELF']) : basename($HTTP_SERVER_VARS['SCRIPT_NAME']);
 /* ** EOF alteration for SEO Header Tags RELOADED ** */
 
+/* ** Altered for Security Pro r11 ** */
+  include_once DIR_WS_MODULES . 'fwr_media_security_pro.php';
+  $security_pro = new Fwr_Media_Security_Pro;
+  // If you need to exclude a file from cleansing then you can add it like below
+  //$security_pro->addExclusion( 'some_file.php' );
+  $security_pro->cleanse( $PHP_SELF );
+/* ** EOF alteration for Security Pro 11 ** */
+  
   if ($request_type == 'NONSSL') {
     define('DIR_WS_CATALOG', DIR_WS_HTTP_CATALOG);
   } else {
