@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Alternative Administration System added -- http://addons.oscommerce.com/info/9135
 
   Released under the GNU General Public License
 */
@@ -165,9 +172,16 @@
       $redirect = true;
     }
 
+/* ** Altered for Alternative Administration System **
     if ($redirect == true) {
       tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
+*/
+    if ($redirect == true) {
+      if(basename($current_page)==FILENAME_AAS) $sessionTimeout=true;
+      else tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+    }
+/* ** EOF alteration for Alternative Administration System ** */	
 
     unset($redirect);
   }

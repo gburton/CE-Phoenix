@@ -14,6 +14,7 @@
   *************************************************
   Order Editor added -- http://addons.oscommerce.com/info/7844
   Manual Order Maker -- http://addons.oscommerce.com/info/8334
+  Alternative Administration System added -- http://addons.oscommerce.com/info/9135  
   
   Released under the GNU General Public License
 */
@@ -74,4 +75,6 @@
 // ### MANUAL ORDER MAKER ###
   define('FILENAME_CREATE_ORDER_PROCESS', 'create_order_process.php');
   define('FILENAME_CREATE_ORDER', 'create_order.php');
+// Definition for Alternative Administration System
+  define('FILENAME_AAS','aas.php');  
 ?>
