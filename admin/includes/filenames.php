@@ -12,6 +12,7 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
+  Database Check Tool 1.4 added -- http://addons.oscommerce.com/info/9087
   Order Editor added -- http://addons.oscommerce.com/info/7844
   Manual Order Maker -- http://addons.oscommerce.com/info/8334
   Alternative Administration System added -- http://addons.oscommerce.com/info/9135  
@@ -77,4 +78,6 @@
   define('FILENAME_CREATE_ORDER', 'create_order.php');
 // Definition for Alternative Administration System
   define('FILENAME_AAS','aas.php');  
+// Database Check Tool
+  define('FILENAME_DATABASE_CHECK', 'database_check.php');
 ?>

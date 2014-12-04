@@ -103,4 +103,16 @@ Alternative Administration System
 3. **BE SURE** that the following files are writeable by your WWW user
 	../catalog/admin/ext/aas/plugins/product_images/
 	../catalog/admin/ext/aas_modules/
+
+Database Check Tool 1.8.1
+=========================
+If you get an "Internal Server Error" or as it is otherwise known a 500 error you can try editing the values in ../catalog/admin/database_check.php line 13.
+
+	ini_set('max_execution_time', 300); //300 seconds = 5 minutes
+	ini_set('memory_limit','128M');
 	
+Remember:  There ARE clickable links within the results you find from your store.  Before you
+delete or change anything, you should either be 100% sure that you would like to make a change
+or check each entry out before making an action.  There is plenty of information to help you
+with this... so just take the extra moment(s) necessary to avoid costly errors.
+

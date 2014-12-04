@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Database Check 1.4 added -- http://addons.oscommerce.com/info/9087
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Alternative Administration System added -- http://addons.oscommerce.com/info/9135
   
@@ -328,4 +329,5 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
   define('BOX_AAS_SUPPORT','Support');
   define('BOX_AAS_DISCUSSION_BOARD','Discussion Board'); 
   define('BOX_AAS_DONATIONS','Make a Donation');  
-
+// Database Check Tool
+  define('BOX_TOOLS_DATABASE_CHECK', 'Database Check');

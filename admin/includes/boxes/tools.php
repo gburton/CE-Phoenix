@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Database Check 1.4 added -- http://addons.oscommerce.com/info/9087
 
   Released under the GNU General Public License
 */
@@ -63,6 +70,13 @@
         'title' => BOX_TOOLS_VERSION_CHECK,
         'link' => tep_href_link(FILENAME_VERSION_CHECK)
       ),
+/* **Altered for Database Check 1.4** */
+	 array(
+        'code' => FILENAME_DATABASE_CHECK,
+        'title' => BOX_TOOLS_DATABASE_CHECK,
+        'link' => tep_href_link(FILENAME_DATABASE_CHECK)
+      ),
+/* **EOF alteration for Database Check 1.4 ** */
       array(
         'code' => FILENAME_WHOS_ONLINE,
         'title' => BOX_TOOLS_WHOS_ONLINE,
