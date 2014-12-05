@@ -73,7 +73,7 @@ You also need to install other components such as the logo, breadcrumb, footer b
 
 SEO Header Tags RELOADED
 ========================
-1. After osCommerce installation, install the custom SQL changes using phpMyAdmin from the ../catalog/SQL_changes folder
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in ../catalog/SQL_changes folder
 2. Go through the following language files to change any customizable text pertaining to your installation
 	a. ../catalog/includes/languages/english/index.php
 	b. ../catalog/includes/languages/english/specials.php
@@ -93,8 +93,8 @@ Change the number based on how many payments you have available (Including the F
 
 Manual Order Maker
 ==================
-1. Install the appropriate SQL files within the ../catalog/SQL_changes/
-				*NOTE: You can remove any SQL changes by using the appropriate uninstall sql file
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in ../catalog/SQL_changes/
+				*NOTE: You can remove any SQL changes specific to Manual Order Maker by using the appropriate uninstall sql file
 2. Go to the Administration Backend and change the options for "Configuration >> Order Editor". Be sure to read **each** description accurately before changing options.
 
 SMTP Email Configuration

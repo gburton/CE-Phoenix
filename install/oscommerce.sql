@@ -1,12 +1,14 @@
-﻿# $Id$
+# $Id$
 #
 # osCommerce, Open Source E-Commerce Solutions
 # http://www.oscommerce.com
 #
 # Copyright (c) 2014 osCommerce
+#
 # Gergely SMTP Email Addition
 # Alternative Administration System
 # Credit Class Gift Voucher
+# Header Tags
 #
 # Released under the GNU General Public License
 #
@@ -112,6 +114,12 @@ CREATE TABLE categories_description (
    categories_id int DEFAULT '0' NOT NULL,
    language_id int DEFAULT '1' NOT NULL,
    categories_name varchar(32) NOT NULL,
+# SEO Header Tags Reloaded
+  categories_description TEXT NULL,
+  categories_seo_title VARCHAR(128) NULL,
+  categories_seo_description TEXT NULL,
+  categories_seo_keywords VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
    PRIMARY KEY (categories_id, language_id),
    KEY idx_categories_name (categories_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -241,6 +249,9 @@ CREATE TABLE manufacturers (
   manufacturers_image varchar(64),
   date_added datetime NULL,
   last_modified datetime NULL,
+# SEO Header Tags Reloaded
+  manufacturers_seo_title VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (manufacturers_id),
   KEY IDX_MANUFACTURERS_NAME (manufacturers_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -252,6 +263,11 @@ CREATE TABLE manufacturers_info (
   manufacturers_url varchar(255) NOT NULL,
   url_clicked int(5) NOT NULL default '0',
   date_last_click datetime NULL,
+# SEO Header Tags Reloaded
+  manufacturers_description TEXT NULL,
+  manufacturers_seo_description TEXT NULL,
+  manufacturers_seo_keywords VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -312,6 +328,10 @@ CREATE TABLE orders (
   orders_date_finished datetime,
   currency char(3),
   currency_value decimal(14,6),
+# Manual Order Maker
+  customer_service_id VARCHAR(15),
+  shipping_module VARCHAR(255),
+#EOF Manual Order Maker
   PRIMARY KEY (orders_id),
   KEY idx_orders_customers_id (customers_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -442,6 +462,12 @@ CREATE TABLE products_description (
   products_description text,
   products_url varchar(255) default NULL,
   products_viewed int(5) default '0',
+# SEO Header Tags Reloaded
+  products_seo_title VARCHAR(128) NULL,
+  products_seo_description TEXT NULL,
+  products_seo_keywords VARCHAR(128) NULL,
+  products_mini_description TEXT NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY  (products_id,language_id),
   KEY products_name (products_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -507,6 +533,9 @@ CREATE TABLE reviews (
   last_modified datetime,
   reviews_status tinyint(1) NOT NULL default '0',
   reviews_read int(5) NOT NULL default '0',
+# SEO Header Tags Reloaded
+  is_testimonial tinyint(1) NOT NULL DEFAULT  '0',
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (reviews_id),
   KEY idx_reviews_products_id (products_id),
   KEY idx_reviews_customers_id (customers_id)
@@ -838,7 +867,6 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('SMTP Password', 'EMAIL_SMTP_PASSWORD', '', 'Add SMTP Password for SMTP protocol', '12', '8', 'tep_cfg_password', 'tep_cfg_input_password(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('SMTP User', 'EMAIL_SMTP_USER', '', 'Add SMTP user for SMTP protocol', '12', '9', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('SMTP Reply To', 'EMAIL_SMTP_REPLYTO', '', 'Add SMTP reply to address', '12', '10', now());
-# EOF Gergely SMTP configuration
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enable download', 'DOWNLOAD_ENABLED', 'false', 'Enable the products download functions.', '13', '1', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Download by redirect', 'DOWNLOAD_BY_REDIRECT', 'false', 'Use browser redirection for download. Disable on non-Unix systems.', '13', '2', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
@@ -1641,21 +1669,14 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 
 # Alternative Administration System
 DROP TABLE IF EXISTS aas_calendar;
-CREATE TABLE aas_calendar (
-`id` int(11) NOT NULL AUTO_INCREMENT,
- 
-`title` text COLLATE utf8_unicode_ci NOT NULL,  
-`notes` text COLLATE utf8_unicode_ci,
- 
-`start` int(11) DEFAULT NULL,
- 
-`end` int(11) DEFAULT NULL,
- 
-`allDay` tinyint(1) NOT NULL DEFAULT '1',
- 
-`date` int(11) DEFAULT NULL,
- 
-PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+CREATE TABLE aas_calendar ( id int(11) NOT NULL AUTO_INCREMENT, 
+title text COLLATE utf8_unicode_ci NOT NULL, 
+notes text COLLATE utf8_unicode_ci, 
+start int(11) DEFAULT NULL,
+end int(11) DEFAULT NULL,
+allDay tinyint(1) NOT NULL DEFAULT '1',
+date int(11) DEFAULT NULL,
+PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 # Credit Class Gift Voucher
 DROP TABLE IF EXISTS coupon_email_track;
@@ -1667,23 +1688,13 @@ CREATE TABLE coupon_email_track (
   sent_lastname varchar(32) DEFAULT NULL,
   emailed_to varchar(32) DEFAULT NULL,
   date_sent date NOT NULL DEFAULT '0000-00-00',
-  PRIMARY KEY (unique_id)
-)
-ENGINE = INNODB
-CHARACTER SET utf8
-COLLATE utf8_unicode_ci;
-
+  PRIMARY KEY (unique_id)) ENGINE=INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 DROP TABLE IF EXISTS coupon_gv_customer;
 CREATE TABLE coupon_gv_customer (
   customer_id int(5) NOT NULL DEFAULT 0,
   amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
   PRIMARY KEY (customer_id),
-  INDEX customer_id (customer_id)
-)
-ENGINE = INNODB
-CHARACTER SET utf8
-COLLATE utf8_unicode_ci;
-
+  INDEX customer_id (customer_id)) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 DROP TABLE IF EXISTS coupon_gv_queue;
 CREATE TABLE coupon_gv_queue (
   unique_id int(5) NOT NULL AUTO_INCREMENT,
@@ -1694,12 +1705,7 @@ CREATE TABLE coupon_gv_queue (
   ipaddr varchar(32) NOT NULL DEFAULT '',
   release_flag char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY (unique_id),
-  INDEX uid (unique_id, customer_id, order_id)
-)
-ENGINE = INNODB
-CHARACTER SET utf8
-COLLATE utf8_unicode_ci;
-
+  INDEX uid (unique_id, customer_id, order_id)) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 DROP TABLE IF EXISTS coupon_redeem_track;
 CREATE TABLE coupon_redeem_track (
   unique_id int(11) NOT NULL AUTO_INCREMENT,
@@ -1708,8 +1714,13 @@ CREATE TABLE coupon_redeem_track (
   redeem_date date NOT NULL DEFAULT '0000-00-00',
   redeem_ip binary(20) NOT NULL,
   order_id int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (unique_id, coupon_id, customer_id)
-)
-ENGINE = INNODB
-CHARACTER SET utf8
-COLLATE utf8_unicode_ci;
+  PRIMARY KEY (unique_id, coupon_id, customer_id)) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+# Manual Order Maker
+INSERT INTO configuration_group (configuration_group_id, configuration_group_title, configuration_group_description, sort_order, visible) VALUES ('72', 'Order Editor', 'Configuration options for Order Editor', 72, 1);
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Display the Payment Method dropdown?', 'ORDER_EDITOR_PAYMENT_DROPDOWN', 'true', 'Based on this selection Order Editor will display the payment method as a dropdown menu (true) or as an input field (false).', '72', '1', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Use prices from Separate Pricing Per Customer?', 'ORDER_EDITOR_USE_SPPC', 'false', 'Leave this set to false unless SPPC is installed.', '72', '3', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Use QTPro contribution?', 'ORDER_EDITOR_USE_QTPRO', 'false', 'Leave this set to false unless you have QTPro Installed.', '72', '4', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Allow the use of AJAX to update order information?', 'ORDER_EDITOR_USE_AJAX', 'true', 'This must be set to false if using a browser on which JavaScript is disabled or not available.', '72', '5', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Select your credit card payment method', 'ORDER_EDITOR_CREDIT_CARD', 'Credit Card', 'Order Editor will display the credit card fields when this payment method is selected.', '72', '6', now(), now(), NULL, 'tep_cfg_pull_down_payment_methods(');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Attach PDF Invoice to New Order Email', 'ORDER_EDITOR_ADD_PDF_INVOICE_EMAIL', 'false', 'When you send a new Order Email a PDF Invoice kan be attach to your email. This function only works if the contribution PDF Invoice is installed.', '72', '15', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
