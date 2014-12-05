@@ -12,6 +12,7 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
   Free Product Checkout added -- http://addons.oscommerce.com/info/8080
 
   Released under the GNU General Public License
@@ -63,7 +64,11 @@
 
 // if the order contains only virtual products, forward the customer to the billing page as
 // a shipping address is not needed
+/* ** Altered for CCGV **
   if ($order->content_type == 'virtual') {
+*/ 
+    if (($order->content_type == 'virtual') || ($order->content_type == 'virtual_weight') ) { // Edited for CCGV
+/* ** EOF alteration for CCGV ** */ 
     if (!tep_session_is_registered('shipping')) tep_session_register('shipping');
     $shipping = false;
     $sendto = false;

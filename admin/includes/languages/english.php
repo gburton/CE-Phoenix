@@ -16,6 +16,7 @@
   Database Check 1.4 added -- http://addons.oscommerce.com/info/9087
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Alternative Administration System added -- http://addons.oscommerce.com/info/9135
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
   
   Released under the GNU General Public License
 */
@@ -331,3 +332,19 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
   define('BOX_AAS_DONATIONS','Make a Donation');  
 // Database Check Tool
   define('BOX_TOOLS_DATABASE_CHECK', 'Database Check');
+// CCGV
+  define('BOX_HEADING_GV_ADMIN', 'Vouchers/Coupons');
+  define('BOX_GV_ADMIN_QUEUE', 'Gift Voucher Queue');
+  define('BOX_GV_ADMIN_MAIL', 'Mail Gift Voucher');
+  define('BOX_GV_ADMIN_SENT', 'Gift Vouchers sent');
+  define('BOX_COUPON_ADMIN','Coupon Admin');
+  define('IMAGE_RELEASE', 'Redeem Gift Voucher');
+  define('TEXT_DISPLAY_NUMBER_OF_GIFT_VOUCHERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> gift vouchers)');
+  define('TEXT_DISPLAY_NUMBER_OF_COUPONS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> coupons)');
+  define('TEXT_VALID_PRODUCTS_LIST', 'Products List');
+  define('TEXT_VALID_PRODUCTS_ID', 'Products ID');
+  define('TEXT_VALID_PRODUCTS_NAME', 'Products Name');
+  define('TEXT_VALID_PRODUCTS_MODEL', 'Products Model');
+  define('TEXT_VALID_CATEGORIES_LIST', 'Categories List');
+  define('TEXT_VALID_CATEGORIES_ID', 'Category ID');
+  define('TEXT_VALID_CATEGORIES_NAME', 'Category Name');  

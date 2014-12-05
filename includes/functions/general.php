@@ -11,6 +11,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
   
   Copyright (c) 2014 osCommerce
 
@@ -1419,3 +1420,42 @@
     return osc_split_mini_description($product['products_precis']);
   }
 /* ** EOF alterations for SEO Header Tags Reloaded ** */
+/* ** Altered for CCGV ** */
+///create a coupon coupon length set in admin
+  function create_coupon_code($salt="secret", $length = CCGV_SECURITY_CODE_LENGTH) {
+    $ccid = md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    srand((double)microtime()*1000000); // seed the random number generator
+    $random_start = @rand(0, (128-$length));
+    $good_result = 0;
+    while ($good_result == 0) {
+      $id1=substr($ccid, $random_start,$length);
+      $query = tep_db_query("select coupon_code from " . TABLE_COUPONS . " where coupon_code = '" . $id1 . "'");
+      if (tep_db_num_rows($query) == 0) $good_result = 1;
+    }
+    return $id1;
+  }
+////
+// Update the Customers GV account
+  function tep_gv_account_update($customer_id, $gv_id) {
+    $customer_gv_query = tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id = '" . (int)$customer_id . "'");
+    $coupon_gv_query = tep_db_query("select coupon_amount from " . TABLE_COUPONS . " where coupon_id = '" . (int)$gv_id . "'");
+    $coupon_gv = tep_db_fetch_array($coupon_gv_query);
+    if (tep_db_num_rows($customer_gv_query) > 0) {
+      $customer_gv = tep_db_fetch_array($customer_gv_query);
+      $new_gv_amount = $customer_gv['amount'] + $coupon_gv['coupon_amount'];
+      $gv_query = tep_db_query("update " . TABLE_COUPON_GV_CUSTOMER . " set amount = '" . $new_gv_amount . "' where customer_id = '" . (int)$customer_id . "'");
+    } else {
+      $gv_query = tep_db_query("insert into " . TABLE_COUPON_GV_CUSTOMER . " (customer_id, amount) values ('" . $customer_id . "', '" . $coupon_gv['coupon_amount'] . "')");
+    }
+  }
+////
+// Get tax rate from tax description
+  function tep_get_tax_rate_from_desc($tax_desc) {
+    $tax_query = tep_db_query("select tax_rate from " . TABLE_TAX_RATES . " where tax_description = '" . $tax_desc . "'");
+    $tax = tep_db_fetch_array($tax_query);
+    return $tax['tax_rate'];
+  }
+/* ** EOF alterations for CCGV ** */

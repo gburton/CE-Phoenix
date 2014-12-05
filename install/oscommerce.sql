@@ -1653,3 +1653,60 @@ CREATE TABLE aas_calendar (
 `date` int(11) DEFAULT NULL,
  
 PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+# Credit Class Gift Voucher
+DROP TABLE IF EXISTS coupon_email_track;
+CREATE TABLE coupon_email_track (
+  unique_id int(11) NOT NULL AUTO_INCREMENT,
+  coupon_id int(11) NOT NULL DEFAULT 0,
+  customer_id_sent int(11) NOT NULL DEFAULT 0,
+  sent_firstname varchar(32) DEFAULT NULL,
+  sent_lastname varchar(32) DEFAULT NULL,
+  emailed_to varchar(32) DEFAULT NULL,
+  date_sent date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (unique_id)
+)
+ENGINE = INNODB
+CHARACTER SET utf8
+COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS coupon_gv_customer;
+CREATE TABLE coupon_gv_customer (
+  customer_id int(5) NOT NULL DEFAULT 0,
+  amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  PRIMARY KEY (customer_id),
+  INDEX customer_id (customer_id)
+)
+ENGINE = INNODB
+CHARACTER SET utf8
+COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS coupon_gv_queue;
+CREATE TABLE coupon_gv_queue (
+  unique_id int(5) NOT NULL AUTO_INCREMENT,
+  customer_id int(5) NOT NULL DEFAULT 0,
+  order_id int(5) NOT NULL DEFAULT 0,
+  amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  date_created date NOT NULL DEFAULT '0000-00-00',
+  ipaddr varchar(32) NOT NULL DEFAULT '',
+  release_flag char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (unique_id),
+  INDEX uid (unique_id, customer_id, order_id)
+)
+ENGINE = INNODB
+CHARACTER SET utf8
+COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS coupon_redeem_track;
+CREATE TABLE coupon_redeem_track (
+  unique_id int(11) NOT NULL AUTO_INCREMENT,
+  coupon_id int(11) NOT NULL DEFAULT 0,
+  customer_id int(11) NOT NULL DEFAULT 0,
+  redeem_date date NOT NULL DEFAULT '0000-00-00',
+  redeem_ip binary(20) NOT NULL,
+  order_id int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (unique_id, coupon_id, customer_id)
+)
+ENGINE = INNODB
+CHARACTER SET utf8
+COLLATE utf8_unicode_ci;
