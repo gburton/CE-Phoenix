@@ -65,80 +65,48 @@ ul.shoppingCartList li.newItemInCart, ul.shoppingCartList li.newItemInCart A {
   font-size: 0.5em;
 }
 
-/* for the category list rework --------------------------------------------- */
+/* for the listings module rework ------------------------------------------- */
 
-.list-group-item-heading {
-  height: 40px;
-  overflow: hidden;
+.productHolder {
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 4px;
+  -webkit-transition: border .5s ease-in-out;
+       -o-transition: border .5s ease-in-out;
+          transition: border .5s ease-in-out;
 }
 
-.list-group-item-text {
-  height: 94px;
-  overflow: hidden;
+.productHolder:hover {
+  border: 1px solid #428bca;
+}
+
+.productHolder h2 {
+  font-size: 1.3em;
+}
+
+.item.list-group-item {
+    float: none;
+    width: 100%;
+    background-color: #fff;
+    border: none;
+}
+
+.item.list-group-item img {
+    float: left !important;
+    margin-right: 10px !important;
+}
+
+.grid-group-item {
+  margin-bottom: 20px;
+}
+
+.grid-group-item .list-group-item-text {
+  display: none;
 }
 
 p.lead del {
   font-size: 0.5em;
 }
-
-/* Category Listings  ------------------------------------------------------- */
-.thumbnail {
-  margin-bottom: 20px;
-  padding: 0px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  padding-top: 10px;
-}
-
-.thumbnail .caption h5 {
-  min-height: 35px;
-}
-
-.item.list-group-item {
-  float: none;
-  width: 100%;
-  background-color: #fff;
-  margin-bottom: 10px;
-}
-
-.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover {
-  background: #428bca;
-}
-
-.item.list-group-item .list-group-image {
-  margin-right: 10px;
-}
-
-.item.list-group-item .thumbnail {
-  margin-bottom: 0px;
-}
-
-.item.list-group-item .caption {
-  padding: 9px 9px 0px 9px;
-}
-
-.item.list-group-item:nth-of-type(odd) {
-  background: #eeeeee;
-}
-
-.item.list-group-item:before, .item.list-group-item:after {
-  display: table;
-  content: " ";
-}
-
-.item.list-group-item img {
-  float: left;
-}
-
-.item.list-group-item:after {
-  clear: both;
-}
-
-.list-group-item-text {
-  margin: 0 0 11px;
-}
-
 
 /* Responsive Images  ------------------------------------------------------- */
 /* the inbuilt bootstrap responsive images class breaks the text-center class */
@@ -336,134 +304,6 @@ p.lead del {
 
 .contact {
   border-left: 1px solid #ddd;
-}
-
-/* Category Listings  ------------------------------------------------------- */
-/* Reusable Inline Block Grids for building UL list  ------------------------ */
-.inline-span {
- display: block; overflow: hidden; padding: 0; margin: 0 auto; width: 100%;
-}
-.inline-span:before, .inline-span:after {
- display: table; content: " ";
-}
-.inline-span:after {
- clear: both
-}
-.inline-span > li {
- position: relative; display: inline; height: auto; float: left; padding: 1%; margin: 1%; overflow: hidden;
-}
-.inline-span.one-across > li {
- width: 98%
-}
-.inline-span.two-across > li {
- width: 48%
-}
-.inline-span.two-across > li:nth-child(2n+1) {
- clear: both
-}
-.inline-span.three-across > li {
- width: 31.3%
-}
-.inline-span.three-across > li:nth-child(3n+1) {
- clear: both
-}
-.inline-span.four-across > li {
- width: 23%
-}
-.inline-span.four-across > li:nth-child(4n+1) {
- clear: both
-}
-/*=======================first setup the grid view =====================*/
-.listingContainer {
- line-height: 1.42857143; background-color: #fff; border: 1px solid #ddd; border-radius: 4px; -webkit-transition: all .2s ease-in-out; transition: all .2s ease-in-out; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.listingContainer .placeholder > img, .listingContainer .placeholder a > img {
- margin-right: auto; margin-left: auto;
-}
-.listingContainer .caption {
- float: left; height: 166px; overflow: hidden;
-}
-.listingContainer .caption h2 {
- font-size: 16px; text-align: center;
-}
-.listingContainer .price-wrap {
- float: left; width: 48%;
-}
-.listingContainer .btn-wrap {
- float: right; text-align: right; width: 48%;
-}
-.listingContainer .optional-wrap {
- display: block; overflow: hidden; width: 100%; margin-left: 0; padding-left: 0;
-}
-.listingContainer .optional-wrap > li {
- position: relative; display: inline; float: left; overflow: hidden; width: 100%;
-}
-/*======================= some help for four wide option ==================*/
-.four-across .listingContainer .price-wrap {
- width: 100%; text-align: center;
-}
-.four-across .listingContainer .btn-wrap {
- float: right; text-align: center; width: 100%;
-}
-/*=======================next list view overrides ========================*/
-.one-across .listingContainer .placeholder {
- width: 25%; float: left; margin: 2% auto;
-}
-.one-across .listingContainer .caption {
- height: auto; width: 75%; float: right;
-}
-.one-across .listingContainer .caption h2 {
- text-align: left
-}
-.one-across .listingContainer .price-wrap {
- width: 25%; text-align: center;
-}
-.one-across .listingContainer .optional-wrap > li {
- width: 48%
-}
-/*======================= finally we go responsive ========================*/
-@media (max-width: 767px) {
-    /* Reusable Inline Block Grids --- */
-    .inline-span > li {
-     clear: none
-    }
-    .inline-span.four-across > li:nth-child(4n+1) {
-     clear: none
-    }
-    .inline-span.three-across > li:nth-child(3n+1) {
-     clear: none
-    }
-    .inline-span.two-across > li:nth-child(2n+1) {
-     clear: none
-    }
-    .inline-span.fluid-one-across > li {
-     width: 98%
-    }
-    .inline-span.fluid-two-across > li {
-     width: 48%
-    }
-    .inline-span.fluid-two-across > li:nth-child(2n+1) {
-     clear: both
-    }
-    /* Listings  ------------------------------------------------------- */
-    .listingContainer .optional-wrap {
-     display: none
-    }
-    .fluid-one-across .listingContainer .caption h2 {
-     margin-top: 2%
-    }
-    .fluid-one-across .listingContainer .price-wrap {
-     text-align: left; width: 48%;
-    }
-    .fluid-two-across .listingContainer .caption, .three-across.fluid-one-across .listingContainer .caption, .four-across.fluid-one-across .listingContainer .caption {
-     width: 100%; height: 60px;
-    }
-    .fluid-two-across .listingContainer .caption small, .three-across.fluid-one-across .listingContainer .caption small, .four-across.fluid-one-across .listingContainer .caption small {
-     display: none
-    }
-    .fluid-two-across .listingContainer .price-wrap, .fluid-two-across .listingContainer .btn-wrap, .three-across.fluid-one-across .listingContainer .price-wrap, .three-across.fluid-one-across .listingContainer .btn-wrap, .four-across.fluid-one-across .listingContainer .price-wrap, .four-across.fluid-one-across .listingContainer .btn-wrap {
-     text-align: center; width: 100%;
-    }
 }
 
 /* Account History Info ----------------------------------------------------- */
