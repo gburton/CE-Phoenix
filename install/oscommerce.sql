@@ -1,10 +1,15 @@
-﻿# $Id$
+# $Id$
 #
 # osCommerce, Open Source E-Commerce Solutions
 # http://www.oscommerce.com
 #
 # Copyright (c) 2014 osCommerce
-# Gergely SMTP Email Addition -- http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522
+#
+# Gergely SMTP Email Addition
+# Alternative Administration System
+# Credit Class Gift Voucher
+# Header Tags
+# Manual Order Maker
 #
 # Released under the GNU General Public License
 #
@@ -110,6 +115,12 @@ CREATE TABLE categories_description (
    categories_id int DEFAULT '0' NOT NULL,
    language_id int DEFAULT '1' NOT NULL,
    categories_name varchar(32) NOT NULL,
+# SEO Header Tags Reloaded
+  categories_description TEXT NULL,
+  categories_seo_title VARCHAR(128) NULL,
+  categories_seo_description TEXT NULL,
+  categories_seo_keywords VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
    PRIMARY KEY (categories_id, language_id),
    KEY idx_categories_name (categories_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -239,6 +250,9 @@ CREATE TABLE manufacturers (
   manufacturers_image varchar(64),
   date_added datetime NULL,
   last_modified datetime NULL,
+# SEO Header Tags Reloaded
+  manufacturers_seo_title VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (manufacturers_id),
   KEY IDX_MANUFACTURERS_NAME (manufacturers_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -250,6 +264,11 @@ CREATE TABLE manufacturers_info (
   manufacturers_url varchar(255) NOT NULL,
   url_clicked int(5) NOT NULL default '0',
   date_last_click datetime NULL,
+# SEO Header Tags Reloaded
+  manufacturers_description TEXT NULL,
+  manufacturers_seo_description TEXT NULL,
+  manufacturers_seo_keywords VARCHAR(128) NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -310,6 +329,10 @@ CREATE TABLE orders (
   orders_date_finished datetime,
   currency char(3),
   currency_value decimal(14,6),
+# Manual Order Maker
+  customer_service_id VARCHAR(15),
+  shipping_module VARCHAR(255),
+#EOF Manual Order Maker
   PRIMARY KEY (orders_id),
   KEY idx_orders_customers_id (customers_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -440,6 +463,12 @@ CREATE TABLE products_description (
   products_description text,
   products_url varchar(255) default NULL,
   products_viewed int(5) default '0',
+# SEO Header Tags Reloaded
+  products_seo_title VARCHAR(128) NULL,
+  products_seo_description TEXT NULL,
+  products_seo_keywords VARCHAR(128) NULL,
+  products_mini_description TEXT NULL,
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY  (products_id,language_id),
   KEY products_name (products_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -505,6 +534,9 @@ CREATE TABLE reviews (
   last_modified datetime,
   reviews_status tinyint(1) NOT NULL default '0',
   reviews_read int(5) NOT NULL default '0',
+# SEO Header Tags Reloaded
+  is_testimonial tinyint(1) NOT NULL default  '0',
+# EOF SEO Header Tags Reloaded
   PRIMARY KEY (reviews_id),
   KEY idx_reviews_products_id (products_id),
   KEY idx_reviews_customers_id (customers_id)
@@ -647,27 +679,27 @@ INSERT INTO categories VALUES ('19', 'subcategory_action_games.gif', '2', '0', n
 INSERT INTO categories VALUES ('20', 'subcategory_strategy.gif', '2', '0', now(), null);
 INSERT INTO categories VALUES ('21', 'category_gadgets.png', '0', '4', now(), null);
 
-INSERT INTO categories_description VALUES ( '1', '1', 'Hardware');
-INSERT INTO categories_description VALUES ( '2', '1', 'Software');
-INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies');
-INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards');
-INSERT INTO categories_description VALUES ( '5', '1', 'Printers');
-INSERT INTO categories_description VALUES ( '6', '1', 'Monitors');
-INSERT INTO categories_description VALUES ( '7', '1', 'Speakers');
-INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards');
-INSERT INTO categories_description VALUES ( '9', '1', 'Mice');
-INSERT INTO categories_description VALUES ( '10', '1', 'Action');
-INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction');
-INSERT INTO categories_description VALUES ( '12', '1', 'Comedy');
-INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons');
-INSERT INTO categories_description VALUES ( '14', '1', 'Thriller');
-INSERT INTO categories_description VALUES ( '15', '1', 'Drama');
-INSERT INTO categories_description VALUES ( '16', '1', 'Memory');
-INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives');
-INSERT INTO categories_description VALUES ( '18', '1', 'Simulation');
-INSERT INTO categories_description VALUES ( '19', '1', 'Action');
-INSERT INTO categories_description VALUES ( '20', '1', 'Strategy');
-INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets');
+INSERT INTO categories_description VALUES ( '1', '1', 'Hardware', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '2', '1', 'Software', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '5', '1', 'Printers', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '6', '1', 'Monitors', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '7', '1', 'Speakers', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '9', '1', 'Mice', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '10', '1', 'Action', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '12', '1', 'Comedy', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '14', '1', 'Thriller', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '15', '1', 'Drama', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '16', '1', 'Memory', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '18', '1', 'Simulation', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '19', '1', 'Action', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '20', '1', 'Strategy', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets', NULL, NULL, NULL, NULL);
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'osCommerce', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'Harald Ponce de Leon', 'The name of my store owner', '1', '2', now());
@@ -836,7 +868,6 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('SMTP Password', 'EMAIL_SMTP_PASSWORD', '', 'Add SMTP Password for SMTP protocol', '12', '8', 'tep_cfg_password', 'tep_cfg_input_password(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('SMTP User', 'EMAIL_SMTP_USER', '', 'Add SMTP user for SMTP protocol', '12', '9', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('SMTP Reply To', 'EMAIL_SMTP_REPLYTO', '', 'Add SMTP reply to address', '12', '10', now());
-# EOF Gergely SMTP configuration
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enable download', 'DOWNLOAD_ENABLED', 'false', 'Enable the products download functions.', '13', '1', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Download by redirect', 'DOWNLOAD_BY_REDIRECT', 'false', 'Use browser redirection for download. Disable on non-Unix systems.', '13', '2', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
@@ -1119,27 +1150,27 @@ INSERT INTO currencies VALUES (2,'Euro','EUR','','€','.',',','2','1.0000', now
 
 INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
 
-INSERT INTO manufacturers VALUES (1,'Matrox','manufacturer_matrox.gif', now(), null);
-INSERT INTO manufacturers VALUES (2,'Microsoft','manufacturer_microsoft.gif', now(), null);
-INSERT INTO manufacturers VALUES (3,'Warner','manufacturer_warner.gif', now(), null);
-INSERT INTO manufacturers VALUES (4,'Fox','manufacturer_fox.gif', now(), null);
-INSERT INTO manufacturers VALUES (5,'Logitech','manufacturer_logitech.gif', now(), null);
-INSERT INTO manufacturers VALUES (6,'Canon','manufacturer_canon.gif', now(), null);
-INSERT INTO manufacturers VALUES (7,'Sierra','manufacturer_sierra.gif', now(), null);
-INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactive.gif', now(), null);
-INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), null);
-INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), null);
+INSERT INTO manufacturers VALUES (1,'Matrox','manufacturer_matrox.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (2,'Microsoft','manufacturer_microsoft.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (3,'Warner','manufacturer_warner.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (4,'Fox','manufacturer_fox.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (5,'Logitech','manufacturer_logitech.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (6,'Canon','manufacturer_canon.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (7,'Sierra','manufacturer_sierra.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactive.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), null, NULL);
+INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), null, NULL);
 
-INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null);
-INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null);
-INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null);
-INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null);
-INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null);
-INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null);
-INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null);
-INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null);
-INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null);
-INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null);
+INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, NULL, NULL, NULL);
 
 INSERT INTO orders_status VALUES ( '1', '1', 'Pending', '1', '0');
 INSERT INTO orders_status VALUES ( '2', '1', 'Processing', '1', '1');
@@ -1174,34 +1205,34 @@ INSERT INTO products VALUES (26,10,'MSIMEXP','microsoft/imexplorer.gif',64.95, n
 INSERT INTO products VALUES (27,8,'HPLJ1100XI','hewlett_packard/lj1100xi.gif',499.99, now(),null,null,45.00,1,1,9,0);
 INSERT INTO products VALUES (28,100,'GT-P1000','samsung/galaxy_tab.gif',749.99, now(),null,null,1,1,1,10,0);
 
-INSERT INTO products_description VALUES (1,1,'Matrox G200 MMS','Reinforcing its position as a multi-monitor trailblazer, Matrox Graphics Inc. has once again developed the most flexible and highly advanced solution in the industry. Introducing the new Matrox G200 Multi-Monitor Series; the first graphics card ever to support up to four DVI digital flat panel displays on a single 8&quot; PCI board.<br /><br />With continuing demand for digital flat panels in the financial workplace, the Matrox G200 MMS is the ultimate in flexible solutions. The Matrox G200 MMS also supports the new digital video interface (DVI) created by the Digital Display Working Group (DDWG) designed to ease the adoption of digital flat panels. Other configurations include composite video capture ability and onboard TV tuner, making the Matrox G200 MMS the complete solution for business needs.<br /><br />Based on the award-winning MGA-G200 graphics chip, the Matrox G200 Multi-Monitor Series provides superior 2D/3D graphics acceleration to meet the demanding needs of business applications such as real-time stock quotes (Versus), live video feeds (Reuters &amp; Bloombergs), multiple windows applications, word processing, spreadsheets and CAD.','www.matrox.com/mga/products/g200_mms/home.cfm',0);
-INSERT INTO products_description VALUES (2,1,'Matrox G400 32MB','<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry\'s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC\'s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>','www.matrox.com/mga/products/mill_g400/home.htm',0);
-INSERT INTO products_description VALUES (3,1,'Microsoft IntelliMouse Pro','Every element of IntelliMouse Pro - from its unique arched shape to the texture of the rubber grip around its base - is the product of extensive customer and ergonomic research. Microsoft\'s popular wheel control, which now allows zooming and universal scrolling functions, gives IntelliMouse Pro outstanding comfort and efficiency.','www.microsoft.com/hardware/mouse/intellimouse.asp',0);
-INSERT INTO products_description VALUES (4,1,'The Replacement Killers','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 80 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.replacement-killers.com',0);
-INSERT INTO products_description VALUES (5,1,'Blade Runner - Director\'s Cut','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 112 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.bladerunner.com',0);
-INSERT INTO products_description VALUES (6,1,'The Matrix','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch.\r<br />\nAudio: Dolby Surround.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 131 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Making Of.','www.thematrix.com',0);
-INSERT INTO products_description VALUES (7,1,'You\'ve Got Mail','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch, Spanish.\r<br />\nSubtitles: English, Deutsch, Spanish, French, Nordic, Polish.\r<br />\nAudio: Dolby Digital 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.youvegotmail.com',0);
-INSERT INTO products_description VALUES (8,1,'A Bug\'s Life','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Digital 5.1 / Dobly Surround Stereo.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 91 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.abugslife.com',0);
-INSERT INTO products_description VALUES (9,1,'Under Siege','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (10,1,'Under Siege 2 - Dark Territory','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (11,1,'Fire Down Below','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (12,1,'Die Hard With A Vengeance','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 122 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (13,1,'Lethal Weapon','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (14,1,'Red Corner','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 117 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (15,1,'Frantic','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (16,1,'Courage Under Fire','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (17,1,'Speed','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (18,1,'Speed 2: Cruise Control','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 120 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (19,1,'There\'s Something About Mary','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 114 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (20,1,'Beloved','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 164 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0);
-INSERT INTO products_description VALUES (21,1,'SWAT 3: Close Quarters Battle','<strong>Windows 95/98</strong><br /><br />211 in progress with shots fired. Officer down. Armed suspects with hostages. Respond Code 3! Los Angles, 2005, In the next seven days, representatives from every nation around the world will converge on Las Angles to witness the signing of the United Nations Nuclear Abolishment Treaty. The protection of these dignitaries falls on the shoulders of one organization, LAPD SWAT. As part of this elite tactical organization, you and your team have the weapons and all the training necessary to protect, to serve, and \"When needed\" to use deadly force to keep the peace. It takes more than weapons to make it through each mission. Your arsenal includes C2 charges, flashbangs, tactical grenades. opti-Wand mini-video cameras, and other devices critical to meeting your objectives and keeping your men free of injury. Uncompromised Duty, Honor and Valor!','www.swat3.com',0);
-INSERT INTO products_description VALUES (22,1,'Unreal Tournament','From the creators of the best-selling Unreal, comes Unreal Tournament. A new kind of single player experience. A ruthless multiplayer revolution.<br /><br />This stand-alone game showcases completely new team-based gameplay, groundbreaking multi-faceted single player action or dynamic multi-player mayhem. It\'s a fight to the finish for the title of Unreal Grand Master in the gladiatorial arena. A single player experience like no other! Guide your team of \'bots\' (virtual teamates) against the hardest criminals in the galaxy for the ultimate title - the Unreal Grand Master.','www.unrealtournament.net',0);
-INSERT INTO products_description VALUES (23,1,'The Wheel Of Time','The world in which The Wheel of Time takes place is lifted directly out of Jordan\'s pages; it\'s huge and consists of many different environments. How you navigate the world will depend largely on which game - single player or multipayer - you\'re playing. The single player experience, with a few exceptions, will see Elayna traversing the world mainly by foot (with a couple notable exceptions). In the multiplayer experience, your character will have more access to travel via Ter\'angreal, Portal Stones, and the Ways. However you move around, though, you\'ll quickly discover that means of locomotion can easily become the least of the your worries...<br /><br />During your travels, you quickly discover that four locations are crucial to your success in the game. Not surprisingly, these locations are the homes of The Wheel of Time\'s main characters. Some of these places are ripped directly from the pages of Jordan\'s books, made flesh with Legend\'s unparalleled pixel-pushing ways. Other places are specific to the game, conceived and executed with the intent of expanding this game world even further. Either way, they provide a backdrop for some of the most intense first person action and strategy you\'ll have this year.','www.wheeloftime.com',0);
-INSERT INTO products_description VALUES (24,1,'Disciples: Sacred Lands','A new age is dawning...<br /><br />Enter the realm of the Sacred Lands, where the dawn of a New Age has set in motion the most momentous of wars. As the prophecies long foretold, four races now clash with swords and sorcery in a desperate bid to control the destiny of their gods. Take on the quest as a champion of the Empire, the Mountain Clans, the Legions of the Damned, or the Undead Hordes and test your faith in battles of brute force, spellbinding magic and acts of guile. Slay demons, vanquish giants and combat merciless forces of the dead and undead. But to ensure the salvation of your god, the hero within must evolve.<br /><br />The day of reckoning has come... and only the chosen will survive.','',0);
-INSERT INTO products_description VALUES (25,1,'Microsoft Internet Keyboard PS/2','The Internet Keyboard has 10 Hot Keys on a comfortable standard keyboard design that also includes a detachable palm rest. The Hot Keys allow you to browse the web, or check e-mail directly from your keyboard. The IntelliType Pro software also allows you to customize your hot keys - make the Internet Keyboard work the way you want it to!','',0);
-INSERT INTO products_description VALUES (26,1,'Microsoft IntelliMouse Explorer','Microsoft introduces its most advanced mouse, the IntelliMouse Explorer! IntelliMouse Explorer features a sleek design, an industrial-silver finish, a glowing red underside and taillight, creating a style and look unlike any other mouse. IntelliMouse Explorer combines the accuracy and reliability of Microsoft IntelliEye optical tracking technology, the convenience of two new customizable function buttons, the efficiency of the scrolling wheel and the comfort of expert ergonomic design. All these great features make this the best mouse for the PC!','www.microsoft.com/hardware/mouse/explorer.asp',0);
-INSERT INTO products_description VALUES (27,1,'Hewlett Packard LaserJet 1100Xi','HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP\'s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).','www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100',0);
-INSERT INTO products_description VALUES (28,1,'Samsung Galaxy Tab','<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users\' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>','http://galaxytab.samsungmobile.com',0);
+INSERT INTO products_description VALUES (1,1,'Matrox G200 MMS','Reinforcing its position as a multi-monitor trailblazer, Matrox Graphics Inc. has once again developed the most flexible and highly advanced solution in the industry. Introducing the new Matrox G200 Multi-Monitor Series; the first graphics card ever to support up to four DVI digital flat panel displays on a single 8&quot; PCI board.<br /><br />With continuing demand for digital flat panels in the financial workplace, the Matrox G200 MMS is the ultimate in flexible solutions. The Matrox G200 MMS also supports the new digital video interface (DVI) created by the Digital Display Working Group (DDWG) designed to ease the adoption of digital flat panels. Other configurations include composite video capture ability and onboard TV tuner, making the Matrox G200 MMS the complete solution for business needs.<br /><br />Based on the award-winning MGA-G200 graphics chip, the Matrox G200 Multi-Monitor Series provides superior 2D/3D graphics acceleration to meet the demanding needs of business applications such as real-time stock quotes (Versus), live video feeds (Reuters &amp; Bloombergs), multiple windows applications, word processing, spreadsheets and CAD.','www.matrox.com/mga/products/g200_mms/home.cfm',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (2,1,'Matrox G400 32MB','<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry\'s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC\'s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>','www.matrox.com/mga/products/mill_g400/home.htm',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (3,1,'Microsoft IntelliMouse Pro','Every element of IntelliMouse Pro - from its unique arched shape to the texture of the rubber grip around its base - is the product of extensive customer and ergonomic research. Microsoft\'s popular wheel control, which now allows zooming and universal scrolling functions, gives IntelliMouse Pro outstanding comfort and efficiency.','www.microsoft.com/hardware/mouse/intellimouse.asp',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (4,1,'The Replacement Killers','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 80 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.replacement-killers.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (5,1,'Blade Runner - Director\'s Cut','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 112 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.bladerunner.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (6,1,'The Matrix','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch.\r<br />\nAudio: Dolby Surround.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 131 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Making Of.','www.thematrix.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (7,1,'You\'ve Got Mail','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch, Spanish.\r<br />\nSubtitles: English, Deutsch, Spanish, French, Nordic, Polish.\r<br />\nAudio: Dolby Digital 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.youvegotmail.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (8,1,'A Bug\'s Life','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Digital 5.1 / Dobly Surround Stereo.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 91 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.abugslife.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (9,1,'Under Siege','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (10,1,'Under Siege 2 - Dark Territory','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (11,1,'Fire Down Below','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (12,1,'Die Hard With A Vengeance','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 122 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (13,1,'Lethal Weapon','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (14,1,'Red Corner','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 117 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (15,1,'Frantic','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (16,1,'Courage Under Fire','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (17,1,'Speed','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (18,1,'Speed 2: Cruise Control','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 120 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (19,1,'There\'s Something About Mary','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 114 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (20,1,'Beloved','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 164 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (21,1,'SWAT 3: Close Quarters Battle','<strong>Windows 95/98</strong><br /><br />211 in progress with shots fired. Officer down. Armed suspects with hostages. Respond Code 3! Los Angles, 2005, In the next seven days, representatives from every nation around the world will converge on Las Angles to witness the signing of the United Nations Nuclear Abolishment Treaty. The protection of these dignitaries falls on the shoulders of one organization, LAPD SWAT. As part of this elite tactical organization, you and your team have the weapons and all the training necessary to protect, to serve, and \"When needed\" to use deadly force to keep the peace. It takes more than weapons to make it through each mission. Your arsenal includes C2 charges, flashbangs, tactical grenades. opti-Wand mini-video cameras, and other devices critical to meeting your objectives and keeping your men free of injury. Uncompromised Duty, Honor and Valor!','www.swat3.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (22,1,'Unreal Tournament','From the creators of the best-selling Unreal, comes Unreal Tournament. A new kind of single player experience. A ruthless multiplayer revolution.<br /><br />This stand-alone game showcases completely new team-based gameplay, groundbreaking multi-faceted single player action or dynamic multi-player mayhem. It\'s a fight to the finish for the title of Unreal Grand Master in the gladiatorial arena. A single player experience like no other! Guide your team of \'bots\' (virtual teamates) against the hardest criminals in the galaxy for the ultimate title - the Unreal Grand Master.','www.unrealtournament.net',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (23,1,'The Wheel Of Time','The world in which The Wheel of Time takes place is lifted directly out of Jordan\'s pages; it\'s huge and consists of many different environments. How you navigate the world will depend largely on which game - single player or multipayer - you\'re playing. The single player experience, with a few exceptions, will see Elayna traversing the world mainly by foot (with a couple notable exceptions). In the multiplayer experience, your character will have more access to travel via Ter\'angreal, Portal Stones, and the Ways. However you move around, though, you\'ll quickly discover that means of locomotion can easily become the least of the your worries...<br /><br />During your travels, you quickly discover that four locations are crucial to your success in the game. Not surprisingly, these locations are the homes of The Wheel of Time\'s main characters. Some of these places are ripped directly from the pages of Jordan\'s books, made flesh with Legend\'s unparalleled pixel-pushing ways. Other places are specific to the game, conceived and executed with the intent of expanding this game world even further. Either way, they provide a backdrop for some of the most intense first person action and strategy you\'ll have this year.','www.wheeloftime.com',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (24,1,'Disciples: Sacred Lands','A new age is dawning...<br /><br />Enter the realm of the Sacred Lands, where the dawn of a New Age has set in motion the most momentous of wars. As the prophecies long foretold, four races now clash with swords and sorcery in a desperate bid to control the destiny of their gods. Take on the quest as a champion of the Empire, the Mountain Clans, the Legions of the Damned, or the Undead Hordes and test your faith in battles of brute force, spellbinding magic and acts of guile. Slay demons, vanquish giants and combat merciless forces of the dead and undead. But to ensure the salvation of your god, the hero within must evolve.<br /><br />The day of reckoning has come... and only the chosen will survive.','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (25,1,'Microsoft Internet Keyboard PS/2','The Internet Keyboard has 10 Hot Keys on a comfortable standard keyboard design that also includes a detachable palm rest. The Hot Keys allow you to browse the web, or check e-mail directly from your keyboard. The IntelliType Pro software also allows you to customize your hot keys - make the Internet Keyboard work the way you want it to!','',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (26,1,'Microsoft IntelliMouse Explorer','Microsoft introduces its most advanced mouse, the IntelliMouse Explorer! IntelliMouse Explorer features a sleek design, an industrial-silver finish, a glowing red underside and taillight, creating a style and look unlike any other mouse. IntelliMouse Explorer combines the accuracy and reliability of Microsoft IntelliEye optical tracking technology, the convenience of two new customizable function buttons, the efficiency of the scrolling wheel and the comfort of expert ergonomic design. All these great features make this the best mouse for the PC!','www.microsoft.com/hardware/mouse/explorer.asp',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (27,1,'Hewlett Packard LaserJet 1100Xi','HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP\'s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).','www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100',0, NULL, NULL, NULL, NULL);
+INSERT INTO products_description VALUES (28,1,'Samsung Galaxy Tab','<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users\' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>','http://galaxytab.samsungmobile.com',0, NULL, NULL, NULL, NULL);
 
 INSERT INTO products_attributes VALUES (1,1,4,1,0.00,'+');
 INSERT INTO products_attributes VALUES (2,1,4,2,50.00,'+');
@@ -1291,7 +1322,7 @@ INSERT INTO products_to_categories VALUES (26,9);
 INSERT INTO products_to_categories VALUES (27,5);
 INSERT INTO products_to_categories VALUES (28,21);
 
-INSERT INTO reviews VALUES (1,19,0,'John Doe',5,now(),null,1,0);
+INSERT INTO reviews VALUES (1,19,0,'John Doe',5,now(),null,1,0,0);
 
 INSERT INTO reviews_description VALUES (1,1, 'This has to be one of the funniest movies released for 1999!');
 
@@ -1554,6 +1585,7 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Pages', 'MODULE_HEADER_TAGS_DATEPICKER_JQUERY_PAGES', 'advanced_search.php;account_edit.php;create_account.php', 'The pages to add the Datepicker jQuery Scripts to.', '6', '0', 'ht_datepicker_jquery_show_pages', 'ht_datepicker_jquery_edit_pages(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_DATEPICKER_JQUERY_SORT_ORDER', '600', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Grid List javascript', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS', 'True', 'Do you want to enable the Grid/List Javascript module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());
+
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Pages', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES', 'advanced_search_result.php;index.php;products_new.php;specials.php', 'The pages to add the Grid List JS Scripts to.', '6', '0', 'ht_grid_list_view_show_pages', 'ht_grid_list_view_edit_pages(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_SORT_ORDER', '700', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Clickable Table Rows Module', 'MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_STATUS', 'True', 'Do you want to enable the Clickable Table Rows module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());
@@ -1638,18 +1670,136 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 
 # Alternative Administration System
 DROP TABLE IF EXISTS aas_calendar;
-CREATE TABLE aas_calendar (
-`id` int(11) NOT NULL AUTO_INCREMENT,
- 
-`title` text COLLATE utf8_unicode_ci NOT NULL,  
-`notes` text COLLATE utf8_unicode_ci,
- 
-`start` int(11) DEFAULT NULL,
- 
-`end` int(11) DEFAULT NULL,
- 
-`allDay` tinyint(1) NOT NULL DEFAULT '1',
- 
-`date` int(11) DEFAULT NULL,
- 
-PRIMARY KEY (`id`)) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+CREATE TABLE aas_calendar ( id int(11) NOT NULL AUTO_INCREMENT, 
+title text COLLATE utf8_unicode_ci NOT NULL, 
+notes text COLLATE utf8_unicode_ci, 
+start int(11) DEFAULT NULL,
+end int(11) DEFAULT NULL,
+allDay tinyint(1) NOT NULL DEFAULT '1',
+date int(11) DEFAULT NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS aas_settings;
+CREATE TABLE IF NOT EXISTS aas_settings (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  sgroup varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'aac',
+  skey varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  type varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'default',
+  description text COLLATE utf8_unicode_ci NOT NULL,
+  value text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY (skey,type)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22 ;
+
+INSERT INTO `aas_settings` (`id`, `sgroup`, `skey`, `type`, `description`, `value`) VALUES
+  (1, 'aac', 'displayFieldsPanel', 'default', 'AAS_AAC_DISPLAY_FIELDS_PANEL', ''),
+  (2, 'aac', 'displayLanguageSelection', 'default', 'AAS_AAC_DISPLAY_LANGUAGE_SELECTION', ''),
+  (3, 'aac', 'displayBottomInformation', 'default', 'AAS_AAC_DISPLAY_BOTTOM_INFORMATION', ''),
+  (4, 'aac', 'displayCountProducts', 'default', 'AAS_AAC_DISPLAYCOUNTPRODUCTS', ''),
+  (5, 'aac', 'enableAttributesManager', 'default', 'AAS_AAC_DISABLE_ATTRIBUTES_MANAGER', ''),
+  (6, 'aac', 'enableTempProductsList', 'default', 'AAS_AAC_DISABLE_TEMP_PRODUCTS_LIST', ''),
+  (7, 'aac', 'enableToolBox', 'default', 'AAS_AAC_DISABLE_TOOLBOX', ''),
+  (8, 'aac', 'enableClocks', 'default', 'AAS_AAC_DISABLE_CLOCKS', ''),
+  (9, 'aac', 'enableSpecials', 'default', 'AAS_AAC_DISABLE_SPECIALS', ''),
+  (10, 'aac', 'enableModulesManagerDialog', 'default', 'AAS_AAC_DISABLE_MODULES_MANAGER_DIALOG', ''),
+  (11, 'aac', 'enableCalendar', 'default', 'AAS_AAC_DISABLE_CALENDAR', ''),
+  (12, 'aac', 'enableOnlineUsers', 'default', 'AAS_AAC_DISABLE_ONLINE_USERS', ''),
+  (13, 'aac', 'enableContactMe', 'default', 'AAS_AAC_DISABLE_CONTACT_ME', ''),
+  (14, 'aac', 'enableDonations', 'default', 'AAS_AAC_DISABLE_DONATIONS', ''),
+  (15, 'aac', 'delete_products', 'default', 'AAS_AAC_DISABLE_DELETE_PRODUCTS', ''),
+  (16, 'aac', 'import', 'default', 'AAS_AAC_DISABLE_IMPORT', ''),
+  (17, 'aac', 'export', 'default', 'AAS_AAC_DISABLE_EXPORT', ''),
+  (18, 'aac', 'search', 'default', 'AAS_AAC_DISABLE_SEARCH', ''),
+  (19, 'aac', 'print', 'default', 'AAS_AAC_DISABLE_PRINT', ''),
+  (20, 'aac', 'all_edit', 'default', 'AAS_AAC_DISABLE_ALL_EDIT', ''),
+  (21, 'aac', 'mass_columns_edit', 'default', 'AAS_AAC_DISABLE_MASS_COLUMNS_EDIT', '');
+
+# Credit Class Gift Voucher (CCGV)
+DROP TABLE IF EXISTS coupon_email_track;
+CREATE TABLE coupon_email_track (
+  unique_id int(11) NOT NULL AUTO_INCREMENT,
+  coupon_id int(11) NOT NULL DEFAULT 0,
+  customer_id_sent int(11) NOT NULL DEFAULT 0,
+  sent_firstname varchar(32) DEFAULT NULL,
+  sent_lastname varchar(32) DEFAULT NULL,
+  emailed_to varchar(32) DEFAULT NULL,
+  date_sent date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (unique_id)
+  ) ENGINE=INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+  
+DROP TABLE IF EXISTS coupon_gv_customer;
+CREATE TABLE coupon_gv_customer (
+  customer_id int(5) NOT NULL DEFAULT 0,
+  amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  PRIMARY KEY (customer_id),
+  INDEX customer_id (customer_id)
+  ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+  
+DROP TABLE IF EXISTS coupon_gv_queue;
+CREATE TABLE coupon_gv_queue (
+  unique_id int(5) NOT NULL AUTO_INCREMENT,
+  customer_id int(5) NOT NULL DEFAULT 0,
+  order_id int(5) NOT NULL DEFAULT 0,
+  amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  date_created date NOT NULL DEFAULT '0000-00-00',
+  ipaddr varchar(32) NOT NULL DEFAULT '',
+  release_flag char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (unique_id),
+  INDEX uid (unique_id, customer_id, order_id)
+  ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+  
+DROP TABLE IF EXISTS coupon_redeem_track;
+CREATE TABLE coupon_redeem_track (
+  unique_id int(11) NOT NULL AUTO_INCREMENT,
+  coupon_id int(11) NOT NULL DEFAULT 0,
+  customer_id int(11) NOT NULL DEFAULT 0,
+  redeem_date date NOT NULL DEFAULT '0000-00-00',
+  redeem_ip binary(20) NOT NULL,
+  order_id int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (unique_id, coupon_id, customer_id)
+  ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+  
+DROP TABLE IF EXISTS coupons;  
+CREATE TABLE coupons (
+  coupon_id int(11) NOT NULL AUTO_INCREMENT,
+  coupon_type char(1) NOT NULL DEFAULT 'F',
+  coupon_code varchar(32) NOT NULL DEFAULT '',
+  coupon_amount decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  coupon_minimum_order decimal(8, 2) UNSIGNED NOT NULL DEFAULT 0.00,
+  coupon_start_date date DEFAULT '0000-00-00',
+  coupon_expire_date date DEFAULT '0000-00-00',
+  uses_per_coupon int(5) NOT NULL DEFAULT 1,
+  uses_per_user int(5) NOT NULL DEFAULT 0,
+  restrict_to_products varchar(255) DEFAULT NULL,
+  restrict_to_categories varchar(255) DEFAULT NULL,
+  restrict_to_customers text DEFAULT NULL,
+  coupon_active char(1) NOT NULL DEFAULT 'Y',
+  coupon_status int(1) NOT NULL DEFAULT 1,
+  date_created date NOT NULL DEFAULT '0000-00-00',
+  date_modified date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (coupon_id)
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS coupons_description;
+CREATE TABLE coupons_description (
+  coupon_id int(11) NOT NULL DEFAULT 0,
+  language_id int(11) NOT NULL DEFAULT 0,
+  coupon_name varchar(32) NOT NULL DEFAULT '',
+  coupon_description text DEFAULT NULL,
+  PRIMARY KEY (language_id, coupon_id)
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+INSERT INTO configuration_group(configuration_group_id, configuration_group_title, configuration_group_description, sort_order, visible) VALUES (100, 'CCGV Settings', 'Discount Coupons and Gift Voucher Settings', 100, 1);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('Welcome Gift Voucher Amount', 'NEW_SIGNUP_GIFT_VOUCHER_AMOUNT', '0', 'Welcome Gift Voucher Amount: If you do not wish to send a Gift Voucher in your create account email put 0 for no amount else if you do place the amount here i.e. 10.00 or 50.00 no currency signs', 100, 1, NULL, '2003-12-05 05:01:41', NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('Welcome Discount Coupon Code', 'NEW_SIGNUP_DISCOUNT_COUPON', '', 'Welcome Discount Coupon Code: if you do not want to send a coupon in your create account email leave blank else place the coupon code you wish to use', 100, 2, NULL, '2003-12-05 05:01:41', NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES ('Coupon Code Length', 'CCGV_SECURITY_CODE_LENGTH', '8', 'Coupon Code Length: Set the length of the auto generated coupon code', 10, 3, NULL, '2014-12-05 05:01:41', NULL, NULL);
+
+# Manual Order Maker
+INSERT INTO configuration_group (configuration_group_id, configuration_group_title, configuration_group_description, sort_order, visible) VALUES ('72', 'Order Editor', 'Configuration options for Order Editor', 72, 1);
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Display the Payment Method dropdown?', 'ORDER_EDITOR_PAYMENT_DROPDOWN', 'true', 'Based on this selection Order Editor will display the payment method as a dropdown menu (true) or as an input field (false).', '72', '1', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Use prices from Separate Pricing Per Customer?', 'ORDER_EDITOR_USE_SPPC', 'false', 'Leave this set to false unless SPPC is installed.', '72', '3', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Use QTPro contribution?', 'ORDER_EDITOR_USE_QTPRO', 'false', 'Leave this set to false unless you have QTPro Installed.', '72', '4', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Allow the use of AJAX to update order information?', 'ORDER_EDITOR_USE_AJAX', 'true', 'This must be set to false if using a browser on which JavaScript is disabled or not available.', '72', '5', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Select your credit card payment method', 'ORDER_EDITOR_CREDIT_CARD', 'Credit Card', 'Order Editor will display the credit card fields when this payment method is selected.', '72', '6', now(), now(), NULL, 'tep_cfg_pull_down_payment_methods(');
+INSERT into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Attach PDF Invoice to New Order Email', 'ORDER_EDITOR_ADD_PDF_INVOICE_EMAIL', 'false', 'When you send a new Order Email a PDF Invoice kan be attach to your email. This function only works if the contribution PDF Invoice is installed. NOT INSTALLED BY DEFAULT', '72', '15', now(), now(), NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),');

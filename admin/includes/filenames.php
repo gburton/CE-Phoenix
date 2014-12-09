@@ -15,7 +15,8 @@
   Database Check Tool 1.4 added -- http://addons.oscommerce.com/info/9087
   Order Editor added -- http://addons.oscommerce.com/info/7844
   Manual Order Maker -- http://addons.oscommerce.com/info/8334
-  Alternative Administration System added -- http://addons.oscommerce.com/info/9135  
+  Alternative Administration System added -- http://addons.oscommerce.com/info/9135 
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
   
   Released under the GNU General Public License
 */
@@ -80,4 +81,9 @@
   define('FILENAME_AAS','aas.php');  
 // Database Check Tool
   define('FILENAME_DATABASE_CHECK', 'database_check.php');
+// CCGV
+  define('FILENAME_COUPON_ADMIN', 'coupon_admin.php');
+  define('FILENAME_GV_SENT', 'gv_sent.php');
+  define('FILENAME_GV_MAIL', 'gv_mail.php');
+  define('FILENAME_GV_QUEUE', 'gv_queue.php');
 ?>

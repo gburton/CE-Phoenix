@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
 
   Released under the GNU General Public License
 */
@@ -44,6 +51,7 @@
   }
 
 // load the selected payment module
+/* ** Altered for CCGV **
   require(DIR_WS_CLASSES . 'payment.php');
   $payment_modules = new payment($payment);
 
@@ -53,6 +61,25 @@
   $payment_modules->update_status();
 
   if ( ($payment_modules->selected_module != $payment) || ( is_array($payment_modules->modules) && (sizeof($payment_modules->modules) > 1) && !is_object($$payment) ) || (is_object($$payment) && ($$payment->enabled == false)) ) {
+*/
+  require(DIR_WS_CLASSES . 'payment.php');
+
+  if ($credit_covers) $payment=''; // CCGV  
+  $payment_modules = new payment($payment);
+  require(DIR_WS_CLASSES . 'order_total.php');// CCGV
+
+  require(DIR_WS_CLASSES . 'order.php');
+  $order = new order;
+
+  $payment_modules->update_status();
+  $order_total_modules = new order_total;// CCGV
+  $order_total_modules->collect_posts();// CCGV
+  $order_total_modules->pre_confirmation_check();//  CCGV
+
+// Line edited for CCGV
+//  if ( ( is_array($payment_modules->modules) && (sizeof($payment_modules->modules) > 1) && !is_object($$payment) ) || (is_object($$payment) && ($$payment->enabled == false)) ) {
+  if ( (is_array($payment_modules->modules)) && (sizeof($payment_modules->modules) > 1) && (!is_object($$payment)) && (!$credit_covers) ) {
+/* ** EOF alteration for CCGV ** */
     tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED), 'SSL'));
   }
 
@@ -63,11 +90,11 @@
 // load the selected shipping module
   require(DIR_WS_CLASSES . 'shipping.php');
   $shipping_modules = new shipping($shipping);
-
+/* ** Altered for CCGV ** Commented out and place above in previous alteration
   require(DIR_WS_CLASSES . 'order_total.php');
   $order_total_modules = new order_total;
   $order_total_modules->process();
-
+*/
 // Stock Check
   $any_out_of_stock = false;
   if (STOCK_CHECK == 'true') {
@@ -150,6 +177,9 @@
 
 <?php
   if (MODULE_ORDER_TOTAL_INSTALLED) {
+/* ** Altered for CCGV ** */
+  $order_total_modules->process();
+/* ** EOF alteration for CCGV ** */  
     echo $order_total_modules->output();
   }
 ?>

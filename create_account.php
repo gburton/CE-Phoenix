@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2013 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -246,6 +253,32 @@
       }
 
       $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
+/* ** Altered for CCGV ** */
+  if (NEW_SIGNUP_GIFT_VOUCHER_AMOUNT > 0) {
+    $coupon_code = create_coupon_code();
+    $insert_query = tep_db_query("insert into " . TABLE_COUPONS . " (coupon_code, coupon_type, coupon_amount, date_created) values ('" . $coupon_code . "', 'G', '" . NEW_SIGNUP_GIFT_VOUCHER_AMOUNT . "', now())");
+    $coupon_id = tep_db_insert_id();
+    $insert_query = tep_db_query("insert into " . TABLE_COUPON_EMAIL_TRACK . " (coupon_id, customer_id_sent, sent_firstname, sent_lastname, emailed_to, date_sent) values ('" . (int)$coupon_id . "', '". (int)$customer_id . "', '" . $firstname . "', '" . $lastname . "', '" . $email_address . "', now() )");
+    $email_text .= sprintf(EMAIL_GV_INCENTIVE_HEADER, $currencies->format(NEW_SIGNUP_GIFT_VOUCHER_AMOUNT)) . "\n\n" .
+                   sprintf(EMAIL_GV_REDEEM, $coupon_code) . "\n\n" .
+                   STORE_NAME .
+                   "\n\n";
+  }
+  if (NEW_SIGNUP_DISCOUNT_COUPON != '') {
+    $coupon_code = NEW_SIGNUP_DISCOUNT_COUPON;
+    $coupon_query = tep_db_query("select * from " . TABLE_COUPONS . " where coupon_active = 'Y' and coupon_status = '1' and coupon_code = '" . $coupon_code . "'");
+    $coupon = tep_db_fetch_array($coupon_query);
+    $coupon_id = $coupon['coupon_id'];
+    $coupon_desc_query = tep_db_query("select * from " . TABLE_COUPONS_DESCRIPTION . " where coupon_id = '" . (int)$coupon_id . "' and language_id = '" . (int)$languages_id . "'");
+    $coupon_desc = tep_db_fetch_array($coupon_desc_query);
+    $insert_query = tep_db_query("insert into " . TABLE_COUPON_EMAIL_TRACK . " (coupon_id, customer_id_sent, sent_firstname, sent_lastname, emailed_to, date_sent) values ('" . (int)$coupon_id . "', '". (int)$customer_id . "', '" . $firstname . "', '" . $lastname . "', '" . $email_address . "', now() )");
+    $email_text .= EMAIL_COUPON_INCENTIVE_HEADER .  "\n" .
+                   sprintf("%s", $coupon_desc['coupon_description']) ."\n\n" .
+                   sprintf(EMAIL_COUPON_REDEEM, $coupon['coupon_code']) . "\n\n" .
+                   STORE_NAME .
+                   "\n\n";
+  }
+/* ** EOF alteration for CCGV ** */
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
       tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));

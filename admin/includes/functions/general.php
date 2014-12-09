@@ -16,6 +16,7 @@
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Order Editor added -- http://addons.oscommerce.com/info/7844
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
   
   Released under the GNU General Public License
 */
@@ -751,6 +752,19 @@
       return -1;
     }
   }
+/* ** Altered for CCGV ** */
+// Sets the status of a discount coupon
+  function tep_set_coupon_status($coupon_id, $status) {
+    if ($status == '1') {
+      return tep_db_query("update " . TABLE_COUPONS . " set coupon_status = '1' where coupon_id = '" . (int)$coupon_id . "'");
+    } elseif ($status == '0') {
+      return tep_db_query("update " . TABLE_COUPONS . " set coupon_status = '0' where coupon_id = '" . (int)$coupon_id . "'");
+    } else {
+      return -1;
+    }
+  }
+////
+/* ** EOF alterations for CCGV ** */
 
 ////
 // Sets the status of a product
@@ -1640,6 +1654,7 @@ return tep_draw_password_field('configuration_value', $password);
 
     return $product['products_name'];
   }
+/* ** EOF alterations for SEO Header Tags ** */
 
 /* ** Altered for Order Editor ** */
   //////create a pull down for all payment installed payment methods for Order Editor configuration
@@ -1719,4 +1734,36 @@ return $output;
     }
   }
 /* ** EOF alteration for Manual Order Maker ** */
-/* ** EOF alterations for SEO Header Tags ** */
+
+ /* ** Altered for CCGV ** */
+ /// Creates a Coupon Code. lenght of the coupon set in admin
+  function create_coupon_code($salt="somemumbojumbo", $length=CCGV_SECURITY_CODE_LENGTH) {
+    $ccid = md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    srand((double)microtime()*1000000); // seed the random number generator
+    $random_start = @rand(0, (128-$length));
+    $good_result = 0;
+    while ($good_result == 0) {
+      $id1 = substr($ccid, $random_start,$length);
+      $query = tep_db_query("select coupon_code from " . TABLE_COUPONS . " where coupon_code = '" . $id1 . "'");
+      if (tep_db_num_rows($query) == 0) $good_result = 1;
+    }
+    return $id1;
+  }
+////
+// Update the Customers GV account
+  function tep_gv_account_update($customer_id, $gv_id) {
+    $customer_gv_query = tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id = '" . (int)$customer_id . "'");
+    $coupon_gv_query = tep_db_query("select coupon_amount from " . TABLE_COUPONS . " where coupon_id = '" . $gv_id . "'");
+    $coupon_gv = tep_db_fetch_array($coupon_gv_query);
+    if (tep_db_num_rows($customer_gv_query) > 0) {
+      $customer_gv = tep_db_fetch_array($customer_gv_query);
+      $new_gv_amount = $customer_gv['amount'] + $coupon_gv['coupon_amount'];
+ $gv_query = tep_db_query("update " . TABLE_COUPON_GV_CUSTOMER . " set amount = '" . $new_gv_amount . "' where customer_id = '" . (int)$customer_id . "'");
+    } else {
+      $gv_query = tep_db_query("insert into " . TABLE_COUPON_GV_CUSTOMER . " (customer_id, amount) values ('" . $customer_id . "', '" . $coupon_gv['coupon_amount'] . "')");
+    }
+  }
+/* ** EOF alterations for CCGV ** */

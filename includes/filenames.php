@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -73,6 +74,10 @@
 **************               Raymond Burns                **************
 ************************************************************************
 */
-// Defination for SEO Header Tags Reloaded
+// SEO Header Tags Reloaded
   define('FILENAME_TESTIMONIALS', 'testimonials.php');
+// CCGV
+  define('FILENAME_GV_FAQ', 'gv_faq.php');
+  define('FILENAME_GV_REDEEM', 'gv_redeem.php');
+  define('FILENAME_GV_SEND', 'gv_send.php');
 ?>

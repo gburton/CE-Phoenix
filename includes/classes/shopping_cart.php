@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2012 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -18,7 +25,11 @@
     }
 
     function restore_contents() {
+/* ** Altered for CCGV **
       global $customer_id;
+*/
+      global $customer_id, $gv_id, $REMOTE_ADDR;
+/* ** EOF alterations for CCGV ** */	  
 
       if (!tep_session_is_registered('customer_id')) return false;
 
@@ -40,6 +51,14 @@
             tep_db_query("update " . TABLE_CUSTOMERS_BASKET . " set customers_basket_quantity = '" . tep_db_input($qty) . "' where customers_id = '" . (int)$customer_id . "' and products_id = '" . tep_db_input($products_id) . "'");
           }
         }
+/* ** Altered for CCGV ** */
+        if (tep_session_is_registered('gv_id')) {
+          $gv_query = tep_db_query("insert into  " . TABLE_COUPON_REDEEM_TRACK . " (coupon_id, customer_id, redeem_date, redeem_ip) values ('" . $gv_id . "', '" . (int)$customer_id . "', now(),'" . $REMOTE_ADDR . "')");
+          $gv_update = tep_db_query("update " . TABLE_COUPONS . " set coupon_active = 'Y' where coupon_id = '" . $gv_id . "'");
+          tep_gv_account_update($customer_id, $gv_id);
+          tep_session_unregister('gv_id');
+        }
+/* ** EOF alterations for CCGV ** */
       }
 
 // reset per-session cart contents, but not the database contents
@@ -259,6 +278,9 @@
     }
 
     function calculate() {
+/* ** Altered for CCGV ** */
+    $this->total_virtual = 0;
+/* ** EOF alterations for CCGV ** */
       global $currencies;
 
       $this->total = 0;
@@ -272,6 +294,14 @@
 // products price
         $product_query = tep_db_query("select products_id, products_price, products_tax_class_id, products_weight from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
         if ($product = tep_db_fetch_array($product_query)) {
+/* ** Altered for CCGV ** */
+          $no_count = 1;
+          $gv_query = tep_db_query("select products_model from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
+          $gv_result = tep_db_fetch_array($gv_query);
+          if (preg_match('/^GIFT/', $gv_result['products_model'])) {
+            $no_count = 0;
+          }
+/* ** EOF alterations for CCGV ** */
           $prid = $product['products_id'];
           $products_tax = tep_get_tax_rate($product['products_tax_class_id']);
           $products_price = $product['products_price'];
@@ -282,9 +312,15 @@
             $specials = tep_db_fetch_array($specials_query);
             $products_price = $specials['specials_new_products_price'];
           }
-
+/* ** Altered for CCGV **
           $this->total += $currencies->calculate_price($products_price, $products_tax, $qty);
-          $this->weight += ($qty * $products_weight);
+*/
+          // the tep_add_tax MUST NOT be changed to $currencies->calculate price
+          $this->total_virtual += tep_add_tax($products_price, $products_tax) * $qty * $no_count;
+          $this->weight_virtual += ($qty * $products_weight) * $no_count;
+          $this->total += tep_add_tax($products_price, $products_tax) * $qty;
+/* ** EOF alterations for CCGV ** */          
+		  $this->weight += ($qty * $products_weight);
         }
 
 // attributes price
@@ -294,9 +330,15 @@
             $attribute_price_query = tep_db_query("select options_values_price, price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " where products_id = '" . (int)$prid . "' and options_id = '" . (int)$option . "' and options_values_id = '" . (int)$value . "'");
             $attribute_price = tep_db_fetch_array($attribute_price_query);
             if ($attribute_price['price_prefix'] == '+') {
+/* ** Altered for CCGV **			
               $this->total += $currencies->calculate_price($attribute_price['options_values_price'], $products_tax, $qty);
             } else {
               $this->total -= $currencies->calculate_price($attribute_price['options_values_price'], $products_tax, $qty);
+*/
+              $this->total += tep_add_tax($attribute_price['options_values_price'], $products_tax, $qty);
+            } else {
+              $this->total -= tep_add_tax($attribute_price['options_values_price'], $products_tax, $qty);
+/* ** EOF alterations for CCGV ** */
             }
           }
         }
@@ -397,6 +439,51 @@
                     break;
                 }
               } else {
+/* ** Altered for CCGV ** */
+           if ($this->show_weight() == 0) {
+              $wvirtual_check_query = tep_db_query("select products_weight from " . TABLE_PRODUCTS . " where products_id = '" . $products_id . "'");
+              $wvirtual_check = tep_db_fetch_array($wvirtual_check_query);
+              if ($wvirtual_check['products_weight'] == 0) {
+                switch ($this->content_type) {
+                  case 'physical':
+                    $this->content_type = 'mixed';
+                    return $this->content_type;
+                    break;
+                  default:
+                    $this->content_type = 'virtual_weight';
+                    break;
+                }
+              } else {
+                switch ($this->content_type) {
+                  case 'virtual':
+                    $this->content_type = 'mixed';
+                    return $this->content_type;
+                    break;
+                  default:
+                    $this->content_type = 'physical';
+                    break;
+                }
+              }
+          }
+       }
+     }
+          } elseif ($this->show_weight() == 0) {
+            reset($this->contents);
+            while (list($products_id, ) = each($this->contents)) {
+              $virtual_check_query = tep_db_query("select products_weight from " . TABLE_PRODUCTS . " where products_id = '" . $products_id . "'");
+              $virtual_check = tep_db_fetch_array($virtual_check_query);
+              if ($virtual_check['products_weight'] == 0) {
+                switch ($this->content_type) {
+                  case 'physical':
+                    $this->content_type = 'mixed';
+                    return $this->content_type;
+                    break;
+                  default:
+                    $this->content_type = 'virtual_weight';
+                    break;
+                }
+              } else {
+/* ** EOF alterations for CCGV ** */
                 switch ($this->content_type) {
                   case 'virtual':
                     $this->content_type = 'mixed';
@@ -429,6 +516,7 @@
       return $this->content_type;
     }
 
+/* ** Altered for CCGV **
     function unserialize($broken) {
       for(reset($broken);$kv=each($broken);) {
         $key=$kv['key'];
@@ -436,6 +524,31 @@
         $this->$key=$kv['value'];
       }
     }
+*/
+    function count_contents_virtual() {  // get total number of items in cart disregard gift vouchers
+      $total_items = 0;
+      if (is_array($this->contents)) {
+        reset($this->contents);
+        while (list($products_id, ) = each($this->contents)) {
+          $no_count = false;
+          $gv_query = tep_db_query("select products_model from " . TABLE_PRODUCTS . " where products_id = '" . $products_id . "'");
+          $gv_result = tep_db_fetch_array($gv_query);
+          if (preg_match('/^GIFT/', $gv_result['products_model'])) {
+            $no_count=true;
+          }
+          if (NO_COUNT_ZERO_WEIGHT == 1) {
+            $gv_query = tep_db_query("select products_weight from " . TABLE_PRODUCTS . " where products_id = '" . tep_get_prid($products_id) . "'");
+            $gv_result=tep_db_fetch_array($gv_query);
+            if ($gv_result['products_weight']<=MINIMUM_WEIGHT) {
+              $no_count=true;
+            }
+          }
+          if (!$no_count) $total_items += $this->get_quantity($products_id);
+        }
+      }
+      return $total_items;
+    }
+/* ** EOF alterations for CCGV ** */
 
   }
 ?>

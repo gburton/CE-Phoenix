@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
   
   Released under the GNU General Public License
 */
@@ -323,6 +324,22 @@ define('PRODUCT_REMOVED', '%s has been removed from your Cart');
 **************               Raymond Burns                **************
 ************************************************************************
 */
-// Definition for SEO Header Tags Reloaded
+// SEO Header Tags Reloaded
   define('TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> testimonials)');
   define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span> Required information');
+// CCGV
+  define('VOUCHER_BALANCE', 'Voucher Balance');
+  define('BOX_HEADING_GIFT_VOUCHER', 'Gift Voucher Account');
+  define('GV_FAQ', 'Gift Voucher FAQ');
+  define('IMAGE_REDEEM_VOUCHER', 'Redeem');
+  define('ERROR_REDEEMED_AMOUNT', 'Congratulations, you have redeemed ');
+  define('ERROR_NO_REDEEM_CODE', 'You did not enter a redeem code.');
+  define('ERROR_NO_INVALID_REDEEM_GV', 'Invalid Gift Voucher Code');
+  define('TABLE_HEADING_CREDIT', 'Discount Coupon');
+  define('GV_HAS_VOUCHERA', 'You have funds in your Gift Voucher Account. If you want <br>                           you can send those funds by <a class="pageResults" href="');
+  define('GV_HAS_VOUCHERB', '"><b>email</b></a> to someone');
+  define('ENTRY_AMOUNT_CHECK_ERROR', 'You do not have enough funds to send this amount.');
+  define('BOX_SEND_TO_FRIEND', 'Send Gift Voucher');
+  define('VOUCHER_REDEEMED', 'Voucher Redeemed');
+  define('CART_COUPON', 'Coupon :');
+  define('CART_COUPON_INFO', 'more info');  

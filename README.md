@@ -1,5 +1,10 @@
 osCommerce-234-bootstrap
 =========================
+ALL CREDIT GOES TO THE ORIGINAL AUTHORS OF THE BASE AND ADDONS
+==============================================================
+All of the addons are commented in every file change with the proper support URL for each!
+I take no credit for any addons or developments. 
+
 
 osCommerce 2.3.4 with Bootstrap, what more needs to be said.  
 
@@ -68,7 +73,7 @@ You also need to install other components such as the logo, breadcrumb, footer b
 
 SEO Header Tags RELOADED
 ========================
-1. After osCommerce installation, install the custom SQL changes using phpMyAdmin from the ../catalog/SQL_changes folder
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in ../catalog/SQL_changes folder
 2. Go through the following language files to change any customizable text pertaining to your installation
 	a. ../catalog/includes/languages/english/index.php
 	b. ../catalog/includes/languages/english/specials.php
@@ -88,8 +93,8 @@ Change the number based on how many payments you have available (Including the F
 
 Manual Order Maker
 ==================
-1. Install the appropriate SQL files within the ../catalog/SQL_changes/
-				*NOTE: You can remove any SQL changes by using the appropriate uninstall sql file
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in ../catalog/SQL_changes/
+				*NOTE: You can remove any SQL changes specific to Manual Order Maker by using the appropriate uninstall sql file
 2. Go to the Administration Backend and change the options for "Configuration >> Order Editor". Be sure to read **each** description accurately before changing options.
 
 SMTP Email Configuration
@@ -134,3 +139,21 @@ If you would like a file to be excluded from the security cleansing, be sure to 
 __Try your hardest__ not to exclude files in this manner. If they are payment or shipping files then fine .. but not for badly written contributions, in these cases the contribution should be modified so that it no longer passes bad characters.
 Also never be tempted to weaken Security Pro by adding characters to the whitelist, you will restrict the scripts ability to do its job.
 
+Custom Default Sort Order
+=========================
+This changes the defaulting product sorting order. It is currently sorting by ##Model Number - Descending##. To change to a different sorting option, please see the 1st response in thread http://forums.oscommerce.com/topic/308798-product-listing-sort-order/
+
+Custom Default Attribute Sorting Option
+=======================================
+This changes the default attribute sorting order. It is currently sorted by ##Option Price or Value - Ascending##. To change to a different sorting option, please see the 1st response in thread http://forums.oscommerce.com/topic/123629-sorting-attributes/
+
+Credit Class Gift Voucher
+=========================
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
+2. To change the text that customers receive, alter the appropriate lines in these files:
+	catalog/includes/languages/english/modules/order_total/ot_gv.php
+	catalog/includes/languages/english/modules/order_total/ot_coupon.php
+	catalog/includes/languages/english/gv_send.php
+	catalog/includes/languages/english/gv_faq.php
+	catalog/includes/languages/english/gv_redeem.php
+3. For usage information, download the usage guide here -- http://addons.oscommerce.com/info/9020

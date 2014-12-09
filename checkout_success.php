@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -50,6 +57,19 @@
 
 <div class="contentContainer">
   <?php echo $page_content; ?>
+<?php /* ** Altered for CCGV ** */ ?>
+<?php
+  $gv_query=tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id='" . (int)$customer_id . "'");
+  if ($gv_result=tep_db_fetch_array($gv_query)) {
+    if ($gv_result['amount'] > 0) {
+?>
+<?php echo GV_HAS_VOUCHERA; echo tep_href_link(FILENAME_GV_SEND); echo GV_HAS_VOUCHERB; ?>
+
+<?php
+}
+}
+?>
+<?php /* ** EOF alteration for CCGV ** */ ?>
 </div>
 
 <div class="contentContainer">
