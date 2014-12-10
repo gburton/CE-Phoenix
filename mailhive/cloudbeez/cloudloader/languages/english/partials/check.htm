@@ -1,0 +1,44 @@
+<div class="row">
+  <?php echo $inc_content_intro; ?>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <!-- Check list -->
+    <ul class="list-unstyled system-check" id="systemCheckList"></ul>
+
+    <!-- Failure alert -->
+    <div id="systemCheckFailed" class="system-check-failed animated-content"></div>
+  </div>
+  <div class="col-sm-6">
+    <!-- Licence Information -->
+    <div id="appEula" class="app-eula animated-content">
+      <div class="row">
+        <h3><i class="fa fa-info-circle" style="opacity: 0.75"></i> Information</h3>
+
+        <div class="scroll-panel">
+          <p>This installation / update routine downloads all necessary application files for the MailBeez system and installs / updates them into
+            <code>/mailhive</code>.</p>
+
+          <p>
+            Please see
+            <a href="http://helpdesk.mailbeez.com/696102-MailBeez-Installer-Help" target="_blank" style="text-decoration: underline; font-weight: bold">the MailBeez installer help-page</a> for more information.
+          </p>
+          <p>
+            As usual make sure to back up your Database using e.g. mysqldumper.net.
+          </p>
+
+          <p>
+            The installer/updater creates a backup of <code>/mailhive</code> and stores it as zip-archive into
+            <code>/mailhive/cloudbeez/backup</code>.
+          </p>
+
+          <p>
+            All files and folders below
+            <code>/mailhive</code> must be writeable - the installer checks this before updating the files. It will only update files, when all files are writable.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

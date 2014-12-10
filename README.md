@@ -2,18 +2,18 @@ osCommerce-234-bootstrap
 =========================
 ALL CREDIT GOES TO THE ORIGINAL AUTHORS OF THE BASE AND ADDONS
 ==============================================================
-All of the addons are commented in every file change with the proper support URL for each!
-I take no credit for any addons or developments. 
+All of the addons are commented in every file change with the proper support URL for each!  
+I take NO credit for any addons or developments. 
 
 
-osCommerce 2.3.4 with Bootstrap, what more needs to be said.  
+osCommerce 2.3.4 with Bootstrap UI and some necessary Addons...  
+  
+The idea of this fork is to create an up-to-date bootstrap osCommerce with specific addons.  
+##THIS IS NOT THE PREFERRED INSTALLATION##, but it does give a base for a working store with the following addons.  
 
-The ORIGINAL point was to try to keep changes to a minimum as this will allow easy porting of Addons.  
-However, the idea of this fork is to create an up-to-date bootstrap osCommerce with specific addons.  
-If there are enough votes in the issues section, I will try to get those installed as well.  
 Addons have been specially commented so to easily find changes. All original code will remain, but they will be commented out for any changes.  
-All changes cann be found by doing a search for the special commenting system of asterisks.  
-__:::The current addon listing:::__  
+All changes can be found by doing a search for the special commenting system of asterisks.  
+__:::Current Add-on Listing:::__  
 
 SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864  
 Free Product Checkout added - http://addons.oscommerce.com/info/8080  
@@ -27,7 +27,8 @@ Manual Order Maker added - http://addons.oscommerce.com/info/8334/v,23
 Database Check Tool 1.4 added - http://addons.oscommerce.com/info/9087  
 Alternative Administration System added - http://addons.oscommerce.com/info/9135  
 Gergely SMTP Email Addition - http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522  
-Security Pro R11 -- http://addons.oscommerce.com/info/7708
+Security Pro R11 -- http://addons.oscommerce.com/info/7708  
+MailBEEZ Customer Relations Manager added -- http://www.mailbeez.com/quickstart/?id=1  
   
 This is an attempt to get a strong working osc with some addons. This is NOT an independent project. Without the help of MANY coders that have contributed to osCommerce, this would not be possible. I did not code any of the modules, addons, or base software that you see here. Much of the effort has been completed by Gary Burton from osCommerce.  
   
@@ -35,7 +36,7 @@ IF YOU HAVE CREATED A PRIVATE ADDON THAT YOU SEE LISTED HERE AND IT IS NOT AVAIL
   
 Links and descriptions will be used for all addon changes. Please contribute if you can.
 
-**In the words of Gary Burton:**
+**In the words of Gary Burton:**  
 This will be an ongoing COMMUNITY effort.  
 
 If you cannot code, you can still help;
@@ -157,3 +158,10 @@ Credit Class Gift Voucher
 	catalog/includes/languages/english/gv_faq.php
 	catalog/includes/languages/english/gv_redeem.php
 3. For usage information, download the usage guide here -- http://addons.oscommerce.com/info/9020
+
+MailBEEZ Customer Relations
+===========================
+Now that your MailBeez installation is complete, you are encouraged to visit our <a href="http://www.mailbeez.com/documentation/tutorials/guide-to-getting-started/">Guide to Getting Started</a> to familiarize yourself with MailBeez features and functionality, and to learn how to configure and customize your MailBeez installation to suit your needs.
+
+No thanks, just take me to the <a href="http://www.mailbeez.com/documentation/tutorials/mailbeez-quick-start-configuration-tutorial/">Quick Start Configuration tutorial</a>
+No thanks, just take me to the <a href="http://www.mailbeez.com/documentation/tutorials/mailbeez-comprehensive-configuration-tutorial/">Comprehensive Configuration tutorial</a>

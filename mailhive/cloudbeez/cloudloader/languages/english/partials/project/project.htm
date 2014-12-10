@@ -1,0 +1,94 @@
+{{^projectId}}
+    <p class="lead">If you have a Project for this installation, specify it below.</p>
+{{/projectId}}
+{{#projectId}}
+    <p class="lead text-success with-tick">
+        Project has been assigned to this installation.</p>
+    </p>
+{{/projectId}}
+
+<form id="attachProjectForm" onsubmit="Installer.Pages.projectForm.attachProject(this); return false">
+    <div class="form-group">
+        <label for="attachProjectId" class="control-label">Project ID</label>
+
+        {{^projectId}}
+
+            <div class="input-group">
+                <input
+                    name="project_id"
+                    class="form-control input-lg project-id-input"
+                    value=""
+                    autocomplete="off"
+                    id="attachProjectId" />
+                <span class="input-group-btn">
+                    <button class="btn btn-lg btn-success" type="submit">Check</button>
+                </span>
+            </div>
+
+        {{/projectId}}
+        {{#projectId}}
+
+            <div class="input-group">
+                <input
+                    name="project_id"
+                    class="form-control input-lg project-id-input"
+                    disabled="disabled"
+                    value="{{ projectId }}"
+                    id="attachProjectId" />
+                <span class="input-group-btn">
+                    <button
+                        class="btn btn-lg btn-danger"
+                        type="submit"
+                        onclick="Installer.Pages.projectForm.detachProject(this); return false">
+                        Remove
+                    </button>
+                </span>
+            </div>
+
+        {{/projectId}}
+
+    </div>
+</form>
+
+<!-- Failure alert -->
+<div id="projectFormFailed" class="project-form-failed animated-content"></div>
+
+{{^projectId}}
+
+    <ul class="list-inline">
+        <li><a href="javascript:Installer.Pages.projectForm.showHelp()">How to find your Project ID</a></li>
+        <li><a href="javascript:Installer.showSection('plugins')">Skip this step</a></li>
+    </ul>
+
+    <div id="projectFormHelp" style="display:none">
+        <h4>What is a Project?</h4>
+        <p>Using Project lets you build collections of Plugins and Themes, they are created on <a href="http://octobercms.com" target="_blank">OctoberCMS.com</a>.</p>
+
+        <h4>Where can I find my Project ID?</h4>
+        <p>You can find your project by signing in to <a href="http://octobercms.com" target="_blank">OctoberCMS.com</a> and clicking Projects in the My Account area.</p>
+    </div>
+
+{{/projectId}}
+{{#projectId}}
+
+    <table class="table table-bordered">
+        <tr>
+            <th class="col-md-2">Name</th>
+            <td>{{ projectName }}</td>
+        </tr>
+        <tr>
+            <th class="col-md-2">Owner</th>
+            <td>{{ projectOwner }}</td>
+        </tr>
+        <tr>
+            <th class="col-md-2">Description</th>
+            <td>{{ projectDescription }}</td>
+        </tr>
+    </table>
+
+    <ul class="list-inline">
+        <li><a href="javascript:Installer.showSection('plugins')">View Plugins</a></li>
+        <!-- <li><a href="javascript:Installer.showSection('themes')">View Themes</a></li> -->
+    </ul>
+
+{{/projectId}}
