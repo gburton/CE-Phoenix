@@ -65,13 +65,7 @@ ul.shoppingCartList li.newItemInCart, ul.shoppingCartList li.newItemInCart A {
   font-size: 0.5em;
 }
 
-/* for the category list rework --------------------------------------------- */
-
-p.lead del {
-  font-size: 0.5em;
-}
-
-/* Category Listings  ------------------------------------------------------- */
+/* for the listings module rework ------------------------------------------- */
 
 .productHolder {
   border: 1px solid #eee;
@@ -108,6 +102,10 @@ p.lead del {
 
 .grid-group-item .list-group-item-text {
   display: none;
+}
+
+p.lead del {
+  font-size: 0.5em;
 }
 
 /* Responsive Images  ------------------------------------------------------- */
