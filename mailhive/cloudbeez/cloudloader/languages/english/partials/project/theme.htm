@@ -1,0 +1,16 @@
+<li data-code="{{code}}">
+    <div class="image">
+        <img src="{{image}}" alt="">
+    </div>
+    <div class="details">
+        <h4>{{name}}</h4>
+        <p>by {{author}}</p>
+    </div>
+    {{^projectId}}
+        <button
+            type="button"
+            class="close"
+            aria-hidden="true"
+            onclick="Installer.Pages.projectForm.removePackage(this, '{{code}}')">&times;</button>
+    {{/projectId}}
+</li>

@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-6">
+    <!-- Cancel button -->
+    <div cla ss="form-control-panel" id="formControlPanelCancel">
+      {{#cancelButton}}
+      <a href="#" onclick="if (parent.$.fn.ceebox) { parent.$.fn.ceebox.closebox() } else {document.location = 'mailbeez.php'}; return false;" class="btn btn-warning btn-lg pull-right" id="cancelButton">
+        <i class="fa fa-times-circle"></i>
+
+        {{cancelButton}}</a>
+      {{/cancelButton}}
+    </div>
+  </div>
+
+  <div class="col-xs-6 ">
+    <!-- Next button -->
+    <div cl ass="form-control-panel" id="formControlPanel">
+      {{#nextButton}}
+      <a href="javascript:Installer.Events.next()" class="btn btn-primary btn-lg" id="nextButton">{{nextButton}}
+        <i class="fa fa-arrow-circle-o-right"></i>
+      </a>
+      {{/nextButton}}
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-3  pull-right" style="text-align: right; opacity: 0.5">
+    Version <?php echo CLOUDBEEZ_MAILBEEZ_INSTALLER_VERSION;?>-<?php echo MH_PLATFORM;?>-<?php echo MH_ID;?>
+  </div>
+</div>

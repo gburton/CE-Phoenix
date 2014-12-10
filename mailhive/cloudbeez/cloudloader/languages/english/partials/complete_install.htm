@@ -1,0 +1,23 @@
+<!-- Success alert -->
+<p class="lead text-success with-tick bg-success">Installation has been successfully completed</p>
+
+<!-- Application information -->
+<div class="row">
+    <div class="col-xs-6 text-right">
+        <h4>Open MailBeez</h4>
+        <p>Use the following link to log into the administration area:</p>
+    </div>
+    <div class="col-xs-6">
+        <p><a class="btn btn-primary btn-lg" href="mailbeez.php?mailbeez_installer_close=1&module=config_queen&action=install">MailBeez Admin</a></p>
+    </div>
+</div>
+<br>
+<br>
+<div class="row">
+  <div class="col-xs-12">
+    {{backuplocation}}
+  </div>
+</div>
+<br/>
+
+<?php echo $inc_content_install_final; ?>

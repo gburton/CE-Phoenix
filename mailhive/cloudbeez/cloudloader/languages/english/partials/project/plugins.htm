@@ -1,0 +1,71 @@
+{{^projectId}}
+
+    <a
+        href="javascript:Installer.Pages.projectForm.showProject()"
+        class="btn btn-default btn-lg cp-button btn-show-project">
+        Use a Project
+    </a>
+
+{{/projectId}}
+
+<div data-manager="#pluginList">
+
+    {{^projectId}}
+
+        <p class="lead">Choose some plugins to get you started (optional).</p>
+
+        <!-- Search -->
+        <form id="installPluginsForm" onsubmit="Installer.Pages.projectForm.searchSubmit(this); return false">
+            <div class="product-search">
+                <input
+                    class="product-search-input search-input-lg typeahead"
+                    placeholder="search plugins..."
+                    id="pluginSearchInput"
+                    data-handler="onSearchPlugins"
+                    />
+            </div>
+        </form>
+
+    {{/projectId}}
+
+    <div class="row">
+
+        <div class="col-md-7">
+
+            <!-- Included plugins -->
+            <div id="pluginList" class="product-list-manager" data-handler="onPluginDetails" data-view="project/plugin" data-set="includedPlugins">
+                <h4 class="section-header">Included <small>(<span class="product-counter">0</span>)</small></h4>
+                <div class="product-list-empty">
+                    <p>There are no plugins included.</p>
+                </div>
+                <ul class="product-list plugin-list"></ul>
+            </div>
+
+        </div>
+        <div class="col-md-5">
+
+            {{^projectId}}
+
+                <!-- Recommended extras -->
+                <div class="suggested-products-container animated-content">
+                    <h4 class="section-header">Recommended</h4>
+                    <div class="scroll-panel">
+                        <div class="row suggested-products" id="suggestedPlugins" data-handler="onGetPopularPlugins" data-set="suggestedPlugins"></div>
+                    </div>
+                </div>
+
+            {{/projectId}}
+            {{#projectId}}
+
+                <div class="callout callout-success">
+                    <h4>{{ projectName }}</h4>
+                    <p>These plugins are included with the project <strong>{{ projectName }}</strong>.</p>
+                </div>
+
+            {{/projectId}}
+
+        </div>
+
+    </div>
+
+</div>
