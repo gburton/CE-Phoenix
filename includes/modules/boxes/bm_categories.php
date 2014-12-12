@@ -37,7 +37,7 @@
       $OSCOM_CategoryTree->setCategoryPath($cPath, '<strong>', '</strong>');
       $OSCOM_CategoryTree->setSpacerString('&nbsp;&nbsp;', 1);
 
-      $OSCOM_CategoryTree->setParentGroupString('<ul class="nav nav-list">', '</ul>', true);
+      $OSCOM_CategoryTree->setParentGroupString('<ul class="nav nav-pills nav-stacked">', '</ul>', true);
       
       $category_tree = $OSCOM_CategoryTree->getTree();
       
