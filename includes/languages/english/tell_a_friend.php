@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2003 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -35,4 +42,13 @@ define('ERROR_TO_ADDRESS', 'Error: Your friends e-mail address must be a valid e
 define('ERROR_FROM_NAME', 'Error: Your name must not be empty.');
 define('ERROR_FROM_ADDRESS', 'Error: Your e-mail address must be a valid e-mail address.');
 define('ERROR_ACTION_RECORDER', 'Error: An e-mail has already been sent. Please try again in %s minutes.');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Mail Manager
+  define('TEXT_RECOMMEND', 'has recommended');
+  define('TEXT_FROM', 'from the');
 ?>

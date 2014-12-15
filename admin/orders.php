@@ -14,6 +14,7 @@
   *************************************************
   Order Editor added -- http://addons.oscommerce.com/info/7844
   Manual Order Maker -- http://addons.oscommerce.com/info/8334
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -57,7 +58,15 @@
 
             $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $oID, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
 
+/* ** Altered for Mail Manager **
             tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+*/
+			if (file_exists(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php')){
+			  include(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php'); 
+			  }else{
+			  tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+			}
+/* ** EOF alterations for Mail Manager ** */			
 
             $customer_notified = '1';
           }

@@ -12,7 +12,8 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
-  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020 
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23  
 
   Released under the GNU General Public License
 */
@@ -279,7 +280,15 @@
                    "\n\n";
   }
 /* ** EOF alteration for CCGV ** */
+/* ** Altered for Mail Manager **
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+*/
+	  if (file_exists(DIR_WS_MODULES.'mail_manager/create_account.php')){
+		include(DIR_WS_MODULES.'mail_manager/create_account.php'); 
+		}else{ 
+		tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+	  }
+/* ** EOF alterations for Mail Manager ** */	  
 
       tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
     }

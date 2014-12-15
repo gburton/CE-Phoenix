@@ -61,6 +61,7 @@ You can find these videos at http://forums.oscommerce.com/topic/396152-bootstrap
 
 Installation
 ============
+!!!USING THE STANDARD OSCOMMERCE SQL INSTALLATION MAY REMOVE SOME TABLES FOR ADDONS THAT YOU MAY HAVE INSTALLED!!!
 
 Install as if this is a new osCommerce installation.  Then enter the admin area and turn on 3 new Header Tag modules;
 
@@ -165,3 +166,8 @@ Now that your MailBeez installation is complete, you are encouraged to visit our
 
 No thanks, just take me to the <a href="http://www.mailbeez.com/documentation/tutorials/mailbeez-quick-start-configuration-tutorial/">Quick Start Configuration tutorial</a>
 No thanks, just take me to the <a href="http://www.mailbeez.com/documentation/tutorials/mailbeez-comprehensive-configuration-tutorial/">Comprehensive Configuration tutorial</a>
+
+Mail Manager Template System
+============================
+1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
+2. You can access the Mail Manager in the Tools Menu

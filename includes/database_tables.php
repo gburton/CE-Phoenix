@@ -12,7 +12,8 @@
   ************ New addon definitions **************
   ************        Below          **************
   *************************************************
-  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020 
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23  
 
   Released under the GNU General Public License
 */
@@ -79,4 +80,10 @@
   define('TABLE_COUPON_EMAIL_TRACK', 'coupon_email_track');
   define('TABLE_COUPONS', 'coupons');
   define('TABLE_COUPONS_DESCRIPTION', 'coupons_description');
+// Mail Manager  
+  define('TABLE_MM_RESPONSEMAIL', 'mm_responsemail');
+  define('TABLE_MM_RESPONSEMAIL_RESTORE', 'mm_responsemail_backup');
+  define('TABLE_MM_RESPONSEMAIL_RESET', 'mm_responsemail_reset');
+  define('TABLE_MM_TEMPLATES', 'mm_templates');
+  define('TABLE_MM_BULKMAIL', 'mm_bulkmail');
 ?>

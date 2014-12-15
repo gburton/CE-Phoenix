@@ -16,7 +16,8 @@
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Order Editor added -- http://addons.oscommerce.com/info/7844
-  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020 
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23   
   
   Released under the GNU General Public License
 */
@@ -1767,3 +1768,23 @@ return $output;
     }
   }
 /* ** EOF alterations for CCGV ** */
+/* ** Altered for Mail Manager ** */
+  function tep_mm_set_mailstatus($mail_id, $status) {
+	if ($status == '1') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '1' where mail_id = '" . (int)$mail_id . "'");
+	  } elseif ($status == '0') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '0' where mail_id = '" . (int)$mail_id . "'");
+	  } else {
+	  return -1;
+	}
+  }
+
+//mail it
+  function tep_mm_sendmail($mail, $email_address, $sender_name, $sender, $output_subject, $output_content_html, $output_content_txt) {
+	$mimemessage = new emailMailManager(array('X-Mailer: cat/mail_manager.com'));
+	// add html and alternative text version 
+	$mimemessage->add_html($output_content_html, $output_content_txt);
+	$mimemessage->build_message(); // encoding -> 76 character linebreak, replacements must be done before
+	$mimemessage->send($mail, $email_address, $sender_name, $sender, $output_subject, $output_content_html, $output_content_txt);
+  }
+/* ** EOF alterations for Mail Manager ** */

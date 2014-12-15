@@ -196,7 +196,7 @@
                        EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . (int)$oID, 'SSL') . "\n" . 
 					   EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]) . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE2);
 		   }
-	     } else {		// send standaard email if html email is not installed
+	     } else {		// send standard email if html email is not installed
 
 		    //Send text email
 	    	$email = STORE_NAME . "\n" .
@@ -209,9 +209,15 @@
 
 //END SEND HTML MAIL//			  
 
-			  
+/* ** Altered for Mail Manager ** Order Editor will send updates via Mail Manager Templates using this new line
 			  tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-			  
+*/
+			if (file_exists(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php')){
+			  include(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php'); 
+			  }else{
+			  tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+			}
+/* ** EOF alterations for Mail Manager ** */
 			  $customer_notified = '1';
 			}			  
           		

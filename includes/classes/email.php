@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
+    
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 
@@ -134,4 +141,14 @@
       return true;
     }
   }
+/* ** Altered for Mail Manager ** */
+// eliminate line feeds as <br>
+  class emailMailManager extends email { 
+	function add_html($html, $text = NULL, $images_dir = NULL) {
+	  $this->html = $html; //tep_convert_linefeeds(array("\r\n", "\n", "\r"), '<br>', $html);
+	  $this->html_text = tep_convert_linefeeds(array("\r\n", "\n", "\r"), $this->lf, $text);
+	  if (isset($images_dir)) $this->find_html_images($images_dir);
+	}
+  }
+/* ** EOF alterations for Mail Manager ** */  
 ?>
