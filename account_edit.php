@@ -155,8 +155,8 @@
       </label>
       <label class="radio-inline">
         <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
-      <?php echo FORM_REQUIRED_INPUT; ?>
-      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+        <?php echo FORM_REQUIRED_INPUT; ?>
+        <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </label>
     </div>
   </div>
