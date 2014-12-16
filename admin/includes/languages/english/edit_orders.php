@@ -89,7 +89,8 @@ define('TEXT_BILLING_SAME_AS_CUSTOMER', 'Billing same as customer address');
 
 define('IMAGE_ADD_NEW_OT', 'Insert new custom order total after this one');
 define('IMAGE_REMOVE_NEW_OT', 'Remove this order total component');
-define('IMAGE_NEW_ORDER_EMAIL', 'Send new order confirmation email');
+define('IMAGE_NEW_ORDER_EMAIL', 'Send Confirmation Email');
+
 
 define('TEXT_NO_ORDER_HISTORY', 'No Order History Available');
 

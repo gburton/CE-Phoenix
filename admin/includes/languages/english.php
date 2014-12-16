@@ -325,6 +325,9 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
 // BOF Order Maker
   define('IMAGE_CREATE_ORDER', 'Create');
   define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
+  define('IMAGE_DETAIL', 'Details');
+  define('TEXT_INFO_CUSTOMER_SERVICE_ID', 'Created By:');
+  
 // Alternative Administration System
   define('BOX_HEADING_AAS','A.A.S.'); 
   define('BOX_AAS_ACCESS_AAS','Access AAS'); 
