@@ -34,9 +34,9 @@
         </label>
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
+          <?php echo FORM_REQUIRED_INPUT; ?>
+          <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
         </label>
-        <?php echo FORM_REQUIRED_INPUT; ?>
-        <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </div>
     </div>
 
@@ -45,8 +45,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('firstname', NULL, 'id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME . '"');
         if (tep_not_null(ENTRY_FIRST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_FIRST_NAME_TEXT . '</span>';
@@ -54,8 +54,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="inputLastName" class="control-label col-xs-3"><?php echo ENTRY_LAST_NAME; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputLastName" class="control-label col-xs-3"><?php echo ENTRY_LAST_NAME; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('lastname', NULL, 'id="inputLastName" placeholder="' . ENTRY_LAST_NAME . '"');
         if (tep_not_null(ENTRY_LAST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_LAST_NAME_TEXT . '</span>';
@@ -68,8 +68,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputCompany" class="control-label col-xs-3"><?php echo ENTRY_COMPANY; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputCompany" class="control-label col-xs-3"><?php echo ENTRY_COMPANY; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY . '"');
         if (tep_not_null(ENTRY_COMPANY_TEXT)) echo '<span class="help-block">' . ENTRY_COMPANY_TEXT . '</span>';
@@ -82,8 +82,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputStreet" class="control-label col-xs-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputStreet" class="control-label col-xs-3"><?php echo ENTRY_STREET_ADDRESS; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('street_address', NULL, 'id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS . '"');
         if (tep_not_null(ENTRY_STREET_ADDRESS_TEXT)) echo '<span class="help-block">' . ENTRY_STREET_ADDRESS_TEXT . '</span>';
@@ -96,8 +96,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputSuburb" class="control-label col-xs-3"><?php echo ENTRY_SUBURB; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputSuburb" class="control-label col-xs-3"><?php echo ENTRY_SUBURB; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB . '"');
         if (tep_not_null(ENTRY_SUBURB_TEXT)) echo '<span class="help-block">' . ENTRY_SUBURB_TEXT . '</span>';
@@ -110,8 +110,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputCity" class="control-label col-xs-3"><?php echo ENTRY_CITY; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputCity" class="control-label col-xs-3"><?php echo ENTRY_CITY; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('city', NULL, 'id="inputCity" placeholder="' . ENTRY_CITY. '"');
         if (tep_not_null(ENTRY_CITY_TEXT)) echo '<span class="help-block">' . ENTRY_CITY_TEXT . '</span>';
@@ -119,8 +119,8 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="inputZip" class="control-label col-xs-3"><?php echo ENTRY_POST_CODE; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputZip" class="control-label col-xs-3"><?php echo ENTRY_POST_CODE; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('postcode', NULL, 'id="inputZip" placeholder="' . ENTRY_POST_CODE . '"');
         if (tep_not_null(ENTRY_POST_CODE_TEXT)) echo '<span class="help-block">' . ENTRY_POST_CODE_TEXT . '</span>';
@@ -133,8 +133,8 @@
 ?>
 
     <div class="form-group">
-      <label for="inputState" class="control-label col-xs-3"><?php echo ENTRY_STATE; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputState" class="control-label col-xs-3"><?php echo ENTRY_STATE; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         if ($process == true) {
           if ($entry_state_has_zones == true) {
@@ -159,8 +159,8 @@
   }
 ?>
     <div class="form-group">
-      <label for="inputCountry" class="control-label col-xs-3"><?php echo ENTRY_COUNTRY; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputCountry" class="control-label col-xs-3"><?php echo ENTRY_COUNTRY; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_get_country_list('country', STORE_COUNTRY, 0, 'id="inputCountry"');
         if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
