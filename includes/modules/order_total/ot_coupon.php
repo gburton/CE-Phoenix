@@ -9,7 +9,9 @@ class ot_coupon {
 var $title, $output;
 function ot_coupon() {
   $this->code = 'ot_coupon';
+/* ** Altered by Raymond Burns because of improper render on front page in Bootstrap. Needs more adjustment **
   $this->header = MODULE_ORDER_TOTAL_COUPON_HEADER;
+*/  
   $this->title = MODULE_ORDER_TOTAL_COUPON_TITLE;
   $this->description = MODULE_ORDER_TOTAL_COUPON_DESCRIPTION;
   $this->user_prompt = '';

@@ -25,5 +25,5 @@
   define('REDEEMED_COUPON', 'a coupon worth ');  
   define('REDEEMED_MIN_ORDER', 'on orders over ');  
   define('REDEEMED_RESTRICTIONS', ' [Product-Category restrictions apply]');  
-  define('TEXT_ENTER_COUPON_CODE', 'Enter Redeem Code&nbsp;&nbsp;');
+  define('TEXT_ENTER_COUPON_CODE', 'Enter Redemption Code:');
 ?>
