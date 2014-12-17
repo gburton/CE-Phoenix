@@ -28,7 +28,6 @@ define('TEXT_NO_PRODUCTS', 'There are no special offers available.');
 ************************************************************************
 */
 // Definition for SEO Header Tags Reloaded
-  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   define('META_SEO_TITLE', 'Mt. Rose Clearance'); 
   define('META_SEO_DESCRIPTION', 'Checkout some special offers and FREE content from Mt. Rose, City of Refuge'); 
 // keywords are USELESS unless you are selling into China 
