@@ -20,4 +20,5 @@ define('TABLE_HEADING_TEMPLATE', 'Title');
 define('TABLE_HEADING_SIZE', 'Size');
 define('TABLE_HEADING_ACTION', 'Action');
 define('TEXT_INFO_DELETE_INTROO', 'Are you sure you want to delete this template?');
+define('IMAGE_NEW_TEMPLATE','Create A Template');
 ?>
