@@ -85,8 +85,8 @@
     <div class="clearfix"></div>
 
     <div class="form-group has-feedback">
-      <label for="inputFromName" class="control-label col-xs-3"><?php echo ENTRY_NAME; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromName" class="control-label col-xs-12 col-sm-3"><?php echo ENTRY_NAME; ?></label>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME . '"');
         echo FORM_REQUIRED_INPUT;
@@ -94,8 +94,8 @@
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputFromEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromEmail" class="control-label col-xs-12 col-sm-3"><?php echo ENTRY_EMAIL; ?></label>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL . '"','email');
         echo FORM_REQUIRED_INPUT;
@@ -103,8 +103,8 @@
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputEnquiry" class="control-label col-xs-3"><?php echo ENTRY_ENQUIRY; ?></label>
-      <div class="col-xs-9">
+      <label for="inputEnquiry" class="control-label col-xs-12 col-sm-3"><?php echo ENTRY_ENQUIRY; ?></label>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY . '"');
         echo FORM_REQUIRED_INPUT;
