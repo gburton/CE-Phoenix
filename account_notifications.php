@@ -91,9 +91,9 @@
       <div class="col-xs-8">
         <label class="checkbox-inline">
           <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false)); ?>
+          <?php if (tep_not_null(GLOBAL_NOTIFICATIONS_DESCRIPTION)) echo '<span class="help-block">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '</span>'; ?>
         </label>
-        <?php if (tep_not_null(GLOBAL_NOTIFICATIONS_DESCRIPTION)) echo '<span class="help-block">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '</span>'; ?>
-      </div>
+     </div>
     </div>
   </div>
 
