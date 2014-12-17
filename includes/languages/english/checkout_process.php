@@ -40,5 +40,5 @@ define('TEXT_EMAIL_VIA', 'via');
 ************************************************************************
 */
 // Mail Manager
-  define('EMAIL_TEXT_CONFIRM', 'has recommended');
+  define('EMAIL_TEXT_CONFIRM', 'New purchase from ');
 ?>

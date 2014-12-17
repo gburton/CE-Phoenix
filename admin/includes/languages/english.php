@@ -353,7 +353,7 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
   define('TEXT_VALID_CATEGORIES_ID', 'Category ID');
   define('TEXT_VALID_CATEGORIES_NAME', 'Category Name');  
 // Mail Manager
-    define('BOX_HEADING_MAIL_MANAGER', 'Mail Manager');
+  define('BOX_HEADING_MAIL_MANAGER', 'Mail Manager');
   define('BOX_MM_BULKMAIL', 'BulkMail Manager');
   define('BOX_MM_TEMPLATES', 'Template Manager');
   define('BOX_MM_EMAIL', 'Send Email');
