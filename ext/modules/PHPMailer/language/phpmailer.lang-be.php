@@ -1,9 +1,8 @@
 <?php
 /**
- * Belarusian PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Aleksander Maksymiuk <info@setpro.pl>
- */
+* PHPMailer language file: refer to English translation for definitive list
+* Belarusian Version by Aleksander Maksymiuk <info@setpro.pl>
+*/
 
 $PHPMAILER_LANG['authenticate']         = 'Памылка SMTP: памылка ідэнтыфікацыі.';
 $PHPMAILER_LANG['connect_host']         = 'Памылка SMTP: нельга ўстанавіць сувязь з SMTP-серверам.';
