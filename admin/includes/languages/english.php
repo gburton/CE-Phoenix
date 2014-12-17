@@ -17,6 +17,7 @@
   Manual Order Maker added -- http://addons.oscommerce.com/info/8334
   Alternative Administration System added -- http://addons.oscommerce.com/info/9135
   Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
   
   Released under the GNU General Public License
 */
@@ -324,6 +325,9 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
 // BOF Order Maker
   define('IMAGE_CREATE_ORDER', 'Create');
   define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
+  define('IMAGE_DETAIL', 'Details');
+  define('TEXT_INFO_CUSTOMER_SERVICE_ID', 'Created By:');
+  
 // Alternative Administration System
   define('BOX_HEADING_AAS','A.A.S.'); 
   define('BOX_AAS_ACCESS_AAS','Access AAS'); 
@@ -348,3 +352,10 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
   define('TEXT_VALID_CATEGORIES_LIST', 'Categories List');
   define('TEXT_VALID_CATEGORIES_ID', 'Category ID');
   define('TEXT_VALID_CATEGORIES_NAME', 'Category Name');  
+// Mail Manager
+  define('BOX_HEADING_MAIL_MANAGER', 'Mail Manager');
+  define('BOX_MM_BULKMAIL', 'BulkMail Manager');
+  define('BOX_MM_TEMPLATES', 'Template Manager');
+  define('BOX_MM_EMAIL', 'Send Email');
+  define('BOX_MM_RESPONSEMAIL', 'Response Mail');
+  define('BOX_TOOLS_MAIL_MANAGER', 'Mail Manager');

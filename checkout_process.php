@@ -14,6 +14,7 @@
   *************************************************
   Order Editor added -- http://addons.oscommerce.com/info/7844
   Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -268,7 +269,11 @@
     $total_tax += tep_calculate_tax($total_products_price, $products_tax) * $order->products[$i]['qty'];
     $total_cost += $total_products_price;
 /* ** EOF alterations for CCGV ** */
+/* ** Altered for Mail Manager **
     $products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . ' (' . $order->products[$i]['model'] . ') = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n";
+*/
+	$products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . ' (' . $order->products[$i]['model'] . ') = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n".'<br />';
+/* ** EOF alterations for Mail Manager ** */	
   }
 
 /* ** Altered for CCGV ** */
@@ -311,7 +316,15 @@ $order_total_modules->apply_credit(); // CCGV
       $email_order .= $payment_class->email_footer . "\n\n";
     }
   }
+/* ** Altered for Mail Manager **
   tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+*/
+  if (file_exists(DIR_WS_MODULES.'mail_manager/order_confirm.php')){
+	include(DIR_WS_MODULES.'mail_manager/order_confirm.php'); 
+	}else{ 
+	tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+  }
+/* ** EOf alterations for Mail Manager ** */  
 
 // send emails to other people
   if (SEND_EXTRA_ORDER_EMAILS_TO != '') {

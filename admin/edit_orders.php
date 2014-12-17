@@ -196,7 +196,7 @@
                        EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . (int)$oID, 'SSL') . "\n" . 
 					   EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]) . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE2);
 		   }
-	     } else {		// send standaard email if html email is not installed
+	     } else {		// send standard email if html email is not installed
 
 		    //Send text email
 	    	$email = STORE_NAME . "\n" .
@@ -209,9 +209,15 @@
 
 //END SEND HTML MAIL//			  
 
-			  
+/* ** Altered for Mail Manager ** Order Editor will send updates via Mail Manager Templates using this new line
 			  tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-			  
+*/
+			if (file_exists(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php')){
+			  include(DIR_FS_CATALOG_MODULES.'mail_manager/status_update.php'); 
+			  }else{
+			  tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS); 
+			}
+/* ** EOF alterations for Mail Manager ** */
 			  $customer_notified = '1';
 			}			  
           		
@@ -878,13 +884,18 @@ if ($status == GOOGLE_MAP_ORDER_STATUS )     // wenn "Versendet"
         }
       } else {
         // send vanilla e-mail - if email attachment option is false
-        tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-      }
-    } else {
+        if (file_exists(DIR_FS_CATALOG_MODULES.'mail_manager/order_confirm.php')){
+		  include(DIR_FS_CATALOG_MODULES.'mail_manager/order_confirm.php'); 
+		  }else{
+		tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+	  }
+    }  
+/* ** Altered for Mail Manager **
+	else {
         // send vanilla e-mail - if email attachment option is false
         tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-    }  
-    
+    }  */
+    }
 // eof added for pdfinvoice email attachment:
 
 // eof order editor 5_0_8
@@ -1068,11 +1079,11 @@ document.onmousemove=positiontip
 			 <?php if (ORDER_EDITOR_USE_AJAX == 'true') { ?>
 			  <script language="JavaScript" type="text/javascript"><!--
 			  //this button only works with javascript and is therefore only displayed on browsers with javascript enabled
-              document.write("<li><a href=\"javascript:newOrderEmail()\"><img src=\"includes/languages/<?php echo $language; ?>/images/buttons/button_new_order_email.gif\" border=\"0\" alt=\"<?php echo IMAGE_NEW_ORDER_EMAIL; ?>\" title=\"<?php echo IMAGE_NEW_ORDER_EMAIL; ?>\" ></a></li>");
+              document.write("<li><span class=\"tdbLink\"><a id=\"tdb0\" href=\"javascript:newOrderEmail()\" class=\"ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary ui-priority-secondary\" role=\"button\" aria-disabled=\"false\"><span class=\"ui-button-icon-primary ui-icon ui-icon-mail-closed\"></span><span class=\"ui-button-text\">Send confirmation Email</span></a></span></li>");
 	           //--></script>
 			   <?php } ?>
-				  
-			<li><?php echo tep_draw_button('Details', 'document', tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('oID', 'action')) . 'oID=' . $_GET['oID'] . '&action=edit')); ?></li>
+			 
+			<li><?php echo tep_draw_button(IMAGE_DETAIL, 'document', tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('oID', 'action')) . 'oID=' . $_GET['oID'] . '&action=edit')); ?></li>
 			<li><?php echo tep_draw_button(IMAGE_ORDERS_INVOICE, 'document', tep_href_link(FILENAME_ORDERS_INVOICE, 'oID=' . $_GET['oID']), null, array('newwindow' => true)) ?></li>
 			<li><?php echo tep_draw_button(IMAGE_ORDERS_PACKINGSLIP, 'document', tep_href_link(FILENAME_ORDERS_PACKINGSLIP, 'oID=' . $_GET['oID']), null, array('newwindow' => true))?></li>
 
@@ -1091,7 +1102,7 @@ document.onmousemove=positiontip
 			<?php } ?>	
 <!- eof 5.0.8 -->							
 
-			<li><?php echo tep_draw_button(IMAGE_BACK, 'document', tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('action'))), null, array('newwindow' => true))?></li>
+			<li><?php echo tep_draw_button(IMAGE_BACK, 'document', tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('action'))), null, array())?></li>
 		  </ul>
       
 	  </div>
@@ -1646,8 +1657,9 @@ document.onmousemove=positiontip
               <tr>
                 <td valign="top" width="100%">
 				  <br>
-				    <div>
-					  <a href="<?php echo tep_href_link(FILENAME_ORDERS_EDIT_ADD_PRODUCT, 'oID=' . $_GET['oID'] . '&step=1'); ?>" target="addProducts" onClick="openWindow('<?php echo tep_href_link(FILENAME_ORDERS_EDIT_ADD_PRODUCT, 'oID=' . $_GET['oID'] . '&step=1'); ?>','addProducts');return false"><?php echo tep_image_button('button_add_article.gif', TEXT_ADD_NEW_PRODUCT); ?></a><input type="hidden" name="subaction" value="">
+				    <div>					  
+					  <a href="<?php echo tep_href_link(FILENAME_ORDERS_EDIT_ADD_PRODUCT, 'oID=' . $_GET['oID'] . '&step=1'); ?>" target="addProducts" onClick="openWindow('<?php echo tep_href_link(FILENAME_ORDERS_EDIT_ADD_PRODUCT, 'oID=' . $_GET['oID'] . '&step=1'); ?>','addProducts');return false"><?php echo tep_draw_button(TEXT_ADD_NEW_PRODUCT, 'plus'); ?></a><input type="hidden" name="subaction" value="">
+					  
 				    </div>
 				  <br>
 			    </td>

@@ -13,6 +13,7 @@
   ************        Below          **************
   *************************************************
   Database Check 1.4 added -- http://addons.oscommerce.com/info/9087
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -70,13 +71,20 @@
         'title' => BOX_TOOLS_VERSION_CHECK,
         'link' => tep_href_link(FILENAME_VERSION_CHECK)
       ),
-/* **Altered for Database Check 1.4** */
+/* ** Altered for Database Check 1.4 ** */
 	 array(
         'code' => FILENAME_DATABASE_CHECK,
         'title' => BOX_TOOLS_DATABASE_CHECK,
         'link' => tep_href_link(FILENAME_DATABASE_CHECK)
       ),
-/* **EOF alteration for Database Check 1.4 ** */
+/* ** EOF alteration for Database Check 1.4 ** */
+/* ** Altered for Mail Manager ** */
+	 array( 
+		'code' => FILENAME_MAIL_MANAGER, 
+		'title' => BOX_TOOLS_MAIL_MANAGER, 
+		'link' => tep_href_link(FILENAME_MM_MAIL_MANAGER) 
+	 ), 
+/* ** EOF alterations for Mail Manager ** */
       array(
         'code' => FILENAME_WHOS_ONLINE,
         'title' => BOX_TOOLS_WHOS_ONLINE,

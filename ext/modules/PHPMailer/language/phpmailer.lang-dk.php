@@ -1,9 +1,9 @@
 <?php
 /**
- * Danish PHPMailer language file: refer to English translation for definitive list
- * @package PHPMailer
- * @author Mikael Stokkebro <info@stokkebro.dk>
- */
+* PHPMailer language file: refer to English translation for definitive list
+* Danish Version
+* Author: Mikael Stokkebro <info@stokkebro.dk>
+*/
 
 $PHPMAILER_LANG['authenticate']         = 'SMTP fejl: Kunne ikke logge på.';
 $PHPMAILER_LANG['connect_host']         = 'SMTP fejl: Kunne ikke tilslutte SMTP serveren.';

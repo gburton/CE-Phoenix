@@ -14,6 +14,7 @@
   *************************************************
   SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
   Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
   
   Released under the GNU General Public License
 */
@@ -342,4 +343,10 @@ define('PRODUCT_REMOVED', '%s has been removed from your Cart');
   define('BOX_SEND_TO_FRIEND', 'Send Gift Voucher');
   define('VOUCHER_REDEEMED', 'Voucher Redeemed');
   define('CART_COUPON', 'Coupon :');
-  define('CART_COUPON_INFO', 'more info');  
+  define('CART_COUPON_INFO', 'more info');
+// MailManager
+  define('BOX_HEADING_MAIL_MANAGER', 'Mail Manager');
+  define('BOX_MM_BULKMAIL', 'BulkMail Manager');
+  define('BOX_MM_TEMPLATES', 'Template Manager');
+  define('BOX_MM_EMAIL', 'Send Email');
+  define('BOX_MM_RESPONSEMAIL', 'Response Mail');
