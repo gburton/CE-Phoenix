@@ -142,8 +142,8 @@ function checkForm() {
       <p class="col-xs-9"><?php echo tep_output_string_protected($customer['customers_firstname'] . ' ' . $customer['customers_lastname']); ?></p>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputReview" class="control-label col-xs-3"><?php echo SUB_TITLE_REVIEW; ?></label>
-      <div class="col-xs-9">
+      <span class="hidden-xs"><label for="inputReview" class="control-label col-xs-3"><?php echo SUB_TITLE_REVIEW; ?></label></span>
+      <div class="col-xs-12 col-sm-9">
         <?php
         echo tep_draw_textarea_field('review', 'soft', 60, 15, NULL, 'required aria-required="true" id="inputReview" placeholder="' . SUB_TITLE_REVIEW . '"');
         echo FORM_REQUIRED_INPUT;

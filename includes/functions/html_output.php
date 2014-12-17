@@ -337,7 +337,7 @@
 ////
 // Creates a pull-down list of countries
   function tep_get_country_list($name, $selected = '', $parameters = '') {
-    $countries_array = array(array('id' => '', 'text' => PULL_DOWN_DEFAULT));
+    $countries_array = array(array('id' => '', 'text' => PULL_DOWN_COUNTRY));
     $countries = tep_get_countries();
 
     for ($i=0, $n=sizeof($countries); $i<$n; $i++) {
