@@ -60,8 +60,8 @@
       <div class="col-xs-8">
         <label class="checkbox-inline">
           <?php echo tep_draw_checkbox_field('newsletter_general', '1', (($newsletter['customers_newsletter'] == '1') ? true : false)); ?>
+          <?php if (tep_not_null(MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION)) echo '<span class="help-block">' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '</span>'; ?>
         </label>
-        <?php if (tep_not_null(MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION)) echo '<span class="help-block">' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '</span>'; ?>
       </div>
     </div>
   </div>
