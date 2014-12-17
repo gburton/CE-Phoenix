@@ -24,7 +24,7 @@ $output_subject = EMAIL_TEXT_SUBJECT;
 //define values for placeholder variables
 $order_no = EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID;
 $order_date = EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']);
-$status_newhtml = sprintf(EMAIL_TEXTHTML_STATUS_UPDATE, $orders_status_array[$status]);
+$status_newhtml = sprintf(EMAIL_HTML_STATUS_UPDATE, $orders_status_array[$status]);
 $status_newtxt = sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
 $comments = $notify_comments;
 $invoice_url = EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $oID, 'SSL');
