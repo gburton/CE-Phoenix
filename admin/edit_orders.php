@@ -884,13 +884,18 @@ if ($status == GOOGLE_MAP_ORDER_STATUS )     // wenn "Versendet"
         }
       } else {
         // send vanilla e-mail - if email attachment option is false
-        tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-      }
-    } else {
+        if (file_exists(DIR_FS_CATALOG_MODULES.'mail_manager/order_confirm.php')){
+		  include(DIR_FS_CATALOG_MODULES.'mail_manager/order_confirm.php'); 
+		  }else{
+		tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+	  }
+    }  
+/* ** Altered for Mail Manager **
+	else {
         // send vanilla e-mail - if email attachment option is false
         tep_mail($order->customer['name'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-    }  
-    
+    }  */
+    }
 // eof added for pdfinvoice email attachment:
 
 // eof order editor 5_0_8
