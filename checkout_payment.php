@@ -202,6 +202,8 @@ function rowOutEffect(object) {
 ?>
 
   <div class="contentText">
+    <table class="table table-striped table-condensed table-hover">
+      <tbody>
 
 <?php
   $radio_buttons = 0;
@@ -213,30 +215,30 @@ function rowOutEffect(object) {
       </div>
 
 <?php
-        } else {
-
+    } else {
 ?>
 
-    <div class="form-group">
-      <label class="control-label col-xs-4"><strong><?php echo $selection[$i]['module']; ?></strong></label>
-      <div class="col-xs-8 col-xs-pull-1 text-right">
-        <label class="checkbox-inline">
-          <?php
-          if (sizeof($selection) > 1) {
-            echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment));
-          } else {
-            echo tep_draw_hidden_field('payment', $selection[$i]['id']);
-          }
-          ?>
-        </label>
-      </div>
-    </div>
+      <td>
+        <strong><?php echo $selection[$i]['module']; ?></strong>
+      </td>
+      <td align="right">
+      <?php
+        if (sizeof($selection) > 1) {
+          echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment));
+        } else {
+          echo tep_draw_hidden_field('payment', $selection[$i]['id']);
+        }
+      ?>
+      </td>
+      </tr>
 
 <?php
-    $radio_buttons++;
+      $radio_buttons++;
+    }
   }
-}
 ?>
+      </tbody>
+    </table>
 
   </div>
 
