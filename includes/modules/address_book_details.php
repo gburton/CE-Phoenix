@@ -32,12 +32,14 @@
       <div class="form-group has-feedback">
         <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
         <div class="col-xs-9">
-          <label class="radio-inline">
-            <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true"') . ' ' . MALE; ?>
-          </label>
-          <label class="radio-inline">
-            <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
-          </label>
+          <div class="btn-group">
+            <label class="btn btn-default">
+             <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true"') . ' ' . MALE; ?>
+            </label>
+            <label class="btn btn-default">
+              <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
+            </label>
+          </div>  
           <?php echo FORM_REQUIRED_INPUT; ?>
           <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
         </div>
@@ -181,15 +183,13 @@
       <div class="form-group">
         <label for="primary" class="control-label col-xs-3"><?php echo SET_AS_PRIMARY; ?></label>
         <div class="col-xs-9">
-          <div class="checkbox-inline">
-            <label>
-              <?php
-              echo tep_draw_checkbox_field('primary', 'on', false, 'id="primary"');
-              ?>
-            </label>
-          </div>
+          <label class="btn btn-default" >
+            <?php
+            echo tep_draw_checkbox_field('primary', 'on', false, 'id="primary"');
+            ?>
+          </label>
           <?php
-          if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
+            if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
           ?>
         </div>
       </div>

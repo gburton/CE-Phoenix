@@ -280,25 +280,75 @@
   <div class="contentText">
 
 <?php
+      $mselected = false;
+      $fselected = false;
+
+      if (isset($_POST[$gender]) && $_POST[$gender] == 'm' || $selectedGender == 'm') {
+        $mselected = 'checked';
+      } elseif (isset($_POST[$gender]) && $_POST[$gender] == 'f' || $selectedGender == 'f') {
+        $fselected = 'checked';
+      }
+?>  
+<div class="btn-toolbar"> 
+  <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default"><input type="radio" name="gender" id="m" checked="<?php echo $mselected; ?>"><?php echo MALE; ?></label>
+        <label class="btn btn-default"><input type="radio" name="gender" id="f" checked="<?php echo $fselected; ?>"><?php echo FEMALE; ?></label>
+  </div>  
+</div>  
+  
+  
+  
+  
+  
+  
+  
+<?php
+
   if (ACCOUNT_GENDER == 'true') {
 ?>
     <div class="form-group has-feedback">
       <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-xs-9">
-        <div class="btn-group">
-          <label class="btn btn-default">
-            <?php echo tep_draw_radio_field('gender', 'm', true, 'required aria-required="true"') . ' ' . MALE; ?>
-          </label>
-          <label class="btn btn-default">
-            <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
-          </label>
-        </div>  
+<div class="btn-toolbar"> 
+  <div class="btn-group">
+  <label class="btn btn-default">
+          <?php echo tep_draw_radio_field('gender', 'm', true, 'required aria-required="true"') . ' ' . MALE; ?>
+        </label>
+        <label class="btn btn-default">
+          <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
+        </label>
+</div>  
+</div>  
         <?php echo FORM_REQUIRED_INPUT; ?>
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </div>
     </div>
 <?php
   }
+
+?>
+<?php
+/*
+  if (ACCOUNT_GENDER == 'true') {
+?>
+    <div class="form-group has-feedback">
+      <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
+      <div class="col-xs-9">
+  <div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-default">
+          <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true"') . ' ' . MALE; ?>
+        </label>
+        <label class="btn btn-default">
+          <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
+        </label>
+        <?php echo FORM_REQUIRED_INPUT; ?>
+        <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+</div>  
+      </div>
+    </div>
+<?php
+  }
+*/
 ?>
     <div class="form-group has-feedback">
       <label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label>
@@ -372,22 +422,19 @@
   <h2><?php echo CATEGORY_ADDRESS; ?></h2>
   <div class="contentText">
     <div class="form-group has-feedback">
-      <label for="inputStreet" class="control-label col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
-      <div class="col-sm-9">
+      <label for="inputStreet" class="control-label col-xs-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
+      <div class="col-xs-9">
         <?php
         echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS . '"');
-        ?>
-        <span id="inputStreet" class="visible-xs hidden help-block col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></span>
-        <?php
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_STREET_ADDRESS_TEXT)) echo '<span class="help-block">' . ENTRY_STREET_ADDRESS_TEXT . '</span>';
         ?>
       </div>
     </div>
+
 <?php
   if (ACCOUNT_SUBURB == 'true') {
 ?>
-
     <div class="form-group">
     <label for="inputSuburb" class="control-label col-xs-3"><?php echo ENTRY_SUBURB; ?></label>
       <div class="col-xs-9">
@@ -487,11 +534,13 @@
     </div>
     <div class="form-group">
       <div class="col-xs-offset-3 col-sm-9">
-        <label class="btn btn-default" for="inputNewsletter">
-          <?php
-          echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"') . ' '  . ENTRY_NEWSLETTER; 
-	  ?>
-        </label>
+        <div class="checkbox">
+          <label for="inputNewsletter">
+            <?php
+              echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"') . ' '  . ENTRY_NEWSLETTER; 
+			?>
+          </label>
+        </div>
       <?php
         if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
       ?>

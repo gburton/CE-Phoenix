@@ -88,10 +88,12 @@
   <div class="contentText">
     <div class="form-group">
       <label class="control-label col-xs-4"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
-      <div class="col-xs-8">
-        <label class="checkbox-inline">
+      <div class="col-xs-3 col-sm-1">
+        <label class="btn btn-default">
           <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false)); ?>
         </label>
+      </div>
+      <div class="col-xs-5 col-sm-7">
         <?php if (tep_not_null(GLOBAL_NOTIFICATIONS_DESCRIPTION)) echo '<span class="help-block">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '</span>'; ?>
       </div>
     </div>

@@ -312,6 +312,7 @@ function check_form_optional(form_name) {
         $format_id = tep_get_address_format_id($addresses['country_id']);
 ?>
       <div class="col-sm-4">
+          <label class="btn btn-default">
         <div class="panel panel-<?php echo ($addresses['address_book_id'] == $sendto) ? 'primary' : 'default'; ?>">
           <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
           <div class="panel-body">
@@ -319,6 +320,7 @@ function check_form_optional(form_name) {
           </div>
           <div class="panel-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $sendto)); ?></div>
         </div>
+          </label>
       </div>
 
 <?php
