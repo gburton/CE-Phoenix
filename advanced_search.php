@@ -129,12 +129,11 @@ function check_form() {
       </div>
     </div>
 
-    <div class="buttonSet">
-      <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon glyphicon-search', null, 'primary'); ?></span>
-
-      <a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a>
+    <div class="buttonSet row">
+      <div class="col-xs-6"><a data-toggle="modal" href="#helpSearch" class="btn btn-primary"><?php echo TEXT_SEARCH_HELP_LINK; ?></a></div>
+      <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'glyphicon glyphicon-search', null, 'primary', null, 'btn-success'); ?></div>
     </div>
-
+    
     <div class="modal fade" id="helpSearch" tabindex="-1" role="dialog" aria-labelledby="helpSearchLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
