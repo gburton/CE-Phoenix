@@ -183,10 +183,9 @@
     </div>
   </div>
 
-  <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-send', null, 'primary'); ?></span>
-
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id'])); ?>
+  <div class="buttonSet row">
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id'])); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-send', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>
 

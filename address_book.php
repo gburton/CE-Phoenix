@@ -81,19 +81,15 @@
   
   <div class="clearfix"></div>
 
-  <div class="buttonSet">
-
+  <div class="buttonSet row">
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?></div>
 <?php
   if (tep_count_customer_address_book_entries() < MAX_ADDRESS_BOOK_ENTRIES) {
 ?>
-
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_ADDRESS, 'glyphicon glyphicon-home', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'), 'primary'); ?></span>
-
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_ADDRESS, 'glyphicon glyphicon-home', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'), 'primary'); ?></div>
 <?php
   }
 ?>
-
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?>
   </div>
 </div>
 
