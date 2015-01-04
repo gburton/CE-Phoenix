@@ -63,7 +63,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating"><meta itemprop="average" content="' . (int)round($average['average']) . '" /><meta itemprop="best" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating"><meta itemprop="average" content="' . (int)round($average['average']) . '" /><meta itemprop="best" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])), true)) . '</div>';
 ?>
 
 <?php
@@ -114,7 +114,7 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" it
         <p itemprop="description"><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
         <div class="hidden" itemprop="dtreviewed" datetime="<?php echo $reviews['date_added']; ?>"><?php echo $reviews['date_added']; ?></div>
         <div class="hidden" itemprop="itemreviewed"><?php echo $product_info['products_name']; ?></div>
-        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
+        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating'], true), $review_name, $review_name); ?></footer>
       </blockquote>
 <?php
     }
