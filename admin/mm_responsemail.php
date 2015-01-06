@@ -317,7 +317,7 @@
                   							</tr>
                   							<tr>
                     							<td>
-                    							<?php echo '<a href="' . tep_href_link(FILENAME_MM_BULKMAIL, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID']) . '">' . tep_image_button('button_back.gif', IMAGE_BACK) . '</a>'; ?> 
+                    							<?php echo '<a href="' . tep_href_link(FILENAME_MM_MAIL_MANAGER, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID']) . '">' . tep_image_button('button_back.gif', IMAGE_BACK) . '</a>'; ?> 
                     							</td>
                                                 <td>
 												
