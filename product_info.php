@@ -53,15 +53,25 @@
     tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
 
     if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
-      $products_price = '<del>' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</del> <span class="productSpecialPrice">' . $currencies->display_price($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
+      $products_price = '<del>' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</del> <span class="productSpecialPrice" itemprop="price">' . $currencies->display_price($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
     } else {
-      $products_price = $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
+      $products_price = '<span itemprop="price">' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
     }
 
-    if (tep_not_null($product_info['products_model'])) {
-      $products_name = $product_info['products_name'] . '<br /><small>[' . $product_info['products_model'] . ']</small>';
+    if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
+      $products_price .= '<link itemprop="availability" href="http://schema.org/PreOrder" />';
+    } elseif ((STOCK_CHECK == 'true') && ($product_info['products_quantity'] < 1)) {
+      $products_price .= '<link itemprop="availability" href="http://schema.org/OutOfStock" />';
     } else {
-      $products_name = $product_info['products_name'];
+      $products_price .= '<link itemprop="availability" href="http://schema.org/InStock" />';
+    }
+
+    $products_price .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />';
+
+    $products_name = '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '" itemprop="url"><span itemprop="name">' . $product_info['products_name'] . '</span></a>';
+
+    if (tep_not_null($product_info['products_model'])) {
+      $products_name .= '<br /><small>[<span itemprop="model">' . $product_info['products_model'] . '</span>]</small>';
     }
 */
   } else {
@@ -92,18 +102,12 @@
 /* ** EOF alteration for SEO Header Tags RELOADED ** */
 ?>
 <?php 
-/* ** Altered for SEO Header Tags RELOADED **
-  echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')). 'action=add_product', 'NONSSL'), 'post', 'class="form-horizontal" role="form"'); 
-*/
   echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product', 'NONSSL', 'class="form-horizontal"')); 
 ?>
 <div itemscope itemtype="http://schema.org/Product">
-<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
+
 <div class="page-header">
-<?php /* ** Altered for SEO Header Tags RELOADED ** ORIGINAL PHP TAGS CHANGED BELOW
-  <h1 class="pull-right">< ?php echo $products_price; ? ></h1> */ ?>
   <h1 class="pull-right" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><?php echo $products_price; ?></h1>
-<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
   <h1><?php echo $products_name; ?></h1>
 </div>
 
@@ -119,6 +123,9 @@
 <?php
 /* ** Altered for SEO Header Tags RELOADED **
     if (tep_not_null($product_info['products_image'])) {
+
+      echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], NULL, NULL, NULL, 'itemprop="image" style="display:none;"');
+
       $photoset_layout = '1';
 
       $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
@@ -187,13 +194,9 @@
     }
 ?>
 
-<?php /* ** Altered for SEO Header Tags RELOADED **
-  echo stripslashes($product_info['products_description']); 
-*/ ?>
 <div itemprop="description">
   <?php echo stripslashes($product_info['products_description']); ?>
 </div>
-<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
 
 <?php
     $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
@@ -251,42 +254,30 @@
   </div>
 
 <?php
-/* ** Altered for SEO Header Tags RELOADED **
-    $reviews_query = tep_db_query("select count(*) as count from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and reviews_status = 1");
-    $reviews = tep_db_fetch_array($reviews_query);
-*/
     $reviews_query = tep_db_query("select count(*) as count, avg(reviews_rating) as avgrating from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and reviews_status = 1");
     $reviews = tep_db_fetch_array($reviews_query);
-    
+
     if ($reviews['count'] > 0) {
       echo '<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><meta itemprop="ratingValue" content="' . $reviews['avgrating'] . '" /><meta itemprop="ratingCount" content="' . $reviews['count'] . '" /></span>';
     }
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
 ?>
 
   <div class="buttonSet row">
     <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'glyphicon glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params())); ?></div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon glyphicon-shopping-cart', null, 'primary', null, 'btn-success'); ?></div>
   </div>
-  
+
   <div class="row">
     <?php echo $oscTemplate->getContent('product_info'); ?>
   </div>
 
 <?php
-/* ** Altered for SEO Header Tags RELOADED **
     if ((USE_CACHE == 'true') && empty($SID)) {
       echo tep_cache_also_purchased(3600);
     } else {
       include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
     }
-*/
-    if ((USE_CACHE == 'true') && empty($SID)) {
-      echo tep_cache_also_purchased(3600);
-    } else {
-      include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
-    }
-    
+
     if ($product_info['manufacturers_id'] > 0) {
       $manufacturer_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$product_info['manufacturers_id'] . "'");
       if (tep_db_num_rows($manufacturer_query)) {
@@ -296,7 +287,8 @@
     }
 ?>
 </div>
-<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
+
+</div>
 
 </div>
 

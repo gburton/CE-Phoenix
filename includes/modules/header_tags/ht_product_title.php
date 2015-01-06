@@ -38,7 +38,7 @@
     function execute() {
       global $PHP_SELF, $oscTemplate, $HTTP_GET_VARS, $languages_id, $product_check;
 
-      if (basename($PHP_SELF) == FILENAME_PRODUCT_INFO) {
+      if ( (basename($PHP_SELF) == FILENAME_PRODUCT_INFO) || (basename($PHP_SELF) == 'product_reviews.php') ) {
         if (isset($HTTP_GET_VARS['products_id'])) {
           if ($product_check['total'] > 0) {
 /* ** Altered for SEO Header Tag Reloaded **		  

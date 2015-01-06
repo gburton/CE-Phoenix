@@ -6,5 +6,6 @@
       <li><a href="<?php echo tep_href_link('privacy.php'); ?>"><?php echo MODULE_CONTENT_FOOTER_INFORMATION_PRIVACY; ?></a></li>
       <li><a href="<?php echo tep_href_link('conditions.php'); ?>"><?php echo MODULE_CONTENT_FOOTER_INFORMATION_CONDITIONS; ?></a></li>
       <li><a href="<?php echo tep_href_link('contact_us.php'); ?>"><?php echo MODULE_CONTENT_FOOTER_INFORMATION_CONTACT; ?></a></li>
+    </ul>  
   </div>
 </div>
