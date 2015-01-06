@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  
   Released under the GNU General Public License
 */
 
@@ -32,6 +39,7 @@
       global $PHP_SELF, $oscTemplate, $categories, $current_category_id, $languages_id;
 
       if (basename($PHP_SELF) == FILENAME_DEFAULT) {
+/* ** Altered for SEO Header Tags Reloaded **	  
 // $categories is set in application_top.php to add the category to the breadcrumb
         if (isset($categories) && (sizeof($categories) == 1) && isset($categories['categories_name'])) {
           $oscTemplate->setTitle($categories['categories_name'] . ', ' . $oscTemplate->getTitle());
@@ -41,7 +49,16 @@
             $categories_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$current_category_id . "' and language_id = '" . (int)$languages_id . "' limit 1");
             if (tep_db_num_rows($categories_query) > 0) {
               $categories = tep_db_fetch_array($categories_query);
+*/
+        if ($current_category_id > 0) {
+          $categories_query = tep_db_query("select categories_name, categories_seo_title from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$current_category_id . "' and language_id = '" . (int)$languages_id . "' limit 1");
+          if (tep_db_num_rows($categories_query) > 0) {
+            $categories = tep_db_fetch_array($categories_query);
 
+            if (tep_not_null($categories['categories_seo_title'])) {
+              $oscTemplate->setTitle($categories['categories_seo_title'] . ', ' . $oscTemplate->getTitle());
+            }
+            else {
               $oscTemplate->setTitle($categories['categories_name'] . ', ' . $oscTemplate->getTitle());
             }
           }

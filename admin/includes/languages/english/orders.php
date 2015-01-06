@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2002 osCommerce
+    
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -76,4 +83,13 @@ define('EMAIL_TEXT_COMMENTS_UPDATE', 'The comments for your order are' . "\n\n%s
 define('ERROR_ORDER_DOES_NOT_EXIST', 'Error: Order does not exist.');
 define('SUCCESS_ORDER_UPDATED', 'Success: Order has been successfully updated.');
 define('WARNING_ORDER_NOT_UPDATED', 'Warning: Nothing to change. The order was not updated.');
+
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Mail Manager
+  define('EMAIL_HTML_STATUS_UPDATE','Your order has been updated to: ');
 ?>

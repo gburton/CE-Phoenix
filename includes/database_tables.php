@@ -6,6 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2007 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020 
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23  
 
   Released under the GNU General Public License
 */
@@ -57,4 +65,25 @@
   define('TABLE_ZONES_TO_GEO_ZONES', 'zones_to_geo_zones');
   define('TABLE_WHOS_ONLINE', 'whos_online');
   define('TABLE_ZONES', 'zones');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// CCGV
+  define('TABLE_COUNTER', 'counter');
+  define('TABLE_COUNTER_HISTORY', 'counter_history');
+  define('TABLE_COUPON_GV_CUSTOMER', 'coupon_gv_customer');
+  define('TABLE_COUPON_GV_QUEUE', 'coupon_gv_queue');
+  define('TABLE_COUPON_REDEEM_TRACK', 'coupon_redeem_track');
+  define('TABLE_COUPON_EMAIL_TRACK', 'coupon_email_track');
+  define('TABLE_COUPONS', 'coupons');
+  define('TABLE_COUPONS_DESCRIPTION', 'coupons_description');
+// Mail Manager  
+  define('TABLE_MM_RESPONSEMAIL', 'mm_responsemail');
+  define('TABLE_MM_RESPONSEMAIL_RESTORE', 'mm_responsemail_backup');
+  define('TABLE_MM_RESPONSEMAIL_RESET', 'mm_responsemail_reset');
+  define('TABLE_MM_TEMPLATES', 'mm_templates');
+  define('TABLE_MM_BULKMAIL', 'mm_bulkmail');
 ?>

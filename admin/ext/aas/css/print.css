@@ -1,0 +1,38 @@
+/*
+
+  Alternative Administration System
+  Version: 0.3
+  Created By John Barounis, johnbarounis.com
+  Website: http://www.alternative-administration-system.com
+
+*/
+body {margin:0; padding:0; line-height: 1.4em; word-spacing:1px; letter-spacing:0.2px; font: 13px Arial, Helvetica,"Lucida Grande", serif; color: #000;}
+
+/*Header*/
+h2 {color:#000; font-size:25px;}
+.post .entry h2 {font-size:20px;}
+
+/* Links */
+a:link, a:visited {background: transparent; color:#333; text-decoration:none;}
+
+/*Image*/
+img, img a, .more-link a {border:none;}
+
+#panelToggle{display:none;}
+#printbutton{display:none;}
+#panel{display:none;}
+.koumpakia{display:none;}
+#selectedFields{display:none;}
+#tbl th.checkboxen {display: none;}
+#tbl td.checkboxen {display: none;}
+#tbl-count{display:none;}
+#floatBottomBar{display:none;}
+#copywrite{display:none;}
+/*#pagination{display:none;}*/
+#tooltip{display:none;}
+.inTableSearch-wrapper{display:none;}
+#leftSidePanel,#toolBox,#toolBox-inwrapper,#datetime-information,#overlayWindow-attributes,#overlayWindow-import,#overlayWindow,#products_expected,#online_users,#nav{display:none;}
+.view_product_class img{display:none;}
+.view_category_class img{display:none;}
+
+.overlay{display:none;}

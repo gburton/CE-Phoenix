@@ -6,7 +6,19 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Gergely SMTP Email Addition -- http://forums.oscommerce.com/topic/94340-smtp-authentication-and-oscommerce/page-2#entry1697522  
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Manual Order Maker added -- http://addons.oscommerce.com/info/8334
+  Order Editor added -- http://addons.oscommerce.com/info/7844
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020 
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23   
+  
   Released under the GNU General Public License
 */
 
@@ -741,6 +753,19 @@
       return -1;
     }
   }
+/* ** Altered for CCGV ** */
+// Sets the status of a discount coupon
+  function tep_set_coupon_status($coupon_id, $status) {
+    if ($status == '1') {
+      return tep_db_query("update " . TABLE_COUPONS . " set coupon_status = '1' where coupon_id = '" . (int)$coupon_id . "'");
+    } elseif ($status == '0') {
+      return tep_db_query("update " . TABLE_COUPONS . " set coupon_status = '0' where coupon_id = '" . (int)$coupon_id . "'");
+    } else {
+      return -1;
+    }
+  }
+////
+/* ** EOF alterations for CCGV ** */
 
 ////
 // Sets the status of a product
@@ -804,6 +829,14 @@
 
     return $string;
   }
+/* **Altered for Gergely SMTP Email Addition ** */
+function tep_cfg_password($password) {
+return preg_replace("|.|", "*", $password);
+}
+function tep_cfg_input_password($password) {
+return tep_draw_password_field('configuration_value', $password);
+}
+/* EOF Gergely SMTP Email Addition ** */
 
 ////
 // Alias function for module configuration keys
@@ -1472,4 +1505,286 @@
       return is_writable($file);
     }
   }
-?>
+/* ** Altered for SEO Header Tags Reloaded ** */
+  function tep_get_category_description($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_description from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_description'];
+  }
+  
+  function tep_get_manufacturer_description($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_description from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_description'];
+  }
+  
+  function tep_get_manufacturer_seo_description($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_description from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_description'];
+  }
+  
+  function tep_get_manufacturer_seo_keywords($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_keywords from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_keywords'];
+  }
+  
+  function tep_get_products_seo_title($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_title from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_title'];
+  }
+  
+  function tep_get_products_seo_description($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_description from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_description'];
+  }
+  
+  function tep_get_products_seo_keywords($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_keywords from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_keywords'];
+  }
+  
+  function tep_get_category_seo_title($category_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $category_query = tep_db_query("select categories_seo_title from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_title'];
+  }
+  
+  function tep_get_category_seo_description($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_description from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_description'];
+  }
+  
+  function tep_get_category_seo_keywords($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_keywords from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_keywords'];
+  }
+  
+  function tep_get_products_mini_description($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_mini_description from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_mini_description'];
+  }
+  
+  
+  // admin - add reviews
+// www.clubosc.com
+
+  function tep_draw_products($name, $parameters = '', $exclude = '') {
+    global $languages_id;
+
+    if ($exclude == '') {
+      $exclude = array();
+    }
+
+    $select_string = '<select name="' . $name . '"';
+
+    if ($parameters) {
+      $select_string .= ' ' . $parameters;
+    }
+
+    $select_string .= '>';
+
+    $products_query = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
+    while ($products = tep_db_fetch_array($products_query)) {
+      if (!in_array($products['products_id'], $exclude)) {
+        $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . '</option>';
+      }
+    }
+
+    $select_string .= '</select>';
+
+    return $select_string;
+  }
+
+
+  function tep_draw_customers($name) {
+
+    $select_string = '<select name="' . $name . '">';
+
+    $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
+    while ($customers = tep_db_fetch_array($customers_query)) {
+        $select_string .= '<option value="' . $customers['customers_id'] . '">' . $customers['customers_lastname'] . ', ' . $customers['customers_firstname'] . '</option>';
+    }
+
+    $select_string .= '</select>';
+
+    return $select_string;
+  }
+  
+  function tep_get_products_name_review($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+    
+    if (!is_array($product)) $product = array('products_name' => ADMIN_TESTIMONIAL);
+
+    return $product['products_name'];
+  }
+/* ** EOF alterations for SEO Header Tags ** */
+
+/* ** Altered for Order Editor ** */
+  //////create a pull down for all payment installed payment methods for Order Editor configuration
+   
+  // Get list of all payment modules available
+  function tep_cfg_pull_down_payment_methods() {
+  global $language;
+  $enabled_payment = array();
+  $module_directory = DIR_FS_CATALOG_MODULES . 'payment/';
+  $file_extension = '.php';
+
+  if ($dir = @dir($module_directory)) {
+    while ($file = $dir->read()) {
+      if (!is_dir( $module_directory . $file)) {
+        if (substr($file, strrpos($file, '.')) == $file_extension) {
+          $directory_array[] = $file;
+        }
+      }
+    }
+    sort($directory_array);
+    $dir->close();
+  }
+
+  // For each available payment module, check if enabled
+  for ($i=0, $n=sizeof($directory_array); $i<$n; $i++) {
+    $file = $directory_array[$i];
+
+    include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/payment/' . $file);
+    include($module_directory . $file);
+
+    $class = substr($file, 0, strrpos($file, '.'));
+    if (tep_class_exists($class)) {
+      $module = new $class;
+      if ($module->check() > 0) {
+        // If module enabled create array of titles
+        $enabled_payment[] = array('id' => $module->title, 'text' => $module->title);
+                
+      }
+   }
+ }
+                                
+    $enabled_payment[] = array('id' => 'Other', 'text' => 'Other');     
+                
+                //draw the dropdown menu for payment methods and default to the order value
+          return tep_draw_pull_down_menu('configuration_value', $enabled_payment, '', ''); 
+                }
+
+
+/////end payment method dropdown
+
+////	Fix the Fatal error: Call to undefined function tep_add_base_ref()
+function tep_add_base_ref($string) {
+$i = 0;
+$output = '';
+$n=strlen($string);
+for ($i=0; $i<$n; $i++) {
+$char = substr($string, $i, 1);
+$char5 = substr($string, $i, 5);
+if ($char5 == 'src="' ) {$output .= 'src="' . HTTP_SERVER; $i = $i+4;}
+else {
+$output .= $char; 
+} }
+return $output;
+}
+/* ** EOF alteration for Order Editor ** */
+
+/* ** Altered for Manual Order Maker ** */
+// Returns the address_format_id for the given country
+// TABLES: countries;
+  function tep_get_address_format_id($country_id) {
+    $address_format_query = tep_db_query("select address_format_id as format_id from " . TABLE_COUNTRIES . " where countries_id = '" . (int)$country_id . "'");
+    if (tep_db_num_rows($address_format_query)) {
+      $address_format = tep_db_fetch_array($address_format_query);
+      return $address_format['format_id'];
+    } else {
+      return '1';
+    }
+  }
+/* ** EOF alteration for Manual Order Maker ** */
+
+ /* ** Altered for CCGV ** */
+ /// Creates a Coupon Code. lenght of the coupon set in admin
+  function create_coupon_code($salt="somemumbojumbo", $length=CCGV_SECURITY_CODE_LENGTH) {
+    $ccid = md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    srand((double)microtime()*1000000); // seed the random number generator
+    $random_start = @rand(0, (128-$length));
+    $good_result = 0;
+    while ($good_result == 0) {
+      $id1 = substr($ccid, $random_start,$length);
+      $query = tep_db_query("select coupon_code from " . TABLE_COUPONS . " where coupon_code = '" . $id1 . "'");
+      if (tep_db_num_rows($query) == 0) $good_result = 1;
+    }
+    return $id1;
+  }
+////
+// Update the Customers GV account
+  function tep_gv_account_update($customer_id, $gv_id) {
+    $customer_gv_query = tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id = '" . (int)$customer_id . "'");
+    $coupon_gv_query = tep_db_query("select coupon_amount from " . TABLE_COUPONS . " where coupon_id = '" . $gv_id . "'");
+    $coupon_gv = tep_db_fetch_array($coupon_gv_query);
+    if (tep_db_num_rows($customer_gv_query) > 0) {
+      $customer_gv = tep_db_fetch_array($customer_gv_query);
+      $new_gv_amount = $customer_gv['amount'] + $coupon_gv['coupon_amount'];
+ $gv_query = tep_db_query("update " . TABLE_COUPON_GV_CUSTOMER . " set amount = '" . $new_gv_amount . "' where customer_id = '" . (int)$customer_id . "'");
+    } else {
+      $gv_query = tep_db_query("insert into " . TABLE_COUPON_GV_CUSTOMER . " (customer_id, amount) values ('" . $customer_id . "', '" . $coupon_gv['coupon_amount'] . "')");
+    }
+  }
+/* ** EOF alterations for CCGV ** */
+/* ** Altered for Mail Manager ** */
+  function tep_mm_set_mailstatus($mail_id, $status) {
+	if ($status == '1') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '1' where mail_id = '" . (int)$mail_id . "'");
+	  } elseif ($status == '0') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '0' where mail_id = '" . (int)$mail_id . "'");
+	  } else {
+	  return -1;
+	}
+  }
+
+//mail it
+  function tep_mm_sendmail($mail, $email_address, $sender_name, $sender, $output_subject, $output_content_html, $output_content_txt) {
+	$mimemessage = new emailMailManager(array('X-Mailer: cat/mail_manager.com'));
+	// add html and alternative text version 
+	$mimemessage->add_html($output_content_html, $output_content_txt);
+	$mimemessage->build_message(); // encoding -> 76 character linebreak, replacements must be done before
+	$mimemessage->send($mail, $email_address, $sender_name, $sender, $output_subject, $output_content_html, $output_content_txt);
+  }
+/* ** EOF alterations for Mail Manager ** */

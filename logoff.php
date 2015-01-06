@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -40,6 +47,15 @@ if ( tep_session_is_registered('payment') ) {
 if ( tep_session_is_registered('comments') ) {
   tep_session_unregister('comments');
 }
+/* ** Altered for CCGV ** */
+if ( tep_session_is_registered('gv_id') ) {
+  tep_session_unregister('gv_id');
+}
+if ( tep_session_is_registered('cc_id') ) {
+  tep_session_unregister('cc_id');
+}
+
+/* ** EOF alteration for CCGV ** */
 
   $cart->reset();
 

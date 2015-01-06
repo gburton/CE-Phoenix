@@ -6,7 +6,15 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Custom change for product attribute sort ordering added -- http://forums.oscommerce.com/topic/123629-sorting-attributes/
+  
   Released under the GNU General Public License
 */
 
@@ -36,7 +44,8 @@
   </div>
 </div>
 
-<?php
+<?php 
+/* ** Altered for SEO Header Tags RELOADED **
   } else {
     $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_quantity, p.products_image, pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
     $product_info = tep_db_fetch_array($product_info_query);
@@ -64,10 +73,37 @@
     if (tep_not_null($product_info['products_model'])) {
       $products_name .= '<br /><small>[<span itemprop="model">' . $product_info['products_model'] . '</span>]</small>';
     }
+*/
+  } else {
+    $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_quantity, p.products_image, pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
+    $product_info = tep_db_fetch_array($product_info_query);
+
+    tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
+
+    if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
+      $products_price = '<del>' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</del> <span class="productSpecialPrice" itemprop="price">' . $currencies->display_price($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
+    } else {
+      $products_price = '<span itemprop="price">' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
+    }
+
+    if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
+      $products_price .= '<link itemprop="availability" href="http://schema.org/PreOrder" />';
+    } elseif ((STOCK_CHECK == 'true') && ($product_info['products_quantity'] < 1)) {
+      $products_price .= '<link itemprop="availability" href="http://schema.org/OutOfStock" />';
+    } else {
+      $products_price .= '<link itemprop="availability" href="http://schema.org/InStock" />';
+    }
+    $products_price .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />';
+    $products_name = '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '" itemprop="url"><span itemprop="name">' . $product_info['products_name'] . '</span></a>';
+
+    if (tep_not_null($product_info['products_model'])) {
+      $products_name .= '<br /><small>[<span itemprop="model">' . $product_info['products_model'] . '</span>]</small>';
+    }
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
 ?>
-
-<?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')). 'action=add_product', 'NONSSL'), 'post', 'class="form-horizontal" role="form"'); ?>
-
+<?php 
+  echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product', 'NONSSL', 'class="form-horizontal"')); 
+?>
 <div itemscope itemtype="http://schema.org/Product">
 
 <div class="page-header">
@@ -85,6 +121,7 @@
   <div class="contentText">
 
 <?php
+/* ** Altered for SEO Header Tags RELOADED **
     if (tep_not_null($product_info['products_image'])) {
 
       echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], NULL, NULL, NULL, 'itemprop="image" style="display:none;"');
@@ -105,9 +142,19 @@
         if ($pi_sub > 0) {
           $photoset_layout .= ($pi_total > 5) ? 5 : $pi_sub;
         }
-?>
+*/
+    if (tep_not_null($product_info['products_image'])) {
+      $photoset_layout = '1';
+      $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
 
-    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>">
+      if (tep_db_num_rows($pi_query) > 0) {
+        $photoset_layout = '1' . (tep_db_num_rows($pi_query) > 1 ? tep_db_num_rows($pi_query) - 1 : '');
+/* ** EOF alteration for SEO Header Tags RELOADED ** */
+?>
+<?php /* ** Altered for SEO Header Tags RELOADED ** ORIGINAL PHP TAGS CHANGED BELOW
+    <div id="piGal" data-imgcount="< ?php echo $photoset_layout; ? >"> */ ?>
+    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>" class="pull-right">
+<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
 
 <?php
         $pi_counter = 0;
@@ -133,7 +180,12 @@
       } else {
 ?>
 
+<?php /* ** Altered for SEO Header Tags RELOADED **
     <div id="piGal">
+*/ ?>
+    <div id="piGal" class="pull-right">
+<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
+
       <?php echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name'])); ?>
     </div>
 
@@ -159,7 +211,11 @@
       $products_options_name_query = tep_db_query("select distinct popt.products_options_id, popt.products_options_name from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "' order by popt.products_options_name");
       while ($products_options_name = tep_db_fetch_array($products_options_name_query)) {
         $products_options_array = array();
+/* ** Altered for custom change for Custom Attribute Sort Ordering **
         $products_options_query = tep_db_query("select pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov where pa.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$languages_id . "'");
+*/
+		$products_options_query = tep_db_query("select pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix, pa.products_attributes_id from " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov where pa.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$languages_id . "'" . " order by pov.products_options_values_id, pa.products_attributes_id");
+/* ** EOF alteration for Custom Attribute Sort Ordering ** */
         while ($products_options = tep_db_fetch_array($products_options_query)) {
           $products_options_array[] = array('id' => $products_options['products_options_values_id'], 'text' => $products_options['products_options_values_name']);
           if ($products_options['options_values_price'] != '0') {
@@ -230,6 +286,7 @@
       }
     }
 ?>
+</div>
 
 </div>
 

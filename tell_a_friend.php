@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
+    
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -19,7 +26,11 @@
 
   $valid_product = false;
   if (isset($HTTP_GET_VARS['products_id'])) {
+/* ** Altered for Mail Manager **  
     $product_info_query = tep_db_query("select pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+*/
+	$product_info_query = tep_db_query("select p.products_image, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+/* ** EOF alteration for Mail Manager ** */
     if (tep_db_num_rows($product_info_query)) {
       $valid_product = true;
 
@@ -86,7 +97,15 @@
       $email_body .= sprintf(TEXT_EMAIL_LINK, tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id'], 'NONSSL', false)) . "\n\n" .
                      sprintf(TEXT_EMAIL_SIGNATURE, STORE_NAME . "\n" . HTTP_SERVER . DIR_WS_CATALOG . "\n");
 
+/* ** Altered for Mail Manager **
       tep_mail($to_name, $to_email_address, $email_subject, $email_body, $from_name, $from_email_address);
+*/
+	  if (file_exists(DIR_WS_MODULES.'mail_manager/tell_a_friend.php')){
+		include(DIR_WS_MODULES.'mail_manager/tell_a_friend.php'); 
+		}else{ 
+	  tep_mail($to_name, $to_email_address, $email_subject, $email_body, $from_name, $from_email_address);
+	  }
+/* ** EOF alterations for Mail Manager ** */	  
 
       $actionRecorder->record();
 

@@ -4,7 +4,16 @@
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
+  
   Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
@@ -1393,4 +1402,81 @@
       return str_replace($from, $to, $string);
     }
   }
-?>
+/* ** Altered for SEO Header Tags Reloaded ** */
+    function osc_split_mini_description($products_precis) {
+    $content = strip_tags($products_precis);
+
+    if (strlen($content) > 156 ) {
+      $content = substr($content, 0, strpos($content, ' ', 156));
+    }
+    return $content;
+  }
+
+  function osc_get_mini_description($products_id) {
+    global $languages_id;
+
+    $product_query = tep_db_query("select coalesce(NULLIF(products_mini_description, ''), NULLIF(products_seo_description, ''), LEFT(products_description, 300)) as products_precis from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$products_id . "' and language_id = '" . (int)$languages_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return osc_split_mini_description($product['products_precis']);
+  }
+/* ** EOF alterations for SEO Header Tags Reloaded ** */
+/* ** Altered for CCGV ** */
+///create a coupon coupon length set in admin
+  function create_coupon_code($salt="secret", $length = CCGV_SECURITY_CODE_LENGTH) {
+    $ccid = md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    $ccid .= md5(uniqid("","salt"));
+    srand((double)microtime()*1000000); // seed the random number generator
+    $random_start = @rand(0, (128-$length));
+    $good_result = 0;
+    while ($good_result == 0) {
+      $id1=substr($ccid, $random_start,$length);
+      $query = tep_db_query("select coupon_code from " . TABLE_COUPONS . " where coupon_code = '" . $id1 . "'");
+      if (tep_db_num_rows($query) == 0) $good_result = 1;
+    }
+    return $id1;
+  }
+////
+// Update the Customers GV account
+  function tep_gv_account_update($customer_id, $gv_id) {
+    $customer_gv_query = tep_db_query("select amount from " . TABLE_COUPON_GV_CUSTOMER . " where customer_id = '" . (int)$customer_id . "'");
+    $coupon_gv_query = tep_db_query("select coupon_amount from " . TABLE_COUPONS . " where coupon_id = '" . (int)$gv_id . "'");
+    $coupon_gv = tep_db_fetch_array($coupon_gv_query);
+    if (tep_db_num_rows($customer_gv_query) > 0) {
+      $customer_gv = tep_db_fetch_array($customer_gv_query);
+      $new_gv_amount = $customer_gv['amount'] + $coupon_gv['coupon_amount'];
+      $gv_query = tep_db_query("update " . TABLE_COUPON_GV_CUSTOMER . " set amount = '" . $new_gv_amount . "' where customer_id = '" . (int)$customer_id . "'");
+    } else {
+      $gv_query = tep_db_query("insert into " . TABLE_COUPON_GV_CUSTOMER . " (customer_id, amount) values ('" . $customer_id . "', '" . $coupon_gv['coupon_amount'] . "')");
+    }
+  }
+////
+// Get tax rate from tax description
+  function tep_get_tax_rate_from_desc($tax_desc) {
+    $tax_query = tep_db_query("select tax_rate from " . TABLE_TAX_RATES . " where tax_description = '" . $tax_desc . "'");
+    $tax = tep_db_fetch_array($tax_query);
+    return $tax['tax_rate'];
+  }
+/* ** EOF alterations for CCGV ** */
+/* ** Altered for Mail Manager ** */
+  // Sets the status of a mail item 
+  function tep_mm_set_mailstatus($mail_id, $status) {
+	if ($status == '1') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '1' where mail_id = '" . (int)$mail_id . "'");
+	  } elseif ($status == '0') {
+	  return tep_db_query("update " . TABLE_MM_RESPONSEMAIL . " set status = '0' where mail_id = '" . (int)$mail_id . "'");
+	  } else {
+	  return -1;
+	}
+  }
+//sends it
+  function tep_mm_sendmail($mail, $email_address, $sender_name, $sender, $output_subject, $output_content_html, $output_content_txt) {
+	$mimemessage = new emailMailManager(array('X-Mailer: ad/mail_manager.com'));
+	// add html and alternative text version 
+	$mimemessage->add_html($output_content_html, $output_content_txt);
+	$mimemessage->build_message(); // encoding -> 76 character linebreak, replacements must be done before
+	$mimemessage->send($mail, $email_address, $sender_name, $sender, $output_subject, '');
+  }
+/* ** EOF alterations for Mail Manager ** */

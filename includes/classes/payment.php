@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2012 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -100,12 +107,19 @@
             $js .= $GLOBALS[$class]->javascript_validation();
           }
         }
-
+/* ** Altered for CCGV ** <!--
         $js .= "\n" . '  if (payment_value == null) {' . "\n" .
                '    error_message = error_message + "' . JS_ERROR_NO_PAYMENT_MODULE_SELECTED . '";' . "\n" .
                '    error = 1;' . "\n" .
                '  }' . "\n\n" .
                '  if (error == 1) {' . "\n" .
+--> */
+          $js .= "\n" . '  if (payment_value == null && submitter != 1) {' . "\n" . // This line edited for CCGV
+               '    error_message = error_message + "' . JS_ERROR_NO_PAYMENT_MODULE_SELECTED . '";' . "\n" .
+               '    error = 1;' . "\n" .
+               '  }' . "\n\n" .
+               '  if (error == 1 && submitter != 1) {' . "\n" . // This line edited for CCGV
+/* ** EOF alterations for CCGV ** */			   
                '    alert(error_message);' . "\n" .
                '    return false;' . "\n" .
                '  } else {' . "\n" .
@@ -151,14 +165,34 @@
       return $selection_array;
     }
 
+/* ** Altered for CCGV ** */
+ // check credit covers was setup to test whether credit covers is set in other parts of the code
+function check_credit_covers() {
+  global $credit_covers;
+  return $credit_covers;
+}
+/* ** EOF alterations for CCGV ** */
     function pre_confirmation_check() {
+/* ** Altered for CCGV ** */
+  global $credit_covers, $payment_modules; // CCGV
+/* ** EOF alterations for CCGV ** */
       if (is_array($this->modules)) {
         if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+/* ** Altered for CCGV ** */
+      if ($credit_covers) {
+            $GLOBALS[$this->selected_module]->enabled = false;
+            $GLOBALS[$this->selected_module] = NULL;
+            $payment_modules = '';
+          } else {
+/* ** EOF alterations for CCGV ** */
           $GLOBALS[$this->selected_module]->pre_confirmation_check();
         }
       }
     }
 
+/* ** Altered for CCGV ** */
+}
+/* ** EOF alterations for CCGV ** */
     function confirmation() {
       if (is_array($this->modules)) {
         if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {

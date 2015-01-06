@@ -6,7 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2010 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  
   Released under the GNU General Public License
 */
 
@@ -35,6 +42,10 @@
     }
   }
 
+/* ** Altered for CCGV ** */
+// if we have been here before and are coming back get rid of the credit covers variable
+  if(tep_session_is_registered('credit_covers')) tep_session_unregister('credit_covers');  //CCGV  
+/* ** EOF alterations for CCGV ** */
 // Stock Check
   if ( (STOCK_CHECK == 'true') && (STOCK_ALLOW_CHECKOUT != 'true') ) {
     $products = $cart->get_products();
@@ -66,6 +77,11 @@
   require(DIR_WS_CLASSES . 'order.php');
   $order = new order;
 
+/* ** Altered for CCGV ** */
+  require(DIR_WS_CLASSES . 'order_total.php'); // CCGV
+  $order_total_modules = new order_total; // CCGV
+/* ** EOF alterations for CCGV ** */
+
   if (!tep_session_is_registered('comments')) tep_session_register('comments');
   if (isset($HTTP_POST_VARS['comments']) && tep_not_null($HTTP_POST_VARS['comments'])) {
     $comments = tep_db_prepare_input($HTTP_POST_VARS['comments']);
@@ -73,6 +89,10 @@
 
   $total_weight = $cart->show_weight();
   $total_count = $cart->count_contents();
+/* ** Altered for CCGV ** */
+  $total_count = $cart->count_contents_virtual(); // CCGV 
+/* ** EOF alterations for CCGV ** */
+
 
 // load all enabled payment modules
   require(DIR_WS_CLASSES . 'payment.php');
@@ -236,6 +256,9 @@
       </tbody>
     </table>
 
+<?php /* ** Altered for CCGV ** */ ?>
+<?php echo $order_total_modules->credit_selection(); // CCGV ?>
+<?php /* ** EOF alterations for CCGV ** */ ?>
   </div>
 
   <hr>

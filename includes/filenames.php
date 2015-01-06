@@ -6,6 +6,14 @@
   http://www.oscommerce.com
 
   Copyright (c) 2012 osCommerce
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
 
   Released under the GNU General Public License
 */
@@ -60,4 +68,16 @@
   define('FILENAME_SSL_CHECK', 'ssl_check.php');
   define('FILENAME_TELL_A_FRIEND', 'tell_a_friend.php');
   define('FILENAME_UPCOMING_PRODUCTS', 'upcoming_products.php');
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// SEO Header Tags Reloaded
+  define('FILENAME_TESTIMONIALS', 'testimonials.php');
+// CCGV
+  define('FILENAME_GV_FAQ', 'gv_faq.php');
+  define('FILENAME_GV_REDEEM', 'gv_redeem.php');
+  define('FILENAME_GV_SEND', 'gv_send.php');
 ?>

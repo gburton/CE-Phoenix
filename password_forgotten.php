@@ -6,6 +6,13 @@
   http://www.oscommerce.com
 
   Copyright (c) 2012 osCommerce
+    
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
 
   Released under the GNU General Public License
 */
@@ -38,7 +45,15 @@
           $reset_key_url = str_replace('&amp;', '&', $reset_key_url);
         }
 
+/* ** Altered for Mail Manager **
         tep_mail($check_customer['customers_firstname'] . ' ' . $check_customer['customers_lastname'], $email_address, EMAIL_PASSWORD_RESET_SUBJECT, sprintf(EMAIL_PASSWORD_RESET_BODY, $reset_key_url), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+*/		
+		if (file_exists(DIR_WS_MODULES.'mail_manager/password_forgotten.php')){
+		  include(DIR_WS_MODULES.'mail_manager/password_forgotten.php'); 
+		  }else{
+		  tep_mail($check_customer['customers_firstname'] . ' ' . $check_customer['customers_lastname'], $email_address, EMAIL_PASSWORD_RESET_SUBJECT, sprintf(EMAIL_PASSWORD_RESET_BODY, $reset_key_url), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+		}
+/* ** EOF alterations for Mail Manager ** */
 
         $password_reset_initiated = true;
       } else {

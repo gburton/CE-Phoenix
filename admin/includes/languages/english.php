@@ -6,7 +6,19 @@
   http://www.oscommerce.com
 
   Copyright (c) 2014 osCommerce
-
+  
+  Edited by 2014 Newburns Design and Technology
+  *************************************************
+  ************ New addon definitions **************
+  ************        Below          **************
+  *************************************************
+  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
+  Database Check 1.4 added -- http://addons.oscommerce.com/info/9087
+  Manual Order Maker added -- http://addons.oscommerce.com/info/8334
+  Alternative Administration System added -- http://addons.oscommerce.com/info/9135
+  Credit Class, Gift Vouchers & Discount Coupons osC2.3.3.4 (CCGV) added -- http://addons.oscommerce.com/info/9020  
+  Mail Manager added -- http://addons.oscommerce.com/info/9133/v,23
+  
   Released under the GNU General Public License
 */
 
@@ -301,4 +313,49 @@ define('WARNING_NO_FILE_UPLOADED', 'Warning: No file uploaded.');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 or less per column per row.</p><p>12/12 = 100% width, 6/12 = 50% width, 4/12 = 33% width.</p><p>Total of all columns in any one row must equal 12 (eg:  3 boxes of 4 columns each, 1 box of 12 columns and so on).</p>');
-
+/*
+************************************************************************
+************** Custom Filenames can be defined below here **************
+**************               Raymond Burns                **************
+************************************************************************
+*/
+// Definition for SEO Header Tags Reloaded
+  define('BOX_CUSTOMERS_ORDERS', 'Orders');
+  define('PLACEHOLDER_COMMA_SEPARATION', 'Must, Be, Comma, Separated');
+// BOF Order Maker
+  define('IMAGE_CREATE_ORDER', 'Create');
+  define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
+  define('IMAGE_DETAIL', 'Details');
+  define('TEXT_INFO_CUSTOMER_SERVICE_ID', 'Created By:');
+  
+// Alternative Administration System
+  define('BOX_HEADING_AAS','A.A.S.'); 
+  define('BOX_AAS_ACCESS_AAS','Access AAS'); 
+  define('BOX_AAS_SUPPORT','Support');
+  define('BOX_AAS_DISCUSSION_BOARD','Discussion Board'); 
+  define('BOX_AAS_DONATIONS','Make a Donation');  
+// Database Check Tool
+  define('BOX_TOOLS_DATABASE_CHECK', 'Database Check');
+// CCGV
+  define('BOX_HEADING_GV_ADMIN', 'Vouchers/Coupons');
+  define('BOX_GV_ADMIN_QUEUE', 'Gift Voucher Queue');
+  define('BOX_GV_ADMIN_MAIL', 'Mail Gift Voucher');
+  define('BOX_GV_ADMIN_SENT', 'Gift Vouchers sent');
+  define('BOX_COUPON_ADMIN','Coupon Admin');
+  define('IMAGE_RELEASE', 'Redeem Gift Voucher');
+  define('TEXT_DISPLAY_NUMBER_OF_GIFT_VOUCHERS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> gift vouchers)');
+  define('TEXT_DISPLAY_NUMBER_OF_COUPONS', 'Displaying <b>%d</b> to <b>%d</b> (of <b>%d</b> coupons)');
+  define('TEXT_VALID_PRODUCTS_LIST', 'Products List');
+  define('TEXT_VALID_PRODUCTS_ID', 'Products ID');
+  define('TEXT_VALID_PRODUCTS_NAME', 'Products Name');
+  define('TEXT_VALID_PRODUCTS_MODEL', 'Products Model');
+  define('TEXT_VALID_CATEGORIES_LIST', 'Categories List');
+  define('TEXT_VALID_CATEGORIES_ID', 'Category ID');
+  define('TEXT_VALID_CATEGORIES_NAME', 'Category Name');  
+// Mail Manager
+  define('BOX_HEADING_MAIL_MANAGER', 'Mail Manager');
+  define('BOX_MM_BULKMAIL', 'BulkMail Manager');
+  define('BOX_MM_TEMPLATES', 'Template Manager');
+  define('BOX_MM_EMAIL', 'Send Email');
+  define('BOX_MM_RESPONSEMAIL', 'Response Mail');
+  define('BOX_TOOLS_MAIL_MANAGER', 'Mail Manager');

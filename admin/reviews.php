@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2010 osCommerce
 
   Released under the GNU General Public License
 */
@@ -44,6 +44,31 @@
 
         tep_redirect(tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page']));
         break;
+// admin - add review
+      case 'addnew':
+        $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
+        $customers_id = tep_db_prepare_input($HTTP_POST_VARS['customer_id']);
+        $review = tep_db_prepare_input($HTTP_POST_VARS['reviews_text']);
+        $rating = tep_db_prepare_input($HTTP_POST_VARS['rating']);
+
+        tep_db_query("insert into " . TABLE_REVIEWS . " (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_customers_name($customers_id) . "', '" . (int)$rating . "', now(), 1)");
+        $insert_id = tep_db_insert_id();
+        tep_db_query("insert into " . TABLE_REVIEWS_DESCRIPTION . " (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
+
+        tep_redirect(tep_href_link(FILENAME_REVIEWS, tep_get_all_get_params(array('action'))));
+        break;
+        
+// admin - add testimonial
+      case 'addnewtestimonial':
+        $customers_name = tep_db_prepare_input($HTTP_POST_VARS['customer_name']);
+        $review = tep_db_prepare_input($HTTP_POST_VARS['reviews_text']);
+
+        tep_db_query("insert into " . TABLE_REVIEWS . " (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status, is_testimonial) values ('0', '0', '" . $customers_name . "', '1', now(), 1, 1)");
+        $insert_id = tep_db_insert_id();
+        tep_db_query("insert into " . TABLE_REVIEWS_DESCRIPTION . " (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
+
+        tep_redirect(tep_href_link(FILENAME_REVIEWS, tep_get_all_get_params(array('action'))));
+        break;
     }
   }
 
@@ -63,14 +88,16 @@
   if ($action == 'edit') {
     $rID = tep_db_prepare_input($HTTP_GET_VARS['rID']);
 
-    $reviews_query = tep_db_query("select r.reviews_id, r.products_id, r.customers_name, r.date_added, r.last_modified, r.reviews_read, rd.reviews_text, r.reviews_rating, r.reviews_status from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
+    $reviews_query = tep_db_query("select r.reviews_id, r.products_id, r.customers_name, r.date_added, r.last_modified, r.reviews_read, rd.reviews_text, r.reviews_rating, r.reviews_status, r.is_testimonial from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
     $reviews = tep_db_fetch_array($reviews_query);
 
     $products_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");
     $products = tep_db_fetch_array($products_query);
+    if (!is_array($products)) $products = array('products_image' => TEXT_IMAGE_NONEXISTENT);
 
     $products_name_query = tep_db_query("select products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
     $products_name = tep_db_fetch_array($products_name_query);
+    if (!is_array($products_name)) $products_name = array('products_name' => ADMIN_TESTIMONIAL);
 
     $rInfo_array = array_merge($reviews, $products, $products_name);
     $rInfo = new objectInfo($rInfo_array);
@@ -158,7 +185,7 @@
       </tr>
 
       <tr>
-        <td class="main"><strong><?php echo ENTRY_RATING; ?></strong>&nbsp;<?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $rInfo->reviews_rating . '.gif', sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating)); ?>&nbsp;<small>[<?php echo sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating); ?>]</small></td>
+        <td class="main"><strong><?php echo ENTRY_RATING; ?></strong>&nbsp;<?php echo tep_image(DIR_WS_CATALOG_IMAGES . 'stars_' . $rInfo->reviews_rating . '.gif', sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating)); ?>&nbsp;<small>[<?php echo sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating); ?>]</small></td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
@@ -183,12 +210,80 @@
       }
 ?>
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link($back_url, $back_url_params)); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link($back_url, $back_url_params, 'NONSSL')); ?></td>
       </tr>
 <?php
     }
-  } else {
-?>
+  }   elseif ($action == 'new') {
+    ?>
+      <tr><?php echo tep_draw_form('review', FILENAME_REVIEWS, 'action=addnew'); ?>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_PRODUCT; ?></strong></td>
+            <td><?php echo tep_draw_products('products_id', 'style="font-size:10px"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_FROM; ?></strong></td>
+            <td><?php echo tep_draw_customers('customer_id', 'style="font-size:10px"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_RATING; ?></strong></td>
+            <td class="main"><?php echo TEXT_BAD . ' ' . tep_draw_radio_field('rating', '1') . ' ' . tep_draw_radio_field('rating', '2') . ' ' . tep_draw_radio_field('rating', '3') . ' ' . tep_draw_radio_field('rating', '4') . ' ' . tep_draw_radio_field('rating', '5') . ' ' . TEXT_GOOD; ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td class="main" valign="top"><strong><?php echo ENTRY_REVIEW; ?></strong><br /><br /><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', $rInfo->reviews_text); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></td>
+      </tr>
+      </form>
+       <?php
+     } elseif ($action == 'newtestimonial') {
+    ?>
+      <tr><?php echo tep_draw_form('review', FILENAME_REVIEWS, 'action=addnewtestimonial'); ?>
+        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_NAME; ?></strong></td>
+            <td><?php echo tep_draw_input_field('customer_name', '', 'style="font-size:10px; width: 240px;"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td class="main" valign="top"><strong><?php echo ENTRY_TESTIMONIAL; ?></strong><br /><br /><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', $rInfo->reviews_text); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></td>
+      </tr>
+      </form>
+       <?php
+     } else {
+     ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
@@ -198,10 +293,11 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_RATING; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_DATE_ADDED; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_STATUS; ?></td>
+                <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_TESTIMONIAL; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $reviews_query_raw = "select reviews_id, products_id, date_added, last_modified, reviews_rating, reviews_status from " . TABLE_REVIEWS . " order by date_added DESC";
+    $reviews_query_raw = "select reviews_id, products_id, date_added, last_modified, reviews_rating, reviews_status, is_testimonial from " . TABLE_REVIEWS . " order by date_added DESC";
     $reviews_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $reviews_query_raw, $reviews_query_numrows);
     $reviews_query = tep_db_query($reviews_query_raw);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
@@ -211,9 +307,11 @@
 
         $products_image_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");
         $products_image = tep_db_fetch_array($products_image_query);
+        if (!is_array($products_image)) $products_image = array('products_image' => TEXT_IMAGE_NONEXISTENT);
 
         $products_name_query = tep_db_query("select products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
         $products_name = tep_db_fetch_array($products_name_query);
+        if (!is_array($products_name)) $products_name = array('products_name' => ADMIN_TESTIMONIAL);
 
         $reviews_average_query = tep_db_query("select (avg(reviews_rating) / 5 * 100) as average_rating from " . TABLE_REVIEWS . " where products_id = '" . (int)$reviews['products_id'] . "'");
         $reviews_average = tep_db_fetch_array($reviews_average_query);
@@ -221,6 +319,7 @@
         $review_info = array_merge($reviews_text, $reviews_average, $products_name);
         $rInfo_array = array_merge($reviews, $review_info, $products_image);
         $rInfo = new objectInfo($rInfo_array);
+
       }
 
       if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id) ) {
@@ -229,7 +328,7 @@
         echo '              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page'] . '&rID=' . $reviews['reviews_id']) . '\'">' . "\n";
       }
 ?>
-                <td class="dataTableContent"><?php echo '<a href="' . tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page'] . '&rID=' . $reviews['reviews_id'] . '&action=preview') . '">' . tep_image(DIR_WS_ICONS . 'preview.gif', ICON_PREVIEW) . '</a>&nbsp;' . tep_get_products_name($reviews['products_id']); ?></td>
+                <td class="dataTableContent"><?php echo '<a href="' . tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page'] . '&rID=' . $reviews['reviews_id'] . '&action=preview') . '">' . tep_image(DIR_WS_ICONS . 'preview.gif', ICON_PREVIEW) . '</a>&nbsp;' . tep_get_products_name_review($reviews['products_id']); ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $reviews['reviews_rating'] . '.gif'); ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($reviews['date_added']); ?></td>
                 <td class="dataTableContent" align="center">
@@ -240,16 +339,27 @@
         echo '<a href="' . tep_href_link(FILENAME_REVIEWS, 'action=setflag&flag=1&rID=' . $reviews['reviews_id'] . '&page=' . $HTTP_GET_VARS['page']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_status_green_light.gif', IMAGE_ICON_STATUS_GREEN_LIGHT, 10, 10) . '</a>&nbsp;&nbsp;' . tep_image(DIR_WS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_STATUS_RED, 10, 10);
       }
 ?></td>
+               <td class="dataTableContent" align="center">
+<?php
+      if ($reviews['is_testimonial'] == '1') {
+        echo tep_image(DIR_WS_IMAGES . 'icon_status_red.gif', IMAGE_ICON_TESTIMONIAL_YES, 10, 10);
+      } else {
+        echo tep_image(DIR_WS_IMAGES . 'icon_status_green.gif', IMAGE_ICON_TESTIMONIAL_NO, 10, 10);
+      }
+?></td>
                 <td class="dataTableContent" align="right"><?php if ( (is_object($rInfo)) && ($reviews['reviews_id'] == $rInfo->reviews_id) ) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif'); } else { echo '<a href="' . tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page'] . '&rID=' . $reviews['reviews_id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php
     }
 ?>
               <tr>
-                <td colspan="4"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                <td colspan="6"><table border="0" width="100%" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="smallText" valign="top"><?php echo $reviews_split->display_count($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $HTTP_GET_VARS['page'], TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></td>
                     <td class="smallText" align="right"><?php echo $reviews_split->display_links($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $HTTP_GET_VARS['page']); ?></td>
+                  </tr>
+	              <tr>
+                    <td colspan="2" class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_REVIEW, 'triangle-1-e', tep_href_link(FILENAME_REVIEWS, 'action=new')) . tep_draw_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'triangle-1-e', tep_href_link(FILENAME_REVIEWS, 'action=newtestimonial')); ?></td>
                   </tr>
                 </table></td>
               </tr>
