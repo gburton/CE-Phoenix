@@ -21,7 +21,7 @@ $output_content_html = $header['htmlheader'].$mail_manager_status['htmlcontent']
 $output_content_txt = $header['txtheader'].$mail_manager_status['txtcontent'].$header['txtfooter']; 
 
 // define subject
-$output_subject = $to_name.' ' .TEXT_RECOMMEND.' '. $product_info['products_name'].' '.TEXT_FROM.' '.STORE_NAME;
+$output_subject = $from_name.' ' .TEXT_RECOMMEND.' '. $product_info['products_name'].' '.TEXT_FROM.' '.STORE_NAME;
 
 //See catalog/includes/configure to construct the correct value of $image_urlfix
 if (DIR_WS_HTTP_CATALOG==NULL){
