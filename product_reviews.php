@@ -51,9 +51,11 @@
   }
 ?>
 
+<div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+
 <div class="page-header">
   <h1 class="pull-right"><?php echo $products_price; ?></h1>
-  <h1><?php echo $products_name; ?></h1>
+  <h1 itemprop="itemreviewed"><?php echo $products_name; ?></h1>
 </div>
 
 <div class="contentContainer">
@@ -61,7 +63,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating"><meta itemprop="average" content="' . (int)round($average['average']) . '" /><meta itemprop="best" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])), true)) . '</div>';
 ?>
 
 <?php
@@ -83,7 +85,7 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
 <?php
   }
 
-  $reviews_query_raw = "select r.reviews_id, rd.reviews_text, r.reviews_rating, r.date_added, r.customers_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = 1 order by r.reviews_rating desc";
+  $reviews_query_raw = "select r.reviews_id, rd.reviews_text, r.reviews_rating, date(r.date_added) as date_added, r.customers_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = 1 order by r.reviews_rating desc";
   $reviews_split = new splitPageResults($reviews_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($reviews_split->number_of_rows > 0) {
@@ -108,9 +110,11 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       $review_name = tep_output_string_protected($reviews['customers_name']);
 ?>
-      <blockquote class="col-sm-6">
-        <p><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
-        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
+      <blockquote class="col-sm-6" itemscope itemtype="http://data-vocabulary.org/Review">
+        <p itemprop="description"><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
+        <div class="hidden" itemprop="dtreviewed" datetime="<?php echo $reviews['date_added']; ?>"><?php echo $reviews['date_added']; ?></div>
+        <div class="hidden" itemprop="itemreviewed"><?php echo $product_info['products_name']; ?></div>
+        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating'], true), $review_name, $review_name); ?></footer>
       </blockquote>
 <?php
     }
@@ -158,6 +162,8 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
     </div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
   </div>
+</div>
+
 </div>
 
 <?php
