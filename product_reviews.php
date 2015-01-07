@@ -125,10 +125,8 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" it
   } else {
 ?>
 
-  <div class="contentText">
-    <div class="alert alert-info">
-      <?php echo TEXT_NO_REVIEWS; ?>
-    </div>
+  <div class="alert alert-info">
+    <?php echo TEXT_NO_REVIEWS; ?>
   </div>
 
 <?php
