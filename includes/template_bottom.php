@@ -17,9 +17,9 @@
   if ($oscTemplate->hasBlocks('boxes_column_left')) {
 ?>
 
-      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
+      <aside id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
         <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
-      </div>
+      </aside>
 
 <?php
   }
@@ -27,9 +27,9 @@
   if ($oscTemplate->hasBlocks('boxes_column_right')) {
 ?>
 
-      <div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
+      <aside id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
         <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
-      </div>
+      </aside>
 
 <?php
   }
@@ -37,12 +37,20 @@
 
     </div> <!-- row -->
 
-  </div> <!-- bodyWrapper //-->
+  </section> <!-- bodyWrapper //-->
 
-  <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
+  <footer id="modular-footer" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+    <div id="footer" class="row">
+      <?php echo $oscTemplate->getContent('footer'); ?>
+    </div>
+      
+    <div id="footer-extra" class="row">
+      <?php echo $oscTemplate->getContent('footer_suffix'); ?>
+    </div>
+  </footer>
 
-<script src="ext/bootstrap/js/bootstrap.min.js"></script>
-<?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
+  <script src="ext/bootstrap/js/bootstrap.min.js"></script>
+  <?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
 
 </body>
 </html>

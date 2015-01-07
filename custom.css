@@ -270,26 +270,26 @@ p.lead del {
 }
 
 /* Footer ------------------------------------------------------------------- */
-.footer {
+#footer {
   background: #eee;
   border-top: 2px solid #ddd;
 }
 
-.footer .footerbox {
+#footer .footerbox {
   padding: 10px 10px 0px 10px;
 }
 
-.footer-extra {
+#footer-extra {
   background: #111;
   color: silver;
   line-height: 3;
 }
 
-.footer-extra A {
+#footer-extra A {
   color: silver;
 }
 
-.footer h2 {
+#footer h2 {
   padding: 0;
   margin: 0;
   font-size: 1em;

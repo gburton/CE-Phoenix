@@ -50,9 +50,51 @@
 
   <?php echo $oscTemplate->getContent('navigation'); ?>
   
-  <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+<?php
+  if ($messageStack->size('header') > 0) { 
+?>
+  <div class="row">
+    <div class="col-sm-12"><?php echo $messageStack->output('header'); ?></div>
+  </div>
+<?php
+  }
+?>
+
+  <header id="modular-header" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+    <div id="header" class="row">
+      <?php echo $oscTemplate->getContent('header'); ?>
+    </div>
+  </header>
+   
+  <section id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="row">
 
-      <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-
       <div id="bodyContent" class="col-md-<?php echo $oscTemplate->getGridContentWidth(); ?> <?php echo ($oscTemplate->hasBlocks('boxes_column_left') ? 'col-md-push-' . $oscTemplate->getGridColumnWidth() : ''); ?>">
+      
+<?php
+  if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
+?>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-danger">
+              <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+              <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+            </div>
+          </div>
+        </div>
+<?php
+  }
+
+  if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
+?>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="alert alert-info">
+              <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+              <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
+            </div>
+          </div>
+        </div>
+<?php
+  }
+?>
