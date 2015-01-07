@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<?php 
+<?php
 /* ** Altered for SEO Header Tags RELOADED **
   } else {
     $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_quantity, p.products_image, pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
@@ -101,9 +101,7 @@
     }
 /* ** EOF alteration for SEO Header Tags RELOADED ** */
 ?>
-<?php 
-  echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product', 'NONSSL', 'class="form-horizontal"')); 
-?>
+<?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'action=add_product', 'NONSSL', 'class="form-horizontal"')); ?>
 <div itemscope itemtype="http://schema.org/Product">
 
 <div class="page-header">
@@ -151,10 +149,7 @@
         $photoset_layout = '1' . (tep_db_num_rows($pi_query) > 1 ? tep_db_num_rows($pi_query) - 1 : '');
 /* ** EOF alteration for SEO Header Tags RELOADED ** */
 ?>
-<?php /* ** Altered for SEO Header Tags RELOADED ** ORIGINAL PHP TAGS CHANGED BELOW
-    <div id="piGal" data-imgcount="< ?php echo $photoset_layout; ? >"> */ ?>
-    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>" class="pull-right">
-<?php /* ** EOF alteration for SEO Header Tags RELOADED ** */ ?>
+    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>">
 
 <?php
         $pi_counter = 0;
@@ -286,7 +281,6 @@
       }
     }
 ?>
-</div>
 
 </div>
 
