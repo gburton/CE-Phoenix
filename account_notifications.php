@@ -137,7 +137,7 @@
     } else {
 ?>
 
-    <div>
+    <div class="alert alert-warning">
       <?php echo NOTIFICATIONS_NON_EXISTING; ?>
     </div>
 

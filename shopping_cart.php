@@ -165,13 +165,11 @@
   } else {
 ?>
 
-<div class="contentContainer">
-  <div class="contentText">
-    <?php echo TEXT_CART_EMPTY; ?>
-
-    <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?></p>
-  </div>
+<div class="alert alert-danger">
+  <?php echo TEXT_CART_EMPTY; ?>
 </div>
+
+<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT), 'primary', NULL, 'btn-danger'); ?></p>
 
 <?php
   }
