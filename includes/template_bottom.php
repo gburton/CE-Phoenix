@@ -17,9 +17,9 @@
   if ($oscTemplate->hasBlocks('boxes_column_left')) {
 ?>
 
-      <aside id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
+      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
         <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
-      </aside>
+      </div>
 
 <?php
   }
@@ -27,9 +27,9 @@
   if ($oscTemplate->hasBlocks('boxes_column_right')) {
 ?>
 
-      <aside id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
+      <div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
         <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
-      </aside>
+      </div>
 
 <?php
   }
