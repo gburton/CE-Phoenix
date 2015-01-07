@@ -39,15 +39,7 @@
 
   </section> <!-- bodyWrapper //-->
 
-  <footer id="modular-footer" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
-    <div id="footer" class="row">
-      <?php echo $oscTemplate->getContent('footer'); ?>
-    </div>
-      
-    <div id="footer-extra" class="row">
-      <?php echo $oscTemplate->getContent('footer_suffix'); ?>
-    </div>
-  </footer>
+  <?php require(DIR_WS_INCLUDES . 'footer.php'); ?>
 
   <script src="ext/bootstrap/js/bootstrap.min.js"></script>
   <?php echo $oscTemplate->getBlocks('footer_scripts'); ?>

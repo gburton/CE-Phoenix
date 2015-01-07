@@ -10,41 +10,17 @@
   Released under the GNU General Public License
 */
 
-  if ($messageStack->size('header') > 0) {
-    echo '<div class="col-md-12">' . $messageStack->output('header') . '</div>';
-  }
+  if ($messageStack->size('header') > 0) { 
 ?>
-
-<div class="modular-header">
-  <?php echo $oscTemplate->getContent('header'); ?>
-</div>
-
-<div class="clearfix"></div>
-
-<div class="body-sans-header clearfix">
-
-<?php
-  if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
-?>
-<div class="clearfix"></div>
-<div class="col-xs-12">
-  <div class="alert alert-danger">
-    <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-    <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+  <div class="row">
+    <div class="col-sm-12"><?php echo $messageStack->output('header'); ?></div>
   </div>
-</div>
 <?php
   }
+?>
 
-  if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
-?>
-<div class="clearfix"></div>
-<div class="col-xs-12">
-  <div class="alert alert-info">
-    <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-    <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
-  </div>
-</div>
-<?php
-  }
-?>
+  <header id="modular-header" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+    <div id="header" class="row">
+      <?php echo $oscTemplate->getContent('header'); ?>
+    </div>
+  </header>

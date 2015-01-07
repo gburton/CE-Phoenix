@@ -49,22 +49,8 @@
 <body>
 
   <?php echo $oscTemplate->getContent('navigation'); ?>
-  
-<?php
-  if ($messageStack->size('header') > 0) { 
-?>
-  <div class="row">
-    <div class="col-sm-12"><?php echo $messageStack->output('header'); ?></div>
-  </div>
-<?php
-  }
-?>
 
-  <header id="modular-header" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
-    <div id="header" class="row">
-      <?php echo $oscTemplate->getContent('header'); ?>
-    </div>
-  </header>
+  <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
    
   <section id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="row">
