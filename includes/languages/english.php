@@ -271,8 +271,8 @@ define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk i
 define('FORM_REQUIRED_INPUT', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>');
 
 // reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="reviewer">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="count">%s</span> review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list

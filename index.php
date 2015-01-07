@@ -310,7 +310,7 @@ if (tep_not_null($image['catdesc'])) {
 ?>
 
 <div class="contentContainer">
-  <div class="contentText">
+  <div class="alert alert-info">
     <?php echo tep_customer_greeting(); ?>
   </div>
 

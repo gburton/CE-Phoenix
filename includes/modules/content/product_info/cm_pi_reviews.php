@@ -44,7 +44,7 @@
           $review_data .=  '<blockquote class="col-sm-6">';
           $review_data .=   '  <p>' . tep_output_string_protected($review['reviews_text']) . ' ... </p>';
           $review_name = tep_output_string_protected($review['customers_name']);
-          $review_data .=   '  <footer>' . sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($review['reviews_rating']), $review_name, $review_name) . '</footer>';
+          $review_data .=   '  <footer>' . sprintf(MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED, tep_draw_stars($review['reviews_rating']), $review_name, $review_name) . '</footer>';
           $review_data .=   '</blockquote>';
         }
         

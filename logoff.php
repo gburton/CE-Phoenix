@@ -68,7 +68,7 @@ if ( tep_session_is_registered('cc_id') ) {
 
 <div class="contentContainer">
   <div class="contentText">
-    <div class="alert alert-warning">
+    <div class="alert alert-danger">
       <?php echo TEXT_MAIN; ?>
     </div>
   </div>
