@@ -241,10 +241,6 @@ define('TEXT_CCVAL_ERROR_INVALID_DATE', 'The expiry date entered for the credit 
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'The credit card number entered is invalid. Please check the number and try again.');
 define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'The first four digits of the number entered are: %s. If that number is correct, we do not accept that type of credit card. If it is wrong, please try again.');
 
-// footer icons
-// courtesy of Orman Clark for PremiumPixels.com
-define('FOOTER_TEXT_PAYMENT_ICONS', tep_image(DIR_WS_ICONS . 'visa.png', 'Visa', '', '', '', false). tep_image(DIR_WS_ICONS . 'paypal.png', 'Paypal', '', '', '', false) . tep_image(DIR_WS_ICONS . 'mastercard.png', 'MasterCard', '', '', '', false));
-
 // category views
 define('TEXT_VIEW', 'View: ');
 define('TEXT_VIEW_LIST', ' List');
