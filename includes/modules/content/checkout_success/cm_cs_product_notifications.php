@@ -60,11 +60,11 @@
           $products_query = tep_db_query("select products_id, products_name from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "' order by products_name");
           while ($products = tep_db_fetch_array($products_query)) {
             if ( !isset($products_displayed[$products['products_id']]) ) {
-              $products_displayed[$products['products_id']] = '<label class="checkbox-inline"> ' . tep_draw_checkbox_field('notify[]', $products['products_id']) . ' ' . $products['products_name'] . '</label>';
+              $products_displayed[$products['products_id']] = '<div class="checkbox"><label> ' . tep_draw_checkbox_field('notify[]', $products['products_id']) . ' ' . $products['products_name'] . '</label></div>';
             }
           }
 
-          $products_notifications = implode('<br />', $products_displayed);
+          $products_notifications = implode('', $products_displayed);
 
           ob_start();
           include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/product_notifications.php');

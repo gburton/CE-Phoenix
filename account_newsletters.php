@@ -58,10 +58,12 @@
     <div class="form-group">
       <label class="control-label col-xs-4"><?php echo  MY_NEWSLETTERS_GENERAL_NEWSLETTER; ?></label>
       <div class="col-xs-8">
-        <label class="checkbox-inline">
-          <?php echo tep_draw_checkbox_field('newsletter_general', '1', (($newsletter['customers_newsletter'] == '1') ? true : false)); ?>
-        </label>
-        <?php if (tep_not_null(MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION)) echo '<span class="help-block">' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '</span>'; ?>
+        <div class="checkbox">
+          <label>
+            <?php echo tep_draw_checkbox_field('newsletter_general', '1', (($newsletter['customers_newsletter'] == '1') ? true : false)); ?>
+            <?php if (tep_not_null(MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION)) echo MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION; ?>
+          </label>
+        </div>
       </div>
     </div>
   </div>

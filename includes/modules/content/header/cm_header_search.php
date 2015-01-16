@@ -42,9 +42,9 @@
       $search_box .= '  <div class="input-group">' .
                           tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"') . '<span class="input-group-btn"><button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button></span>' .
                       '  </div>';
-      $search_box .= '</div>';
       $search_box .=  tep_hide_session_id() . '</form>';
-      
+      $search_box .= '</div>';
+
       ob_start();
       include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/search.php');
       $template = ob_get_clean();

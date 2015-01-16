@@ -17,12 +17,14 @@
           <?php echo '<li><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . HEADER_REVIEWS . '</a></li>'; ?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo HEADER_SITE_SETTINGS; ?></a>
-            <ul class="dropdown-menu">
-              <li class="text-center text-muted bg-primary"><?php echo sprintf(USER_LOCALIZATION, ucwords($language), $currency); ?></li>
-              <?php
-              if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
+          <?php
+          if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
+            ?>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo HEADER_SITE_SETTINGS; ?></a>
+              <ul class="dropdown-menu">
+                <li class="text-center text-muted bg-primary"><?php echo sprintf(USER_LOCALIZATION, ucwords($language), $currency); ?></li>
+                <?php
                 // languages
                 if (!isset($lng) || (isset($lng) && !is_object($lng))) {
                  include(DIR_WS_CLASSES . 'language.php');
@@ -45,10 +47,12 @@
                     echo '<li><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('language', 'currency')) . 'currency=' . $key, $request_type) . '">' . $value['title'] . '</a></li>';
                   }
                 }
-              }
-              ?>
-            </ul>
-          </li>
+                ?>
+              </ul>
+            </li>
+            <?php
+          }
+          ?>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo (tep_session_is_registered('customer_id')) ? sprintf(HEADER_ACCOUNT_LOGGED_IN, $customer_first_name) : HEADER_ACCOUNT_LOGGED_OUT; ?></a>
             <ul class="dropdown-menu">
