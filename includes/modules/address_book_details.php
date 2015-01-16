@@ -181,16 +181,12 @@
       <div class="form-group">
         <label for="primary" class="control-label col-xs-3"><?php echo SET_AS_PRIMARY; ?></label>
         <div class="col-xs-9">
-          <div class="checkbox-inline">
+          <div class="checkbox">
             <label>
-              <?php
-              echo tep_draw_checkbox_field('primary', 'on', false, 'id="primary"');
-              ?>
+              <?php echo tep_draw_checkbox_field('primary', 'on', false, 'id="primary"'); ?>
+              <?php if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT; ?>
             </label>
           </div>
-          <?php
-          if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
-          ?>
         </div>
       </div>
 

@@ -26,7 +26,7 @@
     }
 ?>
 
-    <div class="form-group has-feedback">
+    <div class="form-group">
       <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-xs-9">
         <label class="radio-inline">
@@ -35,7 +35,6 @@
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
         </label>
-        <?php echo FORM_REQUIRED_INPUT; ?>
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </div>
     </div>

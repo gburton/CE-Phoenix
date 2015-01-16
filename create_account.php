@@ -523,17 +523,14 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-xs-offset-3 col-sm-9">
+      <label for="inputNewsletter" class="control-label col-xs-3"><?php echo ENTRY_NEWSLETTER; ?></label>
+      <div class="col-xs-9">
         <div class="checkbox">
-          <label for="inputNewsletter">
-            <?php
-              echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"') . ' '  . ENTRY_NEWSLETTER; 
-			?>
+          <label>
+            <?php echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"'); ?>
+            <?php if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT; ?>
           </label>
         </div>
-      <?php
-        if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo '<span class="help-block">' . ENTRY_NEWSLETTER_TEXT . '</span>';
-      ?>
       </div>
     </div>
   
