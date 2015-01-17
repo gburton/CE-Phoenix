@@ -11,11 +11,7 @@
 */
 
   if ($messageStack->size('header') > 0) { 
-?>
-  <div class="row">
-    <div class="col-sm-12"><?php echo $messageStack->output('header'); ?></div>
-  </div>
-<?php
+     echo $messageStack->output('header'); 
   }
 ?>
 

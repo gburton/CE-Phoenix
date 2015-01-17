@@ -60,26 +60,20 @@
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
 ?>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="alert alert-danger">
-              <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-              <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
-            </div>
-          </div>
+
+        <div class="alert alert-danger">
+          <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+          <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
         </div>
 <?php
   }
 
   if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
 ?>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="alert alert-info">
-              <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
-              <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
-            </div>
-          </div>
+
+        <div class="alert alert-info">
+          <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+          <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
         </div>
 <?php
   }
