@@ -184,7 +184,6 @@
           <div class="checkbox">
             <label>
               <?php echo tep_draw_checkbox_field('primary', 'on', false, 'id="primary"'); ?>
-              <?php if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT; ?>
             </label>
           </div>
         </div>
