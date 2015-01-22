@@ -241,12 +241,6 @@ define('TEXT_CCVAL_ERROR_INVALID_DATE', 'The expiry date entered for the credit 
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'The credit card number entered is invalid. Please check the number and try again.');
 define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'The first four digits of the number entered are: %s. If that number is correct, we do not accept that type of credit card. If it is wrong, please try again.');
 
-define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a> Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
-
-// footer icons
-// courtesy of Orman Clark for PremiumPixels.com
-define('FOOTER_TEXT_PAYMENT_ICONS', tep_image(DIR_WS_ICONS . 'visa.png', 'Visa', '', '', '', false). tep_image(DIR_WS_ICONS . 'paypal.png', 'Paypal', '', '', '', false) . tep_image(DIR_WS_ICONS . 'mastercard.png', 'MasterCard', '', '', '', false));
-
 // category views
 define('TEXT_VIEW', 'View: ');
 define('TEXT_VIEW_LIST', ' List');
@@ -257,11 +251,11 @@ define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
 define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk inputRequirement"></span> Required information');
-define('FORM_REQUIRED_INPUT', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>');
+define('FORM_REQUIRED_INPUT', '<span><span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span></span>');
 
 // reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="reviewer">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="count">%s</span> review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list

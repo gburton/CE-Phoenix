@@ -161,11 +161,9 @@ function check_form() {
     <div class="form-group">
       <label for="entryIncludeSubs" class="control-label col-xs-3"><?php echo ENTRY_INCLUDE_SUBCATEGORIES; ?></label>
       <div class="col-xs-9">
-        <div class="checkbox-inline">
+        <div class="checkbox">
           <label>
-            <?php
-            echo tep_draw_checkbox_field('inc_subcat', '1', true, 'id="entryIncludeSubs"');
-            ?>
+            <?php echo tep_draw_checkbox_field('inc_subcat', '1', true, 'id="entryIncludeSubs"'); ?>
           </label>
         </div>
       </div>

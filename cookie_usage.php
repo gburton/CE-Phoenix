@@ -33,7 +33,11 @@
       </div>
     </div>
 
-    <?php echo TEXT_INFORMATION; ?>
+    <div class="panel panel-danger">
+      <div class="panel-body">
+        <?php echo TEXT_INFORMATION; ?>
+      </div>
+    </div>
   </div>
 
 
