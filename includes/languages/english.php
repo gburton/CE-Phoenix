@@ -156,6 +156,9 @@ define('ENTRY_PASSWORD_NEW', 'New Password');
 define('ENTRY_PASSWORD_NEW_TEXT', '');
 define('ENTRY_PASSWORD_NEW_ERROR', 'Your new Password must contain a minimum of ' . ENTRY_PASSWORD_MIN_LENGTH . ' characters.');
 define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'The Password Confirmation must match your new Password.');
+
+define('ENTRY_OPTIONAL', 'Optional');
+
 define('PASSWORD_HIDDEN', '--HIDDEN--');
 
 // constants for use in tep_prev_next_display function
@@ -250,8 +253,8 @@ define('TEXT_VIEW_GRID', ' Grid');
 define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk inputRequirement"></span> Required information');
-define('FORM_REQUIRED_INPUT', '<span><span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span></span>');
+define('FORM_REQUIRED_INFORMATION', '');
+define('FORM_REQUIRED_INPUT', '');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="reviewer">%s</cite>');

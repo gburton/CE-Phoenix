@@ -122,7 +122,7 @@ function check_form() {
       <label for="inputKeywords" class="control-label col-xs-3"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"');
+        echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords"');
         echo FORM_REQUIRED_INPUT;
         echo tep_draw_hidden_field('search_in_description', '1');
         ?>
@@ -180,7 +180,7 @@ function check_form() {
       <label for="PriceFrom" class="control-label col-xs-3"><?php echo ENTRY_PRICE_FROM; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('pfrom', '', 'id="PriceFrom" placeholder="' . ENTRY_PRICE_FROM . '"');
+        echo tep_draw_input_field('pfrom', '', 'id="PriceFrom" placeholder="' . ENTRY_OPTIONAL . '"');
         ?>
       </div>
     </div>
@@ -188,7 +188,7 @@ function check_form() {
       <label for="PriceTo" class="control-label col-xs-3"><?php echo ENTRY_PRICE_TO; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('pto', '', 'id="PriceTo" placeholder="' . ENTRY_PRICE_TO . '"');
+        echo tep_draw_input_field('pto', '', 'id="PriceTo" placeholder="' . ENTRY_OPTIONAL . '"');
         ?>
       </div>
     </div>
@@ -196,7 +196,7 @@ function check_form() {
       <label for="dfrom" class="control-label col-xs-3"><?php echo ENTRY_DATE_FROM; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_DATE_FROM . '"');
+        echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_OPTIONAL . '"');
         ?>
       </div>
     </div>
@@ -204,7 +204,7 @@ function check_form() {
       <label for="dto" class="control-label col-xs-3"><?php echo ENTRY_DATE_TO; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_DATE_TO . '"');
+        echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_OPTIONAL . '"');
         ?>
       </div>
     </div>

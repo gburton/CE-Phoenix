@@ -302,7 +302,7 @@
       <label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('firstname', NULL, 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME . '"');
+        echo tep_draw_input_field('firstname', NULL, 'required aria-required="true" id="inputFirstName"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_FIRST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_FIRST_NAME_TEXT . '</span>';
         ?>
@@ -312,7 +312,7 @@
       <label for="inputLastName" class="control-label col-xs-3"><?php echo ENTRY_LAST_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('lastname', NULL, 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME . '"');
+        echo tep_draw_input_field('lastname', NULL, 'required aria-required="true" id="inputLastName"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_LAST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_LAST_NAME_TEXT . '</span>';
         ?>
@@ -325,7 +325,7 @@
       <label for="dob" class="control-label col-xs-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('dob', '', 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH . '"');
+        echo tep_draw_input_field('dob', '', 'required aria-required="true" id="dob"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_DATE_OF_BIRTH_TEXT)) echo '<span class="help-block">' . ENTRY_DATE_OF_BIRTH_TEXT . '</span>';
         ?>
@@ -338,7 +338,7 @@
       <label for="inputEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"');
+        echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_EMAIL_ADDRESS_TEXT)) echo '<span class="help-block">' . ENTRY_EMAIL_ADDRESS_TEXT . '</span>';
         ?>
@@ -356,7 +356,7 @@
       <label for="inputCompany" class="control-label col-xs-3"><?php echo ENTRY_COMPANY; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY . '"');
+        echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_OPTIONAL . '"');
         if (tep_not_null(ENTRY_COMPANY_TEXT)) echo '<span class="help-block">' . ENTRY_COMPANY_TEXT . '</span>';
         ?>
       </div>
@@ -373,7 +373,7 @@
       <label for="inputStreet" class="control-label col-xs-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS . '"');
+        echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_STREET_ADDRESS_TEXT)) echo '<span class="help-block">' . ENTRY_STREET_ADDRESS_TEXT . '</span>';
         ?>
@@ -387,7 +387,7 @@
     <label for="inputSuburb" class="control-label col-xs-3"><?php echo ENTRY_SUBURB; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB . '"');
+        echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_OPTIONAL . '"');
         if (tep_not_null(ENTRY_SUBURB_TEXT)) echo '<span class="help-block">' . ENTRY_SUBURB_TEXT . '</span>';
         ?>
       </div>
@@ -399,7 +399,7 @@
       <label for="inputCity" class="control-label col-xs-3"><?php echo ENTRY_CITY; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY. '"');
+        echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_CITY_TEXT)) echo '<span class="help-block">' . ENTRY_CITY_TEXT . '</span>';
         ?>
@@ -409,7 +409,7 @@
       <label for="inputZip" class="control-label col-xs-3"><?php echo ENTRY_POST_CODE; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE . '"');
+        echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_POST_CODE_TEXT)) echo '<span class="help-block">' . ENTRY_POST_CODE_TEXT . '</span>';
         ?>
@@ -432,11 +432,11 @@
             echo tep_draw_pull_down_menu('state', $zones_array, 0, 'id="inputState"');
             echo FORM_REQUIRED_INPUT;
           } else {
-            echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE . '"');
+            echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_OPTIONAL . '"');
             echo FORM_REQUIRED_INPUT;
           }
         } else {
-          echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE    . '"');
+          echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_OPTIONAL . '"');
           echo FORM_REQUIRED_INPUT;
         }
         if (tep_not_null(ENTRY_STATE_TEXT)) echo '<span class="help-block">' . ENTRY_STATE_TEXT . '</span>';
@@ -465,7 +465,7 @@
       <label for="inputTelephone" class="control-label col-xs-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('telephone', NULL, 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER . '"');
+        echo tep_draw_input_field('telephone', NULL, 'required aria-required="true" id="inputTelephone"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_TELEPHONE_NUMBER_TEXT)) echo '<span class="help-block">' . ENTRY_TELEPHONE_NUMBER_TEXT . '</span>';
         ?>
@@ -475,7 +475,7 @@
       <label for="inputFax" class="control-label col-xs-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER . '"');
+        echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_OPTIONAL . '"');
         if (tep_not_null(ENTRY_FAX_NUMBER_TEXT)) echo '<span class="help-block">' . ENTRY_FAX_NUMBER_TEXT . '</span>';
         ?>
       </div>
@@ -501,7 +501,7 @@
       <label for="inputPassword" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_password_field('password', NULL, 'required aria-required="true" id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"');
+        echo tep_draw_password_field('password', NULL, 'required aria-required="true" id="inputPassword"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_PASSWORD_TEXT)) echo '<span class="help-block">' . ENTRY_PASSWORD_TEXT . '</span>';
         ?>
@@ -511,7 +511,7 @@
       <label for="inputConfirmation" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_password_field('confirmation', NULL, 'required aria-required="true" id="inputConfirmation" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"');
+        echo tep_draw_password_field('confirmation', NULL, 'required aria-required="true" id="inputConfirmation"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_PASSWORD_CONFIRMATION_TEXT)) echo '<span class="help-block">' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '</span>';
         ?>
