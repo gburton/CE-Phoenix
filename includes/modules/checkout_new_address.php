@@ -47,7 +47,7 @@
       <label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('firstname', NULL, 'id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME . '"');
+        echo tep_draw_input_field('firstname', NULL, 'id="inputFirstName"');
         if (tep_not_null(ENTRY_FIRST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_FIRST_NAME_TEXT . '</span>';
         ?>
       </div>
@@ -56,7 +56,7 @@
       <label for="inputLastName" class="control-label col-xs-3"><?php echo ENTRY_LAST_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('lastname', NULL, 'id="inputLastName" placeholder="' . ENTRY_LAST_NAME . '"');
+        echo tep_draw_input_field('lastname', NULL, 'id="inputLastName"');
         if (tep_not_null(ENTRY_LAST_NAME_TEXT)) echo '<span class="help-block">' . ENTRY_LAST_NAME_TEXT . '</span>';
         ?>
       </div>
@@ -70,7 +70,7 @@
       <label for="inputCompany" class="control-label col-xs-3"><?php echo ENTRY_COMPANY; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY . '"');
+        echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_OPTIONAL . '"');
         if (tep_not_null(ENTRY_COMPANY_TEXT)) echo '<span class="help-block">' . ENTRY_COMPANY_TEXT . '</span>';
         ?>
       </div>
@@ -84,7 +84,7 @@
       <label for="inputStreet" class="control-label col-xs-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('street_address', NULL, 'id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS . '"');
+        echo tep_draw_input_field('street_address', NULL, 'id="inputStreet"');
         if (tep_not_null(ENTRY_STREET_ADDRESS_TEXT)) echo '<span class="help-block">' . ENTRY_STREET_ADDRESS_TEXT . '</span>';
         ?>
       </div>
@@ -98,7 +98,7 @@
       <label for="inputSuburb" class="control-label col-xs-3"><?php echo ENTRY_SUBURB; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB . '"');
+        echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_OPTIONAL . '"');
         if (tep_not_null(ENTRY_SUBURB_TEXT)) echo '<span class="help-block">' . ENTRY_SUBURB_TEXT . '</span>';
         ?>
       </div>
@@ -112,7 +112,7 @@
       <label for="inputCity" class="control-label col-xs-3"><?php echo ENTRY_CITY; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('city', NULL, 'id="inputCity" placeholder="' . ENTRY_CITY. '"');
+        echo tep_draw_input_field('city', NULL, 'id="inputCity"');
         if (tep_not_null(ENTRY_CITY_TEXT)) echo '<span class="help-block">' . ENTRY_CITY_TEXT . '</span>';
         ?>
       </div>
@@ -121,7 +121,7 @@
       <label for="inputZip" class="control-label col-xs-3"><?php echo ENTRY_POST_CODE; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('postcode', NULL, 'id="inputZip" placeholder="' . ENTRY_POST_CODE . '"');
+        echo tep_draw_input_field('postcode', NULL, 'id="inputZip"');
         if (tep_not_null(ENTRY_POST_CODE_TEXT)) echo '<span class="help-block">' . ENTRY_POST_CODE_TEXT . '</span>';
         ?>
       </div>
@@ -144,10 +144,10 @@
             }
             echo tep_draw_pull_down_menu('state', $zones_array, 0, 'id="inputState"');
           } else {
-            echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE . '"');
+            echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_OPTIONAL . '"');
           }
         } else {
-          echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE . '"');
+          echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_OPTIONAL . '"');
         }
         if (tep_not_null(ENTRY_STATE_TEXT)) echo '<span class="help-block">' . ENTRY_STATE_TEXT . '</span>';
         ?>

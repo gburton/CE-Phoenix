@@ -130,7 +130,7 @@
       <label for="inputFromName" class="control-label col-xs-3"><?php echo FORM_FIELD_CUSTOMER_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('from_name', NULL, 'required aria-required="true" id="inputFromName" placeholder="' . FORM_FIELD_CUSTOMER_NAME . '"');
+        echo tep_draw_input_field('from_name', NULL, 'required aria-required="true" id="inputFromName"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -139,7 +139,7 @@
       <label for="inputFromEmail" class="control-label col-xs-3"><?php echo FORM_FIELD_CUSTOMER_EMAIL; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('from_email_address', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . FORM_FIELD_CUSTOMER_EMAIL . '"', 'email');
+        echo tep_draw_input_field('from_email_address', NULL, 'required aria-required="true" id="inputFromEmail"', 'email');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -153,7 +153,7 @@
       <label for="inputToName" class="control-label col-xs-3"><?php echo FORM_FIELD_FRIEND_NAME; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('to_name', NULL, 'required aria-required="true" id="inputToName" placeholder="' . FORM_FIELD_FRIEND_NAME . '"');
+        echo tep_draw_input_field('to_name', NULL, 'required aria-required="true" id="inputToName"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -162,7 +162,7 @@
       <label for="inputToEmail" class="control-label col-xs-3"><?php echo FORM_FIELD_FRIEND_EMAIL; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_input_field('to_email_address', NULL, 'required aria-required="true" id="inputToEmail" placeholder="' . FORM_FIELD_FRIEND_EMAIL . '"', 'email');
+        echo tep_draw_input_field('to_email_address', NULL, 'required aria-required="true" id="inputToEmail"', 'email');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -176,7 +176,7 @@
       <label for="inputMessage" class="control-label col-xs-3"><?php echo FORM_TITLE_FRIEND_MESSAGE; ?></label>
       <div class="col-xs-9">
         <?php
-        echo tep_draw_textarea_field('message', 'soft', 40, 8, NULL, 'required aria-required="true" id="inputMessage" placeholder="' . FORM_TITLE_FRIEND_MESSAGE . '"');
+        echo tep_draw_textarea_field('message', 'soft', 40, 8, NULL, 'required aria-required="true" id="inputMessage"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
