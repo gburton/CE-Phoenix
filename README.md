@@ -40,3 +40,10 @@ Install as if this is a new osCommerce installation.  Then enter the admin area 
 The functionality of these have been moved to header tag modules so that the site will only load them on the pages needed rather than on all pages.  Admin > Modules > Header Tags > {install}
 
 You also need to install other components such as the logo, breadcrumb, footer boxes, side column boxes and so on.  Admin > Modules > Boxes > {install} AND Admin > Modules > Content > {install}.  Boxes and Modules can be sorted using the sort order, lowest is displayed first.
+
+Database Conversion Script
+==========================
+
+This script will change a 2.3.4 Database into a fully useable database for osCommerce-234-Bootstrap.
+
+http://forums.oscommerce.com/topic/399678-234normal-to-234responsive-database-conversion-script/
