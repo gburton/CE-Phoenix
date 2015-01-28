@@ -127,8 +127,8 @@
 
   <div class="contentText">
     <div class="form-group has-feedback">
-      <label for="inputFromName" class="control-label col-xs-3"><?php echo FORM_FIELD_CUSTOMER_NAME; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromName" class="control-label col-sm-3"><?php echo FORM_FIELD_CUSTOMER_NAME; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('from_name', NULL, 'required aria-required="true" id="inputFromName" placeholder="' . FORM_FIELD_CUSTOMER_NAME . '"');
         echo FORM_REQUIRED_INPUT;
@@ -136,8 +136,8 @@
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputFromEmail" class="control-label col-xs-3"><?php echo FORM_FIELD_CUSTOMER_EMAIL; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromEmail" class="control-label col-sm-3"><?php echo FORM_FIELD_CUSTOMER_EMAIL; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('from_email_address', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . FORM_FIELD_CUSTOMER_EMAIL . '"', 'email');
         echo FORM_REQUIRED_INPUT;
@@ -150,8 +150,8 @@
 
   <div class="contentText">
     <div class="form-group has-feedback">
-      <label for="inputToName" class="control-label col-xs-3"><?php echo FORM_FIELD_FRIEND_NAME; ?></label>
-      <div class="col-xs-9">
+      <label for="inputToName" class="control-label col-sm-3"><?php echo FORM_FIELD_FRIEND_NAME; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('to_name', NULL, 'required aria-required="true" id="inputToName" placeholder="' . FORM_FIELD_FRIEND_NAME . '"');
         echo FORM_REQUIRED_INPUT;
@@ -159,8 +159,8 @@
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputToEmail" class="control-label col-xs-3"><?php echo FORM_FIELD_FRIEND_EMAIL; ?></label>
-      <div class="col-xs-9">
+      <label for="inputToEmail" class="control-label col-sm-3"><?php echo FORM_FIELD_FRIEND_EMAIL; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('to_email_address', NULL, 'required aria-required="true" id="inputToEmail" placeholder="' . FORM_FIELD_FRIEND_EMAIL . '"', 'email');
         echo FORM_REQUIRED_INPUT;
@@ -173,8 +173,8 @@
 
   <div class="contentText">
     <div class="form-group has-feedback">
-      <label for="inputMessage" class="control-label col-xs-3"><?php echo FORM_TITLE_FRIEND_MESSAGE; ?></label>
-      <div class="col-xs-9">
+      <label for="inputMessage" class="control-label col-sm-3"><?php echo FORM_TITLE_FRIEND_MESSAGE; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_textarea_field('message', 'soft', 40, 8, NULL, 'required aria-required="true" id="inputMessage" placeholder="' . FORM_TITLE_FRIEND_MESSAGE . '"');
         echo FORM_REQUIRED_INPUT;

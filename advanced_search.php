@@ -119,8 +119,8 @@ function check_form() {
 
   <div class="contentText">
     <div class="form-group has-feedback">
-      <label for="inputKeywords" class="control-label col-xs-3"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
-      <div class="col-xs-9">
+      <label for="inputKeywords" class="control-label col-sm-3"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"');
         echo FORM_REQUIRED_INPUT;
@@ -151,16 +151,16 @@ function check_form() {
     <hr>
 
     <div class="form-group">
-      <label for="entryCategories" class="control-label col-xs-3"><?php echo ENTRY_CATEGORIES; ?></label>
-      <div class="col-xs-9">
+      <label for="entryCategories" class="control-label col-sm-3"><?php echo ENTRY_CATEGORIES; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_pull_down_menu('categories_id', tep_get_categories(array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES))), NULL, 'id="entryCategories"');
         ?>
       </div>
     </div>
     <div class="form-group">
-      <label for="entryIncludeSubs" class="control-label col-xs-3"><?php echo ENTRY_INCLUDE_SUBCATEGORIES; ?></label>
-      <div class="col-xs-9">
+      <label for="entryIncludeSubs" class="control-label col-sm-3"><?php echo ENTRY_INCLUDE_SUBCATEGORIES; ?></label>
+      <div class="col-sm-9">
         <div class="checkbox">
           <label>
             <?php echo tep_draw_checkbox_field('inc_subcat', '1', true, 'id="entryIncludeSubs"'); ?>
@@ -169,40 +169,40 @@ function check_form() {
       </div>
     </div>
     <div class="form-group">
-      <label for="entryManufacturers" class="control-label col-xs-3"><?php echo ENTRY_MANUFACTURERS; ?></label>
-      <div class="col-xs-9">
+      <label for="entryManufacturers" class="control-label col-sm-3"><?php echo ENTRY_MANUFACTURERS; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_pull_down_menu('manufacturers_id', tep_get_manufacturers(array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS))), NULL, 'id="entryManufacturers"');
         ?>
       </div>
     </div>
     <div class="form-group">
-      <label for="PriceFrom" class="control-label col-xs-3"><?php echo ENTRY_PRICE_FROM; ?></label>
-      <div class="col-xs-9">
+      <label for="PriceFrom" class="control-label col-sm-3"><?php echo ENTRY_PRICE_FROM; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('pfrom', '', 'id="PriceFrom" placeholder="' . ENTRY_PRICE_FROM . '"');
         ?>
       </div>
     </div>
     <div class="form-group">
-      <label for="PriceTo" class="control-label col-xs-3"><?php echo ENTRY_PRICE_TO; ?></label>
-      <div class="col-xs-9">
+      <label for="PriceTo" class="control-label col-sm-3"><?php echo ENTRY_PRICE_TO; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('pto', '', 'id="PriceTo" placeholder="' . ENTRY_PRICE_TO . '"');
         ?>
       </div>
     </div>
     <div class="form-group">
-      <label for="dfrom" class="control-label col-xs-3"><?php echo ENTRY_DATE_FROM; ?></label>
-      <div class="col-xs-9">
+      <label for="dfrom" class="control-label col-sm-3"><?php echo ENTRY_DATE_FROM; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('dfrom', '', 'id="dfrom" placeholder="' . ENTRY_DATE_FROM . '"');
         ?>
       </div>
     </div>
     <div class="form-group">
-      <label for="dto" class="control-label col-xs-3"><?php echo ENTRY_DATE_TO; ?></label>
-      <div class="col-xs-9">
+      <label for="dto" class="control-label col-sm-3"><?php echo ENTRY_DATE_TO; ?></label>
+      <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('dto', '', 'id="dto" placeholder="' . ENTRY_DATE_TO . '"');
         ?>
