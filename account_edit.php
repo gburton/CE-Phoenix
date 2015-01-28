@@ -196,7 +196,7 @@
   <div class="form-group has-feedback">
     <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
     <div class="col-sm-9">
-      <?php echo tep_draw_input_field('email_address', $account['customers_email_address'], 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"'); ?>
+      <?php echo tep_draw_input_field('email_address', $account['customers_email_address'], 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"', 'email'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
