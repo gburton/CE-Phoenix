@@ -122,7 +122,7 @@ function check_form() {
       <label for="inputKeywords" class="control-label col-sm-3"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"');
+        echo tep_draw_input_field('keywords', '', 'required aria-required="true" id="inputKeywords" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search');
         echo FORM_REQUIRED_INPUT;
         echo tep_draw_hidden_field('search_in_description', '1');
         ?>
