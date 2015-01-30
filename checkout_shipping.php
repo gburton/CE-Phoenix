@@ -326,8 +326,8 @@
 
   <div class="contentText">
     <div class="form-group">
-      <label for="inputComments" class="control-label col-xs-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-      <div class="col-xs-8">
+      <label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+      <div class="col-sm-8">
         <?php
         echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
         ?>
