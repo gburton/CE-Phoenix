@@ -66,11 +66,15 @@
         $messageStack->add('login', MODULE_CONTENT_LOGIN_TEXT_LOGIN_ERROR);
       }
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/login_form.php');
-      $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/login_form.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/login_form.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/login_form.php');
+			}
+        $data = ob_get_clean();      
 
-      $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

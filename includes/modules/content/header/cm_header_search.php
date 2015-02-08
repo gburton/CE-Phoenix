@@ -45,11 +45,15 @@
       $search_box .=  tep_hide_session_id() . '</form>';
       $search_box .= '</div>';
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/search.php');
-      $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/search.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/search.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/search.php');
+			}
+        $data = ob_get_clean();      
 
-      $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

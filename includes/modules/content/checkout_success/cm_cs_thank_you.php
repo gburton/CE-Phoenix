@@ -34,11 +34,15 @@
     function execute() {
       global $oscTemplate;
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/thank_you.php');
-      $template = ob_get_clean();
-
-      $oscTemplate->addContent($template, $this->group);
+        ob_start();
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/thank_you.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/thank_you.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/thank_you.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

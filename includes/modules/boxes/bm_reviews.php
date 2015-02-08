@@ -58,11 +58,15 @@
         $reviews_box_contents .= '<p>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</p>';
       }
 
-      ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/reviews.php');
-      $data = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/reviews.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/reviews.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/reviews.php');
+			}
+        $data = ob_get_clean();                 
 
-      $oscTemplate->addBlock($data, $this->group);
+        $oscTemplate->addBlock($data, $this->group);
     }
 
     function isEnabled() {

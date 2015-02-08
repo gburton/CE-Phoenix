@@ -43,10 +43,13 @@
         } else {
           $whats_new_price = $currencies->display_price($random_product['products_price'], tep_get_tax_rate($random_product['products_tax_class_id']));
         }
-                 
-        ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/whats_new.php');
-        $data = ob_get_clean();
+        ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/whats_new.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/whats_new.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/whats_new.php');
+			}
+        $data = ob_get_clean();                 
 
         $oscTemplate->addBlock($data, $this->group);
       }

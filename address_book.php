@@ -22,7 +22,11 @@
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_top.php') && file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_top.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_top.php');
+		}
 ?>
 
 <div class="page-header">
@@ -94,6 +98,10 @@
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php') && file_exists('includes/templates/' . TEMPLATE . '/template_top.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_bottom.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_bottom.php');
+		}
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

@@ -36,12 +36,16 @@
       global $oscTemplate, $breadcrumb;
       
       $content_width = (int)MODULE_CONTENT_HEADER_BREADCRUMB_CONTENT_WIDTH;
-      
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/breadcrumb.php');
-      $template = ob_get_clean();
 
-      $oscTemplate->addContent($template, $this->group);
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/breadcrumb.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/breadcrumb.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/breadcrumb.php');
+			}
+        $data = ob_get_clean();      
+
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

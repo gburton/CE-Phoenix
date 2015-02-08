@@ -46,10 +46,14 @@
             $languages_string .= ' <a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('language', 'currency')) . 'language=' . $key, $request_type) . '">' . tep_image(DIR_WS_LANGUAGES .  $value['directory'] . '/images/' . $value['image'], $value['name']) . '</a> ';
           }
                   
-          ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/languages.php');
-          $data = ob_get_clean();
-
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/languages.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/languages.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/languages.php');
+			}
+        $data = ob_get_clean();                 
+                  
           $oscTemplate->addBlock($data, $this->group);
         }
       }

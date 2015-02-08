@@ -39,10 +39,14 @@
         foreach ( explode(';', MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) as $logo ) {
           $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo));
         }
-                   
-        ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/card_acceptance.php');
-        $data = ob_get_clean();
+		
+        ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/card_acceptance.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/card_acceptance.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/card_acceptance.php');
+			}
+        $data = ob_get_clean();                   
 
         $oscTemplate->addBlock($data, $this->group);
       }

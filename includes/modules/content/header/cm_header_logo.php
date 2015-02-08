@@ -37,11 +37,15 @@
       
       $content_width = (int)MODULE_CONTENT_HEADER_LOGO_CONTENT_WIDTH;
       
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/logo.php');
-      $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/logo.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/logo.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/logo.php');
+			}
+        $data = ob_get_clean();      
 
-      $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

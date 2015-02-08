@@ -51,10 +51,14 @@
 
           $form_output = tep_draw_form('currencies', tep_href_link($PHP_SELF, '', $request_type, false), 'get') . tep_draw_pull_down_menu('currency', $currencies_array, $currency, 'onchange="this.form.submit();" style="width: 100%"') . $hidden_get_variables . tep_hide_session_id() . '</form>';
 
-          ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/currencies.php');
-          $data = ob_get_clean();
-
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/currencies.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/currencies.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/currencies.php');
+			}
+        $data = ob_get_clean();                 
+                  
           $oscTemplate->addBlock($data, $this->group);
         }
       }

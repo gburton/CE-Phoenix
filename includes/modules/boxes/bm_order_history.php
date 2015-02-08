@@ -50,10 +50,14 @@
             $customer_orders_string .= '<li><span class="pull-right"><a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=cust_order&pid=' . $products['products_id']) . '"><span class="glyphicon glyphicon-shopping-cart"></span></a></span><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $products['products_id']) . '">' . $products['products_name'] . '</a></li>';
           }
 
-          ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/order_history.php');
-          $data = ob_get_clean();
-
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/order_history.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/order_history.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/order_history.php');
+			}
+        $data = ob_get_clean();                 
+                  
           $oscTemplate->addBlock($data, $this->group);
         }
       }

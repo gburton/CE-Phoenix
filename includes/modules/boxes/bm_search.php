@@ -40,11 +40,15 @@
                      '    </div>' . tep_draw_hidden_field('search_in_description', '0') . tep_hide_session_id() .
                      '    </form>';
               
-      ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/search.php');
-      $data = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/search.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/search.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/search.php');
+			}
+        $data = ob_get_clean();                 
 
-      $oscTemplate->addBlock($data, $this->group);
+        $oscTemplate->addBlock($data, $this->group);
     }
 
     function isEnabled() {

@@ -47,11 +47,15 @@
                            '<li><br><a class="btn btn-success btn-sm btn-block" role="button" href="' . tep_href_link('login.php', '', 'SSL') . '"><i class="glyphicon glyphicon-log-in"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGIN . '</a></li>';
       }
       
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/account.php');
-      $template = ob_get_clean();
-
-      $oscTemplate->addContent($template, $this->group);
+        ob_start();
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/account.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/account.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/account.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {
