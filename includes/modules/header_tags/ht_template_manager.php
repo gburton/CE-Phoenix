@@ -63,13 +63,11 @@
   }
 
   function ht_template_manager_select_folder($values, $key) {
-    global $PHP_SELF;
 
  	  $default_array = array('Internal');
       $folders_array = glob(DIR_FS_CATALOG . DIR_WS_INCLUDES . "templates/*", GLOB_ONLYDIR|GLOB_NOSORT);
       $files_array = array_merge($default_array,$folders_array);
 
-    print var_dump($files_array);
 
     $values_array = explode(';', $values);
 
