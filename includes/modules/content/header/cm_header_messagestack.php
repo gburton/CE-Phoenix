@@ -37,13 +37,13 @@
       $message_stack = '';
       
       if ($messageStack->size('header') > 0) {
-        $message_stack = '<div class="col-md-12 messageStack">' . $messageStack->output('header') . '</div>';
 
         ob_start();
         include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/messagestack.php');
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
+        
       }
     }
 
