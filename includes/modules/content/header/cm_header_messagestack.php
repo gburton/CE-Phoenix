@@ -34,8 +34,6 @@
     function execute() {
       global $oscTemplate, $messageStack;
       
-      $message_stack = '';
-      
       if ($messageStack->size('header') > 0) {
 
         ob_start();
