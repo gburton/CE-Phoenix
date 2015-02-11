@@ -87,8 +87,8 @@
 
   <div class="contentText">
     <div class="form-group">
-      <label class="control-label col-xs-4"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
-      <div class="col-xs-8">
+      <label class="control-label col-sm-4"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
+      <div class="col-sm-8">
         <div class="checkbox">
           <label>
             <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false)); ?>
@@ -116,8 +116,8 @@
 
     <div class="contentText">
       <div class="form-group">
-        <label class="control-label col-xs-4"><?php echo MY_NOTIFICATIONS_TITLE; ?></label>
-        <div class="col-xs-8">
+        <label class="control-label col-sm-4"><?php echo MY_NOTIFICATIONS_TITLE; ?></label>
+        <div class="col-sm-8">
 
 <?php
       $products_query = tep_db_query("select pd.products_id, pd.products_name from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_NOTIFICATIONS . " pn where pn.customers_id = '" . (int)$customer_id . "' and pn.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name");

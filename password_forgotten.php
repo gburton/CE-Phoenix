@@ -101,9 +101,9 @@
     <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
 
     <div class="form-group has-feedback">
-      <label for="inputEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
-      <div class="col-xs-9">
-        <?php echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" autofocus="autofocus" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"'); ?>
+      <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+      <div class="col-sm-9">
+        <?php echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" autofocus="autofocus" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"', 'email'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>

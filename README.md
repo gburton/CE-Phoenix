@@ -157,3 +157,10 @@ Mail Manager Template System
 ============================
 1. If osCommerce was already installed, and the default oscommerce installation is not ran, then import the appropriate sql file located in SQL_changes
 2. You can access the Mail Manager in the Tools Menu
+
+Database Conversion Script
+==========================
+
+This script will change a 2.3.4 Database into a fully useable database for osCommerce-234-Bootstrap.
+
+http://forums.oscommerce.com/topic/399678-234normal-to-234responsive-database-conversion-script/
