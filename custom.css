@@ -42,6 +42,18 @@ ul.accountLinkList {
   line-height: 2;
 }
 
+ul.accountLinkList li {
+    display:block;
+    float:left;
+    margin:1%;
+    text-align:center;
+    max-width:25%;
+}
+
+ul.accountLinkList li .fa {
+    display:block;
+}
+
 ul.shoppingCartList {
   list-style-type: none;
   margin: 0;
