@@ -16,6 +16,8 @@
     if ($num_products_ordered >= MIN_DISPLAY_ALSO_PURCHASED) {
 
       $also_pur_prods_content = NULL;
+      
+      $also_pur_prods_content .= '<h3>' . TEXT_ALSO_PURCHASED_PRODUCTS . '</h3>';
 
       while ($orders = tep_db_fetch_array($orders_query)) {
         $also_pur_prods_content .= '<div class="col-sm-6 col-md-4">';
@@ -28,18 +30,6 @@
         $also_pur_prods_content .= '</div>';
       }
 
-?>
-
-  <br />
-
-  <h3><?php echo TEXT_ALSO_PURCHASED_PRODUCTS; ?></h3>
-
-  <div class="row">
-    <?php echo $also_pur_prods_content; ?>
-  </div>
-
-
-<?php
     }
   }
 ?>
