@@ -42,7 +42,7 @@
     function build() {
       global $oscTemplate;
 
-      $output = '';
+      $output = '<div class="col-sm-12">';
 
       foreach ( $oscTemplate->_data[$this->group] as $group ) {
         $output .= '<h2>' . $group['title'] . '</h2>' .
@@ -63,6 +63,8 @@
                    '</div>';
       }
 
+      $output .= '</div>';
+      
       $oscTemplate->addContent($output, $this->group);
     }
   }

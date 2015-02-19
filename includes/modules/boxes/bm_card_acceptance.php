@@ -37,7 +37,7 @@
         $output = NULL;
 
         foreach ( explode(';', MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) as $logo ) {
-          $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo));
+          $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo), null, null, null, null, false);
         }
                    
         ob_start();
