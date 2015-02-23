@@ -25,4 +25,12 @@ define('EMAIL_TEXT_PAYMENT_METHOD', 'Payment Method');
 
 define('EMAIL_SEPARATOR', '------------------------------------------------------');
 define('TEXT_EMAIL_VIA', 'via');
+
+define('EMAIL_TEXT_MY_ORDER', 'My Order');
+define('EMAIL_COMMENTS', 'Comments');
+define('EMAIL_TABLE_HEADER_PRODUCTS', 'Products');
+define('EMAIL_TABLE_HEADER_QUANTITY', 'Qty.');
+define('EMAIL_TABLE_HEADER_AMOUNT', 'Amount');
+define('EMAIL_TABLE_HEADER_MODEL', 'Model');
+define('EMAIL_CONTACT_US', 'Contact Us');
 ?>
