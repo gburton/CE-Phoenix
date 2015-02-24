@@ -62,7 +62,6 @@
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/set_password.php', '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-  require('includes/form_check.js.php');
 ?>
 
 <h1><?php echo MODULE_CONTENT_ACCOUNT_SET_PASSWORD_HEADING_TITLE; ?></h1>
@@ -73,7 +72,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_password', tep_href_link('ext/modules/content/account/set_password.php', '', 'SSL'), 'post', 'onsubmit="return check_form(account_password);"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_password', tep_href_link('ext/modules/content/account/set_password.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <div>
