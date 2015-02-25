@@ -12,9 +12,9 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_TESTIMONIALS);
+  require(DIR_WS_LANGUAGES . $language . '/testimonials.php');
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_TESTIMONIALS));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('testimonials.php'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -26,7 +26,7 @@
 <div class="contentContainer">
 
 <?php
-  $reviews_query_raw = "select r.reviews_id, rd.reviews_text, r.date_added, r.customers_name from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd WHERE r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and reviews_status = 1 and is_testimonial = 1 order by r.reviews_id DESC";
+  $reviews_query_raw = "select r.reviews_id, rd.reviews_text, r.date_added, r.customers_name from reviews r, reviews_description rd WHERE r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and reviews_status = 1 and is_testimonial = 1 order by r.reviews_id DESC";
   $reviews_split = new splitPageResults($reviews_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($reviews_split->number_of_rows > 0) {
