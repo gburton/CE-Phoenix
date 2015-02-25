@@ -5,15 +5,8 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
-  
-  Edited by 2014 Newburns Design and Technology
-  *************************************************
-  ************ New addon definitions **************
-  ************        Below          **************
-  *************************************************
-  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
-  
+  Copyright (c) 2014 osCommerce
+
   Released under the GNU General Public License
 */
 
@@ -38,15 +31,9 @@
     function execute() {
       global $PHP_SELF, $oscTemplate, $HTTP_GET_VARS, $languages_id, $product_check;
 
-      if ( (basename($PHP_SELF) == FILENAME_PRODUCT_INFO) || (basename($PHP_SELF) == 'product_reviews.php') ) {
+      if (basename($PHP_SELF) == FILENAME_PRODUCT_INFO) {
         if (isset($HTTP_GET_VARS['products_id'])) {
           if ($product_check['total'] > 0) {
-/* ** Altered for SEO Header Tag Reloaded **		  
-            $product_info_query = tep_db_query("select pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
-            $product_info = tep_db_fetch_array($product_info_query);
-
-            $oscTemplate->setTitle($product_info['products_name'] . ', ' . $oscTemplate->getTitle());
-*/
             $product_info_query = tep_db_query("select pd.products_name, pd.products_seo_title from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
             $product_info = tep_db_fetch_array($product_info_query);
 
@@ -56,7 +43,6 @@
             else {
               $oscTemplate->setTitle($product_info['products_name'] . ', ' . $oscTemplate->getTitle());
             }
-/* ** EOF SEO Header Tag Reloaded ** */			
           }
         }
       }

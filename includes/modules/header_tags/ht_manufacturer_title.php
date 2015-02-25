@@ -5,15 +5,8 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
-  
-  Edited by 2014 Newburns Design and Technology
-  *************************************************
-  ************ New addon definitions **************
-  ************        Below          **************
-  *************************************************
-  SEO Header Tags Reloaded added -- http://addons.oscommerce.com/info/8864
-  
+  Copyright (c) 2014 osCommerce
+
   Released under the GNU General Public License
 */
 
@@ -40,16 +33,6 @@
 
       if (basename($PHP_SELF) == FILENAME_DEFAULT) {
         if (isset($HTTP_GET_VARS['manufacturers_id']) && is_numeric($HTTP_GET_VARS['manufacturers_id'])) {
-/* ** Altered for SEO Header Tags Reloaded **
-// $manufacturers is set in application_top.php to add the manufacturer to the breadcrumb
-          if (isset($manufacturers) && (sizeof($manufacturers) == 1) && isset($manufacturers['manufacturers_name'])) {
-            $oscTemplate->setTitle($manufacturers['manufacturers_name'] . ', ' . $oscTemplate->getTitle());
-          } else {
-// $manufacturers is not set so a database query is needed
-            $manufacturers_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
-            if (tep_db_num_rows($manufacturers_query)) {
-              $manufacturers = tep_db_fetch_array($manufacturers_query);
-*/
           $manufacturers_query = tep_db_query("select manufacturers_name, manufacturers_seo_title from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
           if (tep_db_num_rows($manufacturers_query)) {
             $manufacturers = tep_db_fetch_array($manufacturers_query);
@@ -58,7 +41,6 @@
               $oscTemplate->setTitle($manufacturers['manufacturers_seo_title'] . ', ' . $oscTemplate->getTitle());
             }
             else {
-/* ** EOF alterations for SEO Header Tag Reloaded ** */			
               $oscTemplate->setTitle($manufacturers['manufacturers_name'] . ', ' . $oscTemplate->getTitle());
             }
           }

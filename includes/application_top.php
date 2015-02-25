@@ -52,12 +52,8 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-/* ** Altered for SEO Header Tags RELOADED **
   $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'NONSSL') ? strlen(DIR_WS_HTTP_CATALOG) : strlen(DIR_WS_HTTPS_CATALOG));
-*/
-  $PHP_SELF = (((strlen(ini_get('cgi.fix_pathinfo')) > 0) && ((bool)ini_get('cgi.fix_pathinfo') == false)) || !isset($HTTP_SERVER_VARS['SCRIPT_NAME'])) ? basename($HTTP_SERVER_VARS['PHP_SELF']) : basename($HTTP_SERVER_VARS['SCRIPT_NAME']);
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
 
 /* ** Altered for Security Pro r11 ** */
   include_once DIR_WS_MODULES . 'fwr_media_security_pro.php';
@@ -168,7 +164,6 @@
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // set the session ID if it exists
-/* ** Altered for SEO Header Tags RELOADED **
   if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
     if ( isset($HTTP_GET_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_GET_VARS[tep_session_name()])) ) {
       tep_session_id($HTTP_GET_VARS[tep_session_name()]);
@@ -176,13 +171,6 @@
       tep_session_id($HTTP_POST_VARS[tep_session_name()]);
     }
   }
-*/
-   if (isset($HTTP_POST_VARS[tep_session_name()])) {
-     tep_session_id($HTTP_POST_VARS[tep_session_name()]);
-   } elseif ( ($request_type == 'SSL') && isset($HTTP_GET_VARS[tep_session_name()]) ) {
-     tep_session_id($HTTP_GET_VARS[tep_session_name()]);
-   }
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
 
 // start the session
   $session_started = false;
@@ -349,11 +337,7 @@
       $goto =  FILENAME_SHOPPING_CART;
       $parameters = array('action', 'cPath', 'products_id', 'pid');
     } else {
-/* ** Altered for SEO Header Tags RELOADED **
       $goto = $PHP_SELF;
-*/
-      $goto = basename($PHP_SELF);
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
       if ($HTTP_GET_VARS['action'] == 'buy_now') {
         $parameters = array('action', 'pid', 'products_id');
       } else {
@@ -407,11 +391,7 @@
                                 } elseif (isset($HTTP_POST_VARS['notify'])) {
                                   $notify = $HTTP_POST_VARS['notify'];
                                 } else {
-/* ** Altered for SEO Header Tags RELOADED **
                                   tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
-*/
-                                  tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
                                 }
                                 if (!is_array($notify)) $notify = array($notify);
                                 for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
@@ -422,11 +402,7 @@
                                   }
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_SUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
-/* ** Altered for SEO Header Tags RELOADED **
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
-*/
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'notify'))));
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
@@ -439,11 +415,7 @@
                                   tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 }
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_UNSUBSCRIBED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'warning');
-/* ** Altered for SEO Header Tags RELOADED **
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
-*/
-                                tep_redirect(tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action'))));
-/* ** EOF alteration for SEO Header Tags RELOADED ** */
                               } else {
                                 $navigation->set_snapshot();
                                 tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
