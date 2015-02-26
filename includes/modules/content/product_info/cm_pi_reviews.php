@@ -49,10 +49,14 @@
         }
         
         ob_start();
-        include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/reviews.php');
-        $template = ob_get_clean();
-
-        $oscTemplate->addContent($template, $this->group);
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/reviews.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/reviews.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/reviews.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);		
       }
     }
 

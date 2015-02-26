@@ -33,11 +33,15 @@
     function execute() {
       global $oscTemplate;
 
-      ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/information.php');
-      $data = ob_get_clean();
-
-      $oscTemplate->addBlock($data, $this->group);
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/information.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/information.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/information.php');
+			}
+        $data = ob_get_clean();                 
+                  
+          $oscTemplate->addBlock($data, $this->group);
     }
 
     function isEnabled() {

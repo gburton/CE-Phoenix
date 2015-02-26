@@ -21,7 +21,11 @@
   $product_check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
   $product_check = tep_db_fetch_array($product_check_query);
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_top.php') && file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_top.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_top.php');
+		}
 
   if ($product_check['total'] < 1) {
 ?>
@@ -239,6 +243,10 @@
 
 <?php
   }
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php') && file_exists('includes/templates/' . TEMPLATE . '/template_top.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_bottom.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_bottom.php');
+		}
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

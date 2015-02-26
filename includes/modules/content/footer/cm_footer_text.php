@@ -36,11 +36,15 @@
       
       $content_width = (int)MODULE_CONTENT_FOOTER_TEXT_CONTENT_WIDTH;
       
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/text.php');
-      $template = ob_get_clean();
-
-      $oscTemplate->addContent($template, $this->group);
+        ob_start();
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/text.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/text.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/text.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

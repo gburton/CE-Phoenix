@@ -32,7 +32,11 @@
 
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_DEFAULT);
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_top.php') && file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_top.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_top.php');
+		}
 
   if ($category_depth == 'nested') {
     $category_query = tep_db_query("select cd.categories_name, c.categories_image from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
@@ -285,6 +289,10 @@
 <?php
   }
 
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php') && file_exists('includes/templates/' . TEMPLATE . '/template_top.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_bottom.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_bottom.php');
+		}
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

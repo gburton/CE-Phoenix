@@ -51,11 +51,15 @@
           $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><span class="glyphicon glyphicon-envelope"></span> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($HTTP_GET_VARS['products_id'])) .'</a>';
         }
         
-        ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/product_notifications.php');
-        $data = ob_get_clean();
-                 
-        $oscTemplate->addBlock($data, $this->group);
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/product_notifications.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/product_notifications.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/product_notifications.php');
+			}
+        $data = ob_get_clean();                 
+                  
+          $oscTemplate->addBlock($data, $this->group);                 
       }
     }
 

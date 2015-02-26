@@ -42,10 +42,14 @@
           if (tep_not_null($manufacturer['manufacturers_image'])) $manufacturer_info_string .= '<div>' . tep_image(DIR_WS_IMAGES . $manufacturer['manufacturers_image'], $manufacturer['manufacturers_name']) . '</div>';
           if (tep_not_null($manufacturer['manufacturers_url'])) $manufacturer_info_string .= '<div class="text-center"><a href="' . tep_href_link(FILENAME_REDIRECT, 'action=manufacturer&manufacturers_id=' . $manufacturer['manufacturers_id']) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a></div>';
 
-          ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/manufacturer_info.php');
-          $data = ob_get_clean();
-          
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/manufacturer_info.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/manufacturer_info.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/manufacturer_info.php');
+			}
+        $data = ob_get_clean();                 
+                  
           $oscTemplate->addBlock($data, $this->group);
         }
       }

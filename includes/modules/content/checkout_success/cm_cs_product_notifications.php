@@ -67,10 +67,14 @@
           $products_notifications = implode('', $products_displayed);
 
           ob_start();
-          include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/product_notifications.php');
-          $template = ob_get_clean();
-
-          $oscTemplate->addContent($template, $this->group);
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/product_notifications.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/product_notifications.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/product_notifications.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);
         }
       }
     }

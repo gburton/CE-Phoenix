@@ -65,11 +65,15 @@
         $cart_contents_string .= '<p>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
       }
               
-      ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/shopping_cart.php');
-      $data = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/shopping_cart.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/shopping_cart.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/shopping_cart.php');
+			}
+        $data = ob_get_clean();                 
 
-      $oscTemplate->addBlock($data, $this->group);
+        $oscTemplate->addBlock($data, $this->group);
     }
 
     function isEnabled() {

@@ -37,11 +37,15 @@
       
       $content_width = (int)MODULE_CONTENT_HEADER_BUTTONS_CONTENT_WIDTH;
       
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/buttons.php');
-      $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/buttons.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/buttons.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/buttons.php');
+			}
+        $data = ob_get_clean();      
 
-      $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

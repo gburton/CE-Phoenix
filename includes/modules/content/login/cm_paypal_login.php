@@ -89,11 +89,15 @@
           }
         }
 
-        ob_start();
-        include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/paypal_login.php');
-        $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/paypal_login.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/paypal_login.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/paypal_login.php');
+			}
+        $data = ob_get_clean();      
 
-        $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
       }
     }
 

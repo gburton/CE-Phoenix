@@ -43,7 +43,11 @@ if ( tep_session_is_registered('comments') ) {
 
   $cart->reset();
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_top.php') && file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_top.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_top.php');
+		}
 ?>
 
 <div class="page-header">
@@ -63,6 +67,10 @@ if ( tep_session_is_registered('comments') ) {
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php') && file_exists('includes/templates/' . TEMPLATE . '/template_top.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_bottom.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_bottom.php');
+		}
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

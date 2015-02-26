@@ -46,11 +46,15 @@
           $bestsellers_list .= '<li><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a></li>';
         }
 
-        ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/best_sellers.php');
-        $data = ob_get_clean();
-
-        $oscTemplate->addBlock($data, $this->group);
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/boxes/best_sellers.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/boxes/best_sellers.php');
+			} else {
+				include(DIR_WS_MODULES . 'boxes/templates/best_sellers.php');
+			}
+        $data = ob_get_clean();                 
+                  
+          $oscTemplate->addBlock($data, $this->group);
       }
     }
 

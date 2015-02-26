@@ -247,7 +247,11 @@
     $breadcrumb->add(NAVBAR_TITLE_ADD_ENTRY, tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'));
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_top.php') && file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_top.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_top.php');
+		}
 
   if (!isset($HTTP_GET_VARS['delete'])) {
     include('includes/form_check.js.php');
@@ -340,6 +344,10 @@
 ?>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
+  if (file_exists('includes/templates/' . TEMPLATE . '/template_bottom.php') && file_exists('includes/templates/' . TEMPLATE . '/template_top.php')) {
+	require('includes/templates/' . TEMPLATE . '/template_bottom.php');
+		} else {
+    require(DIR_WS_INCLUDES . 'template_bottom.php');
+		}
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

@@ -34,11 +34,15 @@
     function execute() {
       global $oscTemplate;
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/create_account_link.php');
-      $template = ob_get_clean();
+	  ob_start();		
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/create_account_link.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/create_account_link.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/create_account_link.php');
+			}
+        $data = ob_get_clean();      
 
-      $oscTemplate->addContent($template, $this->group);
+      $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {

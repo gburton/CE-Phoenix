@@ -35,11 +35,15 @@
       global $PHP_SELF, $cart, $lng, $language, $currencies, $HTTP_GET_VARS, $request_type, $currency, $oscTemplate;
       global $customer_first_name;
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
-      $template = ob_get_clean();
-
-      $oscTemplate->addContent($template, $this->group);
+        ob_start();
+			if (file_exists('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/navbar.php')) {
+				include('includes/templates/' . TEMPLATE . '/modules/content/' . $this->group . '/navbar.php');
+			} else {
+				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
+			}
+          $data = ob_get_clean();                 
+                  
+          $oscTemplate->addContent($data, $this->group);
     }
 
     function isEnabled() {
