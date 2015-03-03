@@ -12,22 +12,12 @@
 
 ?>
 
-</div>
-
-<footer>
-  <div class="footer">
-    <div class="container-fluid">
-      <div class="row">
-        <?php echo $oscTemplate->getContent('footer'); ?>
-      </div>
+  <footer id="modular-footer" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+    <div id="footer" class="row">
+      <?php echo $oscTemplate->getContent('footer'); ?>
     </div>
-  </div>
-  <div class="footer-extra">
-    <div class="container-fluid">
-      <div class="row">
-        <?php echo $oscTemplate->getContent('footer_suffix'); ?>
-      </div>
+      
+    <div id="footer-extra" class="row">
+      <?php echo $oscTemplate->getContent('footer_suffix'); ?>
     </div>
-  </div>
-</footer>
-
+  </footer>

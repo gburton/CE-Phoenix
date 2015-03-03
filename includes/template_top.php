@@ -49,10 +49,32 @@
 <body>
 
   <?php echo $oscTemplate->getContent('navigation'); ?>
-  
-  <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+
+  <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
+   
+  <section id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="row">
 
-      <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-
       <div id="bodyContent" class="col-md-<?php echo $oscTemplate->getGridContentWidth(); ?> <?php echo ($oscTemplate->hasBlocks('boxes_column_left') ? 'col-md-push-' . $oscTemplate->getGridColumnWidth() : ''); ?>">
+      
+<?php
+  if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {
+?>
+
+        <div class="alert alert-danger">
+          <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+          <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['error_message']))); ?>
+        </div>
+<?php
+  }
+
+  if (isset($HTTP_GET_VARS['info_message']) && tep_not_null($HTTP_GET_VARS['info_message'])) {
+?>
+
+        <div class="alert alert-info">
+          <a href="#" class="close glyphicon glyphicon-remove" data-dismiss="alert"></a>
+          <?php echo htmlspecialchars(stripslashes(urldecode($HTTP_GET_VARS['info_message']))); ?>
+        </div>
+<?php
+  }
+?>
