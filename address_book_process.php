@@ -248,10 +248,6 @@
   }
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-
-  if (!isset($HTTP_GET_VARS['delete'])) {
-    include('includes/form_check.js.php');
-  }
 ?>
 
 <div class="page-header">
@@ -297,7 +293,7 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('addressbook', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(addressbook);"', true); ?>
+<?php echo tep_draw_form('addressbook', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -322,10 +318,9 @@
       }
 ?>
 
-  <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary'); ?></span>
-
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', $back_link); ?>
+  <div class="buttonSet row">
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', $back_link); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary'); ?></div>
   </div>
 
 <?php

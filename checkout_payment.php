@@ -86,38 +86,6 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script><!--
-var selected;
-
-function selectRowEffect(object, buttonSelect) {
-  if (!selected) {
-    if (document.getElementById) {
-      selected = document.getElementById('defaultSelected');
-    } else {
-      selected = document.all['defaultSelected'];
-    }
-  }
-
-  if (selected) selected.className = 'moduleRow';
-  object.className = 'moduleRowSelected';
-  selected = object;
-
-// one button is not an array
-  if (document.checkout_payment.payment[0]) {
-    document.checkout_payment.payment[buttonSelect].checked=true;
-  } else {
-    document.checkout_payment.payment.checked=true;
-  }
-}
-
-function rowOverEffect(object) {
-  if (object.className == 'moduleRow') object.className = 'moduleRowOver';
-}
-
-function rowOutEffect(object) {
-  if (object.className == 'moduleRowOver') object.className = 'moduleRow';
-}
-//--></script>
 <?php echo $payment_modules->javascript_validation(); ?>
 
 <div class="page-header">
@@ -203,40 +171,70 @@ function rowOutEffect(object) {
 
   <div class="contentText">
 
+    <table class="table table-striped table-condensed table-hover">
+      <tbody>
 <?php
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
-    if (isset($quotes[$i]['error'])) {
 ?>
-      <div class="contentText">
-        <div class="alert alert-warning"><?php echo $selection[$i]['error']; ?></div>
-      </div>
+      <tr>
+        <td><strong><?php echo $selection[$i]['module']; ?></strong></td>
+        <td align="right">
 
 <?php
-        } else {
-
+    if (sizeof($selection) > 1) {
+      echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'required aria-required="true"');
+    } else {
+      echo tep_draw_hidden_field('payment', $selection[$i]['id']);
+    }
 ?>
 
-    <div class="form-group">
-      <label class="control-label col-xs-4"><strong><?php echo $selection[$i]['module']; ?></strong></label>
-      <div class="col-xs-8 col-xs-pull-1 text-right">
-        <label class="checkbox-inline">
-          <?php
-          if (sizeof($selection) > 1) {
-            echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment));
-          } else {
-            echo tep_draw_hidden_field('payment', $selection[$i]['id']);
-          }
-          ?>
-        </label>
-      </div>
-    </div>
+        </td>
+      </tr>
+
+<?php
+    if (isset($selection[$i]['error'])) {
+?>
+
+      <tr>
+        <td colspan="2"><?php echo $selection[$i]['error']; ?></td>
+      </tr>
+
+<?php
+    } elseif (isset($selection[$i]['fields']) && is_array($selection[$i]['fields'])) {
+?>
+
+      <tr>
+        <td colspan="2"><table border="0" cellspacing="0" cellpadding="2">
+
+<?php
+      for ($j=0, $n2=sizeof($selection[$i]['fields']); $j<$n2; $j++) {
+?>
+
+          <tr>
+            <td>1<?php echo $selection[$i]['fields'][$j]['title']; ?></td>
+            <td>2<?php echo $selection[$i]['fields'][$j]['field']; ?></td>
+          </tr>
+
+<?php
+      }
+?>
+
+        </table></td>
+      </tr>
+
+<?php
+    }
+?>
+
+
 
 <?php
     $radio_buttons++;
   }
-}
 ?>
+      </tbody>
+    </table>
 
   </div>
 
@@ -244,8 +242,8 @@ function rowOutEffect(object) {
 
   <div class="contentText">
     <div class="form-group">
-      <label for="inputComments" class="control-label col-xs-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-      <div class="col-xs-8">
+      <label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+      <div class="col-sm-8">
         <?php
         echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
         ?>
@@ -254,7 +252,7 @@ function rowOutEffect(object) {
   </div>
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary'); ?></span>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 
   <div class="clearfix"></div>

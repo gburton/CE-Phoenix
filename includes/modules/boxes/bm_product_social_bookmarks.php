@@ -55,10 +55,9 @@
 
         if ( !empty($social_bookmarks) ) {
 
-          $data = '<div class="panel panel-default">' .
-                   '  <div class="panel-heading">' . MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_BOX_TITLE . '</div>' .
-                   '  <div class="panel-body text-center">' . implode(' ', $social_bookmarks) . '</div>' .
-                   '</div>';
+          ob_start();
+          include(DIR_WS_MODULES . 'boxes/templates/product_social_bookmarks.php');
+          $data = ob_get_clean();
                   
           $oscTemplate->addBlock($data, $this->group);
         }

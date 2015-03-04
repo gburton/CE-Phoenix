@@ -411,9 +411,10 @@
   }
 
   // review stars
-  function tep_draw_stars($rating = 0) {
+  function tep_draw_stars($rating = 0, $meta = false) {
     $stars = str_repeat('<span class="glyphicon glyphicon-star"></span>', (int)$rating);
     $stars .= str_repeat('<span class="glyphicon glyphicon-star-empty"></span>', 5-(int)$rating);
+    if ($meta !== false) $stars .= '<meta itemprop="rating" content="' . (int)$rating . '" />';
 
     return $stars;
   }
@@ -424,7 +425,7 @@
     $search_link = '<div class="searchbox-margin">';
     $search_link .= tep_draw_form('quick_find', tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, '', $request_type, false), 'get', 'class="form-horizontal"');
     $search_link .= '    <div class="input-group">' .
-                            tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"') .
+                            tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search') .
                      '        <span class="input-group-btn"><button type="submit" class="btn ' . $btnclass .'"><i class="glyphicon glyphicon-search"></i></button></span>' .
                      '    </div>';
     $search_link .= '</div>';

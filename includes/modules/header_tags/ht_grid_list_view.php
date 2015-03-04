@@ -44,7 +44,7 @@
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
           $oscTemplate->addBlock('<script src="ext/jquery/cookie.js"></script>' . "\n", $this->group);
-		      $oscTemplate->addBlock('<script>$(function() { var cc = $.cookie(\'list_grid\'); if (cc == \'grid\') { $(\'#product-listing .inline-span\').removeClass(\'one-across fluid-one-across\').addClass(\''. MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT .'-across fluid-'. MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE .'-across\'); } else { $(\'#product-listing .inline-span\').removeClass(\''. MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT .'-across fluid-'. MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE .'-across\').addClass(\'one-across fluid-one-across\'); } }); $(document).ready(function() { $(\'#list\').click(function(event){event.preventDefault();$(\'#product-listing .inline-span\').removeClass(\''. MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT .'-across fluid-'. MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE .'-across\').addClass(\'one-across fluid-one-across\');$.cookie(\'list_grid\', \'list\');}); $(\'#grid\').click(function(event){event.preventDefault();$(\'#product-listing .inline-span\').removeClass(\'one-across fluid-one-across\').addClass(\''. MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT .'-across fluid-'. MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE .'-across\');$.cookie(\'list_grid\', \'grid\');});});</script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script>$(function() {var cc = $.cookie(\'list_grid\');if (cc == \'list\') {$(\'#products .item\').removeClass(\'grid-group-item\').addClass(\'list-group-item\');}else {$(\'#products .item\').removeClass(\'list-group-item\').addClass(\'grid-group-item\');}$(document).ready(function() {$(\'#list\').click(function(event){event.preventDefault();$(\'#products .item\').addClass(\'list-group-item\').removeClass(\'grid-group-item\');$.cookie(\'list_grid\', \'list\');});$(\'#grid\').click(function(event){event.preventDefault();$(\'#products .item\').removeClass(\'list-group-item\').addClass(\'grid-group-item\');$.cookie(\'list_grid\', \'grid\');});});});</script>' . "\n", $this->group);
         }
       }
     }
@@ -59,8 +59,6 @@
 
     function install() {
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Grid List javascript', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS', 'True', 'Do you want to enable the Grid/List Javascript module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-	    tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Default Desktop View', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT', 'three', 'Default products per row in grid view', '6', '2', 'tep_cfg_select_option(array(\'two\',\'three\', \'four\'), ', now())");
-	    tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Default Mobile View', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE', 'two', 'Default products per row in mobile grid view', '6', '3', 'tep_cfg_select_option(array(\'one\',\'two\'), ', now())");
 	    tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Pages', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES', '" . implode(';', $this->get_default_pages()) . "', 'The pages to add the Grid List JS Scripts to.', '6', '4', 'ht_grid_list_view_show_pages', 'ht_grid_list_view_edit_pages(', now())");
 	    tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '5', now())");
     }
@@ -70,7 +68,7 @@
     }
 
     function keys() {
-      return array('MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_DEFAULT', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_MOBILE', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_SORT_ORDER');
+      return array('MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES', 'MODULE_HEADER_TAGS_GRID_LIST_VIEW_SORT_ORDER');
     }
 
     function get_default_pages() {

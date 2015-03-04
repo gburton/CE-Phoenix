@@ -17,32 +17,40 @@
       global $oscTemplate;
 
       $oscTemplate->_data[$this->group] = array('account' => array('title' => MY_ACCOUNT_TITLE,
+                                                                   'sort_order' => 10,
                                                                    'links' => array('edit' => array('title' => MY_ACCOUNT_INFORMATION,
                                                                                                     'link' => tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'),
-                                                                                                    'icon' => 'user'),
+                                                                                                    'icon' => 'glyphicon glyphicon-user'),
                                                                                     'address_book' => array('title' => MY_ACCOUNT_ADDRESS_BOOK,
                                                                                                             'link' => tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'),
-                                                                                                            'icon' => 'home'),
+                                                                                                            'icon' => 'glyphicon glyphicon-home'),
                                                                                     'password' => array('title' => MY_ACCOUNT_PASSWORD,
                                                                                                         'link' => tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'),
-                                                                                                        'icon' => 'cog'))),
+                                                                                                        'icon' => 'glyphicon glyphicon-cog'))),
                                                 'orders' => array('title' => MY_ORDERS_TITLE,
+                                                                  'sort_order' => 20,
                                                                   'links' => array('history' => array('title' => MY_ORDERS_VIEW,
                                                                                                       'link' => tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'),
-                                                                                                      'icon' => 'shopping-cart'))),
+                                                                                                      'icon' => 'glyphicon glyphicon-shopping-cart'))),
                                                 'notifications' => array('title' => EMAIL_NOTIFICATIONS_TITLE,
+                                                                         'sort_order' => 30,
                                                                          'links' => array('newsletters' => array('title' => EMAIL_NOTIFICATIONS_NEWSLETTERS,
                                                                                                                  'link' => tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL'),
-                                                                                                                 'icon' => 'envelope'),
+                                                                                                                 'icon' => 'glyphicon glyphicon-envelope'),
                                                                                           'products' => array('title' => EMAIL_NOTIFICATIONS_PRODUCTS,
                                                                                                               'link' => tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL'),
-                                                                                                              'icon' => 'send'))));
+                                                                                                              'icon' => 'glyphicon glyphicon-send'))));
     }
 
     function build() {
       global $oscTemplate;
+      
+      foreach ( $oscTemplate->_data[$this->group] as $key => $row ) {
+        $arr[$key] = $row['sort_order'];
+      }
+      array_multisort($arr, SORT_ASC, $oscTemplate->_data[$this->group]);
 
-      $output = '';
+      $output = '<div class="col-sm-12">';
 
       foreach ( $oscTemplate->_data[$this->group] as $group ) {
         $output .= '<h2>' . $group['title'] . '</h2>' .
@@ -50,19 +58,21 @@
                    '  <ul class="accountLinkList">';
 
         foreach ( $group['links'] as $entry ) {
-          $output .= '    <li><span class="';
+          $output .= '    <li>';
 
           if ( isset($entry['icon']) ) {
-            $output .= ' glyphicon glyphicon-' . $entry['icon'] . ' ';
+            $output .= '<i class="' . $entry['icon'] . '"></i> ';
           }
 
-          $output .= 'accountLinkListEntry"></span>&nbsp;<a href="' . $entry['link'] . '">' . $entry['title'] . '</a></li>';
+          $output .= '<a href="' . $entry['link'] . '">' . $entry['title'] . '</a></li>';
         }
 
         $output .= '  </ul>' .
                    '</div>';
       }
 
+      $output .= '</div>';
+      
       $oscTemplate->addContent($output, $this->group);
     }
   }

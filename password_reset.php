@@ -85,7 +85,6 @@
   $breadcrumb->add(NAVBAR_TITLE_2);
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-  require('includes/form_check.js.php');
 ?>
 
 <div class="page-header">
@@ -98,22 +97,22 @@
   }
 ?>
 
-<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(password_reset);"', true); ?>
+<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
     <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
     
     <div class="form-group has-feedback">
-      <label for="inputPassword" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD; ?></label>
-      <div class="col-xs-9">
+      <label for="inputPassword" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD; ?></label>
+      <div class="col-sm-9">
         <?php echo tep_draw_input_field('password', NULL, 'required aria-required="true"  autofocus="autofocus" id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputConfirm" class="control-label col-xs-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
-      <div class="col-xs-9">
+      <label for="inputConfirm" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
+      <div class="col-sm-9">
         <?php echo tep_draw_input_field('confirmation', NULL, 'required aria-required="true" id="inputConfirm" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
@@ -121,7 +120,7 @@
   </div>
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary'); ?></span>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>
 

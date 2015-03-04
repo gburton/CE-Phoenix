@@ -120,7 +120,6 @@
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-  require('includes/form_check.js.php');
 ?>
 
 <div class="page-header">
@@ -133,7 +132,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(account_edit);"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <div class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
@@ -148,8 +147,8 @@
     $female = !$male;
   ?>
   <div class="form-group has-feedback">
-    <label class="control-label col-xs-3"><?php echo ENTRY_GENDER; ?></label>
-    <div class="col-xs-9">
+    <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
+    <div class="col-sm-9">
       <label class="radio-inline">
         <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true"') . ' ' . MALE; ?>
       </label>
@@ -164,15 +163,15 @@
   }
   ?>
   <div class="form-group has-feedback">
-    <label for="inputFirstName" class="control-label col-xs-3"><?php echo ENTRY_FIRST_NAME; ?></label>
-    <div class="col-xs-9">
+    <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
+    <div class="col-sm-9">
       <?php echo tep_draw_input_field('firstname', $account['customers_firstname'], 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
   <div class="form-group has-feedback">
-    <label for="inputLastName" class="control-label col-xs-3"><?php echo ENTRY_LAST_NAME; ?></label>
-    <div class="col-xs-9">
+    <label for="inputLastName" class="control-label col-sm-3"><?php echo ENTRY_LAST_NAME; ?></label>
+    <div class="col-sm-9">
       <?php echo tep_draw_input_field('lastname', $account['customers_lastname'], 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
@@ -182,8 +181,8 @@
   if (ACCOUNT_DOB == 'true') {
 ?>
   <div class="form-group has-feedback">
-    <label for="inputName" class="control-label col-xs-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
-    <div class="col-xs-9">
+    <label for="inputName" class="control-label col-sm-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
+    <div class="col-sm-9">
       <?php echo tep_draw_input_field('dob', tep_date_short($account['customers_dob']), 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH_TEXT . '"'); ?>
       <?php if (tep_not_null(ENTRY_DATE_OF_BIRTH_TEXT)) echo '<span class="help-block">' . ENTRY_DATE_OF_BIRTH_TEXT . '</span>'; ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
@@ -194,29 +193,29 @@
 ?>
 
   <div class="form-group has-feedback">
-    <label for="inputEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
-    <div class="col-xs-9">
-      <?php echo tep_draw_input_field('email_address', $account['customers_email_address'], 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"'); ?>
+    <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+    <div class="col-sm-9">
+      <?php echo tep_draw_input_field('email_address', $account['customers_email_address'], 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS . '"', 'email'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
   <div class="form-group has-feedback">
-    <label for="inputTelephone" class="control-label col-xs-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
-    <div class="col-xs-9">
-      <?php echo tep_draw_input_field('telephone', $account['customers_telephone'], 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER . '"'); ?>
+    <label for="inputTelephone" class="control-label col-sm-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
+    <div class="col-sm-9">
+      <?php echo tep_draw_input_field('telephone', $account['customers_telephone'], 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER . '"', 'tel'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
   <div class="form-group">
-    <label for="inputFax" class="control-label col-xs-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
-    <div class="col-xs-9">
+    <label for="inputFax" class="control-label col-sm-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
+    <div class="col-sm-9">
       <?php echo tep_draw_input_field('fax', $account['customers_fax'], 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER . '"'); ?>
     </div>
   </div>
 
-  <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary'); ?></span>
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?>
+  <div class="buttonSet row">
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>
 
