@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-no-corners navbar-no-margin" role="navigation">
-  <div class="container-fluid">
+  <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
         <span class="sr-only"><?php echo HEADER_TOGGLE_NAV; ?></span>
