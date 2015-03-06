@@ -9,10 +9,6 @@
 
   Released under the GNU General Public License
 */
-
-  if ($messageStack->size('header') > 0) {
-    echo '<div class="col-md-12">' . $messageStack->output('header') . '</div>';
-  }
 ?>
 
 <div class="modular-header">
