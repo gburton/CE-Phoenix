@@ -197,54 +197,6 @@
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
-<script><!--
-var selected;
-
-function selectRowEffect(object, buttonSelect) {
-  if (!selected) {
-    if (document.getElementById) {
-      selected = document.getElementById('defaultSelected');
-    } else {
-      selected = document.all['defaultSelected'];
-    }
-  }
-
-  if (selected) selected.className = 'moduleRow';
-  object.className = 'moduleRowSelected';
-  selected = object;
-
-// one button is not an array
-  if (document.checkout_address.address[0]) {
-    document.checkout_address.address[buttonSelect].checked=true;
-  } else {
-    document.checkout_address.address.checked=true;
-  }
-}
-
-function rowOverEffect(object) {
-  if (object.className == 'moduleRow') object.className = 'moduleRowOver';
-}
-
-function rowOutEffect(object) {
-  if (object.className == 'moduleRowOver') object.className = 'moduleRow';
-}
-
-function check_form_optional(form_name) {
-  var form = form_name;
-
-  var firstname = form.elements['firstname'].value;
-  var lastname = form.elements['lastname'].value;
-  var street_address = form.elements['street_address'].value;
-
-  if (firstname == '' && lastname == '' && street_address == '') {
-    return true;
-  } else {
-    return check_form(form_name);
-  }
-}
-//--></script>
-<?php require(DIR_WS_INCLUDES . 'form_check.js.php'); ?>
-
 <div class="page-header">
   <h1><?php echo HEADING_TITLE; ?></h1>
 </div>
@@ -255,7 +207,7 @@ function check_form_optional(form_name) {
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form_optional(checkout_address);"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
