@@ -233,20 +233,7 @@
       $cart->restore_contents();
 
 // build the message content
-      $name = $firstname . ' ' . $lastname;
-
-      if (ACCOUNT_GENDER == 'true') {
-         if ($gender == 'm') {
-           $email_text = sprintf(EMAIL_GREET_MR, $lastname);
-         } else {
-           $email_text = sprintf(EMAIL_GREET_MS, $lastname);
-         }
-      } else {
-        $email_text = sprintf(EMAIL_GREET_NONE, $firstname);
-      }
-
-      $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
-      tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+      $oscTemplate->getContent('email_create_account');
 
       tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
     }

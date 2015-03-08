@@ -29,6 +29,7 @@ define('TEXT_EMAIL_SUBJECT', 'Your friend %s has recommended this great product 
 define('TEXT_EMAIL_INTRO', 'Hi %s!' . "\n\n" . 'Your friend, %s, thought that you would be interested in %s from %s.');
 define('TEXT_EMAIL_LINK', 'To view the product click on the link below or copy and paste the link into your web browser:' . "\n\n" . '%s');
 define('TEXT_EMAIL_SIGNATURE', 'Regards,' . "\n\n" . '%s');
+define('EMAIL_LINK', 'Link');
 
 define('ERROR_TO_NAME', 'Error: Your friends name must not be empty.');
 define('ERROR_TO_ADDRESS', 'Error: Your friends e-mail address must be a valid e-mail address.');

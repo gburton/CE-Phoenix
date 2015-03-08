@@ -76,17 +76,7 @@
     }
 
     if ($error == false) {
-      $email_subject = sprintf(TEXT_EMAIL_SUBJECT, $from_name, STORE_NAME);
-      $email_body = sprintf(TEXT_EMAIL_INTRO, $to_name, $from_name, $product_info['products_name'], STORE_NAME) . "\n\n";
-
-      if (tep_not_null($message)) {
-        $email_body .= $message . "\n\n";
-      }
-
-      $email_body .= sprintf(TEXT_EMAIL_LINK, tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id'], 'NONSSL', false)) . "\n\n" .
-                     sprintf(TEXT_EMAIL_SIGNATURE, STORE_NAME . "\n" . HTTP_SERVER . DIR_WS_CATALOG . "\n");
-
-      tep_mail($to_name, $to_email_address, $email_subject, $email_body, $from_name, $from_email_address);
+      $oscTemplate->getContent('email_tell_a_friend');
 
       $actionRecorder->record();
 
