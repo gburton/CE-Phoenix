@@ -31,6 +31,8 @@ define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this newslette
 define('TEXT_PLEASE_WAIT', 'Please wait .. sending emails ..<br /><br />Please do not interrupt this process!');
 define('TEXT_FINISHED_SENDING_EMAILS', 'Finished sending e-mails!');
 
+define('TEXT_WELCOME', 'Dear %s,');
+
 define('ERROR_NEWSLETTER_TITLE', 'Error: Newsletter title required');
 define('ERROR_NEWSLETTER_MODULE', 'Error: Newsletter module required');
 define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before deleting it.');

@@ -38,7 +38,7 @@
           $reset_key_url = str_replace('&amp;', '&', $reset_key_url);
         }
 
-        tep_mail($check_customer['customers_firstname'] . ' ' . $check_customer['customers_lastname'], $email_address, EMAIL_PASSWORD_RESET_SUBJECT, sprintf(EMAIL_PASSWORD_RESET_BODY, $reset_key_url), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+        $oscTemplate->getContent('email_password_forgotten');
 
         $password_reset_initiated = true;
       } else {

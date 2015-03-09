@@ -57,22 +57,30 @@
     }
 
     function send($newsletter_id) {
+      global $oscTemplate, $nInfo;
+
       $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
 
-      $mimemessage = new email(array('X-Mailer: osCommerce'));
+      // prevent new redeclarations in while cycle
+      $GLOBALS['mimemessage'] = new email(array('X-Mailer: osCommerce'));
 
-      // Build the text version
-      $text = strip_tags($this->content);
-      if (EMAIL_USE_HTML == 'true') {
-        $mimemessage->add_html($this->content, $text);
-      } else {
-        $mimemessage->add_text($text);
-      }
+      // transfer all params to email template
+      $nInfo_parameters = array('mail' => Array(),
+                                'newsletter_id' => 0);
 
-      $mimemessage->build_message();
+      $nInfo->objectInfo($nInfo_parameters);
+
+      // TODO delete chdir refencies when page loader change
+      chdir(DIR_FS_CATALOG);
       while ($mail = tep_db_fetch_array($mail_query)) {
-        $mimemessage->send($mail['customers_firstname'] . ' ' . $mail['customers_lastname'], $mail['customers_email_address'], '', EMAIL_FROM, $this->title);
+        // refress transfers
+        $nInfo->mail = $mail;
+        $nInfo->newsletter_id = $newsletter_id;
+
+        $oscTemplate->getContent('email_newsletters');
       }
+      chdir(DIR_FS_ADMIN);
+      // TODO end
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);
       tep_db_query("update " . TABLE_NEWSLETTERS . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
