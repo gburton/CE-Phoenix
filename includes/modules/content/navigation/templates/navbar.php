@@ -9,7 +9,6 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-      <div class="container-fluid">
         <ul class="nav navbar-nav">
           <?php echo '<li><a class="store-brand" href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_HOME . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_PRODUCTS_NEW) . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
@@ -95,7 +94,6 @@
           }
           ?>
         </ul>
-      </div>
     </div>
   </div>
 </nav>
