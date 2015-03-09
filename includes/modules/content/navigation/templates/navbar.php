@@ -1,14 +1,14 @@
 <nav class="navbar navbar-inverse navbar-no-corners navbar-no-margin" role="navigation">
   <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-core-nav">
         <span class="sr-only"><?php echo HEADER_TOGGLE_NAV; ?></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
     </div>
-    <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse-core-nav">
         <ul class="nav navbar-nav">
           <?php echo '<li><a class="store-brand" href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_HOME . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_PRODUCTS_NEW) . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
