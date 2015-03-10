@@ -235,6 +235,7 @@ DROP TABLE IF EXISTS manufacturers;
 CREATE TABLE manufacturers (
   manufacturers_id int NOT NULL auto_increment,
   manufacturers_name varchar(32) NOT NULL,
+  manufacturers_seo_title varchar(128) NOT NULL,
   manufacturers_image varchar(64),
   date_added datetime NULL,
   last_modified datetime NULL,
@@ -247,6 +248,9 @@ CREATE TABLE manufacturers_info (
   manufacturers_id int NOT NULL,
   languages_id int NOT NULL,
   manufacturers_url varchar(255) NOT NULL,
+  manufacturers_description TEXT NULL,
+  manufacturers_seo_description TEXT NULL,
+  manufacturers_seo_keywords VARCHAR( 128 ) NULL,
   url_clicked int(5) NOT NULL default '0',
   date_last_click datetime NULL,
   PRIMARY KEY (manufacturers_id, languages_id)
