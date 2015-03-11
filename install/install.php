@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2014 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,8 +14,8 @@
 
   $page_contents = 'install.php';
 
-  if (isset($HTTP_GET_VARS['step']) && is_numeric($HTTP_GET_VARS['step'])) {
-    switch ($HTTP_GET_VARS['step']) {
+  if (isset($_GET['step']) && is_numeric($_GET['step'])) {
+    switch ($_GET['step']) {
       case '2':
         $page_contents = 'install_2.php';
         break;
