@@ -117,7 +117,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('email_friend', tep_href_link(FILENAME_TELL_A_FRIEND, 'action=process&products_id=' . (int)$_GET['products_id']), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('email_friend', tep_href_link(FILENAME_TELL_A_FRIEND, 'action=process&products_id=' . (int)$_GET['products_id'], $request_type), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
