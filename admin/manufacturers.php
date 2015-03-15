@@ -28,21 +28,21 @@
 
           $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
-          tep_db_perform(TABLE_MANUFACTURERS, $sql_data_array);
+          tep_db_perform(manufacturers, $sql_data_array);
           $manufacturers_id = tep_db_insert_id();
         } elseif ($action == 'save') {
           $update_sql_data = array('last_modified' => 'now()');
 
           $sql_data_array = array_merge($sql_data_array, $update_sql_data);
 
-          tep_db_perform(TABLE_MANUFACTURERS, $sql_data_array, 'update', "manufacturers_id = '" . (int)$manufacturers_id . "'");
+          tep_db_perform(manufacturers, $sql_data_array, 'update', "manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
 
         $manufacturers_image = new upload('manufacturers_image');
         $manufacturers_image->set_destination(DIR_FS_CATALOG_IMAGES);
 
         if ($manufacturers_image->parse() && $manufacturers_image->save()) {
-          tep_db_query("update " . TABLE_MANUFACTURERS . " set manufacturers_image = '" . tep_db_input($manufacturers_image->filename) . "' where manufacturers_id = '" . (int)$manufacturers_id . "'");
+          tep_db_query("update " . manufacturers . " set manufacturers_image = '" . tep_db_input($manufacturers_image->filename) . "' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
 
         $languages = tep_get_languages();
@@ -58,9 +58,9 @@
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
-            tep_db_perform(TABLE_MANUFACTURERS_INFO, $sql_data_array);
+            tep_db_perform(manufacturers_info, $sql_data_array);
           } elseif ($action == 'save') {
-            tep_db_perform(TABLE_MANUFACTURERS_INFO, $sql_data_array, 'update', "manufacturers_id = '" . (int)$manufacturers_id . "' and languages_id = '" . (int)$language_id . "'");
+            tep_db_perform(manufacturers_info, $sql_data_array, 'update', "manufacturers_id = '" . (int)$manufacturers_id . "' and languages_id = '" . (int)$language_id . "'");
           }
         }
 
@@ -74,7 +74,7 @@
         $manufacturers_id = tep_db_prepare_input($HTTP_GET_VARS['mID']);
 
         if (isset($HTTP_POST_VARS['delete_image']) && ($HTTP_POST_VARS['delete_image'] == 'on')) {
-          $manufacturer_query = tep_db_query("select manufacturers_image from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
+          $manufacturer_query = tep_db_query("select manufacturers_image from " . manufacturers . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
           $manufacturer = tep_db_fetch_array($manufacturer_query);
 
           $image_location = DIR_FS_DOCUMENT_ROOT . DIR_WS_CATALOG_IMAGES . $manufacturer['manufacturers_image'];
@@ -82,16 +82,16 @@
           if (file_exists($image_location)) @unlink($image_location);
         }
 
-        tep_db_query("delete from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
-        tep_db_query("delete from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
+        tep_db_query("delete from " . manufacturers . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
+        tep_db_query("delete from " . manufacturers_info . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
 
         if (isset($HTTP_POST_VARS['delete_products']) && ($HTTP_POST_VARS['delete_products'] == 'on')) {
-          $products_query = tep_db_query("select products_id from " . TABLE_PRODUCTS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
+          $products_query = tep_db_query("select products_id from " . products . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
           while ($products = tep_db_fetch_array($products_query)) {
             tep_remove_product($products['products_id']);
           }
         } else {
-          tep_db_query("update " . TABLE_PRODUCTS . " set manufacturers_id = '' where manufacturers_id = '" . (int)$manufacturers_id . "'");
+          tep_db_query("update " . products . " set manufacturers_id = '' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
 
         if (USE_CACHE == 'true') {
@@ -124,12 +124,12 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $manufacturers_query_raw = "select manufacturers_id, manufacturers_name, manufacturers_image, date_added, last_modified from " . TABLE_MANUFACTURERS . " order by manufacturers_name";
+  $manufacturers_query_raw = "select manufacturers_id, manufacturers_name, manufacturers_image, date_added, last_modified from " . manufacturers . " order by manufacturers_name";
   $manufacturers_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $manufacturers_query_raw, $manufacturers_query_numrows);
   $manufacturers_query = tep_db_query($manufacturers_query_raw);
   while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
     if ((!isset($HTTP_GET_VARS['mID']) || (isset($HTTP_GET_VARS['mID']) && ($HTTP_GET_VARS['mID'] == $manufacturers['manufacturers_id']))) && !isset($mInfo) && (substr($action, 0, 3) != 'new')) {
-      $manufacturer_products_query = tep_db_query("select count(*) as products_count from " . TABLE_PRODUCTS . " where manufacturers_id = '" . (int)$manufacturers['manufacturers_id'] . "'");
+      $manufacturer_products_query = tep_db_query("select count(*) as products_count from " . products . " where manufacturers_id = '" . (int)$manufacturers['manufacturers_id'] . "'");
       $manufacturer_products = tep_db_fetch_array($manufacturer_products_query);
 
       $mInfo_array = array_merge($manufacturers, $manufacturer_products);

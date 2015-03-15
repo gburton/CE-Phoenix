@@ -21,7 +21,7 @@
         $newsletter_id = tep_db_prepare_input($HTTP_GET_VARS['nID']);
         $status = (($action == 'lock') ? '1' : '0');
 
-        tep_db_query("update " . TABLE_NEWSLETTERS . " set locked = '" . $status . "' where newsletters_id = '" . (int)$newsletter_id . "'");
+        tep_db_query("update " . newsletters . " set locked = '" . $status . "' where newsletters_id = '" . (int)$newsletter_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID']));
         break;
@@ -53,10 +53,10 @@
             $sql_data_array['status'] = '0';
             $sql_data_array['locked'] = '0';
 
-            tep_db_perform(TABLE_NEWSLETTERS, $sql_data_array);
+            tep_db_perform(newsletters, $sql_data_array);
             $newsletter_id = tep_db_insert_id();
           } elseif ($action == 'update') {
-            tep_db_perform(TABLE_NEWSLETTERS, $sql_data_array, 'update', "newsletters_id = '" . (int)$newsletter_id . "'");
+            tep_db_perform(newsletters, $sql_data_array, 'update', "newsletters_id = '" . (int)$newsletter_id . "'");
           }
 
           tep_redirect(tep_href_link(FILENAME_NEWSLETTERS, (isset($HTTP_GET_VARS['page']) ? 'page=' . $HTTP_GET_VARS['page'] . '&' : '') . 'nID=' . $newsletter_id));
@@ -67,7 +67,7 @@
       case 'deleteconfirm':
         $newsletter_id = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-        tep_db_query("delete from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$newsletter_id . "'");
+        tep_db_query("delete from " . newsletters . " where newsletters_id = '" . (int)$newsletter_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page']));
         break;
@@ -77,7 +77,7 @@
       case 'confirm_send':
         $newsletter_id = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-        $check_query = tep_db_query("select locked from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$newsletter_id . "'");
+        $check_query = tep_db_query("select locked from " . newsletters . " where newsletters_id = '" . (int)$newsletter_id . "'");
         $check = tep_db_fetch_array($check_query);
 
         if ($check['locked'] < 1) {
@@ -123,7 +123,7 @@
 
       $nID = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-      $newsletter_query = tep_db_query("select title, content, module from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$nID . "'");
+      $newsletter_query = tep_db_query("select title, content, module from " . newsletters . " where newsletters_id = '" . (int)$nID . "'");
       $newsletter = tep_db_fetch_array($newsletter_query);
 
       $nInfo->objectInfo($newsletter);
@@ -188,7 +188,7 @@
   } elseif ($action == 'send') {
     $nID = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-    $newsletter_query = tep_db_query("select title, content, module from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$nID . "'");
+    $newsletter_query = tep_db_query("select title, content, module from " . newsletters . " where newsletters_id = '" . (int)$nID . "'");
     $newsletter = tep_db_fetch_array($newsletter_query);
 
     $nInfo = new objectInfo($newsletter);
@@ -205,7 +205,7 @@
   } elseif ($action == 'confirm') {
     $nID = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-    $newsletter_query = tep_db_query("select title, content, module from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$nID . "'");
+    $newsletter_query = tep_db_query("select title, content, module from " . newsletters . " where newsletters_id = '" . (int)$nID . "'");
     $newsletter = tep_db_fetch_array($newsletter_query);
 
     $nInfo = new objectInfo($newsletter);
@@ -222,7 +222,7 @@
   } elseif ($action == 'confirm_send') {
     $nID = tep_db_prepare_input($HTTP_GET_VARS['nID']);
 
-    $newsletter_query = tep_db_query("select newsletters_id, title, content, module from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$nID . "'");
+    $newsletter_query = tep_db_query("select newsletters_id, title, content, module from " . newsletters . " where newsletters_id = '" . (int)$nID . "'");
     $newsletter = tep_db_fetch_array($newsletter_query);
 
     $nInfo = new objectInfo($newsletter);
@@ -278,7 +278,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $newsletters_query_raw = "select newsletters_id, title, length(content) as content_length, module, date_added, date_sent, status, locked from " . TABLE_NEWSLETTERS . " order by date_added desc";
+    $newsletters_query_raw = "select newsletters_id, title, length(content) as content_length, module, date_added, date_sent, status, locked from " . newsletters . " order by date_added desc";
     $newsletters_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $newsletters_query_raw, $newsletters_query_numrows);
     $newsletters_query = tep_db_query($newsletters_query_raw);
     while ($newsletters = tep_db_fetch_array($newsletters_query)) {

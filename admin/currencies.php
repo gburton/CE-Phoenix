@@ -41,14 +41,14 @@
                                 'value' => $value);
 
         if ($action == 'insert') {
-          tep_db_perform(TABLE_CURRENCIES, $sql_data_array);
+          tep_db_perform(currencies, $sql_data_array);
           $currency_id = tep_db_insert_id();
         } elseif ($action == 'save') {
-          tep_db_perform(TABLE_CURRENCIES, $sql_data_array, 'update', "currencies_id = '" . (int)$currency_id . "'");
+          tep_db_perform(currencies, $sql_data_array, 'update', "currencies_id = '" . (int)$currency_id . "'");
         }
 
         if (isset($HTTP_POST_VARS['default']) && ($HTTP_POST_VARS['default'] == 'on')) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
+          tep_db_query("update " . configuration . " set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
         }
 
         tep_redirect(tep_href_link(FILENAME_CURRENCIES, 'page=' . $HTTP_GET_VARS['page'] . '&cID=' . $currency_id));
@@ -56,21 +56,21 @@
       case 'deleteconfirm':
         $currencies_id = tep_db_prepare_input($HTTP_GET_VARS['cID']);
 
-        $currency_query = tep_db_query("select currencies_id from " . TABLE_CURRENCIES . " where code = '" . DEFAULT_CURRENCY . "'");
+        $currency_query = tep_db_query("select currencies_id from " . currencies . " where code = '" . DEFAULT_CURRENCY . "'");
         $currency = tep_db_fetch_array($currency_query);
 
         if ($currency['currencies_id'] == $currencies_id) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '' where configuration_key = 'DEFAULT_CURRENCY'");
+          tep_db_query("update " . configuration . " set configuration_value = '' where configuration_key = 'DEFAULT_CURRENCY'");
         }
 
-        tep_db_query("delete from " . TABLE_CURRENCIES . " where currencies_id = '" . (int)$currencies_id . "'");
+        tep_db_query("delete from " . currencies . " where currencies_id = '" . (int)$currencies_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_CURRENCIES, 'page=' . $HTTP_GET_VARS['page']));
         break;
       case 'update':
         $server_used = CURRENCY_SERVER_PRIMARY;
 
-        $currency_query = tep_db_query("select currencies_id, code, title from " . TABLE_CURRENCIES);
+        $currency_query = tep_db_query("select currencies_id, code, title from " . currencies);
         while ($currency = tep_db_fetch_array($currency_query)) {
           $quote_function = 'quote_' . CURRENCY_SERVER_PRIMARY . '_currency';
           $rate = $quote_function($currency['code']);
@@ -85,7 +85,7 @@
           }
 
           if (tep_not_null($rate)) {
-            tep_db_query("update " . TABLE_CURRENCIES . " set value = '" . $rate . "', last_updated = now() where currencies_id = '" . (int)$currency['currencies_id'] . "'");
+            tep_db_query("update " . currencies . " set value = '" . $rate . "', last_updated = now() where currencies_id = '" . (int)$currency['currencies_id'] . "'");
 
             $messageStack->add_session(sprintf(TEXT_INFO_CURRENCY_UPDATED, $currency['title'], $currency['code'], $server_used), 'success');
           } else {
@@ -98,7 +98,7 @@
       case 'delete':
         $currencies_id = tep_db_prepare_input($HTTP_GET_VARS['cID']);
 
-        $currency_query = tep_db_query("select code from " . TABLE_CURRENCIES . " where currencies_id = '" . (int)$currencies_id . "'");
+        $currency_query = tep_db_query("select code from " . currencies . " where currencies_id = '" . (int)$currencies_id . "'");
         $currency = tep_db_fetch_array($currency_query);
 
         $remove_currency = true;
@@ -190,7 +190,7 @@ function updateForm() {
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $currency_query_raw = "select currencies_id, title, code, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, last_updated, value from " . TABLE_CURRENCIES . " order by title";
+  $currency_query_raw = "select currencies_id, title, code, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, last_updated, value from " . currencies . " order by title";
   $currency_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $currency_query_raw, $currency_query_numrows);
   $currency_query = tep_db_query($currency_query_raw);
   while ($currency = tep_db_fetch_array($currency_query)) {

@@ -28,9 +28,6 @@
     include('includes/configure.php');
   }
 
-// Define the project version --- obsolete, now retrieved with tep_get_version()
-  define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
-
 // some code to solve compatibility issues
   require(DIR_WS_FUNCTIONS . 'compatibility.php');
 
@@ -50,9 +47,6 @@
 // include the list of project filenames
   require(DIR_WS_INCLUDES . 'filenames.php');
 
-// include the list of project database tables
-  require(DIR_WS_INCLUDES . 'database_tables.php');
-
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
   define('CURRENCY_SERVER_PRIMARY', 'oanda');
@@ -65,7 +59,7 @@
   tep_db_connect() or die('Unable to connect to database server!');
 
 // set application wide parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
+  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . configuration);
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }

@@ -69,9 +69,9 @@
       $nID = (isset($HTTP_GET_VARS['nID']) ? $HTTP_GET_VARS['nID'] : 0);
 
       if (tep_not_null($nID)) {
-        $newsletter_query = tep_db_query("select title, content, module from " . TABLE_NEWSLETTERS . " where newsletters_id = '" . (int)$nID . "'");
+        $newsletter_query = tep_db_query("select title, content, module from " . newsletters . " where newsletters_id = '" . (int)$nID . "'");
       } else {
-        $newsletter_query = tep_db_query("select title, content, module from " . TABLE_NEWSLETTERS . " order by newsletters_id desc limit 1");
+        $newsletter_query = tep_db_query("select title, content, module from " . newsletters . " order by newsletters_id desc limit 1");
       }
 
       if (tep_db_num_rows($newsletter_query)) {

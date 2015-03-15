@@ -21,7 +21,7 @@
 
   if (isset($HTTP_POST_VARS['transaction_id']) && is_numeric($HTTP_POST_VARS['transaction_id']) && ($HTTP_POST_VARS['transaction_id'] > 0)) {
     if ($HTTP_POST_VARS['md5sig'] == strtoupper(md5(MODULE_PAYMENT_MONEYBOOKERS_MERCHANT_ID . $HTTP_POST_VARS['transaction_id'] . strtoupper(md5(MODULE_PAYMENT_MONEYBOOKERS_SECRET_WORD)) . $HTTP_POST_VARS['mb_amount'] . $HTTP_POST_VARS['mb_currency'] . $HTTP_POST_VARS['status']))) {
-      $order_query = tep_db_query("select orders_status, currency, currency_value from " . TABLE_ORDERS . " where orders_id = '" . $HTTP_POST_VARS['transaction_id'] . "' and customers_id = '" . (int)$HTTP_POST_VARS['osc_custid'] . "'");
+      $order_query = tep_db_query("select orders_status, currency, currency_value from " . orders . " where orders_id = '" . $HTTP_POST_VARS['transaction_id'] . "' and customers_id = '" . (int)$HTTP_POST_VARS['osc_custid'] . "'");
       if (tep_db_num_rows($order_query) > 0) {
         $pass = true;
 
@@ -54,7 +54,7 @@
                                 'customer_notified' => '0',
                                 'comments' => 'Moneybookers Verified [' . $comment_status . ']');
 
-        tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
+        tep_db_perform(orders_status_history, $sql_data_array);
       }
     }
   }

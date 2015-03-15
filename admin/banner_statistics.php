@@ -30,11 +30,11 @@
     }
   }
 
-  $banner_query = tep_db_query("select banners_title from " . TABLE_BANNERS . " where banners_id = '" . (int)$HTTP_GET_VARS['bID'] . "'");
+  $banner_query = tep_db_query("select banners_title from " . banners . " where banners_id = '" . (int)$HTTP_GET_VARS['bID'] . "'");
   $banner = tep_db_fetch_array($banner_query);
 
   $years_array = array();
-  $years_query = tep_db_query("select distinct year(banners_history_date) as banner_year from " . TABLE_BANNERS_HISTORY . " where banners_id = '" . (int)$HTTP_GET_VARS['bID'] . "'");
+  $years_query = tep_db_query("select distinct year(banners_history_date) as banner_year from " . banners_history . " where banners_id = '" . (int)$HTTP_GET_VARS['bID'] . "'");
   while ($years = tep_db_fetch_array($years_query)) {
     $years_array[] = array('id' => $years['banner_year'],
                            'text' => $years['banner_year']);

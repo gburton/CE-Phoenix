@@ -70,7 +70,7 @@
 
       require(DIR_FS_CATALOG . DIR_WS_LANGUAGES . $language . '/create_account.php');
 
-      $last_account_query = tep_db_query("select max(customers_id), customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . "");
+      $last_account_query = tep_db_query("select max(customers_id), customers_firstname, customers_lastname from " . customers . "");
 
       $last_account = tep_db_fetch_array($last_account_query);
 

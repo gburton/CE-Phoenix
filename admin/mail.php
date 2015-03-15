@@ -17,17 +17,17 @@
   if ( ($action == 'send_email_to_user') && isset($HTTP_POST_VARS['customers_email_address']) && !isset($HTTP_POST_VARS['back_x']) ) {
     switch ($HTTP_POST_VARS['customers_email_address']) {
       case '***':
-        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS);
+        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . customers);
         $mail_sent_to = TEXT_ALL_CUSTOMERS;
         break;
       case '**D':
-        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
+        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . customers . " where customers_newsletter = '1'");
         $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
         break;
       default:
         $customers_email_address = tep_db_prepare_input($HTTP_POST_VARS['customers_email_address']);
 
-        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($customers_email_address) . "'");
+        $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . customers . " where customers_email_address = '" . tep_db_input($customers_email_address) . "'");
         $mail_sent_to = $HTTP_POST_VARS['customers_email_address'];
         break;
     }
@@ -150,7 +150,7 @@
     $customers[] = array('id' => '', 'text' => TEXT_SELECT_CUSTOMER);
     $customers[] = array('id' => '***', 'text' => TEXT_ALL_CUSTOMERS);
     $customers[] = array('id' => '**D', 'text' => TEXT_NEWSLETTER_CUSTOMERS);
-    $mail_query = tep_db_query("select customers_email_address, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
+    $mail_query = tep_db_query("select customers_email_address, customers_firstname, customers_lastname from " . customers . " order by customers_lastname");
     while($customers_values = tep_db_fetch_array($mail_query)) {
       $customers[] = array('id' => $customers_values['customers_email_address'],
                            'text' => $customers_values['customers_lastname'] . ', ' . $customers_values['customers_firstname'] . ' (' . $customers_values['customers_email_address'] . ')');

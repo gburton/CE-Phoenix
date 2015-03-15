@@ -57,7 +57,7 @@
       if (tep_not_null($oID)) {
         $orders_statuses = array();
         $orders_status_array = array();
-        $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "'");
+        $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . orders_status . " where language_id = '" . (int)$languages_id . "'");
 
         while ($orders_status = tep_db_fetch_array($orders_status_query)) {
           $orders_statuses[] = array('id' => $orders_status['orders_status_id'],
@@ -67,13 +67,13 @@
 
         include(DIR_WS_LANGUAGES . $language . '/orders.php');
 
-        $orders_history_query = tep_db_query("select orders_status_id, date_added, customer_notified, comments from " . TABLE_ORDERS_STATUS_HISTORY . " where orders_id = '" . tep_db_input($oID) . "' order by orders_status_history_id desc limit 1");
+        $orders_history_query = tep_db_query("select orders_status_id, date_added, customer_notified, comments from " . orders_status_history . " where orders_id = '" . tep_db_input($oID) . "' order by orders_status_history_id desc limit 1");
 
         $orders_history = tep_db_fetch_array($orders_history_query);
         $status = $orders_history['orders_status_id'];
         $comments = $orders_history['comments'];
 
-        $check_status_query = tep_db_query("select customers_name, customers_email_address, orders_status, date_purchased from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
+        $check_status_query = tep_db_query("select customers_name, customers_email_address, orders_status, date_purchased from " . orders . " where orders_id = '" . (int)$oID . "'");
         $check_status = tep_db_fetch_array($check_status_query);
 
         if ($orders_history['customer_notified'] == '1') {
