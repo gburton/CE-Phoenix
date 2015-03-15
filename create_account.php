@@ -93,7 +93,7 @@
 
       $messageStack->add('create_account', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
     } else {
-      $check_email_query = tep_db_query("select count(*) as total from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($email_address) . "'");
+      $check_email_query = tep_db_query("select count(*) as total from " . 'customers' . " where customers_email_address = '" . tep_db_input($email_address) . "'");
       $check_email = tep_db_fetch_array($check_email_query);
       if ($check_email['total'] > 0) {
         $error = true;
@@ -128,11 +128,11 @@
 
     if (ACCOUNT_STATE == 'true') {
       $zone_id = 0;
-      $check_query = tep_db_query("select count(*) as total from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "'");
+      $check_query = tep_db_query("select count(*) as total from " . 'zones' . " where zone_country_id = '" . (int)$country . "'");
       $check = tep_db_fetch_array($check_query);
       $entry_state_has_zones = ($check['total'] > 0);
       if ($entry_state_has_zones == true) {
-        $zone_query = tep_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
+        $zone_query = tep_db_query("select distinct zone_id from " . 'zones' . " where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
         if (tep_db_num_rows($zone_query) == 1) {
           $zone = tep_db_fetch_array($zone_query);
           $zone_id = $zone['zone_id'];
@@ -179,7 +179,7 @@
       if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
       if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
 
-      tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
+      tep_db_perform('customers', $sql_data_array);
 
       $customer_id = tep_db_insert_id();
 
@@ -204,13 +204,13 @@
         }
       }
 
-      tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
+      tep_db_perform('address_book', $sql_data_array);
 
       $address_id = tep_db_insert_id();
 
-      tep_db_query("update " . TABLE_CUSTOMERS . " set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
+      tep_db_query("update " . 'customers' . " set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
 
-      tep_db_query("insert into " . TABLE_CUSTOMERS_INFO . " (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
+      tep_db_query("insert into " . 'customers_info' . " (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
 
       if (SESSION_RECREATE == 'True') {
         tep_session_recreate();
@@ -269,7 +269,7 @@
 ?>
 
 <div class="alert alert-warning">
-  <?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link(FILENAME_LOGIN, tep_get_all_get_params(), 'SSL')); ?><span class="inputRequirement pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span>
+  <?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link('login.php', tep_get_all_get_params(), 'SSL')); ?><span class="inputRequirement pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span>
 </div>
 
 <?php echo tep_draw_form('create_account', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(create_account);"', true) . tep_draw_hidden_field('action', 'process'); ?>
@@ -425,7 +425,7 @@
         if ($process == true) {
           if ($entry_state_has_zones == true) {
             $zones_array = array();
-            $zones_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' order by zone_name");
+            $zones_query = tep_db_query("select zone_name from " . 'zones' . " where zone_country_id = '" . (int)$country . "' order by zone_name");
             while ($zones_values = tep_db_fetch_array($zones_query)) {
               $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
             }

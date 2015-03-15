@@ -30,11 +30,11 @@
     }
   }
 
-  $banner_query = tep_db_query("select banners_title from " . TABLE_BANNERS . " where banners_id = '" . (int)$_GET['bID'] . "'");
+  $banner_query = tep_db_query("select banners_title from " . banners . " where banners_id = '" . (int)$_GET['bID'] . "'");
   $banner = tep_db_fetch_array($banner_query);
 
   $years_array = array();
-  $years_query = tep_db_query("select distinct year(banners_history_date) as banner_year from " . TABLE_BANNERS_HISTORY . " where banners_id = '" . (int)$_GET['bID'] . "'");
+  $years_query = tep_db_query("select distinct year(banners_history_date) as banner_year from " . banners_history . " where banners_id = '" . (int)$_GET['bID'] . "'");
   while ($years = tep_db_fetch_array($years_query)) {
     $years_array[] = array('id' => $years['banner_year'],
                            'text' => $years['banner_year']);
@@ -59,7 +59,7 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr><?php echo tep_draw_form('year', FILENAME_BANNER_STATISTICS, '', 'get'); ?>
+          <tr><?php echo tep_draw_form('year', 'banner_statistics.php', '', 'get'); ?>
             <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
             <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', '1', HEADING_IMAGE_HEIGHT); ?></td>
             <td class="main" align="right"><?php echo TITLE_TYPE . ' ' . tep_draw_pull_down_menu('type', $type_array, (tep_not_null($type) ? $type : 'daily'), 'onchange="this.form.submit();"'); ?><noscript><input type="submit" value="GO"></noscript><br />
@@ -144,7 +144,7 @@
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-        <td class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BACK, 'arrow-1-w', tep_href_link(FILENAME_BANNER_MANAGER, 'page=' . $_GET['page'] . '&bID=' . $_GET['bID'])); ?></td>
+        <td class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BACK, 'arrow-1-w', tep_href_link('banner_manager.php', 'page=' . $_GET['page'] . '&bID=' . $_GET['bID'])); ?></td>
       </tr>
     </table>
 

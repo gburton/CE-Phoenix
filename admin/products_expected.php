@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  tep_db_query("update " . TABLE_PRODUCTS . " set products_date_available = '' where to_days(now()) > to_days(products_date_available)");
+  tep_db_query("update " . products . " set products_date_available = '' where to_days(now()) > to_days(products_date_available)");
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -36,7 +36,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $products_query_raw = "select pd.products_id, pd.products_name, p.products_date_available from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS . " p where p.products_id = pd.products_id and p.products_date_available != '' and pd.language_id = '" . (int)$languages_id . "' order by p.products_date_available DESC";
+  $products_query_raw = "select pd.products_id, pd.products_name, p.products_date_available from " . 'products_description' . " pd, " . products . " p where p.products_id = pd.products_id and p.products_date_available != '' and pd.language_id = '" . (int)$languages_id . "' order by p.products_date_available DESC";
   $products_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $products_query_raw, $products_query_numrows);
   $products_query = tep_db_query($products_query_raw);
   while ($products = tep_db_fetch_array($products_query)) {
@@ -45,7 +45,7 @@
     }
 
     if (isset($pInfo) && is_object($pInfo) && ($products['products_id'] == $pInfo->products_id)) {
-      echo '                  <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_CATEGORIES, 'pID=' . $products['products_id'] . '&action=new_product') . '\'">' . "\n";
+      echo '                  <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('categories.php', 'pID=' . $products['products_id'] . '&action=new_product') . '\'">' . "\n";
     } else {
       echo '                  <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_PRODUCTS_EXPECTED, 'page=' . $_GET['page'] . '&pID=' . $products['products_id']) . '\'">' . "\n";
     }
@@ -73,7 +73,7 @@
   if (isset($pInfo) && is_object($pInfo)) {
     $heading[] = array('text' => '<strong>' . $pInfo->products_name . '</strong>');
 
-    $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_CATEGORIES, 'pID=' . $pInfo->products_id . '&action=new_product')));
+    $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('categories.php', 'pID=' . $pInfo->products_id . '&action=new_product')));
     $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_EXPECTED . ' ' . tep_date_short($pInfo->products_date_available));
   }
 

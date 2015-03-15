@@ -87,7 +87,7 @@ define('BOX_ORDERS_ORDERS', 'Orders');
 
 // taxes box text in includes/boxes/taxes.php
 define('BOX_HEADING_LOCATION_AND_TAXES', 'Locations / Taxes');
-define('BOX_TAXES_COUNTRIES', 'Countries');
+define('BOX_TAXES_COUNTRIES', countries);
 define('BOX_TAXES_ZONES', 'Zones');
 define('BOX_TAXES_GEO_ZONES', 'Tax Zones');
 define('BOX_TAXES_TAX_CLASSES', 'Tax Classes');
@@ -115,7 +115,7 @@ define('BOX_TOOLS_WHOS_ONLINE', 'Who\'s Online');
 
 // localizaion box text in includes/boxes/localization.php
 define('BOX_HEADING_LOCALIZATION', 'Localization');
-define('BOX_LOCALIZATION_CURRENCIES', 'Currencies');
+define('BOX_LOCALIZATION_CURRENCIES', currencies);
 define('BOX_LOCALIZATION_LANGUAGES', 'Languages');
 define('BOX_LOCALIZATION_ORDERS_STATUS', 'Orders Status');
 

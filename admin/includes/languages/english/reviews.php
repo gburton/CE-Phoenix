@@ -12,7 +12,7 @@
 
 define('HEADING_TITLE', 'Reviews');
 
-define('TABLE_HEADING_PRODUCTS', 'Products');
+define('TABLE_HEADING_PRODUCTS', products);
 define('TABLE_HEADING_RATING', 'Rating');
 define('TABLE_HEADING_DATE_ADDED', 'Date Added');
 define('TABLE_HEADING_ACTION', 'Action');

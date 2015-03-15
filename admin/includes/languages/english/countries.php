@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Countries');
+define('HEADING_TITLE', countries);
 
 define('TABLE_HEADING_COUNTRY_NAME', 'Country');
 define('TABLE_HEADING_COUNTRY_CODES', 'ISO Codes');

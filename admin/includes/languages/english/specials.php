@@ -12,7 +12,7 @@
 
 define('HEADING_TITLE', 'Specials');
 
-define('TABLE_HEADING_PRODUCTS', 'Products');
+define('TABLE_HEADING_PRODUCTS', products);
 define('TABLE_HEADING_PRODUCTS_PRICE', 'Products Price');
 define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_ACTION', 'Action');

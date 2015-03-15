@@ -56,7 +56,7 @@
                                'zh' => 'zh|chinese simplified');
 
       $this->catalog_languages = array();
-      $languages_query = tep_db_query("select languages_id, name, code, image, directory from " . TABLE_LANGUAGES . " order by sort_order");
+      $languages_query = tep_db_query("select languages_id, name, code, image, directory from " . 'languages' . " order by sort_order");
       while ($languages = tep_db_fetch_array($languages_query)) {
         $this->catalog_languages[$languages['code']] = array('id' => $languages['languages_id'],
                                                              'name' => $languages['name'],

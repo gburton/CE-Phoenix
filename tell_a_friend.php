@@ -14,12 +14,12 @@
 
   if (!tep_session_is_registered('customer_id') && (ALLOW_GUEST_TO_TELL_A_FRIEND == 'false')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   $valid_product = false;
   if (isset($_GET['products_id'])) {
-    $product_info_query = tep_db_query("select pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+    $product_info_query = tep_db_query("select pd.products_name from " . 'products' . " p, " . 'products_description' . " pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     if (tep_db_num_rows($product_info_query)) {
       $valid_product = true;
 
@@ -95,7 +95,7 @@
       tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$_GET['products_id']));
     }
   } elseif (tep_session_is_registered('customer_id')) {
-    $account_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
+    $account_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . 'customers' . " where customers_id = '" . (int)$customer_id . "'");
     $account = tep_db_fetch_array($account_query);
 
     $from_name = $account['customers_firstname'] . ' ' . $account['customers_lastname'];

@@ -113,11 +113,11 @@
           } else {
             $zone_id = 0;
             $entry_state_error = false;
-            $check_query = tep_db_query("select count(*) as total from " . TABLE_ZONES . " where zone_country_id = '" . (int)$entry_country_id . "'");
+            $check_query = tep_db_query("select count(*) as total from " . 'zones' . " where zone_country_id = '" . (int)$entry_country_id . "'");
             $check_value = tep_db_fetch_array($check_query);
             $entry_state_has_zones = ($check_value['total'] > 0);
             if ($entry_state_has_zones == true) {
-              $zone_query = tep_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$entry_country_id . "' and zone_name = '" . tep_db_input($entry_state) . "'");
+              $zone_query = tep_db_query("select zone_id from " . 'zones' . " where zone_country_id = '" . (int)$entry_country_id . "' and zone_name = '" . tep_db_input($entry_state) . "'");
               if (tep_db_num_rows($zone_query) == 1) {
                 $zone_values = tep_db_fetch_array($zone_query);
                 $entry_zone_id = $zone_values['zone_id'];
@@ -141,7 +141,7 @@
         $entry_telephone_error = false;
       }
 
-      $check_email = tep_db_query("select customers_email_address from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($customers_email_address) . "' and customers_id != '" . (int)$customers_id . "'");
+      $check_email = tep_db_query("select customers_email_address from " . customers . " where customers_email_address = '" . tep_db_input($customers_email_address) . "' and customers_id != '" . (int)$customers_id . "'");
       if (tep_db_num_rows($check_email)) {
         $error = true;
         $entry_email_address_exists = true;
@@ -161,9 +161,9 @@
         if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $customers_gender;
         if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($customers_dob);
 
-        tep_db_perform(TABLE_CUSTOMERS, $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "'");
+        tep_db_perform('customers', $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "'");
 
-        tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customers_id . "'");
+        tep_db_query("update " . 'customers_info' . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customers_id . "'");
 
         if ($entry_zone_id > 0) $entry_state = '';
 
@@ -187,7 +187,7 @@
           }
         }
 
-        tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "' and address_book_id = '" . (int)$default_address_id . "'");
+        tep_db_perform('address_book', $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "' and address_book_id = '" . (int)$default_address_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $customers_id));
 
@@ -201,27 +201,27 @@
         $customers_id = tep_db_prepare_input($_GET['cID']);
 
         if (isset($_POST['delete_reviews']) && ($_POST['delete_reviews'] == 'on')) {
-          $reviews_query = tep_db_query("select reviews_id from " . TABLE_REVIEWS . " where customers_id = '" . (int)$customers_id . "'");
+          $reviews_query = tep_db_query("select reviews_id from " . 'reviews' . " where customers_id = '" . (int)$customers_id . "'");
           while ($reviews = tep_db_fetch_array($reviews_query)) {
-            tep_db_query("delete from " . TABLE_REVIEWS_DESCRIPTION . " where reviews_id = '" . (int)$reviews['reviews_id'] . "'");
+            tep_db_query("delete from " . 'reviews_description' . " where reviews_id = '" . (int)$reviews['reviews_id'] . "'");
           }
 
-          tep_db_query("delete from " . TABLE_REVIEWS . " where customers_id = '" . (int)$customers_id . "'");
+          tep_db_query("delete from " . 'reviews' . " where customers_id = '" . (int)$customers_id . "'");
         } else {
-          tep_db_query("update " . TABLE_REVIEWS . " set customers_id = null where customers_id = '" . (int)$customers_id . "'");
+          tep_db_query("update " . 'reviews' . " set customers_id = null where customers_id = '" . (int)$customers_id . "'");
         }
 
-        tep_db_query("delete from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customers_id . "'");
-        tep_db_query("delete from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customers_id . "'");
-        tep_db_query("delete from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . (int)$customers_id . "'");
-        tep_db_query("delete from " . TABLE_CUSTOMERS_BASKET . " where customers_id = '" . (int)$customers_id . "'");
-        tep_db_query("delete from " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " where customers_id = '" . (int)$customers_id . "'");
-        tep_db_query("delete from " . TABLE_WHOS_ONLINE . " where customer_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . address_book . " where customers_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . customers . " where customers_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . 'customers_info' . " where customers_info_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . 'customers_basket' . " where customers_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . 'customers_basket_attributes' . " where customers_id = '" . (int)$customers_id . "'");
+        tep_db_query("delete from " . 'whos_online' . " where customer_id = '" . (int)$customers_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action'))));
         break;
       default:
-        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$_GET['cID'] . "'");
+        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id from " . customers . " c left join " . address_book . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$_GET['cID'] . "'");
         $customers = tep_db_fetch_array($customers_query);
         $cInfo = new objectInfo($customers);
     }
@@ -556,7 +556,7 @@ function check_form() {
       if ($entry_state_error == true) {
         if ($entry_state_has_zones == true) {
           $zones_array = array();
-          $zones_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_country_id = '" . tep_db_input($cInfo->entry_country_id) . "' order by zone_name");
+          $zones_query = tep_db_query("select zone_name from " . 'zones' . " where zone_country_id = '" . tep_db_input($cInfo->entry_country_id) . "' order by zone_name");
           while ($zones_values = tep_db_fetch_array($zones_query)) {
             $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
           }
@@ -689,18 +689,18 @@ function check_form() {
       $keywords = tep_db_input(tep_db_prepare_input($_GET['search']));
       $search = "where c.customers_lastname like '%" . $keywords . "%' or c.customers_firstname like '%" . $keywords . "%' or c.customers_email_address like '%" . $keywords . "%'";
     }
-    $customers_query_raw = "select c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address, a.entry_country_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id " . $search . " order by c.customers_lastname, c.customers_firstname";
+    $customers_query_raw = "select c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address, a.entry_country_id from " . customers . " c left join " . address_book . " a on c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id " . $search . " order by c.customers_lastname, c.customers_firstname";
     $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_query_raw, $customers_query_numrows);
     $customers_query = tep_db_query($customers_query_raw);
     while ($customers = tep_db_fetch_array($customers_query)) {
-      $info_query = tep_db_query("select customers_info_date_account_created as date_account_created, customers_info_date_account_last_modified as date_account_last_modified, customers_info_date_of_last_logon as date_last_logon, customers_info_number_of_logons as number_of_logons from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . $customers['customers_id'] . "'");
+      $info_query = tep_db_query("select customers_info_date_account_created as date_account_created, customers_info_date_account_last_modified as date_account_last_modified, customers_info_date_of_last_logon as date_last_logon, customers_info_number_of_logons as number_of_logons from " . 'customers_info' . " where customers_info_id = '" . $customers['customers_id'] . "'");
       $info = tep_db_fetch_array($info_query);
 
       if ((!isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $customers['customers_id']))) && !isset($cInfo)) {
-        $country_query = tep_db_query("select countries_name from " . TABLE_COUNTRIES . " where countries_id = '" . (int)$customers['entry_country_id'] . "'");
+        $country_query = tep_db_query("select countries_name from " . countries . " where countries_id = '" . (int)$customers['entry_country_id'] . "'");
         $country = tep_db_fetch_array($country_query);
 
-        $reviews_query = tep_db_query("select count(*) as number_of_reviews from " . TABLE_REVIEWS . " where customers_id = '" . (int)$customers['customers_id'] . "'");
+        $reviews_query = tep_db_query("select count(*) as number_of_reviews from " . 'reviews' . " where customers_id = '" . (int)$customers['customers_id'] . "'");
         $reviews = tep_db_fetch_array($reviews_query);
 
         $customer_info = array_merge($country, $info, $reviews);

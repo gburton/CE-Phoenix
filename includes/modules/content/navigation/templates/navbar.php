@@ -61,15 +61,15 @@
                 echo '<li><a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGOFF . '</a>';
               }
               else {
-                 echo '<li><a href="' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
+                 echo '<li><a href="' . tep_href_link('login.php', '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
                  echo '<li><a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL') . '">' . HEADER_ACCOUNT_REGISTER . '</a>';
               }
               ?>
               <li class="divider"></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '">' . HEADER_ACCOUNT . '</a>'; ?></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL') . '">' . HEADER_ACCOUNT_HISTORY . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account.php', '', 'SSL') . '">' . HEADER_ACCOUNT . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . HEADER_ACCOUNT_HISTORY . '</a>'; ?></li>
               <li><?php echo '<a href="' . tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL') . '">' . HEADER_ACCOUNT_ADDRESS_BOOK . '</a>'; ?></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL') . '">' . HEADER_ACCOUNT_PASSWORD . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account_password.php', '', 'SSL') . '">' . HEADER_ACCOUNT_PASSWORD . '</a>'; ?></li>
             </ul>
           </li>
           <?php

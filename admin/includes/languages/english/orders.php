@@ -22,7 +22,7 @@ define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_ACTION', 'Action');
 define('TABLE_HEADING_QUANTITY', 'Qty.');
 define('TABLE_HEADING_PRODUCTS_MODEL', 'Model');
-define('TABLE_HEADING_PRODUCTS', 'Products');
+define('TABLE_HEADING_PRODUCTS', products);
 define('TABLE_HEADING_TAX', 'Tax');
 define('TABLE_HEADING_TOTAL', 'Total');
 define('TABLE_HEADING_PRICE_EXCLUDING_TAX', 'Price (ex)');

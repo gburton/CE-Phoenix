@@ -11,13 +11,13 @@
 */
 
 // define the filenames used in the project
-  define('FILENAME_ACCOUNT', 'account.php');
-  define('FILENAME_ACCOUNT_EDIT', 'account_edit.php');
-  define('FILENAME_ACCOUNT_HISTORY', 'account_history.php');
-  define('FILENAME_ACCOUNT_HISTORY_INFO', 'account_history_info.php');
-  define('FILENAME_ACCOUNT_NEWSLETTERS', 'account_newsletters.php');
-  define('FILENAME_ACCOUNT_NOTIFICATIONS', 'account_notifications.php');
-  define('FILENAME_ACCOUNT_PASSWORD', 'account_password.php');
+  define(''account.php'', 'account.php');
+  define(''account_edit.php'', 'account_edit.php');
+  define(''account_history.php'', 'account_history.php');
+  define(''account_history_info.php'', 'account_history_info.php');
+  define(''account_newsletters.php'', 'account_newsletters.php');
+  define(''account_notifications.php'', 'account_notifications.php');
+  define(''account_password.php'', 'account_password.php');
   define('FILENAME_ADDRESS_BOOK', 'address_book.php');
   define('FILENAME_ADDRESS_BOOK_PROCESS', 'address_book_process.php');
   define('FILENAME_ADVANCED_SEARCH', 'advanced_search.php');
@@ -38,7 +38,7 @@
   define('FILENAME_DEFAULT', 'index.php');
   define('FILENAME_DOWNLOAD', 'download.php');
   define('FILENAME_INFO_SHOPPING_CART', 'info_shopping_cart.php');
-  define('FILENAME_LOGIN', 'login.php');
+  define(''login.php'', 'login.php');
   define('FILENAME_LOGOFF', 'logoff.php');
   define('FILENAME_NEW_PRODUCTS', 'new_products.php');
   define('FILENAME_PASSWORD_FORGOTTEN', 'password_forgotten.php');

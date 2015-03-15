@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Currencies');
+define('HEADING_TITLE', currencies);
 
 define('TABLE_HEADING_CURRENCY_NAME', 'Currency');
 define('TABLE_HEADING_CURRENCY_CODES', 'Code');

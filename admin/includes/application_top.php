@@ -28,9 +28,6 @@
     include('includes/configure.php');
   }
 
-// Define the project version --- obsolete, now retrieved with tep_get_version()
-  define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
-
 // some code to solve compatibility issues
   require(DIR_WS_FUNCTIONS . 'compatibility.php');
 
@@ -47,12 +44,6 @@
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
 
-// include the list of project filenames
-  require(DIR_WS_INCLUDES . 'filenames.php');
-
-// include the list of project database tables
-  require(DIR_WS_INCLUDES . 'database_tables.php');
-
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
   define('CURRENCY_SERVER_PRIMARY', 'oanda');
@@ -60,12 +51,12 @@
 
 // include the database functions
   require(DIR_WS_FUNCTIONS . 'database.php');
-
+  
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
 
 // set application wide parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
+  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . 'configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
@@ -137,12 +128,12 @@
 
 // if the first page request is to the login page, set the current page to the index page
 // so the redirection on a successful login is not made to the login page again
-    if ( ($current_page == FILENAME_LOGIN) && !tep_session_is_registered('redirect_origin') ) {
-      $current_page = FILENAME_DEFAULT;
+    if ( ($current_page == 'login.php') && !tep_session_is_registered('redirect_origin') ) {
+      $current_page = 'index.php';
       $_GET = array();
     }
 
-    if ($current_page != FILENAME_LOGIN) {
+    if ($current_page != 'login.php') {
       if (!tep_session_is_registered('redirect_origin')) {
         tep_session_register('redirect_origin');
 
@@ -166,7 +157,7 @@
     }
 
     if ($redirect == true) {
-      tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+      tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
 
     unset($redirect);
@@ -233,7 +224,7 @@
 
 // the following cache blocks are used in the Tools->Cache section
 // ('language' in the filename is automatically replaced by available languages)
-  $cache_blocks = array(array('title' => TEXT_CACHE_CATEGORIES, 'code' => 'categories', 'file' => 'categories_box-language.cache', 'multiple' => true),
+  $cache_blocks = array(array('title' => TEXT_CACHE_CATEGORIES, 'code' => categories, 'file' => 'categories_box-language.cache', 'multiple' => true),
                         array('title' => TEXT_CACHE_MANUFACTURERS, 'code' => 'manufacturers', 'file' => 'manufacturers_box-language.cache', 'multiple' => true),
                         array('title' => TEXT_CACHE_ALSO_PURCHASED, 'code' => 'also_purchased', 'file' => 'also_purchased-language.cache', 'multiple' => true)
                        );

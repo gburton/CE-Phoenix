@@ -30,7 +30,7 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
+          tep_db_query("insert into " . 'products_options' . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
         }
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -42,10 +42,10 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS_VALUES . " (products_options_values_id, language_id, products_options_values_name) values ('" . (int)$value_id . "', '" . (int)$languages[$i]['id'] . "', '" . tep_db_input($value_name) . "')");
+          tep_db_query("insert into " . ''products_options_values' . " (products_options_values_id, language_id, products_options_values_name) values ('" . (int)$value_id . "', '" . (int)$languages[$i]['id'] . "', '" . tep_db_input($value_name) . "')");
         }
 
-        tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " (products_options_id, products_options_values_id) values ('" . (int)$option_id . "', '" . (int)$value_id . "')");
+        tep_db_query("insert into " . ''products_options_values_to_products_options' . " (products_options_id, products_options_values_id) values ('" . (int)$option_id . "', '" . (int)$value_id . "')");
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -66,7 +66,7 @@
           $products_attributes_maxcount = tep_db_prepare_input($_POST['products_attributes_maxcount']);
 
           if (tep_not_null($products_attributes_filename)) {
-            tep_db_query("insert into " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " values (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
+            tep_db_query("insert into " . 'products_attributes_download' . " values (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
           }
         }
 
@@ -79,7 +79,7 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update " . 'products_options' . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
@@ -92,10 +92,10 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS_VALUES . " set products_options_values_name = '" . tep_db_input($value_name) . "' where products_options_values_id = '" . tep_db_input($value_id) . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update " . ''products_options_values' . " set products_options_values_name = '" . tep_db_input($value_name) . "' where products_options_values_id = '" . tep_db_input($value_id) . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
 
-        tep_db_query("update " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " set products_options_id = '" . (int)$option_id . "'  where products_options_values_id = '" . (int)$value_id . "'");
+        tep_db_query("update " . ''products_options_values_to_products_options' . " set products_options_id = '" . (int)$option_id . "'  where products_options_values_id = '" . (int)$value_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -115,7 +115,7 @@
           $products_attributes_maxcount = tep_db_prepare_input($_POST['products_attributes_maxcount']);
 
           if (tep_not_null($products_attributes_filename)) {
-            tep_db_query("replace into " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " set products_attributes_id = '" . (int)$attribute_id . "', products_attributes_filename = '" . tep_db_input($products_attributes_filename) . "', products_attributes_maxdays = '" . tep_db_input($products_attributes_maxdays) . "', products_attributes_maxcount = '" . tep_db_input($products_attributes_maxcount) . "'");
+            tep_db_query("replace into " . 'products_attributes_download' . " set products_attributes_id = '" . (int)$attribute_id . "', products_attributes_filename = '" . tep_db_input($products_attributes_filename) . "', products_attributes_maxdays = '" . tep_db_input($products_attributes_maxdays) . "', products_attributes_maxcount = '" . tep_db_input($products_attributes_maxcount) . "'");
           }
         }
 
@@ -124,15 +124,15 @@
       case 'delete_option':
         $option_id = tep_db_prepare_input($_GET['option_id']);
 
-        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . (int)$option_id . "'");
+        tep_db_query("delete from " . 'products_options' . " where products_options_id = '" . (int)$option_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'delete_value':
         $value_id = tep_db_prepare_input($_GET['value_id']);
 
-        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where products_options_values_id = '" . (int)$value_id . "'");
-        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " where products_options_values_id = '" . (int)$value_id . "'");
+        tep_db_query("delete from " . ''products_options_values' . " where products_options_values_id = '" . (int)$value_id . "'");
+        tep_db_query("delete from " . ''products_options_values_to_products_options' . " where products_options_values_id = '" . (int)$value_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -142,7 +142,7 @@
         tep_db_query("delete from " . TABLE_PRODUCTS_ATTRIBUTES . " where products_attributes_id = '" . (int)$attribute_id . "'");
 
 // added for DOWNLOAD_ENABLED. Always try to remove attributes, even if downloads are no longer enabled
-        tep_db_query("delete from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " where products_attributes_id = '" . (int)$attribute_id . "'");
+        tep_db_query("delete from " . 'products_attributes_download' . " where products_attributes_id = '" . (int)$attribute_id . "'");
 
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
@@ -161,7 +161,7 @@
 <!-- options //-->
 <?php
   if ($action == 'delete_product_option') { // delete product option
-    $options = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . (int)$_GET['option_id'] . "' and language_id = '" . (int)$languages_id . "'");
+    $options = tep_db_query("select products_options_id, products_options_name from " . 'products_options' . " where products_options_id = '" . (int)$_GET['option_id'] . "' and language_id = '" . (int)$languages_id . "'");
     $options_values = tep_db_fetch_array($options);
 ?>
               <tr>
@@ -173,7 +173,7 @@
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
                   </tr>
 <?php
-    $products = tep_db_query("select p.products_id, pd.products_name, pov.products_options_values_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov, " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pov.language_id = '" . (int)$languages_id . "' and pd.language_id = '" . (int)$languages_id . "' and pa.products_id = p.products_id and pa.options_id='" . (int)$_GET['option_id'] . "' and pov.products_options_values_id = pa.options_values_id order by pd.products_name");
+    $products = tep_db_query("select p.products_id, pd.products_name, pov.products_options_values_name from " . products . " p, " . ''products_options_values' . " pov, " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . 'products_description' . " pd where pd.products_id = p.products_id and pov.language_id = '" . (int)$languages_id . "' and pd.language_id = '" . (int)$languages_id . "' and pa.products_id = p.products_id and pa.options_id='" . (int)$_GET['option_id'] . "' and pov.products_options_values_id = pa.options_values_id order by pd.products_name");
     if (tep_db_num_rows($products)) {
 ?>
                   <tr class="dataTableHeadingRow">
@@ -229,7 +229,7 @@
               <tr>
                 <td colspan="3" class="smallText" align="right">
 <?php
-    $options = "select * from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$languages_id . "' order by products_options_id";
+    $options = "select * from " . 'products_options' . " where language_id = '" . (int)$languages_id . "' order by products_options_id";
     $options_split = new splitPageResults($option_page, MAX_ROW_LISTS_OPTIONS, $options, $options_query_numrows);
 
     echo $options_split->display_links($options_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $option_page, 'value_page=' . $value_page . '&attribute_page=' . $attribute_page, 'option_page');
@@ -260,7 +260,7 @@
         echo '<form name="option" action="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_name&' . $page_info) . '" method="post">';
         $inputs = '';
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-          $option_name = tep_db_query("select products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
+          $option_name = tep_db_query("select products_options_name from " . 'products_options' . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
           $option_name = tep_db_fetch_array($option_name);
           $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '">&nbsp;<br />';
         }
@@ -280,7 +280,7 @@
 ?>
               </tr>
 <?php
-      $max_options_id_query = tep_db_query("select max(products_options_id) + 1 as next_id from " . TABLE_PRODUCTS_OPTIONS);
+      $max_options_id_query = tep_db_query("select max(products_options_id) + 1 as next_id from " . 'products_options');
       $max_options_id_values = tep_db_fetch_array($max_options_id_query);
       $next_id = $max_options_id_values['next_id'];
     }
@@ -319,7 +319,7 @@
 <!-- value //-->
 <?php
   if ($action == 'delete_option_value') { // delete product option value
-    $values = tep_db_query("select products_options_values_id, products_options_values_name from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where products_options_values_id = '" . (int)$_GET['value_id'] . "' and language_id = '" . (int)$languages_id . "'");
+    $values = tep_db_query("select products_options_values_id, products_options_values_name from " . ''products_options_values' . " where products_options_values_id = '" . (int)$_GET['value_id'] . "' and language_id = '" . (int)$languages_id . "'");
     $values_values = tep_db_fetch_array($values);
 ?>
               <tr>
@@ -331,7 +331,7 @@
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
                   </tr>
 <?php
-    $products = tep_db_query("select p.products_id, pd.products_name, po.products_options_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . TABLE_PRODUCTS_OPTIONS . " po, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and po.language_id = '" . (int)$languages_id . "' and pa.products_id = p.products_id and pa.options_values_id='" . (int)$_GET['value_id'] . "' and po.products_options_id = pa.options_id order by pd.products_name");
+    $products = tep_db_query("select p.products_id, pd.products_name, po.products_options_name from " . products . " p, " . TABLE_PRODUCTS_ATTRIBUTES . " pa, " . 'products_options' . " po, " . 'products_description' . " pd where pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and po.language_id = '" . (int)$languages_id . "' and pa.products_id = p.products_id and pa.options_values_id='" . (int)$_GET['value_id'] . "' and po.products_options_id = pa.options_id order by pd.products_name");
     if (tep_db_num_rows($products)) {
 ?>
                   <tr class="dataTableHeadingRow">
@@ -386,7 +386,7 @@
               <tr>
                 <td colspan="4" class="smallText" align="right">
 <?php
-    $values = "select pov.products_options_values_id, pov.products_options_values_name, pov2po.products_options_id from " . TABLE_PRODUCTS_OPTIONS_VALUES . " pov left join " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " pov2po on pov.products_options_values_id = pov2po.products_options_values_id where pov.language_id = '" . (int)$languages_id . "' order by pov.products_options_values_id";
+    $values = "select pov.products_options_values_id, pov.products_options_values_name, pov2po.products_options_id from " . ''products_options_values' . " pov left join " . ''products_options_values_to_products_options' . " pov2po on pov.products_options_values_id = pov2po.products_options_values_id where pov.language_id = '" . (int)$languages_id . "' order by pov.products_options_values_id";
     $values_split = new splitPageResults($value_page, MAX_ROW_LISTS_OPTIONS, $values, $values_query_numrows);
 
     echo $values_split->display_links($values_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $value_page, 'option_page=' . $option_page . '&attribute_page=' . $attribute_page, 'value_page');
@@ -420,7 +420,7 @@
         echo '<form name="values" action="' . tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_value&' . $page_info) . '" method="post">';
         $inputs = '';
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-          $value_name = tep_db_query("select products_options_values_name from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where products_options_values_id = '" . (int)$values_values['products_options_values_id'] . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          $value_name = tep_db_query("select products_options_values_name from " . ''products_options_values' . " where products_options_values_id = '" . (int)$values_values['products_options_values_id'] . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
           $value_name = tep_db_fetch_array($value_name);
           $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="value_name[' . $languages[$i]['id'] . ']" size="15" value="' . $value_name['products_options_values_name'] . '">&nbsp;<br />';
         }
@@ -428,7 +428,7 @@
                 <td align="center" class="smallText">&nbsp;<?php echo $values_values['products_options_values_id']; ?><input type="hidden" name="value_id" value="<?php echo $values_values['products_options_values_id']; ?>">&nbsp;</td>
                 <td align="center" class="smallText">&nbsp;<?php echo "\n"; ?><select name="option_id">
 <?php
-        $options = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$languages_id . "' order by products_options_name");
+        $options = tep_db_query("select products_options_id, products_options_name from " . 'products_options' . " where language_id = '" . (int)$languages_id . "' order by products_options_name");
         while ($options_values = tep_db_fetch_array($options)) {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '"';
           if ($values_values['products_options_id'] == $options_values['products_options_id']) { 
@@ -450,7 +450,7 @@
                 <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=update_option_value&value_id=' . $values_values['products_options_values_id'] . '&' . $page_info)) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, 'action=delete_option_value&value_id=' . $values_values['products_options_values_id'] . '&' . $page_info)); ?>&nbsp;</td>
 <?php
       }
-      $max_values_id_query = tep_db_query("select max(products_options_values_id) + 1 as next_id from " . TABLE_PRODUCTS_OPTIONS_VALUES);
+      $max_values_id_query = tep_db_query("select max(products_options_values_id) + 1 as next_id from " . ''products_options_values');
       $max_values_id_values = tep_db_fetch_array($max_values_id_query);
       $next_id = $max_values_id_values['next_id'];
     }
@@ -469,7 +469,7 @@
                 <td align="center" class="smallText">&nbsp;<?php echo $next_id; ?>&nbsp;</td>
                 <td align="center" class="smallText">&nbsp;<select name="option_id">
 <?php
-      $options = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . $languages_id . "' order by products_options_name");
+      $options = tep_db_query("select products_options_id, products_options_name from " . 'products_options' . " where language_id = '" . $languages_id . "' order by products_options_name");
       while ($options_values = tep_db_fetch_array($options)) {
         echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
       }
@@ -521,7 +521,7 @@
           <tr>
             <td class="smallText" align="right">
 <?php
-  $attributes = "select pa.* from " . TABLE_PRODUCTS_ATTRIBUTES . " pa left join " . TABLE_PRODUCTS_DESCRIPTION . " pd on pa.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name";
+  $attributes = "select pa.* from " . TABLE_PRODUCTS_ATTRIBUTES . " pa left join " . 'products_description' . " pd on pa.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name";
   $attributes_split = new splitPageResults($attribute_page, MAX_ROW_LISTS_OPTIONS, $attributes, $attributes_query_numrows);
 
   echo $attributes_split->display_links($attributes_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $attribute_page, 'option_page=' . $option_page . '&value_page=' . $value_page, 'attribute_page');
@@ -561,7 +561,7 @@
             <td class="smallText">&nbsp;<?php echo $attributes_values['products_attributes_id']; ?><input type="hidden" name="attribute_id" value="<?php echo $attributes_values['products_attributes_id']; ?>">&nbsp;</td>
             <td class="smallText">&nbsp;<select name="products_id">
 <?php
-      $products = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
+      $products = tep_db_query("select p.products_id, pd.products_name from " . products . " p, " . 'products_description' . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
       while($products_values = tep_db_fetch_array($products)) {
         if ($attributes_values['products_id'] == $products_values['products_id']) {
           echo "\n" . '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '" SELECTED>' . $products_values['products_name'] . '</option>';
@@ -573,7 +573,7 @@
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
 <?php
-      $options = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . $languages_id . "' order by products_options_name");
+      $options = tep_db_query("select * from " . 'products_options' . " where language_id = '" . $languages_id . "' order by products_options_name");
       while($options_values = tep_db_fetch_array($options)) {
         if ($attributes_values['options_id'] == $options_values['products_options_id']) {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '" SELECTED>' . $options_values['products_options_name'] . '</option>';
@@ -585,7 +585,7 @@
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
 <?php
-      $values = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id ='" . $languages_id . "' order by products_options_values_name");
+      $values = tep_db_query("select * from " . ''products_options_values' . " where language_id ='" . $languages_id . "' order by products_options_values_name");
       while($values_values = tep_db_fetch_array($values)) {
         if ($attributes_values['options_values_id'] == $values_values['products_options_values_id']) {
           echo "\n" . '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '" SELECTED>' . $values_values['products_options_values_name'] . '</option>';
@@ -601,7 +601,7 @@
 <?php
       if (DOWNLOAD_ENABLED == 'true') {
         $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount 
-                              from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " 
+                              from " . 'products_attributes_download' . " 
                               where products_attributes_id='" . $attributes_values['products_attributes_id'] . "'";
         $download_query = tep_db_query($download_query_raw);
         if (tep_db_num_rows($download_query) > 0) {
@@ -669,7 +669,7 @@
             <td class="smallText">&nbsp;<?php echo $next_id; ?>&nbsp;</td>
       	    <td class="smallText">&nbsp;<select name="products_id">
 <?php
-    $products = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
+    $products = tep_db_query("select p.products_id, pd.products_name from " . products . " p, " . 'products_description' . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
     while ($products_values = tep_db_fetch_array($products)) {
       echo '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '">' . $products_values['products_name'] . '</option>';
     } 
@@ -677,7 +677,7 @@
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
 <?php
-    $options = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . $languages_id . "' order by products_options_name");
+    $options = tep_db_query("select * from " . 'products_options' . " where language_id = '" . $languages_id . "' order by products_options_name");
     while ($options_values = tep_db_fetch_array($options)) {
       echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
     } 
@@ -685,7 +685,7 @@
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
 <?php
-    $values = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id = '" . $languages_id . "' order by products_options_values_name");
+    $values = tep_db_query("select * from " . ''products_options_values' . " where language_id = '" . $languages_id . "' order by products_options_values_name");
     while ($values_values = tep_db_fetch_array($values)) {
       echo '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
     } 

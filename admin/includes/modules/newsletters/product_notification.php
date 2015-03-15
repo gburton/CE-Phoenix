@@ -23,7 +23,7 @@
       global $_GET, $languages_id;
 
       $products_array = array();
-      $products_query = tep_db_query("select pd.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.language_id = '" . $languages_id . "' and pd.products_id = p.products_id and p.products_status = '1' order by pd.products_name");
+      $products_query = tep_db_query("select pd.products_id, pd.products_name from " . products . " p, " . 'products_description' . " pd where pd.language_id = '" . $languages_id . "' and pd.products_id = p.products_id and p.products_status = '1' order by pd.products_name");
       while ($products = tep_db_fetch_array($products_query)) {
         $products_array[] = array('id' => $products['products_id'],
                                   'text' => $products['products_name']);
@@ -79,7 +79,7 @@ function selectAll(FormName, SelectBox) {
 
       $choose_audience_string .= '<form name="notifications" action="' . tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm') . '" method="post" onsubmit="return selectAll(\'notifications\', \'chosen[]\')"><table border="0" width="100%" cellspacing="0" cellpadding="2">' . "\n" .
                                  '  <tr>' . "\n" .
-                                 '    <td align="center" class="smallText"><strong>' . TEXT_PRODUCTS . '</strong><br />' . tep_draw_pull_down_menu('products', $products_array, '', 'size="20" style="width: 20em;" multiple') . '</td>' . "\n" .
+                                 '    <td align="center" class="smallText"><strong>' . TEXT_PRODUCTS . '</strong><br />' . tep_draw_pull_down_menu(products, $products_array, '', 'size="20" style="width: 20em;" multiple') . '</td>' . "\n" .
                                  '    <td align="center" class="smallText">&nbsp;<br />' . $global_button . '<br /><br /><br /><input type="button" value="' . BUTTON_SELECT . '" style="width: 8em;" onClick="mover(\'remove\');"><br /><br /><input type="button" value="' . BUTTON_UNSELECT . '" style="width: 8em;" onClick="mover(\'add\');"><br /><br /><br />' . tep_draw_button(IMAGE_SEND, 'mail-closed', null, 'primary') . '<br /><br />' . $cancel_button . '</td>' . "\n" .
                                  '    <td align="center" class="smallText"><strong>' . TEXT_SELECTED_PRODUCTS . '</strong><br />' . tep_draw_pull_down_menu('chosen[]', array(), '', 'size="20" style="width: 20em;" multiple') . '</td>' . "\n" .
                                  '  </tr>' . "\n" .
@@ -94,12 +94,12 @@ function selectAll(FormName, SelectBox) {
       $audience = array();
 
       if (isset($_GET['global']) && ($_GET['global'] == 'true')) {
-        $products_query = tep_db_query("select distinct customers_id from " . TABLE_PRODUCTS_NOTIFICATIONS);
+        $products_query = tep_db_query("select distinct customers_id from " . 'products_notifications');
         while ($products = tep_db_fetch_array($products_query)) {
           $audience[$products['customers_id']] = '1';
         }
 
-        $customers_query = tep_db_query("select customers_info_id from " . TABLE_CUSTOMERS_INFO . " where global_product_notifications = '1'");
+        $customers_query = tep_db_query("select customers_info_id from " . 'customers_info' . " where global_product_notifications = '1'");
         while ($customers = tep_db_fetch_array($customers_query)) {
           $audience[$customers['customers_info_id']] = '1';
         }
@@ -108,12 +108,12 @@ function selectAll(FormName, SelectBox) {
 
         $ids = implode(',', $chosen);
 
-        $products_query = tep_db_query("select distinct customers_id from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id in (" . $ids . ")");
+        $products_query = tep_db_query("select distinct customers_id from " . 'products_notifications' . " where products_id in (" . $ids . ")");
         while ($products = tep_db_fetch_array($products_query)) {
           $audience[$products['customers_id']] = '1';
         }
 
-        $customers_query = tep_db_query("select customers_info_id from " . TABLE_CUSTOMERS_INFO . " where global_product_notifications = '1'");
+        $customers_query = tep_db_query("select customers_info_id from " . 'customers_info' . " where global_product_notifications = '1'");
         while ($customers = tep_db_fetch_array($customers_query)) {
           $audience[$customers['customers_info_id']] = '1';
         }
@@ -163,14 +163,14 @@ function selectAll(FormName, SelectBox) {
       $audience = array();
 
       if (isset($_POST['global']) && ($_POST['global'] == 'true')) {
-        $products_query = tep_db_query("select distinct pn.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . TABLE_CUSTOMERS . " c, " . TABLE_PRODUCTS_NOTIFICATIONS . " pn where c.customers_id = pn.customers_id");
+        $products_query = tep_db_query("select distinct pn.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . customers . " c, " . 'products_notifications' . " pn where c.customers_id = pn.customers_id");
         while ($products = tep_db_fetch_array($products_query)) {
           $audience[$products['customers_id']] = array('firstname' => $products['customers_firstname'],
                                                        'lastname' => $products['customers_lastname'],
                                                        'email_address' => $products['customers_email_address']);
         }
 
-        $customers_query = tep_db_query("select c.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . TABLE_CUSTOMERS . " c, " . TABLE_CUSTOMERS_INFO . " ci where c.customers_id = ci.customers_info_id and ci.global_product_notifications = '1'");
+        $customers_query = tep_db_query("select c.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . customers . " c, " . 'customers_info' . " ci where c.customers_id = ci.customers_info_id and ci.global_product_notifications = '1'");
         while ($customers = tep_db_fetch_array($customers_query)) {
           $audience[$customers['customers_id']] = array('firstname' => $customers['customers_firstname'],
                                                         'lastname' => $customers['customers_lastname'],
@@ -181,14 +181,14 @@ function selectAll(FormName, SelectBox) {
 
         $ids = implode(',', $chosen);
 
-        $products_query = tep_db_query("select distinct pn.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . TABLE_CUSTOMERS . " c, " . TABLE_PRODUCTS_NOTIFICATIONS . " pn where c.customers_id = pn.customers_id and pn.products_id in (" . $ids . ")");
+        $products_query = tep_db_query("select distinct pn.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . customers . " c, " . 'products_notifications' . " pn where c.customers_id = pn.customers_id and pn.products_id in (" . $ids . ")");
         while ($products = tep_db_fetch_array($products_query)) {
           $audience[$products['customers_id']] = array('firstname' => $products['customers_firstname'],
                                                        'lastname' => $products['customers_lastname'],
                                                        'email_address' => $products['customers_email_address']);
         }
 
-        $customers_query = tep_db_query("select c.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . TABLE_CUSTOMERS . " c, " . TABLE_CUSTOMERS_INFO . " ci where c.customers_id = ci.customers_info_id and ci.global_product_notifications = '1'");
+        $customers_query = tep_db_query("select c.customers_id, c.customers_firstname, c.customers_lastname, c.customers_email_address from " . customers . " c, " . 'customers_info' . " ci where c.customers_id = ci.customers_info_id and ci.global_product_notifications = '1'");
         while ($customers = tep_db_fetch_array($customers_query)) {
           $audience[$customers['customers_id']] = array('firstname' => $customers['customers_firstname'],
                                                         'lastname' => $customers['customers_lastname'],
@@ -214,7 +214,7 @@ function selectAll(FormName, SelectBox) {
       }
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);
-      tep_db_query("update " . TABLE_NEWSLETTERS . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
+      tep_db_query("update " . 'newsletters' . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
     }
   }
 ?>
