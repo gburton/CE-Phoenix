@@ -31,7 +31,7 @@
     function execute() {
       global $PHP_SELF, $HTTP_GET_VARS, $oscTemplate, $manufacturers, $languages_id;
 
-      if (basename($PHP_SELF) == FILENAME_DEFAULT) {
+      if (basename($PHP_SELF) == 'index.php') {
         if (isset($HTTP_GET_VARS['manufacturers_id']) && is_numeric($HTTP_GET_VARS['manufacturers_id'])) {
 // $manufacturers is set in application_top.php to add the manufacturer to the breadcrumb
           if (isset($manufacturers) && (sizeof($manufacturers) == 1) && isset($manufacturers['manufacturers_name'])) {

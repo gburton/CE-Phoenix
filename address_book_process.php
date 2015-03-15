@@ -14,11 +14,11 @@
 
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADDRESS_BOOK_PROCESS);
+  require(DIR_WS_LANGUAGES . $language . '/' . 'address_book_process.php');
 
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'deleteconfirm') && isset($HTTP_GET_VARS['delete']) && is_numeric($HTTP_GET_VARS['delete']) && isset($HTTP_GET_VARS['formid']) && ($HTTP_GET_VARS['formid'] == md5($sessiontoken))) {
     if ((int)$HTTP_GET_VARS['delete'] == $customer_default_address_id) {
@@ -29,7 +29,7 @@
       $messageStack->add_session('addressbook', SUCCESS_ADDRESS_BOOK_ENTRY_DELETED, 'success');
     }
 
-    tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+    tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
   }
 
 // error checking when updating or adding an entry
@@ -195,7 +195,7 @@
         }
       }
 
-      tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+      tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     }
   }
 
@@ -205,7 +205,7 @@
     if (!tep_db_num_rows($entry_query)) {
       $messageStack->add_session('addressbook', ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
 
-      tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+      tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     }
 
     $entry = tep_db_fetch_array($entry_query);
@@ -213,7 +213,7 @@
     if ($HTTP_GET_VARS['delete'] == $customer_default_address_id) {
       $messageStack->add_session('addressbook', WARNING_PRIMARY_ADDRESS_DELETION, 'warning');
 
-      tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+      tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     } else {
       $check_query = tep_db_query("select count(*) as total from " . address_book . " where address_book_id = '" . (int)$HTTP_GET_VARS['delete'] . "' and customers_id = '" . (int)$customer_id . "'");
       $check = tep_db_fetch_array($check_query);
@@ -221,7 +221,7 @@
       if ($check['total'] < 1) {
         $messageStack->add_session('addressbook', ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
 
-        tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+        tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
       }
     }
   } else {
@@ -232,19 +232,19 @@
     if (tep_count_customer_address_book_entries() >= MAX_ADDRESS_BOOK_ENTRIES) {
       $messageStack->add_session('addressbook', ERROR_ADDRESS_BOOK_FULL);
 
-      tep_redirect(tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+      tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     }
   }
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('address_book.php', '', 'SSL'));
 
   if (isset($HTTP_GET_VARS['edit']) && is_numeric($HTTP_GET_VARS['edit'])) {
-    $breadcrumb->add(NAVBAR_TITLE_MODIFY_ENTRY, tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'edit=' . $HTTP_GET_VARS['edit'], 'SSL'));
+    $breadcrumb->add(NAVBAR_TITLE_MODIFY_ENTRY, tep_href_link('address_book_process.php', 'edit=' . $HTTP_GET_VARS['edit'], 'SSL'));
   } elseif (isset($HTTP_GET_VARS['delete']) && is_numeric($HTTP_GET_VARS['delete'])) {
-    $breadcrumb->add(NAVBAR_TITLE_DELETE_ENTRY, tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $HTTP_GET_VARS['delete'], 'SSL'));
+    $breadcrumb->add(NAVBAR_TITLE_DELETE_ENTRY, tep_href_link('address_book_process.php', 'delete=' . $HTTP_GET_VARS['delete'], 'SSL'));
   } else {
-    $breadcrumb->add(NAVBAR_TITLE_ADD_ENTRY, tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'));
+    $breadcrumb->add(NAVBAR_TITLE_ADD_ENTRY, tep_href_link('address_book_process.php', '', 'SSL'));
   }
 
   require(DIR_WS_INCLUDES . 'template_top.php');
@@ -282,9 +282,9 @@
   </div>
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'glyphicon glyphicon-trash', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $HTTP_GET_VARS['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger'); ?></span>
+    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'glyphicon glyphicon-trash', tep_href_link('address_book_process.php', 'delete=' . $HTTP_GET_VARS['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger'); ?></span>
 
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link('address_book.php', '', 'SSL')); ?>
   </div>
 
 </div>
@@ -293,7 +293,7 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('addressbook', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($HTTP_GET_VARS['edit']) ? 'edit=' . $HTTP_GET_VARS['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -306,7 +306,7 @@
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $HTTP_GET_VARS['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'glyphicon glyphicon-refresh', null, 'primary'); ?></span>
 
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link('address_book.php', '', 'SSL')); ?>
   </div>
 
 <?php
@@ -314,7 +314,7 @@
       if (sizeof($navigation->snapshot) > 0) {
         $back_link = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], array(tep_session_name())), $navigation->snapshot['mode']);
       } else {
-        $back_link = tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL');
+        $back_link = tep_href_link('address_book.php', '', 'SSL');
       }
 ?>
 

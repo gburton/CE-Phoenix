@@ -56,7 +56,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == 'modules_content.php') && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined(''modules.php'') && ($PHP_SELF == 'modules_content.php') && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -100,7 +100,7 @@
     function preLogin() {
       global $HTTP_GET_VARS, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
-      $return_url = tep_href_link(FILENAME_LOGIN, '', 'SSL');
+      $return_url = tep_href_link('login.php', '', 'SSL');
 
       if ( isset($HTTP_GET_VARS['code']) ) {
         $paypal_login_customer_id = false;
@@ -251,7 +251,7 @@
               tep_session_register('billto');
             }
 
-            $return_url = tep_href_link(FILENAME_LOGIN, 'action=paypal_login_process', 'SSL');
+            $return_url = tep_href_link('login.php', 'action=paypal_login_process', 'SSL');
           }
         }
       }
@@ -446,7 +446,7 @@
                           'client_secret' => MODULE_CONTENT_PAYPAL_LOGIN_SECRET,
                           'grant_type' => 'authorization_code',
                           'code' => $params['code'],
-                          'redirect_uri' => str_replace('&amp;', '&', tep_href_link(FILENAME_LOGIN, 'action=paypal_login', 'SSL')));
+                          'redirect_uri' => str_replace('&amp;', '&', tep_href_link('login.php', 'action=paypal_login', 'SSL')));
 
       $post_string = '';
 

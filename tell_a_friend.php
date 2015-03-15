@@ -14,7 +14,7 @@
 
   if (!tep_session_is_registered('customer_id') && (ALLOW_GUEST_TO_TELL_A_FRIEND == 'false')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   $valid_product = false;
@@ -28,10 +28,10 @@
   }
 
   if ($valid_product == false) {
-    tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
+    tep_redirect(tep_href_link('product_info.php', 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_TELL_A_FRIEND);
+  require(DIR_WS_LANGUAGES . $language . '/' . 'tell_a_friend.php');
 
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
     $error = false;
@@ -82,7 +82,7 @@
 
       $messageStack->add_session('header', sprintf(TEXT_EMAIL_SUCCESSFUL_SENT, $product_info['products_name'], tep_output_string_protected($to_name)), 'success');
 
-      tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
+      tep_redirect(tep_href_link('product_info.php', 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
     }
   } elseif (tep_session_is_registered('customer_id')) {
     $account_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . customers . " where customers_id = '" . (int)$customer_id . "'");
@@ -92,7 +92,7 @@
     $from_email_address = $account['customers_email_address'];
   }
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_TELL_A_FRIEND, 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('tell_a_friend.php', 'products_id=' . (int)$HTTP_GET_VARS['products_id']));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -107,7 +107,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('email_friend', tep_href_link(FILENAME_TELL_A_FRIEND, 'action=process&products_id=' . (int)$HTTP_GET_VARS['products_id']), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('email_friend', tep_href_link('tell_a_friend.php', 'action=process&products_id=' . (int)$HTTP_GET_VARS['products_id']), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -174,7 +174,7 @@
   </div>
 
   <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . (int)$HTTP_GET_VARS['products_id'])); ?></div>
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link('product_info.php', 'products_id=' . (int)$HTTP_GET_VARS['products_id'])); ?></div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-send', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>
