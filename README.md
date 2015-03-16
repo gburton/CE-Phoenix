@@ -1,3 +1,5 @@
+Here I'm trying to solve the datepicker localization issue using the bootstrap datepicker version found at https://github.com/eternicode/bootstrap-datepicker
+
 osCommerce-234-bootstrap
 =========================
 
