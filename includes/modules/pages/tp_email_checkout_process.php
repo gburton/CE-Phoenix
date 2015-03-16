@@ -84,7 +84,7 @@
 
         $customer_id = $order->customer['id'];
 
-        $customer_info_query = tep_db_query("select c.customers_firstname, c.customers_default_address_id, ab.entry_country_id, ab.entry_zone_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " ab on (c.customers_id = ab.customers_id and c.customers_default_address_id = ab.address_book_id) where c.customers_id = '" . (int)$customer_id . "'");
+        $customer_info_query = tep_db_query("select c.customers_firstname, c.customers_default_address_id, ab.entry_country_id, ab.entry_zone_id from " . customers . " c left join " . address_book . " ab on (c.customers_id = ab.customers_id and c.customers_default_address_id = ab.address_book_id) where c.customers_id = '" . (int)$customer_id . "'");
         $customer_info = tep_db_fetch_array($customer_info_query);
 
         $sendto = $customer_info['customers_default_address_id'];

@@ -20,25 +20,25 @@
         $tax_class_title = tep_db_prepare_input($HTTP_POST_VARS['tax_class_title']);
         $tax_class_description = tep_db_prepare_input($HTTP_POST_VARS['tax_class_description']);
 
-        tep_db_query("insert into " . TABLE_TAX_CLASS . " (tax_class_title, tax_class_description, date_added) values ('" . tep_db_input($tax_class_title) . "', '" . tep_db_input($tax_class_description) . "', now())");
+        tep_db_query("insert into " . tax_class . " (tax_class_title, tax_class_description, date_added) values ('" . tep_db_input($tax_class_title) . "', '" . tep_db_input($tax_class_description) . "', now())");
 
-        tep_redirect(tep_href_link(FILENAME_TAX_CLASSES));
+        tep_redirect(tep_href_link('tax_classes.php'));
         break;
       case 'save':
         $tax_class_id = tep_db_prepare_input($HTTP_GET_VARS['tID']);
         $tax_class_title = tep_db_prepare_input($HTTP_POST_VARS['tax_class_title']);
         $tax_class_description = tep_db_prepare_input($HTTP_POST_VARS['tax_class_description']);
 
-        tep_db_query("update " . TABLE_TAX_CLASS . " set tax_class_id = '" . (int)$tax_class_id . "', tax_class_title = '" . tep_db_input($tax_class_title) . "', tax_class_description = '" . tep_db_input($tax_class_description) . "', last_modified = now() where tax_class_id = '" . (int)$tax_class_id . "'");
+        tep_db_query("update " . tax_class . " set tax_class_id = '" . (int)$tax_class_id . "', tax_class_title = '" . tep_db_input($tax_class_title) . "', tax_class_description = '" . tep_db_input($tax_class_description) . "', last_modified = now() where tax_class_id = '" . (int)$tax_class_id . "'");
 
-        tep_redirect(tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tax_class_id));
+        tep_redirect(tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tax_class_id));
         break;
       case 'deleteconfirm':
         $tax_class_id = tep_db_prepare_input($HTTP_GET_VARS['tID']);
 
-        tep_db_query("delete from " . TABLE_TAX_CLASS . " where tax_class_id = '" . (int)$tax_class_id . "'");
+        tep_db_query("delete from " . tax_class . " where tax_class_id = '" . (int)$tax_class_id . "'");
 
-        tep_redirect(tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page']));
+        tep_redirect(tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page']));
         break;
     }
   }
@@ -64,7 +64,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $classes_query_raw = "select tax_class_id, tax_class_title, tax_class_description, last_modified, date_added from " . TABLE_TAX_CLASS . " order by tax_class_title";
+  $classes_query_raw = "select tax_class_id, tax_class_title, tax_class_description, last_modified, date_added from " . tax_class . " order by tax_class_title";
   $classes_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $classes_query_raw, $classes_query_numrows);
   $classes_query = tep_db_query($classes_query_raw);
   while ($classes = tep_db_fetch_array($classes_query)) {
@@ -73,13 +73,13 @@
     }
 
     if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) {
-      echo '              <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit') . '\'">' . "\n";
+      echo '              <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit') . '\'">' . "\n";
     } else {
-      echo'              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $classes['tax_class_id']) . '\'">' . "\n";
+      echo'              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $classes['tax_class_id']) . '\'">' . "\n";
     }
 ?>
                 <td class="dataTableContent"><?php echo $classes['tax_class_title']; ?></td>
-                <td class="dataTableContent" align="right"><?php if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $classes['tax_class_id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+                <td class="dataTableContent" align="right"><?php if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $classes['tax_class_id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php
   }
@@ -94,7 +94,7 @@
   if (empty($action)) {
 ?>
                   <tr>
-                    <td class="smallText" colspan="2" align="right"><?php echo tep_draw_button(IMAGE_NEW_TAX_CLASS, 'plus', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&action=new')); ?></td>
+                    <td class="smallText" colspan="2" align="right"><?php echo tep_draw_button(IMAGE_NEW_TAX_CLASS, 'plus', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&action=new')); ?></td>
                   </tr>
 <?php
   }
@@ -110,34 +110,34 @@
     case 'new':
       $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_TAX_CLASS . '</strong>');
 
-      $contents = array('form' => tep_draw_form('classes', FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&action=insert'));
+      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&action=insert'));
       $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
       $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_TITLE . '<br />' . tep_draw_input_field('tax_class_title'));
       $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . tep_draw_input_field('tax_class_description'));
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'plus', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'])));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'plus', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'])));
       break;
     case 'edit':
       $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_EDIT_TAX_CLASS . '</strong>');
 
-      $contents = array('form' => tep_draw_form('classes', FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=save'));
+      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=save'));
       $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
       $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_TITLE . '<br />' . tep_draw_input_field('tax_class_title', $tcInfo->tax_class_title));
       $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . tep_draw_input_field('tax_class_description', $tcInfo->tax_class_description));
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id)));
       break;
     case 'delete':
       $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_TAX_CLASS . '</strong>');
 
-      $contents = array('form' => tep_draw_form('classes', FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm'));
+      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
       $contents[] = array('text' => '<br /><strong>' . $tcInfo->tax_class_title . '</strong>');
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id)));
       break;
     default:
       if (isset($tcInfo) && is_object($tcInfo)) {
         $heading[] = array('text' => '<strong>' . $tcInfo->tax_class_title . '</strong>');
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_TAX_CLASSES, 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete')));
+        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('tax_classes.php', 'page=' . $HTTP_GET_VARS['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete')));
         $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($tcInfo->date_added));
         $contents[] = array('text' => '' . TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($tcInfo->last_modified));
         $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . $tcInfo->tax_class_description);

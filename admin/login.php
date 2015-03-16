@@ -36,7 +36,7 @@
         $actionRecorder = new actionRecorderAdmin('ar_admin_login', null, $username);
 
         if ($actionRecorder->canPerform()) {
-          $check_query = tep_db_query("select id, user_name, user_password from " . TABLE_ADMINISTRATORS . " where user_name = '" . tep_db_input($username) . "'");
+          $check_query = tep_db_query("select id, user_name, user_password from " . administrators . " where user_name = '" . tep_db_input($username) . "'");
 
           if (tep_db_num_rows($check_query) == 1) {
             $check = tep_db_fetch_array($check_query);
@@ -44,7 +44,7 @@
             if (tep_validate_password($password, $check['user_password'])) {
 // migrate old hashed password to new phpass password
               if (tep_password_type($check['user_password']) != 'phpass') {
-                tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
+                tep_db_query("update " . administrators . " set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
               }
 
               tep_session_register('admin');
@@ -67,7 +67,7 @@
 
                 tep_redirect(tep_href_link($page, $get_string));
               } else {
-                tep_redirect(tep_href_link(FILENAME_DEFAULT));
+                tep_redirect(tep_href_link('index.php'));
               }
             }
           }
@@ -93,23 +93,23 @@
           $auth_ignore = true;
         }
 
-        tep_redirect(tep_href_link(FILENAME_DEFAULT));
+        tep_redirect(tep_href_link('index.php'));
 
         break;
 
       case 'create':
-        $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+        $check_query = tep_db_query("select id from " . administrators . " limit 1");
 
         if (tep_db_num_rows($check_query) == 0) {
           $username = tep_db_prepare_input($HTTP_POST_VARS['username']);
           $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
 
           if ( !empty($username) ) {
-            tep_db_query("insert into " . TABLE_ADMINISTRATORS . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
+            tep_db_query("insert into " . administrators . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
           }
         }
 
-        tep_redirect(tep_href_link(FILENAME_LOGIN));
+        tep_redirect(tep_href_link('login.php'));
 
         break;
     }
@@ -126,7 +126,7 @@
     }
   }
 
-  $admins_check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+  $admins_check_query = tep_db_query("select id from " . administrators . " limit 1");
   if (tep_db_num_rows($admins_check_query) < 1) {
     $messageStack->add(TEXT_CREATE_FIRST_ADMINISTRATOR, 'warning');
   }
@@ -144,7 +144,7 @@
   if (sizeof($languages_array) > 1) {
 ?>
 
-        <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', FILENAME_DEFAULT, '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
+        <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
 
 <?php
   }
@@ -163,14 +163,14 @@
   if (tep_db_num_rows($admins_check_query) > 0) {
     $heading[] = array('text' => '<strong>' . HEADING_TITLE . '</strong>');
 
-    $contents = array('form' => tep_draw_form('login', FILENAME_LOGIN, 'action=process'));
+    $contents = array('form' => tep_draw_form('login', 'login.php', 'action=process'));
     $contents[] = array('text' => TEXT_USERNAME . '<br />' . tep_draw_input_field('username'));
     $contents[] = array('text' => '<br />' . TEXT_PASSWORD . '<br />' . tep_draw_password_field('password'));
     $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(BUTTON_LOGIN, 'key'));
   } else {
     $heading[] = array('text' => '<strong>' . HEADING_TITLE . '</strong>');
 
-    $contents = array('form' => tep_draw_form('login', FILENAME_LOGIN, 'action=create'));
+    $contents = array('form' => tep_draw_form('login', 'login.php', 'action=create'));
     $contents[] = array('text' => TEXT_CREATE_FIRST_ADMINISTRATOR);
     $contents[] = array('text' => '<br />' . TEXT_USERNAME . '<br />' . tep_draw_input_field('username'));
     $contents[] = array('text' => '<br />' . TEXT_PASSWORD . '<br />' . tep_draw_password_field('password'));

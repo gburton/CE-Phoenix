@@ -26,7 +26,7 @@
     function confirm() {
       global $HTTP_GET_VARS;
 
-      $mail_query = tep_db_query("select count(*) as count from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
+      $mail_query = tep_db_query("select count(*) as count from " . customers . " where customers_newsletter = '1'");
       $mail = tep_db_fetch_array($mail_query);
 
       $confirm_string = '<table border="0" cellspacing="0" cellpadding="2">' . "\n" .
@@ -49,7 +49,7 @@
                         '    <td>' . tep_draw_separator('pixel_trans.gif', '1', '10') . '</td>' . "\n" .
                         '  </tr>' . "\n" .
                         '  <tr>' . "\n" .
-                        '    <td class="smallText" align="right">' . tep_draw_button(IMAGE_SEND, 'mail-closed', tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'] . '&action=confirm_send'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'])) . '</td>' . "\n" .
+                        '    <td class="smallText" align="right">' . tep_draw_button(IMAGE_SEND, 'mail-closed', tep_href_link('newsletters.php', 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'] . '&action=confirm_send'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('newsletters.php', 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'])) . '</td>' . "\n" .
                         '  </tr>' . "\n" .
                         '</table>';
 
@@ -59,7 +59,7 @@
     function send($newsletter_id) {
       global $oscTemplate, $nInfo;
 
-      $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
+      $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . customers . " where customers_newsletter = '1'");
 
       // prevent new redeclarations in while cycle
       $GLOBALS['mimemessage'] = new email(array('X-Mailer: osCommerce'));
@@ -83,7 +83,7 @@
       // TODO end
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);
-      tep_db_query("update " . TABLE_NEWSLETTERS . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
+      tep_db_query("update " . newsletters . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
     }
   }
 ?>

@@ -15,16 +15,16 @@
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
   if ($cart->count_contents() < 1) {
-    tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+    tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_PAYMENT_ADDRESS);
+  require(DIR_WS_LANGUAGES . $language . '/' . 'checkout_payment_address.php');
 
   $error = false;
   $process = false;
@@ -91,11 +91,11 @@
 
       if (ACCOUNT_STATE == 'true') {
         $zone_id = 0;
-        $check_query = tep_db_query("select count(*) as total from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "'");
+        $check_query = tep_db_query("select count(*) as total from " . zones . " where zone_country_id = '" . (int)$country . "'");
         $check = tep_db_fetch_array($check_query);
         $entry_state_has_zones = ($check['total'] > 0);
         if ($entry_state_has_zones == true) {
-          $zone_query = tep_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
+          $zone_query = tep_db_query("select distinct zone_id from " . zones . " where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
           if (tep_db_num_rows($zone_query) == 1) {
             $zone = tep_db_fetch_array($zone_query);
             $zone_id = $zone['zone_id'];
@@ -143,13 +143,13 @@
 
         if (!tep_session_is_registered('billto')) tep_session_register('billto');
 
-        tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
+        tep_db_perform(address_book, $sql_data_array);
 
         $billto = tep_db_insert_id();
 
         if (tep_session_is_registered('payment')) tep_session_unregister('payment');
 
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+        tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
       }
 // process the selected billing destination
     } elseif (isset($HTTP_POST_VARS['address'])) {
@@ -166,12 +166,12 @@
 
       $billto = $HTTP_POST_VARS['address'];
 
-      $check_address_query = tep_db_query("select count(*) as total from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$billto . "'");
+      $check_address_query = tep_db_query("select count(*) as total from " . address_book . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$billto . "'");
       $check_address = tep_db_fetch_array($check_address_query);
 
       if ($check_address['total'] == '1') {
         if ($reset_payment == true) tep_session_unregister('payment');
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+        tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
       } else {
         tep_session_unregister('billto');
       }
@@ -180,7 +180,7 @@
       if (!tep_session_is_registered('billto')) tep_session_register('billto');
       $billto = $customer_default_address_id;
 
-      tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
     }
   }
 
@@ -189,8 +189,8 @@
     $billto = $customer_default_address_id;
   }
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_payment.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('checkout_payment_address.php', '', 'SSL'));
 
   $addresses_count = tep_count_customer_address_book_entries();
 
@@ -207,7 +207,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -248,7 +248,7 @@
 <?php
       $radio_buttons = 0;
 
-      $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "'");
+      $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from " . address_book . " where customers_id = '" . (int)$customer_id . "'");
       while ($addresses = tep_db_fetch_array($addresses_query)) {
         $format_id = tep_get_address_format_id($addresses['country_id']);
 
@@ -319,7 +319,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
   </div>
 
 <?php

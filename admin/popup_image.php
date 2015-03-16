@@ -18,7 +18,7 @@
       case 'banner':
         $banners_id = tep_db_prepare_input($HTTP_GET_VARS['banner']);
 
-        $banner_query = tep_db_query("select banners_title, banners_image, banners_html_text from " . TABLE_BANNERS . " where banners_id = '" . (int)$banners_id . "'");
+        $banner_query = tep_db_query("select banners_title, banners_image, banners_html_text from " . banners . " where banners_id = '" . (int)$banners_id . "'");
         $banner = tep_db_fetch_array($banner_query);
 
         $page_title = $banner['banners_title'];
