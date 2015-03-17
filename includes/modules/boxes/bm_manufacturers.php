@@ -48,7 +48,7 @@
 
           $manufacturers_list .= '</ul>';
 
-          $content = $manufacturers_list;
+          $data = $manufacturers_list;
         } else {
 // Display a drop-down
           $manufacturers_array = array();
@@ -62,15 +62,11 @@
                                            'text' => $manufacturers_name);
           }
 
-          $content = tep_draw_form('manufacturers', tep_href_link(FILENAME_DEFAULT, '', $request_type, false), 'get') .
+          $data = tep_draw_form('manufacturers', tep_href_link(FILENAME_DEFAULT, '', $request_type, false), 'get') .
                      tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, (isset($HTTP_GET_VARS['manufacturers_id']) ? $HTTP_GET_VARS['manufacturers_id'] : ''), 'onchange="this.form.submit();" size="' . MAX_MANUFACTURERS_LIST . '" style="width: 100%"') . tep_hide_session_id() .
                      '</form>';
         }
 
-        $data = '<div class="panel panel-default">' .
-                  '  <div class="panel-heading">' . MODULE_BOXES_MANUFACTURERS_BOX_TITLE . '</div>' .
-                  '  <div class="panel-body">' . $content . '</div>' .
-                  '</div>';
       }
 
       return $data;
@@ -84,8 +80,12 @@
       } else {
         $output = $this->getData();
       }
+      
+      ob_start();
+      include(DIR_WS_MODULES . 'boxes/templates/manufacturers.php');
+      $data = ob_get_clean();
 
-      $oscTemplate->addBlock($output, $this->group);
+      $oscTemplate->addBlock($data, $this->group);
     }
 
     function isEnabled() {

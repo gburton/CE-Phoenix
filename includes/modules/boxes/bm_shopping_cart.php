@@ -36,7 +36,7 @@
       $cart_contents_string = '';
 
       if ($cart->count_contents() > 0) {
-        $cart_contents_string = '<ul class="shoppingCartList">';
+        $cart_contents_string = NULL;
         $products = $cart->get_products();
         for ($i=0, $n=sizeof($products); $i<$n; $i++) {
 
@@ -59,17 +59,15 @@
           }
         }
 
-        $cart_contents_string .= '<li class="text-right"><hr>' . $currencies->format($cart->show_total()) . '</li>' .
-                                 '</ul>';
+        $cart_contents_string .= '<li class="text-right"><hr>' . $currencies->format($cart->show_total()) . '</li>';
 
       } else {
         $cart_contents_string .= '<p>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
       }
-
-      $data = '<div class="panel panel-default">' .
-              '  <div class="panel-heading"><a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '">' . MODULE_BOXES_SHOPPING_CART_BOX_TITLE . '</a></div>' .
-              '  <div class="panel-body">' . $cart_contents_string . '</div>' .
-              '</div>';
+              
+      ob_start();
+      include(DIR_WS_MODULES . 'boxes/templates/shopping_cart.php');
+      $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);
     }

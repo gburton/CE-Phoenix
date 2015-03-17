@@ -263,14 +263,14 @@
 ?>
 
   <div class="buttonSet">
-    <span class="buttonAction">
+    <div class="text-right">
       <?php
       if (is_array($payment_modules->modules)) {
         echo $payment_modules->process_button();
       }
-      echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon glyphicon-ok', null, 'primary');
+      echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'glyphicon glyphicon-ok', null, 'primary', null, 'btn-success');
       ?>
-    </span>
+    </div>
   </div>
 
   <div class="clearfix"></div>

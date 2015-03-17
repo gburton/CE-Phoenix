@@ -54,7 +54,7 @@ define('HEADER_TITLE_CREATE_ACCOUNT', 'Create an Account');
 define('HEADER_TITLE_MY_ACCOUNT', 'My Account');
 define('HEADER_TITLE_CART_CONTENTS', 'Cart Contents');
 define('HEADER_TITLE_CHECKOUT', 'Checkout');
-define('HEADER_TITLE_TOP', '<i class="glyphicon glyphicon-home"></i>');
+define('HEADER_TITLE_TOP', '<i class="glyphicon glyphicon-home"><span class="sr-only">Home</span></i>');
 define('HEADER_TITLE_CATALOG', 'Catalog');
 define('HEADER_TITLE_LOGOFF', 'Log Off');
 define('HEADER_TITLE_LOGIN', 'Log In');
@@ -241,12 +241,6 @@ define('TEXT_CCVAL_ERROR_INVALID_DATE', 'The expiry date entered for the credit 
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'The credit card number entered is invalid. Please check the number and try again.');
 define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'The first four digits of the number entered are: %s. If that number is correct, we do not accept that type of credit card. If it is wrong, please try again.');
 
-define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a> Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
-
-// footer icons
-// courtesy of Orman Clark for PremiumPixels.com
-define('FOOTER_TEXT_PAYMENT_ICONS', tep_image(DIR_WS_ICONS . 'visa.png', 'Visa', '', '', '', false). tep_image(DIR_WS_ICONS . 'paypal.png', 'Paypal', '', '', '', false) . tep_image(DIR_WS_ICONS . 'mastercard.png', 'MasterCard', '', '', '', false));
-
 // category views
 define('TEXT_VIEW', 'View: ');
 define('TEXT_VIEW_LIST', ' List');
@@ -257,11 +251,11 @@ define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
 define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk inputRequirement"></span> Required information');
-define('FORM_REQUIRED_INPUT', '<span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>');
+define('FORM_REQUIRED_INPUT', '<span><span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span></span>');
 
 // reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="reviewer">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="count">%s</span> review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list
@@ -276,31 +270,6 @@ define('TABLE_HEADING_PRICE', 'Price');
 define('TABLE_HEADING_WEIGHT', 'Weight');
 define('TABLE_HEADING_BUY_NOW', 'Buy Now');
 define('TABLE_HEADING_LATEST_ADDED', 'Latest Products');
-
-//header titles
-define('HEADER_CART_CONTENTS', '<i class="glyphicon glyphicon-shopping-cart"></i> %s item(s) <span class="caret"></span>');
-define('HEADER_CART_NO_CONTENTS', '<i class="glyphicon glyphicon-shopping-cart"></i> 0 items');
-define('HEADER_ACCOUNT_LOGGED_OUT', '<i class="glyphicon glyphicon-user"></i><span class="hidden-sm"> My Account</span> <span class="caret"></span>');
-define('HEADER_ACCOUNT_LOGGED_IN', '<i class="glyphicon glyphicon-user"></i> %s <span class="caret"></span>');
-define('HEADER_SITE_SETTINGS', '<i class="glyphicon glyphicon-cog"></i><span class="hidden-sm"> Site Settings</span> <span class="caret"></span>');
-define('HEADER_TOGGLE_NAV', 'Toggle Navigation');
-define('HEADER_HOME', '<i class="glyphicon glyphicon-home"></i><span class="hidden-sm"> Home</span>');
-define('HEADER_WHATS_NEW', '<i class="glyphicon glyphicon-certificate"></i><span class="hidden-sm">  New Products</span>');
-define('HEADER_SPECIALS', '<i class="glyphicon glyphicon-fire"></i><span class="hidden-sm"> Special Offers</span>');
-define('HEADER_REVIEWS', '<i class="glyphicon glyphicon-comment"></i><span class="hidden-sm"> Reviews</span>');
-// header dropdowns
-define('HEADER_ACCOUNT_LOGIN', '<i class="glyphicon glyphicon-log-in"></i> Log In');
-define('HEADER_ACCOUNT_LOGOFF', '<i class="glyphicon glyphicon-log-out"></i> Log Off');
-define('HEADER_ACCOUNT', 'My Account');
-define('HEADER_ACCOUNT_HISTORY', 'My Orders');
-define('HEADER_ACCOUNT_EDIT', 'My Details');
-define('HEADER_ACCOUNT_ADDRESS_BOOK', 'My Address Book');
-define('HEADER_ACCOUNT_PASSWORD', 'My Password');
-define('HEADER_ACCOUNT_REGISTER', '<i class="glyphicon glyphicon-pencil"></i> Register');
-define('HEADER_CART_HAS_CONTENTS', '%s item(s), %s');
-define('HEADER_CART_VIEW_CART', 'View Cart');
-define('HEADER_CART_CHECKOUT', '<i class="glyphicon glyphicon-chevron-right"></i> Checkout');
-define('USER_LOCALIZATION', '<abbr title="Selected Language">L:</abbr> %s <abbr title="Selected Currency">C:</abbr> %s');
 
 // product notifications
 define('PRODUCT_SUBSCRIBED', '%s has been added to your Notification List');

@@ -9,10 +9,6 @@
 
   Released under the GNU General Public License
 */
-
-  if ($messageStack->size('header') > 0) {
-    echo '<div class="col-md-12">' . $messageStack->output('header') . '</div>';
-  }
 ?>
 
 <div class="modular-header">
@@ -20,6 +16,8 @@
 </div>
 
 <div class="clearfix"></div>
+
+<div class="body-sans-header clearfix">
 
 <?php
   if (isset($HTTP_GET_VARS['error_message']) && tep_not_null($HTTP_GET_VARS['error_message'])) {

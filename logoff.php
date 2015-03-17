@@ -52,13 +52,13 @@ if ( tep_session_is_registered('comments') ) {
 
 <div class="contentContainer">
   <div class="contentText">
-    <div class="alert alert-warning">
+    <div class="alert alert-danger">
       <?php echo TEXT_MAIN; ?>
     </div>
   </div>
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?></span>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT), null, null, 'btn-danger'); ?></div>
   </div>
 </div>
 

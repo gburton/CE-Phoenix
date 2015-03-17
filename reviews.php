@@ -63,10 +63,8 @@
   } else {
 ?>
 
-  <div class="contentText">
-    <div class="alert alert-info">
-      <?php echo TEXT_NO_REVIEWS; ?>
-    </div>
+  <div class="alert alert-info">
+    <?php echo TEXT_NO_REVIEWS; ?>
   </div>
 
 <?php

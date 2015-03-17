@@ -35,11 +35,13 @@
 ?>
 
 <div class="contentContainer">
+  <div class="row">
 
-<?php
-  echo $oscTemplate->getContent('account');
-?>
-
+    <?php
+    echo $oscTemplate->getContent('account');
+    ?>
+  
+  </div>
 </div>
 
 

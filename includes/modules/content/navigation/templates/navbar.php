@@ -1,15 +1,14 @@
 <nav class="navbar navbar-inverse navbar-no-corners navbar-no-margin" role="navigation">
-  <div class="container-fluid">
+  <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-1">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse-core-nav">
         <span class="sr-only"><?php echo HEADER_TOGGLE_NAV; ?></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
     </div>
-    <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
-      <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse-core-nav">
         <ul class="nav navbar-nav">
           <?php echo '<li><a class="store-brand" href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_HOME . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_PRODUCTS_NEW) . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
@@ -17,12 +16,14 @@
           <?php echo '<li><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . HEADER_REVIEWS . '</a></li>'; ?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo HEADER_SITE_SETTINGS; ?></a>
-            <ul class="dropdown-menu">
-              <li class="text-center text-muted bg-primary"><?php echo sprintf(USER_LOCALIZATION, ucwords($language), $currency); ?></li>
-              <?php
-              if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
+          <?php
+          if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
+            ?>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo HEADER_SITE_SETTINGS; ?></a>
+              <ul class="dropdown-menu">
+                <li class="text-center text-muted bg-primary"><?php echo sprintf(USER_LOCALIZATION, ucwords($language), $currency); ?></li>
+                <?php
                 // languages
                 if (!isset($lng) || (isset($lng) && !is_object($lng))) {
                  include(DIR_WS_CLASSES . 'language.php');
@@ -32,7 +33,7 @@
                   echo '<li class="divider"></li>';
                   reset($lng->catalog_languages);
                   while (list($key, $value) = each($lng->catalog_languages)) {
-                    echo '<li><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('language', 'currency')) . 'language=' . $key, $request_type) . '">' . tep_image(DIR_WS_LANGUAGES .  $value['directory'] . '/images/' . $value['image'], $value['name']) . '</a></li>';
+                    echo '<li><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('language', 'currency')) . 'language=' . $key, $request_type) . '">' . tep_image(DIR_WS_LANGUAGES .  $value['directory'] . '/images/' . $value['image'], $value['name'], null, null, null, false) . ' ' . $value['name'] . '</a></li>';
                   }
                 }
                 // currencies
@@ -45,10 +46,12 @@
                     echo '<li><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('language', 'currency')) . 'currency=' . $key, $request_type) . '">' . $value['title'] . '</a></li>';
                   }
                 }
-              }
-              ?>
-            </ul>
-          </li>
+                ?>
+              </ul>
+            </li>
+            <?php
+          }
+          ?>
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo (tep_session_is_registered('customer_id')) ? sprintf(HEADER_ACCOUNT_LOGGED_IN, $customer_first_name) : HEADER_ACCOUNT_LOGGED_OUT; ?></a>
             <ul class="dropdown-menu">
@@ -91,7 +94,6 @@
           }
           ?>
         </ul>
-      </div>
     </div>
   </div>
 </nav>
