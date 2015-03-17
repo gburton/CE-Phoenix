@@ -107,7 +107,7 @@
         }
 ?>
 
-    <div id="piGal" data-imgcount="<?php echo $photoset_layout; ?>">
+    <div class="piGal pull-right" data-imgcount="<?php echo $photoset_layout; ?>">
 
 <?php
         $pi_counter = 0;
@@ -133,7 +133,7 @@
       } else {
 ?>
 
-    <div id="piGal">
+    <div class="piGal pull-right">
       <?php echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name'])); ?>
     </div>
 

@@ -17,12 +17,11 @@
   float: right;
 }
 
-#piGal {
-  float: right;
-  width: 250px;
+.piGal {
+  width: 250px !important;
 }
 
-#piGal img {
+.piGal img {
   max-width: 250px;
   height: auto;
 }
