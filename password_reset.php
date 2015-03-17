@@ -85,7 +85,6 @@
   $breadcrumb->add(NAVBAR_TITLE_2);
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-  require('includes/form_check.js.php');
 ?>
 
 <div class="page-header">
@@ -98,7 +97,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(password_reset);"', true); ?>
+<?php echo tep_draw_form('password_reset', tep_href_link(FILENAME_PASSWORD_RESET, 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
