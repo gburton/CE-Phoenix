@@ -120,7 +120,6 @@
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
-  require('includes/form_check.js.php');
 ?>
 
 <div class="page-header">
@@ -133,7 +132,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form(account_edit);"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <div class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
