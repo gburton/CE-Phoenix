@@ -148,7 +148,8 @@
   function tep_break_string($string, $len, $break_char = '-') {
     $l = 0;
     $output = '';
-    for ($i=0, $n=strlen($string); $i<$n; $i++) {
+    $n=strlen($string);
+    for ($i=0; $i<$n; $i++) {
       $char = substr($string, $i, 1);
       if ($char != ' ') {
         $l++;
@@ -174,8 +175,7 @@
 
     $get_url = '';
     if (is_array($HTTP_GET_VARS) && (sizeof($HTTP_GET_VARS) > 0)) {
-      reset($HTTP_GET_VARS);
-      while (list($key, $value) = each($HTTP_GET_VARS)) {
+      foreach ($HTTP_GET_VARS as $key => $value) {
         if ( is_string($value) && (strlen($value) > 0) && ($key != tep_session_name()) && ($key != 'error') && (!in_array($key, $exclude_array)) && ($key != 'x') && ($key != 'y') ) {
           $get_url .= $key . '=' . rawurlencode(stripslashes($value)) . '&';
         }
@@ -626,8 +626,8 @@
     $objects = array();
     $tmpstring = '';
     $flag = '';
-
-    for ($k=0; $k<count($pieces); $k++) {
+    $n=count($pieces);
+    for ($k=0; $k<$n; $k++) {
       while (substr($pieces[$k], 0, 1) == '(') {
         $objects[] = '(';
         if (strlen($pieces[$k]) > 1) {
@@ -653,7 +653,8 @@
       if ( (substr($pieces[$k], -1) != '"') && (substr($pieces[$k], 0, 1) != '"') ) {
         $objects[] = trim($pieces[$k]);
 
-        for ($j=0; $j<count($post_objects); $j++) {
+        $n=count($post_objects);
+        for ($j=0; $j<$n; $j++) {
           $objects[] = $post_objects[$j];
         }
       } else {
@@ -672,7 +673,8 @@
 
           $objects[] = trim(preg_replace('/"/', ' ', $pieces[$k]));
 
-          for ($j=0; $j<count($post_objects); $j++) {
+          $n=count($post_objects);
+          for ($j=0; $j<$n; $j++) {
             $objects[] = $post_objects[$j];
           }
 
@@ -718,7 +720,8 @@
 // Push the $tmpstring onto the array of stuff to search for
             $objects[] = trim($tmpstring);
 
-            for ($j=0; $j<count($post_objects); $j++) {
+            $n=count($post_objects);
+            for ($j=0; $j<$n; $j++) {
               $objects[] = $post_objects[$j];
             }
 
@@ -750,7 +753,8 @@
     $keyword_count = 0;
     $operator_count = 0;
     $balance = 0;
-    for($i=0; $i<count($objects); $i++) {
+    $n=count($objects);
+    for($i=0; $i<$n; $i++) {
       if ($objects[$i] == '(') $balance --;
       if ($objects[$i] == ')') $balance ++;
       if ( ($objects[$i] == 'and') || ($objects[$i] == 'or') ) {
@@ -948,8 +952,7 @@
         $attributes_check = true;
         $attributes_ids = '';
 
-        reset($params);
-        while (list($option, $value) = each($params)) {
+        foreach ($params as$key => $value) {
           if (is_numeric($option) && is_numeric($value)) {
             $attributes_ids .= '{' . (int)$option . '}' . (int)$value;
           } else {
@@ -973,7 +976,8 @@
 // strpos()+1 to remove up to and including the first { which would create an empty array element in explode()
           $attributes = explode('{', substr($prid, strpos($prid, '{')+1));
 
-          for ($i=0, $n=sizeof($attributes); $i<$n; $i++) {
+          $n=sizeof($attributes);
+          for ($i=0; $i<$n; $i++) {
             $pair = explode('}', $attributes[$i]);
 
             if (is_numeric($pair[0]) && is_numeric($pair[1])) {
@@ -1083,7 +1087,8 @@
 
     $modules_array = explode(';', $modules);
 
-    for ($i=0, $n=sizeof($modules_array); $i<$n; $i++) {
+    $n=sizeof($modules_array);
+    for ($i=0; $i<$n; $i++) {
       $class = substr($modules_array[$i], 0, strrpos($modules_array[$i], '.'));
 
       if (isset($GLOBALS[$class]) && is_object($GLOBALS[$class])) {
@@ -1131,7 +1136,8 @@
     do {
       $random = base64_encode($hasher->get_random_bytes($length));
 
-      for ($i = 0, $n = strlen($random); $i < $n; $i++) {
+      $n = strlen($random);
+      for ($i = 0; $i < $n; $i++) {
         $char = substr($random, $i, 1);
 
         if ( strpos($base, $char) !== false ) {
@@ -1152,7 +1158,7 @@
 
     $get_string = '';
     if (sizeof($array) > 0) {
-      while (list($key, $value) = each($array)) {
+      foreach ($array as $key => $value) {
         if ( (!in_array($key, $exclude)) && ($key != 'x') && ($key != 'y') ) {
           $get_string .= $key . $equals . $value . $separator;
         }
