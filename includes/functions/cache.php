@@ -154,7 +154,7 @@
     if (isset($HTTP_GET_VARS['products_id']) && is_numeric($HTTP_GET_VARS['products_id'])) {
       if (($refresh == true) || !read_cache($cache_output, 'also_purchased-' . $language . '.cache' . $HTTP_GET_VARS['products_id'], $auto_expire)) {
         ob_start();
-        include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
+        include(DIR_WS_MODULES . 'also_purchased_products.php');
         $cache_output = ob_get_contents();
         ob_end_clean();
         write_cache($cache_output, 'also_purchased-' . $language . '.cache' . $HTTP_GET_VARS['products_id']);

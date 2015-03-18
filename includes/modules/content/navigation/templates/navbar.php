@@ -10,10 +10,10 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-core-nav">
         <ul class="nav navbar-nav">
-          <?php echo '<li><a class="store-brand" href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_HOME . '</a></li>'; ?>
-          <?php echo '<li><a href="' . tep_href_link(FILENAME_PRODUCTS_NEW) . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
-          <?php echo '<li><a href="' . tep_href_link(FILENAME_SPECIALS) . '">' . HEADER_SPECIALS . '</a></li>'; ?>
-          <?php echo '<li><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . HEADER_REVIEWS . '</a></li>'; ?>
+          <?php echo '<li><a class="store-brand" href="' . tep_href_link('index.php') . '">' . HEADER_HOME . '</a></li>'; ?>
+          <?php echo '<li><a href="' . tep_href_link('products_new.php') . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
+          <?php echo '<li><a href="' . tep_href_link('specials.php') . '">' . HEADER_SPECIALS . '</a></li>'; ?>
+          <?php echo '<li><a href="' . tep_href_link('reviews.php') . '">' . HEADER_REVIEWS . '</a></li>'; ?>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <?php
@@ -57,18 +57,18 @@
             <ul class="dropdown-menu">
               <?php
               if (tep_session_is_registered('customer_id')) {
-                echo '<li><a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGOFF . '</a>';
+                echo '<li><a href="' . tep_href_link('logoff.php', '', 'SSL') . '">' . HEADER_ACCOUNT_LOGOFF . '</a>';
               }
               else {
-                 echo '<li><a href="' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
-                 echo '<li><a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL') . '">' . HEADER_ACCOUNT_REGISTER . '</a>';
+                 echo '<li><a href="' . tep_href_link('login.php', '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
+                 echo '<li><a href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . HEADER_ACCOUNT_REGISTER . '</a>';
               }
               ?>
               <li class="divider"></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT, '', 'SSL') . '">' . HEADER_ACCOUNT . '</a>'; ?></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL') . '">' . HEADER_ACCOUNT_HISTORY . '</a>'; ?></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL') . '">' . HEADER_ACCOUNT_ADDRESS_BOOK . '</a>'; ?></li>
-              <li><?php echo '<a href="' . tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL') . '">' . HEADER_ACCOUNT_PASSWORD . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account.php', '', 'SSL') . '">' . HEADER_ACCOUNT . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . HEADER_ACCOUNT_HISTORY . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . HEADER_ACCOUNT_ADDRESS_BOOK . '</a>'; ?></li>
+              <li><?php echo '<a href="' . tep_href_link('account_password.php', '', 'SSL') . '">' . HEADER_ACCOUNT_PASSWORD . '</a>'; ?></li>
             </ul>
           </li>
           <?php
@@ -77,17 +77,17 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo sprintf(HEADER_CART_CONTENTS, $cart->count_contents()); ?></a>
               <ul class="dropdown-menu">
-                <li><?php echo '<a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '">' . sprintf(HEADER_CART_HAS_CONTENTS, $cart->count_contents(), $currencies->format($cart->show_total())) . '</a>'; ?></li>
+                <li><?php echo '<a href="' . tep_href_link('shopping_cart.php') . '">' . sprintf(HEADER_CART_HAS_CONTENTS, $cart->count_contents(), $currencies->format($cart->show_total())) . '</a>'; ?></li>
                 <?php
                 if ($cart->count_contents() > 0) {
                   echo '<li class="divider"></li>';
-                  echo '<li><a href="' . tep_href_link(FILENAME_SHOPPING_CART) . '">' . HEADER_CART_VIEW_CART . '</a></li>';
+                  echo '<li><a href="' . tep_href_link('shopping_cart.php') . '">' . HEADER_CART_VIEW_CART . '</a></li>';
                 }
                 ?>
               </ul>
             </li>
             <?php
-            echo '<li><a href="' . tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL') . '">' . HEADER_CART_CHECKOUT . '</a></li>';
+            echo '<li><a href="' . tep_href_link('checkout_shipping.php', '', 'SSL') . '">' . HEADER_CART_CHECKOUT . '</a></li>';
           }
           else {
             echo '<li class="nav navbar-text">' . HEADER_CART_NO_CONTENTS . '</li>';
