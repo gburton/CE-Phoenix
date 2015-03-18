@@ -109,10 +109,7 @@
       return $result;
     }
 
-    function buildBranchArray($parent_id, $level = 0, $result = '') {
-      if (empty($result)) {
-        $result = array();
-      }
+    function buildBranchArray($parent_id, $level = 0, $result = array()) {
 
       if (isset($this->_data[$parent_id])) {
         foreach ($this->_data[$parent_id] as $category_id => $category) {
