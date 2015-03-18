@@ -28,9 +28,10 @@
     include('includes/configure.php');
   }
 
-  if (strlen(DB_SERVER) < 1) {
+  if (DB_SERVER == '') {
     if (is_dir('install')) {
       header('Location: install/index.php');
+      exit;
     }
   }
 
@@ -104,8 +105,8 @@
         $i++;
       }
 
-      if (sizeof($GET_array) > 0) {
-        while (list($key, $value) = each($GET_array)) {
+      if ($GET_array !== null) {
+        foreach($GET_array as $key => $value) {
           $HTTP_GET_VARS[$key] = $value;
         }
       }
