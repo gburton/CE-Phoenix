@@ -96,7 +96,8 @@
       $PHP_SELF = str_replace(getenv('PATH_INFO'), '', $PHP_SELF);
       $vars = explode('/', substr(getenv('PATH_INFO'), 1));
       do_magic_quotes_gpc($vars);
-      for ($i=0, $n=sizeof($vars); $i<$n; $i++) {
+      $n=sizeof($vars);
+      for ($i=0; $i<$n; $i++) {
         if (strpos($vars[$i], '[]')) {
           $GET_array[substr($vars[$i], 0, -2)][] = $vars[$i+1];
         } else {
@@ -173,7 +174,8 @@
     if (tep_not_null($user_agent)) {
       $spiders = file(DIR_WS_INCLUDES . 'spiders.txt');
 
-      for ($i=0, $n=sizeof($spiders); $i<$n; $i++) {
+      $n=sizeof($spiders);
+      for ($i=0; $i<$n; $i++) {
         if (tep_not_null($spiders[$i])) {
           if (is_integer(strpos($user_agent, trim($spiders[$i])))) {
             $spider_flag = true;
@@ -331,7 +333,8 @@
     }
     switch ($HTTP_GET_VARS['action']) {
       // customer wants to update the product quantity in their shopping cart
-      case 'update_product' : for ($i=0, $n=sizeof($HTTP_POST_VARS['products_id']); $i<$n; $i++) {
+      case 'update_product' : $n=sizeof($HTTP_POST_VARS['products_id']);
+                              for ($i=0; $i<$n; $i++) {
                                 if (in_array($HTTP_POST_VARS['products_id'][$i], (is_array($HTTP_POST_VARS['cart_delete']) ? $HTTP_POST_VARS['cart_delete'] : array()))) {
                                   $cart->remove($HTTP_POST_VARS['products_id'][$i]);
                                   $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($HTTP_POST_VARS['products_id'][$i])), 'warning');
@@ -379,7 +382,8 @@
                                   tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                                 }
                                 if (!is_array($notify)) $notify = array($notify);
-                                for ($i=0, $n=sizeof($notify); $i<$n; $i++) {
+                                $n=sizeof($notify);
+                                for ($i=0; $i<$n; $i++) {
                                   $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$notify[$i] . "' and customers_id = '" . (int)$customer_id . "'");
                                   $check = tep_db_fetch_array($check_query);
                                   if ($check['count'] < 1) {
@@ -475,7 +479,8 @@
 
 // add category names or the manufacturer name to the breadcrumb trail
   if (isset($cPath_array)) {
-    for ($i=0, $n=sizeof($cPath_array); $i<$n; $i++) {
+    $n=sizeof($cPath_array);
+    for ($i=0; $i<$n; $i++) {
       $categories_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
       if (tep_db_num_rows($categories_query) > 0) {
         $categories = tep_db_fetch_array($categories_query);
