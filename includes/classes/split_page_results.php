@@ -86,10 +86,10 @@
         $display_links_string .= '<li class="disabled"><span>&laquo;</span></li>';
       }
 // check if number_of_pages > $max_page_links
-      $cur_window_num = intval($this->current_page_number / $max_page_links);
+      $cur_window_num = (int)($this->current_page_number / $max_page_links);
       if ($this->current_page_number % $max_page_links) $cur_window_num++;
 
-      $max_window_num = intval($this->number_of_pages / $max_page_links);
+      $max_window_num = (int)($this->number_of_pages / $max_page_links);
       if ($this->number_of_pages % $max_page_links) $max_window_num++;
 
 // previous window of pages
