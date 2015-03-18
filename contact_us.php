@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CONTACT_US);
+  require(DIR_WS_LANGUAGES . $language . '/' . 'contact_us.php');
 
   if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'send') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
     $error = false;
@@ -41,11 +41,11 @@
 
       $actionRecorder->record();
 
-      tep_redirect(tep_href_link(FILENAME_CONTACT_US, 'action=success'));
+      tep_redirect(tep_href_link('contact_us.php', 'action=success'));
     }
   }
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_CONTACT_US));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('contact_us.php'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -68,7 +68,7 @@
   </div>
 
   <div class="pull-right">
-    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link('index.php')); ?>
   </div>
 </div>
 
@@ -76,7 +76,7 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('contact_us', tep_href_link(FILENAME_CONTACT_US, 'action=send'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('contact_us', tep_href_link('contact_us.php', 'action=send'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
