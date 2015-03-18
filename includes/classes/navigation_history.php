@@ -26,7 +26,8 @@
       global $PHP_SELF, $HTTP_GET_VARS, $HTTP_POST_VARS, $request_type, $cPath;
 
       $set = 'true';
-      for ($i=0, $n=sizeof($this->path); $i<$n; $i++) {
+      $n=sizeof($this->path);
+      for ($i=0; $i<$n; $i++) {
         if ($this->path[$i]['page'] == $PHP_SELF) {
           if (isset($cPath)) {
             if (!isset($this->path[$i]['get']['cPath'])) {
@@ -40,7 +41,8 @@
                 $old_cPath = explode('_', $this->path[$i]['get']['cPath']);
                 $new_cPath = explode('_', $cPath);
 
-                for ($j=0, $n2=sizeof($old_cPath); $j<$n2; $j++) {
+                $n2=sizeof($old_cPath);
+                for ($j=0; $j<$n2; $j++) {
                   if ($old_cPath[$j] != $new_cPath[$j]) {
                     array_splice($this->path, ($i));
                     $set = 'true';
@@ -103,9 +105,10 @@
     }
 
     function debug() {
-      for ($i=0, $n=sizeof($this->path); $i<$n; $i++) {
+      $n=sizeof($this->path);
+      for ($i=0; $i<$n; $i++) {
         echo $this->path[$i]['page'] . '?';
-        while (list($key, $value) = each($this->path[$i]['get'])) {
+        foreach ($this->path[$i]['get'] as $key => $value) {
           echo $key . '=' . $value . '&';
         }
         if (sizeof($this->path[$i]['post']) > 0) {
@@ -128,8 +131,7 @@
       $clean = array();
 
       if (is_array($parameters)) {
-        reset($parameters);
-        while (list($key, $value) = each($parameters)) {
+        foreach($parameters as $key => $value) {
           if (strpos($key, '_nh-dns') < 1) {
             $clean[$key] = $value;
           }
