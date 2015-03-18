@@ -952,7 +952,7 @@
         $attributes_check = true;
         $attributes_ids = '';
 
-        foreach ($params as$key => $value) {
+        foreach ($params as $key => $value) {
           if (is_numeric($option) && is_numeric($value)) {
             $attributes_ids .= '{' . (int)$option . '}' . (int)$value;
           } else {
