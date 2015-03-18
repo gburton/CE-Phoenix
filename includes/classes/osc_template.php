@@ -82,15 +82,15 @@
             $modules_array = explode(';', constant($module_key));
 
             foreach ( $modules_array as $module ) {
-              $class = substr($module, 0, strrpos($module, '.'));
+              $class = basename($module, '.php');
 
               if ( !class_exists($class) ) {
                 if ( file_exists(DIR_WS_LANGUAGES . $language . '/modules/' . $group . '/' . $module) ) {
                   include(DIR_WS_LANGUAGES . $language . '/modules/' . $group . '/' . $module);
                 }
 
-                if ( file_exists(DIR_WS_MODULES . $group . '/' . $class . '.php') ) {
-                  include(DIR_WS_MODULES . $group . '/' . $class . '.php');
+                if ( file_exists(DIR_WS_MODULES . $group . '/' . $module) ) {
+                  include(DIR_WS_MODULES . $group . '/' . $module);
                 }
               }
 
