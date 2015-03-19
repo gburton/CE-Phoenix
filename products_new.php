@@ -71,17 +71,17 @@
 
   $listing_sql = "select " . $select_column_list . " p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m on p.manufacturers_id = m.manufacturers_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'";
 
-  if ( (!isset($HTTP_GET_VARS['sort'])) || (!preg_match('/^[1-8][ad]$/', $HTTP_GET_VARS['sort'])) || (substr($HTTP_GET_VARS['sort'], 0, 1) > sizeof($column_list)) ) {
+  if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > sizeof($column_list)) ) {
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
       if ($column_list[$i] == 'PRODUCT_LIST_ID') {
-        $HTTP_GET_VARS['sort'] = $i+1 . 'd';
+        $_GET['sort'] = $i+1 . 'd';
         $listing_sql .= " order by p.products_id DESC";
         break;
       }
     }
   } else {
-    $sort_col = substr($HTTP_GET_VARS['sort'], 0 , 1);
-    $sort_order = substr($HTTP_GET_VARS['sort'], 1);
+    $sort_col = substr($_GET['sort'], 0 , 1);
+    $sort_order = substr($_GET['sort'], 1);
 
     switch ($column_list[$sort_col-1]) {
       case 'PRODUCT_LIST_MODEL':

@@ -28,25 +28,12 @@
     }
     reset($ar);
   }
-
-  if (PHP_VERSION >= 4.1) {
-    $HTTP_GET_VARS =& $_GET;
-    $HTTP_POST_VARS =& $_POST;
-    $HTTP_COOKIE_VARS =& $_COOKIE;
-    $HTTP_SESSION_VARS =& $_SESSION;
-    $HTTP_POST_FILES =& $_FILES;
-    $HTTP_SERVER_VARS =& $_SERVER;
-  } else {
-    if (!is_array($HTTP_GET_VARS)) $HTTP_GET_VARS = array();
-    if (!is_array($HTTP_POST_VARS)) $HTTP_POST_VARS = array();
-    if (!is_array($HTTP_COOKIE_VARS)) $HTTP_COOKIE_VARS = array();
-  }
-
+ 
 // handle magic_quotes_gpc turned off.
   if (!get_magic_quotes_gpc()) {
-    do_magic_quotes_gpc($HTTP_GET_VARS);
-    do_magic_quotes_gpc($HTTP_POST_VARS);
-    do_magic_quotes_gpc($HTTP_COOKIE_VARS);
+    do_magic_quotes_gpc($_GET);
+    do_magic_quotes_gpc($_POST);
+    do_magic_quotes_gpc($_COOKIE);
   }
 
 // set default timezone if none exists (PHP 5.3 throws an E_WARNING)
