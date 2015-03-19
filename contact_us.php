@@ -12,14 +12,14 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CONTACT_US);
+  require(DIR_WS_LANGUAGES . $language . '/' . 'contact_us.php');
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'send') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
+  if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
     $error = false;
 
-    $name = tep_db_prepare_input($HTTP_POST_VARS['name']);
-    $email_address = tep_db_prepare_input($HTTP_POST_VARS['email']);
-    $enquiry = tep_db_prepare_input($HTTP_POST_VARS['enquiry']);
+    $name = tep_db_prepare_input($_POST['name']);
+    $email_address = tep_db_prepare_input($_POST['email']);
+    $enquiry = tep_db_prepare_input($_POST['enquiry']);
 
     if (!tep_validate_email($email_address)) {
       $error = true;
@@ -41,11 +41,11 @@
 
       $actionRecorder->record();
 
-      tep_redirect(tep_href_link(FILENAME_CONTACT_US, 'action=success'));
+      tep_redirect(tep_href_link('contact_us.php', 'action=success'));
     }
   }
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_CONTACT_US));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('contact_us.php'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -59,7 +59,7 @@
     echo $messageStack->output('contact');
   }
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'success')) {
+  if (isset($_GET['action']) && ($_GET['action'] == 'success')) {
 ?>
 
 <div class="contentContainer">
@@ -68,7 +68,7 @@
   </div>
 
   <div class="pull-right">
-    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link('index.php')); ?>
   </div>
 </div>
 
@@ -76,7 +76,7 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('contact_us', tep_href_link(FILENAME_CONTACT_US, 'action=send'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('contact_us', tep_href_link('contact_us.php', 'action=send'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">

@@ -14,26 +14,26 @@
   require('includes/application_top.php');
 
   if (!tep_session_is_registered('customer_id')) {
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   if ( MODULE_CONTENT_ACCOUNT_SET_PASSWORD_ALLOW_PASSWORD != 'True' ) {
-    tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+    tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
   $check_customer_query = tep_db_query("select customers_password from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
   $check_customer = tep_db_fetch_array($check_customer_query);
 
   if ( !empty($check_customer['customers_password']) ) {
-    tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+    tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
   require(DIR_WS_LANGUAGES . $language . '/modules/content/account/cm_account_set_password.php');
 
-  if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
-    $password_new = tep_db_prepare_input($HTTP_POST_VARS['password_new']);
-    $password_confirmation = tep_db_prepare_input($HTTP_POST_VARS['password_confirmation']);
+  if (isset($_POST['action']) && ($_POST['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
+    $password_new = tep_db_prepare_input($_POST['password_new']);
+    $password_confirmation = tep_db_prepare_input($_POST['password_confirmation']);
 
     $error = false;
 
@@ -54,11 +54,11 @@
 
       $messageStack->add_session('account', MODULE_CONTENT_ACCOUNT_SET_PASSWORD_SUCCESS_PASSWORD_SET, 'success');
 
-      tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+      tep_redirect(tep_href_link('account.php', '', 'SSL'));
     }
   }
 
-  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SET_PASSWORD_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/set_password.php', '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
@@ -96,7 +96,7 @@
   <div class="buttonSet">
     <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'triangle-1-e', null, 'primary'); ?></span>
 
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link('account.php', '', 'SSL')); ?>
   </div>
 </div>
 

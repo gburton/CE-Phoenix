@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function paypal_pro_hs() {
-      global $HTTP_GET_VARS, $PHP_SELF, $order;
+      global $_GET, $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_pro_hs|1.0|2.3';
       $this->api_version = '112';
@@ -62,7 +62,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -303,12 +303,12 @@
         $params = array('business' => MODULE_PAYMENT_PAYPAL_PRO_HS_ID,
                         'bn' => 'OSCOM23_HS',
                         'buyer_email' => $order->customer['email_address'],
-                        'cancel_return' => tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'),
+                        'cancel_return' => tep_href_link('checkout_payment.php', '', 'SSL'),
                         'currency_code' => $currency,
                         'invoice' => $order_id,
                         'custom' => $customer_id,
                         'paymentaction' => MODULE_PAYMENT_PAYPAL_PRO_HS_TRANSACTION_METHOD == 'Sale' ? 'sale' : 'authorization',
-                        'return' => tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL'),
+                        'return' => tep_href_link('checkout_process.php', '', 'SSL'),
                         'notify_url' => tep_href_link('ext/modules/payment/paypal/pro_hosted_ipn.php', '', 'SSL', false, false),
                         'shipping' => $this->format_raw($order->info['shipping_cost']),
                         'tax' => $this->format_raw($order->info['tax']),
@@ -374,7 +374,7 @@
       }
 
       $iframe_url = tep_href_link('ext/modules/payment/paypal/hosted_checkout.php', 'key=' . $pphs_key, 'SSL');
-      $form_url = tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=paypal_pro_hs', 'SSL');
+      $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
 
       $output = <<<EOD
 <iframe src="{$iframe_url}" width="570px" height="540px" frameBorder="0" scrolling="no"></iframe>
@@ -396,18 +396,18 @@ EOD;
     }
 
     function before_process() {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS, $cart_PayPal_Pro_HS_ID, $customer_id, $pphs_result, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $$payment;
+      global $_GET, $_POST, $cart_PayPal_Pro_HS_ID, $customer_id, $pphs_result, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $$payment;
 
       $result = false;
 
-      if ( isset($HTTP_GET_VARS['tx']) && !empty($HTTP_GET_VARS['tx']) ) { // direct payment (eg, credit card)
-        $result = $this->getTransactionDetails($HTTP_GET_VARS['tx']);
-      } elseif ( isset($HTTP_POST_VARS['txn_id']) && !empty($HTTP_POST_VARS['txn_id']) ) { // paypal payment
-        $result = $this->getTransactionDetails($HTTP_POST_VARS['txn_id']);
+      if ( isset($_GET['tx']) && !empty($_GET['tx']) ) { // direct payment (eg, credit card)
+        $result = $this->getTransactionDetails($_GET['tx']);
+      } elseif ( isset($_POST['txn_id']) && !empty($_POST['txn_id']) ) { // paypal payment
+        $result = $this->getTransactionDetails($_POST['txn_id']);
       }
 
       if ( !is_array($result) || !isset($result['ACK']) || (($result['ACK'] != 'Success') && ($result['ACK'] != 'SuccessWithWarning')) ) {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($result['L_LONGMESSAGE0'])));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($result['L_LONGMESSAGE0'])));
       }
 
       $order_id = substr($cart_PayPal_Pro_HS_ID, strpos($cart_PayPal_Pro_HS_ID, '-')+1);
@@ -419,7 +419,7 @@ EOD;
       }
 
       if ( !isset($result['RECEIVERBUSINESS']) || !in_array($result['RECEIVERBUSINESS'], $seller_accounts) || ($result['INVNUM'] != $order_id) || ($result['CUSTOM'] != $customer_id) ) {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       $pphs_result = $result;
@@ -430,7 +430,7 @@ EOD;
       $tx_customer_id = $pphs_result['CUSTOM'];
 
       if (!tep_db_num_rows($check_query) || ($order_id != $tx_order_id) || ($customer_id != $tx_customer_id)) {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       $check = tep_db_fetch_array($check_query);
@@ -540,7 +540,7 @@ EOD;
       $email_order = STORE_NAME . "\n" .
                      EMAIL_SEPARATOR . "\n" .
                      EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
+                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n" .
                      EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
       if ($order->info['comments']) {
         $email_order .= tep_db_output($order->info['comments']) . "\n\n";
@@ -597,7 +597,7 @@ EOD;
       tep_session_unregister('pphs_result');
       tep_session_unregister('pphs_key');
 
-      tep_redirect(tep_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
 
     function after_process() {
@@ -1035,7 +1035,7 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_POST_VARS, $HTTP_GET_VARS;
+      global $_POST, $_GET;
 
       if (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_HS_DEBUG_EMAIL)) {
         $email_body = '';
@@ -1044,12 +1044,12 @@ EOD;
           $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
         }
 
-        if (!empty($HTTP_POST_VARS)) {
-          $email_body .= '$HTTP_POST_VARS:' . "\n\n" . print_r($HTTP_POST_VARS, true) . "\n\n";
+        if (!empty($_POST)) {
+          $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {
