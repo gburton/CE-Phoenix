@@ -26,7 +26,7 @@
 // Stop from parsing any further PHP code
 // v2.3.3.1 now closes the session through a registered shutdown function
   function tep_exit() {
-   exit();
+   exit;
   }
 
 ////
@@ -1288,7 +1288,7 @@
       $parts = explode('.', $ip_address);
 
       foreach ($parts as $ip_parts) {
-        if ( (intval($ip_parts) > 255) || (intval($ip_parts) < 0) ) {
+        if ( ((int)($ip_parts) > 255) || ((int)($ip_parts) < 0) ) {
           return false; // number is not within 0-255
         }
       }

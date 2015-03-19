@@ -1391,7 +1391,7 @@
       $parts = explode('.', $ip_address);
 
       foreach ($parts as $ip_parts) {
-        if ( (intval($ip_parts) > 255) || (intval($ip_parts) < 0) ) {
+        if ( ((int)($ip_parts) > 255) || ((int)($ip_parts) < 0) ) {
           return false; // number is not within 0-255
         }
       }
