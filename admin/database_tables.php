@@ -42,18 +42,18 @@
                    array('id' => 'utf8',
                          'text' => ACTION_UTF8_CONVERSION));
 
-  if ( isset($HTTP_POST_VARS['action']) ) {
-    if ( in_array($HTTP_POST_VARS['action'], array('check', 'analyze', 'optimize', 'repair', 'utf8')) ) {
-      if ( isset($HTTP_POST_VARS['id']) && is_array($HTTP_POST_VARS['id']) && !empty($HTTP_POST_VARS['id']) ) {
+  if ( isset($_POST['action']) ) {
+    if ( in_array($_POST['action'], array('check', 'analyze', 'optimize', 'repair', 'utf8')) ) {
+      if ( isset($_POST['id']) && is_array($_POST['id']) && !empty($_POST['id']) ) {
         $tables = tep_dt_get_tables();
 
         foreach ( $HTTP_POST_VARS['id'] as $key => $value ) {
           if ( !in_array($value, $tables) ) {
-            unset($HTTP_POST_VARS['id'][$key]);
+            unset($_POST['id'][$key]);
           }
         }
 
-        if ( !empty($HTTP_POST_VARS['id']) ) {
+        if ( !empty($_POST['id']) ) {
           $action = $HTTP_POST_VARS['action'];
         }
       }
@@ -82,7 +82,7 @@
           $table_data[] = array(($table != $current_table) ? tep_output_string_protected($table) : '',
                                 tep_output_string_protected($sql['Msg_type']),
                                 tep_output_string_protected($sql['Msg_text']),
-                                ($table != $current_table) ? tep_draw_checkbox_field('id[]', $table, isset($HTTP_POST_VARS['id']) && in_array($table, $HTTP_POST_VARS['id'])) : '');
+                                ($table != $current_table) ? tep_draw_checkbox_field('id[]', $table, isset($_POST['id']) && in_array($table, $HTTP_POST_VARS['id'])) : '');
 
           $current_table = $table;
         }
@@ -93,7 +93,7 @@
     case 'utf8':
       $charset_pass = false;
 
-      if ( isset($HTTP_POST_VARS['from_charset']) ) {
+      if ( isset($_POST['from_charset']) ) {
         if ( $HTTP_POST_VARS['from_charset'] == 'auto' ) {
           $charset_pass = true;
         } else {
@@ -112,7 +112,7 @@
 
       tep_set_time_limit(0);
 
-      if ( isset($HTTP_POST_VARS['dryrun']) ) {
+      if ( isset($_POST['dryrun']) ) {
         $table_headers = array(TABLE_HEADING_QUERIES);
       } else {
         $table_headers = array(TABLE_HEADING_TABLE,
@@ -142,7 +142,7 @@
 
         $query = "alter table " . $table . " convert to character set utf8 collate utf8_unicode_ci";
 
-        if ( isset($HTTP_POST_VARS['dryrun']) ) {
+        if ( isset($_POST['dryrun']) ) {
           $table_data[] = array($query);
 
           foreach ( $queries as $q ) {
@@ -162,7 +162,7 @@
           }
         }
 
-        if ( !isset($HTTP_POST_VARS['dryrun']) ) {
+        if ( !isset($_POST['dryrun']) ) {
           $table_data[] = array(tep_output_string_protected($table),
                                 tep_output_string_protected($result),
                                 tep_draw_checkbox_field('id[]', $table, true));
@@ -232,7 +232,7 @@
 </table>
 
 <?php
-  if ( !isset($HTTP_POST_VARS['dryrun']) ) {
+  if ( !isset($_POST['dryrun']) ) {
 ?>
 
 <div class="main" style="text-align: right;">

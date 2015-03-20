@@ -20,9 +20,9 @@
       $this->sql_query = $query;
       $this->page_name = $page_holder;
 
-      if (isset($HTTP_GET_VARS[$page_holder])) {
+      if (isset($_GET[$page_holder])) {
         $page = $HTTP_GET_VARS[$page_holder];
-      } elseif (isset($HTTP_POST_VARS[$page_holder])) {
+      } elseif (isset($_POST[$page_holder])) {
         $page = $HTTP_POST_VARS[$page_holder];
       } else {
         $page = '';

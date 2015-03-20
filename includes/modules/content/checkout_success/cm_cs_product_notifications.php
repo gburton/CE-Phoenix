@@ -39,9 +39,9 @@
         $global = tep_db_fetch_array($global_query);
 
         if ( $global['global_product_notifications'] != '1' ) {
-          if ( isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'update') ) {
-            if ( isset($HTTP_POST_VARS['notify']) && is_array($HTTP_POST_VARS['notify']) && !empty($HTTP_POST_VARS['notify']) ) {
-              $notify = array_unique($HTTP_POST_VARS['notify']);
+          if ( isset($_GET['action']) && ($_GET['action'] == 'update') ) {
+            if ( isset($_POST['notify']) && is_array($_POST['notify']) && !empty($_POST['notify']) ) {
+              $notify = array_unique($_POST['notify']);
 
               foreach ( $notify as $n ) {
                 if ( is_numeric($n) && ($n > 0) ) {
