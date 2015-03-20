@@ -49,7 +49,7 @@
                         '    <td>' . tep_draw_separator('pixel_trans.gif', '1', '10') . '</td>' . "\n" .
                         '  </tr>' . "\n" .
                         '  <tr>' . "\n" .
-                        '    <td class="smallText" align="right">' . tep_draw_button(IMAGE_SEND, 'mail-closed', tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'] . '&action=confirm_send'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_NEWSLETTERS, 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'])) . '</td>' . "\n" .
+                        '    <td class="smallText" align="right">' . tep_draw_button(IMAGE_SEND, 'mail-closed', tep_href_link('newsletters.php', 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'] . '&action=confirm_send'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('newsletters.php', 'page=' . $HTTP_GET_VARS['page'] . '&nID=' . $HTTP_GET_VARS['nID'])) . '</td>' . "\n" .
                         '  </tr>' . "\n" .
                         '</table>';
 

@@ -61,7 +61,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -156,7 +156,7 @@
     function before_process() {
       global $HTTP_POST_VARS, $order, $order_totals, $sendto, $response_array;
 
-      if (isset($HTTP_POST_VARS['cc_owner_firstname']) && !empty($HTTP_POST_VARS['cc_owner_firstname']) && isset($HTTP_POST_VARS['cc_owner_lastname']) && !empty($HTTP_POST_VARS['cc_owner_lastname']) && isset($HTTP_POST_VARS['cc_number_nh-dns']) && !empty($HTTP_POST_VARS['cc_number_nh-dns'])) {
+      if (isset($_POST['cc_owner_firstname']) && !empty($_POST['cc_owner_firstname']) && isset($_POST['cc_owner_lastname']) && !empty($_POST['cc_owner_lastname']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns'])) {
         if (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TRANSACTION_SERVER == 'Live') {
           $api_url = 'https://payflowpro.paypal.com';
         } else {
@@ -269,10 +269,10 @@
               break;
           }
 
-          tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . urlencode($error_message), 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . urlencode($error_message), 'SSL'));
         }
       } else {
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ALL_FIELDS_REQUIRED, 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ALL_FIELDS_REQUIRED, 'SSL'));
       }
     }
 
@@ -684,28 +684,28 @@ EOD;
           $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
         }
 
-        if (!empty($HTTP_POST_VARS)) {
-          if (isset($HTTP_POST_VARS['cc_number_nh-dns'])) {
-            $HTTP_POST_VARS['cc_number_nh-dns'] = 'XXXX' . substr($HTTP_POST_VARS['cc_number_nh-dns'], -4);
+        if (!empty($_POST)) {
+          if (isset($_POST['cc_number_nh-dns'])) {
+            $HTTP_POST_VARS['cc_number_nh-dns'] = 'XXXX' . substr($_POST['cc_number_nh-dns'], -4);
           }
 
-          if (isset($HTTP_POST_VARS['cc_cvc_nh-dns'])) {
+          if (isset($_POST['cc_cvc_nh-dns'])) {
             $HTTP_POST_VARS['cc_cvc_nh-dns'] = 'XXX';
           }
 
-          if (isset($HTTP_POST_VARS['cc_expires_month'])) {
+          if (isset($_POST['cc_expires_month'])) {
             $HTTP_POST_VARS['cc_expires_month'] = 'XX';
           }
 
-          if (isset($HTTP_POST_VARS['cc_expires_year'])) {
+          if (isset($_POST['cc_expires_year'])) {
             $HTTP_POST_VARS['cc_expires_year'] = 'XX';
           }
 
-          $email_body .= '$HTTP_POST_VARS:' . "\n\n" . print_r($HTTP_POST_VARS, true) . "\n\n";
+          $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {

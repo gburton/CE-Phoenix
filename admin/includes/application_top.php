@@ -28,9 +28,6 @@
     include('includes/configure.php');
   }
 
-// Define the project version --- obsolete, now retrieved with tep_get_version()
-  define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
-
 // some code to solve compatibility issues
   require(DIR_WS_FUNCTIONS . 'compatibility.php');
 
@@ -38,7 +35,7 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $req = parse_url($_SERVER['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
 
 // Used in the "Backup Manager" to compress backups
@@ -46,9 +43,6 @@
   define('LOCAL_EXE_GUNZIP', 'gunzip');
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
-
-// include the list of project filenames
-  require(DIR_WS_INCLUDES . 'filenames.php');
 
 // include the list of project database tables
   require(DIR_WS_INCLUDES . 'database_tables.php');
@@ -110,7 +104,7 @@
   }
 
 // set the language
-  if (!tep_session_is_registered('language') || isset($HTTP_GET_VARS['language'])) {
+  if (!tep_session_is_registered('language') || isset($_GET['language'])) {
     if (!tep_session_is_registered('language')) {
       tep_session_register('language');
       tep_session_register('languages_id');
@@ -119,8 +113,8 @@
     include(DIR_WS_CLASSES . 'language.php');
     $lng = new language();
 
-    if (isset($HTTP_GET_VARS['language']) && tep_not_null($HTTP_GET_VARS['language'])) {
-      $lng->set_language($HTTP_GET_VARS['language']);
+    if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
+      $lng->set_language($_GET['language']);
     } else {
       $lng->get_browser_language();
     }
@@ -137,12 +131,12 @@
 
 // if the first page request is to the login page, set the current page to the index page
 // so the redirection on a successful login is not made to the login page again
-    if ( ($current_page == FILENAME_LOGIN) && !tep_session_is_registered('redirect_origin') ) {
-      $current_page = FILENAME_DEFAULT;
+    if ( ($current_page == 'login.php') && !tep_session_is_registered('redirect_origin') ) {
+      $current_page = 'index.php';
       $HTTP_GET_VARS = array();
     }
 
-    if ($current_page != FILENAME_LOGIN) {
+    if ($current_page != 'login.php') {
       if (!tep_session_is_registered('redirect_origin')) {
         tep_session_register('redirect_origin');
 
@@ -152,7 +146,7 @@
 
 // try to automatically login with the HTTP Authentication values if it exists
       if (!tep_session_is_registered('auth_ignore')) {
-        if (isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
+        if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
           $redirect_origin['auth_user'] = $HTTP_SERVER_VARS['PHP_AUTH_USER'];
           $redirect_origin['auth_pw'] = $HTTP_SERVER_VARS['PHP_AUTH_PW'];
         }
@@ -161,12 +155,12 @@
       $redirect = true;
     }
 
-    if (!isset($login_request) || isset($HTTP_GET_VARS['login_request']) || isset($HTTP_POST_VARS['login_request']) || isset($HTTP_COOKIE_VARS['login_request']) || isset($HTTP_SESSION_VARS['login_request']) || isset($HTTP_POST_FILES['login_request']) || isset($HTTP_SERVER_VARS['login_request'])) {
+    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($$_SESSION['login_request']) || isset($_FILES['login_request']) || isset($_SERVER['login_request'])) {
       $redirect = true;
     }
 
     if ($redirect == true) {
-      tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+      tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
 
     unset($redirect);
@@ -213,7 +207,7 @@
   require(DIR_WS_CLASSES . 'action_recorder.php');
 
 // calculate category path
-  if (isset($HTTP_GET_VARS['cPath'])) {
+  if (isset($_GET['cPath'])) {
     $cPath = $HTTP_GET_VARS['cPath'];
   } else {
     $cPath = '';

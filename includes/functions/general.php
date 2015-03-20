@@ -33,7 +33,7 @@
 // Redirect to another page or site
   function tep_redirect($url) {
     if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) { 
-      tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'NONSSL', false));
+      tep_redirect(tep_href_link('index.php', '', 'NONSSL', false));
     }
 
     if ( (ENABLE_SSL == true) && (getenv('HTTPS') == 'on') ) { // We are loading an SSL page
@@ -173,9 +173,9 @@
     if (!is_array($exclude_array)) $exclude_array = array();
 
     $get_url = '';
-    if (is_array($HTTP_GET_VARS) && (sizeof($HTTP_GET_VARS) > 0)) {
-      reset($HTTP_GET_VARS);
-      while (list($key, $value) = each($HTTP_GET_VARS)) {
+    if (is_array($_GET) && (sizeof($_GET) > 0)) {
+      reset($_GET);
+      while (list($key, $value) = each($_GET)) {
         if ( is_string($value) && (strlen($value) > 0) && ($key != tep_session_name()) && ($key != 'error') && (!in_array($key, $exclude_array)) && ($key != 'x') && ($key != 'y') ) {
           $get_url .= $key . '=' . rawurlencode(stripslashes($value)) . '&';
         }
@@ -1014,9 +1014,9 @@
     global $customer_id, $customer_first_name;
 
     if (tep_session_is_registered('customer_first_name') && tep_session_is_registered('customer_id')) {
-      $greeting_string = sprintf(TEXT_GREETING_PERSONAL, tep_output_string_protected($customer_first_name), tep_href_link(FILENAME_PRODUCTS_NEW));
+      $greeting_string = sprintf(TEXT_GREETING_PERSONAL, tep_output_string_protected($customer_first_name), tep_href_link('products_new.php'));
     } else {
-      $greeting_string = sprintf(TEXT_GREETING_GUEST, tep_href_link(FILENAME_LOGIN, '', 'SSL'), tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
+      $greeting_string = sprintf(TEXT_GREETING_GUEST, tep_href_link('login.php', '', 'SSL'), tep_href_link('create_account.php', '', 'SSL'));
     }
 
     return $greeting_string;
@@ -1305,7 +1305,7 @@
     $ip_address = null;
     $ip_addresses = array();
 
-    if (isset($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR']) && !empty($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) {
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
       foreach ( array_reverse(explode(',', $HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
         $x_ip = trim($x_ip);
 
@@ -1315,15 +1315,15 @@
       }
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_CLIENT_IP'])) {
+    if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
       $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_CLIENT_IP'];
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'])) {
+    if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
       $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'];
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_PROXY_USER']) && !empty($HTTP_SERVER_VARS['HTTP_PROXY_USER'])) {
+    if (isset($_SERVER['HTTP_PROXY_USER']) && !empty($_SERVER['HTTP_PROXY_USER'])) {
       $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_PROXY_USER'];
     }
 

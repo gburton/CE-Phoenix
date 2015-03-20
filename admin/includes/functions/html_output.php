@@ -199,11 +199,11 @@
 
     $field = '<input type="' . tep_output_string($type) . '" name="' . tep_output_string($name) . '"';
 
-    if ( ($reinsert_value == true) && ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) ) {
-      if (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) {
-        $value = stripslashes($HTTP_GET_VARS[$name]);
-      } elseif (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) {
-        $value = stripslashes($HTTP_POST_VARS[$name]);
+    if ( ($reinsert_value == true) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
+      if (isset($_GET[$name]) && is_string($_GET[$name])) {
+        $value = stripslashes($_GET[$name]);
+      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
+        $value = stripslashes($_POST[$name]);
       }
     }
 
@@ -245,7 +245,7 @@
 
     if (tep_not_null($value)) $selection .= ' value="' . tep_output_string($value) . '"';
 
-    if ( ($checked == true) || (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name]) && (($HTTP_GET_VARS[$name] == 'on') || (stripslashes($HTTP_GET_VARS[$name]) == $value))) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name]) && (($HTTP_POST_VARS[$name] == 'on') || (stripslashes($HTTP_POST_VARS[$name]) == $value))) || (tep_not_null($compare) && ($value == $compare)) ) {
+    if ( ($checked == true) || (isset($_GET[$name]) && is_string($_GET[$name]) && (($_GET[$name] == 'on') || (stripslashes($_GET[$name]) == $value))) || (isset($_POST[$name]) && is_string($_POST[$name]) && (($_POST[$name] == 'on') || (stripslashes($_POST[$name]) == $value))) || (tep_not_null($compare) && ($value == $compare)) ) {
       $selection .= ' checked="checked"';
     }
 
@@ -278,11 +278,11 @@
 
     $field .= '>';
 
-    if ( ($reinsert_value == true) && ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) ) {
-      if (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) {
-        $field .= tep_output_string_protected(stripslashes($HTTP_GET_VARS[$name]));
-      } elseif (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) {
-        $field .= tep_output_string_protected(stripslashes($HTTP_POST_VARS[$name]));
+    if ( ($reinsert_value == true) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
+      if (isset($_GET[$name]) && is_string($_GET[$name])) {
+        $field .= tep_output_string_protected(stripslashes($_GET[$name]));
+      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
+        $field .= tep_output_string_protected(stripslashes($_POST[$name]));
       }
     } elseif (tep_not_null($text)) {
       $field .= tep_output_string_protected($text);
@@ -302,11 +302,11 @@
 
     if (tep_not_null($value)) {
       $field .= ' value="' . tep_output_string($value) . '"';
-    } elseif ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) {
-      if ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) ) {
-        $field .= ' value="' . tep_output_string(stripslashes($HTTP_GET_VARS[$name])) . '"';
-      } elseif ( (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) {
-        $field .= ' value="' . tep_output_string(stripslashes($HTTP_POST_VARS[$name])) . '"';
+    } elseif ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) {
+      if ( (isset($_GET[$name]) && is_string($_GET[$name])) ) {
+        $field .= ' value="' . tep_output_string(stripslashes($_GET[$name])) . '"';
+      } elseif ( (isset($_POST[$name]) && is_string($_POST[$name])) ) {
+        $field .= ' value="' . tep_output_string(stripslashes($_POST[$name])) . '"';
       }
     }
 
@@ -340,11 +340,11 @@
 
     $field .= '>';
 
-    if (empty($default) && ( (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) || (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) ) ) {
-      if (isset($HTTP_GET_VARS[$name]) && is_string($HTTP_GET_VARS[$name])) {
-        $default = stripslashes($HTTP_GET_VARS[$name]);
-      } elseif (isset($HTTP_POST_VARS[$name]) && is_string($HTTP_POST_VARS[$name])) {
-        $default = stripslashes($HTTP_POST_VARS[$name]);
+    if (empty($default) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
+      if (isset($_GET[$name]) && is_string($_GET[$name])) {
+        $default = stripslashes($_GET[$name]);
+      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
+        $default = stripslashes($_POST[$name]);
       }
     }
 
