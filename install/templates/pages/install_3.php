@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  $dir_fs_document_root = $_POST['DIR_FS_DOCUMENT_ROOT'];
+  $dir_fs_document_root = $HTTP_POST_VARS['DIR_FS_DOCUMENT_ROOT'];
   if ((substr($dir_fs_document_root, -1) != '\\') && (substr($dir_fs_document_root, -1) != '/')) {
     if (strrpos($dir_fs_document_root, '\\') !== false) {
       $dir_fs_document_root .= '\\';
@@ -131,7 +131,7 @@
       <p><?php echo osc_draw_button('Continue To Step 4', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
       <?php
-      foreach ( $_POST as $key => $value ) {
+      foreach ( $HTTP_POST_VARS as $key => $value ) {
         if (($key != 'x') && ($key != 'y')) {
           echo osc_draw_hidden_field($key, $value);
         }

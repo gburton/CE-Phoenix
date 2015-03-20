@@ -95,11 +95,11 @@ class mc360 {
         
         if ($this->debug){
             $debug_email .= date('Y-m-d H:i:s') . ' current ids:' . "\n" .
-                            date('Y-m-d H:i:s') . ' eid =' . $_COOKIE['mailchimp_email_id'] . "\n" .
-                            date('Y-m-d H:i:s') . ' cid =' . $_COOKIE['mailchimp_campaign_id'] . "\n";
+                            date('Y-m-d H:i:s') . ' eid =' . $HTTP_COOKIE_VARS['mailchimp_email_id'] . "\n" .
+                            date('Y-m-d H:i:s') . ' cid =' . $HTTP_COOKIE_VARS['mailchimp_campaign_id'] . "\n";
         }
 
-        $customer_id = $_SESSION['customer_id'];
+        $customer_id = $HTTP_SESSION_VARS['customer_id'];
 
         $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where customers_id = '" . (int)$customer_id . "' order by date_purchased desc limit 1");
         $orders = tep_db_fetch_array($orders_query);
@@ -129,7 +129,7 @@ class mc360 {
                 'tax'  =>$totals_array['ot_tax'],
                 'items'=>array(),
                 'store_id'=>$this->store_id,
-                'store_name' => $_SERVER['SERVER_NAME'],
+                'store_name' => $HTTP_SERVER_VARS['SERVER_NAME'],
                 'campaign_id'=>$_COOKIE['mailchimp_campaign_id'],
                 'email_id'=>$_COOKIE['mailchimp_email_id'],
                 'plugin_id'=>1216
