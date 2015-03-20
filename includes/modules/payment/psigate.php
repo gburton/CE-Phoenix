@@ -107,7 +107,7 @@
         include(DIR_WS_CLASSES . 'cc_validation.php');
 
         $cc_validation = new cc_validation();
-        $result = $cc_validation->validate($HTTP_POST_VARS['psigate_cc_number'], $HTTP_POST_VARS['psigate_cc_expires_month'], $HTTP_POST_VARS['psigate_cc_expires_year']);
+        $result = $cc_validation->validate($_POST['psigate_cc_number'], $HTTP_POST_VARS['psigate_cc_expires_month'], $HTTP_POST_VARS['psigate_cc_expires_year']);
 
         $error = '';
         switch ($result) {
@@ -125,9 +125,9 @@
         }
 
         if ( ($result == false) || ($result < 1) ) {
-          $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&psigate_cc_owner=' . urlencode($HTTP_POST_VARS['psigate_cc_owner']) . '&psigate_cc_expires_month=' . $HTTP_POST_VARS['psigate_cc_expires_month'] . '&psigate_cc_expires_year=' . $HTTP_POST_VARS['psigate_cc_expires_year'];
+          $payment_error_return = 'payment_error=' . $this->code . '&error=' . urlencode($error) . '&psigate_cc_owner=' . urlencode($_POST['psigate_cc_owner']) . '&psigate_cc_expires_month=' . $HTTP_POST_VARS['psigate_cc_expires_month'] . '&psigate_cc_expires_year=' . $HTTP_POST_VARS['psigate_cc_expires_year'];
 
-          tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, $payment_error_return, 'SSL', true, false));
+          tep_redirect(tep_href_link('checkout_payment.php', $payment_error_return, 'SSL', true, false));
         }
 
         $this->cc_card_type = $cc_validation->cc_type;
@@ -149,7 +149,7 @@
                                                 array('title' => MODULE_PAYMENT_PSIGATE_TEXT_CREDIT_CARD_NUMBER,
                                                       'field' => substr($this->cc_card_number, 0, 4) . str_repeat('X', (strlen($this->cc_card_number) - 8)) . substr($this->cc_card_number, -4)),
                                                 array('title' => MODULE_PAYMENT_PSIGATE_TEXT_CREDIT_CARD_EXPIRES,
-                                                      'field' => strftime('%B, %Y', mktime(0,0,0,$HTTP_POST_VARS['psigate_cc_expires_month'], 1, '20' . $HTTP_POST_VARS['psigate_cc_expires_year'])))));
+                                                      'field' => strftime('%B, %Y', mktime(0,0,0,$_POST['psigate_cc_expires_month'], 1, '20' . $HTTP_POST_VARS['psigate_cc_expires_year'])))));
 
         return $confirmation;
       } else {
@@ -191,8 +191,8 @@
 
       $process_button_string = tep_draw_hidden_field('MerchantID', MODULE_PAYMENT_PSIGATE_MERCHANT_ID) .
                                tep_draw_hidden_field('FullTotal', number_format($order->info['total'] * $currencies->get_value(MODULE_PAYMENT_PSIGATE_CURRENCY), $currencies->currencies[MODULE_PAYMENT_PSIGATE_CURRENCY]['decimal_places'])) .
-                               tep_draw_hidden_field('ThanksURL', tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL', true)) .
-                               tep_draw_hidden_field('NoThanksURL', tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code, 'NONSSL', true)) .
+                               tep_draw_hidden_field('ThanksURL', tep_href_link('checkout_process.php', '', 'SSL', true)) .
+                               tep_draw_hidden_field('NoThanksURL', tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'NONSSL', true)) .
                                tep_draw_hidden_field('Bname', $order->billing['firstname'] . ' ' . $order->billing['lastname']) .
                                tep_draw_hidden_field('Baddr1', $order->billing['street_address']) .
                                tep_draw_hidden_field('Bcity', $order->billing['city']);
@@ -240,12 +240,12 @@
     function get_error() {
       global $HTTP_GET_VARS;
 
-      if (isset($HTTP_GET_VARS['ErrMsg']) && tep_not_null($HTTP_GET_VARS['ErrMsg'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['ErrMsg']));
-      } elseif (isset($HTTP_GET_VARS['Err']) && tep_not_null($HTTP_GET_VARS['Err'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['Err']));
-      } elseif (isset($HTTP_GET_VARS['error']) && tep_not_null($HTTP_GET_VARS['error'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['error']));
+      if (isset($_GET['ErrMsg']) && tep_not_null($_GET['ErrMsg'])) {
+        $error = stripslashes(urldecode($_GET['ErrMsg']));
+      } elseif (isset($_GET['Err']) && tep_not_null($_GET['Err'])) {
+        $error = stripslashes(urldecode($_GET['Err']));
+      } elseif (isset($_GET['error']) && tep_not_null($_GET['error'])) {
+        $error = stripslashes(urldecode($_GET['error']));
       } else {
         $error = MODULE_PAYMENT_PSIGATE_TEXT_ERROR_MESSAGE;
       }

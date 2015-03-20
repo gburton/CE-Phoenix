@@ -32,7 +32,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $_GET, $languages_id;
+      global $oscTemplate, $HTTP_GET_VARS, $languages_id;
       
       $content_width = (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH;
 

@@ -24,7 +24,7 @@
 
       if (isset($_SESSION['messageToStack'])) {
         for ($i=0, $n=sizeof($_SESSION['messageToStack']); $i<$n; $i++) {
-          $this->add($_SESSION['messageToStack'][$i]['class'], $_SESSION['messageToStack'][$i]['text'], $_SESSION['messageToStack'][$i]['type']);
+          $this->add($_SESSION['messageToStack'][$i]['class'], $HTTP_SESSION_VARS['messageToStack'][$i]['text'], $HTTP_SESSION_VARS['messageToStack'][$i]['type']);
         }
         unset($_SESSION['messageToStack']);
       }
@@ -45,10 +45,10 @@
 
     function add_session($class, $message, $type = 'error') {
       if (!isset($_SESSION['messageToStack'])) {
-        $_SESSION['messageToStack'] = array();
+        $HTTP_SESSION_VARS['messageToStack'] = array();
       }
 
-      $_SESSION['messageToStack'][] = array('class' => $class, 'text' => $message, 'type' => $type);
+      $HTTP_SESSION_VARS['messageToStack'][] = array('class' => $class, 'text' => $message, 'type' => $type);
     }
 
     function reset() {

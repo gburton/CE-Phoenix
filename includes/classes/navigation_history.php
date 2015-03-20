@@ -60,8 +60,8 @@
       if ($set == 'true') {
         $this->path[] = array('page' => $PHP_SELF,
                               'mode' => $request_type,
-                              'get' => $this->filter_parameters($HTTP_GET_VARS),
-                              'post' => $this->filter_parameters($HTTP_POST_VARS));
+                              'get' => $this->filter_parameters($_GET),
+                              'post' => $this->filter_parameters($_POST));
       }
     }
 
@@ -85,8 +85,8 @@
       } else {
         $this->snapshot = array('page' => $PHP_SELF,
                                 'mode' => $request_type,
-                                'get' => $this->filter_parameters($HTTP_GET_VARS),
-                                'post' => $this->filter_parameters($HTTP_POST_VARS));
+                                'get' => $this->filter_parameters($_GET),
+                                'post' => $this->filter_parameters($_POST));
       }
     }
 

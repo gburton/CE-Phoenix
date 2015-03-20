@@ -20,27 +20,27 @@
 
   $kunden_var_0 = $kunden_var_1 = $pw = $betrag_integer = '';
 
-  if (isset($HTTP_GET_VARS['kunden_var_0'])) {
+  if (isset($_GET['kunden_var_0'])) {
     $kunden_var_0 = $HTTP_GET_VARS['kunden_var_0'];
-  } elseif (isset($HTTP_POST_VARS['kunden_var_0'])) {
+  } elseif (isset($_POST['kunden_var_0'])) {
     $kunden_var_0 = $HTTP_POST_VARS['kunden_var_0'];
   }
 
-  if (isset($HTTP_GET_VARS['kunden_var_1'])) {
+  if (isset($_GET['kunden_var_1'])) {
     $kunden_var_1 = $HTTP_GET_VARS['kunden_var_1'];
-  } elseif (isset($HTTP_POST_VARS['kunden_var_1'])) {
+  } elseif (isset($_POST['kunden_var_1'])) {
     $kunden_var_1 = $HTTP_POST_VARS['kunden_var_1'];
   }
 
-  if (isset($HTTP_GET_VARS['pw'])) {
+  if (isset($_GET['pw'])) {
     $pw = $HTTP_GET_VARS['pw'];
-  } elseif (isset($HTTP_POST_VARS['pw'])) {
+  } elseif (isset($_POST['pw'])) {
     $pw = $HTTP_POST_VARS['pw'];
   }
 
-  if (isset($HTTP_GET_VARS['betrag_integer'])) {
+  if (isset($_GET['betrag_integer'])) {
     $betrag_integer = $HTTP_GET_VARS['betrag_integer'];
-  } elseif (isset($HTTP_POST_VARS['betrag_integer'])) {
+  } elseif (isset($_POST['betrag_integer'])) {
     $betrag_integer = $HTTP_POST_VARS['betrag_integer'];
   }
 
@@ -80,7 +80,7 @@
       }
 
       if (MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_STORE_TRANSACTION_DETAILS == 'True') {
-        $comment .= "\n" . serialize($HTTP_GET_VARS) . "\n" . serialize($HTTP_POST_VARS);
+        $comment .= "\n" . serialize($_GET) . "\n" . serialize($_POST);
       }
 
       $order_status = (MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_ORDER_STATUS_ID > 0 ? (int)MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_ORDER_STATUS_ID : (int)DEFAULT_ORDERS_STATUS_ID);

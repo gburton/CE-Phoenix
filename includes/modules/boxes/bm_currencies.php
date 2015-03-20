@@ -42,8 +42,8 @@
           }
 
           $hidden_get_variables = '';
-          reset($HTTP_GET_VARS);
-          while (list($key, $value) = each($HTTP_GET_VARS)) {
+          reset($_GET);
+          while (list($key, $value) = each($_GET)) {
             if ( is_string($value) && ($key != 'currency') && ($key != tep_session_name()) && ($key != 'x') && ($key != 'y') ) {
               $hidden_get_variables .= tep_draw_hidden_field($key, $value);
             }
