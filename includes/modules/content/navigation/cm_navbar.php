@@ -32,7 +32,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $cart, $lng, $language, $currencies, $HTTP_GET_VARS, $request_type, $currency, $oscTemplate;
+      global $PHP_SELF, $cart, $lng, $language, $currencies, $_GET, $request_type, $currency, $oscTemplate;
       global $customer_first_name;
 
       ob_start();
