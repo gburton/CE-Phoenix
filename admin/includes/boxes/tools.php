@@ -14,24 +14,24 @@
     'heading' => BOX_HEADING_TOOLS,
     'apps' => array(
       array(
-        'code' => FILENAME_ACTION_RECORDER,
+        'code' => 'action_recorder.php',
         'title' => BOX_TOOLS_ACTION_RECORDER,
-        'link' => tep_href_link(FILENAME_ACTION_RECORDER)
+        'link' => tep_href_link('action_recorder.php')
       ),
       array(
-        'code' => FILENAME_BACKUP,
+        'code' => 'backup.php',
         'title' => BOX_TOOLS_BACKUP,
-        'link' => tep_href_link(FILENAME_BACKUP)
+        'link' => tep_href_link('backup.php')
       ),
       array(
-        'code' => FILENAME_BANNER_MANAGER,
+        'code' => 'banner_manager.php',
         'title' => BOX_TOOLS_BANNER_MANAGER,
-        'link' => tep_href_link(FILENAME_BANNER_MANAGER)
+        'link' => tep_href_link('banner_manager.php')
       ),
       array(
-        'code' => FILENAME_CACHE,
+        'code' => 'cache.php',
         'title' => BOX_TOOLS_CACHE,
-        'link' => tep_href_link(FILENAME_CACHE)
+        'link' => tep_href_link('cache.php')
       ),
       array(
         'code' => FILENAME_DEFINE_LANGUAGE,

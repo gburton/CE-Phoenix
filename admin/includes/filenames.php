@@ -11,18 +11,6 @@
 */
 
 // define the filenames used in the project
-  define('FILENAME_ACTION_RECORDER', 'action_recorder.php');
-  define('FILENAME_ADMINISTRATORS', 'administrators.php');
-  define('FILENAME_BACKUP', 'backup.php');
-  define('FILENAME_BANNER_MANAGER', 'banner_manager.php');
-  define('FILENAME_BANNER_STATISTICS', 'banner_statistics.php');
-  define('FILENAME_CACHE', 'cache.php');
-  define('FILENAME_CATALOG_ACCOUNT_HISTORY_INFO', 'account_history_info.php');
-  define('FILENAME_CATEGORIES', 'categories.php');
-  define('FILENAME_CONFIGURATION', 'configuration.php');
-  define('FILENAME_COUNTRIES', 'countries.php');
-  define('FILENAME_CURRENCIES', 'currencies.php');
-  define('FILENAME_CUSTOMERS', 'customers.php');
   define('FILENAME_DEFAULT', 'index.php');
   define('FILENAME_DEFINE_LANGUAGE', 'define_language.php');
   define('FILENAME_GEO_ZONES', 'geo_zones.php');
