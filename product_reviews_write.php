@@ -16,7 +16,7 @@
 
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   if (!isset($HTTP_GET_VARS['products_id'])) {

@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-navbar-collapse-core-nav">
         <ul class="nav navbar-nav">
-          <?php echo '<li><a class="store-brand" href="' . tep_href_link(FILENAME_DEFAULT) . '">' . HEADER_HOME . '</a></li>'; ?>
+          <?php echo '<li><a class="store-brand" href="' . tep_href_link('index.php') . '">' . HEADER_HOME . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_PRODUCTS_NEW) . '">' . HEADER_WHATS_NEW . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_SPECIALS) . '">' . HEADER_SPECIALS . '</a></li>'; ?>
           <?php echo '<li><a href="' . tep_href_link(FILENAME_REVIEWS) . '">' . HEADER_REVIEWS . '</a></li>'; ?>
@@ -60,7 +60,7 @@
                 echo '<li><a href="' . tep_href_link(FILENAME_LOGOFF, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGOFF . '</a>';
               }
               else {
-                 echo '<li><a href="' . tep_href_link(FILENAME_LOGIN, '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
+                 echo '<li><a href="' . tep_href_link('login.php', '', 'SSL') . '">' . HEADER_ACCOUNT_LOGIN . '</a>';
                  echo '<li><a href="' . tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL') . '">' . HEADER_ACCOUNT_REGISTER . '</a>';
               }
               ?>

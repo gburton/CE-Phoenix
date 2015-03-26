@@ -231,7 +231,7 @@
 
     if ($SESSION_USER_AGENT != $http_user_agent) {
       tep_session_destroy();
-      tep_redirect(tep_href_link(FILENAME_LOGIN));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
 
@@ -245,7 +245,7 @@
 
     if ($SESSION_IP_ADDRESS != $ip_address) {
       tep_session_destroy();
-      tep_redirect(tep_href_link(FILENAME_LOGIN));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
 
@@ -394,7 +394,7 @@
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                               } else {
                                 $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
       case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['products_id'])) {
@@ -407,7 +407,7 @@
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
                               } else {
                                 $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
       case 'cust_order' :     if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['pid'])) {
@@ -475,7 +475,7 @@
   $breadcrumb = new breadcrumb;
 
   $breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);
-  $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link(FILENAME_DEFAULT));
+  $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link('index.php'));
 
 // add category names or the manufacturer name to the breadcrumb trail
   if (isset($cPath_array)) {
@@ -484,7 +484,7 @@
       $categories_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
       if (tep_db_num_rows($categories_query) > 0) {
         $categories = tep_db_fetch_array($categories_query);
-        $breadcrumb->add($categories['categories_name'], tep_href_link(FILENAME_DEFAULT, 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
+        $breadcrumb->add($categories['categories_name'], tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
       } else {
         break;
       }
@@ -493,7 +493,7 @@
     $manufacturers_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
     if (tep_db_num_rows($manufacturers_query)) {
       $manufacturers = tep_db_fetch_array($manufacturers_query);
-      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
+      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link('index.php', 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
     }
   }
 

@@ -169,7 +169,7 @@
   <?php echo TEXT_CART_EMPTY; ?>
 </div>
 
-<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT), 'primary', NULL, 'btn-danger'); ?></p>
+<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger'); ?></p>
 
 <?php
   }

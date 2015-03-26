@@ -134,7 +134,7 @@
     // here it goes the extras, yuck
     $extra_list_contents = NULL;
     // manufacturer
-	  if (($lc_show_manu == true) && ($listing['manufacturers_id'] !=  0)) $extra_list_contents .= '<dt>' . TABLE_HEADING_MANUFACTURER . '</dt><dd><a href="' . tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></dd>';
+	  if (($lc_show_manu == true) && ($listing['manufacturers_id'] !=  0)) $extra_list_contents .= '<dt>' . TABLE_HEADING_MANUFACTURER . '</dt><dd><a href="' . tep_href_link('index.php', 'manufacturers_id=' . $listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></dd>';
     // model
 	  if ( ($lc_show_model == true) && tep_not_null($listing['products_model'])) $extra_list_contents .= '<dt>' . TABLE_HEADING_MODEL . '</dt><dd>' . $listing['products_model'] . '</dd>';
     // stock

@@ -35,10 +35,10 @@
   define('FILENAME_COOKIE_USAGE', 'cookie_usage.php');
   define('FILENAME_CREATE_ACCOUNT', 'create_account.php');
   define('FILENAME_CREATE_ACCOUNT_SUCCESS', 'create_account_success.php');
-  define('FILENAME_DEFAULT', 'index.php');
+  define(''index.php'', 'index.php');
   define('FILENAME_DOWNLOAD', 'download.php');
   define('FILENAME_INFO_SHOPPING_CART', 'info_shopping_cart.php');
-  define('FILENAME_LOGIN', 'login.php');
+  define(''login.php'', 'login.php');
   define('FILENAME_LOGOFF', 'logoff.php');
   define('FILENAME_NEW_PRODUCTS', 'new_products.php');
   define('FILENAME_PASSWORD_FORGOTTEN', 'password_forgotten.php');
