@@ -11,11 +11,6 @@
 */
 
 // define the filenames used in the project
-  define('FILENAME_DEFAULT', 'index.php');
-  define('FILENAME_DEFINE_LANGUAGE', 'define_language.php');
-  define('FILENAME_GEO_ZONES', 'geo_zones.php');
-  define('FILENAME_LANGUAGES', 'languages.php');
-  define('FILENAME_LOGIN', 'login.php');
   define('FILENAME_MAIL', 'mail.php');
   define('FILENAME_MANUFACTURERS', 'manufacturers.php');
   define('FILENAME_MODULES', 'modules.php');
