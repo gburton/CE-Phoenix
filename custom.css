@@ -457,3 +457,17 @@ p.lead del {
 .form-control-feedback{
 	padding-right:2%;
 }
+
+/* Product Info Modules ----------------------------------------------------------------- */
+
+.VerticalMargin {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.HorizontalMargin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+
