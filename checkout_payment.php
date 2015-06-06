@@ -177,7 +177,7 @@
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
 ?>
-      <tr>
+      <tr class="table-selection">
         <td><strong><?php echo $selection[$i]['module']; ?></strong></td>
         <td align="right">
 

@@ -257,12 +257,10 @@
       for ($i=0, $n=sizeof($quotes); $i<$n; $i++) {
         for ($j=0, $n2=sizeof($quotes[$i]['methods']); $j<$n2; $j++) {
 // set the radio button to be checked if it is the method chosen
-          $checked = (($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $shipping['id']) ? true : false);
-
-          echo '      <tr>' . "\n";
+          $checked = (($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $shipping['id']) ? true : false);         
 
 ?>
-
+      <tr class="table-selection">
         <td>
           <strong><?php echo $quotes[$i]['module']; ?></strong>
           <?php
