@@ -276,3 +276,6 @@ define('PRODUCT_SUBSCRIBED', '%s has been added to your Notification List');
 define('PRODUCT_UNSUBSCRIBED', '%s has been removed from your Notification List');
 define('PRODUCT_ADDED', '%s has been added to your Cart');
 define('PRODUCT_REMOVED', '%s has been removed from your Cart');
+
+// bootstrap helper
+define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 or less per column per row.</p><p>12/12 = 100% width, 6/12 = 50% width, 4/12 = 33% width.</p><p>Total of all columns in any one row must equal 12 (eg:  3 boxes of 4 columns each, 1 box of 12 columns and so on).</p>');
