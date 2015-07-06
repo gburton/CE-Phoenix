@@ -24,6 +24,7 @@
 
       $this->title = MODULE_CONTENT_FOOTER_CONTACT_US_TITLE;
       $this->description = MODULE_CONTENT_FOOTER_CONTACT_US_DESCRIPTION;
+      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
 
       if ( defined('MODULE_CONTENT_FOOTER_CONTACT_US_STATUS') ) {
         $this->sort_order = MODULE_CONTENT_FOOTER_CONTACT_US_SORT_ORDER;
