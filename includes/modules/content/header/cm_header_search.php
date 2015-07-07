@@ -24,6 +24,7 @@
 
       $this->title = MODULE_CONTENT_HEADER_SEARCH_TITLE;
       $this->description = MODULE_CONTENT_HEADER_SEARCH_DESCRIPTION;
+      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
 
       if ( defined('MODULE_CONTENT_HEADER_SEARCH_STATUS') ) {
         $this->sort_order = MODULE_CONTENT_HEADER_SEARCH_SORT_ORDER;
