@@ -165,7 +165,7 @@
   <div class="form-group has-feedback">
     <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
     <div class="col-sm-9">
-      <?php echo tep_draw_input_field('firstname', $account['customers_firstname'], 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME . '"'); ?>
+      <?php echo tep_draw_input_field('firstname', $account['customers_firstname'], 'required aria-required="true" id="inputFirstName" minlength="' . (int)ENTRY_FIRST_NAME_MIN_LENGTH . '" placeholder="' . ENTRY_FIRST_NAME . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
