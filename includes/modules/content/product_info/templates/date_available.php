@@ -1,0 +1,3 @@
+<div class="col-sm-<?php echo $content_width . ' ' . MODULE_CONTENT_PRODUCT_INFO_DATE_AVAILABLE_CONTENT_ALIGN . ' ' . MODULE_CONTENT_PRODUCT_INFO_DATE_AVAILABLE_CONTENT_VERT_MARGIN . ' ' . MODULE_CONTENT_PRODUCT_INFO_DATE_AVAILABLE_CONTENT_HORIZ_MARGIN; ?> dateavailable">
+    <div class="alert alert-info"><?php echo sprintf(MODULE_CONTENT_PRODUCT_INFO_DATE_AVAILABLE_DATE, tep_date_long($product_info['products_date_available'])); ?></div>
+</div>
