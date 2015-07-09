@@ -83,17 +83,17 @@
     <div class="form-group has-feedback">
       <label for="inputNew" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_NEW; ?></label>
       <div class="col-sm-9">
-        <?php echo tep_draw_input_field('password_new', NULL, 'required aria-required="true" autofocus="autofocus" id="inputNew" placeholder="' . ENTRY_PASSWORD_NEW . '"', 'password'); ?>
+        <?php echo tep_draw_input_field('password_new', NULL, 'required aria-required="true" aria-describedby="atPasswordNew" autofocus="autofocus" id="inputNew" placeholder="' . ENTRY_PASSWORD_NEW . '"', 'password'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
-        <?php if (tep_not_null(ENTRY_PASSWORD_NEW_TEXT)) echo '<span class="help-block">' . ENTRY_PASSWORD_NEW_TEXT . '</span>'; ?>
+        <?php if (tep_not_null(ENTRY_PASSWORD_NEW_TEXT)) echo '<span id="atPasswordNew" class="help-block">' . ENTRY_PASSWORD_NEW_TEXT . '</span>'; ?>
       </div>
     </div>
     <div class="form-group has-feedback">
       <label for="inputConfirmation" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
       <div class="col-sm-9">
-        <?php echo tep_draw_input_field('password_confirmation', NULL, 'required aria-required="true" id="inputConfirmation" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"', 'password'); ?>
+        <?php echo tep_draw_input_field('password_confirmation', NULL, 'required aria-required="true" aria-describedby="atPasswordConfirmation" id="inputConfirmation" placeholder="' . ENTRY_PASSWORD_CONFIRMATION . '"', 'password'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
-        <?php if (tep_not_null(ENTRY_PASSWORD_CONFIRMATION_TEXT)) echo '<span class="help-block">' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '</span>'; ?>
+        <?php if (tep_not_null(ENTRY_PASSWORD_CONFIRMATION_TEXT)) echo '<span id="atPasswordConfirmation" class="help-block">' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '</span>'; ?>
       </div>
     </div>
   </div>
