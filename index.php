@@ -204,7 +204,7 @@ if (tep_not_null($category['categories_description'])) {
 
     $catname = HEADING_TITLE;
     if (isset($HTTP_GET_VARS['manufacturers_id']) && !empty($HTTP_GET_VARS['manufacturers_id'])) {
-      $image = tep_db_query("select manufacturers_image, manufacturers_name as catname from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "'");
+      $image = tep_db_query("select m.manufacturers_image, m.manufacturers_name as catname, mi.manufacturers_description as catdesc from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
       $image = tep_db_fetch_array($image);
       $catname = $image['catname'];
     } elseif ($current_category_id) {

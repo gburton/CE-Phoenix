@@ -48,9 +48,11 @@
         $languages = tep_get_languages();
         for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
           $manufacturers_url_array = $HTTP_POST_VARS['manufacturers_url'];
+          $manufacturers_description_array = $HTTP_POST_VARS['manufacturers_description'];
           $language_id = $languages[$i]['id'];
 
           $sql_data_array = array('manufacturers_url' => tep_db_prepare_input($manufacturers_url_array[$language_id]));
+          $sql_data_array['manufacturers_description'] = tep_db_prepare_input($manufacturers_description_array[$language_id]);
 
           if ($action == 'insert') {
             $insert_sql_data = array('manufacturers_id' => $manufacturers_id,
@@ -179,13 +181,15 @@
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_NAME . '<br />' . tep_draw_input_field('manufacturers_name'));
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_IMAGE . '<br />' . tep_draw_file_field('manufacturers_image'));
 
-      $manufacturer_inputs_string = '';
+      $manufacturer_inputs_string = $manufacturer_description_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
         $manufacturer_inputs_string .= '<br />' . tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_url[' . $languages[$i]['id'] . ']');
+        $manufacturer_description_string .= '<br />' . tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '&nbsp;' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10');
       }
 
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string);
+      $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_DESCRIPTION . $manufacturer_description_string);
       $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_MANUFACTURERS, 'page=' . $HTTP_GET_VARS['page'] . '&mID=' . $HTTP_GET_VARS['mID'])));
       break;
     case 'edit':
@@ -196,13 +200,15 @@
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_NAME . '<br />' . tep_draw_input_field('manufacturers_name', $mInfo->manufacturers_name));
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_IMAGE . '<br />' . tep_draw_file_field('manufacturers_image') . '<br />' . $mInfo->manufacturers_image);
 
-      $manufacturer_inputs_string = '';
+      $manufacturer_inputs_string = $manufacturer_description_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
         $manufacturer_inputs_string .= '<br />' . tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('manufacturers_url[' . $languages[$i]['id'] . ']', tep_get_manufacturer_url($mInfo->manufacturers_id, $languages[$i]['id']));
+        $manufacturer_description_string .= '<br />' . tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '&nbsp;' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_manufacturer_description($mInfo->manufacturers_id, $languages[$i]['id']));
       }
 
       $contents[] = array('text' => '<br />' . TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string);
+      $contents[] = array('text' => '<br />' . TEXT_EDIT_MANUFACTURERS_DESCRIPTION . $manufacturer_description_string);
       $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_MANUFACTURERS, 'page=' . $HTTP_GET_VARS['page'] . '&mID=' . $mInfo->manufacturers_id)));
       break;
     case 'delete':
