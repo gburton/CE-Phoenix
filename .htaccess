@@ -37,6 +37,11 @@
 # php_value session.use_trans_sid 0
 # php_value register_globals 1
 
+<IfModule mod_headers.c>
+  Header unset ETag
+</IfModule>
+FileETag None
+
 ## EXPIRES CACHING ##
 ## https://gtmetrix.com/leverage-browser-caching.html ##
 <IfModule mod_expires.c>
