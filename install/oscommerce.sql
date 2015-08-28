@@ -1632,3 +1632,4 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_CREATE_ACCOUNT_LINK_SORT_ORDER', '2000', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
 
 ALTER TABLE categories_description ADD categories_description TEXT NULL;
+ALTER TABLE manufacturers_info ADD manufacturers_description TEXT NULL;
