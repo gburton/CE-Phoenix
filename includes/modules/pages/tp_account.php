@@ -64,7 +64,9 @@
             $output .= '<i class="' . $entry['icon'] . '"></i> ';
           }
 
-          $output .= '<a href="' . $entry['link'] . '">' . $entry['title'] . '</a></li>';
+          $output .= (tep_not_null($entry['link'])) ? '<a href="' . $entry['link'] . '">' . $entry['title'] . '</a>' : $entry['title'];
+          
+          $output .= '    </li>';
         }
 
         $output .= '  </ul>' .

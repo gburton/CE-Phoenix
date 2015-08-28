@@ -200,12 +200,14 @@
 
     return $field;
   }
-
+/*
 ////
 // Output a form password field
+// DEPRECATED AS OF 12 June 2015
   function tep_draw_password_field($name, $value = '', $parameters = '') {
     return tep_draw_input_field($name, $value, $parameters, 'password', false);
   }
+*/
 
 ////
 // Output a selection field - alias function for tep_draw_checkbox_field() and tep_draw_radio_field()
