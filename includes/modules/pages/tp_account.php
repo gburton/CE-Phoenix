@@ -20,26 +20,26 @@
                                                                    'sort_order' => 10,
                                                                    'links' => array('edit' => array('title' => MY_ACCOUNT_INFORMATION,
                                                                                                     'link' => tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'),
-                                                                                                    'icon' => 'glyphicon glyphicon-user'),
+                                                                                                    'icon' => 'fa fa-user'),
                                                                                     'address_book' => array('title' => MY_ACCOUNT_ADDRESS_BOOK,
                                                                                                             'link' => tep_href_link(FILENAME_ADDRESS_BOOK, '', 'SSL'),
-                                                                                                            'icon' => 'glyphicon glyphicon-home'),
+                                                                                                            'icon' => 'fa fa-home'),
                                                                                     'password' => array('title' => MY_ACCOUNT_PASSWORD,
                                                                                                         'link' => tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'),
-                                                                                                        'icon' => 'glyphicon glyphicon-cog'))),
+                                                                                                        'icon' => 'fa fa-cog'))),
                                                 'orders' => array('title' => MY_ORDERS_TITLE,
                                                                   'sort_order' => 20,
                                                                   'links' => array('history' => array('title' => MY_ORDERS_VIEW,
                                                                                                       'link' => tep_href_link(FILENAME_ACCOUNT_HISTORY, '', 'SSL'),
-                                                                                                      'icon' => 'glyphicon glyphicon-shopping-cart'))),
+                                                                                                      'icon' => 'fa fa-shopping-cart'))),
                                                 'notifications' => array('title' => EMAIL_NOTIFICATIONS_TITLE,
                                                                          'sort_order' => 30,
                                                                          'links' => array('newsletters' => array('title' => EMAIL_NOTIFICATIONS_NEWSLETTERS,
                                                                                                                  'link' => tep_href_link(FILENAME_ACCOUNT_NEWSLETTERS, '', 'SSL'),
-                                                                                                                 'icon' => 'glyphicon glyphicon-envelope'),
+                                                                                                                 'icon' => 'fa fa-envelope'),
                                                                                           'products' => array('title' => EMAIL_NOTIFICATIONS_PRODUCTS,
                                                                                                               'link' => tep_href_link(FILENAME_ACCOUNT_NOTIFICATIONS, '', 'SSL'),
-                                                                                                              'icon' => 'glyphicon glyphicon-send'))));
+                                                                                                              'icon' => 'fa fa-send'))));
     }
 
     function build() {

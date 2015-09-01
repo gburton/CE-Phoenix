@@ -266,7 +266,7 @@ th {
   src: url('../fonts/glyphicons-halflings-regular.eot');
   src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
-.glyphicon {
+.fa {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -528,10 +528,10 @@ th {
 .glyphicon-eject:before {
   content: "\e078";
 }
-.glyphicon-chevron-left:before {
+.fa-angle-left:before {
   content: "\e079";
 }
-.glyphicon-chevron-right:before {
+.fa-angle-right:before {
   content: "\e080";
 }
 .glyphicon-plus-sign:before {
@@ -6402,8 +6402,8 @@ button.close {
 }
 .carousel-control .icon-prev,
 .carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-left,
-.carousel-control .glyphicon-chevron-right {
+.carousel-control .fa-angle-left,
+.carousel-control .fa-angle-right {
   position: absolute;
   top: 50%;
   z-index: 5;
@@ -6411,12 +6411,12 @@ button.close {
   margin-top: -10px;
 }
 .carousel-control .icon-prev,
-.carousel-control .glyphicon-chevron-left {
+.carousel-control .fa-angle-left {
   left: 50%;
   margin-left: -10px;
 }
 .carousel-control .icon-next,
-.carousel-control .glyphicon-chevron-right {
+.carousel-control .fa-angle-right {
   right: 50%;
   margin-right: -10px;
 }
@@ -6478,8 +6478,8 @@ button.close {
   text-shadow: none;
 }
 @media screen and (min-width: 768px) {
-  .carousel-control .glyphicon-chevron-left,
-  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .fa-angle-left,
+  .carousel-control .fa-angle-right,
   .carousel-control .icon-prev,
   .carousel-control .icon-next {
     width: 30px;
@@ -6487,11 +6487,11 @@ button.close {
     margin-top: -15px;
     font-size: 30px;
   }
-  .carousel-control .glyphicon-chevron-left,
+  .carousel-control .fa-angle-left,
   .carousel-control .icon-prev {
     margin-left: -15px;
   }
-  .carousel-control .glyphicon-chevron-right,
+  .carousel-control .fa-angle-right,
   .carousel-control .icon-next {
     margin-right: -15px;
   }
