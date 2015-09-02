@@ -173,10 +173,10 @@
       $statuses_query = tep_db_query("select os.orders_status_name, osh.date_added, osh.comments from " . TABLE_ORDERS_STATUS . " os, " . TABLE_ORDERS_STATUS_HISTORY . " osh where osh.orders_id = '" . (int)$HTTP_GET_VARS['order_id'] . "' and osh.orders_status_id = os.orders_status_id and os.language_id = '" . (int)$languages_id . "' and os.public_flag = '1' order by osh.date_added");
       while ($statuses = tep_db_fetch_array($statuses_query)) {
         echo '<li>';
-        echo '  <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>';
+        echo '  <div class="timeline-badge"><i class="fa fa-check-square-o"></i></div>';
         echo '  <div class="timeline-panel">';
         echo '    <div class="timeline-heading">';
-        echo '      <p class="pull-right"><small class="text-muted"><i class="glyphicon glyphicon-time"></i> ' . tep_date_short($statuses['date_added']) . '</small></p><h2 class="timeline-title">' . $statuses['orders_status_name'] . '</h2>';
+        echo '      <p class="pull-right"><small class="text-muted"><i class="fa fa-clock-o"></i> ' . tep_date_short($statuses['date_added']) . '</small></p><h2 class="timeline-title">' . $statuses['orders_status_name'] . '</h2>';
         echo '    </div>';
         echo '    <div class="timeline-body">';
         echo '      <p>' . (empty($statuses['comments']) ? '&nbsp;' : '<blockquote>' . nl2br(tep_output_string_protected($statuses['comments'])) . '</blockquote>') . '</p>';
@@ -194,7 +194,7 @@
 
   <div class="clearfix"></div>
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT_HISTORY, tep_get_all_get_params(array('order_id')), 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link(FILENAME_ACCOUNT_HISTORY, tep_get_all_get_params(array('order_id')), 'SSL')); ?>
   </div>
 </div>
 
