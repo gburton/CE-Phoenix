@@ -15,7 +15,7 @@
           <?php echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" placeholder="' . ENTRY_PASSWORD . '"', 'password'); ?>
         </div>
 
-        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'glyphicon glyphicon-log-in', null, 'primary', NULL, 'btn-success btn-block'); ?></p>
+        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'fa fa-sign-in', null, 'primary', NULL, 'btn-success btn-block'); ?></p>
 
       </form>
     </div>
