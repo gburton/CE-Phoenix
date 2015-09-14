@@ -3,7 +3,7 @@
 # osCommerce, Open Source E-Commerce Solutions
 # http://www.oscommerce.com
 #
-# Copyright (c) 2014 osCommerce
+# Copyright (c) 2015 osCommerce
 #
 # Released under the GNU General Public License
 #
@@ -109,6 +109,7 @@ CREATE TABLE categories_description (
    categories_id int DEFAULT '0' NOT NULL,
    language_id int DEFAULT '1' NOT NULL,
    categories_name varchar(32) NOT NULL,
+   categories_description TEXT NULL,
    PRIMARY KEY (categories_id, language_id),
    KEY idx_categories_name (categories_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -249,6 +250,7 @@ CREATE TABLE manufacturers_info (
   manufacturers_url varchar(255) NOT NULL,
   url_clicked int(5) NOT NULL default '0',
   date_last_click datetime NULL,
+  manufacturers_description TEXT NULL,
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -646,27 +648,27 @@ INSERT INTO categories VALUES ('19', 'subcategory_action_games.gif', '2', '0', n
 INSERT INTO categories VALUES ('20', 'subcategory_strategy.gif', '2', '0', now(), null);
 INSERT INTO categories VALUES ('21', 'category_gadgets.png', '0', '4', now(), null);
 
-INSERT INTO categories_description VALUES ( '1', '1', 'Hardware');
-INSERT INTO categories_description VALUES ( '2', '1', 'Software');
-INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies');
-INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards');
-INSERT INTO categories_description VALUES ( '5', '1', 'Printers');
-INSERT INTO categories_description VALUES ( '6', '1', 'Monitors');
-INSERT INTO categories_description VALUES ( '7', '1', 'Speakers');
-INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards');
-INSERT INTO categories_description VALUES ( '9', '1', 'Mice');
-INSERT INTO categories_description VALUES ( '10', '1', 'Action');
-INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction');
-INSERT INTO categories_description VALUES ( '12', '1', 'Comedy');
-INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons');
-INSERT INTO categories_description VALUES ( '14', '1', 'Thriller');
-INSERT INTO categories_description VALUES ( '15', '1', 'Drama');
-INSERT INTO categories_description VALUES ( '16', '1', 'Memory');
-INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives');
-INSERT INTO categories_description VALUES ( '18', '1', 'Simulation');
-INSERT INTO categories_description VALUES ( '19', '1', 'Action');
-INSERT INTO categories_description VALUES ( '20', '1', 'Strategy');
-INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets');
+INSERT INTO categories_description VALUES ( '1', '1', 'Hardware', '');
+INSERT INTO categories_description VALUES ( '2', '1', 'Software', '');
+INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies', '');
+INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards', '');
+INSERT INTO categories_description VALUES ( '5', '1', 'Printers', '');
+INSERT INTO categories_description VALUES ( '6', '1', 'Monitors', '');
+INSERT INTO categories_description VALUES ( '7', '1', 'Speakers', '');
+INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards', '');
+INSERT INTO categories_description VALUES ( '9', '1', 'Mice', '');
+INSERT INTO categories_description VALUES ( '10', '1', 'Action', '');
+INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction', '');
+INSERT INTO categories_description VALUES ( '12', '1', 'Comedy', '');
+INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons', '');
+INSERT INTO categories_description VALUES ( '14', '1', 'Thriller', '');
+INSERT INTO categories_description VALUES ( '15', '1', 'Drama', '');
+INSERT INTO categories_description VALUES ( '16', '1', 'Memory', '');
+INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives', '');
+INSERT INTO categories_description VALUES ( '18', '1', 'Simulation', '');
+INSERT INTO categories_description VALUES ( '19', '1', 'Action', '');
+INSERT INTO categories_description VALUES ( '20', '1', 'Strategy', '');
+INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets', '');
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'osCommerce', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'Harald Ponce de Leon', 'The name of my store owner', '1', '2', now());
@@ -1125,16 +1127,16 @@ INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactiv
 INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), null);
 INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), null);
 
-INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null);
-INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null);
-INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null);
-INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null);
-INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null);
-INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null);
-INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null);
-INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null);
-INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null);
-INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null);
+INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, '');
+INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, '');
 
 INSERT INTO orders_status VALUES ( '1', '1', 'Pending', '1', '0');
 INSERT INTO orders_status VALUES ( '2', '1', 'Processing', '1', '1');
@@ -1630,3 +1632,4 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable New User Module', 'MODULE_CONTENT_CREATE_ACCOUNT_LINK_STATUS', 'True', 'Do you want to enable the new user module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_CREATE_ACCOUNT_LINK_CONTENT_WIDTH', 'Half', 'Should the content be shown in a full or half width container?', '6', '1', 'tep_cfg_select_option(array(\'Full\', \'Half\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_CREATE_ACCOUNT_LINK_SORT_ORDER', '2000', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
+

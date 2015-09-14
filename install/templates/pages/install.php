@@ -129,7 +129,7 @@
     </div>
     
     <div class="page-header">
-      <p class="inputRequirement pull-right text-right"><span class="glyphicon glyphicon-asterisk inputRequirement"></span> Required information</p>
+      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Required information</p>
       <h2>Database Server</h2>
     </div>
     
@@ -139,7 +139,7 @@
         <label for="dbServer" class="control-label col-xs-3">Database Server</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
-          <span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
           <span class="help-block">The address of the database server in the form of a hostname or IP address.</span>
         </div>
       </div>
@@ -148,7 +148,7 @@
         <label for="userName" class="control-label col-xs-3">Username</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
-          <span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
           <span class="help-block">The username used to connect to the database server.</span>
         </div>
       </div>
@@ -157,7 +157,7 @@
         <label for="passWord" class="control-label col-xs-3">Password</label>
         <div class="col-xs-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
-          <span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
           <span class="help-block">The password that is used together with the username to connect to the database server.</span>
         </div>
       </div>
@@ -166,7 +166,7 @@
         <label for="dbName" class="control-label col-xs-3">Database Name</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
-          <span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
           <span class="help-block">The name of the database to hold the data in.</span>
         </div>
       </div>
