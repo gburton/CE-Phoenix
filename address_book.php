@@ -71,7 +71,7 @@
           <div class="panel-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
           </div>
-          <div class="panel-footer text-center"><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_EDIT, 'glyphicon glyphicon-file', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'edit=' . $addresses['address_book_id'], 'SSL')) . ' ' . tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'glyphicon glyphicon-trash', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $addresses['address_book_id'], 'SSL')); ?></div>
+          <div class="panel-footer text-center"><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_EDIT, 'fa fa-file', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'edit=' . $addresses['address_book_id'], 'SSL')) . ' ' . tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'fa fa-trash', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, 'delete=' . $addresses['address_book_id'], 'SSL')); ?></div>
         </div>
       </div>
 <?php
@@ -82,11 +82,11 @@
   <div class="clearfix"></div>
 
   <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?></div>
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?></div>
 <?php
   if (tep_count_customer_address_book_entries() < MAX_ADDRESS_BOOK_ENTRIES) {
 ?>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_ADDRESS, 'glyphicon glyphicon-home', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'), 'primary'); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_ADDRESS, 'fa fa-home', tep_href_link(FILENAME_ADDRESS_BOOK_PROCESS, '', 'SSL'), 'primary'); ?></div>
 <?php
   }
 ?>
