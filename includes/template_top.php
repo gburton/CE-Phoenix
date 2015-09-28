@@ -30,6 +30,9 @@
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
 <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- font awesome -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <link href="custom.css" rel="stylesheet">
 <link href="user.css" rel="stylesheet">
 
@@ -40,9 +43,6 @@
 <![endif]-->
  
 <script src="ext/jquery/jquery-1.11.1.min.js" async></script>
-
-<!-- font awesome -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
