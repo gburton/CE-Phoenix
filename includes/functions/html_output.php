@@ -413,10 +413,9 @@
   }
 
   // review stars
-  function tep_draw_stars($rating = 0, $meta = false) {
+  function tep_draw_stars($rating = 0) {
     $stars = str_repeat('<span class="fa fa-star"></span>', (int)$rating);
     $stars .= str_repeat('<span class="fa fa-star-o"></span>', 5-(int)$rating);
-    if ($meta !== false) $stars .= '<meta itemprop="rating" content="' . (int)$rating . '" />';
 
     return $stars;
   }
