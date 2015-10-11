@@ -88,7 +88,7 @@
       <label for="inputFromName" class="control-label col-sm-3"><?php echo ENTRY_NAME; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME . '"');
+        echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -97,7 +97,7 @@
       <label for="inputFromEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL . '"', 'email');
+        echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -106,7 +106,7 @@
       <label for="inputEnquiry" class="control-label col-sm-3"><?php echo ENTRY_ENQUIRY; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY . '"');
+        echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
