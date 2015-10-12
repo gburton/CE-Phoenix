@@ -54,7 +54,7 @@
 <div itemscope itemtype="http://schema.org/Product">
 
 <div class="page-header">
-  <h1 class="pull-right"<?php echo $products_price; ?></h1>
+  <h1 class="pull-right"><?php echo $products_price; ?></h1>
   <h1 itemprop="name"><?php echo $products_name; ?></h1>
 </div>
 
