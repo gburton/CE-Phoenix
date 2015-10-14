@@ -62,6 +62,7 @@
     function install() {
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Colorbox Script', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_STATUS', 'True', 'Do you want to enable the Colorbox Scripts?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Pages', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_PAGES', '" . implode(';', $this->get_default_pages()) . "', 'The pages to add the Colorbox Scripts to.', '6', '0', 'ht_product_colorbox_show_pages', 'ht_product_colorbox_edit_pages(', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, date_added) values ('Thumbnail Layout', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT', '155', 'Layout of Thumbnails', '6', '0', 'ht_product_colorbox_thumbnail_number', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
@@ -70,7 +71,7 @@
     }
 
     function keys() {
-      return array('MODULE_HEADER_TAGS_PRODUCT_COLORBOX_STATUS', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_PAGES', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_SORT_ORDER');
+      return array('MODULE_HEADER_TAGS_PRODUCT_COLORBOX_STATUS', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_PAGES', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT', 'MODULE_HEADER_TAGS_PRODUCT_COLORBOX_SORT_ORDER');
     }
 
     function get_default_pages() {
@@ -80,6 +81,10 @@
 
   function ht_product_colorbox_show_pages($text) {
     return nl2br(implode("\n", explode(';', $text)));
+  }
+  
+  function ht_product_colorbox_thumbnail_number() {
+    return sprintf(MODULE_HEADER_TAGS_PRODUCT_COLORBOX_THUMBNAIL_LAYOUT, MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT, array_sum(str_split(MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT)));
   }
 
   function ht_product_colorbox_edit_pages($values, $key) {
