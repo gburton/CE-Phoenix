@@ -27,6 +27,11 @@ define('ENTRY_PRICE_TO', 'Price To');
 define('ENTRY_DATE_FROM', 'Date From');
 define('ENTRY_DATE_TO', 'Date To');
 
+define('ENTRY_PRICE_FROM_TEXT', '');
+define('ENTRY_PRICE_TO_TEXT', '');
+define('ENTRY_DATE_FROM_TEXT', '');
+define('ENTRY_DATE_TO_TEXT', '');
+
 define('TEXT_SEARCH_HELP_LINK', '<span class="fa fa-info-circle"></span> Search Help');
 
 define('TEXT_ALL_CATEGORIES', 'All Categories');
