@@ -89,22 +89,12 @@
 
       echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], NULL, NULL, NULL, 'itemprop="image" style="display:none;"');
 
-      $photoset_layout = '1';
+      $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT;
 
       $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
       $pi_total = tep_db_num_rows($pi_query);
 
       if ($pi_total > 0) {
-        $pi_sub = $pi_total-1;
-
-        while ($pi_sub > 5) {
-          $photoset_layout .= 5;
-          $pi_sub = $pi_sub-5;
-        }
-
-        if ($pi_sub > 0) {
-          $photoset_layout .= ($pi_total > 5) ? 5 : $pi_sub;
-        }
 ?>
 
     <div class="piGal pull-right" data-imgcount="<?php echo $photoset_layout; ?>">
