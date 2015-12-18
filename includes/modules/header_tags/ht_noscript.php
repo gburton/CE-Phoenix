@@ -31,7 +31,7 @@
     function execute() {
       global $oscTemplate;
 
-      $oscTemplate->addBlock('<noscript><div class="no-script"><div class="no-script-inner">' . tep_output_string(MODULE_HEADER_TAGS_NOSCRIPT_TEXT) . '</div></div></noscript>', $this->group);
+      $oscTemplate->addContent('<noscript><div class="no-script"><div class="no-script-inner">' . MODULE_HEADER_TAGS_NOSCRIPT_TEXT . '</div></div></noscript>', 'navigation');
       $oscTemplate->addBlock('<style>.no-script { border: 1px solid #ddd; border-width: 0 0 1px; background: #ffff90; font: 14px verdana; line-height: 2; text-align: center; color: #2f2f2f; } .no-script .no-script-inner { margin: 0 auto; padding: 5px; } .no-script p { margin: 0; }</style>', $this->group);
     }
 
