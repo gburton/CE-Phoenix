@@ -105,9 +105,9 @@
 
     <div class="form-group">
       <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-9">        
         <?php
-        if (tep_not_null(ENTRY_CITY_TEXT)) echo '<span id="atCity" class="help-block">' . ENTRY_CITY_TEXT . '</span>';
+        echo tep_draw_input_field('city', NULL, 'id="inputCity" placeholder="' . ENTRY_CITY_TEXT . '"');
         ?>
       </div>
     </div>
