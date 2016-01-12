@@ -505,3 +505,7 @@
       $breadcrumb->add($model['products_model'], tep_href_link(FILENAME_PRODUCT_INFO, 'cPath=' . $cPath . '&products_id=' . $HTTP_GET_VARS['products_id']));
     }
   }
+  
+  require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
+  $OSCOM_Hooks = new hooks('shop');
+
