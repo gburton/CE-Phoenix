@@ -20,7 +20,7 @@
         $error = false;
 
         $store_logo = new upload('store_logo');
-        $store_logo->set_extensions(array('png', 'gif', 'jpg'));
+        $store_logo->set_extensions(array('png', 'gif', 'jpg', 'svg'));
         $store_logo->set_destination(DIR_FS_CATALOG_IMAGES);
 
         if ($store_logo->parse()) {
