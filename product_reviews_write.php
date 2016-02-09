@@ -105,9 +105,11 @@ function checkForm() {
 }
 //--></script>
 
-<div class="page-header">
-  <h1 class="pull-right"><?php echo $products_price; ?></h1>
-  <h1><?php echo $products_name; ?></h1>
+<div class="page-header">  
+  <div class="row">
+    <h1 class="col-sm-4"><?php echo $products_name; ?></h1>
+    <h2 class="col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
+  </div>
 </div>
 
 <?php

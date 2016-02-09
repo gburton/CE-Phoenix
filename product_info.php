@@ -71,8 +71,10 @@
 <div itemscope itemtype="http://schema.org/Product">
 
 <div class="page-header">
-  <h1 class="pull-right" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><?php echo $products_price; ?></h1>
-  <h1><?php echo $products_name; ?></h1>
+  <div class="row">  
+    <h1 class="col-sm-8"><?php echo $products_name; ?></h1>
+    <h2 class="col-sm-4 text-right-not-xs" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><?php echo $products_price; ?></h2>
+  </div>
 </div>
 
 <?php
