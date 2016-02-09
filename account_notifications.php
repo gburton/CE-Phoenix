@@ -125,7 +125,7 @@
 ?>
       <div class="checkbox">
         <label>
-          <?php echo tep_draw_checkbox_field('products[' . $counter . ']', $products['products_id'], true) . $products['products_name']; ?>
+          <?php echo tep_draw_checkbox_field('products[]', $products['products_id'], true) . $products['products_name']; ?>
         </label>
       </div>
 <?php
