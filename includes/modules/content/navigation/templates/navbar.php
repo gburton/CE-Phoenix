@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-no-corners navbar-no-margin" role="navigation">
+<nav class="navbar<?php echo $navbar_style . $navbar_corners . $navbar_margin; ?> navbar-custom" role="navigation">
   <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <?php
     if ($oscTemplate->hasBlocks('navbar_modules_home')) {
