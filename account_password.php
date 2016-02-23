@@ -75,6 +75,12 @@
 
 <?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
+<?php
+$customer_info_query = tep_db_query("select customers_email_address from customers where customers_id = '" . (int)$customer_id . "'");
+$customer_info = tep_db_fetch_array($customer_info_query);
+echo tep_draw_hidden_field('username', $customer_info['customers_email_address'], 'readonly autocomplete="username"'); 
+?>
+    
 <div class="contentContainer">
   <p class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
 
