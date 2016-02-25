@@ -1487,3 +1487,17 @@
     return $manufacturer['manufacturers_description'];
   }
   
+  function tep_get_category_seo_description($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_description from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_description'];
+  }
+  
+  function tep_get_category_seo_keywords($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_keywords from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_keywords'];
+  }
+  
