@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -32,14 +32,40 @@
     }
 
     function execute() {
-      global $PHP_SELF, $cart, $lng, $language, $currencies, $HTTP_GET_VARS, $request_type, $currency, $oscTemplate;
-      global $customer_first_name;
+      global $language, $oscTemplate;
 
-      ob_start();
-      include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
-      $template = ob_get_clean();
+      $navbar_style   = (MODULE_CONTENT_NAVBAR_STYLE == 'Inverse') ? ' navbar-inverse' : ' navbar-default';
+      $navbar_corners = (MODULE_CONTENT_NAVBAR_CORNERS == 'Yes') ? '' : ' navbar-no-corners';
+      $navbar_margin  = (MODULE_CONTENT_NAVBAR_MARGIN == 'Yes') ? '' : ' navbar-no-margin';     
+      
+      if ( defined('MODULE_CONTENT_NAVBAR_INSTALLED') && tep_not_null(MODULE_CONTENT_NAVBAR_INSTALLED) ) {
+        $nav_array = explode(';', MODULE_CONTENT_NAVBAR_INSTALLED);
 
-      $oscTemplate->addContent($template, $this->group);
+        $navbar_modules = array();
+
+        foreach ( $nav_array as $nbm ) {
+          $class = substr($nbm, 0, strrpos($nbm, '.'));
+
+          if ( !class_exists($class) ) {
+            include(DIR_WS_LANGUAGES . $language . '/modules/navbar_modules/' . $nbm);
+            require(DIR_WS_MODULES . 'navbar_modules/' . $class . '.php');
+          }
+
+          $nav = new $class();
+
+          if ( $nav->isEnabled() ) {
+            $navbar_modules[] = $nav->getOutput();
+          }
+        }
+
+        if ( !empty($navbar_modules) ) {          
+          ob_start();
+          include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
+          $template = ob_get_clean();
+
+          $oscTemplate->addContent($template, $this->group);
+        }
+      }      
     }
 
     function isEnabled() {
@@ -51,16 +77,18 @@
     }
 
     function install() {
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Navbar Module', 'MODULE_CONTENT_NAVBAR_STATUS', 'True', 'Should the Navbar be shown? ', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_NAVBAR_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Navbar Module', 'MODULE_CONTENT_NAVBAR_STATUS', 'True', 'Should the Navbar be shown? ', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Style', 'MODULE_CONTENT_NAVBAR_STYLE', 'Inverse', 'What style should the Navbar have?  See http://getbootstrap.com/components/#navbar-inverted', '6', '0', 'tep_cfg_select_option(array(\'Default\', \'Inverse\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Corners', 'MODULE_CONTENT_NAVBAR_CORNERS', 'No', 'Should the Navbar have Corners?', '6', '0', 'tep_cfg_select_option(array(\'Yes\', \'No\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Margin', 'MODULE_CONTENT_NAVBAR_MARGIN', 'No', 'Should the Navbar have a bottom Margin?', '6', '0', 'tep_cfg_select_option(array(\'Yes\', \'No\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_NAVBAR_SORT_ORDER', '10', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
     function remove() {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
     }
 
     function keys() {
-      return array('MODULE_CONTENT_NAVBAR_STATUS', 'MODULE_CONTENT_NAVBAR_SORT_ORDER');
+      return array('MODULE_CONTENT_NAVBAR_STATUS', 'MODULE_CONTENT_NAVBAR_STYLE', 'MODULE_CONTENT_NAVBAR_CORNERS', 'MODULE_CONTENT_NAVBAR_MARGIN', 'MODULE_CONTENT_NAVBAR_SORT_ORDER');
     }
   }
-
