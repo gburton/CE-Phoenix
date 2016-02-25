@@ -75,6 +75,12 @@
 
 <?php echo tep_draw_form('account_password', tep_href_link(FILENAME_ACCOUNT_PASSWORD, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
+<?php
+$customer_info_query = tep_db_query("select customers_email_address from customers where customers_id = '" . (int)$customer_id . "'");
+$customer_info = tep_db_fetch_array($customer_info_query);
+echo tep_draw_hidden_field('username', $customer_info['customers_email_address'], 'readonly autocomplete="username"'); 
+?>
+    
 <div class="contentContainer">
   <p class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
 
@@ -82,21 +88,21 @@
     <div class="form-group has-feedback">
       <label for="inputCurrent" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CURRENT; ?></label>
       <div class="col-sm-9">
-        <?php echo tep_draw_input_field('password_current', NULL, 'required aria-required="true" autofocus="autofocus" id="inputCurrent" placeholder="' . ENTRY_PASSWORD_CURRENT_TEXT . '"', 'password'); ?>
+        <?php echo tep_draw_input_field('password_current', NULL, 'required aria-required="true" autofocus="autofocus" id="inputCurrent" autocomplete="current-password" placeholder="' . ENTRY_PASSWORD_CURRENT_TEXT . '"', 'password'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputNew" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_NEW; ?></label>
+      <label for="inputPassword" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_NEW; ?></label>
       <div class="col-sm-9">
-        <?php echo tep_draw_input_field('password_new', NULL, 'required aria-required="true" id="inputNew" placeholder="' . ENTRY_PASSWORD_NEW_TEXT . '"', 'password'); ?>
+        <?php echo tep_draw_input_field('password_new', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_NEW_TEXT . '"', 'password'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
     <div class="form-group has-feedback">
       <label for="inputConfirmation" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
       <div class="col-sm-9">
-        <?php echo tep_draw_input_field('password_confirmation', NULL, 'required aria-required="true" id="inputConfirmation" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"', 'password'); ?>
+        <?php echo tep_draw_input_field('password_confirmation', NULL, 'required aria-required="true" id="inputConfirmation" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"', 'password'); ?>
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
