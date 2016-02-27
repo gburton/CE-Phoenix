@@ -42,3 +42,8 @@ define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Error: Directory does not exist: %s');
 
 define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:<br><small>shows in manufacturer page</small>');
 define('TEXT_EDIT_MANUFACTURERS_DESCRIPTION', 'Edit the Manufacturer Description:');
+
+define('TEXT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Edit the &lt;description&gt; Meta Element.</small>');
+define('TEXT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Add a &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Edit the &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
