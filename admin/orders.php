@@ -15,6 +15,18 @@
   require(DIR_WS_CLASSES . 'currencies.php');
   $currencies = new currencies();
 
+  // Orders language support BOF
+  if (isset($HTTP_GET_VARS['oID']) && isset($HTTP_GET_VARS['action'])) {
+    $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
+    include(DIR_WS_CLASSES . 'order.php');
+    $order = new order($oID);
+    $languages_query = tep_db_query("select languages_id, name, code, image, directory from " . TABLE_LANGUAGES . " where languages_id = " . $order->info['language_id']. " order by sort_order");
+    $language_dir = tep_db_fetch_array($languages_query);
+    $email_language = $language_dir['directory'];
+    $comments_flag = tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $email_language . '/images/' . $language_dir['image'], '', 'SSL'), $languages[$i]['name']);
+  }
+  // Orders language support EOF
+
   $orders_statuses = array();
   $orders_status_array = array();
   $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "'");
@@ -29,7 +41,6 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'update_order':
-        $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
         $status = tep_db_prepare_input($HTTP_POST_VARS['status']);
         $comments = tep_db_prepare_input($HTTP_POST_VARS['comments']);
 
@@ -42,6 +53,9 @@
 
           $customer_notified = '0';
           if (isset($HTTP_POST_VARS['notify']) && ($HTTP_POST_VARS['notify'] == 'on')) {
+            // Orders language support BOF
+            require(DIR_WS_LANGUAGES . $email_language . '/email_constants.php');
+            // Orders language support EOF
             $notify_comments = '';
             if (isset($HTTP_POST_VARS['notify_comments']) && ($HTTP_POST_VARS['notify_comments'] == 'on')) {
               $notify_comments = sprintf(EMAIL_TEXT_COMMENTS_UPDATE, $comments) . "\n\n";
@@ -68,7 +82,6 @@
         tep_redirect(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('action')) . 'action=edit'));
         break;
       case 'deleteconfirm':
-        $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
 
         tep_remove_order($oID, $HTTP_POST_VARS['restock']);
 
@@ -78,7 +91,6 @@
   }
 
   if (($action == 'edit') && isset($HTTP_GET_VARS['oID'])) {
-    $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
 
     $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
     $order_exists = true;
@@ -88,15 +100,12 @@
     }
   }
 
-  include(DIR_WS_CLASSES . 'order.php');
-
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
   if (($action == 'edit') && ($order_exists == true)) {
-    $order = new order($oID);
 ?>
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -242,9 +251,11 @@
             <td class="smallText" align="center"><strong><?php echo TABLE_HEADING_DATE_ADDED; ?></strong></td>
             <td class="smallText" align="center"><strong><?php echo TABLE_HEADING_CUSTOMER_NOTIFIED; ?></strong></td>
             <td class="smallText" align="center"><strong><?php echo TABLE_HEADING_STATUS; ?></strong></td>
-            <td class="smallText" align="center"><strong><?php echo TABLE_HEADING_COMMENTS; ?></strong></td>
+            <td class="smallText" align="center"><strong><?php echo TABLE_HEADING_COMMENTS . '&nbsp;' . $comments_flag;?></strong></td>
+            
           </tr>
 <?php
+
     $orders_history_query = tep_db_query("select orders_status_id, date_added, customer_notified, comments from " . TABLE_ORDERS_STATUS_HISTORY . " where orders_id = '" . tep_db_input($oID) . "' order by date_added");
     if (tep_db_num_rows($orders_history_query)) {
       while ($orders_history = tep_db_fetch_array($orders_history_query)) {
