@@ -28,4 +28,6 @@ define('TABLE_HEADING_COMMENTS', 'Add Comments About Your Order');
 
 define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Continue Checkout Procedure');
 define('TEXT_CONTINUE_CHECKOUT_PROCEDURE', 'to confirm this order.');
-?>
+
+define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Please select a payment method for your order.\n');
+

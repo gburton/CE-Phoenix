@@ -19,4 +19,6 @@ define('MY_PASSWORD_TITLE', 'My Password');
 
 define('SUCCESS_PASSWORD_UPDATED', 'Your password has been successfully updated.');
 define('ERROR_CURRENT_PASSWORD_NOT_MATCHING', 'Your Current Password did not match the password in our records. Please try again.');
-?>
+
+define('ENTRY_PASSWORD_CURRENT', 'Current Password');
+define('ENTRY_PASSWORD_CURRENT_TEXT', '');

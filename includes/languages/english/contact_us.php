@@ -19,6 +19,7 @@ define('ENTRY_NAME', 'Full Name');
 define('ENTRY_EMAIL', 'E-Mail Address');
 define('ENTRY_ENQUIRY', 'Enquiry');
 define('ENTRY_ENQUIRY_TEXT', '');
+define('ENTRY_NAME_TEXT', '');
 
 define('ERROR_ACTION_RECORDER', 'Error: An enquiry has already been sent. Please try again in %s minutes.');
-?>
+

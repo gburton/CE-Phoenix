@@ -24,6 +24,12 @@ define('TEXT_NOW', '\' now');
 define('TEXT_ALL_CATEGORIES', 'All Categories');
 define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');
 
+define('SMALL_IMAGE_BUTTON_BUY', 'Buy');
+define('SMALL_IMAGE_BUTTON_VIEW', 'View');
+
+define('TEXT_GREETING_PERSONAL', 'Welcome back <span class="greetUser">%s!</span> Would you like to see which <a href="%s"><u>new products</u></a> are available to purchase?');
+define('TEXT_GREETING_GUEST', 'Welcome <span class="greetUser">Guest!</span> Would you like to <a href="%s"><u>log yourself in</u></a>? Or would you prefer to <a href="%s"><u>create an account</u></a>?');
+
 // seo
 if ( ($category_depth == 'top') && (!isset($HTTP_GET_VARS['manufacturers_id'])) ) {
   define('META_SEO_TITLE', 'Index Page Title');

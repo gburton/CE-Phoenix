@@ -14,4 +14,6 @@
   define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_DESCRIPTION', 'Show review block on the product info page.');
   
   define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
+  
+  define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
