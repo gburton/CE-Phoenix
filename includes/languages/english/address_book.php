@@ -23,4 +23,6 @@ define('ADDRESS_BOOK_TITLE', 'Address Book Entries');
 define('PRIMARY_ADDRESS', '(primary address)');
 
 define('TEXT_MAXIMUM_ENTRIES', '<span class="inputRequirement">NOTE:</span> A maximum of %s address book entries allowed.');
-?>
+
+define('IMAGE_BUTTON_ADD_ADDRESS', 'Add Address');
+define('SMALL_IMAGE_BUTTON_EDIT', 'Edit');

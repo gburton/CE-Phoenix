@@ -10,6 +10,8 @@
   Released under the GNU General Public License
 */
 
+  include(DIR_WS_LANGUAGES . $language . '/modules/product_listing.php');
+
   $listing_split = new splitPageResults($listing_sql, MAX_DISPLAY_SEARCH_RESULTS, 'p.products_id');
 ?>
 
