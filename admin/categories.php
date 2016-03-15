@@ -226,10 +226,8 @@
                                 'products_status' => tep_db_prepare_input($HTTP_POST_VARS['products_status']),
                                 'products_tax_class_id' => tep_db_prepare_input($HTTP_POST_VARS['products_tax_class_id']),
                                 'manufacturers_id' => (int)tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
-        if (tep_not_null($HTTP_POST_VARS['products_gtin'])) {
-          $sql_data_array['products_gtin'] = str_pad(tep_db_prepare_input($HTTP_POST_VARS['products_gtin']), 14, '0', STR_PAD_LEFT);
-        }
-
+        $sql_data_array['products_gtin'] = (tep_not_null($HTTP_POST_VARS['products_gtin'])) ? str_pad(tep_db_prepare_input($HTTP_POST_VARS['products_gtin']), 14, '0', STR_PAD_LEFT) : 'null';
+        
         $products_image = new upload('products_image');
         $products_image->set_destination(DIR_FS_CATALOG_IMAGES);
         if ($products_image->parse() && $products_image->save()) {
