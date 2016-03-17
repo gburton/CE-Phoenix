@@ -54,8 +54,8 @@
       }
     }
 
-    if (!extension_loaded('mysql')) {
-      $warning_array['mysql'] = 'The MySQL extension is required but is not installed. Please enable it to continue installation.';
+    if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
+      $warning_array['mysql'] = 'The MySQL[i] extension is required but is not installed. Please enable it to continue installation.';
     }
 
     if ((sizeof($configfile_array) > 0) || (sizeof($warning_array) > 0)) {
