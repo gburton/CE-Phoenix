@@ -1,49 +1,72 @@
-osCommerce-234-bootstrap
-=========================
+osCommerce Community Edition
+============================
 
-osCommerce 2.3.4 with Bootstrap, what more needs to be said.  
+osCommerce 2.3.4 with Bootstrap.  This is an ongoing COMMUNITY effort.  
 
-The point is to try to keep changes to a minimum as this will allow easy porting of Addons.
+You can choose to download;
+
+GOLD: https://github.com/gburton/Responsive-osCommerce/archive/v2.3.4-GOLD.zip
+EDGE: https://github.com/gburton/Responsive-osCommerce/archive/master.zip
+
+Minimum PHP Version
+===================
+
+5.3
+
+If you are on an older PHP version, you may find errors.  Update your PHP version.
+
+Looking for Loaded?
+===================
+
+This will never become a "loaded" osCommerce.  So if you are looking for something with a lot of addons pre-installed, this is not for you.  
+We are striving to make the front end 100% modular, so good add-on makers can create modules which are simple to (un)install, changing no core code.
 
 
-This will be an ongoing COMMUNITY effort.  
+Help to move the Project forward
+================================
 
-If you cannot code, you can still help;
+I need your help to move this Project forward.  At the moment, this project is done on my own, as and when time can be given.  
+To allow me to give more time to this Project, I need users to support me;
 
-Check out the demo site at http://template.me.uk/2334bs3/ - have a look around and note any areas that you feel need attention, then post your feedback at http://forums.oscommerce.com/topic/396152-bootstrap-3-in-2334-responsive-from-the-get-go/
+- give a little of your time for testing new code and/or getting involved in discussions
+- give a little of your code to the project.  Create a github account, fork and start coding
+- buy my templates or modules - all are keenly priced and every sale of anything that I've already made allows me to give extra hours to this Project.  Contact me directly on the Forum if you can support me in this way.
 
-Are you a Coder ?
-Please fork this project and start coding.  Let me know your Github Project URL by posting at http://forums.oscommerce.com/topic/396152-bootstrap-3-in-2334-responsive-from-the-get-go/   
+Demo Site
+=========
 
-Not a Coder ...
-Please support this project by giving as much feedback as you possibly can.  Or by donating beer to the coders.
-
-How to keep a clean Master copy using Github
-============================================
-
-I have put together a couple of videos.
-1.  shows how to create a new Github account and Fork this project.
-2.  shows how to check for new commits to this project and pull them into your own Fork.
-
-You can find these videos at http://forums.oscommerce.com/topic/396152-bootstrap-3-in-2334-responsive-from-the-get-go/?p=1709648
+Check out the demo site at http://template.me.uk/2334bs3/ - please note that this might be slightly behind "Edge", or might have modules that are about to be added to "Edge".  More or less, this is how Responsive osCommerce looks out of the box.
 
 
 Installation
 ============
 
-Install as if this is a new osCommerce installation.  Then enter the admin area and turn on 3 new Header Tag modules;
+Install as if this is a new osCommerce installation.
+You can now play with the Modular aspect we've introduced.
 
-1.  colorbox
-2.  datepicker
-3.  grid/list view
+Admin > Modules > Header Tags > {install}
+Admin > Modules > Boxes > {install}
+Admin > Modules > Content > {install}
+Admin > Modules > Navbar Modules > {install} 
 
-The functionality of these have been moved to header tag modules so that the site will only load them on the pages needed rather than on all pages.  Admin > Modules > Header Tags > {install}
-
-You also need to install other components such as the logo, breadcrumb, footer boxes, side column boxes and so on.  Admin > Modules > Boxes > {install} AND Admin > Modules > Content > {install}.  Boxes and Modules can be sorted using the sort order, lowest is displayed first.
+All of these can be sorted using the sort order, lowest is displayed first.
 
 Database Conversion Script
 ==========================
 
-This script will change a 2.3.4 Database into a fully useable database for osCommerce-234-Bootstrap.
-
+To go from an older osCommerce to this one, this Script might help:
 http://forums.oscommerce.com/topic/399678-234normal-to-234responsive-database-conversion-script/
+
+Got Questions, Comments or Concerns
+===================================
+
+http://forums.oscommerce.com/topic/396152-bootstrap-3-in-234-responsive-from-the-get-go/
+
+How to keep a clean Master copy using Github
+============================================
+
+I have put together a couple of videos.
+1.  how to create a new Github account and Fork this project.
+2.  how to check for new commits to this project and pull them into your own Fork.
+
+You can find these videos at http://forums.oscommerce.com/topic/396152-bootstrap-3-in-2334-responsive-from-the-get-go/?p=1709648
