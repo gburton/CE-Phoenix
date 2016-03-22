@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_search() {
+    function __construct() {
       $this->title = MODULE_BOXES_SEARCH_TITLE;
       $this->description = MODULE_BOXES_SEARCH_DESCRIPTION;
 

@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_noscript() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_NOSCRIPT_TITLE;
       $this->description = MODULE_HEADER_TAGS_NOSCRIPT_DESCRIPTION;
 

@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_special_offers() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_SPECIAL_OFFERS_TITLE;
       $this->description = MODULE_NAVBAR_SPECIAL_OFFERS_DESCRIPTION;
 
