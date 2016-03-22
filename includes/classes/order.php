@@ -50,7 +50,8 @@
       $order_status_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where orders_status_id = '" . $order['orders_status'] . "' and language_id = '" . (int)$languages_id . "'");
       $order_status = tep_db_fetch_array($order_status_query);
 
-      $this->info = array('currency' => $order['currency'],
+      $this->info = array('order_id' => (int)$order_id,
+                          'currency' => $order['currency'],
                           'currency_value' => $order['currency_value'],
                           'payment_method' => $order['payment_method'],
                           'cc_type' => $order['cc_type'],

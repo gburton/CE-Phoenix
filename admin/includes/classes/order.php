@@ -33,7 +33,8 @@
                                 'text' => $totals['text']);
       }
 
-      $this->info = array('currency' => $order['currency'],
+      $this->info = array('order_id' => (int)$order_id,
+                          'currency' => $order['currency'],
                           'currency_value' => $order['currency_value'],
                           'payment_method' => $order['payment_method'],
                           'cc_type' => $order['cc_type'],
