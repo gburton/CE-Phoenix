@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_paypal_login() {
+    function __construct() {
       global $HTTP_GET_VARS, $PHP_SELF;
 
       $this->signature = 'paypal|paypal_login|1.0|2.3';

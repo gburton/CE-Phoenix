@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_home() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_HOME_TITLE;
       $this->description = MODULE_NAVBAR_HOME_DESCRIPTION;
 

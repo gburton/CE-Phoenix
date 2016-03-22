@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_robot_noindex() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_ROBOT_NOINDEX_TITLE;
       $this->description = MODULE_HEADER_TAGS_ROBOT_NOINDEX_DESCRIPTION;
 
