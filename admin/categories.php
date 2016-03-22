@@ -599,7 +599,7 @@ updateGross();
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_GTIN; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_gtin', $pInfo->products_gtin); ?></td>
+            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_gtin', $pInfo->products_gtin, 'pattern="\d+"'); ?></td>
           </tr> 
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
