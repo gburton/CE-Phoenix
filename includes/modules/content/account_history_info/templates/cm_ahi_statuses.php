@@ -10,7 +10,6 @@
 
 */
 ?>
-<!-- Start cm_ahi_statuses module -->
   <div class="contentText col-sm-<?php echo (int)MODULE_CONTENT_ACCOUNT_HISTORY_INFO_STATUSES_CONTENT_WIDTH; ?>">
   <h2><?php echo HEADING_ORDER_HISTORY; ?></h2>
     <ul class="timeline">
@@ -33,4 +32,3 @@
       ?>
     </ul>
   </div>
-<!-- end cm_ahi_statuses module -->

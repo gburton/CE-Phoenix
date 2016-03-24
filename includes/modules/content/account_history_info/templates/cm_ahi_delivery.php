@@ -10,7 +10,6 @@
 
 */
 ?>
-<!-- Start cm_ahi_delivery module -->
       <div class="col-sm-<?php echo (int)MODULE_CONTENT_ACCOUNT_HISTORY_INFO_DELIVERY_CONTENT_WIDTH; ?>">
         <div class="panel panel-info">
           <div class="panel-heading"><?php echo '<strong>' . HEADING_DELIVERY_ADDRESS . '</strong>'; ?></div>
@@ -19,4 +18,3 @@
           </div>
         </div>
       </div>
-<!-- End cm_ahi_delivery module -->
