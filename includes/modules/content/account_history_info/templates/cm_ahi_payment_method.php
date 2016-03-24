@@ -10,7 +10,6 @@
 
 */
 ?>
-<!-- Start cm_ahi_payment_method module -->
       <div class="col-sm-<?php echo (int)MODULE_CONTENT_ACCOUNT_HISTORY_INFO_PAYMENT_METHOD_CONTENT_WIDTH; ?>">
         <div class="panel panel-info">
           <div class="panel-heading"><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong>'; ?></div>
@@ -19,4 +18,3 @@
           </div>
         </div>
       </div>
-<!-- End cm_ahi_payment_method module -->
