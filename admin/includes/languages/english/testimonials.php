@@ -38,3 +38,5 @@ define('TEXT_TESTIMONIAL_NOT_PUBLISHED', 'Not Published');
 define('TEXT_INFO_HEADING_DELETE_TESTIMONIAL', 'Delete Testimonial');
 
 define('TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS', 'Displaying <b>%s</b> to <b>%s</b> (of <b>%s</b> testimonials)');
+
+define('IMAGE_BUTTON_ADD_TESTIMONIAL', 'Add A Testimonial');
