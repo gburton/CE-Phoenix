@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -29,7 +29,8 @@
     }
 
     function execute() {
-      $oscTemplate->addBlock('<link href="user.css" rel="stylesheet">');
+      global $oscTemplate;
+      $oscTemplate->addBlock('<link href="user.css" rel="stylesheet">', 'header_tags');
     }
 
     function isEnabled() {
