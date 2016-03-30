@@ -620,6 +620,24 @@ CREATE TABLE zones_to_geo_zones (
    KEY idx_zones_to_geo_zones_country_id (zone_country_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS testimonials;
+CREATE TABLE testimonials (
+  testimonials_id int NOT NULL auto_increment,
+  customers_name varchar(255) NOT NULL,
+  date_added datetime,
+  last_modified datetime,
+  testimonials_status tinyint(1) NOT NULL default '1',
+  PRIMARY KEY (testimonials_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS testimonials_description;
+CREATE TABLE testimonials_description (
+  testimonials_id int NOT NULL,
+  languages_id int NOT NULL,
+  testimonials_text text NOT NULL,
+  PRIMARY KEY (testimonials_id, languages_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 # data
 
 # 1 - Default, 2 - USA, 3 - Spain, 4 - Singapore, 5 - Germany
