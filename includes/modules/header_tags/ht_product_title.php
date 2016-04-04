@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -38,10 +38,10 @@
             $product_info = tep_db_fetch_array($product_info_query);
 
             if ( tep_not_null($product_info['products_seo_title']) && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
-              $oscTemplate->setTitle($product_info['products_seo_title'] . ', ' . $oscTemplate->getTitle());
+              $oscTemplate->setTitle($product_info['products_seo_title'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
             }
             else {
-              $oscTemplate->setTitle($product_info['products_name'] . ', ' . $oscTemplate->getTitle());
+              $oscTemplate->setTitle($product_info['products_name'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
             }
           }
         }
