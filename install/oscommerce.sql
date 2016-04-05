@@ -256,6 +256,7 @@ CREATE TABLE manufacturers_info (
   manufacturers_description TEXT NULL,
   manufacturers_seo_description TEXT NULL,
   manufacturers_seo_keywords VARCHAR(128) NULL,
+  manufacturers_seo_title VARCHAR(128) NULL,
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -1155,16 +1156,16 @@ INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactiv
 INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), null);
 INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), null);
 
-INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, '', '', '');
-INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, '', '', '');
+INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, null, null, null, null);
 
 INSERT INTO orders_status VALUES ( '1', '1', 'Pending', '1', '0');
 INSERT INTO orders_status VALUES ( '2', '1', 'Processing', '1', '1');
