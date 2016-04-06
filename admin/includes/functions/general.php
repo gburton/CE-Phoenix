@@ -1525,6 +1525,12 @@
     return $manufacturer['manufacturers_seo_keywords'];
   }
   
+  function tep_get_manufacturer_seo_title($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_title from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_title'];
+  }
   function tep_get_products_seo_description($product_id, $language_id = 0) {
     global $languages_id;
 
