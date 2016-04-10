@@ -14,7 +14,7 @@
     var $type = 'warning';
     var $has_doc = true;
 
-    function securityCheckExtended_mysql_utf8() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/mysql_utf8.php');

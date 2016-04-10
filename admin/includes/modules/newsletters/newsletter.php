@@ -13,7 +13,7 @@
   class newsletter {
     var $show_choose_audience, $title, $content;
 
-    function newsletter($title, $content) {
+    function __construct($title, $content) {
       $this->show_choose_audience = false;
       $this->title = $title;
       $this->content = $content;

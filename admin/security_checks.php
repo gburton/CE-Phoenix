@@ -76,7 +76,8 @@
 
 <?php
   foreach ($modules as $module) {
-    $secCheck = $$module['class'];
+    $tmpclass = $module['class'];
+    $secCheck = $$tmpclass;
 
     if ( !in_array($secCheck->type, $types) ) {
       $secCheck->type = 'info';

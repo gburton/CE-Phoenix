@@ -14,7 +14,7 @@
     var $type = 'warning';
     var $has_doc = true;
 
-    function securityCheckExtended_version_check() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/version_check.php');
