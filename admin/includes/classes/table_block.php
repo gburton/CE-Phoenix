@@ -19,8 +19,7 @@
     var $table_row_parameters = '';
     var $table_data_parameters = '';
 
-		function __construct($contents) {
-		  $this->tableBlock($contents);
+		function __construct() {
 		}
 
     function tableBlock($contents) {
