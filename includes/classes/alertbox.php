@@ -10,8 +10,12 @@
   Released under the GNU General Public License
 */
   class alertBlock {    
-	// class constructor
-    function alertBlock($contents, $alert_output = false) {
+
+  	// class constructor
+  	function __construct() {
+  	}
+
+  	function alertBlock($contents, $alert_output = false) {
 	  $alertBox_string = '';
 		  
       for ($i=0, $n=sizeof($contents); $i<$n; $i++) {

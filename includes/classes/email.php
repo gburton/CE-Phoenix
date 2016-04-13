@@ -28,7 +28,7 @@
     var $attachments;
     var $headers;
 
-    function email($headers = '') {
+    function __construct($headers = '') {
       if ($headers == '') $headers = array();
 
       $this->html_images = array();

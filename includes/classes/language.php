@@ -16,7 +16,7 @@
   class language {
     var $languages, $catalog_languages, $browser_languages, $language;
 
-    function language($lng = '') {
+    function __construct($lng = '') {
       $this->languages = array('af' => 'af|afrikaans',
                                'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
                                'be' => 'be|belarusian',
