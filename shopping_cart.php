@@ -34,26 +34,11 @@
   }
 ?>
 
-<?php
-  if ($cart->count_contents() > 0) {
-?>
-
 <div class="row">
     <?php echo $oscTemplate->getContent('shopping_cart'); ?>
 </div>
 
 <?php
-  } else {
-?>
-
-<div class="alert alert-danger">
-  <?php echo TEXT_CART_EMPTY; ?>
-</div>
-
-<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link(FILENAME_DEFAULT), 'primary', NULL, 'btn-danger'); ?></p>
-
-<?php
-  }
 
   require(DIR_WS_INCLUDES . 'template_bottom.php');
   require(DIR_WS_INCLUDES . 'application_bottom.php');

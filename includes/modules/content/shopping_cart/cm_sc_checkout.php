@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_sc_checkout() {
+    function __construct() {
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 
@@ -32,9 +32,11 @@
     }
 
     function execute() {
-      global $oscTemplate, $payment_modules, $any_out_of_stock;
+      global $oscTemplate, $payment_modules, $any_out_of_stock, $cart;
 
 	  $content_width = (int)MODULE_CONTENT_SC_CHECKOUT_CONTENT_WIDTH;
+	  
+	  if ($cart->count_contents() > 0) {
 	  
       $sc_checkout = '<div class="buttonSet">
       					<div class="text-right">' .  tep_draw_button(IMAGE_BUTTON_CHECKOUT, 'fa fa-angle-right', tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'), 'primary', NULL, 'btn-success') . '</div>
@@ -67,6 +69,7 @@
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
+	  } // end if $cart->count_contents() > 0
     }
 
     function  isEnabled() {

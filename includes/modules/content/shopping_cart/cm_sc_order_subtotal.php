@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_sc_order_subtotal() {
+    function __construct() {
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 
@@ -35,6 +35,8 @@
       global $oscTemplate, $cart, $currencies;
 	  
 	  $content_width = (int)MODULE_CONTENT_SC_ORDER_SUBTOTAL_CONTENT_WIDTH;
+	  
+	  if ($cart->count_contents() > 0) {
 
       $sc_order_subtotal = '<p class="text-right"><strong>' . SUB_TITLE_SUB_TOTAL . ' ' . $currencies->format($cart->show_total()) . '</strong></p>';	  
 		  
@@ -43,6 +45,7 @@
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
+	  } // end if $cart->count_contents() > 0
     }
 
     function  isEnabled() {

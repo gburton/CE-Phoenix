@@ -20,7 +20,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_sc_product_listing() {
+    function __construct() {
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 
@@ -37,6 +37,8 @@
       global $oscTemplate, $cart, $products, $currencies, $languages_id, $any_out_of_stock;
 	  
 	  $content_width = (int)MODULE_CONTENT_SC_PRODUCT_LISTING_CONTENT_WIDTH;
+	  
+	  if ($cart->count_contents() > 0) {
 
 	  $any_out_of_stock = 0;
 	  $products = $cart->get_products();
@@ -102,6 +104,7 @@
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
+		} // end if $cart->count_contents() > 0
     }
 
     function isEnabled() {
