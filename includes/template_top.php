@@ -31,7 +31,7 @@
 
 <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- font awesome -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
 <link href="custom.css" rel="stylesheet">
 <link href="user.css" rel="stylesheet">
