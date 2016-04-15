@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_navbar() {
+    function __construct() {
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 
@@ -36,8 +36,8 @@
 
       $navbar_style   = (MODULE_CONTENT_NAVIGATION_NAVBAR_STYLE == 'Inverse') ? ' navbar-inverse' : ' navbar-default';
       $navbar_corners = (MODULE_CONTENT_NAVIGATION_NAVBAR_CORNERS == 'Yes') ? '' : ' navbar-no-corners';
-      $navbar_margin  = (MODULE_CONTENT_NAVIGATION_NAVBAR_MARGIN == 'Yes') ? '' : ' navbar-no-margin';     
-      
+      $navbar_margin  = (MODULE_CONTENT_NAVIGATION_NAVBAR_MARGIN == 'Yes') ? '' : ' navbar-no-margin';
+
       if ( defined('MODULE_CONTENT_NAVIGATION_NAVBAR_INSTALLED') && tep_not_null(MODULE_CONTENT_NAVIGATION_NAVBAR_INSTALLED) ) {
         $nav_array = explode(';', MODULE_CONTENT_NAVIGATION_NAVBAR_INSTALLED);
 
@@ -58,14 +58,14 @@
           }
         }
 
-        if ( !empty($navbar_modules) ) {          
+        if ( !empty($navbar_modules) ) {
           ob_start();
           include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
           $template = ob_get_clean();
 
           $oscTemplate->addContent($template, $this->group);
         }
-      }      
+      }
     }
 
     function isEnabled() {
