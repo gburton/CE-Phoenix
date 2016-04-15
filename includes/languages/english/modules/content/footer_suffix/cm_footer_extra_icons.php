@@ -10,10 +10,10 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TITLE', 'Payment Icons');
-  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_DESCRIPTION', 'Adds a Payment Icons Block to the Extra Footer Area of your site');
+  define('MODULE_CONTENT_FOOTER_SUFFIX_EXTRA_ICONS_TITLE', 'Payment Icons');
+  define('MODULE_CONTENT_FOOTER_SUFFIX_EXTRA_ICONS_DESCRIPTION', 'Adds a Payment Icons Block to the Extra Footer Area of your site');
   
-  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT', '
+  define('MODULE_CONTENT_FOOTER_SUFFIX_EXTRA_ICONS_TEXT', '
   <p>
     <i class="fa fa-cc fa-lg"></i>
     <i class="fa fa-cc-amex fa-lg"></i>
