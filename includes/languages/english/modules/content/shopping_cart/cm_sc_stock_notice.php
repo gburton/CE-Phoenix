@@ -9,8 +9,6 @@
  
   Released under the GNU General Public License
 */
-?>
-
-<div class="col-sm-<?php echo $content_width ?> text-right">
-	<?php echo $sc_checkout; ?>
-</div>
+  
+  define('MODULE_CONTENT_SC_STOCK_NOTICE_TITLE', 'Out of Stock Notice');
+  define('MODULE_CONTENT_SC_STOCK_NOTICE_DESCRIPTION', 'Show Stock Notice on the shopping cart page.');

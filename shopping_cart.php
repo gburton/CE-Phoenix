@@ -12,11 +12,6 @@
 
   require("includes/application_top.php");
 
-  if ($cart->count_contents() > 0) {
-    include(DIR_WS_CLASSES . 'payment.php');
-    $payment_modules = new payment;
-  }
-
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_SHOPPING_CART);
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_SHOPPING_CART));
@@ -34,12 +29,11 @@
   }
 ?>
 
-<div class="row">
-    <?php echo $oscTemplate->getContent('shopping_cart'); ?>
-</div>
+  	<div class="row">
+    	<?php echo $oscTemplate->getContent('shopping_cart'); ?>
+    </div>
 
 <?php
-
   require(DIR_WS_INCLUDES . 'template_bottom.php');
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>

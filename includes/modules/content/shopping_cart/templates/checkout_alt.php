@@ -12,5 +12,5 @@
 ?>
 
 <div class="col-sm-<?php echo $content_width ?> text-right">
-	<?php echo $sc_checkout; ?>
+	<?php echo $sc_alt_checkout; ?>
 </div>
