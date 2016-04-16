@@ -12,4 +12,3 @@
 
 define('NAVBAR_TITLE', 'Cart Contents');
 define('HEADING_TITLE', 'What\'s In My Cart?');
-define('TEXT_CART_EMPTY', 'Your Shopping Cart is empty!');

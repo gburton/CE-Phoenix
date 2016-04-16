@@ -36,15 +36,13 @@
 
       $content_width = (int)MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH;
 
-      if ($cart->count_contents() > 0) {
+      if ($cart->count_contents() > 0 && $any_out_of_stock == 1) {
  
-      	if ($any_out_of_stock == 1) {
-      		if (STOCK_ALLOW_CHECKOUT == 'true') {
-      			$sc_stock_notice .= '<div class="alert alert-warning">' . OUT_OF_STOCK_CAN_CHECKOUT . '</div>';
-      		} else {
-      			$sc_stock_notice .= '<div class="alert alert-danger">' . OUT_OF_STOCK_CANT_CHECKOUT . '</div>';
-      		}
-      	}
+        if (STOCK_ALLOW_CHECKOUT == 'true') {
+          $sc_stock_notice = '<div class="alert alert-warning">' . OUT_OF_STOCK_CAN_CHECKOUT . '</div>';
+        } else {
+          $sc_stock_notice = '<div class="alert alert-danger">' . OUT_OF_STOCK_CANT_CHECKOUT . '</div>';
+        }
  
         ob_start();
         include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/stock_notice.php');

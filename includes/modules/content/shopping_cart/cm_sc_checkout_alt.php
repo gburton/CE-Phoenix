@@ -82,13 +82,13 @@
 							 	}
             } // end switch
 	    		$sc_alt_checkout .= '</div>'; // end button set
-				}
 		  
-				ob_start();
-				include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/checkout_alt.php');
-				$template = ob_get_clean();
+	    		ob_start();
+	    		include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/checkout_alt.php');
+	    		$template = ob_get_clean();
 
-				$oscTemplate->addContent($template, $this->group);
+	    		$oscTemplate->addContent($template, $this->group);
+				} // end if (!empty($initialize_checkout_methods)) {
 			} // end if $cart->count_contents() > 0
     }
 
