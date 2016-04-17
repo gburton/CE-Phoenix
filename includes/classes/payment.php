@@ -14,7 +14,7 @@
     var $modules, $selected_module;
 
 // class constructor
-    function payment($module = '') {
+    function __construct($module = '') {
       global $payment, $language, $PHP_SELF;
 
       if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
