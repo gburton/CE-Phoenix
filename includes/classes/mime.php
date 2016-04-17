@@ -38,7 +38,7 @@
  * @access public
  */
 
-    function __construct($body, $params = '') {
+    function mime($body, $params = '') {
       if ($params == '') $params = array();
 
 // Make sure we use the correct linfeed sequence

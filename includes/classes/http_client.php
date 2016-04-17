@@ -50,7 +50,7 @@
  * Note: when host and port are defined, the connection is immediate
  * @seeAlso connect
  **/
-    function __construct($host = '', $port = '') {
+    function httpClient($host = '', $port = '') {
       if (tep_not_null($host)) {
         $this->connect($host, $port);
       }

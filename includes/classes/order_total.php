@@ -14,7 +14,7 @@
     var $modules;
 
 // class constructor
-    function __construct() {
+    function order_total() {
       global $language;
 
       if (defined('MODULE_ORDER_TOTAL_INSTALLED') && tep_not_null(MODULE_ORDER_TOTAL_INSTALLED)) {
