@@ -14,7 +14,7 @@
     var $modules;
 
 // class constructor
-    function __construct($module = '') {
+    function shipping($module = '') {
       global $language, $PHP_SELF;
 
       if (defined('MODULE_SHIPPING_INSTALLED') && tep_not_null(MODULE_SHIPPING_INSTALLED)) {

@@ -19,7 +19,7 @@
   class messageStack extends alertBlock {
 
 // class constructor
-    function __construct() {
+    function messageStack() {
       $this->messages = array();
 
       if (isset($_SESSION['messageToStack'])) {

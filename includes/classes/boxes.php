@@ -18,10 +18,6 @@
     var $table_parameters = '';
     var $table_row_parameters = '';
     var $table_data_parameters = '';
-    
-   function __construct(){
-    //leave it empty
-   }
 
 // class constructor
     function tableBox($contents, $direct_output = false) {
@@ -77,9 +73,7 @@
   }
 
   class infoBox extends tableBox {
-    function __construct($contents) {
-    	global $info_box_contents;
-
+    function infoBox($contents) {
       $info_box_contents = array();
       $info_box_contents[] = array('text' => $this->infoBoxContents($contents));
       $this->table_cellpadding = '1';
@@ -104,10 +98,8 @@
   }
 
   class infoBoxHeading extends tableBox {
-    function __construct($contents, $left_corner = true, $right_corner = true, $right_arrow = false) {
-    	global $infobox_header_text, $infobox_header_link;
-
-    	$this->table_cellpadding = '0';
+    function infoBoxHeading($contents, $left_corner = true, $right_corner = true, $right_arrow = false) {
+      $this->table_cellpadding = '0';
 
       if ($left_corner == true) {
         $left_corner = tep_image(DIR_WS_IMAGES . 'infobox/corner_left.gif');
@@ -138,9 +130,7 @@
   }
 
   class contentBox extends tableBox {
-    function __construct($contents) {
-    	global $info_box_contents;
-
+    function contentBox($contents) {
       $info_box_contents = array();
       $info_box_contents[] = array('text' => $this->contentBoxContents($contents));
       $this->table_cellpadding = '1';
@@ -156,9 +146,7 @@
   }
 
   class contentBoxHeading extends tableBox {
-    function __construct($contents) {
-    	global $info_box_contents;
-
+    function contentBoxHeading($contents) {
       $this->table_width = '100%';
       $this->table_cellpadding = '0';
 
@@ -175,16 +163,14 @@
   }
 
   class errorBox extends tableBox {
-    function __construct($contents) {
-
+    function errorBox($contents) {
       $this->table_data_parameters = 'class="errorBox"';
       $this->tableBox($contents, true);
     }
   }
 
   class productListingBox extends tableBox {
-    function __construct($contents) {
-
+    function productListingBox($contents) {
       $this->table_parameters = 'class="productListing"';
       $this->tableBox($contents, true);
     }
