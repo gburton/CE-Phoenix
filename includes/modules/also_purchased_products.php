@@ -22,7 +22,7 @@
         $also_pur_prods_content .= '  <div class="thumbnail">';
         $also_pur_prods_content .= '    <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $orders['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $orders['products_image'], $orders['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a>';
         $also_pur_prods_content .= '    <div class="caption">';
-        $also_pur_prods_content .= '      <h5 class="text-center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $orders['products_id']) . '">' . $orders['products_name'] . '</a></h5>';
+        $also_pur_prods_content .= '      <h5 class="text-center"><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $orders['products_id']) . '"><span itemprop="itemListElement">' . $orders['products_name'] . '</span></a></h5>';
         $also_pur_prods_content .= '    </div>';
         $also_pur_prods_content .= '  </div>';
         $also_pur_prods_content .= '</div>';
@@ -31,13 +31,17 @@
 ?>
 
   <br />
+  <div itemscope itemtype="http://schema.org/ItemList">
+    <meta itemprop="itemListOrder" content="http://schema.org/ItemListUnordered" />
+    <meta itemprop="numberOfItems" content="<?php echo (int)$num_products_ordered; ?>" />
 
-  <h3><?php echo TEXT_ALSO_PURCHASED_PRODUCTS; ?></h3>
+    <h3 itemprop="name"><?php echo TEXT_ALSO_PURCHASED_PRODUCTS; ?></h3>
 
-  <div class="row">
-    <?php echo $also_pur_prods_content; ?>
+    <div class="row">
+      <?php echo $also_pur_prods_content; ?>
+    </div>
+    
   </div>
-
 
 <?php
     }
