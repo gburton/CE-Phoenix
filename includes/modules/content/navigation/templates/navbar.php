@@ -23,22 +23,4 @@
     </div>
   </div>
 </nav>
-<?php
-switch ($navbar_fixed) {
-  
-  case " navbar-fixed-top":
-?>
-<style scoped>
-body { padding-top: 50px; }
-</style>
-<?php
-  break;
-  
-  case " navbar-fixed-bottom":
-?>
-<style scoped>
-body { padding-bottom: 50px; }
-</style>
-<?php
-  break;
-}
+<?php echo $navbar_css; ?>

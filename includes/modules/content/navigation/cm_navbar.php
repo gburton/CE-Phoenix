@@ -38,16 +38,17 @@
       $navbar_corners = (MODULE_CONTENT_NAVBAR_CORNERS == 'Yes') ? '' : ' navbar-no-corners';
       $navbar_margin  = (MODULE_CONTENT_NAVBAR_MARGIN == 'Yes') ? '' : ' navbar-no-margin';  
 
-      switch  (MODULE_CONTENT_NAVBAR_FIXED) {
-        case 'top':
+      switch(MODULE_CONTENT_NAVBAR_FIXED) {
+        case 'Top':
           $navbar_fixed = ' navbar-fixed-top';
+          $navbar_css   = '<style>body { padding-top: 50px; }</style>';
         break;
-        case 'bottom':
+        case 'Bottom':
           $navbar_fixed = ' navbar-fixed-bottom';
+          $navbar_css   = '<style>body { padding-bottom: 50px; }</style>';
         break;
         default:
-          $navbar_fixed = '';
-        break;
+          $navbar_fixed = $navbar_css = '';
       }
       
       
@@ -94,7 +95,7 @@
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Style', 'MODULE_CONTENT_NAVBAR_STYLE', 'Inverse', 'What style should the Navbar have?  See http://getbootstrap.com/components/#navbar-inverted', '6', '0', 'tep_cfg_select_option(array(\'Default\', \'Inverse\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Corners', 'MODULE_CONTENT_NAVBAR_CORNERS', 'No', 'Should the Navbar have Corners?', '6', '0', 'tep_cfg_select_option(array(\'Yes\', \'No\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Margin', 'MODULE_CONTENT_NAVBAR_MARGIN', 'No', 'Should the Navbar have a bottom Margin?', '6', '0', 'tep_cfg_select_option(array(\'Yes\', \'No\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar fixed on top', 'MODULE_CONTENT_NAVBAR_FIXED', 'default', 'Should the Navbar stay fixed on top/bottom of the page?', '6', '0', 'tep_cfg_select_option(array(\'default\', \'top\', \'bottom\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Navbar Fixed Position', 'MODULE_CONTENT_NAVBAR_FIXED', 'Floating', 'Should the Navbar stay fixed on Top/Bottom of the page or Floating?', '6', '0', 'tep_cfg_select_option(array(\'Floating\', \'Top\', \'Bottom\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_NAVBAR_SORT_ORDER', '10', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
