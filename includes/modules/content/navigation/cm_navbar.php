@@ -41,11 +41,11 @@
       switch(MODULE_CONTENT_NAVBAR_FIXED) {
         case 'Top':
           $navbar_fixed = ' navbar-fixed-top';
-          $navbar_css   = '<style>body { padding-top: 50px; }</style>';
+          $navbar_css   = '<style scoped>body { padding-top: 50px; }</style>';
         break;
         case 'Bottom':
           $navbar_fixed = ' navbar-fixed-bottom';
-          $navbar_css   = '<style>body { padding-bottom: 50px; }</style>';
+          $navbar_css   = '<style scoped>body { padding-bottom: 50px; }</style>';
         break;
         default:
           $navbar_fixed = $navbar_css = '';
