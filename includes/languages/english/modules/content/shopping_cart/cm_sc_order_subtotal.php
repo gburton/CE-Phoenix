@@ -14,4 +14,3 @@
   define('MODULE_CONTENT_SC_ORDER_SUBTOTAL_DESCRIPTION', 'Show order subtotal on shopping cart page');
   
   define('SUB_TITLE_SUB_TOTAL', 'Sub-Total:');
-  define('SUB_TITLE_TOTAL', 'Total:');
