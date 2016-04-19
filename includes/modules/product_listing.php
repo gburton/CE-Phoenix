@@ -163,7 +163,7 @@
 
   }
 
-  echo '<div id="products" class="row list-group itemtype="http://schema.org/ItemList">';
+  echo '<div id="products" class="row list-group" itemtype="http://schema.org/ItemList">';
   echo '<meta itemprop="numberOfItems" content="' . (int)$listing_split->number_of_rows . '" />';
   echo $prod_list_contents;
   echo '</div>';
