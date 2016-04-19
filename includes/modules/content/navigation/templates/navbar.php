@@ -1,4 +1,4 @@
-<nav class="navbar<?php echo $navbar_style . $navbar_corners . $navbar_margin; ?> navbar-custom" role="navigation">
+<nav class="navbar<?php echo $navbar_style . $navbar_corners . $navbar_margin . $navbar_fixed; ?> navbar-custom" role="navigation">
   <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <?php
     if ($oscTemplate->hasBlocks('navbar_modules_home')) {
@@ -23,3 +23,22 @@
     </div>
   </div>
 </nav>
+<?php
+switch ($navbar_fixed) {
+  
+  case " navbar-fixed-top":
+?>
+<style scoped>
+body { padding-top: 50px; }
+</style>
+<?php
+  break;
+  
+  case " navbar-fixed-bottom":
+?>
+<style scoped>
+body { padding-bottom: 50px; }
+</style>
+<?php
+  break;
+}
