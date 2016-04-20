@@ -15,6 +15,7 @@
 // 'en_US.UTF-8', 'en_US.UTF8', 'enu_usa'
 // 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
 // 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
+
 setlocale(LC_ALL, array('en_US.UTF-8', 'en_US.UTF8', 'enu_usa'));
 define('DATE_FORMAT_SHORT', '%m/%d/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
