@@ -13,7 +13,7 @@
   class order {
     var $info, $totals, $products, $customer, $delivery, $content_type;
 
-    function __construct($order_id = '') {
+    function order($order_id = '') {
       $this->info = array();
       $this->totals = array();
       $this->products = array();
