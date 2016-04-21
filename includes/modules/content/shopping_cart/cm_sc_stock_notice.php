@@ -1,0 +1,77 @@
+<?php
+/*
+  $Id$
+
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
+
+  Copyright (c) 2016 osCommerce
+
+  Released under the GNU General Public License
+*/
+
+  class cm_sc_stock_notice {
+    public $code;
+    public $group;
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;
+
+    function __construct() {
+      $this->code = get_class($this);
+      $this->group = basename(dirname(__FILE__));
+
+      $this->title = MODULE_CONTENT_SC_STOCK_NOTICE_TITLE;
+      $this->description = MODULE_CONTENT_SC_STOCK_NOTICE_DESCRIPTION;
+
+      if ( defined('MODULE_CONTENT_SC_STOCK_NOTICE_STATUS') ) {
+        $this->sort_order = MODULE_CONTENT_SC_STOCK_NOTICE_SORT_ORDER;
+        $this->enabled = (MODULE_CONTENT_SC_STOCK_NOTICE_STATUS == 'True');
+      }
+    }
+
+    function execute() {
+      global $oscTemplate, $cart, $any_out_of_stock;
+
+      $content_width = (int)MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH;
+
+      if ($cart->count_contents() > 0 && $any_out_of_stock == 1) {
+ 
+        if (STOCK_ALLOW_CHECKOUT == 'true') {
+          $sc_stock_notice = '<div class="alert alert-warning">' . OUT_OF_STOCK_CAN_CHECKOUT . '</div>';
+        } else {
+          $sc_stock_notice = '<div class="alert alert-danger">' . OUT_OF_STOCK_CANT_CHECKOUT . '</div>';
+        }
+ 
+        ob_start();
+        include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/stock_notice.php');
+        $template = ob_get_clean();
+
+        $oscTemplate->addContent($template, $this->group);
+      }
+    }
+
+    function  isEnabled() {
+      return $this->enabled;
+    }
+
+    function check() {
+      return defined('MODULE_CONTENT_SC_STOCK_NOTICE_STATUS');
+    }
+
+    function install() {
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Shopping Cart Stock Notice', 'MODULE_CONTENT_SC_STOCK_NOTICE_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");	
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH', '12', 'What width container should the content be shown in?', '6', '2', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_SC_STOCK_NOTICE_SORT_ORDER', '500', 'Sort order of display. Lowest is displayed first.', '6', '3', now())");
+    }
+
+    function remove() {
+      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+    }
+
+    function keys() {
+      return array('MODULE_CONTENT_SC_STOCK_NOTICE_STATUS', 'MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH', 'MODULE_CONTENT_SC_STOCK_NOTICE_SORT_ORDER');
+    }
+  }
+

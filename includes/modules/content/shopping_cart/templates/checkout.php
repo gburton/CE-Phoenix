@@ -1,14 +1,16 @@
 <?php
 /*
   $Id$
-
+ 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-
-  Copyright (c) 2007 osCommerce
-
+ 
+  Copyright (c) 2016 osCommerce
+ 
   Released under the GNU General Public License
 */
+?>
 
-define('NAVBAR_TITLE', 'Cart Contents');
-define('HEADING_TITLE', 'What\'s In My Cart?');
+<div class="col-sm-<?php echo $content_width ?> text-right">
+	<?php echo $sc_checkout; ?>
+</div>
