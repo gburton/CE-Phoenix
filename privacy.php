@@ -25,7 +25,9 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_INFORMATION; ?>
+    <div class="row">
+        <?php echo $oscTemplate->getContent('privacy'); ?>
+    </div>
   </div>
 
   <div class="buttonSet">
