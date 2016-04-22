@@ -38,12 +38,14 @@
       } else {
         $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
       }
+      
+      $num_best_sellers = tep_db_num_rows($best_sellers_query);
 
-      if (tep_db_num_rows($best_sellers_query) >= MIN_DISPLAY_BESTSELLERS) {
+      if ($num_best_sellers >= MIN_DISPLAY_BESTSELLERS) {
         $bestsellers_list = NULL;
 
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<li><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a></li>';
+          $bestsellers_list .= '<li><a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $best_sellers['products_id']) . '"><span itemprop="itemListElement">' . $best_sellers['products_name'] . '</span></a></li>';
         }
 
         ob_start();
