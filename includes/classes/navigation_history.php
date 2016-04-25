@@ -13,7 +13,11 @@
   class navigationHistory {
     var $path, $snapshot;
 
+<<<<<<< HEAD
+    function __construct() {
+=======
     function navigationHistory() {
+>>>>>>> parent of d758328... PHP7 update
       $this->reset();
     }
 

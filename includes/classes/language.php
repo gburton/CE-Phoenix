@@ -16,7 +16,11 @@
   class language {
     var $languages, $catalog_languages, $browser_languages, $language;
 
+<<<<<<< HEAD
+    function __construct($lng = '') {
+=======
     function language($lng = '') {
+>>>>>>> parent of d758328... PHP7 update
       $this->languages = array('af' => 'af|afrikaans',
                                'ar' => 'ar([-_][[:alpha:]]{2})?|arabic',
                                'be' => 'be|belarusian',

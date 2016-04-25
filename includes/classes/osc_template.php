@@ -19,7 +19,11 @@
     var $_grid_column_width = 0; // deprecated
     var $_data = array();
 
+<<<<<<< HEAD
+    function __construct() {
+=======
     function oscTemplate() {
+>>>>>>> parent of d758328... PHP7 update
       $this->_title = TITLE;
     }
 

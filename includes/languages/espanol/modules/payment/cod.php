@@ -11,9 +11,5 @@
 */
 
   define('MODULE_PAYMENT_COD_TEXT_TITLE', 'Contra Reembolso');
-  define('MODULE_PAYMENT_COD_TEXT_DESCRIPTION', 'Su pedido será enviado contra reembolso el próximo día laboral.');
-  define('MODULE_PAYMENT_COD_TEXT_EMAIL_FOOTER', '<strong>Nuestro comentario:</strong><p>
-  
- Su pedido será enviado contra reembolso el próximo día laboral.
-  ');
+  define('MODULE_PAYMENT_COD_TEXT_DESCRIPTION', 'Contra Reembolso');
 ?>
