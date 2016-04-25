@@ -13,10 +13,9 @@
 // look in your $PATH_LOCALE/locale directory for available locales
 // or type locale -a on the server.
 // Array examples which should work on all servers:
-// 'es_ES.UTF-8', 'es_ES.UTF8', 'es_es'
-// 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
-// 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
-@setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'es_es'));
+//España: 'es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'
+//México 'es_MX.UTF-8', 'es_MX.UTF8', 'esm_es'
+@setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'));
 
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d de %B del %Y'); // this is used for strftime()

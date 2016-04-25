@@ -11,10 +11,11 @@
 */
 
 // look in your $PATH_LOCALE/locale directory for available locales..
-// on RedHat6.0 I used 'es_ES'
-// on FreeBSD 4.0 I use 'es_ES.UTF-8'
-// this may not work under win32 environments..
-@setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'es_es'));
+// Array examples which should work on all servers:
+//España: 'es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'
+//México 'es_MX.UTF-8', 'es_MX.UTF8', 'esm_es'
+@setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'));
+
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y');  // this is used for date()
