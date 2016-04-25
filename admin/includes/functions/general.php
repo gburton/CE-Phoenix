@@ -1487,3 +1487,124 @@
     return $manufacturer['manufacturers_description'];
   }
   
+  function tep_get_category_seo_description($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_description from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_description'];
+  }
+  
+  function tep_get_category_seo_keywords($category_id, $language_id) {
+    $category_query = tep_db_query("select categories_seo_keywords from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_keywords'];
+  }
+  
+  function tep_get_category_seo_title($category_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $category_query = tep_db_query("select categories_seo_title from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category = tep_db_fetch_array($category_query);
+
+    return $category['categories_seo_title'];
+  }
+  
+  function tep_get_manufacturer_seo_description($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_description from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_description'];
+  }
+  
+  function tep_get_manufacturer_seo_keywords($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_keywords from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_keywords'];
+  }
+  
+  function tep_get_manufacturer_seo_title($manufacturer_id, $language_id) {
+    $manufacturer_query = tep_db_query("select manufacturers_seo_title from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+    return $manufacturer['manufacturers_seo_title'];
+  }
+  function tep_get_products_seo_description($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_description from products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_description'];
+  }
+  
+  function tep_get_products_seo_keywords($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_keywords from products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_keywords'];
+  }
+  
+  function tep_get_products_seo_title($product_id, $language_id = 0) {
+    global $languages_id;
+
+    if ($language_id == 0) $language_id = $languages_id;
+    $product_query = tep_db_query("select products_seo_title from products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product = tep_db_fetch_array($product_query);
+
+    return $product['products_seo_title'];
+  }
+
+  function tep_draw_products($name, $parameters = '', $exclude = '') {
+    global $languages_id;
+
+    if ($exclude == '') {
+      $exclude = array();
+    }
+
+    $select_string = '<select name="' . $name . '"';
+    if ($parameters) {
+      $select_string .= ' ' . $parameters;
+    }
+    $select_string .= '>';
+    
+    $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
+
+    $products_query = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
+    while ($products = tep_db_fetch_array($products_query)) {
+      if (!in_array($products['products_id'], $exclude)) {
+        $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . '</option>';
+      }
+    }
+
+    $select_string .= '</select>';
+
+    return $select_string;
+  }
+
+
+  function tep_draw_customers($name, $parameters = '') {
+    $select_string = '<select name="' . $name . '"';
+    if ($parameters) {
+      $select_string .= ' ' . $parameters;
+    }
+    $select_string .= '>';
+    $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
+
+    $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
+    while ($customers = tep_db_fetch_array($customers_query)) {
+       $select_string .= '<option value="' . $customers['customers_id'] . '">' . $customers['customers_lastname'] . ', ' . $customers['customers_firstname'] . '</option>';
+    }
+
+    $select_string .= '</select>';
+
+    return $select_string;
+  }
+ 
+  

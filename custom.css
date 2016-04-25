@@ -456,3 +456,9 @@ p.lead del {
 .form-control-feedback{
 	padding-right:2%;
 }
+
+@media (max-width: 767px) {
+.navbar-text {
+  padding-left: 15px!important;
+}
+}

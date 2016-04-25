@@ -154,7 +154,7 @@
       <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_get_country_list('country', STORE_COUNTRY, 0, 'id="inputCountry" aria-describedby="atCountry"');
+        echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
         if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
         ?>
       </div>

@@ -160,7 +160,7 @@
         <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
         <div class="col-sm-9">
           <?php
-          echo tep_get_country_list('country', (isset($entry['entry_country_id']) ? $entry['entry_country_id'] : STORE_COUNTRY), 0, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+          echo tep_get_country_list('country', (isset($entry['entry_country_id']) ? $entry['entry_country_id'] : 0), 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
           echo FORM_REQUIRED_INPUT;
           if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
           ?>

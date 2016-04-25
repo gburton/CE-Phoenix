@@ -11,9 +11,11 @@
 */
 
 // look in your $PATH_LOCALE/locale directory for available locales..
-// on RedHat6.0 I used 'en_US'
-// on FreeBSD 4.0 I use 'en_US.ISO_8859-1'
-// this may not work under win32 environments..
+// Array examples which should work on all servers:
+// 'en_US.UTF-8', 'en_US.UTF8', 'enu_usa'
+// 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
+// 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
+
 setlocale(LC_ALL, array('en_US.UTF-8', 'en_US.UTF8', 'enu_usa'));
 define('DATE_FORMAT_SHORT', '%m/%d/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
@@ -302,3 +304,5 @@ define('WARNING_NO_FILE_UPLOADED', 'Warning: No file uploaded.');
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 or less per column per row.</p><p>12/12 = 100% width, 6/12 = 50% width, 4/12 = 33% width.</p><p>Total of all columns in any one row must equal 12 (eg:  3 boxes of 4 columns each, 1 box of 12 columns and so on).</p>');
 
+// seo helper
+define('PLACEHOLDER_COMMA_SEPARATION', 'Must, Be, Comma, Separated');
