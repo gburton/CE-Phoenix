@@ -10,11 +10,11 @@
   Released under the GNU General Public License
 */
 
-define('TEXT_COUNT_CUSTOMERS', 'Los clientes que reciben boletines: %s');
+define('TEXT_COUNT_CUSTOMERS', 'Clientes que reciben boletines: %s');
 define('TEXT_PRODUCTS', 'Productos');
 define('TEXT_SELECTED_PRODUCTS', 'Productos seleccionados');
 
-define('JS_PLEASE_SELECT_PRODUCTS', 'Por favor seleccione algunos productos.');
+define('JS_PLEASE_SELECT_PRODUCTS', 'Por favor, seleccione algunos productos.');
 
 define('BUTTON_GLOBAL', 'Global');
 define('BUTTON_SELECT', '>>>');

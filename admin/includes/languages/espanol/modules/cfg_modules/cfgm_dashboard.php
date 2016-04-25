@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-define('MODULE_CFG_MODULE_DASHBOARD_TITLE', 'Tablero de Instrumentos');
+define('MODULE_CFG_MODULE_DASHBOARD_TITLE', 'Panel de Control');
 ?>

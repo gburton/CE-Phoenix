@@ -30,7 +30,7 @@
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_full_name', 'nombre completo');
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_date_of_birth', 'Fecha de nacimiento');
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_age_range', 'Rango de Edad');
-  define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_gender', 'Género');
+  define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_gender', 'Tratamiento');
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_email_address', 'dirección de correo electrónico');
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_street_address', 'Dirección');
   define('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_city', 'Ciudad');

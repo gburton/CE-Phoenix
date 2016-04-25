@@ -101,7 +101,7 @@ define('BOX_REPORTS_ORDERS_TOTAL', 'Total por Cliente');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Herramientas');
-define('BOX_TOOLS_ACTION_RECORDER', 'Grabadora de acciones');
+define('BOX_TOOLS_ACTION_RECORDER', 'Registro de Acciones');
 define('BOX_TOOLS_BACKUP', 'Copia de Seguridad');
 define('BOX_TOOLS_BANNER_MANAGER', 'Gestor de Banners');
 define('BOX_TOOLS_CACHE', 'Control de Caché');
@@ -135,7 +135,7 @@ define('JS_PRODUCTS_IMAGE', '* Debe suministrar una imagen\n');
 
 define('JS_SPECIALS_PRODUCTS_PRICE', '* Debe rellenar el precio\n');
 
-define('JS_GENDER', '* Debe elegir un \'Género\'.\n');
+define('JS_GENDER', '* Debe elegir un \'Tratamiento\'.\n');
 define('JS_FIRST_NAME', '* El \'Nombre\' debe tener al menos ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' letras.\n');
 define('JS_LAST_NAME', '* El \'Apellido\' debe tener al menos ' . ENTRY_LAST_NAME_MIN_LENGTH . ' letras.\n');
 define('JS_DOB', '* La \'Fecha de Nacimiento\' debe tener el formato: xx/xx/xxxx (dia/mes/año).\n');
@@ -158,7 +158,7 @@ define('CATEGORY_CONTACT', 'Contacto');
 define('CATEGORY_COMPANY', 'Empresa');
 define('CATEGORY_OPTIONS', 'Opciones');
 
-define('ENTRY_GENDER', 'Género:');
+define('ENTRY_GENDER', 'Tratamiento:');
 define('ENTRY_GENDER_ERROR', '&nbsp;<span class="errorText">obligatorio</span>');
 define('ENTRY_FIRST_NAME', 'Nombre:');
 define('ENTRY_FIRST_NAME_ERROR', '&nbsp;<span class="errorText">min ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' letras</span>');

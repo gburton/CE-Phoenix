@@ -12,10 +12,10 @@
 
 // look in your $PATH_LOCALE/locale directory for available locales
 // or type locale -a on the server.
-// Examples:
-// on RedHat try 'es_ES'
-// on FreeBSD try 'es_ES.UTF-8'
-// on Windows try 'sp', or 'Spanish'
+// Array examples which should work on all servers:
+// 'es_ES.UTF-8', 'es_ES.UTF8', 'es_es'
+// 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
+// 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
 @setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'es_es'));
 
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
@@ -99,8 +99,8 @@ define('CATEGORY_PASSWORD', 'Contraseña');
 
 define('ENTRY_COMPANY', 'Nombre de Empresa:');
 define('ENTRY_COMPANY_TEXT', '');
-define('ENTRY_GENDER', 'Género:');
-define('ENTRY_GENDER_ERROR', 'Por favor seleccione un género.'); 
+define('ENTRY_GENDER', 'Tratamiento:');
+define('ENTRY_GENDER_ERROR', 'Por favor seleccione un tratamiento.'); 
 define('ENTRY_GENDER_TEXT', '');
 define('ENTRY_FIRST_NAME', 'Nombre:');
 define('ENTRY_FIRST_NAME_ERROR', 'Su Nombre debe tener al menos ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' letras.');
@@ -127,8 +127,8 @@ define('ENTRY_POST_CODE_TEXT', '');
 define('ENTRY_CITY', 'Población:');
 define('ENTRY_CITY_ERROR', 'Su población debe tener al menos ' . ENTRY_CITY_MIN_LENGTH . ' letras.');
 define('ENTRY_CITY_TEXT', '');
-define('ENTRY_STATE', 'Provincia/Estado:');
-define('ENTRY_STATE_ERROR', 'Su provincia/estado debe tener al menos ' . ENTRY_STATE_MIN_LENGTH . ' letras.');
+define('ENTRY_STATE', 'Provincia:');
+define('ENTRY_STATE_ERROR', 'Su provincia debe tener al menos ' . ENTRY_STATE_MIN_LENGTH . ' letras.');
 define('ENTRY_STATE_ERROR_SELECT', 'Por favor, seleccione una Provincia de la lista.');
 define('ENTRY_STATE_TEXT', '');
 define('PLEASE_SELECT_A_STATE', 'Por favor seleccione su Provincia/Estado.');
