@@ -113,7 +113,7 @@
   $prod_list_contents = NULL;
 
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="item list-group-item col-sm-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
+    $prod_list_contents .= '<div class="item list-group-item col-sm-4" itemprop="itemListElement" itemscope itemtype="http://schema.org/Product">';
 	  $prod_list_contents .= '  <div class="productHolder equal-height">';
     if (isset($HTTP_GET_VARS['manufacturers_id'])  && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
       $prod_list_contents .= '    <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
@@ -163,7 +163,7 @@
 
   }
 
-  echo '<div id="products" class="row list-group" itemtype="http://schema.org/ItemList">';
+  echo '<div id="products" class="row list-group" itemscope itemtype="http://schema.org/ItemList">';
   echo '<meta itemprop="numberOfItems" content="' . (int)$listing_split->number_of_rows . '" />';
   echo $prod_list_contents;
   echo '</div>';
