@@ -150,7 +150,7 @@
 
 	  $prod_list_contents .= '      <div class="row">';
     if (tep_not_null($listing['specials_new_products_price'])) {
-      $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div class="btn-group" role="group"><button type="button" class="btn btn-default"><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></span>&nbsp;&nbsp;<span class="productSpecialPrice" itemprop="price">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</button></div></div>';
+      $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div class="btn-group" role="group"><button type="button" class="btn btn-default"><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del>&nbsp;&nbsp;<span class="productSpecialPrice" itemprop="price">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></button></div></div>';
     } else {
       $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><div class="btn-group" role="group"><button type="button" class="btn btn-default"><span itemprop="price">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></button></div></div>';
     }
