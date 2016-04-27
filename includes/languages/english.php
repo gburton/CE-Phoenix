@@ -12,10 +12,10 @@
 
 // look in your $PATH_LOCALE/locale directory for available locales
 // or type locale -a on the server.
-// Examples:
-// on RedHat try 'en_US'
-// on FreeBSD try 'en_US.ISO_8859-1'
-// on Windows try 'en', or 'English'
+// Array examples which should work on all servers:
+// 'en_US.UTF-8', 'en_US.UTF8', 'enu_usa'
+// 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
+// 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
 @setlocale(LC_ALL, array('en_US.UTF-8', 'en_US.UTF8', 'enu_usa'));
 
 define('DATE_FORMAT_SHORT', '%m/%d/%Y');  // this is used for strftime()
