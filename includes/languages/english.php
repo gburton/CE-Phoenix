@@ -48,13 +48,12 @@ define('CHARSET', 'utf-8');
 // page title
 define('TITLE', STORE_NAME);
 
-// header text in includes/header.php
+// text in includes/modules/downloads.php
 define('HEADER_TITLE_MY_ACCOUNT', 'My Account');
-define('HEADER_TITLE_CART_CONTENTS', 'Cart Contents');
-define('HEADER_TITLE_CHECKOUT', 'Checkout');
+
+// text in includes/application_top.php
 define('HEADER_TITLE_TOP', '<i class="fa fa-home"><span class="sr-only">Home</span></i>');
 define('HEADER_TITLE_CATALOG', 'Catalog');
-define('HEADER_TITLE_LOGOFF', 'Log Off');
 
 // text for gender
 define('MALE', 'M<span class="hidden-xs">ale</span>');
