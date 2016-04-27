@@ -59,9 +59,6 @@ define('HEADER_TITLE_CATALOG', 'Catalog');
 define('MALE', 'M<span class="hidden-xs">ale</span>');
 define('FEMALE', 'F<span class="hidden-xs">emale</span>');
 
-// text for date of birth example
-define('DOB_FORMAT_STRING', 'mm/dd/yyyy');
-
 // checkout procedure text
 define('CHECKOUT_BAR_DELIVERY', 'Delivery Information');
 define('CHECKOUT_BAR_PAYMENT', 'Payment Information');
