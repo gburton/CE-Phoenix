@@ -12,10 +12,10 @@
 
 // look in your $PATH_LOCALE/locale directory for available locales
 // or type locale -a on the server.
-// Examples:
-// on RedHat try 'en_US'
-// on FreeBSD try 'en_US.ISO_8859-1'
-// on Windows try 'en', or 'English'
+// Array examples which should work on all servers:
+// 'en_US.UTF-8', 'en_US.UTF8', 'enu_usa'
+// 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
+// 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
 @setlocale(LC_ALL, array('en_US.UTF-8', 'en_US.UTF8', 'enu_usa'));
 
 define('DATE_FORMAT_SHORT', '%m/%d/%Y');  // this is used for strftime()
@@ -138,7 +138,7 @@ define('ENTRY_COUNTRY_TEXT', '');
 define('ENTRY_TELEPHONE_NUMBER', 'Telephone Number');
 define('ENTRY_TELEPHONE_NUMBER_ERROR', 'Your Telephone Number must contain a minimum of ' . ENTRY_TELEPHONE_MIN_LENGTH . ' characters.');
 define('ENTRY_TELEPHONE_NUMBER_TEXT', '');
-define('ENTRY_FAX_NUMBER', 'Fax Number');
+define('ENTRY_FAX_NUMBER', 'Mobile');
 define('ENTRY_FAX_NUMBER_TEXT', '');
 define('ENTRY_NEWSLETTER', 'Newsletter');
 define('ENTRY_NEWSLETTER_TEXT', '');
@@ -261,6 +261,7 @@ define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list
 define('TEXT_SORT_BY', 'Sort By ');
+
 // moved from index
 define('TABLE_HEADING_IMAGE', '');
 define('TABLE_HEADING_MODEL', 'Model');
@@ -280,3 +281,17 @@ define('PRODUCT_REMOVED', '%s has been removed from your Cart');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
+
+//NIF start
+define('ENTRY_NIF', 'VAT No.:');
+define('ENTRY_NO_NIF_ERROR', 'You have to introduce your VAT Number.');
+define('ENTRY_FORMAT_NIF_LENGTH_ERROR', 'Please check your VAT Number digits, it doesn\'t validate.');
+define('ENTRY_FORMATO_NIF_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_FORMATO_CIF_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_FORMATO_NIE_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_LETRA_NIF_ERROR', '.');
+define('ENTRY_NIF_TEXT', '*');
+define('ENTRY_NIF_TEXT_SPAIN', '* only Spain');
+define('ENTRY_NIF_EXAMPLE', 'ex.: 01234567L, B01234567, X0123456S');
+define('JS_NIF', 'VAT No. required');
+//NIF end

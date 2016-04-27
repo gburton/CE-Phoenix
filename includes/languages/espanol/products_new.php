@@ -16,4 +16,4 @@ define('HEADING_TITLE', 'Novedades');
 define('TEXT_DATE_ADDED', 'Fecha Alta:');
 define('TEXT_MANUFACTURER', 'Fabricante:');
 define('TEXT_PRICE', 'Precio:');
-define('TEXT_NO_PRODUCTS', 'No hay productos en esta categoría');
+define('TEXT_NO_PRODUCTS', 'No hay productos');

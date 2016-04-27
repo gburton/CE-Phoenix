@@ -20,6 +20,7 @@ define('TEXT_NUMBER_OF_PRODUCTS', 'Número de Productos: ');
 define('TEXT_SHOW', '<STRONG>Mostrar:</STRONG>');
 define('TEXT_ALL_CATEGORIES', 'Todas las categorías');
 define('TEXT_ALL_MANUFACTURERS', 'Todos los fabricantes');
+define('TEXT_NO_PRODUCTS', 'No hay productos');
 
 // seo
 if ( ($category_depth == 'top') && (!isset($HTTP_GET_VARS['manufacturers_id'])) ) {
