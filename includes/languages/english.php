@@ -77,13 +77,6 @@ define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Please select a payment method 
 
 define('ERROR_NO_PAYMENT_MODULE_SELECTED', 'Please select a payment method for your order.');
 
-define('CATEGORY_COMPANY', 'Company Details');
-define('CATEGORY_PERSONAL', 'Your Personal Details');
-define('CATEGORY_ADDRESS', 'Your Address');
-define('CATEGORY_CONTACT', 'Your Contact Information');
-define('CATEGORY_OPTIONS', 'Options');
-define('CATEGORY_PASSWORD', 'Your Password');
-
 define('ENTRY_COMPANY', 'Company Name');
 define('ENTRY_COMPANY_TEXT', '');
 define('ENTRY_GENDER', 'Gender');
