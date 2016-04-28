@@ -14,12 +14,12 @@
     var $code = 'navbar_modules';
     var $directory;
     var $language_directory = DIR_FS_CATALOG_LANGUAGES;
-    var $key = 'MODULE_CONTENT_NAVBAR_INSTALLED';
+    var $key = 'MODULE_CONTENT_NAVIGATION_NAVBAR_INSTALLED';
     var $title;
     var $template_integration = false;
 
     function cfgm_navbar_modules() {
       $this->directory = DIR_FS_CATALOG_MODULES . 'navbar_modules/';
-      $this->title = MODULE_CFG_MODULE_CONTENT_NAVBAR_TITLE;
+      $this->title = MODULE_CFG_MODULE_CONTENT_NAVIGATION_NAVBAR_TITLE;
     }
   }

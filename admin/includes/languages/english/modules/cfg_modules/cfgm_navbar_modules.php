@@ -10,4 +10,4 @@
   Released under the GNU General Public License
 */
 
-define('MODULE_CFG_MODULE_CONTENT_NAVBAR_TITLE', 'Navbar Modules');
+define('MODULE_CFG_MODULE_CONTENT_NAVIGATION_NAVBAR_TITLE', 'Navbar Modules');

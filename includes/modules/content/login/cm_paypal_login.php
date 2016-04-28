@@ -26,31 +26,31 @@
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 
-      $this->title = MODULE_CONTENT_PAYPAL_LOGIN_TITLE;
-      $this->description = MODULE_CONTENT_PAYPAL_LOGIN_DESCRIPTION;
+      $this->title = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_TITLE;
+      $this->description = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DESCRIPTION;
 
-      if ( defined('MODULE_CONTENT_PAYPAL_LOGIN_STATUS') ) {
-        $this->sort_order = MODULE_CONTENT_PAYPAL_LOGIN_SORT_ORDER;
-        $this->enabled = (MODULE_CONTENT_PAYPAL_LOGIN_STATUS == 'True');
+      if ( defined('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_STATUS') ) {
+        $this->sort_order = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SORT_ORDER;
+        $this->enabled = (MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_STATUS == 'True');
 
         if ( basename($GLOBALS['PHP_SELF']) == 'modules_content.php' ) {
           $this->description .= $this->getTestLinkInfo();
 
           $this->description .= $this->getShowUrlsInfo();
 
-          if ( MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE == 'Sandbox' ) {
+          if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE == 'Sandbox' ) {
             $this->title .= ' [Sandbox]';
           }
 
           if ( !function_exists('curl_init') ) {
-            $this->description = '<div class="secWarning">' . MODULE_CONTENT_PAYPAL_LOGIN_ERROR_ADMIN_CURL . '</div>' . $this->description;
+            $this->description = '<div class="secWarning">' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ERROR_ADMIN_CURL . '</div>' . $this->description;
 
             $this->enabled = false;
           }
 
           if ( $this->enabled === true ) {
-            if ( !tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID) || !tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_SECRET) ) {
-              $this->description = '<div class="secWarning">' . MODULE_CONTENT_PAYPAL_LOGIN_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
+            if ( !tep_not_null(MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CLIENT_ID) || !tep_not_null(MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SECRET) ) {
+              $this->description = '<div class="secWarning">' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
             }
           }
         }
@@ -65,7 +65,7 @@
     function execute() {
       global $HTTP_GET_VARS, $oscTemplate;
 
-      if ( tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID) && tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_SECRET) ) {
+      if ( tep_not_null(MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CLIENT_ID) && tep_not_null(MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SECRET) ) {
         if ( isset($HTTP_GET_VARS['action']) ) {
           if ( $HTTP_GET_VARS['action'] == 'paypal_login' ) {
             $this->preLogin();
@@ -77,7 +77,7 @@
         $scopes = cm_paypal_login_get_attributes();
         $use_scopes = array('openid');
 
-        foreach ( explode(';', MODULE_CONTENT_PAYPAL_LOGIN_ATTRIBUTES) as $a ) {
+        foreach ( explode(';', MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTRIBUTES) as $a ) {
           foreach ( $scopes as $group => $attributes ) {
             foreach ( $attributes as $attribute => $scope ) {
               if ( $a == $attribute ) {
@@ -297,7 +297,7 @@
     }
 
     function check() {
-      return defined('MODULE_CONTENT_PAYPAL_LOGIN_STATUS');
+      return defined('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_STATUS');
     }
 
     function install($parameter = null) {
@@ -351,38 +351,38 @@
     }
 
     function getParams() {
-      $params = array('MODULE_CONTENT_PAYPAL_LOGIN_STATUS' => array('title' => 'Enable Log In with PayPal',
+      $params = array('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_STATUS' => array('title' => 'Enable Log In with PayPal',
                                                                     'desc' => 'Do you want to enable the Log In with PayPal module?',
                                                                     'value' => 'True',
                                                                     'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID' => array('title' => 'Client ID',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CLIENT_ID' => array('title' => 'Client ID',
                                                                        'desc' => 'Your PayPal Application Client ID.'),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_SECRET' => array('title' => 'Secret',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SECRET' => array('title' => 'Secret',
                                                                     'desc' => 'Your PayPal Application Secret.'),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_THEME' => array('title' => 'Theme',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_THEME' => array('title' => 'Theme',
                                                                    'desc' => 'Which theme should be used for the button?',
                                                                    'value' => 'Blue',
                                                                    'set_func' => 'tep_cfg_select_option(array(\'Blue\', \'Neutral\'), '),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_ATTRIBUTES' => array('title' => 'Information Requested From Customers',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTRIBUTES' => array('title' => 'Information Requested From Customers',
                                                                     'desc' => 'The attributes the customer must share with you.',
                                                                     'value' => implode(';', $this->get_default_attributes()),
                                                                     'use_func' => 'cm_paypal_login_show_attributes',
                                                                     'set_func' => 'cm_paypal_login_edit_attributes('),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE' => array('title' => 'Server Type',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE' => array('title' => 'Server Type',
                                                                          'desc' => 'Which server should be used? Live for production or Sandbox for testing.',
                                                                          'value' => 'Live',
                                                                          'set_func' => 'tep_cfg_select_option(array(\'Live\', \'Sandbox\'), '),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_VERIFY_SSL' => array('title' => 'Verify SSL Certificate',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_VERIFY_SSL' => array('title' => 'Verify SSL Certificate',
                                                                         'desc' => 'Verify gateway server SSL certificate on connection?',
                                                                         'value' => 'True',
                                                                         'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_PROXY' => array('title' => 'Proxy Server',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_PROXY' => array('title' => 'Proxy Server',
                                                                    'desc' => 'Send API requests through this proxy server. (host:port, eg: 123.45.67.89:8080 or proxy.example.com:8080)'),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_CONTENT_WIDTH' => array('title' => 'Content Width',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CONTENT_WIDTH' => array('title' => 'Content Width',
                                                                            'desc' => 'Should the content be shown in a full or half width container?',
                                                                            'value' => 'Full',
                                                                            'set_func' => 'tep_cfg_select_option(array(\'Full\', \'Half\'), '),
-                      'MODULE_CONTENT_PAYPAL_LOGIN_SORT_ORDER' => array('title' => 'Sort order of display',
+                      'MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SORT_ORDER' => array('title' => 'Sort order of display',
                                                                         'desc' => 'Sort order of display. Lowest is displayed first.',
                                                                         'value' => '0'));
 
@@ -410,7 +410,7 @@
       curl_setopt($curl, CURLOPT_POSTFIELDS, $parameters);
       curl_setopt($curl, CURLOPT_ENCODING, '');
 
-      if ( MODULE_CONTENT_PAYPAL_LOGIN_VERIFY_SSL == 'True' ) {
+      if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_VERIFY_SSL == 'True' ) {
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
@@ -423,9 +423,9 @@
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       }
 
-      if ( tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_PROXY) ) {
+      if ( tep_not_null(MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_PROXY) ) {
         curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
-        curl_setopt($curl, CURLOPT_PROXY, MODULE_CONTENT_PAYPAL_LOGIN_PROXY);
+        curl_setopt($curl, CURLOPT_PROXY, MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_PROXY);
       }
 
       $result = curl_exec($curl);
@@ -436,14 +436,14 @@
     }
 
     function getToken($params) {
-      if ( MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
+      if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
         $api_server = 'api.paypal.com';
       } else {
         $api_server = 'api.sandbox.paypal.com';
       }
 
-      $parameters = array('client_id' => MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID,
-                          'client_secret' => MODULE_CONTENT_PAYPAL_LOGIN_SECRET,
+      $parameters = array('client_id' => MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CLIENT_ID,
+                          'client_secret' => MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SECRET,
                           'grant_type' => 'authorization_code',
                           'code' => $params['code'],
                           'redirect_uri' => str_replace('&amp;', '&', tep_href_link(FILENAME_LOGIN, 'action=paypal_login', 'SSL')));
@@ -464,14 +464,14 @@
     }
 
     function getRefreshToken($params) {
-      if ( MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
+      if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
         $api_server = 'api.paypal.com';
       } else {
         $api_server = 'api.sandbox.paypal.com';
       }
 
-      $parameters = array('client_id' => MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID,
-                          'client_secret' => MODULE_CONTENT_PAYPAL_LOGIN_SECRET,
+      $parameters = array('client_id' => MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_CLIENT_ID,
+                          'client_secret' => MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SECRET,
                           'grant_type' => 'refresh_token',
                           'refresh_token' => $params['refresh_token']);
 
@@ -491,7 +491,7 @@
     }
 
     function getUserInfo($params) {
-      if ( MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
+      if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
         $api_server = 'api.paypal.com';
       } else {
         $api_server = 'api.sandbox.paypal.com';
@@ -505,12 +505,12 @@
     }
 
     function getTestLinkInfo() {
-      $dialog_title = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_TITLE;
-      $dialog_button_close = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_BUTTON_CLOSE;
-      $dialog_success = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_SUCCESS;
-      $dialog_failed = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_FAILED;
-      $dialog_error = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_ERROR;
-      $dialog_connection_time = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_TIME;
+      $dialog_title = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_TITLE;
+      $dialog_button_close = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_BUTTON_CLOSE;
+      $dialog_success = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_SUCCESS;
+      $dialog_failed = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_FAILED;
+      $dialog_error = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_ERROR;
+      $dialog_connection_time = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_TIME;
 
       $test_url = tep_href_link('modules_content.php', 'module=' . $this->code . '&action=install&subaction=conntest');
 
@@ -555,16 +555,16 @@ function openTestConnectionDialog() {
 </script>
 EOD;
 
-      $info = '<p><img src="images/icons/locked.gif" border="0">&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
+      $info = '<p><img src="images/icons/locked.gif" border="0">&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
               '<div id="testConnectionDialog" style="display: none;"><p>';
 
-      if ( MODULE_CONTENT_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
+      if ( MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_SERVER_TYPE == 'Live' ) {
         $info .= 'Live Server:<br />https://api.paypal.com';
       } else {
         $info .= 'Sandbox Server:<br />https://api.sandbox.paypal.com';
       }
 
-      $info .= '</p><div id="testConnectionDialogProgress"><p>' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>' .
+      $info .= '</p><div id="testConnectionDialogProgress"><p>' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>' .
                $js;
 
       return $info;
@@ -583,8 +583,8 @@ EOD;
     }
 
     function getShowUrlsInfo() {
-      $dialog_title = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_TITLE;
-      $dialog_button_close = MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_BUTTON_CLOSE;
+      $dialog_title = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_TITLE;
+      $dialog_button_close = MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_BUTTON_CLOSE;
 
       $js = <<<EOD
 <script>
@@ -606,11 +606,11 @@ function openShowUrlsDialog() {
 </script>
 EOD;
 
-      $info = '<p><img src="images/icon_info.gif" border="0">&nbsp;<a href="javascript:openShowUrlsDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_LINK_TITLE . '</a></p>' .
+      $info = '<p><img src="images/icon_info.gif" border="0">&nbsp;<a href="javascript:openShowUrlsDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_LINK_TITLE . '</a></p>' .
               '<div id="showUrlsDialog" style="display: none;">' .
-              '  <p><strong>' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_RETURN_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('login.php', 'action=paypal_login', 'SSL'))) . '</p>' .
-              '  <p><strong>' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_PRIVACY_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('privacy.php', '', 'SSL'))) . '</p>' .
-              '  <p><strong>' . MODULE_CONTENT_PAYPAL_LOGIN_DIALOG_URLS_TERMS_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('conditions.php', '', 'SSL'))) . '</p>' .
+              '  <p><strong>' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_RETURN_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('login.php', 'action=paypal_login', 'SSL'))) . '</p>' .
+              '  <p><strong>' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_PRIVACY_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('privacy.php', '', 'SSL'))) . '</p>' .
+              '  <p><strong>' . MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_DIALOG_URLS_TERMS_TEXT . '</strong><br /><br />' . htmlspecialchars(str_replace('&amp;', '&', tep_catalog_href_link('conditions.php', '', 'SSL'))) . '</p>' .
               '</div>' .
               $js;
 
@@ -618,7 +618,7 @@ EOD;
     }
 
     function hasAttribute($attribute) {
-      return in_array($attribute, explode(';', MODULE_CONTENT_PAYPAL_LOGIN_ATTRIBUTES));
+      return in_array($attribute, explode(';', MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTRIBUTES));
     }
 
     function get_default_attributes() {
@@ -673,7 +673,7 @@ EOD;
     foreach ( cm_paypal_login_get_attributes() as $group => $attributes ) {
       foreach ( $attributes as $attribute => $scope ) {
         if ( in_array($attribute, $active) ) {
-          $output .= constant('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_' . $attribute) . '<br />';
+          $output .= constant('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTR_' . $attribute) . '<br />';
         }
       }
     }
@@ -693,7 +693,7 @@ EOD;
     $output = '';
 
     foreach ( cm_paypal_login_get_attributes() as $group => $attributes ) {
-      $output .= '<strong>' . constant('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_GROUP_' . $group) . '</strong><br />';
+      $output .= '<strong>' . constant('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTR_GROUP_' . $group) . '</strong><br />';
 
       foreach ( $attributes as $attribute => $scope ) {
         if ( in_array($attribute, $required_array) ) {
@@ -702,7 +702,7 @@ EOD;
           $output .= tep_draw_checkbox_field('cm_paypal_login_attributes[]', $attribute, in_array($attribute, $values_array)) . '&nbsp;';
         }
 
-        $output .= constant('MODULE_CONTENT_PAYPAL_LOGIN_ATTR_' . $attribute) . '<br />';
+        $output .= constant('MODULE_CONTENT_LOGIN_PAYPAL_LOGIN_ATTR_' . $attribute) . '<br />';
       }
     }
 
