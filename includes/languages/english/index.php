@@ -12,6 +12,8 @@
 
 define('HEADING_TITLE', 'Welcome to ' . STORE_NAME);
 
+define('TABLE_HEADING_NEW_PRODUCTS', 'New Products For %s');
+
 define('TEXT_NO_PRODUCTS', 'There are no products available in this category.');
 define('TEXT_NUMBER_OF_PRODUCTS', 'Number of Products: ');
 define('TEXT_SHOW', '<strong>Show:</strong>');
