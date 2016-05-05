@@ -28,11 +28,7 @@
     var $attachments;
     var $headers;
 
-<<<<<<< HEAD
-    function __construct($headers = '') {
-=======
     function email($headers = '') {
->>>>>>> parent of d758328... PHP7 update
       if ($headers == '') $headers = array();
 
       $this->html_images = array();

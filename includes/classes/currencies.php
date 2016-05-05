@@ -17,11 +17,7 @@
     var $currencies;
 
 // class constructor
-<<<<<<< HEAD
-    function __construct() {
-=======
     function currencies() {
->>>>>>> parent of d758328... PHP7 update
       $this->currencies = array();
       $currencies_query = tep_db_query("select code, title, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, value from " . TABLE_CURRENCIES);
       while ($currencies = tep_db_fetch_array($currencies_query)) {

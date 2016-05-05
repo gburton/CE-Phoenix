@@ -14,11 +14,7 @@
     var $sql_query, $number_of_rows, $current_page_number, $number_of_pages, $number_of_rows_per_page, $page_name;
 
 /* class constructor */
-<<<<<<< HEAD
-    function __construct($query, $max_rows, $count_key = '*', $page_holder = 'page') {
-=======
     function splitPageResults($query, $max_rows, $count_key = '*', $page_holder = 'page') {
->>>>>>> parent of d758328... PHP7 update
       global $HTTP_GET_VARS, $HTTP_POST_VARS;
 
       $this->sql_query = $query;

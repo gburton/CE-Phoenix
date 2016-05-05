@@ -103,7 +103,6 @@
                           'delivery_address_format_id' => $order->delivery['format_id'], 
                           'billing_name' => $order->billing['firstname'] . ' ' . $order->billing['lastname'], 
                           'billing_company' => $order->billing['company'],
-                          'billing_nif' => $order->billing['nif'], // NIF
                           'billing_street_address' => $order->billing['street_address'], 
                           'billing_suburb' => $order->billing['suburb'], 
                           'billing_city' => $order->billing['city'], 

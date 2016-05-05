@@ -15,16 +15,16 @@
 ?>
 
 <div class="alert alert-info">
-  <h1>Bienvenido a osCommerce Online Merchant v<?php echo osc_get_version(); ?>!</h1>
+  <h1>Welcome to osCommerce Online Merchant v<?php echo osc_get_version(); ?>!</h1>
 
-  <p>osCommerce Online Merchant le ayuda a vender productos en todo el mundo con su propia tienda online. Su herramienta de administración gestiona productos, clientes, pedidos, boletines de noticias, ofertas especiales y más para establecer con éxito su negocio online.</p>
-  <p>osCommerce ha atraído una gran comunidad de propietarios de tiendas y desarrolladores que se apoyan mutuamente y han proporcionado más de 7.000 complementos gratuitos que permiten ampliar las prestaciones y el potencial de su tienda online.</p>
+  <p>osCommerce Online Merchant helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials, and more to successfully build the success of your online business.</p>
+  <p>osCommerce has attracted a large community of store owners and developers who support each other and have provided over 7,000 free add-ons that can extend the features and potential of your online store.</p>
 </div>
 
 <div class="row">
   <div class="col-xs-12 col-sm-push-3 col-sm-9">
     <div class="page-header">
-      <h2>Instalación Nueva</h2>
+      <h2>New Installation</h2>
     </div>
 
 <?php
@@ -86,8 +86,8 @@
 ?>
 
         <div class="alert alert-danger">
-          <p>El servidor web no puede guardar los parámetros de instalación en los archivos de configuración.</p>
-          <p>Los siguientes archivos necesitan tener sus permisos establecidos en escritura global (chmod 777):</p>
+          <p>The webserver is not able to save the installation parameters to its configuration files.</p>
+          <p>The following files need to have their file permissions set to world-writeable (chmod 777):</p>
           <p>
 
 <?php
@@ -115,29 +115,29 @@
     if ((sizeof($configfile_array) > 0) || (sizeof($warning_array) > 0)) {
 ?>
 
-      <div class="alert alert-danger">Por favor, corrija los errores anteriores y vuelva a intentar el procedimiento de instalación con los cambios hechos.</div>
+      <div class="alert alert-danger">Please correct the above errors and retry the installation procedure with the changes in place.</div>
 
 <?php
       if (sizeof($warning_array) > 0) {
-        echo '    <div class="alert alert-info"><i>El cambio de los parámetros de configuración del servidor web puede requerir el reinicio del servidor web para que los cambios tengan efecto.</i></div>' . "\n";
+        echo '    <div class="alert alert-info"><i>Changing webserver configuration parameters may require the webserver service to be restarted before the changes take affect.</i></div>' . "\n";
       }
 ?>
 
-      <p><a href="index.php" class="btn btn-danger btn-block" role="button">Reintentar</a></p>
+      <p><a href="index.php" class="btn btn-danger btn-block" role="button">Retry</a></p>
 
 <?php
     } else {
 ?>
 
-      <div class="alert alert-success">El entorno del servidor web ha sido verificado para proceder con la correcta instalación y configuración de su tienda online.</div>
+      <div class="alert alert-success">The webserver environment has been verified to proceed with a successful installation and configuration of your online store.</div>
 
       <div id="jsOn" style="display: none;">
-        <p><a href="install.php" class="btn btn-success btn-block" role="button">Iniciar la instalación</a></p>
+        <p><a href="install.php" class="btn btn-success btn-block" role="button">Start the installation procedure</a></p>
       </div>
 
       <div id="jsOff">
-        <p class="text-danger">Por favor, active Javascript en su navegador para poder iniciar la instalación.</p>
-        <p><a href="index.php" class="btn btn-danger btn-block" role="button">Reintentar</a></p>
+        <p class="text-danger">Please enable Javascript in your browser to be able to start the installation procedure.</p>
+        <p><a href="index.php" class="btn btn-danger btn-block" role="button">Retry</a></p>
       </div>
 
 <script>
@@ -154,11 +154,11 @@ $(function() {
   <div class="col-xs-12 col-sm-pull-9 col-sm-3">
     <div class="panel panel-success">
       <div class="panel-heading">
-        Funcionalidades del servidor
+        Server Capabilities
       </div>
         <table class="table table-condensed table-striped">
           <tr>
-            <th colspan="2">Versión PHP</th>
+            <th colspan="2">PHP Version</th>
           </tr>
           <tr>
             <th><?php echo PHP_VERSION; ?></th>
@@ -174,7 +174,7 @@ $(function() {
 
         <table class="table table-condensed table-striped">
           <tr>
-            <th colspan="3">Configuración PHP</th>
+            <th colspan="3">PHP Settings</th>
           </tr>
           <tr>
             <th>register_globals</th>
@@ -207,7 +207,7 @@ $(function() {
 
         <table class="table table-condensed table-striped">
           <tr>
-            <th colspan="2">Extensiones PHP requeridas</th>
+            <th colspan="2">Required PHP Extensions</th>
           </tr>
           <tr>
             <th>MySQL</th>
@@ -219,7 +219,7 @@ $(function() {
 
         <table class="table table-condensed table-striped">
           <tr>
-            <th colspan="2">Extensiones PHP recomendadas</th>
+            <th colspan="2">Recommended PHP Extensions</th>
           </tr>
           <tr>
             <th>GD</th>

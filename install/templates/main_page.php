@@ -17,13 +17,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>osCommerce, empezar su negocio online</title>
+<title>osCommerce, Starting Your Online Business</title>
 <meta name="robots" content="noindex,nofollow" />
 <link rel="icon" type="image/png" href="images/oscommerce_icon.png" />
 
 <!-- Bootstrap -->
 <link href="../ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="../ext/jquery/jquery-2.2.2.min.js"></script>
+<script src="../ext/jquery/jquery-2.2.3.min.js"></script>
 <script src="../ext/bootstrap/js/bootstrap.min.js"></script>
 <!-- Custom -->
 <link rel="stylesheet" href="templates/main_page/stylesheet.css" />
@@ -41,9 +41,9 @@
 
     <div id="headerShortcuts" class="col-sm-6 text-right">
       <ul class="list-unstyled list-inline">
-        <li><a href="http://www.oscommerce.com" target="_blank">Sitio web osCommerce</a></li>
-        <li><a href="http://www.oscommerce.com/support" target="_blank">Soporte</a></li>
-        <li><a href="http://www.oscommerce.info" target="_blank">Documentación</a></li>
+        <li><a href="http://www.oscommerce.com" target="_blank">osCommerce Website</a></li>
+        <li><a href="http://www.oscommerce.com/support" target="_blank">Support</a></li>
+        <li><a href="http://www.oscommerce.info" target="_blank">Documentation</a></li>
       </ul>
     </div>
   </div>
@@ -55,7 +55,7 @@
   <?php require('templates/pages/' . $page_contents); ?>
 
   <footer>
-    <div class="text-center well well-sm"><p>osCommerce Online Merchant Copyright &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank">Política de Derechos de Autor y de Marcas Comerciales</a>)</p></div>
+    <div class="text-center well well-sm"><p>osCommerce Online Merchant Copyright &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank">Copyright and Trademark Policy</a>)</p></div>
   </footer>
 </div>
 

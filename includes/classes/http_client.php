@@ -50,11 +50,7 @@
  * Note: when host and port are defined, the connection is immediate
  * @seeAlso connect
  **/
-<<<<<<< HEAD
-    function __construct($host = '', $port = '') {
-=======
     function httpClient($host = '', $port = '') {
->>>>>>> parent of d758328... PHP7 update
       if (tep_not_null($host)) {
         $this->connect($host, $port);
       }

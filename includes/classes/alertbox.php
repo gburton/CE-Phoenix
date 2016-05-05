@@ -10,17 +10,8 @@
   Released under the GNU General Public License
 */
   class alertBlock {    
-<<<<<<< HEAD
-
-  	// class constructor
-  	function __construct() {
-  	}
-
-  	function alertBlock($contents, $alert_output = false) {
-=======
 	// class constructor
     function alertBlock($contents, $alert_output = false) {
->>>>>>> parent of d758328... PHP7 update
 	  $alertBox_string = '';
 		  
       for ($i=0, $n=sizeof($contents); $i<$n; $i++) {

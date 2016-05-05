@@ -15,11 +15,7 @@
     var $_user_id;
     var $_user_name;
 
-<<<<<<< HEAD
-    function __construct($module, $user_id = null, $user_name = null) {
-=======
     function actionRecorder($module, $user_id = null, $user_name = null) {
->>>>>>> parent of d758328... PHP7 update
       global $language, $PHP_SELF;
 
       $module = tep_sanitize_string(str_replace(' ', '', $module));

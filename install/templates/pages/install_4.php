@@ -41,20 +41,20 @@
 <div class="row">
   <div class="col-sm-9">
     <div class="alert alert-info">
-      <h1>Instalación Nueva</h1>
+      <h1>New Installation</h1>
 
-      <p>Esta rutina de instalación basado en la web va a instalarar y configurar correctamente la tienda osCommerce para ejecutarla en este servidor.</p>
-      <p>Por favor, siga las instrucciones en pantalla que le guiarán a través del servidor de la base de datos, del servidor web, y las opciones de configuración de la tienda. Si necesita ayuda en cualquiera de lo s pasos, por favor consulte la documentación o busque ayuda en los foros de soporte de la comunidad.</p>
+      <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
+      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help at the community support forums.</p>
     </div>
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
       <div class="panel-body">
         <ol>
-          <li class="text-muted">Servidor de base de la datos</li>
-          <li class="text-muted">Servidor web</li>
-          <li class="text-muted">Configuración de la Tienda Online</li>
-          <li class="text-success"><strong>Terminado!</strong></li>
+          <li class="text-muted">Database Server</li>
+          <li class="text-muted">Web Server</li>
+          <li class="text-muted">Online Store Settings</li>
+          <li class="text-success"><strong>Finished!</strong></li>
         </ol>
       </div>
     </div>
@@ -70,7 +70,7 @@
   <div class="col-xs-12 col-sm-push-3 col-sm-9">
 
     <div class="page-header">
-      <h2>Terminado!</h2>
+      <h2>Finished!</h2>
     </div>
     
     <?php
@@ -214,26 +214,26 @@
     }
     ?>
 
-    <div class="alert alert-success">La instalación de su tienda en línea ha sido un éxito! Haga clic en cualquier de los botones para iniciar su experiencia de venta online:</div>
+    <div class="alert alert-success">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
 
     <br />
 
     <div class="row">
-      <div class="col-sm-6"><?php echo osc_draw_button('Tiendal Online (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
-      <div class="col-sm-6"><?php echo osc_draw_button('Sección de Administración (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
+      <div class="col-sm-6"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
+      <div class="col-sm-6"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
     </div>
   </div>
   <div class="col-xs-12 col-sm-pull-9 col-sm-3">
     <div class="panel panel-success">
       <div class="panel-heading">
-        Step 4: Terminado!
+        Step 4: Finished!
       </div>
       <div class="panel-body">
-        <p>Felicidades por la instalación y configuración de osCommerce Online Merchant como solución de tienda online!</p>
-        <p>Le deseamos todo lo mejor para el éxito de su tienda online y le invitamos a unirse y participar en nuestra comunidad.</p>
+        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
+        <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
       </div>
       <div class="panel-footer">
-        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank">El equipo de osCommerce</a></p>
+        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank">The osCommerce Team</a></p>
       </div>
     </div>
   </div>

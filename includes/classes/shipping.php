@@ -14,11 +14,7 @@
     var $modules;
 
 // class constructor
-<<<<<<< HEAD
-    function __construct($module = '') {
-=======
     function shipping($module = '') {
->>>>>>> parent of d758328... PHP7 update
       global $language, $PHP_SELF;
 
       if (defined('MODULE_SHIPPING_INSTALLED') && tep_not_null(MODULE_SHIPPING_INSTALLED)) {

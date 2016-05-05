@@ -18,13 +18,6 @@
     var $table_parameters = '';
     var $table_row_parameters = '';
     var $table_data_parameters = '';
-<<<<<<< HEAD
-    
-   function __construct(){
-    //leave it empty
-   }
-=======
->>>>>>> parent of d758328... PHP7 update
 
 // class constructor
     function tableBox($contents, $direct_output = false) {
@@ -80,13 +73,7 @@
   }
 
   class infoBox extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents) {
-    	global $info_box_contents;
-
-=======
     function infoBox($contents) {
->>>>>>> parent of d758328... PHP7 update
       $info_box_contents = array();
       $info_box_contents[] = array('text' => $this->infoBoxContents($contents));
       $this->table_cellpadding = '1';
@@ -111,15 +98,8 @@
   }
 
   class infoBoxHeading extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents, $left_corner = true, $right_corner = true, $right_arrow = false) {
-    	global $infobox_header_text, $infobox_header_link;
-
-    	$this->table_cellpadding = '0';
-=======
     function infoBoxHeading($contents, $left_corner = true, $right_corner = true, $right_arrow = false) {
       $this->table_cellpadding = '0';
->>>>>>> parent of d758328... PHP7 update
 
       if ($left_corner == true) {
         $left_corner = tep_image(DIR_WS_IMAGES . 'infobox/corner_left.gif');
@@ -150,13 +130,7 @@
   }
 
   class contentBox extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents) {
-    	global $info_box_contents;
-
-=======
     function contentBox($contents) {
->>>>>>> parent of d758328... PHP7 update
       $info_box_contents = array();
       $info_box_contents[] = array('text' => $this->contentBoxContents($contents));
       $this->table_cellpadding = '1';
@@ -172,13 +146,7 @@
   }
 
   class contentBoxHeading extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents) {
-    	global $info_box_contents;
-
-=======
     function contentBoxHeading($contents) {
->>>>>>> parent of d758328... PHP7 update
       $this->table_width = '100%';
       $this->table_cellpadding = '0';
 
@@ -195,24 +163,14 @@
   }
 
   class errorBox extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents) {
-
-=======
     function errorBox($contents) {
->>>>>>> parent of d758328... PHP7 update
       $this->table_data_parameters = 'class="errorBox"';
       $this->tableBox($contents, true);
     }
   }
 
   class productListingBox extends tableBox {
-<<<<<<< HEAD
-    function __construct($contents) {
-
-=======
     function productListingBox($contents) {
->>>>>>> parent of d758328... PHP7 update
       $this->table_parameters = 'class="productListing"';
       $this->tableBox($contents, true);
     }

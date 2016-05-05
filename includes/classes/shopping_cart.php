@@ -13,11 +13,7 @@
   class shoppingCart {
     var $contents, $total, $weight, $cartID, $content_type;
 
-<<<<<<< HEAD
-    function __construct() {
-=======
     function shoppingCart() {
->>>>>>> parent of d758328... PHP7 update
       $this->reset();
     }
 

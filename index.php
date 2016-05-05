@@ -76,17 +76,23 @@ if (tep_not_null($category['categories_description'])) {
       $categories_query = tep_db_query("select c.categories_id, cd.categories_name, c.categories_image, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.parent_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' order by sort_order, cd.categories_name");
     }
 
+    echo '<div itemscope itemtype="http://schema.org/ItemList">';
+    echo '  <meta itemprop="itemListOrder" content="http://schema.org/ItemListUnordered" />';
+    echo '  <meta itemprop="name" content="' . $category['categories_name']  . '" />';
+
     while ($categories = tep_db_fetch_array($categories_query)) {
       $cPath_new = tep_get_path($categories['categories_id']);
       echo '<div class="col-xs-6 col-sm-4">';
       echo '  <div class="text-center">';
       echo '    <a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">' . tep_image(DIR_WS_IMAGES . $categories['categories_image'], $categories['categories_name'], SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '</a>';
       echo '    <div class="caption text-center">';
-      echo '      <h5><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '">' . $categories['categories_name'] . '</a></h5>';
+      echo '      <h5><a href="' . tep_href_link(FILENAME_DEFAULT, $cPath_new) . '"><span itemprop="itemListElement">' . $categories['categories_name'] . '</span></a></h5>';
       echo '    </div>';
       echo '  </div>';
       echo '</div>';
     }
+
+    echo '</div>';
 
 // needed for the new products module shown below
     $new_products_category_id = $current_category_id;

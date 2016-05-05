@@ -31,9 +31,6 @@
     if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($HTTP_POST_VARS['dob']);
     $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
     if (ACCOUNT_COMPANY == 'true') $company = tep_db_prepare_input($HTTP_POST_VARS['company']);
-    //NIF start
-    if (ACCOUNT_NIF == 'true') $nif = tep_db_prepare_input($HTTP_POST_VARS['nif']);
-    //NIF end
     $street_address = tep_db_prepare_input($HTTP_POST_VARS['street_address']);
     if (ACCOUNT_SUBURB == 'true') $suburb = tep_db_prepare_input($HTTP_POST_VARS['suburb']);
     $postcode = tep_db_prepare_input($HTTP_POST_VARS['postcode']);
@@ -104,35 +101,6 @@
         $messageStack->add('create_account', ENTRY_EMAIL_ADDRESS_ERROR_EXISTS);
       }
     }
-
-    //NIF start	
-    if (ACCOUNT_NIF == 'true') {
-    	$nif_requerido = ( ((ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($country == "195")) ) ? 'true': 'false');
-      if (($nif == "") && ($nif_requerido == 'true')) {
-    		$error = true;
-    		$messageStack->add('create_account', ENTRY_NO_NIF_ERROR);
-    	} else if ((strlen($nif) != 9) && ($nif != ""))  {
-    		$error = true;
-    		$messageStack->add('create_account', ENTRY_FORMAT_NIF_LENGTH_ERROR);
-    	} else if (strlen($nif) == 9) { 
-    		$result = tep_valida_nif_cif_nie($nif);
-    		if ($result <= 0) {
-    			$error = true;
-    			switch ($result) {
-    			case '-1':
-    				$messageStack->add('create_account', ENTRY_FORMAT_NIF_ERROR);
-    				break;
-    			case '-2':
-    				$messageStack->add('create_account', ENTRY_FORMAT_CIF_ERROR);
-    				break;
-    			case '-3':
-    				$messageStack->add('create_account', ENTRY_FORMAT_NIE_ERROR);
-    				break;
-    			}
-    		}
-    	}
-    }
-    //NIF end
 
     if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
       $error = true;
@@ -210,8 +178,7 @@
 
       if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
       if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
-      if (ACCOUNT_NIF == 'true') $sql_data_array['entry_nif'] = $nif; // NIF
-      
+
       tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
 
       $customer_id = tep_db_insert_id();
@@ -348,32 +315,6 @@
         ?>
       </div>
     </div>
-<!--NIF start-->
-<?php  if (ACCOUNT_NIF == 'true') { 
-	if (ACCOUNT_NIF_REQ == 'true') {
-		$nif_requerido = 'true';
-		$nif_requ = FORM_REQUIRED_INPUT; 
-		$nif_tex = ''; 
-	} else if (ACCOUNT_NIF_REQ == 'spain') {
-		$nif_requerido = 'true';
-		$nif_requ = FORM_REQUIRED_INPUT; 
-		$nif_tex = ENTRY_NIF_TEXT_SPAIN; 
-	} else {
-		$nif_requerido = 'false'; 
-		$nif_tex = ''; 
-	}
-?>
-    <div class="form-group has-feedback">
-      <label for="inputNIF" class="control-label col-sm-3"><?php echo ENTRY_NIF; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('nif', NULL, (($nif_requerido == 'true') ? 'required aria-required="true"' : '') . ' id="inputNIF" placeholder="' . ENTRY_NIF_EXAMPLE . $nif_tex . '"');
-        echo $nif_requ;
-        ?>
-      </div>
-    </div>
-<?php } ?>
-<!--NIF end-->    
 <?php
   if (ACCOUNT_DOB == 'true') {
 ?>

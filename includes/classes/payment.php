@@ -14,11 +14,7 @@
     var $modules, $selected_module;
 
 // class constructor
-<<<<<<< HEAD
-    function __construct($module = '') {
-=======
     function payment($module = '') {
->>>>>>> parent of d758328... PHP7 update
       global $payment, $language, $PHP_SELF;
 
       if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {

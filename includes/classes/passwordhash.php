@@ -35,11 +35,7 @@ class PasswordHash {
 	var $portable_hashes;
 	var $random_state;
 
-<<<<<<< HEAD
-	function __construct($iteration_count_log2, $portable_hashes)
-=======
 	function PasswordHash($iteration_count_log2, $portable_hashes)
->>>>>>> parent of d758328... PHP7 update
 	{
 		$this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 

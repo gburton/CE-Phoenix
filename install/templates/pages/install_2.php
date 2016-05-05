@@ -18,7 +18,7 @@
     $www_location .= $_SERVER['SCRIPT_FILENAME'];
   }
 
-  $www_location = substr($www_location, 0, strrpos($www_location, 'install/install.php'));
+  $www_location = substr($www_location, 0, strpos($www_location, 'install'));
 
   $dir_fs_www_root = osc_realpath(dirname(__FILE__) . '/../../../') . '/';
 ?>
@@ -27,20 +27,20 @@
 <div class="row">
   <div class="col-sm-9">
     <div class="alert alert-info">
-      <h1>Instalación Nueva</h1>
+      <h1>New Installation</h1>
 
-      <p>Esta rutina de instalación basado en la web va a instalarar y configurar correctamente la tienda osCommerce para ejecutarla en este servidor.</p>
-      <p>Por favor, siga las instrucciones en pantalla que le guiarán a través del servidor de la base de datos, del servidor web, y las opciones de configuración de la tienda. Si necesita ayuda en cualquiera de lo s pasos, por favor consulte la documentación o busque ayuda en los foros de soporte de la comunidad.</p>
+      <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
+      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help at the community support forums.</p>
     </div>
   </div>
   <div class="col-sm-3">
     <div class="panel panel-default">
       <div class="panel-body">
         <ol>
-          <li class="text-muted">Servidor de base de la datos</li>
-          <li class="text-success"><strong>Servidor web</strong></li>
-          <li class="text-muted">Configuración de la Tienda Online</li>
-          <li class="text-muted">Terminado!</li>
+          <li class="text-muted">Database Server</li>
+          <li class="text-success"><strong>Web Server</strong></li>
+          <li class="text-muted">Online Store Settings</li>
+          <li class="text-muted">Finished!</li>
         </ol>
       </div>
     </div>
@@ -56,31 +56,31 @@
   <div class="col-xs-12 col-sm-push-3 col-sm-9">
 
     <div class="page-header">
-      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Información requerida</p>
-      <h2>Servidor web</h2>
+      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Required information</p>
+      <h2>Web Server</h2>
     </div>
 
     <form name="install" id="installForm" action="install.php?step=3" method="post" class="form-horizontal" role="form">
 
       <div class="form-group has-feedback">
-        <label for="wwwAddress" class="control-label col-xs-3">Dirección WWW</label>
+        <label for="wwwAddress" class="control-label col-xs-3">WWW Address</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('HTTP_WWW_ADDRESS', $www_location, 'required aria-required="true" id="wwwAddress" placeholder="http://"'); ?>
           <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
-          <span class="help-block">La dirección web de la tienda online.</span>
+          <span class="help-block">The web address to the online store.</span>
         </div>
       </div>
     
       <div class="form-group has-feedback">
-        <label for="webRoot" class="control-label col-xs-3">Directorio raíz del servidor Web</label>
+        <label for="webRoot" class="control-label col-xs-3">Webserver Root Directory</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DIR_FS_DOCUMENT_ROOT', $dir_fs_www_root, 'required aria-required="true" id="webRoot"'); ?>
           <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
-          <span class="help-block">El directorio del servidor donde se ha instalado la tienda online.</span>
+          <span class="help-block">The directory where the online store is installed on the server.</span>
         </div>
       </div>
 
-      <p><?php echo osc_draw_button('Continuar con el paso 3', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
+      <p><?php echo osc_draw_button('Continue To Step 3', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
       <?php
       foreach ( $_POST as $key => $value ) {
@@ -96,10 +96,10 @@
   <div class="col-xs-12 col-sm-pull-9 col-sm-3">
     <div class="panel panel-success">
       <div class="panel-heading">
-        Paso 2: Servidor Web
+        Step 2: Web Server
       </div>
       <div class="panel-body">
-        <p>El servidor web se encarga de servir las páginas de su tienda online para sus invitados y clientes. Los parámetros del servidor Web aseguran que los enlaces a las páginas apuntan a la ubicación correcta.</p>
+        <p>The web server takes care of serving the pages of your online store to your guests and customers. The web server parameters make sure the links to the pages point to the correct location.</p>
       </div>
     </div>
   </div>

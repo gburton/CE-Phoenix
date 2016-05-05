@@ -39,7 +39,6 @@
         $entry_country_id = tep_db_prepare_input($HTTP_POST_VARS['entry_country_id']);
 
         $entry_company = tep_db_prepare_input($HTTP_POST_VARS['entry_company']);
-        $entry_nif = tep_db_prepare_input($HTTP_POST_VARS['entry_nif']); // NIF
         $entry_state = tep_db_prepare_input($HTTP_POST_VARS['entry_state']);
         if (isset($HTTP_POST_VARS['entry_zone_id'])) $entry_zone_id = tep_db_prepare_input($HTTP_POST_VARS['entry_zone_id']);
 
@@ -80,35 +79,7 @@
           $entry_email_address_check_error = false;
         }
 
-        //NIF start
-        if ((ACCOUNT_NIF == 'true') && ($entry_country_id == '195')){
-        	if (($entry_nif == "") && (ACCOUNT_NIF_REQ == 'true')) {
-        		$error = true;
-        		$entry_nif_check_error = ENTRY_NO_NIF_ERROR;
-        	} else if ((strlen($entry_nif) != 9) && ($entry_nif != ""))  {
-        		$error = true;
-        		$entry_nif_check_error = ENTRY_FORMAT_NIF_LENGTH_ERROR;
-        	} else if (strlen($entry_nif) == 9) { 
-        		$result = tep_valida_nif_cif_nie($entry_nif);
-        		if ($result <= 0) {
-        			$error = true;
-        			switch ($result) {
-        			case '-1':
-        				$entry_nif_check_error = ENTRY_FORMAT_NIF_ERROR;
-              	break;
-        			case '-2':
-        				$entry_nif_check_error = ENTRY_FORMAT_CIF_ERROR;
-              	break;
-        			case '-3':
-        				$entry_nif_check_error = ENTRY_FORMAT_NIE_ERROR;
-              	break;
-              }
-        		}
-        	}
-        }
-        //NIF end
-
-    		if (strlen($entry_street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
+        if (strlen($entry_street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
           $error = true;
           $entry_street_address_error = true;
         } else {
@@ -189,8 +160,7 @@
 
         if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $customers_gender;
         if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($customers_dob);
-        if (ACCOUNT_NIF == 'true') $sql_data_array['entry_nif'] = $entry_nif;  // NIF
-        
+
         tep_db_perform(TABLE_CUSTOMERS, $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "'");
 
         tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customers_id . "'");
@@ -251,9 +221,7 @@
         tep_redirect(tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action'))));
         break;
       default:
-        //NIF start
-        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id, c.entry_nif from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$HTTP_GET_VARS['cID'] . "'");
-        //NIF end
+        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$HTTP_GET_VARS['cID'] . "'");
         $customers = tep_db_fetch_array($customers_query);
         $cInfo = new objectInfo($customers);
     }
@@ -272,7 +240,6 @@ function check_form() {
   var customers_firstname = document.customers.customers_firstname.value;
   var customers_lastname = document.customers.customers_lastname.value;
 <?php if (ACCOUNT_COMPANY == 'true') echo 'var entry_company = document.customers.entry_company.value;' . "\n"; ?>
-<?php if (ACCOUNT_NIF == 'true') echo 'var entry_nif = document.customers.entry_nif.value;' . "\n"; ?> // NIF
 <?php if (ACCOUNT_DOB == 'true') echo 'var customers_dob = document.customers.customers_dob.value;' . "\n"; ?>
   var customers_email_address = document.customers.customers_email_address.value;
   var entry_street_address = document.customers.entry_street_address.value;
@@ -349,15 +316,6 @@ function check_form() {
     error_message = error_message + "<?php echo JS_TELEPHONE; ?>";
     error = 1;
   }
-
-  //NIF start
-  if ( (ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($cInfo->entry_country_id == "195")) ) { ?>
-  	if (document.customers.elements['entry_nif'].value == "") {
-  		error_message = error_message + "<?php echo JS_NIF; ?>";
-  		error = 1;
-  	}
-  }
-  //NIF end
 
   if (error == 1) {
     alert(error_message);
@@ -445,25 +403,6 @@ function check_form() {
   }
 ?></td>
           </tr>
-          
-<!--NIF start-->					
-<?php  			if (ACCOUNT_NIF == 'true') { 
-							$nif_requerido = ( ((ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($cInfo->entry_country_id == "195")) ) ? 'true': 'false');
-?>
-        			<tr>
-        			<td class="main"><?php echo ENTRY_NIF; ?></td>
-        			<td class="main"><?php 
-        				if ($nif_requerido == 'true') {
-        					echo tep_draw_input_field('entry_nif', $cInfo->entry_nif, 'maxlength="9"', true);
-        				} else {
-        					echo tep_draw_input_field('entry_nif', $cInfo->entry_nif, 'maxlength="9"');
-        				}
-        				echo '&nbsp;' .  (tep_not_null($entry_nif_check_error)? '<span class="fieldRequired">' . $entry_nif_check_error . '</span>' : (tep_not_null(ENTRY_NIF_EXAMPLE) ? '<span class="fieldRequired">' . ENTRY_NIF_EXAMPLE . '</span>': '')); ?>
-        			</td>        
-        		</tr>
-<?php 	} ?>
-<!--NIF end-->
-
 <?php
     if (ACCOUNT_DOB == 'true') {
 ?>

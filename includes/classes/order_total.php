@@ -14,11 +14,7 @@
     var $modules;
 
 // class constructor
-<<<<<<< HEAD
-    function __construct() {
-=======
     function order_total() {
->>>>>>> parent of d758328... PHP7 update
       global $language;
 
       if (defined('MODULE_ORDER_TOTAL_INSTALLED') && tep_not_null(MODULE_ORDER_TOTAL_INSTALLED)) {

@@ -38,11 +38,7 @@
  * @access public
  */
 
-<<<<<<< HEAD
-    function __construct($body, $params = '') {
-=======
     function mime($body, $params = '') {
->>>>>>> parent of d758328... PHP7 update
       if ($params == '') $params = array();
 
 // Make sure we use the correct linfeed sequence
