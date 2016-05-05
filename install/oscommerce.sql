@@ -181,6 +181,7 @@ CREATE TABLE customers (
    customers_default_address_id int,
    customers_telephone varchar(255) NOT NULL,
    customers_fax varchar(255),
+   entry_nif varchar(255),
    customers_password varchar(60) NOT NULL,
    customers_newsletter char(1),
    PRIMARY KEY (customers_id),
@@ -299,6 +300,7 @@ CREATE TABLE orders (
   delivery_address_format_id int(5) NOT NULL,
   billing_name varchar(255) NOT NULL,
   billing_company varchar(255),
+  billing_nif VARCHAR(255),
   billing_street_address varchar(255) NOT NULL,
   billing_suburb varchar(255),
   billing_city varchar(255) NOT NULL,
@@ -698,6 +700,29 @@ INSERT INTO categories_description VALUES ( '19', '1', 'Action', null, null, nul
 INSERT INTO categories_description VALUES ( '20', '1', 'Strategy', null, null, null, null);
 INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets', null, null, null, null);
 
+# Spanish
+INSERT INTO categories_description VALUES ('1', '2', 'Equipos', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('2', '2', 'Software', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('3', '2', 'Películas DVD', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('4', '2', 'Tarjetas Gráficas', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('5', '2', 'Impresoras', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('6', '2', 'Pantallas', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('7', '2', 'Altavoces', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('8', '2', 'Teclados', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('9', '2', 'Ratones', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('10', '2', 'Action', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('11', '2', 'Ciencia Ficción', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('12', '2', 'Comedia', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('13', '2', 'Dibujos Animados', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('14', '2', 'Suspense', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('15', '2', 'Drama', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('16', '2', 'Memoria', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('17', '2', 'LectoresCDROM', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('18', '2', 'Simulación', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('19', '2', 'Acción', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('20', '2', 'Estrategia', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('21', '2', 'Gadgets', NULL, NULL, NULL, NULL);
+
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'osCommerce', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'Harald Ponce de Leon', 'The name of my store owner', '1', '2', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('E-Mail Address', 'STORE_OWNER_EMAIL_ADDRESS', 'root@localhost', 'The e-mail address of my store owner', '1', '3', now());
@@ -767,6 +792,8 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Gender', 'ACCOUNT_GENDER', 'true', 'Display gender in the customers account', '5', '1', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Date of Birth', 'ACCOUNT_DOB', 'true', 'Display date of birth in the customers account', '5', '2', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Company', 'ACCOUNT_COMPANY', 'true', 'Display company in the customers account', '5', '3', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('NIF', 'ACCOUNT_NIF', 'true', 'Display NIF in the customers account', '5', '4', 'tep_cfg_select_option(array(\'true\', \'false\'),', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('NIF Required', 'ACCOUNT_NIF_REQ', 'false', 'Select if NIF is required.<br>false = No<br>true = Si<br>spain = only for Spain', 5, 1, 'tep_cfg_select_option(array(\'false\', \'true\', \'spain\'),', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Suburb', 'ACCOUNT_SUBURB', 'true', 'Display suburb in the customers account', '5', '4', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('State', 'ACCOUNT_STATE', 'true', 'Display state in the customers account', '5', '5', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 
@@ -785,8 +812,8 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Tax Class', 'MODULE_SHIPPING_FLAT_TAX_CLASS', '0', 'Use the following tax class on the shipping fee.', '6', '0', 'tep_get_tax_class_title', 'tep_cfg_pull_down_tax_classes(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Shipping Zone', 'MODULE_SHIPPING_FLAT_ZONE', '0', 'If a zone is selected, only enable this shipping method for that zone.', '6', '0', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_SHIPPING_FLAT_SORT_ORDER', '0', 'Sort order of display.', '6', '0', now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Currency', 'DEFAULT_CURRENCY', 'USD', 'Default Currency', '6', '0', now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Language', 'DEFAULT_LANGUAGE', 'es', 'Default Language', '6', '0', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Currency', 'DEFAULT_CURRENCY', 'EUR', 'Default Currency', '6', '0', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Language', 'DEFAULT_LANGUAGE', 'en', 'Default Language', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Order Status For New Orders', 'DEFAULT_ORDERS_STATUS_ID', '1', 'When a new order is created, this order status will be assigned to it.', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Display Shipping', 'MODULE_ORDER_TOTAL_SHIPPING_STATUS', 'true', 'Do you want to display the order shipping cost?', '6', '1','tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_ORDER_TOTAL_SHIPPING_SORT_ORDER', '2', 'Sort order of display.', '6', '2', now());
@@ -1094,7 +1121,7 @@ INSERT INTO countries VALUES (191,'Solomon Islands','SB','SLB','1');
 INSERT INTO countries VALUES (192,'Somalia','SO','SOM','1');
 INSERT INTO countries VALUES (193,'South Africa','ZA','ZAF','1');
 INSERT INTO countries VALUES (194,'South Georgia and the South Sandwich Islands','GS','SGS','1');
-INSERT INTO countries VALUES (195,'Spain','ES','ESP','3');
+INSERT INTO countries VALUES (195,'España','ES','ESP','3');
 INSERT INTO countries VALUES (196,'Sri Lanka','LK','LKA','1');
 INSERT INTO countries VALUES (197,'St. Helena','SH','SHN','1');
 INSERT INTO countries VALUES (198,'St. Pierre and Miquelon','PM','SPM','1');
@@ -1140,10 +1167,10 @@ INSERT INTO countries VALUES (237,'Zaire','ZR','ZAR','1');
 INSERT INTO countries VALUES (238,'Zambia','ZM','ZMB','1');
 INSERT INTO countries VALUES (239,'Zimbabwe','ZW','ZWE','1');
 
-INSERT INTO currencies VALUES (1,'U.S. Dollar','USD','$','','.',',','2','1.0000', now());
 INSERT INTO currencies VALUES (2,'Euro','EUR','','€','.',',','2','1.0000', now());
 
-INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
+INSERT INTO languages VALUES (1,'English','en','icon.gif','english',2);
+INSERT INTO languages VALUES (2,'Español','es','icon.gif','espanol',1);
 
 INSERT INTO manufacturers VALUES (1,'Matrox','manufacturer_matrox.gif', now(), null);
 INSERT INTO manufacturers VALUES (2,'Microsoft','manufacturer_microsoft.gif', now(), null);
@@ -1167,9 +1194,26 @@ INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, nul
 INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, null, null, null, null);
 INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, null, null, null, null);
 
+#spanish
+INSERT INTO manufacturers_info VALUES (1, 2, 'http://www.matrox.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (2, 2, 'http://www.microsoft.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (3, 2, 'http://www.warner.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (4, 2, 'http://www.fox.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (5, 2, 'http://www.logitech.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (6, 2, 'http://www.canon.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (7, 2, 'http://www.sierra.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (8, 2, 'http://www.infogrames.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (9, 2, 'http://www.hewlettpackard.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (10, 2, 'http://www.samsung.com', 0, null, null, null, null, null);
+
 INSERT INTO orders_status VALUES ( '1', '1', 'Pending', '1', '0');
 INSERT INTO orders_status VALUES ( '2', '1', 'Processing', '1', '1');
 INSERT INTO orders_status VALUES ( '3', '1', 'Delivered', '1', '1');
+
+#spanish
+INSERT INTO orders_status VALUES ( '1', '2', 'Pendiente', '1', '0');
+INSERT INTO orders_status VALUES ( '2', '2', 'Procesando', '1', '1');
+INSERT INTO orders_status VALUES ( '3', '2', 'Entregado', '1', '1');
 
 INSERT INTO products VALUES (1,32,'MG200MMS','matrox/mg200mms.gif',299.99, now(),null,null,23.00,1,1,1,0,'');
 INSERT INTO products VALUES (2,32,'MG400-32MB','matrox/mg400-32mb.gif',499.99, now(),null,null,23.00,1,1,1,0,'');
@@ -1229,6 +1273,36 @@ INSERT INTO products_description VALUES (26,1,'Microsoft IntelliMouse Explorer',
 INSERT INTO products_description VALUES (27,1,'Hewlett Packard LaserJet 1100Xi','HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP\'s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).','www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100',0, null, null, null);
 INSERT INTO products_description VALUES (28,1,'Samsung Galaxy Tab','<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users\' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>','http://galaxytab.samsungmobile.com',0, null, null, null);
 
+#spanish
+INSERT INTO products_description VALUES (1,2,'Matrox G200 MMS','Reinforcing its position as a multi-monitor trailblazer, Matrox Graphics Inc. has once again developed the most flexible and highly advanced solution in the industry. Introducing the new Matrox G200 Multi-Monitor Series; the first graphics card ever to support up to four DVI digital flat panel displays on a single 8&quot; PCI board.<br /><br />With continuing demand for digital flat panels in the financial workplace, the Matrox G200 MMS is the ultimate in flexible solutions. The Matrox G200 MMS also supports the new digital video interface (DVI) created by the Digital Display Working Group (DDWG) designed to ease the adoption of digital flat panels. Other configurations include composite video capture ability and onboard TV tuner, making the Matrox G200 MMS the complete solution for business needs.<br /><br />Based on the award-winning MGA-G200 graphics chip, the Matrox G200 Multi-Monitor Series provides superior 2D/3D graphics acceleration to meet the demanding needs of business applications such as real-time stock quotes (Versus), live video feeds (Reuters &amp; Bloombergs), multiple windows applications, word processing, spreadsheets and CAD.','www.matrox.com/mga/products/g200_mms/home.cfm',0, null, null, null);
+INSERT INTO products_description VALUES (2,2,'Matrox G400 32MB','<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry\'s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC\'s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>','www.matrox.com/mga/products/mill_g400/home.htm',0, null, null, null);
+INSERT INTO products_description VALUES (3,2,'Microsoft IntelliMouse Pro','Every element of IntelliMouse Pro - from its unique arched shape to the texture of the rubber grip around its base - is the product of extensive customer and ergonomic research. Microsoft\'s popular wheel control, which now allows zooming and universal scrolling functions, gives IntelliMouse Pro outstanding comfort and efficiency.','www.microsoft.com/hardware/mouse/intellimouse.asp',0, null, null, null);
+INSERT INTO products_description VALUES (4,2,'Asesinos de reemplazo','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 80 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.replacement-killers.com',0, null, null, null);
+INSERT INTO products_description VALUES (5,2,'Blade Runner: Montaje Final','Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 112 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.bladerunner.com',0, null, null, null);
+INSERT INTO products_description VALUES (6,2,'Matrix','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch.\r<br />\nAudio: Dolby Surround.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 131 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Making Of.','www.thematrix.com',0, null, null, null);
+INSERT INTO products_description VALUES (7,2,'Tienes un e-mail','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch, Spanish.\r<br />\nSubtitles: English, Deutsch, Spanish, French, Nordic, Polish.\r<br />\nAudio: Dolby Digital 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.youvegotmail.com',0, null, null, null);
+INSERT INTO products_description VALUES (8,2,'Bichos','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Digital 5.1 / Dobly Surround Stereo.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 91 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','www.abugslife.com',0, null, null, null);
+INSERT INTO products_description VALUES (9,2,'Alerta Máxima: Under Siege','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (10,2,'Alerta Máxima: Under Siege 2 - Dark Territory','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (11,2,'Fire Down Below (En Tierra Peligrosa 2)','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (12,2,'La jungla de cristal 3: la venganza','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 122 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (13,2,'Arma letal','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (14,2,'El laberinto rojo','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 117 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (15,2,'Frenético','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (16,2,'En honor a la verdad','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (17,2,'Speed: Máxima potencia','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (18,2,'Speed 2: Cruise Control','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 120 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (19,2,'Algo pasa con Mary','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 114 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (20,2,'Beloved','Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 164 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).','',0, null, null, null);
+INSERT INTO products_description VALUES (21,2,'SWAT 3: Close Quarters Battle','<strong>Windows 95/98</strong><br /><br />211 in progress with shots fired. Officer down. Armed suspects with hostages. Respond Code 3! Los Angles, 2005, In the next seven days, representatives from every nation around the world will converge on Las Angles to witness the signing of the United Nations Nuclear Abolishment Treaty. The protection of these dignitaries falls on the shoulders of one organization, LAPD SWAT. As part of this elite tactical organization, you and your team have the weapons and all the training necessary to protect, to serve, and \"When needed\" to use deadly force to keep the peace. It takes more than weapons to make it through each mission. Your arsenal includes C2 charges, flashbangs, tactical grenades. opti-Wand mini-video cameras, and other devices critical to meeting your objectives and keeping your men free of injury. Uncompromised Duty, Honor and Valor!','www.swat3.com',0, null, null, null);
+INSERT INTO products_description VALUES (22,2,'Unreal Tournament','From the creators of the best-selling Unreal, comes Unreal Tournament. A new kind of single player experience. A ruthless multiplayer revolution.<br /><br />This stand-alone game showcases completely new team-based gameplay, groundbreaking multi-faceted single player action or dynamic multi-player mayhem. It\'s a fight to the finish for the title of Unreal Grand Master in the gladiatorial arena. A single player experience like no other! Guide your team of \'bots\' (virtual teamates) against the hardest criminals in the galaxy for the ultimate title - the Unreal Grand Master.','www.unrealtournament.net',0, null, null, null);
+INSERT INTO products_description VALUES (23,2,'The Wheel Of Time','The world in which The Wheel of Time takes place is lifted directly out of Jordan\'s pages; it\'s huge and consists of many different environments. How you navigate the world will depend largely on which game - single player or multipayer - you\'re playing. The single player experience, with a few exceptions, will see Elayna traversing the world mainly by foot (with a couple notable exceptions). In the multiplayer experience, your character will have more access to travel via Ter\'angreal, Portal Stones, and the Ways. However you move around, though, you\'ll quickly discover that means of locomotion can easily become the least of the your worries...<br /><br />During your travels, you quickly discover that four locations are crucial to your success in the game. Not surprisingly, these locations are the homes of The Wheel of Time\'s main characters. Some of these places are ripped directly from the pages of Jordan\'s books, made flesh with Legend\'s unparalleled pixel-pushing ways. Other places are specific to the game, conceived and executed with the intent of expanding this game world even further. Either way, they provide a backdrop for some of the most intense first person action and strategy you\'ll have this year.','www.wheeloftime.com',0, null, null, null);
+INSERT INTO products_description VALUES (24,2,'Disciples: Sacred Lands','A new age is dawning...<br /><br />Enter the realm of the Sacred Lands, where the dawn of a New Age has set in motion the most momentous of wars. As the prophecies long foretold, four races now clash with swords and sorcery in a desperate bid to control the destiny of their gods. Take on the quest as a champion of the Empire, the Mountain Clans, the Legions of the Damned, or the Undead Hordes and test your faith in battles of brute force, spellbinding magic and acts of guile. Slay demons, vanquish giants and combat merciless forces of the dead and undead. But to ensure the salvation of your god, the hero within must evolve.<br /><br />The day of reckoning has come... and only the chosen will survive.','',0, null, null, null);
+INSERT INTO products_description VALUES (25,2,'Microsoft Teclado Internet PS/2','The Internet Keyboard has 10 Hot Keys on a comfortable standard keyboard design that also includes a detachable palm rest. The Hot Keys allow you to browse the web, or check e-mail directly from your keyboard. The IntelliType Pro software also allows you to customize your hot keys - make the Internet Keyboard work the way you want it to!','',0, null, null, null);
+INSERT INTO products_description VALUES (26,2,'Microsoft IntelliMouse Explorer','Microsoft introduces its most advanced mouse, the IntelliMouse Explorer! IntelliMouse Explorer features a sleek design, an industrial-silver finish, a glowing red underside and taillight, creating a style and look unlike any other mouse. IntelliMouse Explorer combines the accuracy and reliability of Microsoft IntelliEye optical tracking technology, the convenience of two new customizable function buttons, the efficiency of the scrolling wheel and the comfort of expert ergonomic design. All these great features make this the best mouse for the PC!','www.microsoft.com/hardware/mouse/explorer.asp',0, null, null, null);
+INSERT INTO products_description VALUES (27,2,'Hewlett Packard LaserJet 1100Xi','HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP\'s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).','www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100',0, null, null, null);
+INSERT INTO products_description VALUES (28,2,'Samsung Galaxy Tab','<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users\' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>','http://galaxytab.samsungmobile.com',0, null, null, null);
+
 INSERT INTO products_attributes VALUES (1,1,4,1,0.00,'+');
 INSERT INTO products_attributes VALUES (2,1,4,2,50.00,'+');
 INSERT INTO products_attributes VALUES (3,1,4,3,70.00,'+');
@@ -1262,7 +1336,14 @@ INSERT INTO products_options VALUES (1,1,'Color');
 INSERT INTO products_options VALUES (2,1,'Size');
 INSERT INTO products_options VALUES (3,1,'Model');
 INSERT INTO products_options VALUES (4,1,'Memory');
-INSERT INTO products_options VALUES (5, 1, 'Version');
+INSERT INTO products_options VALUES (5,1,'Version');
+
+#spanish
+INSERT INTO products_options VALUES (1,2,'Color');
+INSERT INTO products_options VALUES (2,2,'Tamaño');
+INSERT INTO products_options VALUES (3,2,'Modelo');
+INSERT INTO products_options VALUES (4,2,'Memoria');
+INSERT INTO products_options VALUES (5,2,'Versión');
 
 INSERT INTO products_options_values VALUES (1,1,'4 mb');
 INSERT INTO products_options_values VALUES (2,1,'8 mb');
@@ -1273,8 +1354,21 @@ INSERT INTO products_options_values VALUES (6,1,'Premium');
 INSERT INTO products_options_values VALUES (7,1,'Deluxe');
 INSERT INTO products_options_values VALUES (8,1,'PS/2');
 INSERT INTO products_options_values VALUES (9,1,'USB');
-INSERT INTO products_options_values VALUES (10, 1, 'Download: Windows - English');
-INSERT INTO products_options_values VALUES (13, 1, 'Box: Windows - English');
+INSERT INTO products_options_values VALUES (10,1,'Download: Windows - English');
+INSERT INTO products_options_values VALUES (13,1,'Box: Windows - English');
+
+# spanish
+INSERT INTO products_options_values VALUES (1,2,'4 mb');
+INSERT INTO products_options_values VALUES (2,2,'8 mb');
+INSERT INTO products_options_values VALUES (3,2,'16 mb');
+INSERT INTO products_options_values VALUES (4,2,'32 mb');
+INSERT INTO products_options_values VALUES (5,2,'Valor');
+INSERT INTO products_options_values VALUES (6,2,'Premium');
+INSERT INTO products_options_values VALUES (7,2,'Deluxe');
+INSERT INTO products_options_values VALUES (8,2,'PS/2');
+INSERT INTO products_options_values VALUES (9,2,'USB');
+INSERT INTO products_options_values VALUES (10,2,'Descargar: Windows - Español');
+INSERT INTO products_options_values VALUES (13,2,'Caja: Windows - Español');
 
 INSERT INTO products_options_values_to_products_options VALUES (1,4,1);
 INSERT INTO products_options_values_to_products_options VALUES (2,4,2);
@@ -1340,12 +1434,88 @@ INSERT INTO specials VALUES (2,5, 30.00, now(), null, null, null, '1');
 INSERT INTO specials VALUES (3,6, 30.00, now(), null, null, null, '1');
 INSERT INTO specials VALUES (4,16, 29.99, now(), null, null, null, '1');
 
-INSERT INTO tax_class VALUES (1, 'Taxable Goods', 'The following types of products are included non-food, services, etc', now(), now());
+INSERT INTO tax_class VALUES (1, 'IVA', 'Impuesto sobre el Valor Añadido', now(), now());
 
-# USA/Florida
-INSERT INTO tax_rates VALUES (1, 1, 1, 1, 7.0, 'FL TAX 7.0%', now(), now());
-INSERT INTO geo_zones (geo_zone_id,geo_zone_name,geo_zone_description,date_added) VALUES (1,"Florida","Florida local sales tax zone",now());
-INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (1,223,18,1,now());
+# EU/IVA
+INSERT INTO tax_rates VALUES (1, 10, 1, 1, 21.0, 'IVA 21%', now(), now());
+INSERT INTO tax_rates VALUES (2, 10, 1, 2, 10.0, 'IVA 10%', now(), now());
+INSERT INTO tax_rates VALUES (3, 10, 1, 3, 4.0, 'IVA 4%', now(), now());
+INSERT INTO geo_zones (geo_zone_id,geo_zone_name,geo_zone_description,date_added) VALUES (2, "Zona IVA UE", "Unión Europea Zona IVA sin Canarias, Ceuta, Melilla",now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (1, 81, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (2, 73, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (3, 74, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (4, 222, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (5, 105, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (6, 170, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (7, 175, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (8, 150, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (9, 171, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (10, 84, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (11, 21, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (12, 56, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (13, 97, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (14, 203, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (15, 14, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (16, 33, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (17, 57, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (18, 189, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (19, 72, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (20, 103, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (21, 123, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (22, 117, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (23, 190, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (24, 67, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (25, 55, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (26, 124, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (27, 132, 0, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (28, 195, 3418, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (29, 195, 3423, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (30, 195, 3417, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (31, 195, 3419, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (32, 195, 3420, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (33, 195, 3421, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (34, 195, 3422, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (35, 195, 3424, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (36, 195, 3425, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (37, 195, 3426, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (38, 195, 3466, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (39, 195, 3427, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (40, 195, 3428, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (41, 195, 3429, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (42, 195, 3434, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (43, 195, 3430, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (44, 195, 3431, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (45, 195, 3433, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (46, 195, 3435, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (47, 195, 3439, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (48, 195, 3436, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (49, 195, 3437, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (50, 195, 3438, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (51, 195, 3440, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (52, 195, 3441, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (53, 195, 3442, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (54, 195, 3443, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (55, 195, 3445, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (56, 195, 3446, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (57, 195, 3447, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (58, 195, 3449, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (59, 195, 3448, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (60, 195, 3451, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (61, 195, 3452, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (62, 195, 3453, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (63, 195, 3454, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (64, 195, 3455, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (65, 195, 3456, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (66, 195, 3458, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (67, 195, 3459, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (68, 195, 3460, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (69, 195, 3461, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (70, 195, 3462, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (71, 195, 3463, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (72, 195, 3464, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (73, 195, 3465, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (74, 195, 3467, 2,now());
+INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (75, 195, 3468, 2,now());
 
 # USA
 INSERT INTO zones VALUES (1,223,'AL','Alabama');
@@ -1488,38 +1658,38 @@ INSERT INTO zones VALUES (129,204,'ZH','Zürich');
 
 # Spain
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'A Coruña','A Coruña');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Alava','Alava');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Araba','Araba');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Albacete','Albacete');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Alicante','Alicante');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Almeria','Almeria');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Asturias','Asturias');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Avila','Avila');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Badajoz','Badajoz');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Baleares','Baleares');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Islas Baleares','Islas Baleares');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Barcelona','Barcelona');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Burgos','Burgos');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Caceres','Caceres');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cadiz','Cadiz');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cáceres','Cáceres');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cádiz','Cádiz');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cantabria','Cantabria');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Castellon','Castellon');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Castellón','Castellón');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Ceuta','Ceuta');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Ciudad Real','Ciudad Real');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cordoba','Cordoba');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Córdoba','Córdoba');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Cuenca','Cuenca');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Girona','Girona');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Granada','Granada');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Guadalajara','Guadalajara');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Guipuzcoa','Guipuzcoa');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Guipúzcoa','Guipúzcoa');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Huelva','Huelva');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Huesca','Huesca');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Jaen','Jaen');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Jaén','Jaén');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'La Rioja','La Rioja');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Las Palmas','Las Palmas');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Leon','Leon');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'León','León');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Lleida','Lleida');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Lugo','Lugo');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Madrid','Madrid');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Malaga','Malaga');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Málaga','Málaga');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Melilla','Melilla');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Murcia','Murcia');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Navarra','Navarra');
@@ -1536,7 +1706,7 @@ INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Teruel','
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Toledo','Toledo');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Valencia','Valencia');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Valladolid','Valladolid');
-INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Vizcaya','Vizcaya');
+INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Bizkaia','Bizkaia');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Zamora','Zamora');
 INSERT INTO zones (zone_country_id, zone_code, zone_name) VALUES (195,'Zaragoza','Zaragoza');
 
@@ -1560,6 +1730,22 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Proxy Server', 'MODULE_PAYMENT_PAYPAL_EXPRESS_PROXY', '', 'Send API requests through this proxy server. (host:port, eg: 123.45.67.89:8080 or proxy.example.com:8080)', '6', '0' , now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Debug E-Mail Address', 'MODULE_PAYMENT_PAYPAL_EXPRESS_DEBUG_EMAIL', '', 'All parameters of an invalid transaction will be sent to this email address.', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort order of display.', 'MODULE_PAYMENT_PAYPAL_EXPRESS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
+
+# EU Bank Transfer
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Allow Bank Transfer Payment', 'MODULE_PAYMENT_EU_BANKTRANSFER', 'True', 'Do you want to accept bank transfers?', 6, 3, NULL, now(), NULL, 'tep_cfg_select_option(array(''True'', ''False''), ');
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Bank Name', 'MODULE_PAYMENT_EU_BANKNAME', 'Bank name, city', 'Bank name and city', 6, 1, NULL, now(), NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Account Name', 'MODULE_PAYMENT_EU_ACCOUNT_HOLDER', 'Name', 'Name which is registered for the account', 6, 1, NULL, now(), NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Account IBAN', 'MODULE_PAYMENT_EU_IBAN', 'AC00 0000 0000 0000 0000 0000 000', 'Your account IBAN', 6, 1, NULL, now(), NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Account BIC / SWIFT Code', 'MODULE_PAYMENT_EU_BIC', 'ABCDEFGHIJK', 'Your account BIC / SWIFT code', 6, 1, NULL, now(), NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Payment Zone', 'MODULE_PAYMENT_EU_BANKTRANSFER_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', 6, 2, NULL, now(), 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(');
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Set Order Status', 'MODULE_PAYMENT_EU_BANKTRANSFER_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', 6, 0, NULL, now(), 'tep_get_order_status_name', 'tep_cfg_pull_down_order_statuses(');
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Module Sort order of display.', 'MODULE_PAYMENT_EU_BANKTRANSFER_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, now(), NULL, NULL);
+
+# COD
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Enable Cash On Delivery Module', 'MODULE_PAYMENT_COD_STATUS', 'True', 'Do you want to accept Cash On Delevery payments?', 6, 1, NULL, now(), NULL, 'tep_cfg_select_option(array(''True'', ''False''), ');
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Payment Zone', 'MODULE_PAYMENT_COD_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', 6, 2, NULL, now(), 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(');
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Sort order of display.', 'MODULE_PAYMENT_COD_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, now(), NULL, NULL);
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) VALUES('Set Order Status', 'MODULE_PAYMENT_COD_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', 6, 0, NULL, now(), 'tep_get_order_status_name', 'tep_cfg_pull_down_order_statuses(');
 
 # Header Tags
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Installed Modules', 'MODULE_HEADER_TAGS_INSTALLED', 'ht_canonical.php;ht_manufacturer_title.php;ht_category_title.php;ht_product_title.php;ht_robot_noindex.php;ht_datepicker_jquery.php;ht_grid_list_view.php;ht_table_click_jquery.php;ht_product_colorbox.php;ht_noscript.php', 'List of header tag module filenames separated by a semi-colon. This is automatically updated. No need to edit.', '6', '0', now());
