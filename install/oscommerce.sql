@@ -1439,9 +1439,9 @@ INSERT INTO tax_class VALUES (2, 'IVA 10%', 'Impuesto sobre el Valor Añadido Re
 INSERT INTO tax_class VALUES (3, 'IVA 4%', 'Impuesto sobre el Valor Añadido Superreducido', now(), now());
 
 # EU/IVA
-INSERT INTO tax_rates VALUES (1, 10, 1, 1, 21.0, 'IVA 21%', now(), now());
-INSERT INTO tax_rates VALUES (2, 10, 1, 2, 10.0, 'IVA 10%', now(), now());
-INSERT INTO tax_rates VALUES (3, 10, 1, 3, 4.0, 'IVA 4%', now(), now());
+INSERT INTO tax_rates VALUES (1, 2, 1, 1, 21.0, 'IVA 21%', now(), now());
+INSERT INTO tax_rates VALUES (2, 2, 2, 2, 10.0, 'IVA 10%', now(), now());
+INSERT INTO tax_rates VALUES (3, 2, 3, 3, 4.0, 'IVA 4%', now(), now());
 INSERT INTO geo_zones (geo_zone_id,geo_zone_name,geo_zone_description,date_added) VALUES (2, "Zona IVA UE", "Unión Europea Zona IVA sin Canarias, Ceuta, Melilla",now());
 INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (1, 81, 0, 2,now());
 INSERT INTO zones_to_geo_zones (association_id,zone_country_id,zone_id,geo_zone_id,date_added) VALUES (2, 73, 0, 2,now());
