@@ -1434,7 +1434,9 @@ INSERT INTO specials VALUES (2,5, 30.00, now(), null, null, null, '1');
 INSERT INTO specials VALUES (3,6, 30.00, now(), null, null, null, '1');
 INSERT INTO specials VALUES (4,16, 29.99, now(), null, null, null, '1');
 
-INSERT INTO tax_class VALUES (1, 'IVA', 'Impuesto sobre el Valor Añadido', now(), now());
+INSERT INTO tax_class VALUES (1, 'IVA 21%', 'Impuesto sobre el Valor Añadido General', now(), now());
+INSERT INTO tax_class VALUES (2, 'IVA 10%', 'Impuesto sobre el Valor Añadido Reducido', now(), now());
+INSERT INTO tax_class VALUES (3, 'IVA 4%', 'Impuesto sobre el Valor Añadido Superreducido', now(), now());
 
 # EU/IVA
 INSERT INTO tax_rates VALUES (1, 10, 1, 1, 21.0, 'IVA 21%', now(), now());
