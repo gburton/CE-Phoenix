@@ -280,3 +280,16 @@ define('PRODUCT_REMOVED', '%s ha sido eliminado de su carrito');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
+
+//NIF start
+define('ENTRY_NIF', 'NIF/CIF/NIE:');
+define('ENTRY_NO_NIF_ERROR', 'Ha de introducir su NIF, CIF o NIE.');
+define('ENTRY_FORMAT_NIF_LENGTH_ERROR', 'Su NIF, CIF o NIE no está correcto, por favor compruébe los dígitos.');
+define('ENTRY_FORMAT_NIF_ERROR', 'Su NIF no ha podido ser validado, por favor compruébelo.');
+define('ENTRY_FORMAT_CIF_ERROR', 'Su CIF no ha podido ser validado, por favor compruébelo.');
+define('ENTRY_FORMAT_NIE_ERROR', 'Su NIE no ha podido ser validado, por favor compruébelo.');
+define('ENTRY_LETRA_NIF_ERROR', 'La letra del NIF es incorrecta.');
+define('ENTRY_NIF_TEXT_SPAIN', ' solo España');
+define('ENTRY_NIF_EXAMPLE', '(ej.: 01234567L, B01234567, X0123456S)');
+define('JS_NIF', 'NIF requerido');
+//NIF end
