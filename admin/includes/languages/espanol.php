@@ -305,3 +305,6 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>El ancho del contenido pu
 
 // seo helper
 define('PLACEHOLDER_COMMA_SEPARATION', 'Debe, Ser, Separado, Por, Coma');
+
+//NIF
+define('ENTRY_NIF', 'NIF:');
