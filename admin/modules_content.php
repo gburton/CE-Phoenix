@@ -11,6 +11,9 @@
 */
 
   require('includes/application_top.php');
+  
+  //add the ability to edit content module language files here
+  $OSCOM_Hooks->register('contentModuleLanguageUpdate');
 
   $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_CONTENT_INSTALLED' limit 1");
   if (tep_db_num_rows($check_query) < 1) {
@@ -91,6 +94,10 @@
   $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
 
   if (tep_not_null($action)) {
+    
+    //add the ability to edit content module language files here
+    $OSCOM_Hooks->call('contentModuleLanguageUpdate', 'saveModuleFile');
+    
     switch ($action) {
       case 'save':
         $class = basename($HTTP_GET_VARS['module']);
@@ -302,6 +309,9 @@
       $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
 
       $heading[] = array('text' => '<strong>' . $mInfo->title . '</strong>');
+      
+      //add the ability to edit content module language files here
+      $keys .= $OSCOM_Hooks->call('contentModuleLanguageUpdate', 'outputModuleFileContents');
 
       $contents = array('form' => tep_draw_form('modules', 'modules_content.php', 'module=' . $mInfo->code . '&action=save'));
       $contents[] = array('text' => $keys);
