@@ -1,18 +1,17 @@
 <?php
 /*
-  $Id: create_account.php 1739 2007-12-20 00:52:16Z hpdl $
+  $Id$
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
 
 define('NAVBAR_TITLE', 'Crear una Cuenta');
-define('NAVBAR_TITLE_1', 'Crear una Cuenta');
-define('NAVBAR_TITLE_2', 'Proceso');
+
 define('HEADING_TITLE', 'Datos de Mi Cuenta');
 
 define('TEXT_ORIGIN_LOGIN', '<span class="inputRequirement">NOTA:</span> Si ya ha pasado por este proceso y tiene una cuenta, por favor <a href="%s"><u>entre</u></a> en ella.');
@@ -29,3 +28,10 @@ define('EMAIL_TEXT', 'Ahora puede disfrutar de los <strong>servicios</strong> qu
 <strong>Comentarios</strong> - Comparta su opinión sobre los productos con otros clientes.<br><br>');
 define('EMAIL_CONTACT', 'Para cualquier consulta sobre nuestros servicios, por favor escriba a: ' . STORE_OWNER_EMAIL_ADDRESS . '.<br><br>');
 define('EMAIL_WARNING', '<strong>Nota:</strong> Esta dirección fue suministrada por uno de nuestros clientes. Si usted no se ha suscrito como cliente, por favor comuníquelo a ' . STORE_OWNER_EMAIL_ADDRESS . '.<br>');
+
+define('CATEGORY_COMPANY', 'Empresa');
+define('CATEGORY_PERSONAL', 'Detalles Personales');
+define('CATEGORY_ADDRESS', 'Dirección');
+define('CATEGORY_CONTACT', 'Información de Contacto');
+define('CATEGORY_OPTIONS', 'Opciones');
+define('CATEGORY_PASSWORD', 'Contraseña');

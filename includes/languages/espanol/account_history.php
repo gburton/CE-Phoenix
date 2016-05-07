@@ -1,11 +1,11 @@
 <?php
 /*
-  $Id: account_history.php 1739 2007-12-20 00:52:16Z hpdl $
+  $Id$
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -25,3 +25,5 @@ define('TEXT_ORDER_COST', 'Precio:');
 define('TEXT_VIEW_ORDER', 'Ver Pedido');
 
 define('TEXT_NO_PURCHASES', 'Aún no ha realizado ningún pedido.');
+
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> pedidos)');

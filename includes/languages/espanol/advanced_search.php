@@ -1,11 +1,11 @@
 <?php
 /*
-  $Id: advanced_search.php 1739 2007-12-20 00:52:16Z hpdl $
+  $Id$
 
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -54,3 +54,6 @@ define('ERROR_PRICE_FROM_MUST_BE_NUM', 'El Precio Desde debe ser númerico');
 define('ERROR_PRICE_TO_MUST_BE_NUM', 'El Precio Hasta debe ser númerico');
 define('ERROR_PRICE_TO_LESS_THAN_PRICE_FROM', 'Precio Hasta debe ser mayor o igual que Precio Desde');
 define('ERROR_INVALID_KEYWORDS', 'Palabras clave incorrectas');
+
+// text for date of birth example
+define('DOB_FORMAT_STRING', 'dd/mm/yyyy');

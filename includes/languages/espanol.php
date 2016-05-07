@@ -21,7 +21,6 @@ define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d de %B del %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y'); // this is used for date()
 define('DATE_TIME_FORMAT', DATE_FORMAT_SHORT . ' %H:%M:%S');
-define('JQUERY_DATEPICKER_I18N_CODE', 'es'); // leave empty for en_US; see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#language
 define('JQUERY_DATEPICKER_FORMAT', 'dd/mm/yyyy'); // see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
 
 ////
@@ -40,7 +39,7 @@ function tep_date_raw($date, $reverse = false) {
 define('LANGUAGE_CURRENCY', 'EUR');
 
 // Global entries for the <html> tag
-define('HTML_PARAMS', 'dir="ltr" lang="es"');
+define('HTML_PARAMS', '');
 
 // charset for web pages and emails
 define('CHARSET', 'utf-8');
@@ -48,34 +47,24 @@ define('CHARSET', 'utf-8');
 // page title
 define('TITLE', STORE_NAME);
 
-// header text in includes/header.php
-define('HEADER_TITLE_CREATE_ACCOUNT', 'Crear Cuenta');
+// text in includes/modules/downloads.php
 define('HEADER_TITLE_MY_ACCOUNT', 'Mi Cuenta');
-define('HEADER_TITLE_CART_CONTENTS', 'Ver Cesta');
-define('HEADER_TITLE_CHECKOUT', 'Realizar Pedido');
+
+// text in includes/application_top.php
 define('HEADER_TITLE_TOP', '<i class="fa fa-home"><span class="sr-only">Inicio</span></i>');
 define('HEADER_TITLE_CATALOG', 'Catálogo');
-define('HEADER_TITLE_LOGOFF', 'Salir');
-define('HEADER_TITLE_LOGIN', 'Entrar');
 
 // text for gender
 define('MALE', 'S<span class="hidden-xs">eño</span>r');
 define('FEMALE', 'S<span class="hidden-xs">eño</span>ra');
-define('MALE_ADDRESS', 'Sr.');
-define('FEMALE_ADDRESS', 'Sra.');
-
-// text for date of birth example
-define('DOB_FORMAT_STRING', 'dd/mm/yyyy');
 
 // checkout procedure text
 define('CHECKOUT_BAR_DELIVERY', 'Información de Entrega');
 define('CHECKOUT_BAR_PAYMENT', 'Información de Pago');
 define('CHECKOUT_BAR_CONFIRMATION', 'Confirmación');
-define('CHECKOUT_BAR_FINISHED', '¡Finalizado!');
 
 // pull down default text
 define('PULL_DOWN_DEFAULT', 'Seleccione, por favor');
-define('TYPE_BELOW', 'Escriba Debajo');
 
 // javascript messages
 define('JS_ERROR', '¡Hay errores en su formulario!\n\nPor favor, haga las siguientes correciones:\n\n');
@@ -85,18 +74,9 @@ define('JS_REVIEW_RATING', '* Debe evaluar el producto sobre el que opina.\n');
 
 define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Por favor, seleccione un método de pago para su pedido.\n');
 
-define('JS_ERROR_SUBMITTED', 'Ya ha enviado el formulario. Haga clic en Aceptar y espere a que termine el proceso.');
-
 define('ERROR_NO_PAYMENT_MODULE_SELECTED', 'Por favor, seleccione un método de pago para su pedido.');
 
-define('CATEGORY_COMPANY', 'Empresa');
-define('CATEGORY_PERSONAL', 'Detalles Personales');
-define('CATEGORY_ADDRESS', 'Dirección');
-define('CATEGORY_CONTACT', 'Información de Contacto');
-define('CATEGORY_OPTIONS', 'Opciones');
-define('CATEGORY_PASSWORD', 'Contraseña');
-
-define('ENTRY_COMPANY', 'Nombre de Empresa:');
+define('ENTRY_COMPANY', 'Nombre de la Empresa:');
 define('ENTRY_COMPANY_TEXT', '');
 define('ENTRY_GENDER', 'Tratamiento:');
 define('ENTRY_GENDER_ERROR', 'Por favor seleccione un tratamiento.'); 
@@ -161,10 +141,7 @@ define('PASSWORD_HIDDEN', '--OCULTO--');
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'Páginas de Resultados:');
 define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> productos)');
-define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> pedidos)');
 define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> comentarios)');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS_NEW', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> nuevos productos)');
-define('TEXT_DISPLAY_NUMBER_OF_SPECIALS', 'Viendo del<b>%d</b> al <b>%d</b> (de <b>%d</b> ofertas)');
 
 define('PREVNEXT_TITLE_FIRST_PAGE', 'Principio');
 define('PREVNEXT_TITLE_PREVIOUS_PAGE', 'Anterior');
@@ -179,28 +156,18 @@ define('PREVNEXT_BUTTON_NEXT', '[Siguiente &gt;&gt;]');
 define('PREVNEXT_BUTTON_LAST', 'FINAL&gt;&gt;');
 
 define('IMAGE_BUTTON_ADD_ADDRESS', 'Añadir Dirección');
-define('IMAGE_BUTTON_ADDRESS_BOOK', 'Libreta de Direcciones');
 define('IMAGE_BUTTON_BACK', 'Volver');
 define('IMAGE_BUTTON_BUY_NOW', 'Comprar Ahora');
 define('IMAGE_BUTTON_CHANGE_ADDRESS', 'Cambiar Dirección');
 define('IMAGE_BUTTON_CHECKOUT', 'Realizar Pedido');
 define('IMAGE_BUTTON_CONFIRM_ORDER', 'Confirmar Pedido');
 define('IMAGE_BUTTON_CONTINUE', 'Continuar');
-define('IMAGE_BUTTON_CONTINUE_SHOPPING', 'Seguir Comprando');
 define('IMAGE_BUTTON_DELETE', 'Eliminar');
-define('IMAGE_BUTTON_EDIT_ACCOUNT', 'Editar Cuenta');
-define('IMAGE_BUTTON_HISTORY', 'Historial de Pedidos');
 define('IMAGE_BUTTON_LOGIN', 'Entrar');
 define('IMAGE_BUTTON_IN_CART', 'Añadir a la Cesta');
-define('IMAGE_BUTTON_NOTIFICATIONS', 'Notificaciones');
-define('IMAGE_BUTTON_QUICK_FIND', 'Búsqueda Rápida');
-define('IMAGE_BUTTON_REMOVE_NOTIFICATIONS', 'Eliminar Notificaciones');
 define('IMAGE_BUTTON_REVIEWS', 'Comentarios');
 define('IMAGE_BUTTON_SEARCH', 'Buscar');
-define('IMAGE_BUTTON_SHIPPING_OPTIONS', 'Opciones de Envío');
-define('IMAGE_BUTTON_TELL_A_FRIEND', 'Díselo a un Amigo');
 define('IMAGE_BUTTON_UPDATE', 'Actualizar');
-define('IMAGE_BUTTON_UPDATE_CART', 'Actualizar Cesta');
 define('IMAGE_BUTTON_WRITE_REVIEW', 'Escribir Comentario');
 
 define('SMALL_IMAGE_BUTTON_DELETE', 'Eliminar');
@@ -209,10 +176,6 @@ define('SMALL_IMAGE_BUTTON_VIEW', 'Ver');
 define('SMALL_IMAGE_BUTTON_BUY', 'Comprar');
 
 define('ICON_ARROW_RIGHT', 'más');
-define('ICON_CART', 'En su Cesta'); /// ver en qué contexto se emplea
-define('ICON_ERROR', 'Error');
-define('ICON_SUCCESS', 'Correcto');
-define('ICON_WARNING', 'Advertencia');
 
 define('TEXT_GREETING_PERSONAL', '¡Bienvenido de nuevo, <span class="greetUser">%s!</span>¿Le gustaria ver que <a href="' . FILENAME_PRODUCTS_NEW . '"><u>nuevos productos</u></a> hay disponibles? ');
 define('TEXT_GREETING_PERSONAL_RELOGON', '<small>Si no es usted %s, por favor <a href="%s"><u>entre aquí</u></a> e introduzca sus datos.</small>');
@@ -223,19 +186,9 @@ define('TEXT_DESCENDINGLY', 'Descendentemente');
 define('TEXT_ASCENDINGLY', 'Ascendentemente');
 define('TEXT_BY', ' por ');
 
-define('TEXT_REVIEW_BY', 'por %s');
-define('TEXT_REVIEW_WORD_COUNT', '%s palabras');
-define('TEXT_REVIEW_RATING', 'Evaluación: %s [%s]');
-define('TEXT_REVIEW_DATE_ADDED', 'Fecha Alta: %s');
 define('TEXT_NO_REVIEWS', 'En este momento, no hay ningun comentario.');
 
-define('TEXT_NO_NEW_PRODUCTS', 'Ahora mismo no hay novedades.');
-
 define('TEXT_UNKNOWN_TAX_RATE', 'Impuesto desconocido');
-
-define('TEXT_REQUIRED', '<span class="errorText">Obligatorio</span>');
-
-define('ERROR_TEP_MAIL', '<font face="Verdana, Arial" size="2" color="#ff0000"><strong><small>TEP ERROR: </small> No se puede enviar el correo electrónico a través del servidor SMTP especificado. Compruebe la configuración php.ini y corrija el servidor SMTP si es necesario.</strong></font>');
 
 define('TEXT_CCVAL_ERROR_INVALID_DATE', 'La fecha de caducidad de la tarjeta de crédito es incorrecta. Compruebe la fecha e inténtelo de nuevo.');
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'El número de la tarjeta de crédito es incorrecto. Compruebe el número e inténtelo de nuevo.');
