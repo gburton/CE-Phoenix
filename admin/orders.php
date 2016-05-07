@@ -96,7 +96,6 @@
         tep_redirect(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params(array('action')) . 'action=edit'));
         break;
       case 'deleteconfirm':
-        $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
 
         tep_remove_order($oID, $HTTP_POST_VARS['restock']);
 
