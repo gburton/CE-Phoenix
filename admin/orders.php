@@ -11,7 +11,7 @@
 */
 
   require('includes/application_top.php');
-
+    
   require(DIR_WS_CLASSES . 'currencies.php');
   $currencies = new currencies();
 
@@ -48,12 +48,15 @@
     $comments_flag = tep_image(tep_catalog_href_link(DIR_WS_LANGUAGES . $email_language . '/images/' . $language_dir['image'], '', 'SSL'), $language_dir['name']);
   }
   // Orders language support EOF
-  
+
   if (tep_not_null($action)) {
     switch ($action) {
       case 'update_order':
         $status = tep_db_prepare_input($HTTP_POST_VARS['status']);
         $comments = tep_db_prepare_input($HTTP_POST_VARS['comments']);
+        // Orders language support BOF
+        require(DIR_WS_LANGUAGES . $email_language . '/email_constants.php');
+        // Orders language support EOF
 
         $order_updated = false;
         $check_status_query = tep_db_query("select customers_name, customers_email_address, orders_status, date_purchased from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
@@ -64,18 +67,17 @@
 
           $customer_notified = '0';
           if (isset($HTTP_POST_VARS['notify']) && ($HTTP_POST_VARS['notify'] == 'on')) {
-            // Orders language support BOF
-            require(DIR_WS_LANGUAGES . $email_language . '/email_constants.php');
-            $orders_status_localized_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . $order->info['language_id'] . "' and orders_status_id = '" . tep_db_input($status) . "'");
-            $orders_status_localized = tep_db_fetch_array($orders_status_localized_query);
-            $orders_status_localized_name = $orders_status_localized['orders_status_name'];
-            // Orders language support EOF
+          	// Orders language support BOF
+          	$orders_status_localized_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . $order->info['language_id'] . "' and orders_status_id = '" . tep_db_input($status) . "'");
+          	$orders_status_localized = tep_db_fetch_array($orders_status_localized_query);
+          	$orders_status_localized_name = $orders_status_localized['orders_status_name'];
+          	// Orders language support EOF
             $notify_comments = '';
             if (isset($HTTP_POST_VARS['notify_comments']) && ($HTTP_POST_VARS['notify_comments'] == 'on')) {
               $notify_comments = sprintf(EMAIL_TEXT_COMMENTS_UPDATE, $comments) . "\n\n";
             }
 
-            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $oID, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_localized_name);
+            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $oID, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased'], DATE_FORMAT_LONG_LOCALIZE) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_localized_name);
 
             tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
@@ -110,6 +112,7 @@
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <?php
   if (($action == 'edit') && ($order_exists == true)) {
+    $order = new order($oID);
 ?>
       <tr>
         <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
