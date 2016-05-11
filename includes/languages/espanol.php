@@ -18,7 +18,7 @@
 @setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'));
 
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
-define('DATE_FORMAT_LONG', '%A %d de %B del %Y'); // this is used for strftime()
+define('DATE_FORMAT_LONG', '%A %d de %B de %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y'); // this is used for date()
 define('DATE_TIME_FORMAT', DATE_FORMAT_SHORT . ' %H:%M:%S');
 define('JQUERY_DATEPICKER_FORMAT', 'dd/mm/yyyy'); // see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
