@@ -3,11 +3,11 @@
   <ul class="dropdown-menu">
     <?php
     if (tep_session_is_registered('customer_id')) {
-      echo '<li><a href="' . tep_href_link('logoff.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGOFF . '</a>';
+      echo '<li><a href="' . tep_href_link('logoff.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGOFF . '</a></li>';
     }
     else {
-      echo '<li><a href="' . tep_href_link('login.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGIN . '</a>';
-      echo '<li><a href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_REGISTER . '</a>';
+      echo '<li><a href="' . tep_href_link('login.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGIN . '</a></li>';
+      echo '<li><a href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_REGISTER . '</a></li>';
     }
     ?>
     <li class="divider"></li>
