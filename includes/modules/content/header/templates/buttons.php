@@ -1,4 +1,4 @@
-<div id="headerShortcuts" class="col-sm-<?php echo $content_width; ?> text-right">
+<div id="headerShortcuts" class="col-sm-<?php echo $content_width; ?> text-right buttons">
   <div class="btn-group">
 <?php
   echo tep_draw_button(MODULE_CONTENT_HEADER_BUTTONS_TITLE_CART_CONTENTS . ($cart->count_contents() > 0 ? ' (' . $cart->count_contents() . ')' : ''), 'fa fa-shopping-cart', tep_href_link('shopping_cart.php')) .
