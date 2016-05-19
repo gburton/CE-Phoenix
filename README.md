@@ -17,7 +17,7 @@ To allow me to give more time to this Project, I need your support;
 - give time for testing new code and/or getting involved in discussions
 - give code to the project - create a github account, fork and start coding
 
-If you cannot give time or code, please give a Pledgie
+If you cannot give time or code, please give a Pledgie.  Simply click on the Donate button below to donate via Paypal...
 
 <a href='https://pledgie.com/campaigns/31724'><img alt='Click here to lend your support to: Responsive osCommerce and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/31724.png?skin_name=chrome' border='0' ></a>
 
