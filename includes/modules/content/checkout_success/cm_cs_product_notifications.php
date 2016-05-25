@@ -32,14 +32,14 @@
     }
 
     function execute() {
-      global $HTTP_GET_VARS, $oscTemplate, $customer_id, $order_id;
+      global $oscTemplate, $customer_id, $order_id;
 
       if ( tep_session_is_registered('customer_id') ) {
         $global_query = tep_db_query("select global_product_notifications from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . (int)$customer_id . "'");
         $global = tep_db_fetch_array($global_query);
 
         if ( $global['global_product_notifications'] != '1' ) {
-          if ( isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'update') ) {
+          if ( isset($_GET['action']) && ($_GET['action'] == 'update') ) {
             if ( isset($_POST['notify']) && is_array($_POST['notify']) && !empty($_POST['notify']) ) {
               $notify = array_unique($_POST['notify']);
 

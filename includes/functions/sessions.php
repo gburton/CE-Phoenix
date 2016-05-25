@@ -57,13 +57,13 @@
   }
 
   function tep_session_start() {
-    global $HTTP_GET_VARS, $HTTP_COOKIE_VARS;
+    global $HTTP_COOKIE_VARS;
 
     $sane_session_id = true;
 
-    if ( isset($HTTP_GET_VARS[tep_session_name()]) ) {
-      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $HTTP_GET_VARS[tep_session_name()]) == false) ) {
-        unset($HTTP_GET_VARS[tep_session_name()]);
+    if ( isset($_GET[tep_session_name()]) ) {
+      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_GET[tep_session_name()]) == false) ) {
+        unset($_GET[tep_session_name()]);
 
         $sane_session_id = false;
       }

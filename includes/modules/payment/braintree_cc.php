@@ -455,12 +455,12 @@
     }
 
     function get_error() {
-      global $HTTP_GET_VARS, $braintree_error;
+      global $braintree_error;
 
       $message = MODULE_PAYMENT_BRAINTREE_CC_ERROR_GENERAL;
 
-      if ( isset($HTTP_GET_VARS['error']) && !empty($HTTP_GET_VARS['error']) ) {
-        switch ($HTTP_GET_VARS['error']) {
+      if ( isset($_GET['error']) && !empty($_GET['error']) ) {
+        switch ($_GET['error']) {
           case 'cardowner':
             $message = MODULE_PAYMENT_BRAINTREE_CC_ERROR_CARDOWNER;
             break;

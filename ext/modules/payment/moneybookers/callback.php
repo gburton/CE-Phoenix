@@ -69,10 +69,10 @@
       $email_body .= $key . '=' . $value . "\n";
     }
 
-    $email_body .= "\n" . '$HTTP_GET_VARS:' . "\n\n";
+    $email_body .= "\n" . '$_GET:' . "\n\n";
 
-    reset($HTTP_GET_VARS);
-    while (list($key, $value) = each($HTTP_GET_VARS)) {
+    reset($_GET);
+    while (list($key, $value) = each($_GET)) {
       $email_body .= $key . '=' . $value . "\n";
     }
 

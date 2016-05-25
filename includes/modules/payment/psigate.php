@@ -236,14 +236,12 @@
     }
 
     function get_error() {
-      global $HTTP_GET_VARS;
-
-      if (isset($HTTP_GET_VARS['ErrMsg']) && tep_not_null($HTTP_GET_VARS['ErrMsg'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['ErrMsg']));
-      } elseif (isset($HTTP_GET_VARS['Err']) && tep_not_null($HTTP_GET_VARS['Err'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['Err']));
-      } elseif (isset($HTTP_GET_VARS['error']) && tep_not_null($HTTP_GET_VARS['error'])) {
-        $error = stripslashes(urldecode($HTTP_GET_VARS['error']));
+      if (isset($_GET['ErrMsg']) && tep_not_null($_GET['ErrMsg'])) {
+        $error = stripslashes(urldecode($_GET['ErrMsg']));
+      } elseif (isset($_GET['Err']) && tep_not_null($_GET['Err'])) {
+        $error = stripslashes(urldecode($_GET['Err']));
+      } elseif (isset($_GET['error']) && tep_not_null($_GET['error'])) {
+        $error = stripslashes(urldecode($_GET['error']));
       } else {
         $error = MODULE_PAYMENT_PSIGATE_TEXT_ERROR_MESSAGE;
       }

@@ -305,11 +305,11 @@ EOD;
     }
 
     function get_error() {
-      global $HTTP_GET_VARS, $authorizenet_cc_sim_error;
+      global $authorizenet_cc_sim_error;
 
       $error_message = MODULE_PAYMENT_AUTHORIZENET_CC_SIM_ERROR_GENERAL;
 
-      switch ($HTTP_GET_VARS['error']) {
+      switch ($_GET['error']) {
         case 'verification':
           $error_message = MODULE_PAYMENT_AUTHORIZENET_CC_SIM_ERROR_VERIFICATION;
           break;
@@ -323,7 +323,7 @@ EOD;
           break;
       }
 
-      if ( ($HTTP_GET_VARS['error'] != 'verification') && tep_session_is_registered('authorizenet_cc_sim_error') ) {
+      if ( ($_GET['error'] != 'verification') && tep_session_is_registered('authorizenet_cc_sim_error') ) {
         $error_message = $authorizenet_cc_sim_error;
 
         tep_session_unregister('authorizenet_cc_sim_error');
@@ -515,8 +515,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_GET_VARS;
-
       if (tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_SIM_DEBUG_EMAIL)) {
         $email_body = '';
 
@@ -528,8 +526,8 @@ EOD;
           $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {

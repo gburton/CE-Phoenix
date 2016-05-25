@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function sage_pay_direct() {
-      global $HTTP_GET_VARS, $PHP_SELF, $order;
+      global $PHP_SELF, $order;
 
       $this->signature = 'sage_pay|sage_pay_direct|3.0|2.3';
       $this->api_version = '3.00';
@@ -56,7 +56,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -231,15 +231,15 @@
     }
 
     function before_process() {
-      global $HTTP_GET_VARS, $customer_id, $order, $currency, $order_totals, $cartID, $sage_pay_response;
+      global $customer_id, $order, $currency, $order_totals, $cartID, $sage_pay_response;
 
       $transaction_response = null;
       $sage_pay_response = null;
 
       $error = null;
 
-      if ( isset($HTTP_GET_VARS['check']) ) {
-        if ( ($HTTP_GET_VARS['check'] == '3D') && isset($_POST['MD']) && tep_not_null($_POST['MD']) && isset($_POST['PaRes']) && tep_not_null($_POST['PaRes']) ) {
+      if ( isset($_GET['check']) ) {
+        if ( ($_GET['check'] == '3D') && isset($_POST['MD']) && tep_not_null($_POST['MD']) && isset($_POST['PaRes']) && tep_not_null($_POST['PaRes']) ) {
           if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TRANSACTION_SERVER == 'Live' ) {
             $gateway_url = 'https://live.sagepay.com/gateway/service/direct3dcallback.vsp';
           } else {
@@ -249,7 +249,7 @@
           $post_string = 'MD=' . $_POST['MD'] . '&PARes=' . $_POST['PaRes'];
 
           $transaction_response = $this->sendTransactionToGateway($gateway_url, $post_string);
-        } elseif ( ($HTTP_GET_VARS['check'] == 'PAYPAL') && isset($_POST['Status']) ) {
+        } elseif ( ($_GET['check'] == 'PAYPAL') && isset($_POST['Status']) ) {
           if ( ($_POST['Status'] == 'PAYPALOK') && isset($_POST['VPSTxId']) && isset($_POST['CustomerEMail']) && isset($_POST['PayerID']) ) {
             $params = array('VPSProtocol' => $this->api_version,
                             'TxType' => 'COMPLETE',
@@ -540,7 +540,7 @@
     }
 
     function after_process() {
-      global $HTTP_GET_VARS, $customer_id, $insert_id, $sage_pay_response;
+      global $customer_id, $insert_id, $sage_pay_response;
 
       $result = array();
 
@@ -594,7 +594,7 @@
         tep_session_unregister('sagepay_token_cc_expiry_date');
       }
 
-      if ( isset($HTTP_GET_VARS['check']) && ($HTTP_GET_VARS['check'] == 'PAYPAL') && isset($_POST['Status']) && ($_POST['Status'] == 'PAYPALOK') && isset($_POST['VPSTxId']) && isset($sage_pay_response['VPSTxId']) && ($_POST['VPSTxId'] == $sage_pay_response['VPSTxId']) ) {
+      if ( isset($_GET['check']) && ($_GET['check'] == 'PAYPAL') && isset($_POST['Status']) && ($_POST['Status'] == 'PAYPALOK') && isset($_POST['VPSTxId']) && isset($sage_pay_response['VPSTxId']) && ($_POST['VPSTxId'] == $sage_pay_response['VPSTxId']) ) {
         $result['PayPal Payer E-Mail'] = $_POST['CustomerEMail'];
         $result['PayPal Payer Status'] = $_POST['PayerStatus'];
         $result['PayPal Payer ID'] = $_POST['PayerID'];
@@ -625,15 +625,13 @@
     }
 
     function get_error() {
-      global $HTTP_GET_VARS;
-
       $message = MODULE_PAYMENT_SAGE_PAY_DIRECT_ERROR_GENERAL;
 
-      if ( isset($HTTP_GET_VARS['error']) && tep_not_null($HTTP_GET_VARS['error']) ) {
-        if ( is_numeric($HTTP_GET_VARS['error']) && $this->errorMessageNumberExists($HTTP_GET_VARS['error']) ) {
-          $message = $this->getErrorMessage($HTTP_GET_VARS['error']) . ' ' . MODULE_PAYMENT_SAGE_PAY_DIRECT_ERROR_GENERAL;
+      if ( isset($_GET['error']) && tep_not_null($_GET['error']) ) {
+        if ( is_numeric($_GET['error']) && $this->errorMessageNumberExists($_GET['error']) ) {
+          $message = $this->getErrorMessage($_GET['error']) . ' ' . MODULE_PAYMENT_SAGE_PAY_DIRECT_ERROR_GENERAL;
         } else {
-          switch ($HTTP_GET_VARS['error']) {
+          switch ($_GET['error']) {
             case 'cardtype':
               $message = MODULE_PAYMENT_SAGE_PAY_DIRECT_ERROR_CARDTYPE;
               break;
@@ -1315,8 +1313,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_GET_VARS;
-
       if (tep_not_null(MODULE_PAYMENT_SAGE_PAY_DIRECT_DEBUG_EMAIL)) {
         $email_body = '';
 
@@ -1360,8 +1356,8 @@ EOD;
           $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {

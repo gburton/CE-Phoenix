@@ -23,8 +23,8 @@
 
   $result = null;
 
-  if ( isset($HTTP_GET_VARS['skcode']) && isset($_POST['VPSSignature']) && isset($_POST['VPSTxId']) && isset($_POST['VendorTxCode']) && isset($_POST['Status']) ) {
-    $skcode = tep_db_prepare_input($HTTP_GET_VARS['skcode']);
+  if ( isset($_GET['skcode']) && isset($_POST['VPSSignature']) && isset($_POST['VPSTxId']) && isset($_POST['VendorTxCode']) && isset($_POST['Status']) ) {
+    $skcode = tep_db_prepare_input($_GET['skcode']);
 
     $sp_query = tep_db_query('select securitykey from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
     if ( tep_db_num_rows($sp_query) ) {

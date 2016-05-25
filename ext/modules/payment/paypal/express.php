@@ -61,7 +61,7 @@
   if (!tep_session_is_registered('cartID')) tep_session_register('cartID');
   $cartID = $cart->cartID;
 
-  switch ($HTTP_GET_VARS['osC_Action']) {
+  switch ($_GET['osC_Action']) {
     case 'cancel':
       tep_session_unregister('ppe_token');
       tep_session_unregister('ppe_secret');
@@ -275,7 +275,7 @@
         tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
       }
 
-      $response_array = $paypal_express->getExpressCheckoutDetails($HTTP_GET_VARS['token']);
+      $response_array = $paypal_express->getExpressCheckoutDetails($_GET['token']);
 
       if (($response_array['ACK'] == 'Success') || ($response_array['ACK'] == 'SuccessWithWarning')) {
         if ( !tep_session_is_registered('ppe_secret') || ($response_array['PAYMENTREQUEST_0_CUSTOM'] != $ppe_secret) ) {

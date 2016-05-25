@@ -24,7 +24,7 @@
 
   $error = false;
 
-  if ( !isset($HTTP_GET_VARS['installation']) || ($HTTP_GET_VARS['installation'] != MODULE_PAYMENT_RBSWORLDPAY_HOSTED_INSTALLATION_ID) ) {
+  if ( !isset($_GET['installation']) || ($_GET['installation'] != MODULE_PAYMENT_RBSWORLDPAY_HOSTED_INSTALLATION_ID) ) {
     $error = true;
   } elseif ( !isset($_POST['installation']) || ($_POST['installation'] != MODULE_PAYMENT_RBSWORLDPAY_HOSTED_INSTALLATION_ID) ) {
     $error = true;

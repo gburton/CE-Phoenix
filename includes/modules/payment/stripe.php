@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function stripe() {
-      global $HTTP_GET_VARS, $PHP_SELF, $order, $payment;
+      global $PHP_SELF, $order, $payment;
 
       $this->signature = 'stripe|stripe|1.0|2.3';
       $this->api_version = '2014-05-19';
@@ -56,7 +56,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -329,7 +329,7 @@
     }
 
     function get_error() {
-      global $HTTP_GET_VARS, $stripe_error;
+      global $stripe_error;
 
       $message = MODULE_PAYMENT_STRIPE_ERROR_GENERAL;
 
@@ -339,8 +339,8 @@
         tep_session_unregister('stripe_error');
       }
 
-      if ( isset($HTTP_GET_VARS['error']) && !empty($HTTP_GET_VARS['error']) ) {
-        switch ($HTTP_GET_VARS['error']) {
+      if ( isset($_GET['error']) && !empty($_GET['error']) ) {
+        switch ($_GET['error']) {
           case 'cardstored':
             $message = MODULE_PAYMENT_STRIPE_ERROR_CARDSTORED;
             break;
@@ -774,8 +774,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_GET_VARS;
-
       if (tep_not_null(MODULE_PAYMENT_STRIPE_DEBUG_EMAIL)) {
         $email_body = '';
 
@@ -787,8 +785,8 @@ EOD;
           $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {
