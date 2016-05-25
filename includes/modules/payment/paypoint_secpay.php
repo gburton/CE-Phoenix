@@ -145,11 +145,9 @@
     }
 
     function before_process() {
-      global $HTTP_SERVER_VARS;
-
       if ( ($_GET['valid'] == 'true') && ($_GET['code'] == 'A') && !empty($_GET['auth_code']) && empty($_GET['resp_code']) && !empty($_GET[tep_session_name()]) ) {
         $DIGEST_PASSWORD = MODULE_PAYMENT_PAYPOINT_SECPAY_READERS_DIGEST;
-        list($REQUEST_URI, $CHECK_SUM) = split('hash=', $HTTP_SERVER_VARS['REQUEST_URI']);
+        list($REQUEST_URI, $CHECK_SUM) = split('hash=', $_SERVER['REQUEST_URI']);
 
         if ($_GET['hash'] != md5($REQUEST_URI . $DIGEST_PASSWORD)) {
           tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, tep_session_name() . '=' . $_GET[tep_session_name()] . '&payment_error=' . $this->code ."&detail=hash", 'SSL', false, false));

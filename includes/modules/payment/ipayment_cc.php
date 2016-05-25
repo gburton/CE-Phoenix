@@ -141,7 +141,7 @@
     }
 
     function before_process() {
-      global $HTTP_SERVER_VARS, $order, $currency;
+      global $order, $currency;
 
       if ($_GET['ret_errorcode'] != '0') {
         tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=' . $this->code . '&error=' . tep_output_string_protected($_GET['ret_errormsg'])));
@@ -156,7 +156,7 @@
         }
 
 // verify ret_url_checksum
-        $url= 'http' . (ENABLE_SSL == true ? 's' : '') . '://' . $HTTP_SERVER_VARS['SERVER_NAME'] . $HTTP_SERVER_VARS['REQUEST_URI'];
+        $url= 'http' . (ENABLE_SSL == true ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         $url_without_checksum = substr($url, 0, strpos($url, '&ret_url_checksum')+1);
         if ($_GET['ret_url_checksum'] != md5($url_without_checksum . MODULE_PAYMENT_IPAYMENT_CC_SECRET_HASH_PASSWORD)) {
           $pass = false;

@@ -156,7 +156,7 @@
     }
 
     function process_button() {
-      global $HTTP_SERVER_VARS, $order, $currencies;
+      global $order, $currencies;
 
       switch (MODULE_PAYMENT_PSIGATE_TRANSACTION_MODE) {
         case 'Always Good':
@@ -216,7 +216,7 @@
                                 tep_draw_hidden_field('Scountry', $order->delivery['country']['iso_code_2']) .
                                 tep_draw_hidden_field('ChargeType', $transaction_type) .
                                 tep_draw_hidden_field('Result', $transaction_mode) .
-                                tep_draw_hidden_field('IP', $HTTP_SERVER_VARS['REMOTE_ADDR']);
+                                tep_draw_hidden_field('IP', $_SERVER['REMOTE_ADDR']);
 
       if (MODULE_PAYMENT_PSIGATE_INPUT_MODE == 'Local') {
         $process_button_string .= tep_draw_hidden_field('CardNumber', $this->cc_card_number) .

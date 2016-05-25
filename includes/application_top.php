@@ -45,7 +45,7 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $req = parse_url($_SERVER['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'NONSSL') ? strlen(DIR_WS_HTTP_CATALOG) : strlen(DIR_WS_HTTPS_CATALOG));
 
   if ($request_type == 'NONSSL') {
@@ -151,9 +151,9 @@
 
 // set the session ID if it exists
   if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
-    if ( isset($_GET[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $_GET[tep_session_name()])) ) {
+    if ( isset($_GET[tep_session_name()]) && (!isset($_COOKIE[tep_session_name()]) || ($_COOKIE[tep_session_name()] != $_GET[tep_session_name()])) ) {
       tep_session_id($_GET[tep_session_name()]);
-    } elseif ( isset($_POST[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $_POST[tep_session_name()])) ) {
+    } elseif ( isset($_POST[tep_session_name()]) && (!isset($_COOKIE[tep_session_name()]) || ($_COOKIE[tep_session_name()] != $_POST[tep_session_name()])) ) {
       tep_session_id($_POST[tep_session_name()]);
     }
   }
@@ -163,7 +163,7 @@
   if (SESSION_FORCE_COOKIE_USE == 'True') {
     tep_setcookie('cookie_test', 'please_accept_for_session', time()+60*60*24*30, $cookie_path, $cookie_domain);
 
-    if (isset($HTTP_COOKIE_VARS['cookie_test'])) {
+    if (isset($_COOKIE['cookie_test'])) {
       tep_session_start();
       $session_started = true;
     }
