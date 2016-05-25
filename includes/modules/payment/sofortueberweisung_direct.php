@@ -373,7 +373,7 @@
           }
 
           if (MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_STORE_TRANSACTION_DETAILS == 'True') {
-            $sql_data_array['comments'] = (!empty($sql_data_array['comments']) ? $sql_data_array['comments'] . "\n\n" : '') . serialize($HTTP_GET_VARS) . "\n" . serialize($HTTP_POST_VARS);
+            $sql_data_array['comments'] = (!empty($sql_data_array['comments']) ? $sql_data_array['comments'] . "\n\n" : '') . serialize($HTTP_GET_VARS) . "\n" . serialize($_POST);
           }
 
           tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);

@@ -128,7 +128,7 @@
     }
 
     function before_process() {
-      global $HTTP_POST_VARS, $customer_id, $order, $sendto, $currency, $response;
+      global $customer_id, $order, $sendto, $currency, $response;
 
       $params = array('x_login' => substr(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_LOGIN_ID, 0, 20),
                       'x_tran_key' => substr(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_TRANSACTION_KEY, 0, 16),
@@ -137,9 +137,9 @@
                       'x_method' => 'CC',
                       'x_amount' => substr($this->format_raw($order->info['total']), 0, 15),
                       'x_currency_code' => substr($currency, 0, 3),
-                      'x_card_num' => substr(preg_replace('/[^0-9]/', '', $HTTP_POST_VARS['cc_number_nh-dns']), 0, 22),
-                      'x_exp_date' => $HTTP_POST_VARS['cc_expires_month'] . $HTTP_POST_VARS['cc_expires_year'],
-                      'x_card_code' => substr($HTTP_POST_VARS['cc_ccv_nh-dns'], 0, 4),
+                      'x_card_num' => substr(preg_replace('/[^0-9]/', '', $_POST['cc_number_nh-dns']), 0, 22),
+                      'x_exp_date' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
+                      'x_card_code' => substr($_POST['cc_ccv_nh-dns'], 0, 4),
                       'x_description' => substr(STORE_NAME, 0, 255),
                       'x_first_name' => substr($order->billing['firstname'], 0, 50),
                       'x_last_name' => substr($order->billing['lastname'], 0, 50),
@@ -768,7 +768,7 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_POST_VARS, $HTTP_GET_VARS;
+      global $HTTP_GET_VARS;
 
       if (tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_DEBUG_EMAIL)) {
         $email_body = '';
@@ -777,24 +777,24 @@ EOD;
           $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
         }
 
-        if (!empty($HTTP_POST_VARS)) {
-          if (isset($HTTP_POST_VARS['cc_number_nh-dns'])) {
-            $HTTP_POST_VARS['cc_number_nh-dns'] = 'XXXX' . substr($HTTP_POST_VARS['cc_number_nh-dns'], -4);
+        if (!empty($_POST)) {
+          if (isset($_POST['cc_number_nh-dns'])) {
+            $_POST['cc_number_nh-dns'] = 'XXXX' . substr($_POST['cc_number_nh-dns'], -4);
           }
 
-          if (isset($HTTP_POST_VARS['cc_ccv_nh-dns'])) {
-            $HTTP_POST_VARS['cc_ccv_nh-dns'] = 'XXX';
+          if (isset($_POST['cc_ccv_nh-dns'])) {
+            $_POST['cc_ccv_nh-dns'] = 'XXX';
           }
 
-          if (isset($HTTP_POST_VARS['cc_expires_month'])) {
-            $HTTP_POST_VARS['cc_expires_month'] = 'XX';
+          if (isset($_POST['cc_expires_month'])) {
+            $_POST['cc_expires_month'] = 'XX';
           }
 
-          if (isset($HTTP_POST_VARS['cc_expires_year'])) {
-            $HTTP_POST_VARS['cc_expires_year'] = 'XX';
+          if (isset($_POST['cc_expires_year'])) {
+            $_POST['cc_expires_year'] = 'XX';
           }
 
-          $email_body .= '$HTTP_POST_VARS:' . "\n\n" . print_r($HTTP_POST_VARS, true) . "\n\n";
+          $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
         if (!empty($HTTP_GET_VARS)) {

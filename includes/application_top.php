@@ -153,8 +153,8 @@
   if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
     if ( isset($HTTP_GET_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_GET_VARS[tep_session_name()])) ) {
       tep_session_id($HTTP_GET_VARS[tep_session_name()]);
-    } elseif ( isset($HTTP_POST_VARS[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $HTTP_POST_VARS[tep_session_name()])) ) {
-      tep_session_id($HTTP_POST_VARS[tep_session_name()]);
+    } elseif ( isset($_POST[tep_session_name()]) && (!isset($HTTP_COOKIE_VARS[tep_session_name()]) || ($HTTP_COOKIE_VARS[tep_session_name()] != $_POST[tep_session_name()])) ) {
+      tep_session_id($_POST[tep_session_name()]);
     }
   }
 
@@ -333,24 +333,24 @@
     }
     switch ($HTTP_GET_VARS['action']) {
       // customer wants to update the product quantity in their shopping cart
-      case 'update_product' : $n=sizeof($HTTP_POST_VARS['products_id']);
+      case 'update_product' : $n=sizeof($_POST['products_id']);
                               for ($i=0; $i<$n; $i++) {
-                                if (in_array($HTTP_POST_VARS['products_id'][$i], (is_array($HTTP_POST_VARS['cart_delete']) ? $HTTP_POST_VARS['cart_delete'] : array()))) {
-                                  $cart->remove($HTTP_POST_VARS['products_id'][$i]);
-                                  $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($HTTP_POST_VARS['products_id'][$i])), 'warning');
+                                if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array()))) {
+                                  $cart->remove($_POST['products_id'][$i]);
+                                  $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($_POST['products_id'][$i])), 'warning');
                                 } else {
-                                  $attributes = ($HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]]) ? $HTTP_POST_VARS['id'][$HTTP_POST_VARS['products_id'][$i]] : '';
-                                  $cart->add_cart($HTTP_POST_VARS['products_id'][$i], $HTTP_POST_VARS['cart_quantity'][$i], $attributes, false);
+                                  $attributes = ($_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
+                                  $cart->add_cart($_POST['products_id'][$i], $_POST['cart_quantity'][$i], $attributes, false);
                                 }
                               }
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer adds a product from the products page
-      case 'add_product' :    if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
-                                $attributes = isset($HTTP_POST_VARS['id']) ? $HTTP_POST_VARS['id'] : '';
-                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $attributes))+1, $attributes);
+      case 'add_product' :    if (isset($_POST['products_id']) && is_numeric($_POST['products_id'])) {
+                                $attributes = isset($_POST['id']) ? $_POST['id'] : '';
+                                $cart->add_cart($_POST['products_id'], $cart->get_quantity(tep_get_uprid($_POST['products_id'], $attributes))+1, $attributes);
                               }
-                              $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$HTTP_POST_VARS['products_id'])), 'success');
+                              $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$_POST['products_id'])), 'success');
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer removes a product from their shopping cart
@@ -376,8 +376,8 @@
                                   $notify = $HTTP_GET_VARS['products_id'];
                                 } elseif (isset($HTTP_GET_VARS['notify'])) {
                                   $notify = $HTTP_GET_VARS['notify'];
-                                } elseif (isset($HTTP_POST_VARS['notify'])) {
-                                  $notify = $HTTP_POST_VARS['notify'];
+                                } elseif (isset($_POST['notify'])) {
+                                  $notify = $_POST['notify'];
                                 } else {
                                   tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                                 }

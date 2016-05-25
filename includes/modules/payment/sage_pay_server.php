@@ -106,7 +106,7 @@
     }
 
     function before_process() {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS, $sagepay_server_skey_code, $sagepay_server_transaction_details, $sage_pay_server_nexturl, $customer_id, $order, $currency, $order_totals, $cartID;
+      global $HTTP_GET_VARS, $sagepay_server_skey_code, $sagepay_server_transaction_details, $sage_pay_server_nexturl, $customer_id, $order, $currency, $order_totals, $cartID;
 
       $sagepay_server_transaction_details = null;
 
@@ -683,7 +683,7 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_POST_VARS, $HTTP_GET_VARS;
+      global $HTTP_GET_VARS;
 
       if (tep_not_null(MODULE_PAYMENT_SAGE_PAY_SERVER_DEBUG_EMAIL)) {
         $email_body = '';
@@ -692,8 +692,8 @@ EOD;
           $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
         }
 
-        if (!empty($HTTP_POST_VARS)) {
-          $email_body .= '$HTTP_POST_VARS:' . "\n\n" . print_r($HTTP_POST_VARS, true) . "\n\n";
+        if (!empty($_POST)) {
+          $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
         if (!empty($HTTP_GET_VARS)) {

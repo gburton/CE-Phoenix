@@ -220,15 +220,15 @@
     }
 
     function before_process() {
-      global $customer_id, $order, $currency, $HTTP_POST_VARS, $stripe_result, $stripe_error;
+      global $customer_id, $order, $currency, $stripe_result, $stripe_error;
 
       $stripe_result = null;
 
       $params = array();
 
       if ( MODULE_PAYMENT_STRIPE_TOKENS == 'True' ) {
-        if ( isset($HTTP_POST_VARS['stripe_card']) && is_numeric($HTTP_POST_VARS['stripe_card']) && ($HTTP_POST_VARS['stripe_card'] > 0) ) {
-          $token_query = tep_db_query("select stripe_token from customers_stripe_tokens where id = '" . (int)$HTTP_POST_VARS['stripe_card'] . "' and customers_id = '" . (int)$customer_id . "'");
+        if ( isset($_POST['stripe_card']) && is_numeric($_POST['stripe_card']) && ($_POST['stripe_card'] > 0) ) {
+          $token_query = tep_db_query("select stripe_token from customers_stripe_tokens where id = '" . (int)$_POST['stripe_card'] . "' and customers_id = '" . (int)$customer_id . "'");
 
           if ( tep_db_num_rows($token_query) === 1 ) {
             $token = tep_db_fetch_array($token_query);
@@ -243,20 +243,20 @@
         }
       }
 
-      if ( empty($params) && isset($HTTP_POST_VARS['stripeToken']) && !empty($HTTP_POST_VARS['stripeToken']) ) {
-        if ( (MODULE_PAYMENT_STRIPE_TOKENS == 'True') && isset($HTTP_POST_VARS['cc_save']) && ($HTTP_POST_VARS['cc_save'] == 'true') ) {
+      if ( empty($params) && isset($_POST['stripeToken']) && !empty($_POST['stripeToken']) ) {
+        if ( (MODULE_PAYMENT_STRIPE_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') ) {
           $stripe_customer_id = $this->getCustomerID();
           $stripe_card_id = false;
 
           if ( $stripe_customer_id === false ) {
-            $stripe_customer_array = $this->createCustomer($HTTP_POST_VARS['stripeToken']);
+            $stripe_customer_array = $this->createCustomer($_POST['stripeToken']);
 
             if ( ($stripe_customer_array !== false) && isset($stripe_customer_array['id']) ) {
               $stripe_customer_id = $stripe_customer_array['id'];
               $stripe_card_id = $stripe_customer_array['card_id'];
             }
           } else {
-            $stripe_card_id = $this->addCard($HTTP_POST_VARS['stripeToken'], $stripe_customer_id);
+            $stripe_card_id = $this->addCard($_POST['stripeToken'], $stripe_customer_id);
           }
 
           if ( ($stripe_customer_id !== false) && ($stripe_card_id !== false) ) {
@@ -264,7 +264,7 @@
             $params['card'] = $stripe_card_id;
           }
         } else {
-          $params['card'] = $HTTP_POST_VARS['stripeToken'];
+          $params['card'] = $_POST['stripeToken'];
         }
       }
 
@@ -294,7 +294,7 @@
     }
 
     function after_process() {
-      global $insert_id, $customer_id, $stripe_result, $HTTP_POST_VARS;
+      global $insert_id, $customer_id, $stripe_result;
 
       $status_comment = array('Transaction ID: ' . $stripe_result['id'],
                               'CVC: ' . $stripe_result['card']['cvc_check']);
@@ -308,9 +308,9 @@
       }
 
       if ( MODULE_PAYMENT_STRIPE_TOKENS == 'True' ) {
-        if ( isset($HTTP_POST_VARS['cc_save']) && ($HTTP_POST_VARS['cc_save'] == 'true') ) {
+        if ( isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') ) {
           $status_comment[] = 'Token Saved: Yes';
-        } elseif ( isset($HTTP_POST_VARS['stripe_card']) && is_numeric($HTTP_POST_VARS['stripe_card']) && ($HTTP_POST_VARS['stripe_card'] > 0) ) {
+        } elseif ( isset($_POST['stripe_card']) && is_numeric($_POST['stripe_card']) && ($_POST['stripe_card'] > 0) ) {
           $status_comment[] = 'Token Used: Yes';
         }
       }
@@ -774,7 +774,7 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $HTTP_POST_VARS, $HTTP_GET_VARS;
+      global $HTTP_GET_VARS;
 
       if (tep_not_null(MODULE_PAYMENT_STRIPE_DEBUG_EMAIL)) {
         $email_body = '';
@@ -783,8 +783,8 @@ EOD;
           $email_body .= 'RESPONSE:' . "\n\n" . print_r($response, true) . "\n\n";
         }
 
-        if (!empty($HTTP_POST_VARS)) {
-          $email_body .= '$HTTP_POST_VARS:' . "\n\n" . print_r($HTTP_POST_VARS, true) . "\n\n";
+        if (!empty($_POST)) {
+          $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
         if (!empty($HTTP_GET_VARS)) {

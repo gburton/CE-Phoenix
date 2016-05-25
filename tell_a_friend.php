@@ -33,14 +33,14 @@
 
   require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_TELL_A_FRIEND);
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
+  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
     $error = false;
 
-    $to_email_address = tep_db_prepare_input($HTTP_POST_VARS['to_email_address']);
-    $to_name = tep_db_prepare_input($HTTP_POST_VARS['to_name']);
-    $from_email_address = tep_db_prepare_input($HTTP_POST_VARS['from_email_address']);
-    $from_name = tep_db_prepare_input($HTTP_POST_VARS['from_name']);
-    $message = tep_db_prepare_input($HTTP_POST_VARS['message']);
+    $to_email_address = tep_db_prepare_input($_POST['to_email_address']);
+    $to_name = tep_db_prepare_input($_POST['to_name']);
+    $from_email_address = tep_db_prepare_input($_POST['from_email_address']);
+    $from_name = tep_db_prepare_input($_POST['from_name']);
+    $message = tep_db_prepare_input($_POST['message']);
 
     if (empty($from_name)) {
       $error = true;

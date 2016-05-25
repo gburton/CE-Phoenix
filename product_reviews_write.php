@@ -33,9 +33,9 @@
   $customer_query = tep_db_query("select customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
   $customer = tep_db_fetch_array($customer_query);
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
-    $rating = tep_db_prepare_input($HTTP_POST_VARS['rating']);
-    $review = tep_db_prepare_input($HTTP_POST_VARS['review']);
+  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
+    $rating = tep_db_prepare_input($_POST['rating']);
+    $review = tep_db_prepare_input($_POST['review']);
 
     $error = false;
     if (strlen($review) < REVIEW_TEXT_MIN_LENGTH) {

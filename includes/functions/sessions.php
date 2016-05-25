@@ -57,7 +57,7 @@
   }
 
   function tep_session_start() {
-    global $HTTP_GET_VARS, $HTTP_POST_VARS, $HTTP_COOKIE_VARS;
+    global $HTTP_GET_VARS, $HTTP_COOKIE_VARS;
 
     $sane_session_id = true;
 
@@ -69,9 +69,9 @@
       }
     }
 
-    if ( isset($HTTP_POST_VARS[tep_session_name()]) ) {
-      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $HTTP_POST_VARS[tep_session_name()]) == false) ) {
-        unset($HTTP_POST_VARS[tep_session_name()]);
+    if ( isset($_POST[tep_session_name()]) ) {
+      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_POST[tep_session_name()]) == false) ) {
+        unset($_POST[tep_session_name()]);
 
         $sane_session_id = false;
       }

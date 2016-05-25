@@ -208,7 +208,7 @@
     }
 
     function sendDebugEmail($checksum_match = 0) {
-      global $HTTP_POST_VARS, $HTTP_GET_VARS;
+      global $HTTP_GET_VARS;
 
       if (tep_not_null(MODULE_PAYMENT_IPAYMENT_PP_DEBUG_EMAIL)) {
         $email_body = 'iPayment (Prepaid) Transaction' . "\n\n" .
@@ -233,8 +233,8 @@
         $email_body .= "\n\n" .
                        'POST REQUEST:' . "\n\n";
 
-        if (!empty($HTTP_POST_VARS)) {
-          foreach ($HTTP_POST_VARS as $key => $value) {
+        if (!empty($_POST)) {
+          foreach ($_POST as $key => $value) {
             $email_body .= $key . '=' . $value . "\n";
           }
         } else {

@@ -26,7 +26,7 @@
 
     if ($payment == 'sage_pay_direct') {
       $redirect_url = tep_href_link(FILENAME_CHECKOUT_PROCESS, 'check=3D', 'SSL');
-      $hidden_params = tep_draw_hidden_field('MD', $HTTP_POST_VARS['MD']) . tep_draw_hidden_field('PaRes', $HTTP_POST_VARS['PaRes']);
+      $hidden_params = tep_draw_hidden_field('MD', $_POST['MD']) . tep_draw_hidden_field('PaRes', $_POST['PaRes']);
     } else {
       $redirect_url = tep_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL');
     }
