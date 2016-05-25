@@ -13,7 +13,7 @@
   class authorizenet_cc_dpm {
     var $code, $title, $description, $enabled;
 
-    function authorizenet_cc_dpm() {
+    function __construct() {
       global $order;
 
       $this->signature = 'authorizenet|authorizenet_cc_dpm|1.0|2.3';

@@ -23,7 +23,7 @@
     var $_payment_method_image = 'postepay.gif';
 
 // class constructor
-    function moneybookers_psp() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_psp|1.0|2.3';

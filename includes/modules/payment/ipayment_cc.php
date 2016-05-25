@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function ipayment_cc() {
+    function __construct() {
       global $order;
 
       $this->signature = 'ipayment|ipayment_cc|1.1|2.2';

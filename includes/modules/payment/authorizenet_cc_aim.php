@@ -13,7 +13,7 @@
   class authorizenet_cc_aim {
     var $code, $title, $description, $enabled;
 
-    function authorizenet_cc_aim() {
+    function __construct() {
       global $HTTP_GET_VARS, $PHP_SELF, $order;
 
       $this->signature = 'authorizenet|authorizenet_cc_aim|2.0|2.3';
