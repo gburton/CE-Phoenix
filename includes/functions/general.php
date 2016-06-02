@@ -1379,8 +1379,4 @@
       return str_replace($from, $to, $string);
     }
   }
-
-  function format_raw_price($price) {    
-    return preg_replace('/[^0-9.]*/', '', $price);    
-  }
   
