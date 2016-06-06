@@ -29,7 +29,7 @@
       $new_prods_content .= '    <div class="caption">';
       $new_prods_content .= '      <p class="text-center"><a itemprop="url" href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $new_products['products_id']) . '"><span itemprop="name">' . $new_products['products_name'] . '</span></a></p>';
       $new_prods_content .= '      <hr>';
-      $new_prods_content .= '      <p class="text-center" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price">' . $currencies->display_price($new_products['products_price'], tep_get_tax_rate($new_products['products_tax_class_id'])) . '</span></p>';
+      $new_prods_content .= '      <p class="text-center" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" content="' . $currencies->display_raw($new_products['products_price'], tep_get_tax_rate($new_products['products_tax_class_id'])) . '">' . $currencies->display_price($new_products['products_price'], tep_get_tax_rate($new_products['products_tax_class_id'])) . '</span></p>';
       $new_prods_content .= '      <div class="text-center">';
       $new_prods_content .= '        <div class="btn-group">';
       $new_prods_content .= '          <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')) . 'products_id=' . $new_products['products_id']) . '" class="btn btn-default" role="button">' . SMALL_IMAGE_BUTTON_VIEW . '</a>';
