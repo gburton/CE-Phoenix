@@ -33,7 +33,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $new_products_category_id, $languages_id, $currencies, $PHP_SELF;
+      global $oscTemplate, $new_products_category_id, $languages_id, $currencies, $PHP_SELF, $currency;
       
       $content_width = MODULE_CONTENT_NEW_PRODUCTS_CONTENT_WIDTH;
       $product_width = MODULE_CONTENT_NEW_PRODUCTS_DISPLAY_EACH;
