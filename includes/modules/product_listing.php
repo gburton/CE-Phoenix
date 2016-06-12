@@ -10,7 +10,8 @@
   Released under the GNU General Public License
 */
 
-  $listing_split = new splitPageResults($listing_sql, MAX_DISPLAY_SEARCH_RESULTS, 'p.products_id');
+  $num_list = (isset($_GET['view']) && ($_GET['view'] == 'all') ) ? 999999 : MAX_DISPLAY_SEARCH_RESULTS; 
+  $listing_split = new splitPageResults($listing_sql, $num_list, 'p.products_id');
 ?>
 
 <?php
