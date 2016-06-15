@@ -61,24 +61,6 @@
     return password_hash($plain, PASSWORD_DEFAULT);
   }
 
-////
-// This function encrypts a salted password from a plaintext
-// password.
-  function tep_encrypt_old_password($plain) {
-    $password = '';
-
-    for ($i=0; $i<10; $i++) {
-      $password .= tep_rand();
-    }
-
-    $salt = substr(md5($password), 0, 2);
-
-    $password = md5($salt . $plain) . ':' . $salt;
-
-    return $password;
-  }
-
-////
 // This function returns the type of the encrpyted password
 // (phpass or salt)
   function tep_password_type($encrypted) {
