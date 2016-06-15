@@ -55,7 +55,7 @@
             $login_customer_id = (int)$customer['customers_id'];
 
 // migrate old hashed password to new phpass password
-            if (tep_password_type($customer['customers_password']) != 'phpass') {
+            if (tep_password_type($customer['customers_password']) != 'phpnative') {
               tep_db_query("update " . TABLE_CUSTOMERS . " set customers_password = '" . tep_encrypt_password($password) . "' where customers_id = '" . (int)$login_customer_id . "'");
             }
           }
