@@ -13,7 +13,7 @@
   class paypal_pro_dp {
     var $code, $title, $description, $enabled;
 
-    function paypal_pro_dp() {
+    function __construct() {
       global $HTTP_GET_VARS, $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_pro_dp|3.0|2.3';

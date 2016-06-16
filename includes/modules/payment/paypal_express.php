@@ -13,7 +13,7 @@
   class paypal_express {
     var $code, $title, $description, $enabled;
 
-    function paypal_express() {
+    function __construct() {
       global $HTTP_GET_VARS, $PHP_SELF, $order, $payment;
 
       $this->signature = 'paypal|paypal_express|3.0|2.3';

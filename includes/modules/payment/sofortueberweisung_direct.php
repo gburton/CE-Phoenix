@@ -15,7 +15,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function sofortueberweisung_direct() {
+    function __construct() {
       global $order;
 
       $this->code = 'sofortueberweisung_direct';

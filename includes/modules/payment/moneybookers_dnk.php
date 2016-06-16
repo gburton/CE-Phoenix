@@ -23,7 +23,7 @@
     var $_payment_method_image = 'dankort.gif';
 
 // class constructor
-    function moneybookers_dnk() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_dnk|1.0|2.3';

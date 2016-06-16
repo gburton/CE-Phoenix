@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function pm2checkout() {
+    function __construct() {
       global $order;
 
       $this->signature = '2checkout|pm2checkout|1.2|2.2';

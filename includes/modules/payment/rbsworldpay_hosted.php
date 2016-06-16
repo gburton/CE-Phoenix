@@ -13,7 +13,7 @@
   class rbsworldpay_hosted {
     var $code, $title, $description, $enabled;
 
-    function rbsworldpay_hosted() {
+    function __construct() {
       global $order;
 
       $this->signature = 'rbs|worldpay_hosted|2.0|2.3';

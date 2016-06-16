@@ -23,7 +23,7 @@
     var $_payment_method_image = 'euro6000.gif';
 
 // class constructor
-    function moneybookers_vsa() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_vsa|1.0|2.3';
