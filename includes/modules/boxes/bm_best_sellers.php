@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_best_sellers() {
+    function __construct() {
       $this->title = MODULE_BOXES_BEST_SELLERS_TITLE;
       $this->description = MODULE_BOXES_BEST_SELLERS_DESCRIPTION;
 

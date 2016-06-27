@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_product_social_bookmarks() {
+    function __construct() {
       $this->title = MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_TITLE;
       $this->description = MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_DESCRIPTION;
 
