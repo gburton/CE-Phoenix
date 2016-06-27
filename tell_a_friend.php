@@ -121,7 +121,7 @@
 
 <div class="contentContainer">
 
-  <div class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
+  <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
   <h2><?php echo FORM_TITLE_CUSTOMER_DETAILS; ?></h2>
 

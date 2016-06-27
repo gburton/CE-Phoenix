@@ -33,7 +33,7 @@
         <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
         <div class="col-sm-9">
           <label class="radio-inline">
-            <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true" aria-describedby="atGender"') . ' ' . MALE; ?>
+            <?php echo tep_draw_radio_field('gender', 'm', $male, 'aria-describedby="atGender"') . ' ' . MALE; ?>
           </label>
           <label class="radio-inline">
             <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
@@ -50,14 +50,14 @@
       <div class="form-group has-feedback">
         <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('firstname', (isset($entry['entry_firstname']) ? $entry['entry_firstname'] : ''), 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"'); ?>
+          <?php echo tep_draw_input_field('firstname', (isset($entry['entry_firstname']) ? $entry['entry_firstname'] : ''), 'id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"'); ?>
           <?php echo FORM_REQUIRED_INPUT; ?>
         </div>
       </div>
       <div class="form-group has-feedback">
         <label for="inputLastName" class="control-label col-sm-3"><?php echo ENTRY_LAST_NAME; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('lastname', (isset($entry['entry_lastname']) ? $entry['entry_lastname'] : ''), 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"'); ?>
+          <?php echo tep_draw_input_field('lastname', (isset($entry['entry_lastname']) ? $entry['entry_lastname'] : ''), 'id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"'); ?>
           <?php echo FORM_REQUIRED_INPUT; ?>
         </div>
       </div>
@@ -83,7 +83,7 @@
         <label for="inputStreet" class="control-label col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
         <div class="col-sm-9">
           <?php
-          echo tep_draw_input_field('street_address', (isset($entry['entry_street_address']) ? $entry['entry_street_address'] : ''), 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
+          echo tep_draw_input_field('street_address', (isset($entry['entry_street_address']) ? $entry['entry_street_address'] : ''), 'id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
           echo FORM_REQUIRED_INPUT;
           ?>
         </div>
@@ -110,7 +110,7 @@
         <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
         <div class="col-sm-9">
           <?php
-          echo tep_draw_input_field('city', (isset($entry['entry_city']) ? $entry['entry_city'] : ''), 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
+          echo tep_draw_input_field('city', (isset($entry['entry_city']) ? $entry['entry_city'] : ''), 'id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
           echo FORM_REQUIRED_INPUT;
           ?>
         </div>
@@ -119,7 +119,7 @@
         <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
         <div class="col-sm-9">
           <?php
-          echo tep_draw_input_field('postcode', (isset($entry['entry_postcode']) ? $entry['entry_postcode'] : ''), 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
+          echo tep_draw_input_field('postcode', (isset($entry['entry_postcode']) ? $entry['entry_postcode'] : ''), 'id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
           echo FORM_REQUIRED_INPUT;
           ?>
        </div>
@@ -146,7 +146,7 @@
               echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
             }
           } else {
-            echo tep_draw_input_field('state', (isset($entry['entry_country_id']) ? tep_get_zone_name($entry['entry_country_id'], $entry['entry_zone_id'], $entry['entry_state']) : ''), 'required aria-required="true" id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
+            echo tep_draw_input_field('state', (isset($entry['entry_country_id']) ? tep_get_zone_name($entry['entry_country_id'], $entry['entry_zone_id'], $entry['entry_state']) : ''), 'id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
           }
           ?>
         </div>
@@ -160,7 +160,7 @@
         <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
         <div class="col-sm-9">
           <?php
-          echo tep_get_country_list('country', (isset($entry['entry_country_id']) ? $entry['entry_country_id'] : 0), 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+          echo tep_get_country_list('country', (isset($entry['entry_country_id']) ? $entry['entry_country_id'] : 0), 'aria-describedby="atCountry" id="inputCountry"');
           echo FORM_REQUIRED_INPUT;
           if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
           ?>

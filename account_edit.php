@@ -135,7 +135,7 @@
 <?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-  <div class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
+  <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
   <?php
   if (ACCOUNT_GENDER == 'true') {

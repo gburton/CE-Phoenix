@@ -8,6 +8,19 @@ You can choose to download;
 GOLD: https://github.com/gburton/Responsive-osCommerce/archive/v2.3.4-GOLD.zip
 EDGE: https://github.com/gburton/Responsive-osCommerce/archive/master.zip
 
+Help to move the Project forward
+================================
+
+I need your help to move this Project forward.  At the moment, this project is done on my own, as and when time can be given.  
+To allow me to give more time to this Project, I need your support;
+
+- give time for testing new code and/or getting involved in discussions
+- give code to the project - create a github account, fork and start coding
+
+If you cannot give time or code, please give a Pledgie.  Simply click on the Donate button below to donate via Paypal...
+
+<a href='https://pledgie.com/campaigns/31724'><img alt='Click here to lend your support to: Responsive osCommerce and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/31724.png?skin_name=chrome' border='0' ></a>
+
 Minimum PHP Version
 ===================
 
@@ -22,15 +35,6 @@ This will never become a "loaded" osCommerce.  So if you are looking for somethi
 We are striving to make the front end 100% modular, so good add-on makers can create modules which are simple to (un)install, changing no core code.
 
 
-Help to move the Project forward
-================================
-
-I need your help to move this Project forward.  At the moment, this project is done on my own, as and when time can be given.  
-To allow me to give more time to this Project, I need users to support me;
-
-- give a little of your time for testing new code and/or getting involved in discussions
-- give a little of your code to the project.  Create a github account, fork and start coding
-- buy my templates or modules - all are keenly priced and every sale of anything that I've already made allows me to give extra hours to this Project.  Contact me directly on the Forum if you can support me in this way.
 
 Demo Site
 =========
