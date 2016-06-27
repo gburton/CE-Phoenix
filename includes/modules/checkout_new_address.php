@@ -30,7 +30,7 @@
       <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-sm-9">
         <label class="radio-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true" aria-describedby="atGender"') . ' ' . MALE; ?>
+          <?php echo tep_draw_radio_field('gender', 'm', $male, 'aria-describedby="atGender"') . ' ' . MALE; ?>
         </label>
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
@@ -154,7 +154,7 @@
       <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+        echo tep_get_country_list('country', NULL, 'aria-describedby="atCountry" id="inputCountry"');
         if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
         ?>
       </div>

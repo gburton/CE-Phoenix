@@ -65,7 +65,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><meta itemprop="ratingValue" content="' . (int)round($average['average']) . '" /><meta itemprop="bestRating" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><meta itemprop="ratingValue" content="' . max(1, (int)round($average['average'])) . '" /><meta itemprop="bestRating" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
 ?>
 
 <?php

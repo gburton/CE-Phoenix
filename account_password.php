@@ -82,7 +82,7 @@ echo tep_draw_hidden_field('username', $customer_info['customers_email_address']
 ?>
     
 <div class="contentContainer">
-  <p class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
+  <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
 
   <div class="contentText">
     <div class="form-group has-feedback">

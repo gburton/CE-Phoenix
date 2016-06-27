@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2016 osCommerce
 
   Released under the GNU General Public License
 */
@@ -25,4 +25,5 @@ define('TEXT_ORDER_COST', 'Order Cost:');
 define('TEXT_VIEW_ORDER', 'View Order');
 
 define('TEXT_NO_PURCHASES', 'You have not yet made any purchases.');
-?>
+
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> orders)');
