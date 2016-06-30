@@ -269,7 +269,11 @@
 
   function tep_info_image($image, $alt, $width = '', $height = '') {
     if (tep_not_null($image) && (file_exists(DIR_FS_CATALOG_IMAGES . $image)) ) {
-      $image = tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $image, $alt, $width, $height);
+      if (ENABLE_SSL_CATALOG == 'true') {
+        $image = tep_image(HTTPS_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $image, $alt, $width, $height);
+      } else {
+        $image = tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $image, $alt, $width, $height);
+      }
     } else {
       $image = TEXT_IMAGE_NONEXISTENT;
     }
