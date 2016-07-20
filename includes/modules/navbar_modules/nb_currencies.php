@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_currencies() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_CURRENCIES_TITLE;
       $this->description = MODULE_NAVBAR_CURRENCIES_DESCRIPTION;
 
