@@ -15,16 +15,16 @@
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
   if ($cart->count_contents() < 1) {
-    tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
+    tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CHECKOUT_PAYMENT_ADDRESS);
+  require(DIR_WS_LANGUAGES . $language . '/checkout_payment_address.php');
 
   $error = false;
   $process = false;
@@ -149,7 +149,7 @@
 
         if (tep_session_is_registered('payment')) tep_session_unregister('payment');
 
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+        tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
       }
 // process the selected billing destination
     } elseif (isset($HTTP_POST_VARS['address'])) {
@@ -171,7 +171,7 @@
 
       if ($check_address['total'] == '1') {
         if ($reset_payment == true) tep_session_unregister('payment');
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+        tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
       } else {
         tep_session_unregister('billto');
       }
@@ -180,7 +180,7 @@
       if (!tep_session_is_registered('billto')) tep_session_register('billto');
       $billto = $customer_default_address_id;
 
-      tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
     }
   }
 
@@ -189,8 +189,8 @@
     $billto = $customer_default_address_id;
   }
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_payment.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('checkout_payment_address.php', '', 'SSL'));
 
   $addresses_count = tep_count_customer_address_book_entries();
 
@@ -207,7 +207,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -319,7 +319,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link(FILENAME_CHECKOUT_PAYMENT_ADDRESS, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
   </div>
 
 <?php
