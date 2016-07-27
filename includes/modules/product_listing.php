@@ -111,9 +111,9 @@
     
     if (PRODUCT_LIST_IMAGE > 0) {
       if (isset($HTTP_GET_VARS['manufacturers_id'])  && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
-        $prod_list_contents .= '    <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
+        $prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
       } else {
-        $prod_list_contents .= '    <a href="' . tep_href_link(FILENAME_PRODUCT_INFO, (isset($sort) ? 'sort=' . $sort . '&' : '') . ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
+        $prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', (isset($sort) ? 'sort=' . $sort . '&' : '') . ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $listing['products_image'], $listing['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
       }
     }
     
@@ -122,9 +122,9 @@
     if (PRODUCT_LIST_NAME > 0) {
       $prod_list_contents .= '      <h2 class="group inner list-group-item-heading">';
       if (isset($HTTP_GET_VARS['manufacturers_id']) && tep_not_null($HTTP_GET_VARS['manufacturers_id'])) {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
+        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
       } else {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link(FILENAME_PRODUCT_INFO, ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
+        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
       }
       $prod_list_contents .= '      </h2>';
     }    
@@ -134,7 +134,7 @@
     $extra_list_contents = NULL;
 	  if ( (PRODUCT_LIST_MANUFACTURER > 0) && tep_not_null($listing['manufacturers_id']) ) {
       $extra_list_contents .= '<dt>' . TABLE_HEADING_MANUFACTURER . '</dt>';
-      $extra_list_contents .= '<dd><a href="' . tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . (int)$listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></dd>';
+      $extra_list_contents .= '<dd><a href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></dd>';
     }
 	  if ( (PRODUCT_LIST_MODEL > 0) && tep_not_null($listing['products_model']) ) {
       $extra_list_contents .= '<dt>' . TABLE_HEADING_MODEL . '</dt>';

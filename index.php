@@ -30,7 +30,7 @@
     }
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_DEFAULT);
+  require(DIR_WS_LANGUAGES . $language . '/index.php');
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 
@@ -190,7 +190,7 @@ if (tep_not_null($image['catdesc'])) {
       }
       $filterlist_query = tep_db_query($filterlist_sql);
       if (tep_db_num_rows($filterlist_query) > 1) {
-        echo '<div>' . tep_draw_form('filter', FILENAME_DEFAULT, 'get') . '<p align="right">' . TEXT_SHOW . '&nbsp;';
+        echo '<div>' . tep_draw_form('filter', 'index.php', 'get') . '<p align="right">' . TEXT_SHOW . '&nbsp;';
         if (isset($HTTP_GET_VARS['manufacturers_id']) && !empty($HTTP_GET_VARS['manufacturers_id'])) {
           echo tep_draw_hidden_field('manufacturers_id', $HTTP_GET_VARS['manufacturers_id']);
           $options = array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES));
@@ -207,7 +207,7 @@ if (tep_not_null($image['catdesc'])) {
       }
     }
 
-    include(DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
+    include(DIR_WS_MODULES . 'product_listing.php');
 ?>
 
 </div>
