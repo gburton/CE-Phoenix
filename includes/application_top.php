@@ -54,9 +54,6 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
-// include the list of project filenames
-  require(DIR_WS_INCLUDES . 'filenames.php');
-
 // include the list of project database tables
   require(DIR_WS_INCLUDES . 'database_tables.php');
 
