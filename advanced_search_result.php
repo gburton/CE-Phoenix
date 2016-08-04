@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_ADVANCED_SEARCH);
+  require(DIR_WS_LANGUAGES . $language . '/advanced_search.php');
 
   $error = false;
 
@@ -121,11 +121,11 @@
   }
 
   if ($error == true) {
-    tep_redirect(tep_href_link(FILENAME_ADVANCED_SEARCH, tep_get_all_get_params(), 'NONSSL', true, false));
+    tep_redirect(tep_href_link('advanced_search.php', tep_get_all_get_params(), 'NONSSL', true, false));
   }
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ADVANCED_SEARCH));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ADVANCED_SEARCH_RESULT, tep_get_all_get_params(), 'NONSSL', true, false));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('advanced_search.php'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('advanced_search_result.php', tep_get_all_get_params(), 'NONSSL', true, false));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -316,13 +316,13 @@
 
   $listing_sql = $select_str . $from_str . $where_str . $order_str;
 
-  require(DIR_WS_MODULES . FILENAME_PRODUCT_LISTING);
+  require(DIR_WS_MODULES . 'product_listing.php');
 ?>
 
   <br />
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link(FILENAME_ADVANCED_SEARCH, tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('advanced_search.php', tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?>
   </div>
 </div>
 

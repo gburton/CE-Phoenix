@@ -13,10 +13,10 @@
   require('includes/application_top.php');
 
   if (!isset($HTTP_GET_VARS['products_id'])) {
-    tep_redirect(tep_href_link(FILENAME_DEFAULT));
+    tep_redirect(tep_href_link('index.php'));
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_PRODUCT_INFO);
+  require(DIR_WS_LANGUAGES . $language . '/product_info.php');
 
   $product_check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
   $product_check = tep_db_fetch_array($product_check_query);
@@ -32,7 +32,7 @@
   </div>
 
   <div class="pull-right">
-    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link(FILENAME_DEFAULT)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php')); ?>
   </div>
 </div>
 
@@ -66,7 +66,7 @@
     }
 ?>
 
-<?php echo tep_draw_form('cart_quantity', tep_href_link(FILENAME_PRODUCT_INFO, tep_get_all_get_params(array('action')). 'action=add_product', 'NONSSL'), 'post', 'class="form-horizontal" role="form"'); ?>
+<?php echo tep_draw_form('cart_quantity', tep_href_link('product_info.php', tep_get_all_get_params(array('action')). 'action=add_product', 'NONSSL'), 'post', 'class="form-horizontal" role="form"'); ?>
 
 <div itemscope itemtype="http://schema.org/Product">
 
@@ -199,7 +199,7 @@
 ?>
 
   <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'fa fa-commenting', tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params())); ?></div>
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'fa fa-commenting', tep_href_link('product_reviews.php', tep_get_all_get_params())); ?></div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 
@@ -211,7 +211,7 @@
     if ((USE_CACHE == 'true') && empty($SID)) {
       echo tep_cache_also_purchased(3600);
     } else {
-      include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
+      include(DIR_WS_MODULES . 'also_purchased_products.php');
     }
 
     if ($product_info['manufacturers_id'] > 0) {

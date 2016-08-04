@@ -12,9 +12,9 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_PRIVACY);
+  require(DIR_WS_LANGUAGES . $language . '/privacy.php');
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_PRIVACY));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('privacy.php'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link(FILENAME_DEFAULT)); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php')); ?></div>
   </div>
 </div>
 

@@ -54,9 +54,6 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
-// include the list of project filenames
-  require(DIR_WS_INCLUDES . 'filenames.php');
-
 // include the list of project database tables
   require(DIR_WS_INCLUDES . 'database_tables.php');
 
@@ -217,7 +214,7 @@
 
     if ($SESSION_SSL_ID != $ssl_session_id) {
       tep_session_destroy();
-      tep_redirect(tep_href_link(FILENAME_SSL_CHECK));
+      tep_redirect(tep_href_link('ssl_check.php'));
     }
   }
 
@@ -231,7 +228,7 @@
 
     if ($SESSION_USER_AGENT != $http_user_agent) {
       tep_session_destroy();
-      tep_redirect(tep_href_link(FILENAME_LOGIN));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
 
@@ -245,7 +242,7 @@
 
     if ($SESSION_IP_ADDRESS != $ip_address) {
       tep_session_destroy();
-      tep_redirect(tep_href_link(FILENAME_LOGIN));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
 
@@ -317,11 +314,11 @@
   if (isset($HTTP_GET_VARS['action'])) {
 // redirect the customer to a friendly cookie-must-be-enabled page if cookies are disabled
     if ($session_started == false) {
-      tep_redirect(tep_href_link(FILENAME_COOKIE_USAGE));
+      tep_redirect(tep_href_link('cookie_usage.php'));
     }
 
     if (DISPLAY_CART == 'true') {
-      $goto =  FILENAME_SHOPPING_CART;
+      $goto = 'shopping_cart.php';
       $parameters = array('action', 'cPath', 'products_id', 'pid');
     } else {
       $goto = $PHP_SELF;
@@ -363,7 +360,7 @@
       // performed by the 'buy now' button in product listings and review page
       case 'buy_now' :        if (isset($HTTP_GET_VARS['products_id'])) {
                                 if (tep_has_product_attributes($HTTP_GET_VARS['products_id'])) {
-                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['products_id']));
+                                  tep_redirect(tep_href_link('product_info.php', 'products_id=' . $HTTP_GET_VARS['products_id']));
                                 } else {
                                   $cart->add_cart($HTTP_GET_VARS['products_id'], $cart->get_quantity($HTTP_GET_VARS['products_id'])+1);
                                   $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$HTTP_GET_VARS['products_id'])), 'success');
@@ -394,7 +391,7 @@
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
                               } else {
                                 $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
       case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['products_id'])) {
@@ -407,12 +404,12 @@
                                 tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
                               } else {
                                 $navigation->set_snapshot();
-                                tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
       case 'cust_order' :     if (tep_session_is_registered('customer_id') && isset($HTTP_GET_VARS['pid'])) {
                                 if (tep_has_product_attributes($HTTP_GET_VARS['pid'])) {
-                                  tep_redirect(tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $HTTP_GET_VARS['pid']));
+                                  tep_redirect(tep_href_link('product_info.php', 'products_id=' . $HTTP_GET_VARS['pid']));
                                 } else {
                                   $cart->add_cart($HTTP_GET_VARS['pid'], $cart->get_quantity($HTTP_GET_VARS['pid'])+1);
                                 }
@@ -475,7 +472,7 @@
   $breadcrumb = new breadcrumb;
 
   $breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);
-  $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link(FILENAME_DEFAULT));
+  $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link('index.php'));
 
 // add category names or the manufacturer name to the breadcrumb trail
   if (isset($cPath_array)) {
@@ -489,7 +486,7 @@
       }    
       if (tep_db_num_rows($categories_query) > 0) {
         $categories = tep_db_fetch_array($categories_query);
-        $breadcrumb->add($categories['categories_name'], tep_href_link(FILENAME_DEFAULT, 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
+        $breadcrumb->add($categories['categories_name'], tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
       } else {
         break;
       }
@@ -503,7 +500,7 @@
     } 
     if (tep_db_num_rows($manufacturers_query)) {
       $manufacturers = tep_db_fetch_array($manufacturers_query);
-      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
+      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link('index.php', 'manufacturers_id=' . $HTTP_GET_VARS['manufacturers_id']));
     }
   }
 
@@ -517,6 +514,6 @@
     }
     if (tep_db_num_rows($model_query)) {
       $model = tep_db_fetch_array($model_query);
-      $breadcrumb->add($model['products_model'], tep_href_link(FILENAME_PRODUCT_INFO, 'cPath=' . $cPath . '&products_id=' . $HTTP_GET_VARS['products_id']));
+      $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'cPath=' . $cPath . '&products_id=' . $HTTP_GET_VARS['products_id']));
     }
   }
