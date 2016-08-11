@@ -235,15 +235,15 @@
     }
 
     function before_process() {
-      global $customer_id, $order, $HTTP_POST_VARS, $braintree_result, $braintree_token, $braintree_error;
+      global $customer_id, $order, $_POST, $braintree_result, $braintree_token, $braintree_error;
 
       $braintree_token = null;
       $braintree_token_cvv = null;
       $braintree_error = null;
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
-        if ( isset($HTTP_POST_VARS['braintree_card']) && is_numeric($HTTP_POST_VARS['braintree_card']) && ($HTTP_POST_VARS['braintree_card'] > 0) ) {
-          $token_query = tep_db_query("select braintree_token from customers_braintree_tokens where id = '" . (int)$HTTP_POST_VARS['braintree_card'] . "' and customers_id = '" . (int)$customer_id . "'");
+        if ( isset($_POST['braintree_card']) && is_numeric($_POST['braintree_card']) && ($_POST['braintree_card'] > 0) ) {
+          $token_query = tep_db_query("select braintree_token from customers_braintree_tokens where id = '" . (int)$_POST['braintree_card'] . "' and customers_id = '" . (int)$customer_id . "'");
 
           if ( tep_db_num_rows($token_query) == 1 ) {
             $token = tep_db_fetch_array($token_query);
@@ -252,8 +252,8 @@
 
             if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
 
-              if ( isset($HTTP_POST_VARS['token_cvv']) && is_array($HTTP_POST_VARS['token_cvv']) && isset($HTTP_POST_VARS['token_cvv'][$HTTP_POST_VARS['braintree_card']]) ) {
-                $braintree_token_cvv = $HTTP_POST_VARS['token_cvv'][$HTTP_POST_VARS['braintree_card']];
+              if ( isset($_POST['token_cvv']) && is_array($_POST['token_cvv']) && isset($_POST['token_cvv'][$_POST['braintree_card']]) ) {
+                $braintree_token_cvv = $_POST['token_cvv'][$_POST['braintree_card']];
               }
 
               if ( !isset($braintree_token_cvv) || empty($braintree_token_cvv) ) {
@@ -265,13 +265,13 @@
       }
 
       if ( !isset($braintree_token) ) {
-        $cc_owner = isset($HTTP_POST_VARS['name']) ? $HTTP_POST_VARS['name'] : null;
-        $cc_number = isset($HTTP_POST_VARS['number']) ? $HTTP_POST_VARS['number'] : null;
-        $cc_expires_month = isset($HTTP_POST_VARS['month']) ? $HTTP_POST_VARS['month'] : null;
-        $cc_expires_year = isset($HTTP_POST_VARS['year']) ? $HTTP_POST_VARS['year'] : null;
+        $cc_owner = isset($_POST['name']) ? $_POST['name'] : null;
+        $cc_number = isset($_POST['number']) ? $_POST['number'] : null;
+        $cc_expires_month = isset($_POST['month']) ? $_POST['month'] : null;
+        $cc_expires_year = isset($_POST['year']) ? $_POST['year'] : null;
 
         if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
-          $cc_cvv = isset($HTTP_POST_VARS['cvv']) ? $HTTP_POST_VARS['cvv'] : null;
+          $cc_cvv = isset($_POST['cvv']) ? $_POST['cvv'] : null;
         }
 
         $months_array = array();
@@ -367,7 +367,7 @@
           $data['creditCard']['cvv'] = $cc_cvv;
         }
 
-        if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($HTTP_POST_VARS['cc_save']) && ($HTTP_POST_VARS['cc_save'] == 'true') ) {
+        if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') ) {
           $data['options']['storeInVaultOnSuccess'] = true;
         }
       } else {
@@ -418,11 +418,11 @@
     }
 
     function after_process() {
-      global $HTTP_POST_VARS, $customer_id, $insert_id, $braintree_result, $braintree_token;
+      global $_POST, $customer_id, $insert_id, $braintree_result, $braintree_token;
 
       $status_comment = array('Transaction ID: ' . $braintree_result->transaction->id);
 
-      if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($HTTP_POST_VARS['cc_save']) && ($HTTP_POST_VARS['cc_save'] == 'true') && !isset($braintree_token) && isset($braintree_result->transaction->creditCard['token']) ) {
+      if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') && !isset($braintree_token) && isset($braintree_result->transaction->creditCard['token']) ) {
         $token = tep_db_prepare_input($braintree_result->transaction->creditCard['token']);
         $type = tep_db_prepare_input($braintree_result->transaction->creditCard['cardType']);
         $number = tep_db_prepare_input($braintree_result->transaction->creditCard['last4']);
@@ -455,12 +455,12 @@
     }
 
     function get_error() {
-      global $HTTP_GET_VARS, $braintree_error;
+      global $_GET, $braintree_error;
 
       $message = MODULE_PAYMENT_BRAINTREE_CC_ERROR_GENERAL;
 
-      if ( isset($HTTP_GET_VARS['error']) && !empty($HTTP_GET_VARS['error']) ) {
-        switch ($HTTP_GET_VARS['error']) {
+      if ( isset($_GET['error']) && !empty($_GET['error']) ) {
+        switch ($_GET['error']) {
           case 'cardowner':
             $message = MODULE_PAYMENT_BRAINTREE_CC_ERROR_CARDOWNER;
             break;

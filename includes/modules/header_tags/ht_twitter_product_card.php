@@ -29,10 +29,10 @@
     }
 
     function execute() {
-      global $PHP_SELF, $HTTP_GET_VARS, $oscTemplate, $languages_id, $currencies, $currency;
+      global $PHP_SELF, $_GET, $oscTemplate, $languages_id, $currencies, $currency;
 
-      if ( ($PHP_SELF == 'product_info.php') && isset($HTTP_GET_VARS['products_id']) ) {
-        $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_image from products p, products_description pd where p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+      if ( ($PHP_SELF == 'product_info.php') && isset($_GET['products_id']) ) {
+        $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_image from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
 
         if ( tep_db_num_rows($product_info_query) === 1 ) {
           $product_info = tep_db_fetch_array($product_info_query);
