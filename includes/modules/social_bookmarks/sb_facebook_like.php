@@ -30,8 +30,6 @@
     }
 
     function getOutput() {
-      global $_GET;
-
       $style = (MODULE_SOCIAL_BOOKMARKS_FACEBOOK_LIKE_STYLE == 'Standard') ? 'standard' : 'button_count';
       $faces = (MODULE_SOCIAL_BOOKMARKS_FACEBOOK_LIKE_FACES == 'True') ? 'true' : 'false';
       $width = MODULE_SOCIAL_BOOKMARKS_FACEBOOK_LIKE_WIDTH;

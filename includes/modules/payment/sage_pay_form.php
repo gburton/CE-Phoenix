@@ -209,7 +209,7 @@
     }
 
     function before_process() {
-      global $_GET, $sage_pay_response;
+      global $sage_pay_response;
 
       if (isset($_GET['crypt']) && tep_not_null($_GET['crypt'])) {
         $transaction_response = $this->decryptParams($_GET['crypt']);
@@ -293,8 +293,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $message = MODULE_PAYMENT_SAGE_PAY_FORM_ERROR_GENERAL;
 
       $error_number = null;
@@ -580,8 +578,6 @@
     }
 
     function sendDebugEmail($response = array()) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_SAGE_PAY_FORM_DEBUG_EMAIL)) {
         $email_body = '';
 

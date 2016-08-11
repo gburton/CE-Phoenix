@@ -120,7 +120,7 @@
 //! Cache the manufacturers box
 // Cache the manufacturers box
   function tep_cache_manufacturers_box($auto_expire = false, $refresh = false) {
-    global $_GET, $language;
+    global $language;
 
     $cache_output = '';
 
@@ -147,7 +147,7 @@
 //! Cache the also purchased module
 // Cache the also purchased module
   function tep_cache_also_purchased($auto_expire = false, $refresh = false) {
-    global $_GET, $language, $languages_id;
+    global $language, $languages_id;
 
     $cache_output = '';
 

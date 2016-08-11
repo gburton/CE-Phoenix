@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function paypal_standard() {
-      global $_GET, $PHP_SELF, $order;
+      global $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_standard|3.1|2.3';
 
@@ -495,7 +495,7 @@
     }
 
     function before_process() {
-      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PayPal_Standard_ID, $$payment, $_GET, $_POST, $messageStack;
+      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PayPal_Standard_ID, $$payment, $messageStack;
 
       $result = false;
 
@@ -946,8 +946,6 @@
     }
 
     function sendDebugEmail($response = '', $ipn = false) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_PAYPAL_STANDARD_DEBUG_EMAIL)) {
         $email_body = '';
 
@@ -1048,7 +1046,7 @@ EOD;
     }
 
     function verifyTransaction($is_ipn = false) {
-      global $_POST, $currencies;
+      global $currencies;
 
       if ( isset($_POST['invoice']) && is_numeric($_POST['invoice']) && ($_POST['invoice'] > 0) && isset($_POST['custom']) && is_numeric($_POST['custom']) && ($_POST['custom'] > 0) ) {
         $order_query = tep_db_query("select orders_id, orders_status, currency, currency_value from " . TABLE_ORDERS . " where orders_id = '" . (int)$_POST['invoice'] . "' and customers_id = '" . (int)$_POST['custom'] . "'");

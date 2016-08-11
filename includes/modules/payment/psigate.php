@@ -101,8 +101,6 @@
     }
 
     function pre_confirmation_check() {
-      global $_POST;
-
       if (MODULE_PAYMENT_PSIGATE_INPUT_MODE == 'Local') {
         include(DIR_WS_CLASSES . 'cc_validation.php');
 
@@ -140,7 +138,7 @@
     }
 
     function confirmation() {
-      global $_POST, $order;
+      global $order;
 
       if (MODULE_PAYMENT_PSIGATE_INPUT_MODE == 'Local') {
         $confirmation = array('title' => $this->title . ': ' . $this->cc_card_type,
@@ -238,8 +236,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       if (isset($_GET['ErrMsg']) && tep_not_null($_GET['ErrMsg'])) {
         $error = stripslashes(urldecode($_GET['ErrMsg']));
       } elseif (isset($_GET['Err']) && tep_not_null($_GET['Err'])) {

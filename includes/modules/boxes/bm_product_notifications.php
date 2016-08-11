@@ -31,7 +31,7 @@
     }
 
     function execute() {
-      global $_GET, $customer_id, $PHP_SELF, $request_type, $oscTemplate;
+      global $customer_id, $PHP_SELF, $request_type, $oscTemplate;
 
       if (isset($_GET['products_id'])) {
         if (tep_session_is_registered('customer_id')) {

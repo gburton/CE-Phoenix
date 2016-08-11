@@ -31,7 +31,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $currencies, $_GET, $request_type, $currency, $oscTemplate;
+      global $PHP_SELF, $currencies, $request_type, $currency, $oscTemplate;
 
       if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
         if (isset($currencies) && is_object($currencies) && (count($currencies->currencies) > 1)) {

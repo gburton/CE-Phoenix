@@ -31,7 +31,7 @@
     }
 
     function getData() {
-      global $_GET, $request_type, $oscTemplate;
+      global $request_type, $oscTemplate;
 
       $data = '';
 

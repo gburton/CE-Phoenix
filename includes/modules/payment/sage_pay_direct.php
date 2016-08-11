@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function sage_pay_direct() {
-      global $_GET, $PHP_SELF, $order;
+      global $PHP_SELF, $order;
 
       $this->signature = 'sage_pay|sage_pay_direct|3.0|2.3';
       $this->api_version = '3.00';
@@ -231,7 +231,7 @@
     }
 
     function before_process() {
-      global $_GET, $_POST, $customer_id, $order, $currency, $order_totals, $cartID, $sage_pay_response;
+      global $customer_id, $order, $currency, $order_totals, $cartID, $sage_pay_response;
 
       $transaction_response = null;
       $sage_pay_response = null;
@@ -540,7 +540,7 @@
     }
 
     function after_process() {
-      global $_GET, $_POST, $customer_id, $insert_id, $sage_pay_response;
+      global $customer_id, $insert_id, $sage_pay_response;
 
       $result = array();
 
@@ -625,8 +625,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $message = MODULE_PAYMENT_SAGE_PAY_DIRECT_ERROR_GENERAL;
 
       if ( isset($_GET['error']) && tep_not_null($_GET['error']) ) {
@@ -1315,8 +1313,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_SAGE_PAY_DIRECT_DEBUG_EMAIL)) {
         $email_body = '';
 

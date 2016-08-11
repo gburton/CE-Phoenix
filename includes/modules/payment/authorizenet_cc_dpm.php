@@ -211,7 +211,7 @@ EOD;
     }
 
     function before_process() {
-      global $_POST, $order, $authorizenet_cc_dpm_error;
+      global $order, $authorizenet_cc_dpm_error;
 
       $error = false;
       $authorizenet_cc_dpm_error = false;
@@ -263,7 +263,7 @@ EOD;
     }
 
     function after_process() {
-      global $_POST, $insert_id;
+      global $insert_id;
 
       $response = array('Response: ' . tep_db_prepare_input($_POST['x_response_reason_text']) . ' (' . tep_db_prepare_input($_POST['x_response_reason_code']) . ')',
                         'Transaction ID: ' . tep_db_prepare_input($_POST['x_trans_id']));
@@ -343,7 +343,7 @@ EOD;
     }
 
     function get_error() {
-      global $_GET, $authorizenet_cc_dpm_error;
+      global $authorizenet_cc_dpm_error;
 
       $error_message = MODULE_PAYMENT_AUTHORIZENET_CC_DPM_ERROR_GENERAL;
 
@@ -553,8 +553,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_DPM_DEBUG_EMAIL)) {
         $email_body = '';
 

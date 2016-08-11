@@ -168,8 +168,6 @@
 ////
 // Return all HTTP GET variables, except those passed as a parameter
   function tep_get_all_get_params($exclude_array = '') {
-    global $_GET;
-
     if (!is_array($exclude_array)) $exclude_array = array();
 
     $get_url = '';

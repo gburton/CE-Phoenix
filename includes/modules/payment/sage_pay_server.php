@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function sage_pay_server() {
-      global $_GET, $PHP_SELF, $order;
+      global $PHP_SELF, $order;
 
       $this->signature = 'sage_pay|sage_pay_server|2.0|2.3';
       $this->api_version = '3.00';
@@ -106,7 +106,7 @@
     }
 
     function before_process() {
-      global $_GET, $_POST, $sagepay_server_skey_code, $sagepay_server_transaction_details, $sage_pay_server_nexturl, $customer_id, $order, $currency, $order_totals, $cartID;
+      global $sagepay_server_skey_code, $sagepay_server_transaction_details, $sage_pay_server_nexturl, $customer_id, $order, $currency, $order_totals, $cartID;
 
       $sagepay_server_transaction_details = null;
 
@@ -296,8 +296,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $message = MODULE_PAYMENT_SAGE_PAY_SERVER_ERROR_GENERAL;
 
       $error_number = null;
@@ -683,8 +681,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_SAGE_PAY_SERVER_DEBUG_EMAIL)) {
         $email_body = '';
 

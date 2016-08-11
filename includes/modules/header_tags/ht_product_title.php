@@ -29,7 +29,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $_GET, $languages_id, $product_check;
+      global $PHP_SELF, $oscTemplate, $languages_id, $product_check;
       
       if ( (basename($PHP_SELF) == 'product_info.php') || (basename($PHP_SELF) == 'product_reviews.php') ) {
         if (isset($_GET['products_id'])) {

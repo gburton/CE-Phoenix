@@ -349,7 +349,7 @@
     }
 
     function before_process() {
-      global $_GET, $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart;
+      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart;
       global $$payment;
 
       $pass = false;
@@ -553,8 +553,6 @@
     }
 
     function install() {
-      global $_GET;
-
       if ( !isset($_GET['active']) || ($_GET['active'] != 'true') ) {
         tep_redirect(tep_href_link('ext/modules/payment/moneybookers/activation.php', 'selected_box=modules&set=payment'));
       }

@@ -19,7 +19,7 @@
     var $enabled = false;
 
     function cm_paypal_login() {
-      global $_GET, $PHP_SELF;
+      global $PHP_SELF;
 
       $this->signature = 'paypal|paypal_login|1.0|2.3';
 
@@ -63,7 +63,7 @@
     }
 
     function execute() {
-      global $_GET, $oscTemplate;
+      global $oscTemplate;
 
       if ( tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_CLIENT_ID) && tep_not_null(MODULE_CONTENT_PAYPAL_LOGIN_SECRET) ) {
         if ( isset($_GET['action']) ) {
@@ -98,7 +98,7 @@
     }
 
     function preLogin() {
-      global $_GET, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
+      global $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
       $return_url = tep_href_link('login.php', '', 'SSL');
 

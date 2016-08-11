@@ -30,7 +30,7 @@
     }
 
     function getOutput() {
-      global $_GET, $oscTemplate;
+      global $oscTemplate;
 
 // add the js in the footer
       $oscTemplate->addBlock('<script src="//assets.pinterest.com/js/pinit.js"></script>', 'footer_scripts');

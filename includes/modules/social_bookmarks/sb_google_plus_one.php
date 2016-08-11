@@ -30,7 +30,7 @@
     }
 
     function getOutput() {
-      global $_GET, $lng, $languages_id;
+      global $lng, $languages_id;
 
       if (!isset($lng) || (isset($lng) && !is_object($lng))) {
         include(DIR_WS_CLASSES . 'language.php');

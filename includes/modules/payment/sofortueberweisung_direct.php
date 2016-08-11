@@ -339,7 +339,7 @@
     }
 
     function before_process() {
-      global $_GET, $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_Sofortueberweisung_Direct_ID;
+      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_Sofortueberweisung_Direct_ID;
       global $$payment;
 
       $md5var4 = md5($_GET['sovar3'] . MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_CNT_PASSWORT);
@@ -536,8 +536,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $error = array('title' => MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_TEXT_ERROR_HEADING,
                      'error' => MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_TEXT_ERROR_MESSAGE);
 
@@ -554,8 +552,6 @@
     }
 
     function install() {
-      global $_GET;
-
       $kdnr = (isset($_GET['kdnr']) && !empty($_GET['kdnr'])) ? tep_db_prepare_input($_GET['kdnr']) : '10000';
       $projekt = (isset($_GET['projekt']) && !empty($_GET['projekt'])) ? tep_db_prepare_input($_GET['projekt']) : '500000';
       $input_passwort = (isset($_GET['input_passwort']) && !empty($_GET['input_passwort'])) ? tep_db_prepare_input($_GET['input_passwort']) : '';
