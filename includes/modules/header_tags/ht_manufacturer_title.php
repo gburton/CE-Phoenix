@@ -29,11 +29,11 @@
     }
 
     function execute() {
-      global $PHP_SELF, $HTTP_GET_VARS, $oscTemplate, $manufacturers, $languages_id;
+      global $PHP_SELF, $_GET, $oscTemplate, $manufacturers, $languages_id;
       
       if (basename($PHP_SELF) == 'index.php') {
-        if (isset($HTTP_GET_VARS['manufacturers_id']) && is_numeric($HTTP_GET_VARS['manufacturers_id'])) {
-          $manufacturers_query = tep_db_query("select m.manufacturers_name, mi.manufacturers_seo_title from manufacturers m, manufacturers_info mi where m.manufacturers_id = mi.manufacturers_id and m.manufacturers_id = '" . (int)$HTTP_GET_VARS['manufacturers_id'] . "' and mi.languages_id = '" . (int)$languages_id . "'");
+        if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
+          $manufacturers_query = tep_db_query("select m.manufacturers_name, mi.manufacturers_seo_title from manufacturers m, manufacturers_info mi where m.manufacturers_id = mi.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and mi.languages_id = '" . (int)$languages_id . "'");
           if (tep_db_num_rows($manufacturers_query)) {
             $manufacturers = tep_db_fetch_array($manufacturers_query);
 
