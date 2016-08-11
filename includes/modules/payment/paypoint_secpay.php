@@ -145,8 +145,6 @@
     }
 
     function before_process() {
-      global $_GET, $_POST, $_SERVER;
-
       if ( ($_GET['valid'] == 'true') && ($_GET['code'] == 'A') && !empty($_GET['auth_code']) && empty($_GET['resp_code']) && !empty($_GET[tep_session_name()]) ) {
         $DIGEST_PASSWORD = MODULE_PAYMENT_PAYPOINT_SECPAY_READERS_DIGEST;
         list($REQUEST_URI, $CHECK_SUM) = split('hash=', $_SERVER['REQUEST_URI']);
@@ -164,8 +162,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       if ($_GET['code'] == 'N') {
         $error = MODULE_PAYMENT_PAYPOINT_SECPAY_TEXT_ERROR_MESSAGE_N;
       } elseif ($_GET['code'] == 'C') {

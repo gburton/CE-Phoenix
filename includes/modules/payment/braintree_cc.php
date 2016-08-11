@@ -235,7 +235,7 @@
     }
 
     function before_process() {
-      global $customer_id, $order, $_POST, $braintree_result, $braintree_token, $braintree_error;
+      global $customer_id, $order, $braintree_result, $braintree_token, $braintree_error;
 
       $braintree_token = null;
       $braintree_token_cvv = null;
@@ -418,7 +418,7 @@
     }
 
     function after_process() {
-      global $_POST, $customer_id, $insert_id, $braintree_result, $braintree_token;
+      global $customer_id, $insert_id, $braintree_result, $braintree_token;
 
       $status_comment = array('Transaction ID: ' . $braintree_result->transaction->id);
 
@@ -455,7 +455,7 @@
     }
 
     function get_error() {
-      global $_GET, $braintree_error;
+      global $braintree_error;
 
       $message = MODULE_PAYMENT_BRAINTREE_CC_ERROR_GENERAL;
 

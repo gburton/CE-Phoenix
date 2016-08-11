@@ -78,7 +78,7 @@
     }
 
     function process_button() {
-      global $_POST, $customer_id, $currencies, $currency, $order, $languages_id, $cartID;
+      global $customer_id, $currencies, $currency, $order, $languages_id, $cartID;
 
       $process_button_string = tep_draw_hidden_field('sid', MODULE_PAYMENT_2CHECKOUT_LOGIN) .
                                tep_draw_hidden_field('total', $this->format_raw($order->info['total'], MODULE_PAYMENT_2CHECKOUT_CURRENCY)) .
@@ -132,15 +132,13 @@
     }
 
     function before_process() {
-      global $_POST;
-
       if ( ($_POST['credit_card_processed'] != 'Y') && ($_POST['credit_card_processed'] != 'K') ){
         tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL', true, false));
       }
     }
 
     function after_process() {
-      global $_POST, $order, $insert_id;
+      global $order, $insert_id;
 
       if (MODULE_PAYMENT_2CHECKOUT_TESTMODE == 'Test') {
         $sql_data_array = array('orders_id' => (int)$insert_id, 

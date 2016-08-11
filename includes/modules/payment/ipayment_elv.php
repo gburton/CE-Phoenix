@@ -132,7 +132,7 @@
     }
 
     function before_process() {
-      global $_GET, $_SERVER, $order, $currency;
+      global $order, $currency;
 
       if ($_GET['ret_errorcode'] != '0') {
         tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=' . tep_output_string_protected($_GET['ret_errormsg'])));
@@ -166,8 +166,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $error = array('title' => MODULE_PAYMENT_IPAYMENT_ELV_ERROR_HEADING,
                      'error' => ((isset($_GET['error'])) ? stripslashes(urldecode($_GET['error'])) : MODULE_PAYMENT_IPAYMENT_ELV_ERROR_MESSAGE));
 
@@ -219,8 +217,6 @@
     }
 
     function sendDebugEmail($checksum_match = 0) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_IPAYMENT_ELV_DEBUG_EMAIL)) {
         $email_body = 'iPayment (ELV) Transaction' . "\n\n" .
                       'Date: ' . strftime(DATE_TIME_FORMAT) . "\n" .

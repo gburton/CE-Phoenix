@@ -32,7 +32,7 @@
     }
 
     function execute() {
-      global $_GET, $_POST, $sessiontoken, $login_customer_id, $messageStack, $oscTemplate;
+      global $sessiontoken, $login_customer_id, $messageStack, $oscTemplate;
 
       $error = false;
 

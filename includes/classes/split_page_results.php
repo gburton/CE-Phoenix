@@ -15,8 +15,6 @@
 
 /* class constructor */
     function splitPageResults($query, $max_rows, $count_key = '*', $page_holder = 'page') {
-      global $_GET, $_POST;
-
       $this->sql_query = $query;
       $this->page_name = $page_holder;
 

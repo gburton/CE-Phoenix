@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function authorizenet_cc_aim() {
-      global $_GET, $PHP_SELF, $order;
+      global $PHP_SELF, $order;
 
       $this->signature = 'authorizenet|authorizenet_cc_aim|2.0|2.3';
       $this->api_version = '3.1';
@@ -128,7 +128,7 @@
     }
 
     function before_process() {
-      global $_POST, $customer_id, $order, $sendto, $currency, $response;
+      global $customer_id, $order, $sendto, $currency, $response;
 
       $params = array('x_login' => substr(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_LOGIN_ID, 0, 20),
                       'x_tran_key' => substr(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_TRANSACTION_KEY, 0, 16),
@@ -388,8 +388,6 @@
     }
 
     function get_error() {
-      global $_GET;
-
       $error_message = MODULE_PAYMENT_AUTHORIZENET_CC_AIM_ERROR_GENERAL;
 
       switch ($_GET['error']) {
@@ -768,8 +766,6 @@ EOD;
     }
 
     function sendDebugEmail($response = array()) {
-      global $_POST, $_GET;
-
       if (tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_AIM_DEBUG_EMAIL)) {
         $email_body = '';
 

@@ -29,7 +29,7 @@
     }
 
     function execute() {
-       global $PHP_SELF, $_GET, $oscTemplate, $manufacturers, $languages_id;
+       global $PHP_SELF, $oscTemplate, $manufacturers, $languages_id;
 
       if (basename($PHP_SELF) == 'index.php') {
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {

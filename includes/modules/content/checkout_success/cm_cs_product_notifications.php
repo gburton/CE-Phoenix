@@ -32,7 +32,7 @@
     }
 
     function execute() {
-      global $_GET, $_POST, $oscTemplate, $customer_id, $order_id;
+      global $oscTemplate, $customer_id, $order_id;
 
       if ( tep_session_is_registered('customer_id') ) {
         $global_query = tep_db_query("select global_product_notifications from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . (int)$customer_id . "'");

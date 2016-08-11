@@ -23,7 +23,7 @@
     }
 
     function add_current_page() {
-      global $PHP_SELF, $_GET, $_POST, $request_type, $cPath;
+      global $PHP_SELF, $request_type, $cPath;
 
       $set = 'true';
       for ($i=0, $n=sizeof($this->path); $i<$n; $i++) {
@@ -75,7 +75,7 @@
     }
 
     function set_snapshot($page = '') {
-      global $PHP_SELF, $_GET, $_POST, $request_type;
+      global $PHP_SELF, $request_type;
 
       if (is_array($page)) {
         $this->snapshot = array('page' => $page['page'],
