@@ -259,11 +259,9 @@
   }
 
 ////
-// Returns the clients browser
+// Returns the clients browser  
   function tep_browser_detect($component) {
-    global $HTTP_USER_AGENT;
-
-    return stristr($HTTP_USER_AGENT, $component);
+    return stristr($_SERVER['HTTP_USER_AGENT'], $component);
   }
 
 ////
