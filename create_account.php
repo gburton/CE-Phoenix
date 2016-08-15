@@ -13,46 +13,46 @@
   require('includes/application_top.php');
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
+  require(DIR_WS_LANGUAGES . $language . '/create_account.php');
 
   $process = false;
-  if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
+  if (isset($_POST['action']) && ($_POST['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
     $process = true;
 
     if (ACCOUNT_GENDER == 'true') {
-      if (isset($HTTP_POST_VARS['gender'])) {
-        $gender = tep_db_prepare_input($HTTP_POST_VARS['gender']);
+      if (isset($_POST['gender'])) {
+        $gender = tep_db_prepare_input($_POST['gender']);
       } else {
         $gender = false;
       }
     }
-    $firstname = tep_db_prepare_input($HTTP_POST_VARS['firstname']);
-    $lastname = tep_db_prepare_input($HTTP_POST_VARS['lastname']);
-    if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($HTTP_POST_VARS['dob']);
-    $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
-    if (ACCOUNT_COMPANY == 'true') $company = tep_db_prepare_input($HTTP_POST_VARS['company']);
-    $street_address = tep_db_prepare_input($HTTP_POST_VARS['street_address']);
-    if (ACCOUNT_SUBURB == 'true') $suburb = tep_db_prepare_input($HTTP_POST_VARS['suburb']);
-    $postcode = tep_db_prepare_input($HTTP_POST_VARS['postcode']);
-    $city = tep_db_prepare_input($HTTP_POST_VARS['city']);
+    $firstname = tep_db_prepare_input($_POST['firstname']);
+    $lastname = tep_db_prepare_input($_POST['lastname']);
+    if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($_POST['dob']);
+    $email_address = tep_db_prepare_input($_POST['email_address']);
+    if (ACCOUNT_COMPANY == 'true') $company = tep_db_prepare_input($_POST['company']);
+    $street_address = tep_db_prepare_input($_POST['street_address']);
+    if (ACCOUNT_SUBURB == 'true') $suburb = tep_db_prepare_input($_POST['suburb']);
+    $postcode = tep_db_prepare_input($_POST['postcode']);
+    $city = tep_db_prepare_input($_POST['city']);
     if (ACCOUNT_STATE == 'true') {
-      $state = tep_db_prepare_input($HTTP_POST_VARS['state']);
-      if (isset($HTTP_POST_VARS['zone_id'])) {
-        $zone_id = tep_db_prepare_input($HTTP_POST_VARS['zone_id']);
+      $state = tep_db_prepare_input($_POST['state']);
+      if (isset($_POST['zone_id'])) {
+        $zone_id = tep_db_prepare_input($_POST['zone_id']);
       } else {
         $zone_id = false;
       }
     }
-    $country = tep_db_prepare_input($HTTP_POST_VARS['country']);
-    $telephone = tep_db_prepare_input($HTTP_POST_VARS['telephone']);
-    $fax = tep_db_prepare_input($HTTP_POST_VARS['fax']);
-    if (isset($HTTP_POST_VARS['newsletter'])) {
-      $newsletter = tep_db_prepare_input($HTTP_POST_VARS['newsletter']);
+    $country = tep_db_prepare_input($_POST['country']);
+    $telephone = tep_db_prepare_input($_POST['telephone']);
+    $fax = tep_db_prepare_input($_POST['fax']);
+    if (isset($_POST['newsletter'])) {
+      $newsletter = tep_db_prepare_input($_POST['newsletter']);
     } else {
       $newsletter = false;
     }
-    $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
-    $confirmation = tep_db_prepare_input($HTTP_POST_VARS['confirmation']);
+    $password = tep_db_prepare_input($_POST['password']);
+    $confirmation = tep_db_prepare_input($_POST['confirmation']);
 
     $error = false;
 
@@ -248,11 +248,11 @@
       $email_text .= EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
       tep_mail($name, $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
-      tep_redirect(tep_href_link(FILENAME_CREATE_ACCOUNT_SUCCESS, '', 'SSL'));
+      tep_redirect(tep_href_link('create_account_success.php', '', 'SSL'));
     }
   }
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('create_account.php', '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -268,10 +268,10 @@
 ?>
 
 <div class="alert alert-warning">
-  <?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link(FILENAME_LOGIN, tep_get_all_get_params(), 'SSL')); ?><span class="inputRequirement pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span>
+  <?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link('login.php', tep_get_all_get_params(), 'SSL')); ?><span class="text-danger pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span>
 </div>
 
-<?php echo tep_draw_form('create_account', tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
 
