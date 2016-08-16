@@ -58,7 +58,7 @@
           }
         }
 
-        $params['media'] = tep_href_link(DIR_WS_IMAGES . $image_file, '', 'NONSSL', false);
+        $params['media'] = tep_href_link('images/' . $image_file, '', 'NONSSL', false);
       }
 
 // url

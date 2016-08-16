@@ -61,8 +61,8 @@
           $class = substr($nbm, 0, strrpos($nbm, '.'));
 
           if ( !class_exists($class) ) {
-            include(DIR_WS_LANGUAGES . $language . '/modules/navbar_modules/' . $nbm);
-            require(DIR_WS_MODULES . 'navbar_modules/' . $class . '.php');
+            include('includes/languages/' . $language . '/modules/navbar_modules/' . $nbm);
+            require('includes/modules/navbar_modules/' . $class . '.php');
           }
 
           $nav = new $class();
@@ -74,7 +74,7 @@
 
         if ( !empty($navbar_modules) ) {          
           ob_start();
-          include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/navbar.php');
+          include('includes/modules/content/' . $this->group . '/templates/navbar.php');
           $template = ob_get_clean();
 
           $oscTemplate->addContent($template, $this->group);

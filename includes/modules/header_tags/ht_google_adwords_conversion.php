@@ -45,7 +45,7 @@
           $order_subtotal = tep_db_fetch_array($order_subtotal_query);
 
           if (!isset($lng) || (isset($lng) && !is_object($lng))) {
-            include(DIR_WS_CLASSES . 'language.php');
+            include('includes/classes/language.php');
             $lng = new language;
           }
 

@@ -39,7 +39,7 @@
   define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
 
 // some code to solve compatibility issues
-  require(DIR_WS_FUNCTIONS . 'compatibility.php');
+  require('includes/functions/compatibility.php');
 
 // set the type of request (secure or not)
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
@@ -55,7 +55,7 @@
   }
 
 // include the list of project database tables
-  require(DIR_WS_INCLUDES . 'database_tables.php');
+  require('includes/database_tables.php');
 
 // include the database functions
   require(DIR_WS_FUNCTIONS . 'database.php');
@@ -123,10 +123,10 @@
   if (USE_CACHE == 'true') include(DIR_WS_FUNCTIONS . 'cache.php');
 
 // include shopping cart class
-  require(DIR_WS_CLASSES . 'shopping_cart.php');
+  require('includes/classes/shopping_cart.php');
 
 // include navigation history class
-  require(DIR_WS_CLASSES . 'navigation_history.php');
+  require('includes/classes/navigation_history.php');
 
 // define how the session functions will be used
   require(DIR_WS_FUNCTIONS . 'sessions.php');
@@ -169,7 +169,7 @@
     $spider_flag = false;
 
     if (tep_not_null($user_agent)) {
-      $spiders = file(DIR_WS_INCLUDES . 'spiders.txt');
+      $spiders = file('includes/spiders.txt');
 
       $n=sizeof($spiders);
       for ($i=0; $i<$n; $i++) {
@@ -253,12 +253,12 @@
   }
 
 // include currencies class and create an instance
-  require(DIR_WS_CLASSES . 'currencies.php');
+  require('includes/classes/currencies.php');
   $currencies = new currencies();
 
 // include the mail classes
-  require(DIR_WS_CLASSES . 'mime.php');
-  require(DIR_WS_CLASSES . 'email.php');
+  require('includes/classes/mime.php');
+  require('includes/classes/email.php');
 
 // set the language
   if (!tep_session_is_registered('language') || isset($_GET['language'])) {
@@ -267,7 +267,7 @@
       tep_session_register('languages_id');
     }
 
-    include(DIR_WS_CLASSES . 'language.php');
+    include('includes/classes/language.php');
     $lng = new language();
 
     if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
@@ -282,7 +282,7 @@
 
 // include the language translations
   $_system_locale_numeric = setlocale(LC_NUMERIC, 0);
-  require(DIR_WS_LANGUAGES . $language . '.php');
+  require('includes/languages/' . $language . '.php');
   setlocale(LC_NUMERIC, $_system_locale_numeric); // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
 
 // currency
@@ -306,8 +306,8 @@
 // action recorder
   include('includes/classes/action_recorder.php');
 // initialize the message stack for output messages
-  require(DIR_WS_CLASSES . 'alertbox.php');
-  require(DIR_WS_CLASSES . 'message_stack.php');
+  require('includes/classes/alertbox.php');
+  require('includes/classes/message_stack.php');
   $messageStack = new messageStack;
 
 // Shopping cart actions
@@ -430,10 +430,10 @@
   require(DIR_WS_FUNCTIONS . 'validations.php');
 
 // split-page-results
-  require(DIR_WS_CLASSES . 'split_page_results.php');
+  require('includes/classes/split_page_results.php');
 
 // infobox
-  require(DIR_WS_CLASSES . 'boxes.php');
+  require('includes/classes/boxes.php');
 
 // auto activate and expire banners
   require(DIR_WS_FUNCTIONS . 'banner.php');
@@ -444,7 +444,7 @@
   require(DIR_WS_FUNCTIONS . 'specials.php');
   tep_expire_specials();
 
-  require(DIR_WS_CLASSES . 'osc_template.php');
+  require('includes/classes/osc_template.php');
   $oscTemplate = new oscTemplate();
 
 // calculate category path
@@ -465,10 +465,10 @@
   }
 
 // include category tree class
-  require(DIR_WS_CLASSES . 'category_tree.php');
+  require('includes/classes/category_tree.php');
 
 // include the breadcrumb class and start the breadcrumb trail
-  require(DIR_WS_CLASSES . 'breadcrumb.php');
+  require('includes/classes/breadcrumb.php');
   $breadcrumb = new breadcrumb;
 
   $breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);

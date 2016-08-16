@@ -27,8 +27,8 @@
     tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/checkout_confirmation.php');
-  require(DIR_WS_LANGUAGES . $language . '/modules/payment/sage_pay_direct.php');
+  require('includes/languages/' . $language . '/checkout_confirmation.php');
+  require('includes/languages/' . $language . '/modules/payment/sage_pay_direct.php');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html <?php echo HTML_PARAMS; ?>>
@@ -51,4 +51,4 @@ document.form.submit();
 //--></script>
 </body>
 </html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php require('includes/application_bottom.php'); ?>

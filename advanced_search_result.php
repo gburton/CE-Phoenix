@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/advanced_search.php');
+  require('includes/languages/' . $language . '/advanced_search.php');
 
   $error = false;
 
@@ -127,7 +127,7 @@
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('advanced_search.php'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('advanced_search_result.php', tep_get_all_get_params(), 'NONSSL', true, false));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -316,7 +316,7 @@
 
   $listing_sql = $select_str . $from_str . $where_str . $order_str;
 
-  require(DIR_WS_MODULES . 'product_listing.php');
+  require('includes/modules/product_listing.php');
 ?>
 
   <br />
@@ -327,6 +327,6 @@
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

@@ -809,7 +809,7 @@ EOD;
 
   function tep_cfg_braintree_cc_set_merchant_accounts($value, $key) {
     if ( !class_exists('currencies') ) {
-      include(DIR_WS_CLASSES . 'currencies.php');
+      include('includes/classes/currencies.php');
     }
 
     $data = array();
@@ -874,7 +874,7 @@ EOD;
 
   function tep_cfg_braintree_cc_show_merchant_accounts($value) {
     if ( !class_exists('currencies') ) {
-      include(DIR_WS_CLASSES . 'currencies.php');
+      include('includes/classes/currencies.php');
     }
 
     $data = array();

@@ -50,7 +50,7 @@
             $pi = tep_db_fetch_array($pi_query);
             $products_image = $pi['image'];
           }
-          $data['og:image'] = tep_href_link(DIR_WS_IMAGES . $products_image, '', 'NONSSL', false, false);          
+          $data['og:image'] = tep_href_link('images/' . $products_image, '', 'NONSSL', false, false);          
 
           if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
             $products_price = $this->format_raw($new_price);

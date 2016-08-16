@@ -85,13 +85,13 @@ function tep_unlink_temp_dir($dir)
 
   if (DOWNLOAD_BY_REDIRECT == 'true') {
 // This will work only on Unix/Linux hosts
-    tep_unlink_temp_dir(DIR_FS_DOWNLOAD_PUBLIC);
+    tep_unlink_temp_dir('pub/');
     $tempdir = tep_random_name();
     umask(0000);
-    mkdir(DIR_FS_DOWNLOAD_PUBLIC . $tempdir, 0777);
-    symlink(DIR_FS_DOWNLOAD . $downloads['orders_products_filename'], DIR_FS_DOWNLOAD_PUBLIC . $tempdir . '/' . $downloads['orders_products_filename']);
-    if (file_exists(DIR_FS_DOWNLOAD_PUBLIC . $tempdir . '/' . $downloads['orders_products_filename'])) {
-      tep_redirect(tep_href_link(DIR_WS_DOWNLOAD_PUBLIC . $tempdir . '/' . $downloads['orders_products_filename']));
+    mkdir('pub/' . $tempdir, 0777);
+    symlink(DIR_FS_DOWNLOAD . $downloads['orders_products_filename'], 'pub/' . $tempdir . '/' . $downloads['orders_products_filename']);
+    if (file_exists('pub/' . $tempdir . '/' . $downloads['orders_products_filename'])) {
+      tep_redirect(tep_href_link('pub/' . $tempdir . '/' . $downloads['orders_products_filename']));
     }
   }
 

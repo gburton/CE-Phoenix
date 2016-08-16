@@ -30,9 +30,9 @@
     }
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/index.php');
+  require('includes/languages/' . $language . '/index.php');
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 
   if ($category_depth == 'nested') {
     $category_query = tep_db_query("select cd.categories_name, c.categories_image, cd.categories_description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
@@ -207,7 +207,7 @@ if (tep_not_null($image['catdesc'])) {
       }
     }
 
-    include(DIR_WS_MODULES . 'product_listing.php');
+    include('includes/modules/product_listing.php');
 ?>
 
 </div>
@@ -233,6 +233,6 @@ if (tep_not_null($image['catdesc'])) {
 <?php
   }
 
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

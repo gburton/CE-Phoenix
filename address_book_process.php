@@ -18,7 +18,7 @@
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/address_book_process.php');
+  require('includes/languages/' . $language . '/address_book_process.php');
 
   if (isset($_GET['action']) && ($_GET['action'] == 'deleteconfirm') && isset($_GET['delete']) && is_numeric($_GET['delete']) && isset($_GET['formid']) && ($_GET['formid'] == md5($sessiontoken))) {
     if ((int)$_GET['delete'] == $customer_default_address_id) {
@@ -247,7 +247,7 @@
     $breadcrumb->add(NAVBAR_TITLE_ADD_ENTRY, tep_href_link('address_book_process.php', '', 'SSL'));
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -297,7 +297,7 @@
 
 <div class="contentContainer">
 
-<?php include(DIR_WS_MODULES . 'address_book_details.php'); ?>
+<?php include('includes/modules/address_book_details.php'); ?>
 
 <?php
     if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
@@ -335,6 +335,6 @@
 ?>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

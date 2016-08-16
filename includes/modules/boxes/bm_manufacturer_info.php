@@ -39,11 +39,11 @@
           $manufacturer = tep_db_fetch_array($manufacturer_query);
 
           $manufacturer_info_string = NULL;
-          if (tep_not_null($manufacturer['manufacturers_image'])) $manufacturer_info_string .= '<div>' . tep_image(DIR_WS_IMAGES . $manufacturer['manufacturers_image'], $manufacturer['manufacturers_name']) . '</div>';
+          if (tep_not_null($manufacturer['manufacturers_image'])) $manufacturer_info_string .= '<div>' . tep_image('images/' . $manufacturer['manufacturers_image'], $manufacturer['manufacturers_name']) . '</div>';
           if (tep_not_null($manufacturer['manufacturers_url'])) $manufacturer_info_string .= '<div class="text-center"><a href="' . tep_href_link('redirect.php', 'action=manufacturer&manufacturers_id=' . $manufacturer['manufacturers_id']) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a></div>';
 
           ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/manufacturer_info.php');
+          include('includes/modules/boxes/templates/manufacturer_info.php');
           $data = ob_get_clean();
           
           $oscTemplate->addBlock($data, $this->group);

@@ -35,8 +35,8 @@
         }
 
         for ($i=0, $n=sizeof($include_modules); $i<$n; $i++) {
-          include(DIR_WS_LANGUAGES . $language . '/modules/payment/' . $include_modules[$i]['file']);
-          include(DIR_WS_MODULES . 'payment/' . $include_modules[$i]['file']);
+          include('includes/languages/' . $language . '/modules/payment/' . $include_modules[$i]['file']);
+          include('includes/modules/payment/' . $include_modules[$i]['file']);
 
           $GLOBALS[$include_modules[$i]['class']] = new $include_modules[$i]['class'];
         }

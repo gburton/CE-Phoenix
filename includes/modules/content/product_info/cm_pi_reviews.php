@@ -50,7 +50,7 @@
         }
         
         ob_start();
-        include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/reviews.php');
+        include('includes/modules/content/' . $this->group . '/templates/reviews.php');
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);

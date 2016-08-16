@@ -66,7 +66,7 @@
       }
               
       ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/shopping_cart.php');
+      include('includes/modules/boxes/templates/shopping_cart.php');
       $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);
