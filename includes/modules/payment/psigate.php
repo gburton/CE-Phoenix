@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function psigate() {
+    function __construct() {
       global $order;
 
       $this->code = 'psigate';

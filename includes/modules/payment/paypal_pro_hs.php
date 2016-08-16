@@ -13,7 +13,7 @@
   class paypal_pro_hs {
     var $code, $title, $description, $enabled;
 
-    function paypal_pro_hs() {
+    function __construct() {
       global $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_pro_hs|1.0|2.3';
