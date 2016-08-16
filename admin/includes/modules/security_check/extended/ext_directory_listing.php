@@ -14,7 +14,7 @@
     var $type = 'warning';
     var $has_doc = true;
 
-    function securityCheckExtended_ext_directory_listing() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/ext_directory_listing.php');
