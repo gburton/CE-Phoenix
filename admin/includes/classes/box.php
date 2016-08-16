@@ -24,10 +24,10 @@
 */
 
   class box extends tableBlock {
-    function box() {
+		function __construct() {
       $this->heading = array();
       $this->contents = array();
-    }
+    } 
 
     function infoBox($heading, $contents) {
       $this->table_row_parameters = 'class="infoBoxHeading"';
