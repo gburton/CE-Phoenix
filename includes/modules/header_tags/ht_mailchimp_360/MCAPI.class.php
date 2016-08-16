@@ -36,7 +36,7 @@ class MCAPI {
      * @param string $username_or_apikey Your MailChimp login user name OR apikey - always required
      * @param string $password Your MailChimp login password - only required when username passed instead of API Key
      */
-    function MCAPI($username_or_apikey, $password=null, $secure=false) {
+    function __construct($username_or_apikey, $password=null, $secure=false) {
         //do more "caching" of the uuid for those people that keep instantiating this...
         $this->secure = $secure;
         $this->apiUrl = parse_url("http://api.mailchimp.com/" . $this->version . "/?output=php");
