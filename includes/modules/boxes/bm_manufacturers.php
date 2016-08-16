@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_manufacturers() {
+    function __construct() {
       $this->title = MODULE_BOXES_MANUFACTURERS_TITLE;
       $this->description = MODULE_BOXES_MANUFACTURERS_DESCRIPTION;
 

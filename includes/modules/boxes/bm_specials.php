@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_specials() {
+    function __construct() {
       $this->title = MODULE_BOXES_SPECIALS_TITLE;
       $this->description = MODULE_BOXES_SPECIALS_DESCRIPTION;
 

@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_whats_new() {
+    function __construct() {
       $this->title = MODULE_BOXES_WHATS_NEW_TITLE;
       $this->description = MODULE_BOXES_WHATS_NEW_DESCRIPTION;
 
