@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_twitter_product_card() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_TWITTER_PRODUCT_CARD_TITLE;
       $this->description = MODULE_HEADER_TAGS_TWITTER_PRODUCT_CARD_DESCRIPTION;
 
