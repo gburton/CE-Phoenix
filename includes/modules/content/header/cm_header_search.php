@@ -24,6 +24,7 @@
 
       $this->title = MODULE_CONTENT_HEADER_SEARCH_TITLE;
       $this->description = MODULE_CONTENT_HEADER_SEARCH_DESCRIPTION;
+      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
 
       if ( defined('MODULE_CONTENT_HEADER_SEARCH_STATUS') ) {
         $this->sort_order = MODULE_CONTENT_HEADER_SEARCH_SORT_ORDER;
@@ -40,7 +41,7 @@
       $search_box = '<div class="searchbox-margin">';
       $search_box .= tep_draw_form('quick_find', tep_href_link('advanced_search_result.php', '', $request_type, false), 'get', 'class="form-horizontal"');
       $search_box .= '  <div class="input-group">' .
-                          tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search') . '<span class="input-group-btn"><button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button></span>' .
+                          tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search') . '<span class="input-group-btn"><button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button></span>' .
                       '  </div>';
       $search_box .=  tep_hide_session_id() . '</form>';
       $search_box .= '</div>';

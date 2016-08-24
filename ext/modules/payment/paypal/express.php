@@ -14,7 +14,7 @@
   require('includes/application_top.php');
 
   require(DIR_WS_LANGUAGES . $language . '/modules/payment/paypal_express.php');
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CREATE_ACCOUNT);
+  require(DIR_WS_LANGUAGES . $language . '/create_account.php');
 
 // initialize variables if the customer is not logged in
   if (!tep_session_is_registered('customer_id')) {
@@ -26,7 +26,7 @@
   $paypal_express = new paypal_express();
 
   if (!$paypal_express->check() || !$paypal_express->enabled) {
-    tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+    tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
   }
 
   if ( !tep_session_is_registered('sendto') ) {
@@ -61,7 +61,7 @@
   if (!tep_session_is_registered('cartID')) tep_session_register('cartID');
   $cartID = $cart->cartID;
 
-  switch ($HTTP_GET_VARS['osC_Action']) {
+  switch ($_GET['osC_Action']) {
     case 'cancel':
       tep_session_unregister('ppe_token');
       tep_session_unregister('ppe_secret');
@@ -74,20 +74,20 @@
         tep_session_unregister('billto');
       }
 
-      tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+      tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
 
       break;
     case 'callbackSet':
       if (MODULE_PAYMENT_PAYPAL_EXPRESS_INSTANT_UPDATE == 'True') {
         $counter = 0;
 
-        if (isset($HTTP_POST_VARS['CURRENCYCODE']) && $currencies->is_set($HTTP_POST_VARS['CURRENCYCODE']) && ($currency != $HTTP_POST_VARS['CURRENCYCODE'])) {
-          $currency = $HTTP_POST_VARS['CURRENCYCODE'];
+        if (isset($_POST['CURRENCYCODE']) && $currencies->is_set($_POST['CURRENCYCODE']) && ($currency != $_POST['CURRENCYCODE'])) {
+          $currency = $_POST['CURRENCYCODE'];
         }
 
         while (true) {
-          if (isset($HTTP_POST_VARS['L_NUMBER' . $counter])) {
-            $cart->add_cart($HTTP_POST_VARS['L_NUMBER' . $counter], $HTTP_POST_VARS['L_QTY' . $counter]);
+          if (isset($_POST['L_NUMBER' . $counter])) {
+            $cart->add_cart($_POST['L_NUMBER' . $counter], $_POST['L_QTY' . $counter]);
           } else {
             break;
           }
@@ -103,14 +103,14 @@
         $sendto = array('firstname' => '',
                         'lastname' => '',
                         'company' => '',
-                        'street_address' => $HTTP_POST_VARS['SHIPTOSTREET'],
+                        'street_address' => $_POST['SHIPTOSTREET'],
                         'suburb' => '',
-                        'postcode' => $HTTP_POST_VARS['SHIPTOZIP'],
-                        'city' => $HTTP_POST_VARS['SHIPTOCITY'],
+                        'postcode' => $_POST['SHIPTOZIP'],
+                        'city' => $_POST['SHIPTOCITY'],
                         'zone_id' => '',
-                        'zone_name' => $HTTP_POST_VARS['SHIPTOSTATE'],
+                        'zone_name' => $_POST['SHIPTOSTATE'],
                         'country_id' => '',
-                        'country_name' => $HTTP_POST_VARS['SHIPTOCOUNTRY'],
+                        'country_name' => $_POST['SHIPTOCOUNTRY'],
                         'country_iso_code_2' => '',
                         'country_iso_code_3' => '',
                         'address_format_id' => '');
@@ -272,14 +272,14 @@
     case 'retrieve':
 // if there is nothing in the customers cart, redirect them to the shopping cart page
       if ($cart->count_contents() < 1) {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
       }
 
-      $response_array = $paypal_express->getExpressCheckoutDetails($HTTP_GET_VARS['token']);
+      $response_array = $paypal_express->getExpressCheckoutDetails($_GET['token']);
 
       if (($response_array['ACK'] == 'Success') || ($response_array['ACK'] == 'SuccessWithWarning')) {
         if ( !tep_session_is_registered('ppe_secret') || ($response_array['PAYMENTREQUEST_0_CUSTOM'] != $ppe_secret) ) {
-          tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
         }
 
         if (!tep_session_is_registered('payment')) tep_session_register('payment');
@@ -315,7 +315,7 @@
 
               $navigation->set_snapshot();
 
-              $login_url = tep_href_link(FILENAME_LOGIN, '', 'SSL');
+              $login_url = tep_href_link('login.php', '', 'SSL');
               $login_email_address = tep_output_string($response_array['EMAIL']);
 
       $output = <<<EOD
@@ -553,7 +553,7 @@ EOD;
               tep_session_register('ppec_right_turn');
               $ppec_right_turn = true;
 
-              tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));
+              tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
             }
           }
 
@@ -571,7 +571,7 @@ EOD;
               if (isset($quote['error'])) {
                 tep_session_unregister('shipping');
 
-                tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING, '', 'SSL'));
+                tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
               } else {
                 if ( (isset($quote[0]['methods'][0]['title'])) && (isset($quote[0]['methods'][0]['cost'])) ) {
                   $shipping = array('id' => $shipping,
@@ -588,11 +588,11 @@ EOD;
           $sendto = false;
         }
 
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL'));
+        tep_redirect(tep_href_link('checkout_process.php', '', 'SSL'));
       } else {
         $messageStack->add_session('header', stripslashes($response_array['L_LONGMESSAGE0']), 'error');
 
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
       }
 
       break;
@@ -600,7 +600,7 @@ EOD;
     default:
 // if there is nothing in the customers cart, redirect them to the shopping cart page
       if ($cart->count_contents() < 1) {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
       }
 
       if (MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTION_SERVER == 'Live') {
@@ -635,7 +635,7 @@ EOD;
         $item_params['L_PAYMENTREQUEST_0_AMT' . $line_item_no] = $product_price;
         $item_params['L_PAYMENTREQUEST_0_NUMBER' . $line_item_no] = $product['id'];
         $item_params['L_PAYMENTREQUEST_0_QTY' . $line_item_no] = $product['qty'];
-        $item_params['L_PAYMENTREQUEST_0_ITEMURL' . $line_item_no] = tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product['id'], 'NONSSL', false);
+        $item_params['L_PAYMENTREQUEST_0_ITEMURL' . $line_item_no] = tep_href_link('product_info.php', 'products_id=' . $product['id'], 'NONSSL', false);
 
         if ( (DOWNLOAD_ENABLED == 'true') && isset($product['attributes']) ) {
           $item_params['L_PAYMENTREQUEST_n_ITEMCATEGORY' . $line_item_no] = $paypal_express->getProductType($product['id'], $product['attributes']);
@@ -724,7 +724,7 @@ EOD;
 
             $messageStack->add_session('checkout_address', MODULE_PAYMENT_PAYPAL_EXPRESS_ERROR_NO_SHIPPING_AVAILABLE_TO_SHIPPING_ADDRESS);
 
-            tep_redirect(tep_href_link(FILENAME_CHECKOUT_SHIPPING_ADDRESS, '', 'SSL'));
+            tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
           }
         }
       }
@@ -864,13 +864,13 @@ EOD;
       if (($response_array['ACK'] == 'Success') || ($response_array['ACK'] == 'SuccessWithWarning')) {
         tep_redirect($paypal_url . 'token=' . $response_array['TOKEN'] . '&useraction=commit');
       } else {
-        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
       }
 
       break;
   }
 
-  tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, '', 'SSL'));
+  tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'application_bottom.php');
 ?>
