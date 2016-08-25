@@ -28,7 +28,7 @@
     global $logger;
 
     if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) {
-      tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'SSL', false));
+      tep_redirect(tep_href_link('index.php', '', 'SSL', false));
     }
 
     if ( strpos($url, '&amp;') !== false ) {
@@ -132,8 +132,9 @@
     return $get_url;
   }
 
-  function tep_date_long($raw_date, $format = DATE_FORMAT_LONG) {
+  function tep_date_long($raw_date) {
     if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
+
     $year = (int)substr($raw_date, 0, 4);
     $month = (int)substr($raw_date, 5, 2);
     $day = (int)substr($raw_date, 8, 2);
@@ -141,9 +142,8 @@
     $minute = (int)substr($raw_date, 14, 2);
     $second = (int)substr($raw_date, 17, 2);
 
-    return strftime($format, mktime($hour, $minute, $second, $month, $day, $year));
+    return strftime(DATE_FORMAT_LONG, mktime($hour, $minute, $second, $month, $day, $year));
   }
-
 ////
 // Output a raw date string in the selected locale date format
 // $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS

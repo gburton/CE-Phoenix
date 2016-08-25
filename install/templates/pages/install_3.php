@@ -52,7 +52,7 @@
   <div class="col-xs-12 col-sm-push-3 col-sm-9">
 
     <div class="page-header">
-      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Required information</p>
+      <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
       <h2>Configuración de la Tienda Online</h2>
     </div>
 
@@ -62,7 +62,7 @@
         <label for="storeName" class="control-label col-xs-3">Nombre de la Tienda</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_NAME', NULL, 'required aria-required="true" id="storeName" placeholder="Your Store Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El nombre de la tienda online visible al público.</span>
         </div>
       </div>
@@ -72,7 +72,7 @@
         <label for="ownerName" class="control-label col-xs-3">Nombre del propietario de la tienda</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_NAME', NULL, 'required aria-required="true" id="ownerName" placeholder="Your Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El nombre del dueño de la tienda visible al público.</span>
         </div>
       </div>
@@ -81,7 +81,7 @@
         <label for="ownerEmail" class="control-label col-xs-3">La Dirección de Correo Electrónico del Propietario de la tienda </label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_EMAIL_ADDRESS', NULL, 'required aria-required="true" id="ownerEmail" placeholder="you@yours.com"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La dirección de correo electrónico del dueño de la tienda visible al público.</span>
         </div>
       </div>
@@ -90,7 +90,7 @@
         <label for="adminUsername" class="control-label col-xs-3">Nombre de usuario del administrador</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_USERNAME', NULL, 'required aria-required="true" id="adminUsername" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El nombre de usuario que el administrador utiliza para la herramienta de administración.</span>
         </div>
       </div>
@@ -99,7 +99,7 @@
         <label for="adminPassword" class="control-label col-xs-3">Contraseña de administrador</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_PASSWORD', NULL, 'required aria-required="true" id="adminPassword"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La contraseña para la cuenta de administrador.</span>
         </div>
       </div>
@@ -111,7 +111,7 @@
         <label for="adminDir" class="control-label col-xs-3">Nombre del directorio de administración</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMIN_DIRECTORY', 'admin', 'required aria-required="true" id="adminDir"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">Este es el directorio donde se instalará la sección de administración. Debe cambiarlo por razones de seguridad.</span>
         </div>
       </div>
@@ -123,7 +123,7 @@
         <label for="Zulu" class="control-label col-xs-3">Zona horaria</label>
         <div class="col-xs-9">
           <?php echo osc_draw_time_zone_select_menu('CFG_TIME_ZONE'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La zona horaria en la que se basa la fecha y la hora.</span>
         </div>
       </div>

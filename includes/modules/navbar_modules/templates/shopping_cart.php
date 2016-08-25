@@ -20,6 +20,6 @@ if ($cart->count_contents() > 0) {
   echo '<li><a href="' . tep_href_link('checkout_shipping.php', '', 'SSL') . '">' . MODULE_NAVBAR_SHOPPING_CART_CHECKOUT . '</a></li>';
 }
 else {
-  echo '<li class="nav navbar-text">' . MODULE_NAVBAR_SHOPPING_CART_NO_CONTENTS . '</li>';
+  echo '<li><p class="navbar-text">' . MODULE_NAVBAR_SHOPPING_CART_NO_CONTENTS . '</p></li>';
 }
 ?>

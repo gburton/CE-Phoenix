@@ -50,7 +50,7 @@
           result2.shift();
 
           if (result2[0] == '1') {
-            $('#mBoxContents').html('<p class="text-success"><i class="fa fa-thumbs-up fa-2x"></i> La base de datgos ha sido importada con éxito.</p>');
+            $('#mBoxContents').html('<p class="text-success"><i class="fa fa-thumbs-up fa-2x"></i> La base de datos ha sido importada con éxito.</p>');
 
             formSuccess = true;
 
@@ -129,7 +129,7 @@
     </div>
     
     <div class="page-header">
-      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Información requerida</p>
+      <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Información requerida</p>
       <h2>Servidor de la Base de Datos</h2>
     </div>
     
@@ -139,7 +139,7 @@
         <label for="dbServer" class="control-label col-xs-3">Servidor de la Base de Datos</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La dirección del servidor de la base de datos en forma de una dirección IP o nombre de host.</span>
         </div>
       </div>
@@ -148,7 +148,7 @@
         <label for="userName" class="control-label col-xs-3">Usuario</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El nombre de usuario utilizado para conectarse al servidor de la base de datos.</span>
         </div>
       </div>
@@ -157,7 +157,7 @@
         <label for="passWord" class="control-label col-xs-3">Contraseña</label>
         <div class="col-xs-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La contraseña que se utiliza junto con el nombre de usuario para conectarse al servidor de la base de datos.</span>
         </div>
       </div>
@@ -166,7 +166,7 @@
         <label for="dbName" class="control-label col-xs-3">Nombre de la base de datos</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El nombre de la base de datos en la que se almacenan los datos.</span>
         </div>
       </div>

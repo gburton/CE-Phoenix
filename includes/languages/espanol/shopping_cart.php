@@ -19,3 +19,6 @@ define('OUT_OF_STOCK_CANT_CHECKOUT', 'Los Productos marcados con ' . STOCK_MARK_
 define('OUT_OF_STOCK_CAN_CHECKOUT', 'Los Productos marcados con ' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . ' no se hallan en nuestras existencias en suficiente cantidad.<br />Puede adquirirlas de todas formas y comprobar la cantidad que tenemos en existencias para envío inmediato en el proceso de compra.');
 
 define('TEXT_ALTERNATIVE_CHECKOUT_METHODS', '- O -');
+
+define('CART_BUTTON_UPDATE', '');
+define('CART_BUTTON_REMOVE', '');

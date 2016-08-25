@@ -20,7 +20,7 @@
   }
 
   if ( $error === false ) {
-    if ( !isset($HTTP_GET_VARS['key']) || !tep_session_is_registered('pphs_key') || ($HTTP_GET_VARS['key'] != $pphs_key) || !tep_session_is_registered('pphs_result') ) {
+    if ( !isset($_GET['key']) || !tep_session_is_registered('pphs_key') || ($_GET['key'] != $pphs_key) || !tep_session_is_registered('pphs_result') ) {
       $error = true;
     }
   }
@@ -41,7 +41,7 @@
       $form_url = 'https://securepayments.sandbox.paypal.com/webapps/HostedSoleSolutionApp/webflow/sparta/hostedSoleSolutionProcess';
     }
   } else {
-    $form_url = tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=paypal_pro_hs', 'SSL');
+    $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
   }
 ?>
 <!DOCTYPE html>

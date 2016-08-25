@@ -9,20 +9,19 @@
 
   Released under the GNU General Public License
 */
-define('TEXT_MAIN', '');
-define('TABLE_HEADING_NEW_PRODUCTS', 'Nuevos Productos en %s');
-define('TABLE_HEADING_UPCOMING_PRODUCTS', 'Próximamente');
-define('TABLE_HEADING_DATE_EXPECTED', 'Fecha prevista');
 define('HEADING_TITLE', 'Bienvenido/a a ' . STORE_NAME);
+define('TABLE_HEADING_NEW_PRODUCTS', 'Nuevos Productos en %s');
 
 define('TEXT_NO_PRODUCTS2', 'No hay productos en esta categoría.');
 define('TEXT_NUMBER_OF_PRODUCTS', 'Número de Productos: ');
 define('TEXT_SHOW', '<STRONG>Mostrar:</STRONG>');
+define('TEXT_BUY', 'Compre 1 \'');
+define('TEXT_NOW', '\' ahora');
 define('TEXT_ALL_CATEGORIES', 'Todas las categorías');
 define('TEXT_ALL_MANUFACTURERS', 'Todos los fabricantes');
 
 // seo
-if ( ($category_depth == 'top') && (!isset($HTTP_GET_VARS['manufacturers_id'])) ) {
+if ( ($category_depth == 'top') && (!isset($_GET['manufacturers_id'])) ) {
   define('META_SEO_TITLE', 'Título de la página Index');
   define('META_SEO_DESCRIPTION', 'Esta es la descripción de su sitio para ser utilizado en el META Elemento Descripción');
   /*

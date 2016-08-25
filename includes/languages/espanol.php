@@ -177,10 +177,6 @@ define('SMALL_IMAGE_BUTTON_BUY', 'Comprar');
 
 define('ICON_ARROW_RIGHT', 'más');
 
-define('TEXT_GREETING_PERSONAL', '¡Bienvenido de nuevo, <span class="greetUser">%s!</span>¿Le gustaria ver que <a href="' . FILENAME_PRODUCTS_NEW . '"><u>nuevos productos</u></a> hay disponibles? ');
-define('TEXT_GREETING_PERSONAL_RELOGON', '<small>Si no es usted %s, por favor <a href="%s"><u>entre aquí</u></a> e introduzca sus datos.</small>');
-define('TEXT_GREETING_GUEST', 'Bienvenido, <span class="greetUser">Invitado!</span> ¿Le gustaría <a href="%s"><u>entrar en su cuenta</u></a> o preferiría <a href="%s"><u>crear una cuenta nueva</u></a>?');
-
 define('TEXT_SORT_PRODUCTS', 'Ordenar');
 define('TEXT_DESCENDINGLY', 'Descendentemente');
 define('TEXT_ASCENDINGLY', 'Ascendentemente');
@@ -203,8 +199,8 @@ define('TEXT_VIEW_GRID', 'Cuadrícula');
 define('TEXT_SEARCH_PLACEHOLDER','Buscar');
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<span class="glyphicon glyphicon-asterisk inputRequirement"></span> Información requerida');
-define('FORM_REQUIRED_INPUT', '<span><span class="glyphicon glyphicon-asterisk form-control-feedback inputRequirement"></span></span>');
+define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></span> Información requerida');
+define('FORM_REQUIRED_INPUT', '<span><span class="fa fa-asterisk form-control-feedback text-danger"></span></span>');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Comentado %s por <cite title="%s" itemprop="reviewer">%s</cite>');

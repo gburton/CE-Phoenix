@@ -22,4 +22,4 @@ define('ADDRESS_BOOK_TITLE', 'Direcciones');
 
 define('PRIMARY_ADDRESS', '(dirección principal)');
 
-define('TEXT_MAXIMUM_ENTRIES', '<span class="inputRequirement">NOTA:</span> Se permiten un máximo de %s direcciones.');
+define('TEXT_MAXIMUM_ENTRIES', '<span class="text-danger">NOTA:</span> Se permiten un máximo de %s direcciones.');

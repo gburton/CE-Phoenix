@@ -15,7 +15,6 @@
 //España: 'es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'
 //México 'es_MX.UTF-8', 'es_MX.UTF8', 'esm_es'
 @setlocale(LC_ALL, array('es_ES.UTF-8', 'es_ES.UTF8', 'esp_es'));
-
 define('DATE_FORMAT_SHORT', '%d/%m/%Y');  // this is used for strftime()
 define('DATE_FORMAT_LONG', '%A %d de %B de %Y'); // this is used for strftime()
 define('DATE_FORMAT', 'd/m/Y');  // this is used for date()
@@ -304,7 +303,7 @@ define('WARNING_NO_FILE_UPLOADED', 'Advertencia: No se ha subido ningun archivo.
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>El ancho del contenido puede ser de 12 o menos por columna y fila.</p><p>12/12 = 100% ancho, 6/12 = 50% ancho, 4/12 = 33% ancho.</p><p>El total de todas las columnas en cualquier fila debe ser igual a 12 (ej:  3 cajas de 4 columnas cada una, 1 caja de 12 columnas etc).</p>');
 
 // seo helper
-define('PLACEHOLDER_COMMA_SEPARATION', 'Debe, Ser, Separado, Por, Coma');
+define('PLACEHOLDER_COMMA_SEPARATION', 'Deben, Estar, Separadas, Por, Comas');
 
 //NIF
 define('ENTRY_NIF', 'NIF:');

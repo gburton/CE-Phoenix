@@ -56,7 +56,7 @@
   <div class="col-xs-12 col-sm-push-3 col-sm-9">
 
     <div class="page-header">
-      <p class="inputRequirement pull-right text-right"><span class="fa fa-asterisk inputRequirement"></span> Información requerida</p>
+      <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Información requerida</p>
       <h2>Servidor web</h2>
     </div>
 
@@ -66,7 +66,7 @@
         <label for="wwwAddress" class="control-label col-xs-3">Dirección WWW</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('HTTP_WWW_ADDRESS', $www_location, 'required aria-required="true" id="wwwAddress" placeholder="http://"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">La dirección web de la tienda online.</span>
         </div>
       </div>
@@ -75,7 +75,7 @@
         <label for="webRoot" class="control-label col-xs-3">Directorio raíz del servidor Web</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DIR_FS_DOCUMENT_ROOT', $dir_fs_www_root, 'required aria-required="true" id="webRoot"'); ?>
-          <span class="fa fa-asterisk form-control-feedback inputRequirement"></span>
+          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
           <span class="help-block">El directorio del servidor donde se ha instalado la tienda online.</span>
         </div>
       </div>
