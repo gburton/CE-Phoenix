@@ -234,9 +234,11 @@
       if (isset($confirmation['fields'])) {
         echo '<div class="col-sm-6">';
         echo '  <div class="alert alert-info">';
+        $fields = '';
         for ($i=0, $n=sizeof($confirmation['fields']); $i<$n; $i++) {
-          echo $confirmation['fields'][$i]['title'] . ' ' . $confirmation['fields'][$i]['field'];
+          $fields .= $confirmation['fields'][$i]['title'] . ' ' . $confirmation['fields'][$i]['field'] . '<br>';
         }
+        if (strlen($fields) > 4) echo substr($fields,0,-4);
         echo '  </div>';
         echo '</div>';
       }
