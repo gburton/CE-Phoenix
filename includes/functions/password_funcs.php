@@ -12,9 +12,14 @@
 
 ////
 // This function validates a plain text password with a
-// salted or phpass password
+// salted, phpass password or native php 5.5 and higer password hashing
   function tep_validate_password($plain, $encrypted) {
     if (tep_not_null($plain) && tep_not_null($encrypted)) {
+
+      if (password_verify($plain, $encrypted)) {
+        return true;
+      }
+
       if (tep_password_type($encrypted) == 'salt') {
         return tep_validate_old_password($plain, $encrypted);
       }
@@ -53,33 +58,9 @@
 // This function encrypts a phpass password from a plaintext
 // password.
   function tep_encrypt_password($plain) {
-    if (!class_exists('PasswordHash')) {
-      include(DIR_WS_CLASSES . 'passwordhash.php');
-    }
-
-    $hasher = new PasswordHash(10, true);
-
-    return $hasher->HashPassword($plain);
+    return password_hash($plain, PASSWORD_DEFAULT);
   }
 
-////
-// This function encrypts a salted password from a plaintext
-// password.
-  function tep_encrypt_old_password($plain) {
-    $password = '';
-
-    for ($i=0; $i<10; $i++) {
-      $password .= tep_rand();
-    }
-
-    $salt = substr(md5($password), 0, 2);
-
-    $password = md5($salt . $plain) . ':' . $salt;
-
-    return $password;
-  }
-
-////
 // This function returns the type of the encrpyted password
 // (phpass or salt)
   function tep_password_type($encrypted) {
@@ -87,6 +68,10 @@
       return 'salt';
     }
 
-    return 'phpass';
+    If (substr($encrypted, 0, 3) === '$P$') {
+      return 'phpass';
+    }
+
+    return 'phpnative';
   }
-?>
+
