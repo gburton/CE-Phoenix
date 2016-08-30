@@ -32,7 +32,7 @@
         
         // Check if the user has inputted something malicious ( Everything else other than the 2 allowed modules )
         if($newsletter_module != "newsletter" and $newsletter != "product_notification")
-                tep_redirect(tep_href_link('newsletters.php'); // Redirect and exit execution
+                tep_redirect(tep_href_link('newsletters.php')); // Redirect and exit execution
         
         $title = tep_db_prepare_input($HTTP_POST_VARS['title']);
         $content = tep_db_prepare_input($HTTP_POST_VARS['content']);
