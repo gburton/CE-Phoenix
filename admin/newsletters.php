@@ -30,9 +30,11 @@
         if (isset($HTTP_POST_VARS['newsletter_id'])) $newsletter_id = tep_db_prepare_input($HTTP_POST_VARS['newsletter_id']);
         $newsletter_module = tep_db_prepare_input($HTTP_POST_VARS['module']);
         
-        // Check if the user has inputted something malicious ( Everything else other than the 2 allowed modules )
-        if($newsletter_module != "newsletter" and $newsletter != "product_notification")
-                tep_redirect(tep_href_link('newsletters.php')); // Redirect and exit execution
+        $allowed = array_map(function($v) {return basename($v, '.php');}, glob('includes/modules/newsletters/*.php'));
+        if (!in_array($newsletter_module, $allowed)) {
+          $messageStack->add(ERROR_NEWSLETTER_MODULE_NOT_EXISTS, 'error');
+          $newsletter_error = true;
+        }
         
         $title = tep_db_prepare_input($HTTP_POST_VARS['title']);
         $content = tep_db_prepare_input($HTTP_POST_VARS['content']);
