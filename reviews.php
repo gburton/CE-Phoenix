@@ -12,11 +12,11 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/reviews.php');
+  require('includes/languages/' . $language . '/reviews.php');
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link('reviews.php'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -50,7 +50,7 @@
     $reviews_query = tep_db_query($reviews_split->sql_query);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       echo '<blockquote class="col-sm-6">';
-      echo '  <p><span class="pull-left">' . tep_image(DIR_WS_IMAGES . tep_output_string_protected($reviews['products_image']), tep_output_string_protected($reviews['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</span>' . tep_output_string_protected($reviews['reviews_text']) . ' ... </p><div class="clearfix"></div>';
+      echo '  <p><span class="pull-left">' . tep_image('images/' . tep_output_string_protected($reviews['products_image']), tep_output_string_protected($reviews['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</span>' . tep_output_string_protected($reviews['reviews_text']) . ' ... </p><div class="clearfix"></div>';
       $reviews_name = tep_output_string_protected($reviews['customers_name']);
       echo '  <footer>' . sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $reviews_name, $reviews_name) . ' <a href="' . tep_href_link('product_reviews.php', 'products_id=' . (int)$reviews['products_id']) . '"><span class="pull-right label label-info">' . REVIEWS_TEXT_READ_MORE . '</span></a></footer>';
       echo '</blockquote>';
@@ -88,6 +88,6 @@
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

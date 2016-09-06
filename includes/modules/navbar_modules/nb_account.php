@@ -44,7 +44,7 @@
       global $oscTemplate, $customer_first_name, $customer_id;
       
       ob_start();
-      require(DIR_WS_MODULES . 'navbar_modules/templates/account.php');
+      require('includes/modules/navbar_modules/templates/account.php');
       $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);

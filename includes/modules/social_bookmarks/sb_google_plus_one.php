@@ -33,7 +33,7 @@
       global $lng, $languages_id;
 
       if (!isset($lng) || (isset($lng) && !is_object($lng))) {
-        include(DIR_WS_CLASSES . 'language.php');
+        include('includes/classes/language.php');
         $lng = new language;
       }
 

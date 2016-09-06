@@ -74,7 +74,7 @@
 ////
 // The HTML image wrapper function
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
-    if ( (empty($src) || ($src == DIR_WS_IMAGES)) && (IMAGE_REQUIRED == 'false') ) {
+    if ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
 
@@ -130,7 +130,7 @@
   function tep_image_submit($image, $alt = '', $parameters = '') {
     global $language;
 
-    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" alt="' . tep_output_string($alt) . '"';
+    $image_submit = '<input type="image" src="' . tep_output_string('includes/languages/' . $language . '/images/buttons/' . $image) . '" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
 
@@ -146,13 +146,13 @@
   function tep_image_button($image, $alt = '', $parameters = '') {
     global $language;
 
-    return tep_image(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
+    return tep_image('includes/languages/' . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
   }
 
 ////
 // Output a separator either through whitespace, or with an image
   function tep_draw_separator($image = 'pixel_black.gif', $width = '100%', $height = '1') {
-    return tep_image(DIR_WS_IMAGES . $image, '', $width, $height);
+    return tep_image('images/' . $image, '', $width, $height);
   }
 
 ////

@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/logoff.php');
+  require('includes/languages/' . $language . '/logoff.php');
 
   $breadcrumb->add(NAVBAR_TITLE);
 
@@ -43,7 +43,7 @@ if ( tep_session_is_registered('comments') ) {
 
   $cart->reset();
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -63,6 +63,6 @@ if ( tep_session_is_registered('comments') ) {
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

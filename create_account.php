@@ -13,7 +13,7 @@
   require('includes/application_top.php');
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/create_account.php');
+  require('includes/languages/' . $language . '/create_account.php');
 
   $process = false;
   if (isset($_POST['action']) && ($_POST['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
@@ -254,7 +254,7 @@
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link('create_account.php', '', 'SSL'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -514,6 +514,6 @@
 </form>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>
