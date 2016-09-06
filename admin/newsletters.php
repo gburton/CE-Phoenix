@@ -29,6 +29,13 @@
       case 'update':
         if (isset($HTTP_POST_VARS['newsletter_id'])) $newsletter_id = tep_db_prepare_input($HTTP_POST_VARS['newsletter_id']);
         $newsletter_module = tep_db_prepare_input($HTTP_POST_VARS['module']);
+        
+        $allowed = array_map(function($v) {return basename($v, '.php');}, glob('includes/modules/newsletters/*.php'));
+        if (!in_array($newsletter_module, $allowed)) {
+          $messageStack->add(ERROR_NEWSLETTER_MODULE_NOT_EXISTS, 'error');
+          $newsletter_error = true;
+        }
+        
         $title = tep_db_prepare_input($HTTP_POST_VARS['title']);
         $content = tep_db_prepare_input($HTTP_POST_VARS['content']);
 
