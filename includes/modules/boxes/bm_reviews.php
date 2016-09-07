@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_reviews() {
+    function __construct() {
       $this->title = MODULE_BOXES_REVIEWS_TITLE;
       $this->description = MODULE_BOXES_REVIEWS_DESCRIPTION;
 

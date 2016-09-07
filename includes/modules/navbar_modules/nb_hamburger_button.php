@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_hamburger_button() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_HAMBURGER_BUTTON_TITLE;
       $this->description = MODULE_NAVBAR_HAMBURGER_BUTTON_DESCRIPTION;
 

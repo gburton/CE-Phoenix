@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_reviews() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_REVIEWS_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_REVIEWS_DESCRIPTION;
 

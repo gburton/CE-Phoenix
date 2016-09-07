@@ -23,7 +23,7 @@
     var $_payment_method_image = 'sofort.gif';
 
 // class constructor
-    function moneybookers_sft() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_sft|1.0|2.3';
