@@ -14,7 +14,7 @@
     var $sql_query, $number_of_rows, $current_page_number, $number_of_pages, $number_of_rows_per_page, $page_name;
 
 /* class constructor */
-    function splitPageResults($query, $max_rows, $count_key = '*', $page_holder = 'page') {
+    function __construct($query, $max_rows, $count_key = '*', $page_holder = 'page') {
       $this->sql_query = $query;
       $this->page_name = $page_holder;
 
