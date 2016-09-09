@@ -13,7 +13,7 @@
   class authorizenet_cc_sim {
     var $code, $title, $description, $enabled;
 
-    function authorizenet_cc_sim() {
+    function __construct() {
       global $order;
 
       $this->signature = 'authorizenet|authorizenet_cc_sim|2.0|2.3';

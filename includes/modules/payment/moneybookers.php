@@ -19,7 +19,7 @@
     var $_payment_method_image = 'by_ewallet_90x45.gif';
 
 // class constructor
-    function moneybookers() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers|1.0|2.3';

@@ -13,7 +13,7 @@
   class paypal_standard {
     var $code, $title, $description, $enabled;
 
-    function paypal_standard() {
+    function __construct() {
       global $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_standard|3.1|2.3';
