@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_pages_seo() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_PAGES_SEO_TITLE;
       $this->description = MODULE_HEADER_TAGS_PAGES_SEO_DESCRIPTION;
       $this->description .= '<div class="secWarning">' . MODULE_HEADER_TAGS_PAGES_SEO_HELPER . '</div>';
