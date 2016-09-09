@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_security_checks() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_DESCRIPTION;
 

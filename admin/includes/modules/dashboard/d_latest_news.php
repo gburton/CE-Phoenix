@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_latest_news() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_LATEST_NEWS_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_LATEST_NEWS_DESCRIPTION;
 

@@ -18,7 +18,7 @@
     var $title;
     var $template_integration = false;
 
-    function cfgm_dashboard() {
+    function __construct() {
       $this->directory = DIR_FS_ADMIN . 'includes/modules/dashboard/';
       $this->language_directory = DIR_FS_ADMIN . 'includes/languages/';
       $this->title = MODULE_CFG_MODULE_DASHBOARD_TITLE;

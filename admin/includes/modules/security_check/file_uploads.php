@@ -13,7 +13,7 @@
   class securityCheck_file_uploads {
     var $type = 'warning';
 
-    function securityCheck_file_uploads() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/file_uploads.php');
