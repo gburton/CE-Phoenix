@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_order_history() {
+    function __construct() {
       $this->title = MODULE_BOXES_ORDER_HISTORY_TITLE;
       $this->description = MODULE_BOXES_ORDER_HISTORY_DESCRIPTION;
 

@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_product_notifications() {
+    function __construct() {
       $this->title = MODULE_BOXES_PRODUCT_NOTIFICATIONS_TITLE;
       $this->description = MODULE_BOXES_PRODUCT_NOTIFICATIONS_DESCRIPTION;
 
