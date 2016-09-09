@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_shopping_cart() {
+    function __construct() {
       $this->title = MODULE_BOXES_SHOPPING_CART_TITLE;
       $this->description = MODULE_BOXES_SHOPPING_CART_DESCRIPTION;
 
