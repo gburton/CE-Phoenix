@@ -52,7 +52,7 @@
         }
         
         ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/product_notifications.php');
+        include('includes/modules/boxes/templates/product_notifications.php');
         $data = ob_get_clean();
                  
         $oscTemplate->addBlock($data, $this->group);

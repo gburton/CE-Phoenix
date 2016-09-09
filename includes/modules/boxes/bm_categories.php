@@ -42,7 +42,7 @@
       $category_tree = $OSCOM_CategoryTree->getTree();
       
       ob_start();
-      include(DIR_WS_MODULES . 'boxes/templates/categories.php');
+      include('includes/modules/boxes/templates/categories.php');
       $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);

@@ -51,7 +51,7 @@
           }
 
           ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/order_history.php');
+          include('includes/modules/boxes/templates/order_history.php');
           $data = ob_get_clean();
 
           $oscTemplate->addBlock($data, $this->group);

@@ -37,11 +37,11 @@
         $output = NULL;
 
         foreach ( explode(';', MODULE_BOXES_CARD_ACCEPTANCE_LOGOS) as $logo ) {
-          $output .= tep_image(DIR_WS_IMAGES . 'card_acceptance/' . basename($logo), null, null, null, null, false);
+          $output .= tep_image('images/card_acceptance/' . basename($logo), null, null, null, null, false);
         }
                    
         ob_start();
-        include(DIR_WS_MODULES . 'boxes/templates/card_acceptance.php');
+        include('includes/modules/boxes/templates/card_acceptance.php');
         $data = ob_get_clean();
 
         $oscTemplate->addBlock($data, $this->group);
@@ -91,9 +91,9 @@
   function bm_card_acceptance_edit_logos($values, $key) {
     $files_array = array();
 
-    if ( $dir = @dir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'card_acceptance') ) {
+    if ( $dir = @dir(DIR_FS_CATALOG . 'images/card_acceptance') ) {
       while ( $file = $dir->read() ) {
-        if ( !is_dir(DIR_FS_CATALOG . DIR_WS_IMAGES . 'card_acceptance/' . $file) ) {
+        if ( !is_dir(DIR_FS_CATALOG . 'images/card_acceptance/' . $file) ) {
           if ( in_array(substr($file, strrpos($file, '.')+1), array('gif', 'jpg', 'png')) ) {
             $files_array[] = $file;
           }

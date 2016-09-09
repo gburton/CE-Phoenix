@@ -66,7 +66,7 @@
             $products_image = $pi['image'];
           }
 
-          $data['image'] = tep_href_link(DIR_WS_IMAGES . $products_image, '', 'NONSSL', false, false);
+          $data['image'] = tep_href_link('images/' . $products_image, '', 'NONSSL', false, false);
 
           $result = '';
 

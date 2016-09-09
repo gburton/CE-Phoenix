@@ -20,8 +20,8 @@
 
   if ( defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED) && in_array('braintree_cc.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
     if ( !class_exists('braintree_cc') ) {
-      include(DIR_WS_LANGUAGES . $language . '/modules/payment/braintree_cc.php');
-      include(DIR_WS_MODULES . 'payment/braintree_cc.php');
+      include('includes/languages/' . $language . '/modules/payment/braintree_cc.php');
+      include('includes/modules/payment/braintree_cc.php');
     }
 
     $braintree_cc = new braintree_cc();
@@ -33,7 +33,7 @@
     tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/modules/content/account/cm_account_braintree_cards.php');
+  require('includes/languages/' . $language . '/modules/content/account/cm_account_braintree_cards.php');
   require('includes/modules/content/account/cm_account_braintree_cards.php');
   $braintree_cards = new cm_account_braintree_cards();
 
@@ -60,7 +60,7 @@
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/braintree/cards.php', '', 'SSL'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <h1><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_HEADING_TITLE; ?></h1>
@@ -111,6 +111,6 @@
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

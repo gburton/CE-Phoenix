@@ -12,11 +12,11 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/products_new.php');
+  require('includes/languages/' . $language . '/products_new.php');
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link('products_new.php'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -112,8 +112,8 @@
   }
 
 
-  include(DIR_WS_MODULES . 'product_listing.php');
+  include('includes/modules/product_listing.php');
 
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

@@ -45,7 +45,7 @@
       
       if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
         ob_start();
-        require(DIR_WS_MODULES . 'navbar_modules/templates/currencies.php');
+        require('includes/modules/navbar_modules/templates/currencies.php');
         $data = ob_get_clean();
 
         $oscTemplate->addBlock($data, $this->group);

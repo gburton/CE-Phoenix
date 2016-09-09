@@ -44,7 +44,7 @@
       global $oscTemplate, $cart, $currencies;
       
       ob_start();
-      require(DIR_WS_MODULES . 'navbar_modules/templates/shopping_cart.php');
+      require('includes/modules/navbar_modules/templates/shopping_cart.php');
       $data = ob_get_clean();
 
       $oscTemplate->addBlock($data, $this->group);

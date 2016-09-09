@@ -24,7 +24,7 @@
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/checkout_payment_address.php');
+  require('includes/languages/' . $language . '/checkout_payment_address.php');
 
   $error = false;
   $process = false;
@@ -194,7 +194,7 @@
 
   $addresses_count = tep_count_customer_address_book_entries();
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -282,7 +282,7 @@
   
   <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
 
-  <?php require(DIR_WS_MODULES . 'checkout_new_address.php'); ?>
+  <?php require('includes/modules/checkout_new_address.php'); ?>
 
 <?php
   }
@@ -331,6 +331,6 @@
 </form>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

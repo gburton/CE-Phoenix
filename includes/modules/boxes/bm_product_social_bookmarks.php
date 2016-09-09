@@ -42,8 +42,8 @@
           $class = substr($sbm, 0, strrpos($sbm, '.'));
 
           if ( !class_exists($class) ) {
-            include(DIR_WS_LANGUAGES . $language . '/modules/social_bookmarks/' . $sbm);
-            include(DIR_WS_MODULES . 'social_bookmarks/' . $class . '.php');
+            include('includes/languages/' . $language . '/modules/social_bookmarks/' . $sbm);
+            include('includes/modules/social_bookmarks/' . $class . '.php');
           }
 
           $sb = new $class();
@@ -56,7 +56,7 @@
         if ( !empty($social_bookmarks) ) {
 
           ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/product_social_bookmarks.php');
+          include('includes/modules/boxes/templates/product_social_bookmarks.php');
           $data = ob_get_clean();
                   
           $oscTemplate->addBlock($data, $this->group);
