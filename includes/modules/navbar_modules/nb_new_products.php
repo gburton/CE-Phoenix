@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_new_products() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_NEW_PRODUCTS_TITLE;
       $this->description = MODULE_NAVBAR_NEW_PRODUCTS_DESCRIPTION;
 
