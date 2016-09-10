@@ -112,7 +112,7 @@
   function tep_image_submit($image, $alt = '', $parameters = '') {
     global $language;
 
-    $image_submit = '<input type="image" src="' . tep_output_string(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
+    $image_submit = '<input type="image" src="' . tep_output_string('includes/languages/' . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
 
@@ -126,13 +126,13 @@
 ////
 // Draw a 1 pixel black line
   function tep_black_line() {
-    return tep_image(DIR_WS_IMAGES . 'pixel_black.gif', '', '100%', '1');
+    return tep_image('images/pixel_black.gif', '', '100%', '1');
   }
 
 ////
 // Output a separator either through whitespace, or with an image
   function tep_draw_separator($image = 'pixel_black.gif', $width = '100%', $height = '1') {
-    return tep_image(DIR_WS_IMAGES . $image, '', $width, $height);
+    return tep_image('images/' . $image, '', $width, $height);
   }
 
 ////
@@ -140,7 +140,7 @@
   function tep_image_button($image, $alt = '', $params = '') {
     global $language;
 
-    return tep_image(DIR_WS_LANGUAGES . $language . '/images/buttons/' . $image, $alt, '', '', $params);
+    return tep_image('includes/languages/' . $language . '/images/buttons/' . $image, $alt, '', '', $params);
   }
 
 ////

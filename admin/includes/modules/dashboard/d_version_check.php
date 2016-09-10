@@ -57,7 +57,7 @@
 
       if ($new_version == true) {
         $output .= '  <tr>' .
-                   '    <td class="messageStackWarning" colspan="2">' . tep_image(DIR_WS_ICONS . 'warning.gif', ICON_WARNING) . '&nbsp;<strong>' . MODULE_ADMIN_DASHBOARD_VERSION_CHECK_UPDATE_AVAILABLE . '</strong></td>' .
+                   '    <td class="messageStackWarning" colspan="2">' . tep_image('images/icons/warning.gif', ICON_WARNING) . '&nbsp;<strong>' . MODULE_ADMIN_DASHBOARD_VERSION_CHECK_UPDATE_AVAILABLE . '</strong></td>' .
                    '  </tr>';
       }
 
