@@ -12,13 +12,13 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_CLASSES . 'currencies.php');
+  require('includes/classes/currencies.php');
   $currencies = new currencies();
 
   $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
   $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
 
-  include(DIR_WS_CLASSES . 'order.php');
+  include('includes/classes/order.php');
   $order = new order($oID);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -143,4 +143,4 @@
 <br />
 </body>
 </html>
-<?php require(DIR_WS_INCLUDES . 'application_bottom.php'); ?>
+<?php require('includes/application_bottom.php'); ?>

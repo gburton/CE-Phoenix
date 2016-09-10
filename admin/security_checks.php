@@ -58,7 +58,7 @@
 
   usort($modules, 'tep_sort_secmodules');
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div style="float: right;"><?php echo tep_draw_button('Reload', 'arrowrefresh-1-e', tep_href_link('security_checks.php')); ?></div>
@@ -91,11 +91,11 @@
     }
 
     echo '  <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)">' . "\n" .
-         '    <td class="dataTableContent" align="center" valign="top">' . tep_image(DIR_WS_IMAGES . 'ms_' . $secCheck->type . '.png', '', 16, 16) . '</td>' . "\n" .
+         '    <td class="dataTableContent" align="center" valign="top">' . tep_image('images/ms_' . $secCheck->type . '.png', '', 16, 16) . '</td>' . "\n" .
          '    <td class="dataTableContent" valign="top" style="white-space: nowrap;">' . tep_output_string_protected($module['title']) . '</td>' . "\n" .
          '    <td class="dataTableContent" valign="top">' . tep_output_string_protected($module['code']) . '</td>' . "\n" .
          '    <td class="dataTableContent" valign="top">' . $output . '</td>' . "\n" .
-         '    <td class="dataTableContent" align="center" valign="top">' . ((isset($secCheck->has_doc) && $secCheck->has_doc) ? '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank">' . tep_image(DIR_WS_IMAGES . 'icons/preview.gif') . '</a>' : '') . '</td>' . "\n" .
+         '    <td class="dataTableContent" align="center" valign="top">' . ((isset($secCheck->has_doc) && $secCheck->has_doc) ? '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank">' . tep_image('images/icons/preview.gif') . '</a>' : '') . '</td>' . "\n" .
          '  </tr>' . "\n";
   }
 ?>
@@ -103,6 +103,6 @@
 </table>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

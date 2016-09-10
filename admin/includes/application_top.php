@@ -32,7 +32,7 @@
   define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
 
 // some code to solve compatibility issues
-  require(DIR_WS_FUNCTIONS . 'compatibility.php');
+  require('includes/functions/compatibility.php');
 
 // set the type of request (secure or not)
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
@@ -48,7 +48,7 @@
   define('LOCAL_EXE_UNZIP', 'unzip');
 
 // include the list of project database tables
-  require(DIR_WS_INCLUDES . 'database_tables.php');
+  require('includes/database_tables.php');
 
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
@@ -56,7 +56,7 @@
   define('CURRENCY_SERVER_BACKUP', 'xe');
 
 // include the database functions
-  require(DIR_WS_FUNCTIONS . 'database.php');
+  require('includes/functions/database.php');
 
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
@@ -68,17 +68,17 @@
   }
 
 // define our general functions used application-wide
-  require(DIR_WS_FUNCTIONS . 'general.php');
-  require(DIR_WS_FUNCTIONS . 'html_output.php');
+  require('includes/functions/general.php');
+  require('includes/functions/html_output.php');
 
 // initialize the logger class
-  require(DIR_WS_CLASSES . 'logger.php');
+  require('includes/classes/logger.php');
 
 // include shopping cart class
-  require(DIR_WS_CLASSES . 'shopping_cart.php');
+  require('includes/classes/shopping_cart.php');
 
 // define how the session functions will be used
-  require(DIR_WS_FUNCTIONS . 'sessions.php');
+  require('includes/functions/sessions.php');
 
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
@@ -113,7 +113,7 @@
       tep_session_register('languages_id');
     }
 
-    include(DIR_WS_CLASSES . 'language.php');
+    include('includes/classes/language.php');
     $lng = new language();
 
     if (isset($HTTP_GET_VARS['language']) && tep_not_null($HTTP_GET_VARS['language'])) {
@@ -171,43 +171,43 @@
 
 // include the language translations
   $_system_locale_numeric = setlocale(LC_NUMERIC, 0);
-  require(DIR_WS_LANGUAGES . $language . '.php');
+  require('includes/languages/' . $language . '.php');
   setlocale(LC_NUMERIC, $_system_locale_numeric); // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
 
   $current_page = basename($PHP_SELF);
-  if (file_exists(DIR_WS_LANGUAGES . $language . '/' . $current_page)) {
-    include(DIR_WS_LANGUAGES . $language . '/' . $current_page);
+  if (file_exists('includes/languages/' . $language . '/' . $current_page)) {
+    include('includes/languages/' . $language . '/' . $current_page);
   }
 
 // define our localization functions
-  require(DIR_WS_FUNCTIONS . 'localization.php');
+  require('includes/functions/localization.php');
 
 // Include validation functions (right now only email address)
-  require(DIR_WS_FUNCTIONS . 'validations.php');
+  require('includes/functions/validations.php');
 
 // setup our boxes
-  require(DIR_WS_CLASSES . 'table_block.php');
-  require(DIR_WS_CLASSES . 'box.php');
+  require('includes/classes/table_block.php');
+  require('includes/classes/box.php');
 
 // initialize the message stack for output messages
-  require(DIR_WS_CLASSES . 'message_stack.php');
+  require('includes/classes/message_stack.php');
   $messageStack = new messageStack;
 
 // split-page-results
-  require(DIR_WS_CLASSES . 'split_page_results.php');
+  require('includes/classes/split_page_results.php');
 
 // entry/item info classes
-  require(DIR_WS_CLASSES . 'object_info.php');
+  require('includes/classes/object_info.php');
 
 // email classes
-  require(DIR_WS_CLASSES . 'mime.php');
-  require(DIR_WS_CLASSES . 'email.php');
+  require('includes/classes/mime.php');
+  require('includes/classes/email.php');
 
 // file uploading class
-  require(DIR_WS_CLASSES . 'upload.php');
+  require('includes/classes/upload.php');
 
 // action recorder
-  require(DIR_WS_CLASSES . 'action_recorder.php');
+  require('includes/classes/action_recorder.php');
 
 // calculate category path
   if (isset($HTTP_GET_VARS['cPath'])) {
@@ -225,7 +225,7 @@
   }
 
 // initialize configuration modules
-  require(DIR_WS_CLASSES . 'cfg_modules.php');
+  require('includes/classes/cfg_modules.php');
   $cfgModules = new cfg_modules();
 
 // the following cache blocks are used in the Tools->Cache section
