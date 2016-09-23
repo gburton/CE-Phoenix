@@ -17,7 +17,7 @@
     var $code, $title, $description, $icon, $enabled, $countries;
 
 // class constructor
-    function usps() {
+    function __construct() {
       global $order;
 
       $this->code = 'usps';

@@ -23,7 +23,7 @@
     var $_payment_method_image = 'nordea.gif';
 
 // class constructor
-    function moneybookers_ebt() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_ebt|1.0|2.3';

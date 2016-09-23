@@ -18,7 +18,7 @@
     var $title;
     var $template_integration = false;
 
-    function cfgm_shipping() {
+    function __construct() {
       $this->directory = DIR_FS_CATALOG_MODULES . 'shipping/';
       $this->title = MODULE_CFG_MODULE_SHIPPING_TITLE;
     }

@@ -10,7 +10,11 @@
   Released under the GNU General Public License
 */
   class alertBlock {    
-	// class constructor
+
+  	// class constructor
+  	function __construct() {
+  	}
+
     function alertBlock($contents, $alert_output = false) {
 	  $alertBox_string = '';
 		  

@@ -13,7 +13,7 @@
   class securityCheck_download_directory {
     var $type = 'warning';
 
-    function securityCheck_download_directory() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/download_directory.php');

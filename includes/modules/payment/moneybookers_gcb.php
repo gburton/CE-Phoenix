@@ -23,7 +23,7 @@
     var $_payment_method_image = 'cartebleue.gif';
 
 // class constructor
-    function moneybookers_gcb() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_gcb|1.0|2.3';

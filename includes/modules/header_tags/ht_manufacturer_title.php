@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_manufacturer_title() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_MANUFACTURER_TITLE_TITLE;
       $this->description = MODULE_HEADER_TAGS_MANUFACTURER_TITLE_DESCRIPTION;
 
