@@ -14,7 +14,7 @@
     var $_site;
     var $_hooks = array();
 
-    function hooks($site) {
+    function __construct($site) {
       $this->_site = basename($site);
 
       $this->register('global');
