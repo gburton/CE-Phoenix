@@ -228,3 +228,17 @@ define('PRODUCT_REMOVED', '%s has been removed from your Cart');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
+
+//NIF start
+define('ENTRY_NIF', 'VAT No.:');
+define('ENTRY_NO_NIF_ERROR', 'You have to introduce your VAT Number.');
+define('ENTRY_FORMAT_NIF_LENGTH_ERROR', 'Please check your VAT Number digits, it doesn\'t validate.');
+define('ENTRY_FORMATO_NIF_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_FORMATO_CIF_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_FORMATO_NIE_ERROR', 'Please check your VAT Number, it doesn\'t validate.');
+define('ENTRY_LETRA_NIF_ERROR', '.');
+define('ENTRY_NIF_TEXT', '*');
+define('ENTRY_NIF_TEXT_SPAIN', '* only Spain');
+define('ENTRY_NIF_EXAMPLE', 'ex.: 01234567L, B01234567, X0123456S');
+define('JS_NIF', 'VAT No. required');
+//NIF end

@@ -18,17 +18,19 @@
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_ACCOUNT_EDIT);
+  require(DIR_WS_LANGUAGES . $language . '/account_edit.php');
 
-  if (isset($HTTP_POST_VARS['action']) && ($HTTP_POST_VARS['action'] == 'process') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
-    if (ACCOUNT_GENDER == 'true') $gender = tep_db_prepare_input($HTTP_POST_VARS['gender']);
-    $firstname = tep_db_prepare_input($HTTP_POST_VARS['firstname']);
-    $lastname = tep_db_prepare_input($HTTP_POST_VARS['lastname']);
-    if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($HTTP_POST_VARS['dob']);
-    $email_address = tep_db_prepare_input($HTTP_POST_VARS['email_address']);
-    $telephone = tep_db_prepare_input($HTTP_POST_VARS['telephone']);
-    $fax = tep_db_prepare_input($HTTP_POST_VARS['fax']);
+  if (isset($_POST['action']) && ($_POST['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
+    if (ACCOUNT_GENDER == 'true') $gender = tep_db_prepare_input($_POST['gender']);
+    $firstname = tep_db_prepare_input($_POST['firstname']);
+    $lastname = tep_db_prepare_input($_POST['lastname']);
+    if (ACCOUNT_DOB == 'true') $dob = tep_db_prepare_input($_POST['dob']);
+    $email_address = tep_db_prepare_input($_POST['email_address']);
+    $telephone = tep_db_prepare_input($_POST['telephone']);
+    $fax = tep_db_prepare_input($_POST['fax']);
 
+    if (ACCOUNT_NIF == 'true') $nif = tep_db_prepare_input($_POST['nif']); // NIF
+    
     $error = false;
 
     if (ACCOUNT_GENDER == 'true') {
@@ -38,6 +40,38 @@
         $messageStack->add('account_edit', ENTRY_GENDER_ERROR);
       }
     }
+
+    //NIF start	
+    $pais_query = tep_db_query("select a.entry_country_id from " . TABLE_CUSTOMERS . " c , " . TABLE_ADDRESS_BOOK . " a where c.customers_default_address_id = a.address_book_id and a.customers_id = c.customers_id and c.customers_id = '" . (int)$customer_id . "'");
+    $pais = tep_db_fetch_array($pais_query);  
+
+    if (ACCOUNT_NIF == 'true') {
+    	$nif_requerido = ( ((ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($pais['entry_country_id'] == "195")) ) ? 'true': 'false');
+    	if (($nif == "") && ($nif_requerido == 'true')) {
+    		$error = true;
+    		$messageStack->add('account_edit', ENTRY_NO_NIF_ERROR);
+    	} else if ((strlen($nif) != 9) && ($nif != ""))  {
+    		$error = true;
+    		$messageStack->add('account_edit', ENTRY_FORMAT_NIF_LENGTH_ERROR);
+    	} else if (strlen($nif) == 9) { 
+    		$result = tep_valida_nif_cif_nie($nif);
+    		if ($result <= 0) {
+    			$error = true;
+    			switch ($result) {
+    			case '-1':
+    				$messageStack->add('account_edit', ENTRY_FORMAT_NIF_ERROR);
+    				break;
+    			case '-2':
+    				$messageStack->add('account_edit', ENTRY_FORMAT_CIF_ERROR);
+    				break;
+    			case '-3':
+    				$messageStack->add('account_edit', ENTRY_FORMAT_NIE_ERROR);
+    				break;
+    			}
+    		}
+    	}
+    }
+    //NIF end
 
     if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
       $error = true;
@@ -94,7 +128,8 @@
 
       if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
       if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($dob);
-
+      if (ACCOUNT_NIF == 'true') $sql_data_array['entry_nif'] = $nif;  // NIF
+      
       tep_db_perform(TABLE_CUSTOMERS, $sql_data_array, 'update', "customers_id = '" . (int)$customer_id . "'");
 
       tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customer_id . "'");
@@ -109,15 +144,17 @@
 
       $messageStack->add_session('account', SUCCESS_ACCOUNT_UPDATED, 'success');
 
-      tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+      tep_redirect(tep_href_link('account.php', '', 'SSL'));
     }
   }
 
-  $account_query = tep_db_query("select customers_gender, customers_firstname, customers_lastname, customers_dob, customers_email_address, customers_telephone, customers_fax from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
+  //NIF start
+  $account_query = tep_db_query("select customers_gender, customers_firstname, customers_lastname, customers_dob, customers_email_address, customers_telephone, customers_fax, entry_nif  from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
+  //NIF end
   $account = tep_db_fetch_array($account_query);
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('account_edit.php', '', 'SSL'));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -132,7 +169,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_edit', tep_href_link(FILENAME_ACCOUNT_EDIT, '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_edit', tep_href_link('account_edit.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
@@ -177,6 +214,25 @@
     </div>
   </div>
 
+  <!--NIF start-->
+  <?php
+  if (ACCOUNT_NIF == 'true') { 
+	$nif_requerido = ( ((ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($account['entry_country_id'] == "195")) ) ? 'true': 'false');
+	?>
+  <div class="form-group has-feedback">
+    <label for="inputNIF" class="control-label col-sm-3"><?php echo ENTRY_NIF; ?></label>
+    <div class="col-sm-9">
+        <?php
+        echo tep_draw_input_field('nif', $account['entry_nif'], 'id="inputNIF"' . ((tep_not_null(ENTRY_NIF_TEXT) && (ACCOUNT_NIF_REQ == 'true')) ? '': ' placeholder="' . ENTRY_NIF_TEXT . '"') );
+        if (tep_not_null(ENTRY_NIF_EXAMPLE)) echo '<span class="help-block">' . ENTRY_NIF_EXAMPLE . '</span>';
+        ?>
+    </div>
+  </div>
+  <?php  
+  } 
+  ?>
+  <!--NIF end-->
+  
   <?php
   if (ACCOUNT_DOB == 'true') {
 ?>
@@ -213,7 +269,7 @@
   </div>
 
   <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?></div>
+    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>

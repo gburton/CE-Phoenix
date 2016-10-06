@@ -12,16 +12,16 @@
 
   require('includes/application_top.php');
 
-  if (!isset($HTTP_GET_VARS['products_id'])) {
-    tep_redirect(tep_href_link(FILENAME_REVIEWS));
+  if (!isset($_GET['products_id'])) {
+    tep_redirect(tep_href_link('reviews.php'));
   }
   
-  $product_check_query = tep_db_query("select count(*) as total from products p, products_description pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
+  $product_check_query = tep_db_query("select count(*) as total from products p, products_description pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
   $product_check = tep_db_fetch_array($product_check_query);
 
-  $product_info_query = tep_db_query("select p.products_id, p.products_model, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+  $product_info_query = tep_db_query("select p.products_id, p.products_model, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
   if (!tep_db_num_rows($product_info_query)) {
-    tep_redirect(tep_href_link(FILENAME_REVIEWS));
+    tep_redirect(tep_href_link('reviews.php'));
   } else {
     $product_info = tep_db_fetch_array($product_info_query);
   }
@@ -38,9 +38,9 @@
     $products_name = $product_info['products_name'];
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_PRODUCT_REVIEWS);
+  require(DIR_WS_LANGUAGES . $language . '/product_reviews.php');
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params()));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('product_reviews.php', tep_get_all_get_params()));
 
   require(DIR_WS_INCLUDES . 'template_top.php');
 ?>
@@ -73,7 +73,7 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateR
 ?>
 
   <div class="col-sm-4 text-center">
-    <?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
+    <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
   </div>
@@ -161,7 +161,7 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateR
       }
       ?>&nbsp;
     </div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fa fa-commenting', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fa fa-commenting', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
   </div>
 </div>
 

@@ -39,9 +39,9 @@
 
       if ($calculate_currency_value == true) {
         $rate = (tep_not_null($currency_value)) ? $currency_value : $this->currencies[$currency_type]['value'];
-        $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format(tep_round($number * $rate, $this->currencies[$currency_type]['decimal_places']), $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . $this->currencies[$currency_type]['symbol_right'];
+        $format_string = $this->currencies[$currency_type]['symbol_left'] . ' ' . number_format(tep_round($number * $rate, $this->currencies[$currency_type]['decimal_places']), $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
       } else {
-        $format_string = $this->currencies[$currency_type]['symbol_left'] . number_format(tep_round($number, $this->currencies[$currency_type]['decimal_places']), $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . $this->currencies[$currency_type]['symbol_right'];
+        $format_string = $this->currencies[$currency_type]['symbol_left'] . ' ' . number_format(tep_round($number, $this->currencies[$currency_type]['decimal_places']), $this->currencies[$currency_type]['decimal_places'], $this->currencies[$currency_type]['decimal_point'], $this->currencies[$currency_type]['thousands_point']) . ' ' . $this->currencies[$currency_type]['symbol_right'];
       }
 
       return $format_string;
@@ -72,7 +72,7 @@
     function display_price($products_price, $products_tax, $quantity = 1) {
       return $this->format($this->calculate_price($products_price, $products_tax, $quantity));
     }
-    
+
     function format_raw($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
       global $currency;
 
@@ -87,7 +87,7 @@
 
       return $format_string;
     }
-    
+
     function display_raw($products_price, $products_tax, $quantity = 1) {
       return $this->format_raw($this->calculate_price($products_price, $products_tax, $quantity));
     }    

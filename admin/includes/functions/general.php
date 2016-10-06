@@ -28,7 +28,7 @@
     global $logger;
 
     if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) {
-      tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'SSL', false));
+      tep_redirect(tep_href_link('index.php', '', 'SSL', false));
     }
 
     if ( strpos($url, '&amp;') !== false ) {
@@ -144,7 +144,6 @@
 
     return strftime(DATE_FORMAT_LONG, mktime($hour, $minute, $second, $month, $day, $year));
   }
-
 ////
 // Output a raw date string in the selected locale date format
 // $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
@@ -384,6 +383,7 @@
     $address_format = tep_db_fetch_array($address_format_query);
 
     $company = tep_output_string_protected($address['company']);
+    $nif = tep_output_string_protected($address['nif']);  // NIF
     if (isset($address['firstname']) && tep_not_null($address['firstname'])) {
       $firstname = tep_output_string_protected($address['firstname']);
       $lastname = tep_output_string_protected($address['lastname']);
@@ -445,6 +445,14 @@
       $address = $company . $cr . $address;
     }
 
+    //NIF start
+    if ( (ACCOUNT_COMPANY == 'true') && (tep_not_null($company)) ) {
+      $address = $company . $cr . $address . (tep_not_null($nif) ? $cr . ENTRY_NIF . '&nbsp;' . $nif : '');
+    }else{
+      $address = $address . (tep_not_null($nif) ? $cr . ENTRY_NIF . '&nbsp;' . $nif : '');
+    }
+    //NIF end
+      
     return $address;
   }
 

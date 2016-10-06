@@ -39,6 +39,7 @@
         $entry_country_id = tep_db_prepare_input($HTTP_POST_VARS['entry_country_id']);
 
         $entry_company = tep_db_prepare_input($HTTP_POST_VARS['entry_company']);
+        $entry_nif = tep_db_prepare_input($HTTP_POST_VARS['entry_nif']); // NIF
         $entry_state = tep_db_prepare_input($HTTP_POST_VARS['entry_state']);
         if (isset($HTTP_POST_VARS['entry_zone_id'])) $entry_zone_id = tep_db_prepare_input($HTTP_POST_VARS['entry_zone_id']);
 
@@ -79,7 +80,35 @@
           $entry_email_address_check_error = false;
         }
 
-        if (strlen($entry_street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
+        //NIF start
+        if ((ACCOUNT_NIF == 'true') && ($entry_country_id == '195')){
+        	if (($entry_nif == "") && (ACCOUNT_NIF_REQ == 'true')) {
+        		$error = true;
+        		$entry_nif_check_error = ENTRY_NO_NIF_ERROR;
+        	} else if ((strlen($entry_nif) != 9) && ($entry_nif != ""))  {
+        		$error = true;
+        		$entry_nif_check_error = ENTRY_FORMAT_NIF_LENGTH_ERROR;
+        	} else if (strlen($entry_nif) == 9) { 
+        		$result = tep_valida_nif_cif_nie($entry_nif);
+        		if ($result <= 0) {
+        			$error = true;
+        			switch ($result) {
+        			case '-1':
+        				$entry_nif_check_error = ENTRY_FORMAT_NIF_ERROR;
+              	break;
+        			case '-2':
+        				$entry_nif_check_error = ENTRY_FORMAT_CIF_ERROR;
+              	break;
+        			case '-3':
+        				$entry_nif_check_error = ENTRY_FORMAT_NIE_ERROR;
+              	break;
+              }
+        		}
+        	}
+        }
+        //NIF end
+
+    		if (strlen($entry_street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
           $error = true;
           $entry_street_address_error = true;
         } else {
@@ -160,7 +189,8 @@
 
         if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $customers_gender;
         if (ACCOUNT_DOB == 'true') $sql_data_array['customers_dob'] = tep_date_raw($customers_dob);
-
+        if (ACCOUNT_NIF == 'true') $sql_data_array['entry_nif'] = $entry_nif;  // NIF
+        
         tep_db_perform(TABLE_CUSTOMERS, $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "'");
 
         tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customers_id . "'");
@@ -189,7 +219,7 @@
 
         tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array, 'update', "customers_id = '" . (int)$customers_id . "' and address_book_id = '" . (int)$default_address_id . "'");
 
-        tep_redirect(tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $customers_id));
+        tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $customers_id));
 
         } else if ($error == true) {
           $cInfo = new objectInfo($HTTP_POST_VARS);
@@ -218,10 +248,12 @@
         tep_db_query("delete from " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " where customers_id = '" . (int)$customers_id . "'");
         tep_db_query("delete from " . TABLE_WHOS_ONLINE . " where customer_id = '" . (int)$customers_id . "'");
 
-        tep_redirect(tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action'))));
+        tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action'))));
         break;
       default:
-        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$HTTP_GET_VARS['cID'] . "'");
+        //NIF start
+        $customers_query = tep_db_query("select c.customers_id, c.customers_gender, c.customers_firstname, c.customers_lastname, c.customers_dob, c.customers_email_address, a.entry_company, a.entry_street_address, a.entry_suburb, a.entry_postcode, a.entry_city, a.entry_state, a.entry_zone_id, a.entry_country_id, c.customers_telephone, c.customers_fax, c.customers_newsletter, c.customers_default_address_id, c.entry_nif from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_default_address_id = a.address_book_id where a.customers_id = c.customers_id and c.customers_id = '" . (int)$HTTP_GET_VARS['cID'] . "'");
+        //NIF end
         $customers = tep_db_fetch_array($customers_query);
         $cInfo = new objectInfo($customers);
     }
@@ -240,6 +272,7 @@ function check_form() {
   var customers_firstname = document.customers.customers_firstname.value;
   var customers_lastname = document.customers.customers_lastname.value;
 <?php if (ACCOUNT_COMPANY == 'true') echo 'var entry_company = document.customers.entry_company.value;' . "\n"; ?>
+<?php if (ACCOUNT_NIF == 'true') echo 'var entry_nif = document.customers.entry_nif.value;' . "\n"; ?> // NIF
 <?php if (ACCOUNT_DOB == 'true') echo 'var customers_dob = document.customers.customers_dob.value;' . "\n"; ?>
   var customers_email_address = document.customers.customers_email_address.value;
   var entry_street_address = document.customers.entry_street_address.value;
@@ -317,6 +350,15 @@ function check_form() {
     error = 1;
   }
 
+  //NIF start
+  if ( (ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($cInfo->entry_country_id == "195")) ) { ?>
+  	if (document.customers.elements['entry_nif'].value == "") {
+  		error_message = error_message + "<?php echo JS_NIF; ?>";
+  		error = 1;
+  	}
+  }
+  //NIF end
+
   if (error == 1) {
     alert(error_message);
     return false;
@@ -346,7 +388,7 @@ function check_form() {
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
-      <tr><?php echo tep_draw_form('customers', FILENAME_CUSTOMERS, tep_get_all_get_params(array('action')) . 'action=update', 'post', 'onsubmit="return check_form();"') . tep_draw_hidden_field('default_address_id', $cInfo->customers_default_address_id); ?>
+      <tr><?php echo tep_draw_form('customers', 'customers.php', tep_get_all_get_params(array('action')) . 'action=update', 'post', 'onsubmit="return check_form();"') . tep_draw_hidden_field('default_address_id', $cInfo->customers_default_address_id); ?>
         <td class="formAreaTitle"><?php echo CATEGORY_PERSONAL; ?></td>
       </tr>
       <tr>
@@ -403,6 +445,25 @@ function check_form() {
   }
 ?></td>
           </tr>
+          
+<!--NIF start-->					
+<?php  			if (ACCOUNT_NIF == 'true') { 
+							$nif_requerido = ( ((ACCOUNT_NIF_REQ == 'true') || ((ACCOUNT_NIF_REQ == 'spain') && ($cInfo->entry_country_id == "195")) ) ? 'true': 'false');
+?>
+        			<tr>
+        			<td class="main"><?php echo ENTRY_NIF; ?></td>
+        			<td class="main"><?php 
+        				if ($nif_requerido == 'true') {
+        					echo tep_draw_input_field('entry_nif', $cInfo->entry_nif, 'maxlength="9"', true);
+        				} else {
+        					echo tep_draw_input_field('entry_nif', $cInfo->entry_nif, 'maxlength="9"');
+        				}
+        				echo '&nbsp;' .  (tep_not_null($entry_nif_check_error)? '<span class="fieldRequired">' . $entry_nif_check_error . '</span>' : (tep_not_null(ENTRY_NIF_EXAMPLE) ? '<span class="fieldRequired">' . ENTRY_NIF_EXAMPLE . '</span>': '')); ?>
+        			</td>        
+        		</tr>
+<?php 	} ?>
+<!--NIF end-->
+
 <?php
     if (ACCOUNT_DOB == 'true') {
 ?>
@@ -659,14 +720,14 @@ function check_form() {
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('action')))); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customers.php', tep_get_all_get_params(array('action')))); ?></td>
       </tr></form>
 <?php
   } else {
 ?>
       <tr>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr><?php echo tep_draw_form('search', FILENAME_CUSTOMERS, '', 'get'); ?>
+          <tr><?php echo tep_draw_form('search', 'customers.php', '', 'get'); ?>
             <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
             <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', 1, HEADING_IMAGE_HEIGHT); ?></td>
             <td class="smallText" align="right"><?php echo HEADING_TITLE_SEARCH . ' ' . tep_draw_input_field('search'); ?></td>
@@ -710,15 +771,15 @@ function check_form() {
       }
 
       if (isset($cInfo) && is_object($cInfo) && ($customers['customers_id'] == $cInfo->customers_id)) {
-        echo '          <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=edit') . '\'">' . "\n";
+        echo '          <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=edit') . '\'">' . "\n";
       } else {
-        echo '          <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID')) . 'cID=' . $customers['customers_id']) . '\'">' . "\n";
+        echo '          <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('customers.php', tep_get_all_get_params(array('cID')) . 'cID=' . $customers['customers_id']) . '\'">' . "\n";
       }
 ?>
                 <td class="dataTableContent"><?php echo $customers['customers_lastname']; ?></td>
                 <td class="dataTableContent"><?php echo $customers['customers_firstname']; ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($info['date_account_created']); ?></td>
-                <td class="dataTableContent" align="right"><?php if (isset($cInfo) && is_object($cInfo) && ($customers['customers_id'] == $cInfo->customers_id)) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID')) . 'cID=' . $customers['customers_id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+                <td class="dataTableContent" align="right"><?php if (isset($cInfo) && is_object($cInfo) && ($customers['customers_id'] == $cInfo->customers_id)) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('customers.php', tep_get_all_get_params(array('cID')) . 'cID=' . $customers['customers_id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php
     }
@@ -733,7 +794,7 @@ function check_form() {
     if (isset($HTTP_GET_VARS['search']) && tep_not_null($HTTP_GET_VARS['search'])) {
 ?>
                   <tr>
-                    <td class="smallText" align="right" colspan="2"><?php echo tep_draw_button(IMAGE_RESET, 'arrowrefresh-1-w', tep_href_link(FILENAME_CUSTOMERS)); ?></td>
+                    <td class="smallText" align="right" colspan="2"><?php echo tep_draw_button(IMAGE_RESET, 'arrowrefresh-1-w', tep_href_link('customers.php')); ?></td>
                   </tr>
 <?php
     }
@@ -749,16 +810,16 @@ function check_form() {
     case 'confirm':
       $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_CUSTOMER . '</strong>');
 
-      $contents = array('form' => tep_draw_form('customers', FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=deleteconfirm'));
+      $contents = array('form' => tep_draw_form('customers', 'customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_DELETE_INTRO . '<br /><br /><strong>' . $cInfo->customers_firstname . ' ' . $cInfo->customers_lastname . '</strong>');
       if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('delete_reviews', 'on', true) . ' ' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews));
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id)));
       break;
     default:
       if (isset($cInfo) && is_object($cInfo)) {
         $heading[] = array('text' => '<strong>' . $cInfo->customers_firstname . ' ' . $cInfo->customers_lastname . '</strong>');
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_CUSTOMERS, tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=confirm')) . tep_draw_button(IMAGE_ORDERS, 'cart', tep_href_link(FILENAME_ORDERS, 'cID=' . $cInfo->customers_id)) . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link(FILENAME_MAIL, 'customer=' . $cInfo->customers_email_address)));
+        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customers.php', tep_get_all_get_params(array('cID', 'action')) . 'cID=' . $cInfo->customers_id . '&action=confirm')) . tep_draw_button(IMAGE_ORDERS, 'cart', tep_href_link('orders.php', 'cID=' . $cInfo->customers_id)) . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link('mail.php', 'customer=' . $cInfo->customers_email_address)));
         $contents[] = array('text' => '<br />' . TEXT_DATE_ACCOUNT_CREATED . ' ' . tep_date_short($cInfo->date_account_created));
         $contents[] = array('text' => '<br />' . TEXT_DATE_ACCOUNT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->date_account_last_modified));
         $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_LAST_LOGON . ' '  . tep_date_short($cInfo->date_last_logon));

@@ -32,7 +32,10 @@
 
       $order_id = tep_db_prepare_input($order_id);
 
-      $order_query = tep_db_query("select customers_id, customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, last_modified from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+      //NIF start
+      $order_query = tep_db_query("select customers_id, customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_nif, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, last_modified, language_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+      //NIF end
+
       $order = tep_db_fetch_array($order_query);
 
       $totals_query = tep_db_query("select title, text from " . TABLE_ORDERS_TOTAL . " where orders_id = '" . (int)$order_id . "' order by sort_order");
@@ -50,7 +53,9 @@
       $order_status_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where orders_status_id = '" . $order['orders_status'] . "' and language_id = '" . (int)$languages_id . "'");
       $order_status = tep_db_fetch_array($order_status_query);
 
-      $this->info = array('currency' => $order['currency'],
+
+      $this->info = array('order_id' => (int)$order_id,
+                          'currency' => $order['currency'],
                           'currency_value' => $order['currency_value'],
                           'payment_method' => $order['payment_method'],
                           'cc_type' => $order['cc_type'],
@@ -59,10 +64,13 @@
                           'cc_expires' => $order['cc_expires'],
                           'date_purchased' => $order['date_purchased'],
                           'orders_status' => $order_status['orders_status_name'],
+                          'orders_status_id' => $order['orders_status'],
+                          'orders_status_name' => $order_status['orders_status_name'],
                           'last_modified' => $order['last_modified'],
                           'total' => strip_tags($order_total['text']),
-                          'shipping_method' => ((substr($shipping_method['title'], -1) == ':') ? substr(strip_tags($shipping_method['title']), 0, -1) : strip_tags($shipping_method['title'])));
-
+                          'shipping_method' => ((substr($shipping_method['title'], -1) == ':') ? substr(strip_tags($shipping_method['title']), 0, -1) : strip_tags($shipping_method['title'])),
+                          'language_id' => $order['language_id']);
+			
       $this->customer = array('id' => $order['customers_id'],
                               'name' => $order['customers_name'],
                               'company' => $order['customers_company'],
@@ -92,6 +100,7 @@
 
       $this->billing = array('name' => $order['billing_name'],
                              'company' => $order['billing_company'],
+                             'nif' => $order['billing_nif'],  // NIF
                              'street_address' => $order['billing_street_address'],
                              'suburb' => $order['billing_suburb'],
                              'city' => $order['billing_city'],
@@ -131,7 +140,7 @@
     }
 
     function cart() {
-      global $HTTP_POST_VARS, $customer_id, $sendto, $billto, $cart, $languages_id, $currency, $currencies, $shipping, $payment, $comments, $customer_default_address_id;
+      global $customer_id, $sendto, $billto, $cart, $languages_id, $currency, $currencies, $shipping, $payment, $comments, $customer_default_address_id;
 
       $this->content_type = $cart->get_content_type();
 
@@ -139,7 +148,9 @@
         $sendto = $customer_default_address_id;
       }
 
-      $customer_address_query = tep_db_query("select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . (int)$customer_id . "' and ab.customers_id = '" . (int)$customer_id . "' and c.customers_default_address_id = ab.address_book_id");
+      //NIF start
+      $customer_address_query = tep_db_query("select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, c.entry_nif, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from " . TABLE_CUSTOMERS . " c, " . TABLE_ADDRESS_BOOK . " ab left join " . TABLE_ZONES . " z on (ab.entry_zone_id = z.zone_id) left join " . TABLE_COUNTRIES . " co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . (int)$customer_id . "' and ab.customers_id = '" . (int)$customer_id . "' and c.customers_default_address_id = ab.address_book_id");
+      //NIF end
       $customer_address = tep_db_fetch_array($customer_address_query);
 
       if (is_array($sendto) && !empty($sendto)) {
@@ -224,8 +235,9 @@
                           'subtotal' => 0,
                           'tax' => 0,
                           'tax_groups' => array(),
-                          'comments' => (tep_session_is_registered('comments') && !empty($comments) ? $comments : ''));
-
+                          'comments' => (tep_session_is_registered('comments') && !empty($comments) ? $comments : ''),
+                          'language_id' => (int)$languages_id);
+			
       if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
         if (isset($GLOBALS[$payment]->public_title)) {
           $this->info['payment_method'] = $GLOBALS[$payment]->public_title;
@@ -241,6 +253,7 @@
       $this->customer = array('firstname' => $customer_address['customers_firstname'],
                               'lastname' => $customer_address['customers_lastname'],
                               'company' => $customer_address['entry_company'],
+                              'nif' => $customer_address['entry_nif'], // NIF
                               'street_address' => $customer_address['entry_street_address'],
                               'suburb' => $customer_address['entry_suburb'],
                               'city' => $customer_address['entry_city'],
@@ -268,6 +281,7 @@
       $this->billing = array('firstname' => $billing_address['entry_firstname'],
                              'lastname' => $billing_address['entry_lastname'],
                              'company' => $billing_address['entry_company'],
+                             'nif' => $customer_address['entry_nif'], // NIF
                              'street_address' => $billing_address['entry_street_address'],
                              'suburb' => $billing_address['entry_suburb'],
                              'city' => $billing_address['entry_city'],

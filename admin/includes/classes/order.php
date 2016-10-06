@@ -24,7 +24,11 @@
     }
 
     function query($order_id) {
-      $order_query = tep_db_query("select customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, last_modified from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+    	global $languages_id;
+    	//NIF, order language start
+    	$order_query = tep_db_query("select customers_name, customers_company, customers_street_address, customers_suburb, customers_city, customers_postcode, customers_state, customers_country, customers_telephone, customers_email_address, customers_address_format_id, delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city, delivery_postcode, delivery_state, delivery_country, delivery_address_format_id, billing_name, billing_company, billing_nif, billing_street_address, billing_suburb, billing_city, billing_postcode, billing_state, billing_country, billing_address_format_id, payment_method, cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased, orders_status, last_modified, language_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
+    	//NIF, order language end
+
       $order = tep_db_fetch_array($order_query);
 
       $totals_query = tep_db_query("select title, text from " . TABLE_ORDERS_TOTAL . " where orders_id = '" . (int)$order_id . "' order by sort_order");
@@ -33,8 +37,12 @@
                                 'text' => $totals['text']);
       }
 
-      $this->info = array('currency' => $order['currency'],
-                          'currency_value' => $order['currency_value'],
+      $order_status_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where orders_status_id = '" . $order['orders_status'] . "' and language_id = '" . (int)$languages_id . "'");
+      $order_status = tep_db_fetch_array($order_status_query);
+
+      $this->info = array('order_id' => (int)$order_id,
+                          'currency' => $order['currency'],
+													'currency_value' => $order['currency_value'],
                           'payment_method' => $order['payment_method'],
                           'cc_type' => $order['cc_type'],
                           'cc_owner' => $order['cc_owner'],
@@ -42,7 +50,10 @@
                           'cc_expires' => $order['cc_expires'],
                           'date_purchased' => $order['date_purchased'],
                           'orders_status' => $order['orders_status'],
-                          'last_modified' => $order['last_modified']);
+                          'orders_status_id' => $order['orders_status'],
+                          'orders_status_name' => $order_status['orders_status_name'],
+                          'last_modified' => $order['last_modified'],
+                          'language_id' => $order['language_id']);
 
       $this->customer = array('name' => $order['customers_name'],
                               'company' => $order['customers_company'],
@@ -74,6 +85,7 @@
                              'postcode' => $order['billing_postcode'],
                              'state' => $order['billing_state'],
                              'country' => $order['billing_country'],
+                             'nif' => $order['billing_nif'], // NIF
                              'format_id' => $order['billing_address_format_id']);
 
       $index = 0;
