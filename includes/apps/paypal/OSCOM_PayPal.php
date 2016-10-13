@@ -426,7 +426,6 @@
       curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
       curl_setopt($curl, CURLOPT_FRESH_CONNECT, true);
       curl_setopt($curl, CURLOPT_ENCODING, ''); // disable gzip
-      curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2); //Force CURL to use TSL v1.2
 
       if ( isset($parameters) ) {
         curl_setopt($curl, CURLOPT_POST, true);
