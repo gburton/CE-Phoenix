@@ -205,9 +205,9 @@ if ( typeof jQuery.ui == 'undefined' ) {
 
 <div id="orderTabs" style="overflow: auto;">
   <ul>
-    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_summary_content">Summary</a>'; ?></li>
-    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_products_content">Products</a>'; ?></li>
-    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_status_history_content">Status History</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_summary_content">' . TAB_TITLE_SUMMARY . '</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_products_content">' . TAB_TITLE_PRODUCTS . '</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link(FILENAME_ORDERS, tep_get_all_get_params()), strlen($base_url)) . '#section_status_history_content">' . TAB_TITLE_STATUS_HISTORY . '</a>'; ?></li>
   </ul>
 
   <div id="section_summary_content" style="padding: 10px;">
