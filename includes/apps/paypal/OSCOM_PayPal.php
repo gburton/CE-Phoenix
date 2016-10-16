@@ -197,6 +197,10 @@
     }
 
     function hasCredentials($module, $type = null) {
+      if ( !defined('OSCOM_APP_PAYPAL_' . $module . '_STATUS') ) {
+        return false;
+      }
+
       $server = constant('OSCOM_APP_PAYPAL_' . $module . '_STATUS');
 
       if ( !in_array($server, array('1', '0')) ) {
