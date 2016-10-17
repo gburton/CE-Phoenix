@@ -14,6 +14,10 @@ define('HEADING_TITLE', 'Orders');
 define('HEADING_TITLE_SEARCH', 'Order ID:');
 define('HEADING_TITLE_STATUS', 'Status:');
 
+define('TAB_TITLE_SUMMARY','Summary');
+define('TAB_TITLE_PRODUCTS','Products');
+define('TAB_TITLE_STATUS_HISTORY','Status History');
+
 define('TABLE_HEADING_COMMENTS', 'Comments');
 define('TABLE_HEADING_CUSTOMERS', 'Customers');
 define('TABLE_HEADING_ORDER_TOTAL', 'Order Total');
