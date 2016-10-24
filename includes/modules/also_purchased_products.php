@@ -16,16 +16,19 @@
     if ($num_products_ordered >= MIN_DISPLAY_ALSO_PURCHASED) {
 
       $also_pur_prods_content = NULL;
-
+      $position = 1;
+ 
       while ($orders = tep_db_fetch_array($orders_query)) {
         $also_pur_prods_content .= '<div class="col-sm-6 col-md-4">';
         $also_pur_prods_content .= '  <div class="thumbnail">';
-        $also_pur_prods_content .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $orders['products_id']) . '">' . tep_image('images/' . $orders['products_image'], $orders['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a>';
+        $also_pur_prods_content .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $orders['products_image'], $orders['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a>';
         $also_pur_prods_content .= '    <div class="caption">';
-        $also_pur_prods_content .= '      <h5 class="text-center"><a href="' . tep_href_link('product_info.php', 'products_id=' . $orders['products_id']) . '"><span itemprop="itemListElement">' . $orders['products_name'] . '</span></a></h5>';
+        $also_pur_prods_content .= '      <h5 class="text-center" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']) . '"><span itemprop="name">' . $orders['products_name'] . '</span></a><meta itemprop="position" content="' . (int)$position . '" /></h5>';
         $also_pur_prods_content .= '    </div>';
         $also_pur_prods_content .= '  </div>';
         $also_pur_prods_content .= '</div>';
+       
+        $position++;
       }
 
 ?>
