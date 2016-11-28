@@ -18,7 +18,7 @@
     var $title;
     var $template_integration = true;
 
-    function cfgm_boxes() {
+    function __construct() {
       $this->directory = DIR_FS_CATALOG_MODULES . 'boxes/';
       $this->title = MODULE_CFG_MODULE_BOXES_TITLE;
     }

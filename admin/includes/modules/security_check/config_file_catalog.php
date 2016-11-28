@@ -13,7 +13,7 @@
   class securityCheck_config_file_catalog {
     var $type = 'warning';
 
-    function securityCheck_config_file_catalog() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/config_file_catalog.php');

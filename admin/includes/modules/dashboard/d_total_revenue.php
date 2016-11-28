@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_total_revenue() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DESCRIPTION;
 
