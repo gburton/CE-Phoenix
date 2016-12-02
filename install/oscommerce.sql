@@ -317,6 +317,7 @@ CREATE TABLE orders (
   orders_date_finished datetime,
   currency char(3),
   currency_value decimal(14,6),
+  language_id int(11) NOT NULL,
   PRIMARY KEY (orders_id),
   KEY idx_orders_customers_id (customers_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
