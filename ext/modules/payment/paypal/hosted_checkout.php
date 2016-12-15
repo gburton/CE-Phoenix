@@ -69,5 +69,5 @@
 </html>
 
 <?php
-  require('includes/classes/application_bottom.php');
+  require('includes/application_bottom.php');
 ?>
