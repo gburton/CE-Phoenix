@@ -51,9 +51,10 @@
   require('includes/database_tables.php');
 
 // Define how do we update currency exchange rates
-// Possible values are 'oanda' 'xe' or ''
-  define('CURRENCY_SERVER_PRIMARY', 'oanda');
-  define('CURRENCY_SERVER_BACKUP', 'xe');
+// Possible values are 'oanda' 'xe' 'fixer' or ''
+// fixer is the lastest added, more details at http://fixer.io
+  define('CURRENCY_SERVER_PRIMARY', 'fixer');
+  define('CURRENCY_SERVER_BACKUP', '');
 
 // include the database functions
   require('includes/functions/database.php');
