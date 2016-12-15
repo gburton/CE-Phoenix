@@ -37,4 +37,21 @@
       return false;
     }
   }
-?>
+
+  function quote_fixer_currency($to, $from = DEFAULT_CURRENCY) {
+    if ($to == $from) return 1;
+    
+    $ch = curl_init('http://api.fixer.io/latest?base=' . $from . '&symbols=' . $to);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $data = curl_exec($ch); 
+    curl_close($ch); 
+
+    $currencies = json_decode($data, true);
+    
+    if (isset($currencies['rates'][$to])) {
+      return $currencies['rates'][$to];
+    } else {
+      return false;
+    }
+  }
+  
