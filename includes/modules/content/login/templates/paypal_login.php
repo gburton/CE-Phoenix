@@ -1,22 +1,25 @@
-<div class="contentContainer <?php echo (OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH == 'Half') ? 'grid_8' : 'grid_16'; ?>">
-  <h2><?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?></h2>
+<div class="paypal-login <?php echo (OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH == 'Half') ? 'col-sm-6' : 'col-sm-12'; ?>">
+  <div class="panel panel-info">
+    <div class="panel-body">
 
-  <div class="contentText">
+      <h2><?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?></h2>
 
 <?php
   if ( OSCOM_APP_PAYPAL_LOGIN_STATUS == '0' ) {
-    echo '    <p class="messageStackError">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
+    echo '      <p class="alert alert-warning">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
   }
 ?>
 
-    <p><?php echo $cm_paypal_login->_app->getDef('module_login_template_content'); ?></p>
+      <p><?php echo $cm_paypal_login->_app->getDef('module_login_template_content'); ?></p>
 
-    <div id="PayPalLoginButton" style="text-align: right; padding-top: 5px;"></div>
+      <div id="PayPalLoginButton" class="text-right"></div>
+      
+    </div>
   </div>
 </div>
 
-<script type="text/javascript" src="https://www.paypalobjects.com/js/external/api.js"></script>
-<script type="text/javascript">
+<script src="https://www.paypalobjects.com/js/external/api.js"></script>
+<script>
 paypal.use( ["login"], function(login) {
   login.render ({
 
