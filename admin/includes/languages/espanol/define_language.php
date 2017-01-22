@@ -5,20 +5,20 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Define Languages');
+define('HEADING_TITLE', 'Definir Idiomas');
 
-define('TABLE_HEADING_FILES', 'Files');
-define('TABLE_HEADING_WRITABLE', 'Writable');
-define('TABLE_HEADING_LAST_MODIFIED', 'Last Modified');
+define('TABLE_HEADING_FILES', 'Archivos');
+define('TABLE_HEADING_WRITABLE', 'Modificable');
+define('TABLE_HEADING_LAST_MODIFIED', 'Ultima Modificación');
 
-define('TEXT_EDIT_NOTE', '<strong>Editing Definitions</strong><br /><br />Each language definition is set using the PHP <a href="http://www.php.net/define" target="_blank">define()</a> function in the following manner:<br /><br /><nobr>define(\'TEXT_MAIN\', \'<span style="background-color: #FFFF99;">This text can be edited. It\\\'s really easy to do!</span>\');</nobr><br /><br />The highlighted text can be edited. As this definition is using single quotes to contain the text, any single quotes within the text definition must be escaped with a backslash (eg, It\\\'s).');
+define('TEXT_EDIT_NOTE', '<strong>Editando Definiciones</strong><br /><br />Cada definición de idioma es asignado utilizando la función PHP <a href="http://www.php.net/define" target="_blank">define()</a>de la siguiente manera:<br /><br /><nobr>define(\'TEXT_MAIN\', \'<span style="background-color: #FFFF99;">Este texto puede ser editado. Esto es realmente fácil de hacer!</span>\');</nobr><br /><br />El texto remarcado puede ser editado. Esta definición está utilizando comillas simples para contener el texto, cualquier comilla simple en la definición del texto debe ser asignado con el caracter escape backslash.');
 
-define('TEXT_FILE_DOES_NOT_EXIST', 'File does not exist.');
+define('TEXT_FILE_DOES_NOT_EXIST', 'No existe fichero.');
 
-define('ERROR_FILE_NOT_WRITEABLE', 'Error: I can not write to this file. Please set the right user permissions on: %s');
-?>
+define('ERROR_FILE_NOT_WRITEABLE', 'Error: No puedo escribir sobre este fichero. Asigne correctamente los permisos a: %s');
+

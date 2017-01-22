@@ -5,36 +5,36 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Newsletter Manager');
+define('HEADING_TITLE', 'Gestor de Boletines');
 
-define('TABLE_HEADING_NEWSLETTERS', 'Newsletters');
-define('TABLE_HEADING_SIZE', 'Size');
-define('TABLE_HEADING_MODULE', 'Module');
-define('TABLE_HEADING_SENT', 'Sent');
-define('TABLE_HEADING_STATUS', 'Status');
-define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_NEWSLETTERS', 'Boletines');
+define('TABLE_HEADING_SIZE', 'Tamaño');
+define('TABLE_HEADING_MODULE', 'Módulo');
+define('TABLE_HEADING_SENT', 'Enviado');
+define('TABLE_HEADING_STATUS', 'Estado');
+define('TABLE_HEADING_ACTION', 'Acción');
 
-define('TEXT_NEWSLETTER_MODULE', 'Module:');
-define('TEXT_NEWSLETTER_TITLE', 'Newsletter Title:');
-define('TEXT_NEWSLETTER_CONTENT', 'Content:');
+define('TEXT_NEWSLETTER_MODULE', 'Módulo:');
+define('TEXT_NEWSLETTER_TITLE', 'Título del Boletín:');
+define('TEXT_NEWSLETTER_CONTENT', 'Contenido:');
 
-define('TEXT_NEWSLETTER_DATE_ADDED', 'Date Added:');
-define('TEXT_NEWSLETTER_DATE_SENT', 'Date Sent:');
+define('TEXT_NEWSLETTER_DATE_ADDED', 'Añadido el:');
+define('TEXT_NEWSLETTER_DATE_SENT', 'Fecha envío:');
 
-define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this newsletter?');
+define('TEXT_INFO_DELETE_INTRO', 'Seguro que quiere eliminar este boletín ?');
 
-define('TEXT_PLEASE_WAIT', 'Please wait .. sending emails ..<br /><br />Please do not interrupt this process!');
-define('TEXT_FINISHED_SENDING_EMAILS', 'Finished sending e-mails!');
+define('TEXT_PLEASE_WAIT', 'Por favor espere .. enviando correos ..<br><br>No interrumpa este proceso!');
+define('TEXT_FINISHED_SENDING_EMAILS', '¡Finalizado el envío de correos!');
 
-define('ERROR_NEWSLETTER_TITLE', 'Error: Newsletter title required');
-define('ERROR_NEWSLETTER_MODULE', 'Error: Newsletter module required');
-define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before deleting it.');
-define('ERROR_EDIT_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before editing it.');
-define('ERROR_SEND_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before sending it.');
+define('ERROR_NEWSLETTER_TITLE', 'Error: Se requiere un título para el boletín');
+define('ERROR_NEWSLETTER_MODULE', 'Error: Se requiere un módulo para el boletín');
+define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Error: Bloquee el boletín antes de eliminarlo.');
+define('ERROR_EDIT_UNLOCKED_NEWSLETTER', 'Error: Bloquee el boletín antes de editarlo.');
+define('ERROR_SEND_UNLOCKED_NEWSLETTER', 'Error: Bloquee el boletín antes de enviarlo.');
 
-define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: Module does not exist');
+define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: EL Módulo no existe');

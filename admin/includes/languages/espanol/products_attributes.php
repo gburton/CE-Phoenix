@@ -5,31 +5,30 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE_OPT', 'Product Options');
-define('HEADING_TITLE_VAL', 'Option Values');
-define('HEADING_TITLE_ATRIB', 'Products Attributes');
+define('HEADING_TITLE_OPT', 'Opciones del Producto');
+define('HEADING_TITLE_VAL', 'Valores para Opciones');
+define('HEADING_TITLE_ATRIB', 'Atributos');
 
 define('TABLE_HEADING_ID', 'ID');
-define('TABLE_HEADING_PRODUCT', 'Product Name');
-define('TABLE_HEADING_OPT_NAME', 'Option Name');
-define('TABLE_HEADING_OPT_VALUE', 'Option Value');
-define('TABLE_HEADING_OPT_PRICE', 'Value Price');
-define('TABLE_HEADING_OPT_PRICE_PREFIX', 'Prefix');
-define('TABLE_HEADING_ACTION', 'Action');
-define('TABLE_HEADING_DOWNLOAD', 'Downloadable products:');
-define('TABLE_TEXT_FILENAME', 'Filename:');
-define('TABLE_TEXT_MAX_DAYS', 'Expiry days:');
-define('TABLE_TEXT_MAX_COUNT', 'Maximum download count:');
+define('TABLE_HEADING_PRODUCT', 'Nombre del Producto');
+define('TABLE_HEADING_OPT_NAME', 'Nombre de la Opción');
+define('TABLE_HEADING_OPT_VALUE', 'Valor de la Opción');
+define('TABLE_HEADING_OPT_PRICE', 'Precio');
+define('TABLE_HEADING_OPT_PRICE_PREFIX', 'Prefijo');
+define('TABLE_HEADING_ACTION', 'Acción');
+define('TABLE_HEADING_DOWNLOAD', 'Productos descargables:');
+define('TABLE_TEXT_FILENAME', 'Nombre del Archivo:');
+define('TABLE_TEXT_MAX_DAYS', 'Días de caducidad:');
+define('TABLE_TEXT_MAX_COUNT', 'Número máximo de descargas:');
 
 define('MAX_ROW_LISTS_OPTIONS', 10);
 
-define('TEXT_WARNING_OF_DELETE', 'This option has products and values linked to it - it is not safe to delete it.');
-define('TEXT_OK_TO_DELETE', 'This option has no products and values linked to it - it is safe to delete it.');
-define('TEXT_OPTION_ID', 'Option ID');
-define('TEXT_OPTION_NAME', 'Option Name');
-?>
+define('TEXT_WARNING_OF_DELETE', 'Esta opción tiene productos y valores - no es seguro eliminarla.');
+define('TEXT_OK_TO_DELETE', 'Esta opción no esta en uso - es seguro eliminarla.');
+define('TEXT_OPTION_ID', 'ID de Opción');
+define('TEXT_OPTION_NAME', 'Nombre de Opción');

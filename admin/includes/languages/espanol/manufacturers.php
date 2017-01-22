@@ -5,48 +5,49 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Manufacturers');
+define('HEADING_TITLE', 'Fabricantes');
 
-define('TABLE_HEADING_MANUFACTURERS', 'Manufacturers');
-define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_MANUFACTURERS', 'Fabricantes');
+define('TABLE_HEADING_ACTION', 'Acción');
 
-define('TEXT_HEADING_NEW_MANUFACTURER', 'New Manufacturer');
-define('TEXT_HEADING_EDIT_MANUFACTURER', 'Edit Manufacturer');
-define('TEXT_HEADING_DELETE_MANUFACTURER', 'Delete Manufacturer');
+define('TEXT_HEADING_NEW_MANUFACTURER', 'Nuevo Fabricante');
+define('TEXT_HEADING_EDIT_MANUFACTURER', 'Editar Fabricante');
+define('TEXT_HEADING_DELETE_MANUFACTURER', 'Eliminar Fabricante');
 
-define('TEXT_MANUFACTURERS', 'Manufacturers:');
-define('TEXT_DATE_ADDED', 'Date Added:');
-define('TEXT_LAST_MODIFIED', 'Last Modified:');
-define('TEXT_PRODUCTS', 'Products:');
-define('TEXT_IMAGE_NONEXISTENT', 'IMAGE DOES NOT EXIST');
+define('TEXT_MANUFACTURERS', 'Fabricantes:');
+define('TEXT_DATE_ADDED', 'Añadido el:');
+define('TEXT_LAST_MODIFIED', 'Última modificación:');
+define('TEXT_PRODUCTS', 'Productos:');
+define('TEXT_IMAGE_NONEXISTENT', 'NO EXISTE IMAGEN');
 
-define('TEXT_NEW_INTRO', 'Please fill out the following information for the new manufacturer');
-define('TEXT_EDIT_INTRO', 'Please make any necessary changes');
+define('TEXT_NEW_INTRO', 'Introduzca los datos del nuevo fabricante');
+define('TEXT_EDIT_INTRO', 'Por favor realice los cambios necesarios');
 
-define('TEXT_MANUFACTURERS_NAME', 'Manufacturers Name:');
-define('TEXT_MANUFACTURERS_IMAGE', 'Manufacturers Image:');
-define('TEXT_MANUFACTURERS_URL', 'Manufacturers URL:');
+define('TEXT_MANUFACTURERS_NAME', 'Nombre del fabricante:');
+define('TEXT_MANUFACTURERS_IMAGE', 'Imagen del fabricante:');
+define('TEXT_MANUFACTURERS_URL', 'URL del fabricante:');
 
-define('TEXT_DELETE_INTRO', 'Are you sure you want to delete this manufacturer?');
-define('TEXT_DELETE_IMAGE', 'Delete manufacturers image?');
-define('TEXT_DELETE_PRODUCTS', 'Delete products from this manufacturer? (including product reviews, products on special, upcoming products)');
-define('TEXT_DELETE_WARNING_PRODUCTS', '<strong>WARNING:</strong> There are %s products still linked to this manufacturer!');
+define('TEXT_DELETE_INTRO', 'Seguro que desea eliminar este fabricante ?');
+define('TEXT_DELETE_IMAGE', 'Eliminar imagen del fabricante ?');
+define('TEXT_DELETE_PRODUCTS', 'Quiere borrar también todos los productos de este fabricante ? (incluyendo comentarios, ofertas y los productos próximamente disponibles)');
+define('TEXT_DELETE_WARNING_PRODUCTS', '<strong>ADVERTENCIA:</strong> Aùn hay productos que pertenecen a este fabricante!');
 
-define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Error: I can not write to this directory. Please set the right user permissions on: %s');
-define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Error: Directory does not exist: %s');
+define('ERROR_DIRECTORY_NOT_WRITEABLE', 'Error: No puedo escribir en este directorio. Asigne los permisos adecuados a: %s');
+define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Error: El directorio no existe: %s');
 
-define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:<br><small>shows in manufacturer page</small>');
-define('TEXT_EDIT_MANUFACTURERS_DESCRIPTION', 'Edit the Manufacturer Description:');
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Descripción del Fabricante:<br><small>mostrar en la página del fabricante</small>');
+define('TEXT_EDIT_MANUFACTURERS_DESCRIPTION', 'Editar la Descripción del Fabricante:');
 
-define('TEXT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>');
-define('TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Edit the &lt;description&gt; Meta Element.</small>');
-define('TEXT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Add a &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
-define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Edit the &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
+define('TEXT_MANUFACTURERS_SEO_DESCRIPTION', 'Descripción Meta Fabricante para SEO:<br><small>Añadir un elemento Meta &lt;description&gt;.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION', 'Descripción Meta Fabricante para SEO:<br><small>Editar un elemento Meta &lt;description&gt;.</small>');
+define('TEXT_MANUFACTURERS_SEO_KEYWORDS', 'Palabras clave Meta Fabricante para SEO:<br><small>Añadir un elemento Meta &lt;keyword&gt;.<br>Deben ser separados por coma.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Palabras clave Meta Fabricante para SEO:<br><small>Editar el elemento Meta &lt;keyword&gt;.<br>Deben ser separados por coma.</small>');
 
-const TEXT_MANUFACTURERS_SEO_TITLE = 'Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
-const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Edit the Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
+const TEXT_MANUFACTURERS_SEO_TITLE = 'Título Fabricante para SEO:<br><small>Opcionalmente reemplaza el nombre del fabricante en el elemento Meta &lt;title&gt;<br>y en la ruta de navegación.<br>Dejar en blanco para usar por defecto el nombre del fabricante.</small>';
+const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Editar Título Fabricante para SEO:<br><small>Opcionalmente reemplaza el nombre del fabricante en el elemento Meta &lt;title&gt;<br>y en la ruta de navegación.<br>Dejar en blanco para usar por defecto el nombre del fabricante.</small>';
+ 
