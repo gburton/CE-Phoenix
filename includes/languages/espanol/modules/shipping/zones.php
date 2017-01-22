@@ -5,15 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('MODULE_SHIPPING_ZONES_TEXT_TITLE', 'Zone Rates');
-define('MODULE_SHIPPING_ZONES_TEXT_DESCRIPTION', 'Zone Based Rates');
-define('MODULE_SHIPPING_ZONES_TEXT_WAY', 'Shipping to');
-define('MODULE_SHIPPING_ZONES_TEXT_UNITS', 'lb(s)');
-define('MODULE_SHIPPING_ZONES_INVALID_ZONE', 'No shipping available to the selected country');
-define('MODULE_SHIPPING_ZONES_UNDEFINED_RATE', 'The shipping rate cannot be determined at this time');
-?>
+define('MODULE_SHIPPING_ZONES_TEXT_TITLE', 'Tarifas por Zona');
+define('MODULE_SHIPPING_ZONES_TEXT_DESCRIPTION', 'Tarifas basadas en Zonas');
+define('MODULE_SHIPPING_ZONES_TEXT_WAY', 'Envío a');
+define('MODULE_SHIPPING_ZONES_TEXT_UNITS', 'kg');
+define('MODULE_SHIPPING_ZONES_INVALID_ZONE', 'Envíos no disponibles para el país seleccionado');
+define('MODULE_SHIPPING_ZONES_UNDEFINED_RATE', 'La tarifa de envío no se puede determinar en este momento');
