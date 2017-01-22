@@ -5,10 +5,9 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULES_ADMIN_MENU_TOOLS_SECURITY_CHECKS', 'Security Checks');
-?>
+  define('MODULES_ADMIN_MENU_TOOLS_SECURITY_CHECKS', 'Comprobaciones de Seguridad');
