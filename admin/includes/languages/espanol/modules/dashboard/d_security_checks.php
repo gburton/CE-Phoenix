@@ -5,12 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_TITLE', 'Security Checks');
-define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_DESCRIPTION', 'Run security checks');
-define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_SUCCESS', 'This is a properly configured installation of osCommerce Online Merchant!');
-?>
+define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_TITLE', 'Comprobaciones de Seguridad');
+define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_DESCRIPTION', 'Ejecutar Comprobaciones de Seguridad');
+define('MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_SUCCESS', 'Ésta es una instalación correctamente configurada de osCommerce Online Merchant!');
