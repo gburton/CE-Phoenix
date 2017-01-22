@@ -5,12 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions 
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_NAVBAR_CURRENCIES_TITLE', 'Currencies');
-  define('MODULE_NAVBAR_CURRENCIES_DESCRIPTION', 'Show Currencies in Navbar. <div class="secWarning">If you have just one Currency in your shop, there is no point installing this module.</div>');
+  define('MODULE_NAVBAR_CURRENCIES_TITLE', 'Monedas');
+  define('MODULE_NAVBAR_CURRENCIES_DESCRIPTION', 'Mostrar monedas en la barra de navegación. <div class="secWarning">Si usted tiene sólo una moneda en su tienda, no necesita instalar este módulo.</div>');
   
-  define('MODULE_NAVBAR_CURRENCIES_SELECTED_CURRENCY', '<abbr title="Selected Currency">C:</abbr> %s <span class="caret"></span>');
+  define('MODULE_NAVBAR_CURRENCIES_SELECTED_CURRENCY', '<abbr title="Selected Currency">M:</abbr> %s <span class="caret"></span>');
+  

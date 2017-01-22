@@ -5,12 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions 
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_NAVBAR_LANGUAGES_TITLE', 'Languages');
-  define('MODULE_NAVBAR_LANGUAGES_DESCRIPTION', 'Show Languages in Navbar. <div class="secWarning">If you have just one Language in your shop, there is no point installing this module.</div>');
+  define('MODULE_NAVBAR_LANGUAGES_TITLE', 'Idiomas');
+  define('MODULE_NAVBAR_LANGUAGES_DESCRIPTION', 'Mostrar Idiomas en la barra de navegación. <div class="secWarning">Si tiene un solo idioma en su tienda, no necesita instalar este módulo.</div>');
   
-  define('MODULE_NAVBAR_LANGUAGES_SELECTED_LANGUAGE', '<abbr title="Selected Language">L:</abbr> English <span class="caret"></span>');
+  define('MODULE_NAVBAR_LANGUAGES_SELECTED_LANGUAGE', '<abbr title="Selected Language">I:</abbr> Español <span class="caret"></span>');
+  
