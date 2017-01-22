@@ -5,11 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_ORDER_TOTAL_LOWORDERFEE_TITLE', 'Low Order Fee');
-  define('MODULE_ORDER_TOTAL_LOWORDERFEE_DESCRIPTION', 'Low Order Fee');
-?>
+  define('MODULE_ORDER_TOTAL_LOWORDERFEE_TITLE', 'Cargo para pedidos mínimos');
+  define('MODULE_ORDER_TOTAL_LOWORDERFEE_DESCRIPTION', 'Cargo para pedidos mínimos');
+  
