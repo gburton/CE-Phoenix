@@ -5,39 +5,39 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Currencies');
+define('HEADING_TITLE', 'Monedas');
 
-define('TABLE_HEADING_CURRENCY_NAME', 'Currency');
-define('TABLE_HEADING_CURRENCY_CODES', 'Code');
-define('TABLE_HEADING_CURRENCY_VALUE', 'Value');
-define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_CURRENCY_NAME', 'Moneda');
+define('TABLE_HEADING_CURRENCY_CODES', 'Código');
+define('TABLE_HEADING_CURRENCY_VALUE', 'Valor');
+define('TABLE_HEADING_ACTION', 'Acción');
 
-define('TEXT_INFO_EDIT_INTRO', 'Please make any necessary changes');
-define('TEXT_INFO_COMMON_CURRENCIES', '-- Common Currencies --');
-define('TEXT_INFO_CURRENCY_TITLE', 'Title:');
-define('TEXT_INFO_CURRENCY_CODE', 'Code:');
-define('TEXT_INFO_CURRENCY_SYMBOL_LEFT', 'Symbol Left:');
-define('TEXT_INFO_CURRENCY_SYMBOL_RIGHT', 'Symbol Right:');
-define('TEXT_INFO_CURRENCY_DECIMAL_POINT', 'Decimal Point:');
-define('TEXT_INFO_CURRENCY_THOUSANDS_POINT', 'Thousands Point:');
-define('TEXT_INFO_CURRENCY_DECIMAL_PLACES', 'Decimal Places:');
-define('TEXT_INFO_CURRENCY_LAST_UPDATED', 'Last Updated:');
-define('TEXT_INFO_CURRENCY_VALUE', 'Value:');
-define('TEXT_INFO_CURRENCY_EXAMPLE', 'Example Output:');
-define('TEXT_INFO_INSERT_INTRO', 'Please enter the new currency with its related data');
-define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this currency?');
-define('TEXT_INFO_HEADING_NEW_CURRENCY', 'New Currency');
-define('TEXT_INFO_HEADING_EDIT_CURRENCY', 'Edit Currency');
-define('TEXT_INFO_HEADING_DELETE_CURRENCY', 'Delete Currency');
-define('TEXT_INFO_SET_AS_DEFAULT', TEXT_SET_DEFAULT . ' (requires a manual update of currency values)');
-define('TEXT_INFO_CURRENCY_UPDATED', 'The exchange rate for %s (%s) was updated successfully via %s.');
+define('TEXT_INFO_EDIT_INTRO', 'Por favor realice los cambios necesarios');
+define('TEXT_INFO_COMMON_CURRENCIES', '-- Monedas Comunes --');
+define('TEXT_INFO_CURRENCY_TITLE', 'Título:');
+define('TEXT_INFO_CURRENCY_CODE', 'Código:');
+define('TEXT_INFO_CURRENCY_SYMBOL_LEFT', 'Símbolo a la izquierda:');
+define('TEXT_INFO_CURRENCY_SYMBOL_RIGHT', 'Símbolo a la derecha:');
+define('TEXT_INFO_CURRENCY_DECIMAL_POINT', 'Punto decimal:');
+define('TEXT_INFO_CURRENCY_THOUSANDS_POINT', 'Separador de miles:');
+define('TEXT_INFO_CURRENCY_DECIMAL_PLACES', 'Número de decimales:');
+define('TEXT_INFO_CURRENCY_LAST_UPDATED', 'Actualizado el:');
+define('TEXT_INFO_CURRENCY_VALUE', 'Valor:');
+define('TEXT_INFO_CURRENCY_EXAMPLE', 'Ejemplo:');
+define('TEXT_INFO_INSERT_INTRO', 'Introduzca los datos de la nueva moneda');
+define('TEXT_INFO_DELETE_INTRO', 'Seguro que quiere eliminar esta moneda?');
+define('TEXT_INFO_HEADING_NEW_CURRENCY', 'Nueva Moneda');
+define('TEXT_INFO_HEADING_EDIT_CURRENCY', 'Editar Moneda');
+define('TEXT_INFO_HEADING_DELETE_CURRENCY', 'Eliminar Moneda');
+define('TEXT_INFO_SET_AS_DEFAULT', TEXT_SET_DEFAULT . ' (requiere una actualización manual de los cambios de moneda)');
+define('TEXT_INFO_CURRENCY_UPDATED', 'El tipo de cambio para %s (%s) se ha actualizado correctamente vía %s.');
 
-define('ERROR_REMOVE_DEFAULT_CURRENCY', 'Error: The default currency can not be removed. Please set another currency as default, and try again.');
-define('ERROR_CURRENCY_INVALID', 'Error: The exchange rate for %s (%s) was not updated via %s. Is it a valid currency code?');
-define('WARNING_PRIMARY_SERVER_FAILED', 'Warning: The primary exchange rate server (%s) failed for %s (%s) - trying the secondary exchange rate server.');
-?>
+define('ERROR_REMOVE_DEFAULT_CURRENCY', 'Error: La moneda predeterminada no se puede eliminar. Seleccione otra moneda predeterminada y pruebe de nuevo.');
+define('ERROR_CURRENCY_INVALID', 'Error: El tipo de cambio para %s (%s) no fue actualizado vía %s. Se trata de un código de moneda válido?');
+define('WARNING_PRIMARY_SERVER_FAILED', 'Advertencia: El tipo de cambio primario (%s) ha fallado por %s (%s) - probando el servidor de tipo de cambio secundario.');
+ 
