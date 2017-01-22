@@ -5,13 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TITLE', 'Product Reviews');
-  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_DESCRIPTION', 'Show review block on the product info page.');
+  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TITLE', 'Comentarios de producto');
+  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_DESCRIPTION', 'Muestra el bloque de comentarios en la página de producto.');
   
-  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
-
+  define('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED', 'Valorado %s por <cite title="%s">%s</cite>');
+  
