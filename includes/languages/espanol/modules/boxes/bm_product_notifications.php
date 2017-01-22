@@ -5,14 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_TITLE', 'Product Notifications');
-  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_DESCRIPTION', 'Show product notifications on the product information page');
-  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE', 'Notifications');
-  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY', 'Notify me of updates to <strong>%s</strong>');
-  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY_REMOVE', 'Do not notify me of updates to <strong>%s</strong>');
-?>
+  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_TITLE', 'Avisos de productos');
+  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_DESCRIPTION', 'Mostrar notificaciones de productos en la página de información sobre el producto');
+  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE', 'Notificaciones');
+  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY', 'Notifíqueme de cambios en <strong>%s</strong>');
+  define('MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY_REMOVE', 'No me notifiquen de cambios en <strong>%s</strong>');
+  
