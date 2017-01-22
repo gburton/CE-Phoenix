@@ -18,7 +18,7 @@
     $www_location .= $_SERVER['SCRIPT_FILENAME'];
   }
 
-  $www_location = substr($www_location, 0, strpos($www_location, 'install'));
+  $www_location = substr($www_location, 0, strrpos($www_location, 'install/install.php'));
 
   $dir_fs_www_root = osc_realpath(dirname(__FILE__) . '/../../../') . '/';
 ?>
