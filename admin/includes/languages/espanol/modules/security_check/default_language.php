@@ -5,10 +5,9 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('ERROR_NO_DEFAULT_LANGUAGE_DEFINED', 'Error: There is currently no default language set. Please set one at: Administration Tool->Localization->Languages');
-?>
+define('ERROR_NO_DEFAULT_LANGUAGE_DEFINED', 'Error: Actualmente no hay ningún idioma predeterminado. Por favor, configure uno en: Herramienta de Administración->Localización->Idiomas');

@@ -5,10 +5,9 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('WARNING_SESSION_AUTO_START', 'session.auto_start is enabled - please disable this php feature in php.ini and restart the web server.');
-?>
+define('WARNING_SESSION_AUTO_START', 'session.auto_start esta activado - por favor, desactive esta característica en el archivo php.ini y reinicie el servidor web.');

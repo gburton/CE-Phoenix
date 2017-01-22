@@ -5,10 +5,9 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('WARNING_DOWNLOAD_DIRECTORY_NON_EXISTENT', 'The downloadable products directory does not exist: ' . DIR_FS_DOWNLOAD . '. Downloadable products will not work until this directory is valid.');
-?>
+define('WARNING_DOWNLOAD_DIRECTORY_NON_EXISTENT', 'El directorio para productos descargables no existe: ' . DIR_FS_DOWNLOAD . '. Los productos descargables no funcionarán hasta que este directorio sea válido.');
