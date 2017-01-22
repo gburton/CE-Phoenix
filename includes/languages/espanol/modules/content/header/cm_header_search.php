@@ -5,11 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_HEADER_SEARCH_TITLE', 'Search Box');
-  define('MODULE_CONTENT_HEADER_SEARCH_DESCRIPTION', 'Adds your Search Box into the Header Area of your site.');
-
+  define('MODULE_CONTENT_HEADER_SEARCH_TITLE', 'Campo de búsqueda');
+  define('MODULE_CONTENT_HEADER_SEARCH_DESCRIPTION', 'Añade el campo de búsqueda en el área de encabezado de su sitio.');
+  

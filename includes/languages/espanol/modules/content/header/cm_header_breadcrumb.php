@@ -5,11 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_HEADER_BREADCRUMB_TITLE', 'Breadcrumb');
-  define('MODULE_CONTENT_HEADER_BREADCRUMB_DESCRIPTION', 'Adds a Breadrcumb Trail into the Header Area of your site.');
-
+  define('MODULE_CONTENT_HEADER_BREADCRUMB_TITLE', 'Ruta de navegación');
+  define('MODULE_CONTENT_HEADER_BREADCRUMB_DESCRIPTION', 'Añade una ruta de navegación en el área de encabezado de su sitio.');
+  
