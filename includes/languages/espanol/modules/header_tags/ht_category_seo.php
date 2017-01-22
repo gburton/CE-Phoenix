@@ -5,11 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_HEADER_TAGS_CATEGORY_SEO_TITLE', 'Category SEO');
-  define('MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION', 'Add the SEO elements you defined for the category, to the underlying code of the category page (aka Meta Description and Meta Keywords).  Good for SEO.');
-
+  define('MODULE_HEADER_TAGS_CATEGORY_SEO_TITLE', 'Categoría SEO');
+  define('MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION', 'Añadir los elementos SEO que ha definido para la categoría, al código subyacente de la página de categoría (Descripción META y Palabras Clave META).  Bueno para SEO.');
+  

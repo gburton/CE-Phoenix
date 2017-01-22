@@ -5,11 +5,11 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
   define('MODULE_HEADER_TAGS_OPENSEARCH_TITLE', 'OpenSearch');
-  define('MODULE_HEADER_TAGS_OPENSEARCH_DESCRIPTION', 'Allow the browser to search the shop via OpenSearch');
-?>
+  define('MODULE_HEADER_TAGS_OPENSEARCH_DESCRIPTION', 'Permita la búsqueda de la tienda en el navegador por OpenSearch');
+  
