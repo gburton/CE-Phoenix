@@ -5,16 +5,15 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_FOOTER_TEXT_TITLE', 'Text Block');
-  define('MODULE_CONTENT_FOOTER_TEXT_DESCRIPTION', 'Adds a Text Block to the Footer Area of your site');
-
-  define('MODULE_CONTENT_FOOTER_TEXT_HEADING_TITLE', 'About Us');
-
-
-  define('MODULE_CONTENT_FOOTER_TEXT_TEXT', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>');
-
+  define('MODULE_CONTENT_FOOTER_TEXT_TITLE', 'Bloque de texto');
+  define('MODULE_CONTENT_FOOTER_TEXT_DESCRIPTION', 'Añade un bloque de Texto al pie de página de su sitio web.');
+ 
+  define('MODULE_CONTENT_FOOTER_TEXT_HEADING_TITLE', 'Acerca de nosotros');
+  
+  define('MODULE_CONTENT_FOOTER_TEXT_TEXT', '<p>Lorem Ipsum es simplemente un texto de relleno usado por impresores y tipógrafos. Lorem Ipsum es el texto de relleno estándar de la industria desde el siglo XVI, cuando un impresor desconocido tomó una galerada de tipos y los combinó para hacer un libro de tipografías.</p>');
+  

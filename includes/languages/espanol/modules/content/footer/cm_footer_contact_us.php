@@ -5,14 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_FOOTER_CONTACT_US_TITLE', 'Contact Us Details');
-  define('MODULE_CONTENT_FOOTER_CONTACT_US_DESCRIPTION', 'Adds a Contact Us Block to the Footer Area of your site');
-
-  define('MODULE_CONTENT_FOOTER_CONTACT_US_HEADING_TITLE', 'How To Contact Us');
-  define('MODULE_CONTENT_FOOTER_CONTACT_US_EMAIL_LINK', 'Contact Us');
-
+  define('MODULE_CONTENT_FOOTER_CONTACT_US_TITLE', 'Contacte con nosotros');
+  define('MODULE_CONTENT_FOOTER_CONTACT_US_DESCRIPTION', 'Añade un bloque de Contacto al pie de página de su sitio');
+  
+  define('MODULE_CONTENT_FOOTER_CONTACT_US_HEADING_TITLE', 'Cómo contactar');
+  define('MODULE_CONTENT_FOOTER_CONTACT_US_EMAIL_LINK', 'Contactar');
+  
