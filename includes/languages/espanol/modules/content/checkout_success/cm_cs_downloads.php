@@ -5,16 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_CHECKOUT_SUCCESS_DOWNLOADS_TITLE', 'Product Downloads');
-  define('MODULE_CONTENT_CHECKOUT_SUCCESS_DOWNLOADS_DESCRIPTION', 'Show ordered product download links on the checkout success page');
+  define('MODULE_CONTENT_CHECKOUT_SUCCESS_DOWNLOADS_TITLE', 'Descarga de productos');
+  define('MODULE_CONTENT_CHECKOUT_SUCCESS_DOWNLOADS_DESCRIPTION', 'Mostrar enlaces de descarga de productos en la página "checkout success"');
 
-  define('TABLE_HEADING_DOWNLOAD_DATE', 'Expiry date: ');
-  define('TABLE_HEADING_DOWNLOAD_COUNT', ' downloads remaining');
-  define('HEADING_DOWNLOAD', 'Download your products here:');
-  define('FOOTER_DOWNLOAD', 'You can also download your products at a later time at \'%s\'');
-?>
+  define('TABLE_HEADING_DOWNLOAD_DATE', 'Fecha caducidad: ');
+  define('TABLE_HEADING_DOWNLOAD_COUNT', ' descargas restantes');
+  define('HEADING_DOWNLOAD', 'Descargue sus productos aquí:');
+  define('FOOTER_DOWNLOAD', 'Puede descargar sus productos más tarde en %s');
+  
