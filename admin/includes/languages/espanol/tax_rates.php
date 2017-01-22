@@ -5,32 +5,31 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Tax Rates');
+define('HEADING_TITLE', 'Tasa de Impuestos');
 
-define('TABLE_HEADING_TAX_RATE_PRIORITY', 'Priority');
-define('TABLE_HEADING_TAX_CLASS_TITLE', 'Tax Class');
-define('TABLE_HEADING_COUNTRIES_NAME', 'Country');
-define('TABLE_HEADING_ZONE', 'Zone');
-define('TABLE_HEADING_TAX_RATE', 'Tax Rate');
-define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_TAX_RATE_PRIORITY', 'Prioridad');
+define('TABLE_HEADING_TAX_CLASS_TITLE', 'Tasas');
+define('TABLE_HEADING_COUNTRIES_NAME', 'País');
+define('TABLE_HEADING_ZONE', 'Zona');
+define('TABLE_HEADING_TAX_RATE', 'Tasa');
+define('TABLE_HEADING_ACTION', 'Acción');
 
-define('TEXT_INFO_EDIT_INTRO', 'Please make any necessary changes');
-define('TEXT_INFO_DATE_ADDED', 'Date Added:');
-define('TEXT_INFO_LAST_MODIFIED', 'Last Modified:');
-define('TEXT_INFO_CLASS_TITLE', 'Tax Class Title:');
-define('TEXT_INFO_COUNTRY_NAME', 'Country:');
-define('TEXT_INFO_ZONE_NAME', 'Zone:');
-define('TEXT_INFO_TAX_RATE', 'Tax Rate (%):');
-define('TEXT_INFO_TAX_RATE_PRIORITY', 'Tax rates at the same priority are added, others are compounded.<br /><br />Priority:');
-define('TEXT_INFO_RATE_DESCRIPTION', 'Description:');
-define('TEXT_INFO_INSERT_INTRO', 'Please enter the new tax class with its related data');
-define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this tax rate?');
-define('TEXT_INFO_HEADING_NEW_TAX_RATE', 'New Tax Rate');
-define('TEXT_INFO_HEADING_EDIT_TAX_RATE', 'Edit Tax Rate');
-define('TEXT_INFO_HEADING_DELETE_TAX_RATE', 'Delete Tax Rate');
-?>
+define('TEXT_INFO_EDIT_INTRO', 'Por favor realice los cambios necesarios');
+define('TEXT_INFO_DATE_ADDED', 'Fecha de Alta:');
+define('TEXT_INFO_LAST_MODIFIED', 'Ultima Modificación:');
+define('TEXT_INFO_CLASS_TITLE', 'Nombre de la Tasa:');
+define('TEXT_INFO_COUNTRY_NAME', 'País:');
+define('TEXT_INFO_ZONE_NAME', 'Zona:');
+define('TEXT_INFO_TAX_RATE', 'Tasa (%):');
+define('TEXT_INFO_TAX_RATE_PRIORITY', 'Impuestos con la misma prioridad se suman, los demás se aplican sucesivamente.<br /><br />Prioridad:');
+define('TEXT_INFO_RATE_DESCRIPTION', 'Descripción:');
+define('TEXT_INFO_INSERT_INTRO', 'Introduzca un nombre y los datos de la nueva tasa');
+define('TEXT_INFO_DELETE_INTRO', 'Seguro que desea eliminar esta tasa?');
+define('TEXT_INFO_HEADING_NEW_TAX_RATE', 'Nueva Tasa');
+define('TEXT_INFO_HEADING_EDIT_TAX_RATE', 'Editar Tasa');
+define('TEXT_INFO_HEADING_DELETE_TAX_RATE', 'Eliminar Tasa');

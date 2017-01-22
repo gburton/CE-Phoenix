@@ -5,17 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Store Logo');
+define('HEADING_TITLE', 'Logo de la Tienda');
 
-define('TEXT_LOGO_IMAGE', 'New Logo:');
-define('TEXT_FORMAT_AND_LOCATION', 'The store logo must be in .png or .jpg or .gif or .svg format and will be saved into:');
+define('TEXT_LOGO_IMAGE', 'Nuevo Logo:');
+define('TEXT_FORMAT_AND_LOCATION', 'El logotipo de la tienda debe ser en formato .png .gif .svg y debe ser guardado como:');
 
-define('SUCCESS_LOGO_UPDATED', 'Success: The store logo has successfully been updated!');
+define('SUCCESS_LOGO_UPDATED', 'Exito: El logotipo de la tienda ha sido correctamente actualizado!');
 
-define('ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE', 'Error: The images directory cannot be uploaded to. (<a href="%s">click here to review the directory permissions</a>)');
-?>
+define('ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE', 'Error: El directorio de Imágenes no puede ser subido a . (<a href="%s">clic para revisar los permisos del directorio</a>)');

@@ -5,16 +5,15 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Security Directory Permissions');
+define('HEADING_TITLE', 'Seguridad en los Permisos de directorios');
 
-define('TABLE_HEADING_DIRECTORIES', 'Directories');
-define('TABLE_HEADING_WRITABLE', 'Writable');
-define('TABLE_HEADING_RECOMMENDED', 'Recommended');
+define('TABLE_HEADING_DIRECTORIES', 'Directorios');
+define('TABLE_HEADING_WRITABLE', 'Modificable');
+define('TABLE_HEADING_RECOMMENDED', 'Recomendado');
 
-define('TEXT_DIRECTORY', 'Directory:');
-?>
+define('TEXT_DIRECTORY', 'Directorio:');

@@ -5,25 +5,24 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Zones');
+define('HEADING_TITLE', 'Zonas');
 
-define('TABLE_HEADING_COUNTRY_NAME', 'Country');
-define('TABLE_HEADING_ZONE_NAME', 'Zones');
-define('TABLE_HEADING_ZONE_CODE', 'Code');
-define('TABLE_HEADING_ACTION', 'Action');
+define('TABLE_HEADING_COUNTRY_NAME', 'País');
+define('TABLE_HEADING_ZONE_NAME', 'Zonas');
+define('TABLE_HEADING_ZONE_CODE', 'Código');
+define('TABLE_HEADING_ACTION', 'Acción');
 
-define('TEXT_INFO_EDIT_INTRO', 'Please make any necessary changes');
-define('TEXT_INFO_ZONES_NAME', 'Zones Name:');
-define('TEXT_INFO_ZONES_CODE', 'Zones Code:');
-define('TEXT_INFO_COUNTRY_NAME', 'Country:');
-define('TEXT_INFO_INSERT_INTRO', 'Please enter the new zone with its related data');
-define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this zone?');
-define('TEXT_INFO_HEADING_NEW_ZONE', 'New Zone');
-define('TEXT_INFO_HEADING_EDIT_ZONE', 'Edit Zone');
-define('TEXT_INFO_HEADING_DELETE_ZONE', 'Delete Zone');
-?>
+define('TEXT_INFO_EDIT_INTRO', 'Por vafor realice los cambios necesarios');
+define('TEXT_INFO_ZONES_NAME', 'Nombre de la Zona:');
+define('TEXT_INFO_ZONES_CODE', 'Código de la Zona:');
+define('TEXT_INFO_COUNTRY_NAME', 'País:');
+define('TEXT_INFO_INSERT_INTRO', 'Introduzca los datos de la nueva zona');
+define('TEXT_INFO_DELETE_INTRO', 'Seguro que desea eliminar esta zona?');
+define('TEXT_INFO_HEADING_NEW_ZONE', 'Nueva Zona');
+define('TEXT_INFO_HEADING_EDIT_ZONE', 'Editar Zona');
+define('TEXT_INFO_HEADING_DELETE_ZONE', 'Eliminar Zona');
