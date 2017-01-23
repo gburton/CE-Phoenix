@@ -166,7 +166,7 @@ define('CATEGORY_OPTIONS', 'Opciones');
 define('ENTRY_GENDER', 'Tratamiento:');
 define('ENTRY_GENDER_ERROR', '&nbsp;<span class="errorText">obligatorio</span>');
 define('ENTRY_FIRST_NAME', 'Nombre:');
-define('ENTRY_FIRST_NAME_ERROR', '&nbsp;<span class="errorText">mínimo ENTRY_FIRST_NAME_MIN_LENGTH . ' caracteres;
+define('ENTRY_FIRST_NAME_ERROR', '&nbsp;<span class="errorText">mínimo '. ENTRY_FIRST_NAME_MIN_LENGTH . ' caracteres';
 define('ENTRY_LAST_NAME', 'Apellidos:');
 define('ENTRY_LAST_NAME_ERROR', '&nbsp;<span class="errorText">mínimo ' . ENTRY_LAST_NAME_MIN_LENGTH . ' caracteres</span>');
 define('ENTRY_DATE_OF_BIRTH', 'Fecha de nacimiento:');
