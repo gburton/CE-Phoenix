@@ -5,52 +5,52 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Advanced Search');
-define('NAVBAR_TITLE_2', 'Search Results');
+define('NAVBAR_TITLE_1', 'Búsqueda Avanzada');
+define('NAVBAR_TITLE_2', 'Resultados de la Búsqueda');
 
-define('HEADING_TITLE_1', 'Advanced Search');
-define('HEADING_TITLE_2', 'Products meeting the search criteria');
+define('HEADING_TITLE_1', 'Búsqueda Avanzada');
+define('HEADING_TITLE_2', 'Productos que satisfacen los criterios de búsqueda');
 
-define('HEADING_SEARCH_CRITERIA', 'Search Criteria');
+define('HEADING_SEARCH_CRITERIA', 'Criterios de Búsqueda');
 
-define('TEXT_SEARCH_IN_DESCRIPTION', 'Search In Product Descriptions');
-define('ENTRY_CATEGORIES', 'Categories');
-define('ENTRY_INCLUDE_SUBCATEGORIES', 'Include Subcategories');
-define('ENTRY_MANUFACTURERS', 'Manufacturers');
-define('ENTRY_PRICE_FROM', 'Price From');
-define('ENTRY_PRICE_TO', 'Price To');
-define('ENTRY_DATE_FROM', 'Date From');
-define('ENTRY_DATE_TO', 'Date To');
+define('TEXT_SEARCH_IN_DESCRIPTION', 'Buscar también en la descripción');
+define('ENTRY_CATEGORIES', 'Categoría:');
+define('ENTRY_INCLUDE_SUBCATEGORIES', 'Incluir Subcategorías');
+define('ENTRY_MANUFACTURERS', 'Fabricante:');
+define('ENTRY_PRICE_FROM', ' Precio desde:');
+define('ENTRY_PRICE_TO', 'hasta:');
+define('ENTRY_DATE_FROM', 'De fecha de alta:');
+define('ENTRY_DATE_TO', 'hasta:');
 
 define('ENTRY_PRICE_FROM_TEXT', '');
 define('ENTRY_PRICE_TO_TEXT', '');
 define('ENTRY_DATE_FROM_TEXT', '');
 define('ENTRY_DATE_TO_TEXT', '');
 
-define('TEXT_SEARCH_HELP_LINK', '<span class="fa fa-info-circle"></span> Search Help');
+define('TEXT_SEARCH_HELP_LINK', '<span class="fa fa-info-circle"></span> Ayuda');
 
-define('TEXT_ALL_CATEGORIES', 'All Categories');
-define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');
+define('TEXT_ALL_CATEGORIES', 'Todas las Categorías');
+define('TEXT_ALL_MANUFACTURERS', 'Todos los Fabricantes');
 
-define('HEADING_SEARCH_HELP', 'Search Help');
-define('TEXT_SEARCH_HELP', 'Keywords may be separated by AND and/or OR statements for greater control of the search results.<br /><br />For example, <u>Microsoft AND mouse</u> would generate a result set that contain both words. However, for <u>mouse OR keyboard</u>, the result set returned would contain both or either words.<br /><br />Exact matches can be searched for by enclosing keywords in double-quotes.<br /><br />For example, <u>"notebook computer"</u> would generate a result set which match the exact string.<br /><br />Brackets can be used for further control on the result set.<br /><br />For example, <u>Microsoft and (keyboard or mouse or "visual basic")</u>.');
-define('TEXT_CLOSE_WINDOW', '<u>Close Window</u> [x]');
+define('HEADING_SEARCH_HELP', 'Consejos para Búsqueda Avanzada');
+define('TEXT_SEARCH_HELP', 'El motor de búsqueda le permite hacer una búsqueda por palabras clave en el modelo, nombre y descripción del producto y en el nombre del fabricante.<br><br>Cuando haga una búsqueda por palabras o frases clave, puede separar estas con los operadores lógicos AND y OR. Por ejemplo, puede hacer una busqueda por <u>microsoft AND raton</u>. Esta búsqueda daría como resultado los productos que contengan ambas palabras. Por el contrario, si teclea  <u>raton OR teclado</u>, conseguirá una lista de los productos que contengan las dos o sólo una de las palabras. Si no se separan las palabras o frases clave con AND o con OR, la búsqueda se hará usando por defecto el operador logico AND.<br><br>Puede realizar búsquedas exactas de varias palabras encerrándolas entre comillas. Por ejemplo, si busca <u>"ordenador portátil"</u>, obtendrá una lista de productos que tengan exactamente esa cadena en ellos.<br><br>Se pueden usar paréntesis para controlar el orden de las operaciones lógicas. Por ejemplo, puede introducir <u>microsoft and (teclado or raton or "visual basic")</u>.');
+define('TEXT_CLOSE_WINDOW', '<u>Cerrar Ventana</u> [x]');
 
-define('TEXT_NO_PRODUCTS', 'There is no product that matches the search criteria.');
+define('TEXT_NO_PRODUCTS', 'No hay productos que corresponden con los criterios de búsqueda.');
 
-define('ERROR_AT_LEAST_ONE_INPUT', 'At least one of the fields in the search form must be entered.');
-define('ERROR_INVALID_FROM_DATE', 'Invalid From Date.');
-define('ERROR_INVALID_TO_DATE', 'Invalid To Date.');
-define('ERROR_TO_DATE_LESS_THAN_FROM_DATE', 'To Date must be greater than or equal to From Date.');
-define('ERROR_PRICE_FROM_MUST_BE_NUM', 'Price From must be a number.');
-define('ERROR_PRICE_TO_MUST_BE_NUM', 'Price To must be a number.');
-define('ERROR_PRICE_TO_LESS_THAN_PRICE_FROM', 'Price To must be greater than or equal to Price From.');
-define('ERROR_INVALID_KEYWORDS', 'Invalid keywords.');
+define('ERROR_AT_LEAST_ONE_INPUT', 'Debe introducir al menos un criterio de búsqueda.');
+define('ERROR_INVALID_FROM_DATE', 'La Fecha de Alta inicial no es válida');
+define('ERROR_INVALID_TO_DATE', 'La Fecha de Alta final es inválida');
+define('ERROR_TO_DATE_LESS_THAN_FROM_DATE', 'Fecha de Alta final debe ser mayor que Fecha de Alta inicial');
+define('ERROR_PRICE_FROM_MUST_BE_NUM', 'El Precio Desde debe ser númerico');
+define('ERROR_PRICE_TO_MUST_BE_NUM', 'El Precio Hasta debe ser númerico');
+define('ERROR_PRICE_TO_LESS_THAN_PRICE_FROM', 'Precio Hasta debe ser mayor o igual que Precio Desde');
+define('ERROR_INVALID_KEYWORDS', 'Palabras clave incorrectas');
 
 // text for date of birth example
 define('DOB_FORMAT_STRING', 'mm/dd/yyyy');

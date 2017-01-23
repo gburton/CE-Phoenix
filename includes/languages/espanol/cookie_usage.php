@@ -5,16 +5,15 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Cookie Usage');
-define('HEADING_TITLE', 'Cookie Usage');
+define('NAVBAR_TITLE', 'Uso de Cookies');
+define('HEADING_TITLE', 'Uso de Cookies');
 
-define('TEXT_INFORMATION', 'We have detected that your browser does not support cookies, or has set cookies to be disabled.<br /><br />To continue shopping online, we encourage you to enable cookies on your browser.<br /><br />For <strong>Internet Explorer</strong> browsers, please follow these instructions:<br /><ol><li>Click on the Tools menubar, and select Internet Options</li><li>Select the Security tab, and reset the security level to Medium</li></ol>We have taken this measurement of security for your benefit, and apologize upfront if any inconveniences are caused.<br /><br />Please contact the store owner if you have any questions relating to this requirement, or to continue purchasing products offline.');
+define('TEXT_INFORMATION', 'Hemos detectado que su navegador no soporta cookies o las tiene desactivadas.<br><br>Para continuar comprando, le invitamos a activar las cookies en su navegador.<br><br>Para el navegador <b>Internet Explorer</b>, siga estas instrucciones:<br><ol><li>En el menú de Herramientas seleccione Opciones de Internet</li><li>Seleccione la pestaña de Seguridad y establezca el nivel de seguridad en la posición Media</li></ol>Hemos adoptado esta medida de seguridad en su beneficio y le pedimos disculpas anticipadas por cualquier inconveniente que pudiera ocasionarle.<br><br>Póngase en contacto con nosotros con cualquier pregunta que tenga al respecto o para realizar sus compras offline.');
 
-define('BOX_INFORMATION_HEADING', 'Cookie Privacy and Security');
-define('BOX_INFORMATION', 'Cookies must be enabled to purchase online on this store to embrace privacy and security related issues regarding your visit to this site.<br /><br />By enabling cookie support on your browser, the communication between you and this site is strengthened to be certain it is you who are making transactions on your own behalf, and to prevent leakage of your privacy information.');
-?>
+define('BOX_INFORMATION_HEADING', 'Seguridad y Privacidad de las Cookies');
+define('BOX_INFORMATION', 'Se deben activar cookies para continuar comprando en esta tienda para realzar la privacidad y seguridad de su visita a este sitio.<br><br>Habilitando soporte para cookies en su navegador podemos garantizar que solo usted realizar operaciones en su nombre y se asegura la privacidad de sus datos.');

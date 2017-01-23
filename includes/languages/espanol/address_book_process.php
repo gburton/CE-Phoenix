@@ -5,35 +5,34 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'My Account');
-define('NAVBAR_TITLE_2', 'Address Book');
+define('NAVBAR_TITLE_1', 'Mi Cuenta');
+define('NAVBAR_TITLE_2', 'Mis Direcciones');
 
-define('NAVBAR_TITLE_ADD_ENTRY', 'New Entry');
-define('NAVBAR_TITLE_MODIFY_ENTRY', 'Update Entry');
-define('NAVBAR_TITLE_DELETE_ENTRY', 'Delete Entry');
+define('NAVBAR_TITLE_ADD_ENTRY', 'Nueva Dirección');
+define('NAVBAR_TITLE_MODIFY_ENTRY', 'Modificar Dirección');
+define('NAVBAR_TITLE_DELETE_ENTRY', 'Eliminar Dirección');
 
-define('HEADING_TITLE_ADD_ENTRY', 'New Address Book Entry');
-define('HEADING_TITLE_MODIFY_ENTRY', 'Update Address Book Entry');
-define('HEADING_TITLE_DELETE_ENTRY', 'Delete Address Book Entry');
+define('HEADING_TITLE_ADD_ENTRY', 'Nueva Dirección');
+define('HEADING_TITLE_MODIFY_ENTRY', 'Modificar Dirección');
+define('HEADING_TITLE_DELETE_ENTRY', 'Elminar Dirección');
 
-define('DELETE_ADDRESS_TITLE', 'Delete Address');
-define('DELETE_ADDRESS_DESCRIPTION', 'Are you sure you would like to delete the selected address from your address book?');
+define('DELETE_ADDRESS_TITLE', 'Eliminar Dirección');
+define('DELETE_ADDRESS_DESCRIPTION', '¿Está seguro de que quiere eliminar la dirección seleccionada?');
 
-define('NEW_ADDRESS_TITLE', 'New Address Book Entry');
+define('NEW_ADDRESS_TITLE', 'Nueva Dirección');
 
-define('SELECTED_ADDRESS', 'Selected Address');
-define('SET_AS_PRIMARY', 'Set as primary address.');
+define('SELECTED_ADDRESS', 'Dirección Seleccionada');
+define('SET_AS_PRIMARY', 'Dirección Principal.');
 
-define('SUCCESS_ADDRESS_BOOK_ENTRY_DELETED', 'The selected address has been successfully removed from your address book.');
-define('SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED', 'Your address book has been successfully updated.');
+define('SUCCESS_ADDRESS_BOOK_ENTRY_DELETED', 'La dirección se ha eliminado correctamente.');
+define('SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED', 'La dirección se ha actualizado correctamente.');
 
-define('WARNING_PRIMARY_ADDRESS_DELETION', 'The primary address cannot be deleted. Please set another address as the primary address and try again.');
+define('WARNING_PRIMARY_ADDRESS_DELETION', 'La dirección principal no se puede eliminar. Seleccione otra dirección como la principal e inténtelo de nuevo.');
 
-define('ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY', 'The address book entry does not exist.');
-define('ERROR_ADDRESS_BOOK_FULL', 'Your address book is full. Please delete an unneeded address to save a new one.');
-?>
+define('ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY', 'No existe la dirección.');
+define('ERROR_ADDRESS_BOOK_FULL', 'Ha llegado al límite de direcciones permitidas. Elimine una dirección que no utilice para poder añadir una nueva.');

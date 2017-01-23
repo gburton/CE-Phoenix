@@ -5,27 +5,26 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'My Account');
-define('HEADING_TITLE', 'My Account Information');
+define('NAVBAR_TITLE', 'Mi Cuenta');
+define('HEADING_TITLE', 'Datos de Mi Cuenta');
 
-define('OVERVIEW_TITLE', 'Overview');
-define('OVERVIEW_SHOW_ALL_ORDERS', '(show all orders)');
-define('OVERVIEW_PREVIOUS_ORDERS', 'Previous Orders');
+define('OVERVIEW_TITLE', 'Visión de conjunto');
+define('OVERVIEW_SHOW_ALL_ORDERS', '(mostrar todos los pedidos)');
+define('OVERVIEW_PREVIOUS_ORDERS', 'Órdenes previas');
 
-define('MY_ACCOUNT_TITLE', 'My Account');
-define('MY_ACCOUNT_INFORMATION', 'View or change my account information.');
-define('MY_ACCOUNT_ADDRESS_BOOK', 'View or change entries in my address book.');
-define('MY_ACCOUNT_PASSWORD', 'Change my account password.');
+define('MY_ACCOUNT_TITLE', 'Mi Cuenta');
+define('MY_ACCOUNT_INFORMATION', 'Ver o modificar datos de mi cuenta.');
+define('MY_ACCOUNT_ADDRESS_BOOK', 'Ver o modificar mis direcciones.');
+define('MY_ACCOUNT_PASSWORD', 'Modificar mi contraseña de acceso.');
 
-define('MY_ORDERS_TITLE', 'My Orders');
-define('MY_ORDERS_VIEW', 'View the orders I have made.');
+define('MY_ORDERS_TITLE', 'Mis Pedidos');
+define('MY_ORDERS_VIEW', 'Ver los pedidos que he realizado.');
 
-define('EMAIL_NOTIFICATIONS_TITLE', 'E-Mail Notifications');
-define('EMAIL_NOTIFICATIONS_NEWSLETTERS', 'Subscribe or unsubscribe from newsletters.');
-define('EMAIL_NOTIFICATIONS_PRODUCTS', 'View or change my product notification list.');
-?>
+define('EMAIL_NOTIFICATIONS_TITLE', 'Notificaciones por E-Mail');
+define('EMAIL_NOTIFICATIONS_NEWSLETTERS', 'Subscribirse o no a los boletines.');
+define('EMAIL_NOTIFICATIONS_PRODUCTS', 'Ver o modificar mis notificaciones de productos.');

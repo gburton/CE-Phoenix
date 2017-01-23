@@ -5,25 +5,25 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'My Account');
-define('NAVBAR_TITLE_2', 'History');
+define('NAVBAR_TITLE_1', 'Mi Cuenta');
+define('NAVBAR_TITLE_2', 'Pedidos');
 
-define('HEADING_TITLE', 'My Order History');
+define('HEADING_TITLE', 'Todos Mis Pedidos');
 
-define('TEXT_ORDER_NUMBER', 'Order Number:');
-define('TEXT_ORDER_STATUS', 'Order Status:');
-define('TEXT_ORDER_DATE', 'Order Date:');
-define('TEXT_ORDER_SHIPPED_TO', 'Shipped To:');
-define('TEXT_ORDER_BILLED_TO', 'Billed To:');
-define('TEXT_ORDER_PRODUCTS', 'Products:');
-define('TEXT_ORDER_COST', 'Order Cost:');
-define('TEXT_VIEW_ORDER', 'View Order');
+define('TEXT_ORDER_NUMBER', 'Número:');
+define('TEXT_ORDER_STATUS', 'Estado:');
+define('TEXT_ORDER_DATE', 'Fecha:');
+define('TEXT_ORDER_SHIPPED_TO', 'Enviado a:');
+define('TEXT_ORDER_BILLED_TO', 'Facturado a:');
+define('TEXT_ORDER_PRODUCTS', 'Productos:');
+define('TEXT_ORDER_COST', 'Precio:');
+define('TEXT_VIEW_ORDER', 'Ver Pedido');
 
-define('TEXT_NO_PURCHASES', 'You have not yet made any purchases.');
+define('TEXT_NO_PURCHASES', 'Aún no ha realizado ningún pedido.');
 
-define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> orders)');
+define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Viendo del <b>%d</b> al <b>%d</b> (de <b>%d</b> pedidos)');

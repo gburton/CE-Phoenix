@@ -5,22 +5,21 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'My Account');
-define('NAVBAR_TITLE_2', 'Address Book');
+define('NAVBAR_TITLE_1', 'Mi Cuenta');
+define('NAVBAR_TITLE_2', 'Mis Direcciones');
 
-define('HEADING_TITLE', 'My Personal Address Book');
+define('HEADING_TITLE', 'Mis Direcciones');
 
-define('PRIMARY_ADDRESS_TITLE', 'Primary Address');
-define('PRIMARY_ADDRESS_DESCRIPTION', 'This address is used as the pre-selected shipping and billing address for orders placed on this store.<br /><br />This address is also used as the base for product and service tax calculations.');
+define('PRIMARY_ADDRESS_TITLE', 'Dirección Principal');
+define('PRIMARY_ADDRESS_DESCRIPTION', 'Esta dirección se seleccionará por defecto para el envío y para la facturación de sus pedidos.<br><br>Esta dirección también se utilizará para calcular los impuestos que le corresponden.');
 
-define('ADDRESS_BOOK_TITLE', 'Address Book Entries');
+define('ADDRESS_BOOK_TITLE', 'Direcciones');
 
-define('PRIMARY_ADDRESS', '(primary address)');
+define('PRIMARY_ADDRESS', '(dirección principal)');
 
-define('TEXT_MAXIMUM_ENTRIES', '<span class="text-danger">NOTE:</span> A maximum of %s address book entries allowed.');
-?>
+define('TEXT_MAXIMUM_ENTRIES', '<span class="text-danger">NOTA:</span> Se permiten un máximo de %s direcciones.');

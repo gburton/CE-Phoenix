@@ -5,13 +5,12 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Create an Account');
-define('NAVBAR_TITLE_2', 'Success');
-define('HEADING_TITLE', 'Your Account Has Been Created!');
-define('TEXT_ACCOUNT_CREATED', 'Congratulations! Your new account has been successfully created! You can now take advantage of member priviledges to enhance your online shopping experience with us. If you have <small><strong>ANY</strong></small> questions about the operation of this online shop, please email the <a href="' . tep_href_link('contact_us.php') . '">store owner</a>.<br /><br />A confirmation has been sent to the provided email address. If you have not received it within the hour, please <a href="' . tep_href_link('contact_us.php') . '">contact us</a>.');
-?>
+define('NAVBAR_TITLE_1', 'Crear una Cuenta');
+define('NAVBAR_TITLE_2', 'Éxito');
+define('HEADING_TITLE', 'Su cuenta ha sido creada!');
+define('TEXT_ACCOUNT_CREATED', '¡Enhorabuena! Su cuenta ha sido creada con éxito. Ahora puede disfrutar de las ventajas de disponer de una cuenta para mejorar su navegación en nuestro catalogo. Si tiene <small><strong>cualquier</strong></small> pregunta sobre el funcionamiento del catálogo, por favor comuníquela al <a href="' . tep_href_link('contact_us.php') . '">encargado</a>.<br><br>Se ha enviado una confirmación a la dirección de correo que nos ha proporcionado. Si no lo ha recibido en una hora póngase en contacto con <a href="' . tep_href_link('contact_us.php') . '">nosotros</a>.');

@@ -5,37 +5,36 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'My Account');
-define('NAVBAR_TITLE_2', 'History');
-define('NAVBAR_TITLE_3', 'Order #%s');
+define('NAVBAR_TITLE_1', 'Mi Cuenta');
+define('NAVBAR_TITLE_2', 'Historial');
+define('NAVBAR_TITLE_3', 'Pedido Nº %s');
 
-define('HEADING_TITLE', 'Order Information');
+define('HEADING_TITLE', 'Datos del Pedido');
 
-define('HEADING_ORDER_NUMBER', 'Order #%s');
-define('HEADING_ORDER_DATE', 'Order Date:');
-define('HEADING_ORDER_TOTAL', 'Order Total:');
+define('HEADING_ORDER_NUMBER', 'Pedido Nº %s');
+define('HEADING_ORDER_DATE', 'Fecha del Pedido:');
+define('HEADING_ORDER_TOTAL', 'Total del Pedido:');
 
-define('HEADING_DELIVERY_ADDRESS', 'Delivery Address');
-define('HEADING_SHIPPING_METHOD', 'Shipping Method');
+define('HEADING_DELIVERY_ADDRESS', 'Dirección de Entrega');
+define('HEADING_SHIPPING_METHOD', 'Gastos de Envío');
 
-define('HEADING_PRODUCTS', 'Products');
-define('HEADING_TAX', 'Tax');
+define('HEADING_PRODUCTS', 'Producto');
+define('HEADING_TAX', 'Impuestos');
 define('HEADING_TOTAL', 'Total');
 
-define('HEADING_BILLING_INFORMATION', 'Billing Information');
-define('HEADING_BILLING_ADDRESS', 'Billing Address');
-define('HEADING_PAYMENT_METHOD', 'Payment Method');
+define('HEADING_BILLING_INFORMATION', 'Datos de Facturación');
+define('HEADING_BILLING_ADDRESS', 'Dirección de Facturación');
+define('HEADING_PAYMENT_METHOD', 'Forma de Pago');
 
-define('HEADING_ORDER_HISTORY', 'Order History');
-define('HEADING_COMMENT', 'Comments');
-define('TEXT_NO_COMMENTS_AVAILABLE', 'No comments available.');
+define('HEADING_ORDER_HISTORY', 'Historial del pedido');
+define('HEADING_COMMENT', 'Comentarios');
+define('TEXT_NO_COMMENTS_AVAILABLE', 'No hay comentarios.');
 
-define('TABLE_HEADING_DOWNLOAD_DATE', 'Link expires: ');
-define('TABLE_HEADING_DOWNLOAD_COUNT', ' downloads remaining');
-define('HEADING_DOWNLOAD', 'Download links');
-?>
+define('TABLE_HEADING_DOWNLOAD_DATE', 'Fecha Caducidad: ');
+define('TABLE_HEADING_DOWNLOAD_COUNT', ' descargas restantes');
+define('HEADING_DOWNLOAD', 'Descargue sus productos aquí');

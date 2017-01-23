@@ -5,29 +5,29 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Create an Account');
+define('NAVBAR_TITLE', 'Crear una Cuenta');
 
-define('HEADING_TITLE', 'My Account Information');
+define('HEADING_TITLE', 'Datos de Mi Cuenta');
 
-define('TEXT_ORIGIN_LOGIN', '<font color="#FF0000"><small><strong>NOTE:</strong></small></font> If you already have an account with us, please login at the <a href="%s"><u>login page</u></a>.');
+define('TEXT_ORIGIN_LOGIN', '<font color="#FF0000"><small><strong>NOTA:</strong></small></font> Si ya ha pasado por este proceso y tiene una cuenta, por favor <a href="%s"><u>entre</u></a> en ella.');
 
-define('EMAIL_SUBJECT', 'Welcome to ' . STORE_NAME);
-define('EMAIL_GREET_MR', 'Dear Mr. %s,' . "\n\n");
-define('EMAIL_GREET_MS', 'Dear Ms. %s,' . "\n\n");
-define('EMAIL_GREET_NONE', 'Dear %s' . "\n\n");
-define('EMAIL_WELCOME', 'We welcome you to <strong>' . STORE_NAME . '</strong>.' . "\n\n");
-define('EMAIL_TEXT', 'You can now take part in the <strong>various services</strong> we have to offer you. Some of these services include:' . "\n\n" . '<li><strong>Permanent Cart</strong> - Any products added to your online cart remain there until you remove them, or check them out.' . "\n" . '<li><strong>Address Book</strong> - We can now deliver your products to another address other than yours! This is perfect to send birthday gifts direct to the birthday-person themselves.' . "\n" . '<li><strong>Order History</strong> - View your history of purchases that you have made with us.' . "\n" . '<li><strong>Products Reviews</strong> - Share your opinions on products with our other customers.' . "\n\n");
-define('EMAIL_CONTACT', 'For help with any of our online services, please email the store-owner: ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
-define('EMAIL_WARNING', '<strong>Note:</strong> This email address was given to us by one of our customers. If you did not signup to be a member, please send an email to ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n");
+define('EMAIL_SUBJECT', 'Bienvenido a ' . STORE_NAME);
+define('EMAIL_GREET_MR', 'Estimado Sr. %s,' . "\n\n");
+define('EMAIL_GREET_MS', 'Estimada Sra. %s,' . "\n\n");
+define('EMAIL_GREET_NONE', 'Estimada/estimado %s' . "\n\n");
+define('EMAIL_WELCOME', 'Le damos la bienvenida a <strong>' . STORE_NAME . '</strong>.' . "\n\n");
+define('EMAIL_TEXT', 'Ahora puede disfrutar de los <strong>servicios</strong> que le ofrecemos. Algunos de estos servicios son:' . "\n\n" . '<li><strong>Carrito Permanente</strong> - Cualquier producto añadido a su carrito permanecerá en él hasta que lo elimine, o hasta que realice la compra.' . "\n" . '<li><strong>Libreta de Direcciones</strong> - ¡Podemos enviar sus productos a otras direcciones aparte de la suya! Esto es perfecto para enviar regalos de cumpleaños directamente a la persona que cumple años.' . "\n" . '<li><strong>Historial de Pedidos</strong> - Vea la relación de compras que ha realizado con nosotros.' . "\n" . '<li><strong>Comentarios</strong> - Comparta su opinión sobre los productos con otros clientes.' . "\n\n");
+define('EMAIL_CONTACT', 'Para cualquier consulta sobre nuestros servicios, por favor escriba a: ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
+define('EMAIL_WARNING', '<strong>Nota:</strong> Esta dirección fue suministrada por uno de nuestros clientes. Si usted no se ha suscrito como cliente, por favor comuníquelo a ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
 
-define('CATEGORY_COMPANY', 'Company Details');
-define('CATEGORY_PERSONAL', 'Your Personal Details');
-define('CATEGORY_ADDRESS', 'Your Address');
-define('CATEGORY_CONTACT', 'Your Contact Information');
-define('CATEGORY_OPTIONS', 'Options');
-define('CATEGORY_PASSWORD', 'Your Password');
+define('CATEGORY_COMPANY', 'Empresa');
+define('CATEGORY_PERSONAL', 'Detalles Personales');
+define('CATEGORY_ADDRESS', 'Dirección');
+define('CATEGORY_CONTACT', 'Información de Contacto');
+define('CATEGORY_OPTIONS', 'Opciones');
+define('CATEGORY_PASSWORD', 'Contraseña');

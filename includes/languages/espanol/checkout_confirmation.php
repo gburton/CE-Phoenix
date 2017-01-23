@@ -5,27 +5,25 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Checkout');
-define('NAVBAR_TITLE_2', 'Confirmation');
+define('NAVBAR_TITLE_1', 'Realizar Pedido');
+define('NAVBAR_TITLE_2', 'Confirmación');
 
-define('HEADING_TITLE', 'Order Confirmation');
+define('HEADING_TITLE', '¡Estoy preparado para Comprar!');
 
-define('HEADING_SHIPPING_INFORMATION', 'Shipping Information');
-define('HEADING_DELIVERY_ADDRESS', 'Delivery Address');
-define('HEADING_SHIPPING_METHOD', 'Shipping Method');
-define('HEADING_PRODUCTS', 'Products');
-define('HEADING_TAX', 'Tax');
+define('HEADING_DELIVERY_ADDRESS', 'Dirección de Entrega');
+define('HEADING_SHIPPING_METHOD', 'Forma de Envío');
+define('HEADING_PRODUCTS', 'Producto');
+define('HEADING_TAX', 'Impuestos');
 define('HEADING_TOTAL', 'Total');
-define('HEADING_BILLING_INFORMATION', 'Billing Information');
-define('HEADING_BILLING_ADDRESS', 'Billing Address');
-define('HEADING_PAYMENT_METHOD', 'Payment Method');
-define('HEADING_PAYMENT_INFORMATION', 'Payment Information');
-define('HEADING_ORDER_COMMENTS', 'Comments About Your Order');
+define('HEADING_BILLING_INFORMATION', 'Datos de Facturación');
+define('HEADING_BILLING_ADDRESS', 'Dirección de Facturación');
+define('HEADING_PAYMENT_METHOD', 'Forma de Pago');
+define('HEADING_PAYMENT_INFORMATION', 'Datos del Pago');
+define('HEADING_ORDER_COMMENTS', 'Comentarios');
 
-define('TEXT_EDIT', 'Edit');
-?>
+define('TEXT_EDIT', 'Cambio');
