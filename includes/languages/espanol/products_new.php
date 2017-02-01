@@ -5,17 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'New Products');
-define('HEADING_TITLE', 'New Products');
+define('NAVBAR_TITLE', 'Novedades');
+define('HEADING_TITLE', 'Novedades');
 
-define('TEXT_DATE_ADDED', 'Date Added:');
-define('TEXT_MANUFACTURER', 'Manufacturer:');
-define('TEXT_PRICE', 'Price:');
+define('TEXT_DATE_ADDED', 'Fecha Alta:');
+define('TEXT_MANUFACTURER', 'Fabricante:');
+define('TEXT_PRICE', 'Precio:');
 
-define('TEXT_NO_PRODUCTS', 'There are no new products to show.');
-
+define('TEXT_NO_PRODUCTS', 'No hay productos en esta categoría');

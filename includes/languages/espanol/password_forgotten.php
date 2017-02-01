@@ -5,24 +5,23 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Login');
-define('NAVBAR_TITLE_2', 'Password Forgotten');
+define('NAVBAR_TITLE_1', 'Entrar');
+define('NAVBAR_TITLE_2', 'Contraseña olvidada');
 
-define('HEADING_TITLE', 'I\'ve Forgotten My Password!');
+define('HEADING_TITLE', 'He olvidado mi contraseña!');
 
-define('TEXT_MAIN', 'If you\'ve forgotten your password, enter your e-mail address below and we\'ll send you instructions on how to securely change your password.');
+define('TEXT_MAIN', 'Si ha olvidado su contraseña, introduzca su dirección de e-mail y le enviaremos instrucciones sobre cómo cambiar su contraseña de forma segura.');
 
-define('TEXT_PASSWORD_RESET_INITIATED', 'Please check your e-mail for instructions on how to change your password. The instructions contain a link that is valid only for 24 hours or until your password has been updated.');
+define('TEXT_PASSWORD_RESET_INITIATED', 'Por favor, compruebe su e-mail para obtener instrucciones sobre cómo cambiar su contraseña. Las instrucciones contienen un enlace que sólo es válido durante 24 horas o hasta que su contraseña haya sido actualizada.');
 
-define('TEXT_NO_EMAIL_ADDRESS_FOUND', 'Error: The E-Mail Address was not found in our records, please try again.');
+define('TEXT_NO_EMAIL_ADDRESS_FOUND', 'Error: Este E-Mail no figura en nuestros datos, inténtelo de nuevo.');
 
-define('EMAIL_PASSWORD_RESET_SUBJECT', STORE_NAME . ' - New Password');
-define('EMAIL_PASSWORD_RESET_BODY', 'A new password has been requested for your account at ' . STORE_NAME . '.' . "\n\n" . 'Please follow this personal link to securely change your password:' . "\n\n" . '%s' . "\n\n" . 'This link will be automatically discarded after 24 hours or after your password has been changed.' . "\n\n" . 'For help with any of our online services, please email the store-owner: ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
+define('EMAIL_PASSWORD_RESET_SUBJECT', STORE_NAME . ' - Nueva contraseña');
+define('EMAIL_PASSWORD_RESET_BODY', 'Una nueva contraseña ha sido solicitada para su cuenta en ' . STORE_NAME . '.' . "\n\n" . 'Por favor, siga este enlace personal para cambiar la contraseña de forma segura:' . "\n\n" . '%s' . "\n\n" . 'Este enlace será descartado de forma automática después de 24 horas o después de que su contraseña haya sido cambiada.' . "\n\n" . 'Para obtener ayuda con cualquiera de nuestros servicios, por favor escríbanos a: ' . STORE_OWNER_EMAIL_ADDRESS . '.' . "\n\n");
 
-define('ERROR_ACTION_RECORDER', 'Error: A password reset link has already been sent. Please try again in %s minutes.');
-?>
+define('ERROR_ACTION_RECORDER', 'Error: Ya ha sido enviado un enlace de restablecimiento de contraseña. Vuelve a intentarlo en %s minutos.');

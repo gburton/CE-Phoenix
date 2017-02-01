@@ -5,21 +5,20 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Specials');
-define('HEADING_TITLE', 'Get Them While They\'re Hot!');
+define('NAVBAR_TITLE', 'Ofertas');
+define('HEADING_TITLE', '¡Ofertas especiales!');
 
-define('TEXT_NO_PRODUCTS', 'There are no special offers available.');
+define('TEXT_NO_PRODUCTS', 'No hay ofertas en esta categoría');
 
 // seo
-define('META_SEO_TITLE', 'Special Offers Page');
-define('META_SEO_DESCRIPTION', 'Specials Description');
+define('META_SEO_TITLE', 'Ofertas');
+define('META_SEO_DESCRIPTION', 'Descripción Ofertas.');
 /*
-keywords are USELESS unless you are selling into China and want to be listed in Baidu Search Engine
+palabras clave son INÚTILES a menos que usted está vendiendo en China y quiere que se enumeren en el motor de búsqueda Baidu
 */
-define('META_SEO_KEYWORDS', 'special offers, reduced prices');
-
+define('META_SEO_KEYWORDS', 'ofertas, descuentos');

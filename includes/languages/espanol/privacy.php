@@ -5,13 +5,12 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Privacy Notice');
-define('HEADING_TITLE', 'Privacy Notice');
+define('NAVBAR_TITLE', 'Confidencialidad');
+define('HEADING_TITLE', 'Confidencialidad');
 
-define('TEXT_INFORMATION', 'Put here your Privacy Notice information.');
-?>
+define('TEXT_INFORMATION', 'Ponga aquí sus condiciones de privacidad.');

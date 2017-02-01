@@ -5,30 +5,29 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2007 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Welcome to ' . STORE_NAME);
+define('HEADING_TITLE', 'Bienvenido/a a ' . STORE_NAME);
 
-define('TABLE_HEADING_NEW_PRODUCTS', 'New Products For %s');
+define('TABLE_HEADING_NEW_PRODUCTS', 'Nuevos Productos en %s');
 
-define('TEXT_NO_PRODUCTS', 'There are no products available in this category.');
-define('TEXT_NUMBER_OF_PRODUCTS', 'Number of Products: ');
-define('TEXT_SHOW', '<strong>Show:</strong>');
-define('TEXT_BUY', 'Buy 1 \'');
-define('TEXT_NOW', '\' now');
-define('TEXT_ALL_CATEGORIES', 'All Categories');
-define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');
+define('TEXT_NO_PRODUCTS', 'No hay productos en esta categoría.');
+define('TEXT_NUMBER_OF_PRODUCTS', 'Número de Productos: ');
+define('TEXT_SHOW', '<strong>Mostrar:</strong>');
+define('TEXT_BUY', 'Compre 1 \'');
+define('TEXT_NOW', '\' ahora');
+define('TEXT_ALL_CATEGORIES', 'Todas las categorías');
+define('TEXT_ALL_MANUFACTURERS', 'Todos los fabricantes');
 
 // seo
 if ( ($category_depth == 'top') && (!isset($_GET['manufacturers_id'])) ) {
-  define('META_SEO_TITLE', 'Index Page Title');
-  define('META_SEO_DESCRIPTION', 'This is the description of your site to be used in the META Description Element');
+  define('META_SEO_TITLE', 'Título de la página Index');
+  define('META_SEO_DESCRIPTION', 'Esta es la descripción de su sitio para ser utilizado en el META Elemento Descripción');
   /*
-  keywords are USELESS unless you are selling into China and want to be listed in Baidu Search Engine
+  Las palabras clave son INÚTILES a menos que usted está vendiendo en China y quiere que se enumeren en el motor de búsqueda Baidu
   */
-  define('META_SEO_KEYWORDS', 'these, are, the, comma, separated, keywords, used in the META keywords Element');
+  define('META_SEO_KEYWORDS', 'estos, son, las, palabras clave, separadas, por, coma, utilizados en el META Elemento Keywords');
 }
-

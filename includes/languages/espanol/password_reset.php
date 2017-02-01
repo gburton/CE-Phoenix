@@ -5,20 +5,19 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Login');
-define('NAVBAR_TITLE_2', 'Password Reset');
+define('NAVBAR_TITLE_1', 'Entrar');
+define('NAVBAR_TITLE_2', 'Restablecer contraseña');
 
-define('HEADING_TITLE', 'Password Reset');
+define('HEADING_TITLE', 'Restablecer contraseña');
 
-define('TEXT_MAIN', 'Please enter a new password for your account.');
+define('TEXT_MAIN', 'Por favor, introduzca una contraseña nueva para su cuenta.');
 
-define('TEXT_NO_RESET_LINK_FOUND', 'Error: The password reset link was not found in our records, please try again by generating a new link.');
-define('TEXT_NO_EMAIL_ADDRESS_FOUND', 'Error: The E-Mail Address was not found in our records, please try again.');
+define('TEXT_NO_RESET_LINK_FOUND', 'Error: El enlace de restablecimiento de contraseña no se encuentra en nuestros registros. Por favor, inténtelo de nuevo mediante la generación de un nuevo enlace.');
+define('TEXT_NO_EMAIL_ADDRESS_FOUND', 'Error: Este E-Mail no figura en nuestros datos, inténtelo de nuevo.');
 
-define('SUCCESS_PASSWORD_RESET', 'Your password has been successfully updated. Please login with your new password.');
-?>
+define('SUCCESS_PASSWORD_RESET', 'Su contraseña se ha actualizado correctamente. Por favor, acceda a su cuenta con su nueva contraseña.');

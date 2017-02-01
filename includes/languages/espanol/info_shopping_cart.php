@@ -5,17 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Visitors Cart / Members Cart');
-define('SUB_HEADING_TITLE_1', 'Visitors Cart');
-define('SUB_HEADING_TITLE_2', 'Members Cart');
-define('SUB_HEADING_TITLE_3', 'Info');
-define('SUB_HEADING_TEXT_1', 'Every visitor to our online shop will be given a \'Visitors Cart\'. This allows the visitor to store their products in a temporary shopping cart. Once the visitor leaves the online shop, so will the contents of their shopping cart.');
-define('SUB_HEADING_TEXT_2', 'Every member to our online shop that logs in is given a \'Members Cart\'. This allows the member to add products to their shopping cart, and come back at a later date to finalize their checkout. All products remain in their shopping cart until the member has  checked them out, or removed the products themselves.');
-define('SUB_HEADING_TEXT_3', 'If a member adds products to their \'Visitors Cart\' and decides to log in to the online shop to use their \'Members Cart\', the contents of their \'Visitors Cart\' will merge with their \'Members Cart\' contents automatically.');
-define('TEXT_CLOSE_WINDOW', '[ close window ]');
-?>
+define('HEADING_TITLE', 'Cesta del Cliente visitante / Cesta del Cliente registrado');
+define('SUB_HEADING_TITLE_1', 'Cesta de Cliente visitante');
+define('SUB_HEADING_TITLE_2', 'Cesta de Cliente registrado');
+define('SUB_HEADING_TITLE_3', 'Información');
+define('SUB_HEADING_TEXT_1', 'A cada visitante de nuestro catálogo le es asignado una \'Cesta de Visitante\'. Esto permite al invitado guardar sus productos en una cesta temporal. Una vez que el visitante abandona el catálogo, tambien desaparece el contenido de su cesta.');
+define('SUB_HEADING_TEXT_2', 'A cada miembro se le asigna una \'Cesta de Cliente registrado\'. Esto le permite añadir productos a su cesta de la compra, y volver más tarde para finalizar el pedido. Todos los productos permanecen en la cesta hasta que ha realizado el pedido, o hasta que sean eliminados de la cesta manualmente.');
+define('SUB_HEADING_TEXT_3', 'Si un Cliente registrado añade un articulo a su \'Cesta de Visitante\' y después decide Entrar a su Cuenta para usar su \'Cesta de Cliente registrado\', el contenido de la \'Cesta de Visitante\' sera añadido a la \'Cesta de Cliente registrado\' automáticamente.');
+define('TEXT_CLOSE_WINDOW', '[ cerrar ventana ]');

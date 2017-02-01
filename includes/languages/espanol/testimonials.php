@@ -5,14 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Testimonials');
-define('HEADING_TITLE', 'Customer Testimonials');
+define('NAVBAR_TITLE', 'Testimonios');
+define('HEADING_TITLE', 'Testimonios de Clientes');
 
-define('TEXT_NO_TESTIMONIALS', 'There are no Testimonials to display.');
+define('TEXT_NO_TESTIMONIALS', 'No hay Testimonios para mostrar.');
 
-define('TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS', 'Displaying <b>%s</b> to <b>%s</b> (of <b>%s</b> Testimonials)');
+define('TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS', 'Mostrando <b>%s</b> a <b>%s</b> (de <b>%s</b> Testimonios)');
