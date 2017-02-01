@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  const MODULE_CONTENT_TEXT_MAIN_TITLE       = 'Main Text';
-  const MODULE_CONTENT_TEXT_MAIN_DESCRIPTION = 'Shows the "Text" module on your Index page.';
+  const MODULE_CONTENT_TEXT_MAIN_TITLE       = 'Texto principal';
+  const MODULE_CONTENT_TEXT_MAIN_DESCRIPTION = 'Muestra el módulo "Texto principal" en tu página index.';
   
   const MODULE_CONTENT_TEXT_MAIN_TEXT        = '';
