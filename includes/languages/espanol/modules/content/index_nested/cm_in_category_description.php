@@ -10,6 +10,6 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_TITLE', 'Category Description');
-  define('MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_DESCRIPTION', 'Show the category description in index.php');
+  define('MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_TITLE', 'Descripción de la categoría');
+  define('MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_DESCRIPTION', 'Muestra la descripcin de la categoría en index.php');
   
