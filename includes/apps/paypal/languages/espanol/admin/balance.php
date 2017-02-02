@@ -1,7 +1,7 @@
 heading_live_account = Live: :account
 heading_sandbox_account = Sandbox: :account
 
-retrieving_balance_progress = Retrieving balance &hellip;
+retrieving_balance_progress = Descargando saldo &hellip;
 
-error_no_accounts_configured = Error: No PayPal Live or Sandbox account has yet been configured. Please set up a PayPal account and try again.
-error_balance_retrieval = Error: The PayPal balance could not be retrieved. Please try again.
+error_no_accounts_configured = Error: No se han configurado cuentas de PayPal Live o Sandbox. Por favor, configure una cuenta de PayPal e inténtelo de nuevo.
+error_balance_retrieval = Error: El saldo de PayPal no puede ser recuperado. Por favor, inténtelo de nuevo.
