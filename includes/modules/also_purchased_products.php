@@ -40,7 +40,7 @@
 
     <h3 itemprop="name"><?php echo TEXT_ALSO_PURCHASED_PRODUCTS; ?></h3>
 
-    <div class="row">
+    <div class="row list-group">
       <?php echo $also_pur_prods_content; ?>
     </div>
     
