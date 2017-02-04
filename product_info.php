@@ -208,12 +208,6 @@
   </div>
 
 <?php
-    if ((USE_CACHE == 'true') && empty($SID)) {
-      echo tep_cache_also_purchased(3600);
-    } else {
-      include('includes/modules/also_purchased_products.php');
-    }
-
     if ($product_info['manufacturers_id'] > 0) {
       $manufacturer_query = tep_db_query("select manufacturers_name from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$product_info['manufacturers_id'] . "'");
       if (tep_db_num_rows($manufacturer_query)) {
