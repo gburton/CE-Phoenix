@@ -38,7 +38,7 @@
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $req = parse_url($_SERVER['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
 
 // Used in the "Backup Manager" to compress backups
@@ -108,7 +108,7 @@
   }
 
 // set the language
-  if (!tep_session_is_registered('language') || isset($HTTP_GET_VARS['language'])) {
+  if (!tep_session_is_registered('language') || isset($_GET['language'])) {
     if (!tep_session_is_registered('language')) {
       tep_session_register('language');
       tep_session_register('languages_id');
@@ -117,8 +117,8 @@
     include('includes/classes/language.php');
     $lng = new language();
 
-    if (isset($HTTP_GET_VARS['language']) && tep_not_null($HTTP_GET_VARS['language'])) {
-      $lng->set_language($HTTP_GET_VARS['language']);
+    if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
+      $lng->set_language($_GET['language']);
     } else {
       $lng->get_browser_language();
     }
@@ -137,7 +137,7 @@
 // so the redirection on a successful login is not made to the login page again
     if ( ($current_page == 'login.php') && !tep_session_is_registered('redirect_origin') ) {
       $current_page = 'index.php';
-      $HTTP_GET_VARS = array();
+      $_GET = array();
     }
 
     if ($current_page != 'login.php') {
@@ -145,21 +145,21 @@
         tep_session_register('redirect_origin');
 
         $redirect_origin = array('page' => $current_page,
-                                 'get' => $HTTP_GET_VARS);
+                                 'get' => $_GET);
       }
 
 // try to automatically login with the HTTP Authentication values if it exists
       if (!tep_session_is_registered('auth_ignore')) {
-        if (isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
-          $redirect_origin['auth_user'] = $HTTP_SERVER_VARS['PHP_AUTH_USER'];
-          $redirect_origin['auth_pw'] = $HTTP_SERVER_VARS['PHP_AUTH_PW'];
+        if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+          $redirect_origin['auth_user'] = $_SERVER['PHP_AUTH_USER'];
+          $redirect_origin['auth_pw'] = $_SERVER['PHP_AUTH_PW'];
         }
       }
 
       $redirect = true;
     }
 
-    if (!isset($login_request) || isset($HTTP_GET_VARS['login_request']) || isset($HTTP_POST_VARS['login_request']) || isset($HTTP_COOKIE_VARS['login_request']) || isset($HTTP_SESSION_VARS['login_request']) || isset($HTTP_POST_FILES['login_request']) || isset($HTTP_SERVER_VARS['login_request'])) {
+    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($_SESSION['login_request']) || isset($_FILES['login_request']) || isset($_SERVER['login_request'])) {
       $redirect = true;
     }
 
@@ -211,8 +211,8 @@
   require('includes/classes/action_recorder.php');
 
 // calculate category path
-  if (isset($HTTP_GET_VARS['cPath'])) {
-    $cPath = $HTTP_GET_VARS['cPath'];
+  if (isset($_GET['cPath'])) {
+    $cPath = $_GET['cPath'];
   } else {
     $cPath = '';
   }
