@@ -1,20 +1,20 @@
-app_link_info = Info/Help
-app_link_privacy = Privacy
+app_link_info = Info/Ayuda
+app_link_privacy = Privacidad
 
-button_retrieve_live_credentials = Retrieve Live Credentials
-button_retrieve_sandbox_credentials = Retrieve Sandbox Credentials
+button_retrieve_live_credentials = Descargar credenciales "Live"
+button_retrieve_sandbox_credentials = Descargar credenciales "Sandbox"
 
-button_back = Back
-button_cancel = Cancel
-button_delete = Delete
-button_dialog_delete = Delete &hellip;
-button_install = Install
-button_install_title = Install :title
-button_save = Save
-button_uninstall = Uninstall
-button_dialog_uninstall = Uninstall &hellip;
-button_view = View
-button_view_update = View Update
+button_back = Volver
+button_cancel = Cancelar
+button_delete = Borrar
+button_dialog_delete = Borrar &hellip;
+button_install = Instalar
+button_install_title = Instalar :title
+button_save = Guardar
+button_uninstall = Desinstalar
+button_dialog_uninstall = Desinstalar &hellip;
+button_view = Ver
+button_view_update = Ver Actualización
 
-update_available_body = <p>An update is available for this App!</p>
+update_available_body = <p>Hay una actualización disponible para esta App!</p>
 <p><small>:button_view_update</small></p>
