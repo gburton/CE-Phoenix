@@ -1,6 +1,6 @@
-cfg_log_transactions_title = Log Transactions
-cfg_log_transactions_desc = Set this to the level of transactions that should be logged.
+cfg_log_transactions_title = Registrar transacciones
+cfg_log_transactions_desc = Establezca en el nivel de transacciones que debe ser registrado.
 
-cfg_log_transactions_all = All
-cfg_log_transactions_errors = Errors
-cfg_log_transactions_disabled = Disabled
+cfg_log_transactions_all = Todas
+cfg_log_transactions_errors = Errores
+cfg_log_transactions_disabled = Desactivado
