@@ -1,11 +1,11 @@
-ms_success_getTransactionDetails = Details of the PayPal transaction have been successfully retrieved.
-ms_error_getTransactionDetails = A problem occurred while retrieving details of the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_getTransactionDetails = Los detalles de la transacción de PayPal se han descargado con éxito.
+ms_error_getTransactionDetails = Se ha producido un problema al descargar los detalles de la transacción de PayPal. Consulte el registro de PayPal App para obtener más información.
 
-ms_success_doCapture = The PayPal transaction has been successfully captured.
-ms_error_doCapture = A problem occurred while capturing the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_doCapture = La transacción de PayPal se ha capturado correctamente.
+ms_error_doCapture = Se ha producido un problema al capturar la transacción de PayPal. Consulte el registro de PayPal App para obtener más información.
 
-ms_success_doVoid = The PayPal transaction has been successfully cancelled.
-ms_error_doVoid = A problem occurred while cancelling the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_doVoid = La transacción de PayPal se ha cancelado correctamente.
+ms_error_doVoid = Se ha producido un problema al cancelar la transacción de PayPal. Consulte el registro de PayPal App para obtener más información.
 
-ms_success_refundTransaction = The PayPal transaction has been successfully refunded (:refund_amount).
-ms_error_refundTransaction = A problem occurred while refunding the PayPal transaction (:refund_amount). Please check the PayPal App Log for more information.
+ms_success_refundTransaction = La transacción de PayPal se ha reembolsado correctamente (:refund_amount).
+ms_error_refundTransaction = Se ha producido un problema al reembolsar la transacción de PayPal. (:refund_amount). Consulte el registro de PayPal App para obtener más información.
