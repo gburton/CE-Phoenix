@@ -1,11 +1,11 @@
-ms_success_getTransactionDetails = Details of the PayPal transaction have been successfully retrieved.
-ms_error_getTransactionDetails = A problem occurred while retrieving details of the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_getTransactionDetails = Los detalles de las transacciones han sido recuperados satisfactoriamente.
+ms_error_getTransactionDetails = Ha ocurrido un problema mientras se recuperaban los detalles de las transacciones de PayPal. Por favor, compruebe el registro de la App para más información.
 
-ms_success_doCapture = The PayPal transaction has been successfully captured.
-ms_error_doCapture = A problem occurred while capturing the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_doCapture = Las transacciones de PayPal han sido capturadas con éxito.
+ms_error_doCapture = Ha ocurrido un problema mientras se capturaban las transacciones de PayPal. Por favor, compruebe el registro de la App para más información.
 
-ms_success_doVoid = The PayPal transaction has been successfully cancelled.
-ms_error_doVoid = A problem occurred while cancelling the PayPal transaction. Please check the PayPal App Log for more information.
+ms_success_doVoid = Las transacciones de PayPal han sido canceladas con éxito.
+ms_error_doVoid = Ha ocurrido un problema mientras se cancelaba la transacción de PayPal. Por favor, compruebe el registro de la App para más información.
 
-ms_success_refundTransaction = The PayPal transaction has been successfully refunded (:refund_amount).
-ms_error_refundTransaction = A problem occurred while refunding the PayPal transaction (:refund_amount). Please check the PayPal App Log for more information.
+ms_success_refundTransaction = Las transacciones de PayPal han sido reembolsadas con éxito (:refund_amount).
+ms_error_refundTransaction = Ha ocurrido un problema mientras se reembolsaba la transacción de PayPal (:refund_amount). Por favor, compruebe el registro de la App para más información.
