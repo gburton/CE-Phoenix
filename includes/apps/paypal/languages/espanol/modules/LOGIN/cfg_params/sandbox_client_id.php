@@ -1,2 +1,2 @@
-cfg_login_sandbox_client_id_title = Test Client ID
-cfg_login_sandbox_client_id_desc = The Client ID of the PayPal REST App Test Credentials.
+cfg_login_sandbox_client_id_title = ID de prueba "Sandbox" de cliente
+cfg_login_sandbox_client_id_desc = El ID de prueba "Sandbox" de las credenciales de cliente de la aplicación PayPal REST.
