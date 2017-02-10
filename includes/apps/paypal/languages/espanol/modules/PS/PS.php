@@ -1,22 +1,22 @@
-module_ps_title = PayPal Payments Standard
-module_ps_short_title = Payments Standard
-module_ps_public_title = PayPal (including Credit and Debit Cards)
+module_ps_title = PayPal  Pago estándar
+module_ps_short_title =  Pago estándar
+module_ps_public_title = PayPal (incluyendo tarjetas de crédito y débito)
 
-module_ps_legacy_admin_app_button = Manage App
+module_ps_legacy_admin_app_button = Gestionar App
 
 module_ps_introduction = <ul>
-  <li>Accept credit cards and PayPal on your online store.</li>
-  <li>Simplified PCI compliance standards.</li>
-  <li>Accept multiple currencies worldwide.</li>
-  <li>Optimized mobile checkout experience.</li>
+  <li>Acepte tarjetas de crédito y PayPal en su tienda en línea.</li>
+  <li>Estándar simplificado de cumplimiento de la norma PCI.</li>
+  <li>Acepte múltiples divisas.</li>
+  <li>Experiencia del proceso de compra optimizada para móviles.</li>
 </ul>
 
-<p>PayPal handles the payment acceptance experience and returns the customer to your store after payment has been made.</p>
-<p>For new buyers, signing up for a PayPal account is optional meaning customers can complete their payments first and then decide to save their information in a PayPal account for future purchases.</p>
+<p>PayPal maneja la experiencia de aceptación del pago y retorna al cliente a su tienda una vez el pago ha sido realizado.</p>
+<p>Para nuevos compradores, crear una cuenta nueva de PayPal es opcional, lo que significa que los clientes pueden completar sus pagos primero y después decidir si guardan sus datos en una cuenta de Paypal para compras futuras.</p>
 
-module_ps_error_curl = This module requires cURL to be enabled in PHP and will not load until it has been enabled on this webserver.
-module_ps_error_credentials = This module will not load until the Seller E-Mail Address parameter has been configured. Please edit and configure the settings of this module.
+module_ps_error_curl = Este módulo requiere cURL activado en PHP y no cargaría hasta que sea activado en este servidor web.
+module_ps_error_credentials = Este módulo no se cargará hasta que la dirección de correo electrónico del vendedor haya sido configurada. Por favor, edite y configure las opciones de este módulo.
 
-module_ps_button_return_to_store = Back to :storename
+module_ps_button_return_to_store = Volver a :storename
 
-module_ps_error_invalid_transaction = Could not verify the PayPal transaction. Please try again.
+module_ps_error_invalid_transaction = No se puede verificar la transacción de PayPal. Por favor, inténtelo de nuevo.
