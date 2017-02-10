@@ -1,5 +1,5 @@
-cfg_ps_transaction_method_title = Transaction Method
-cfg_ps_transaction_method_desc = Set this to Sale to immediately capture the funds for every order made.
+cfg_ps_transaction_method_title = Modo de Transacción
+cfg_ps_transaction_method_desc = Establezca esto en "Venta" para capturar inmediatamente los fondos para cada pedido realizado.
 
-cfg_ps_transaction_method_authorize = Authorize
-cfg_ps_transaction_method_sale = Sale
+cfg_ps_transaction_method_authorize = Autorizar
+cfg_ps_transaction_method_sale = Venta
