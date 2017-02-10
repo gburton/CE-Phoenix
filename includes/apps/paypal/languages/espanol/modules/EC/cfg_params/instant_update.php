@@ -1,5 +1,5 @@
 cfg_ec_instant_update_title = Instant Update
-cfg_ec_instant_update_desc = Enable this to have PayPal retrieve a list of shipping rates after the customer has selected their shipping address during the Express Checkout flow.<br /><br /><em>Instant Update requires SSL to be enabled on your store.</em>
+cfg_ec_instant_update_desc = Habilite esto para que PayPal recupere una lista de tarifas de envío después de que el cliente haya seleccionado su dirección de envío durante el flujo "Express Checkout".<br /><br /><em>"Instant Update" requiere que SSL esté habilitado en su tienda.</em>
 
-cfg_ec_instant_update_enabled = Enabled
-cfg_ec_instant_update_disabled = Disabled
+cfg_ec_instant_update_enabled = Activar
+cfg_ec_instant_update_disabled = Desactivar
