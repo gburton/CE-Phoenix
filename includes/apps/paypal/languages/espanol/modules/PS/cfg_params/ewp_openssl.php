@@ -1,2 +1,2 @@
-cfg_ps_ewp_openssl_title = OpenSSL Location
-cfg_ps_ewp_openssl_desc = The location and filename of the openssl binary file.
+cfg_ps_ewp_openssl_title = Ubicación de OpenSSL
+cfg_ps_ewp_openssl_desc = La ubicación y el nombre del archivo binario de OpenSSL.
