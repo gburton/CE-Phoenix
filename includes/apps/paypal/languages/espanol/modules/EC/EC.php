@@ -1,38 +1,42 @@
 module_ec_title = PayPal Express Checkout
 module_ec_short_title = Express Checkout
-module_ec_public_title = PayPal (including Credit and Debit Cards)
+module_ec_public_title = PayPal (incl. Tarjetas de crédito y débito 
+		<i class="fa fa-cc-amex fa-lg"></i>
+    <i class="fa fa-cc-mastercard fa-lg"></i>
+    <i class="fa fa-cc-paypal fa-lg"></i>
+    <i class="fa fa-cc-visa fa-lg"></i>)
 
-module_ec_legacy_admin_app_button = Manage App
+module_ec_legacy_admin_app_button = Administrar App
 
 module_ec_introduction = <ul>
-  <li>Adds PayPal to your online store checkout.</li>
-  <li>Sell to customers faster who are more likely to pay with PayPal.</li>
-  <li>Access to new customers who prefer PayPal.</li>
-  <li>Customers can use guest checkout pages and avoid entering billing and shipping information.</li>
-  <li>Optimized mobile checkout experience.</li>
+  <li>Añade PayPal a su tienda online.</li>
+  <li>Vender más rápido a clientes que son más propensos a pagar con PayPal.</li>
+  <li>Acceder a nuevos clientes que prefieran PayPal.</li>
+  <li>Los clientes pueden utilizar las páginas de pago de invitados y evitar la entrada de datos de facturación y envío.</li>
+  <li>Optimización de la experiencia de pago móvil.</li>
 </ul>
 
-<p>Express Checkout offers the ease of convenience and security of PayPal, can be set up in minutes, and turns more shoppers into buyers.</p>
+<p>Pago exprés ofrece la facilidad de conveniencia y la seguridad de PayPal, se puede configurar en cuestión de minutos, y convierte más visitantes en compradores.</p>
 
-module_ec_error_curl = This module requires cURL to be enabled in PHP and will not load until it has been enabled on this webserver.
-module_ec_error_credentials = This module will not load until the API credentials have been configured. Please edit and configure the settings of the PayPal App.
-module_ec_error_credentials_payflow = This module will not load until the Vendor, Password, and Partner credentials have been configured. Please edit and configure the settings of the PayPal App.
+module_ec_error_curl = Este módulo requiere que cURL esté habilitado en PHP y no se cargará hasta que se haya habilitado en este servidor web.
+module_ec_error_credentials = Este módulo no se cargará hasta que se hayan configurado las credenciales de la API. Por favor, edite y configure la PayPal App.
+module_ec_error_credentials_payflow = Este módulo no se cargará hasta que se hayan configurado las credenciales de proveedor, contraseña y partner. Por favor, edite y configure la PayPal App.
 
-module_ec_button_locale = en_US
+module_ec_button_locale = es_ES
 module_ec_button_url = https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png
-module_ec_button_title = Check out with PayPal
+module_ec_button_title = Compra con PayPal
 
-module_ec_field_comments = Comments:
+module_ec_field_comments = Commentarios:
 
-module_ec_email_account_password = An account has automatically been created for you with the following e-mail address and password:
+module_ec_email_account_password = Una cuenta ha sido creado para Usted de forma automática con la siguiente dirección de correo electrónico y contraseña:
 
 Store Account E-Mail Address: :email_address
 Store Account Password: :password
 
-module_ec_error_general = Error: A general problem has occurred with the transaction. Please try again.
-module_ec_error_configuration = Error: Payment module configuration error. Please verify the PayPal App credentials.
-module_ec_error_express_disabled = Error: PayPal Express Checkout has been disabled for this merchant. Please contact PayPal Customer Service.
-module_ec_error_address = Error: A match of the Shipping Address City, State, and Postal Code failed. Please try again.
-module_ec_error_declined = Error: This transaction has been declined. Please try again.
-module_ec_error_local_login_required = Please log into your account to verify the order.
-module_ec_error_no_shipping_available = Shipping is currently not available for the selected shipping address. Please select or create a new shipping address to use with your purchase.
+module_ec_error_general = Error: Un problema general se ha producido con la transacción. Por favor, vuelva a intentarlo.
+module_ec_error_configuration = Error: error de configuración del módulo de pago. Por favor, verifique las credenciales de PayPal App.
+module_ec_error_express_disabled = Error: Pago exprés de PayPal ha sido deshabilitado para este comerciante. Por favor, póngase en contacto con el Servicio al Cliente de PayPal.
+module_ec_error_address = Error: La Ciudad, Estado y Código Postal no coincide con los datos de la dirección de envío. Por favor, vuelva a intentarlo.
+module_ec_error_declined = Error: Esta operación ha sido rechazada. Por favor, vuelva a intentarlo.
+module_ec_error_local_login_required = Por favor, acceda a su cuenta para verificar el orden.
+module_ec_error_no_shipping_available = Actualmente no está disponible ningún modo de envío para la dirección de envío seleccionada. Por favor seleccione o crea una nueva dirección de envío para utilizar con su compra.
