@@ -25,7 +25,9 @@
 
 <div class="contentContainer">
   <div class="contentText">
-    <?php echo TEXT_INFORMATION; ?>
+    <div class="row">
+        <?php echo $oscTemplate->getContent('shipping'); ?>
+    </div>
   </div>
 
   <div class="buttonSet">
