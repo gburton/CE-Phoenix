@@ -1,2 +1,2 @@
-cfg_login_sort_order_title = Sort Order
-cfg_login_sort_order_desc = Sort order of display. Lowest is displayed first.
+cfg_login_sort_order_title = Orden de clasificación
+cfg_login_sort_order_desc = La ubicación del módulo. (el más bajo se muestra primero).

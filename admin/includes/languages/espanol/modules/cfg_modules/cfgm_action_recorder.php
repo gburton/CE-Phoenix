@@ -10,4 +10,4 @@
   Released under the GNU General Public License
 */
 
-define('MODULE_CFG_MODULE_ACTION_RECORDER_TITLE', 'Grabadora de accione');
+define('MODULE_CFG_MODULE_ACTION_RECORDER_TITLE', 'Grabadora de acciones');

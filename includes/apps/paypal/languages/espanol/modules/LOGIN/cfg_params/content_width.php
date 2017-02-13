@@ -1,5 +1,5 @@
-cfg_login_content_width_title = Content Width
-cfg_login_content_width_desc = Should the content be shown in a full or half width container?
+cfg_login_content_width_title = Ancho del contenido
+cfg_login_content_width_desc = Debe mostrarse el módulo en un contenedor de anchura completa o media?
 
-cfg_login_content_width_half = Half
-cfg_login_content_width_full = Full
+cfg_login_content_width_half = Medio
+cfg_login_content_width_full = Completo

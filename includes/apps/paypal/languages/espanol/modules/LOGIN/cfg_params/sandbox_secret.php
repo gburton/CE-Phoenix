@@ -1,2 +1,2 @@
-cfg_login_sandbox_secret_title = Test Secret
-cfg_login_sandbox_secret_desc = The Secret of the PayPal REST App Test Credentials.
+cfg_login_sandbox_secret_title = Secret de Prueba "Sandbox"
+cfg_login_sandbox_secret_desc = El "Sandbox Secret" de las credenciales de la PayPal REST App.
