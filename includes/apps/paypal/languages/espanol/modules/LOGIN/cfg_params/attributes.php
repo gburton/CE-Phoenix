@@ -26,4 +26,4 @@ cfg_login_attributes_attribute_time_zone = Zona Horaria
 cfg_login_attributes_attribute_locale = Local
 cfg_login_attributes_attribute_language = Idioma
 
-cfg_login_attributes_attribute_seamless_checkout = Pagar sin fisuras (Seamless Checkout)
+cfg_login_attributes_attribute_seamless_checkout = Proceso de pago fluído
