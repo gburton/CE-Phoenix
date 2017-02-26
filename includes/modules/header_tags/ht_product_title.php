@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_product_title() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_PRODUCT_TITLE_TITLE;
       $this->description = MODULE_HEADER_TAGS_PRODUCT_TITLE_DESCRIPTION;
 

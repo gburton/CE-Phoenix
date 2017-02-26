@@ -17,7 +17,7 @@
   class paypal_standard {
     var $code, $title, $description, $enabled, $_app;
 
-    function paypal_standard() {
+    function __construct() {
       global $PHP_SELF, $payment, $order;
 
       $this->_app = new OSCOM_PayPal();

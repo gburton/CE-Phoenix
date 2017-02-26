@@ -23,7 +23,7 @@
     var $_payment_method_image = '';
 
 // class constructor
-    function moneybookers_bwi() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_bwi|1.0|2.3';

@@ -18,7 +18,7 @@
     var $_pm_code = 'paypal_pro_hs';
     var $_sort_order = 300;
 
-    function OSCOM_PayPal_HS() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->_title = $OSCOM_PayPal->getDef('module_hs_title');

@@ -18,7 +18,7 @@
     var $title;
     var $template_integration = false;
 
-    function cfgm_navbar_modules() {
+    function __construct() {
       $this->directory = DIR_FS_CATALOG_MODULES . 'navbar_modules/';
       $this->title = MODULE_CFG_MODULE_CONTENT_NAVBAR_TITLE;
     }

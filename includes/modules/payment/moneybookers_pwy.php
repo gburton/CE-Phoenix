@@ -23,7 +23,7 @@
     var $_payment_method_image = 'p24.gif';
 
 // class constructor
-    function moneybookers_pwy() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_pwy|1.0|2.3';

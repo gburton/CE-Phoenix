@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function ipayment_elv() {
+    function __construct() {
       global $order;
 
       $this->signature = 'ipayment|ipayment_elv|1.0|2.2';

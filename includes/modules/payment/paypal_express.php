@@ -17,7 +17,7 @@
   class paypal_express {
     var $code, $title, $description, $enabled, $_app;
 
-    function paypal_express() {
+    function __construct() {
       global $PHP_SELF, $order, $payment, $request_type;
 
       $this->_app = new OSCOM_PayPal();

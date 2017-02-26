@@ -21,7 +21,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_paypal_app() {
+    function __construct() {
       $this->_app = new OSCOM_PayPal();
       $this->_app->loadLanguageFile('admin/balance.php');
       $this->_app->loadLanguageFile('admin/modules/dashboard/d_paypal_app.php');

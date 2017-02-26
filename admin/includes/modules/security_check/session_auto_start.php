@@ -13,7 +13,7 @@
   class securityCheck_session_auto_start {
     var $type = 'warning';
 
-    function securityCheck_session_auto_start() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/session_auto_start.php');

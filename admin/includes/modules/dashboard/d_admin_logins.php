@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_admin_logins() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_ADMIN_LOGINS_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_ADMIN_LOGINS_DESCRIPTION;
 

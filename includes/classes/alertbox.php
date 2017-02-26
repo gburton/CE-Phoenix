@@ -11,6 +11,9 @@
 */
   class alertBlock {    
 	// class constructor
+  	function __construct() {
+  	}
+
     function alertBlock($contents, $alert_output = false) {
 	  $alertBox_string = '';
 		  

@@ -23,7 +23,7 @@
     var $_payment_method_image = 'maestro.gif';
 
 // class constructor
-    function moneybookers_mae() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_mae|1.0|2.3';

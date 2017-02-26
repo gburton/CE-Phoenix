@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_grid_list_view() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_GRID_LIST_VIEW_TITLE;
       $this->description = MODULE_HEADER_TAGS_GRID_LIST_VIEW_DESCRIPTION;
 

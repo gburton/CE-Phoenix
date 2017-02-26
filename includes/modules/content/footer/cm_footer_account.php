@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function cm_footer_account() {
+    function __construct() {
       $this->code = get_class($this);
       $this->group = basename(dirname(__FILE__));
 

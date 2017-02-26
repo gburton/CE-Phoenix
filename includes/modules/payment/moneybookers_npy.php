@@ -23,7 +23,7 @@
     var $_payment_method_image = 'eps.gif';
 
 // class constructor
-    function moneybookers_npy() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_npy|1.0|2.3';
