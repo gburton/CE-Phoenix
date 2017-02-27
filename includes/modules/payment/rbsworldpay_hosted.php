@@ -349,11 +349,11 @@
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
-      $order = tep_db_fetch_array($order_query);
+      $db_order = tep_db_fetch_array($order_query);
 
       $order_status_id = (MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID > 0 ? (int)MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID : (int)DEFAULT_ORDERS_STATUS_ID);
 
-      if ($order['orders_status'] == MODULE_PAYMENT_RBSWORLDPAY_HOSTED_PREPARE_ORDER_STATUS_ID) {
+      if ($db_order['orders_status'] == MODULE_PAYMENT_RBSWORLDPAY_HOSTED_PREPARE_ORDER_STATUS_ID) {
         tep_db_query("update " . TABLE_ORDERS . " set orders_status = '" . $order_status_id . "', last_modified = now() where orders_id = '" . (int)$order_id . "'");
 
         $sql_data_array = array('orders_id' => $order_id,
