@@ -26,14 +26,14 @@
 // Stop from parsing any further PHP code
 // v2.3.3.1 now closes the session through a registered shutdown function
   function tep_exit() {
-   exit();
+   exit;
   }
 
 ////
 // Redirect to another page or site
   function tep_redirect($url) {
     if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) { 
-      tep_redirect(tep_href_link(FILENAME_DEFAULT, '', 'NONSSL', false));
+      tep_redirect(tep_href_link('index.php', '', 'NONSSL', false));
     }
 
     if ( (ENABLE_SSL == true) && (getenv('HTTPS') == 'on') ) { // We are loading an SSL page
@@ -137,7 +137,7 @@
     $out_of_stock = '';
 
     if ($stock_left < 0) {
-      $out_of_stock = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</span>';
+      $out_of_stock = '<span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span>';
     }
 
     return $out_of_stock;
@@ -168,14 +168,12 @@
 ////
 // Return all HTTP GET variables, except those passed as a parameter
   function tep_get_all_get_params($exclude_array = '') {
-    global $HTTP_GET_VARS;
-
     if (!is_array($exclude_array)) $exclude_array = array();
 
     $get_url = '';
-    if (is_array($HTTP_GET_VARS) && (sizeof($HTTP_GET_VARS) > 0)) {
-      reset($HTTP_GET_VARS);
-      while (list($key, $value) = each($HTTP_GET_VARS)) {
+    if (is_array($_GET) && (sizeof($_GET) > 0)) {
+      reset($_GET);
+      while (list($key, $value) = each($_GET)) {
         if ( is_string($value) && (strlen($value) > 0) && ($key != tep_session_name()) && ($key != 'error') && (!in_array($key, $exclude_array)) && ($key != 'x') && ($key != 'y') ) {
           $get_url .= $key . '=' . rawurlencode(stripslashes($value)) . '&';
         }
@@ -259,11 +257,9 @@
   }
 
 ////
-// Returns the clients browser
+// Returns the clients browser  
   function tep_browser_detect($component) {
-    global $HTTP_USER_AGENT;
-
-    return stristr($HTTP_USER_AGENT, $component);
+    return stristr($_SERVER['HTTP_USER_AGENT'], $component);
   }
 
 ////
@@ -1009,20 +1005,6 @@
   }
 
 ////
-// Return a customer greeting
-  function tep_customer_greeting() {
-    global $customer_id, $customer_first_name;
-
-    if (tep_session_is_registered('customer_first_name') && tep_session_is_registered('customer_id')) {
-      $greeting_string = sprintf(TEXT_GREETING_PERSONAL, tep_output_string_protected($customer_first_name), tep_href_link(FILENAME_PRODUCTS_NEW));
-    } else {
-      $greeting_string = sprintf(TEXT_GREETING_GUEST, tep_href_link(FILENAME_LOGIN, '', 'SSL'), tep_href_link(FILENAME_CREATE_ACCOUNT, '', 'SSL'));
-    }
-
-    return $greeting_string;
-  }
-
-////
 //! Send email (text/html) using MIME
 // This is the central mail function. The SMTP Server should be configured
 // correct in php.ini
@@ -1123,7 +1105,7 @@
     $value = '';
 
     if (!class_exists('PasswordHash')) {
-      include(DIR_WS_CLASSES . 'passwordhash.php');
+      include('includes/classes/passwordhash.php');
     }
 
     $hasher = new PasswordHash(10, true);
@@ -1288,7 +1270,7 @@
       $parts = explode('.', $ip_address);
 
       foreach ($parts as $ip_parts) {
-        if ( (intval($ip_parts) > 255) || (intval($ip_parts) < 0) ) {
+        if ( ((int)($ip_parts) > 255) || ((int)($ip_parts) < 0) ) {
           return false; // number is not within 0-255
         }
       }
@@ -1300,13 +1282,13 @@
   }
 
   function tep_get_ip_address() {
-    global $HTTP_SERVER_VARS;
+    global $_SERVER;
 
     $ip_address = null;
     $ip_addresses = array();
 
-    if (isset($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR']) && !empty($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) {
-      foreach ( array_reverse(explode(',', $HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+      foreach ( array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
         $x_ip = trim($x_ip);
 
         if (tep_validate_ip_address($x_ip)) {
@@ -1315,19 +1297,19 @@
       }
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_CLIENT_IP'])) {
-      $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_CLIENT_IP'];
+    if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
+      $ip_addresses[] = $_SERVER['HTTP_CLIENT_IP'];
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'])) {
-      $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'];
+    if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
+      $ip_addresses[] = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
     }
 
-    if (isset($HTTP_SERVER_VARS['HTTP_PROXY_USER']) && !empty($HTTP_SERVER_VARS['HTTP_PROXY_USER'])) {
-      $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_PROXY_USER'];
+    if (isset($_SERVER['HTTP_PROXY_USER']) && !empty($_SERVER['HTTP_PROXY_USER'])) {
+      $ip_addresses[] = $_SERVER['HTTP_PROXY_USER'];
     }
 
-    $ip_addresses[] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+    $ip_addresses[] = $_SERVER['REMOTE_ADDR'];
 
     foreach ( $ip_addresses as $ip ) {
       if (!empty($ip) && tep_validate_ip_address($ip)) {
@@ -1393,4 +1375,4 @@
       return str_replace($from, $to, $string);
     }
   }
-?>
+  

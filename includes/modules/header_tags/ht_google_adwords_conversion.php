@@ -35,7 +35,7 @@
         $this->group = 'header_tags';
       }
 
-      if ( ($PHP_SELF == FILENAME_CHECKOUT_SUCCESS) && tep_session_is_registered('customer_id') ) {
+      if ( ($PHP_SELF == 'checkout_success.php') && tep_session_is_registered('customer_id') ) {
         $order_query = tep_db_query("select orders_id, currency, currency_value from " . TABLE_ORDERS . " where customers_id = '" . (int)$customer_id . "' order by date_purchased desc limit 1");
 
         if (tep_db_num_rows($order_query) == 1) {
@@ -45,7 +45,7 @@
           $order_subtotal = tep_db_fetch_array($order_subtotal_query);
 
           if (!isset($lng) || (isset($lng) && !is_object($lng))) {
-            include(DIR_WS_CLASSES . 'language.php');
+            include('includes/classes/language.php');
             $lng = new language;
           }
 

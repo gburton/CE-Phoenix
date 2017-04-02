@@ -13,19 +13,19 @@
   chdir('../../../../');
   require('includes/application_top.php');
 
-  if (!defined('MODULE_PAYMENT_PAYPAL_PRO_HS_STATUS') || (MODULE_PAYMENT_PAYPAL_PRO_HS_STATUS  != 'True')) {
+  if ( !defined('OSCOM_APP_PAYPAL_HS_STATUS') || !in_array(OSCOM_APP_PAYPAL_HS_STATUS, array('1', '0')) ) {
     exit;
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/modules/payment/paypal_pro_hs.php');
+  require('includes/languages/' . $language . '/modules/payment/paypal_pro_hs.php');
   require('includes/modules/payment/paypal_pro_hs.php');
 
   $result = false;
 
-  if ( isset($HTTP_POST_VARS['txn_id']) && !empty($HTTP_POST_VARS['txn_id']) ) {
+  if ( isset($_POST['txn_id']) && !empty($_POST['txn_id']) ) {
     $paypal_pro_hs = new paypal_pro_hs();
 
-    $result = $paypal_pro_hs->getTransactionDetails($HTTP_POST_VARS['txn_id']);
+    $result = $paypal_pro_hs->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $_POST['txn_id']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox', true);
   }
 
   if ( is_array($result) && isset($result['ACK']) && (($result['ACK'] == 'Success') || ($result['ACK'] == 'SuccessWithWarning')) ) {

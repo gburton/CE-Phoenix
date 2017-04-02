@@ -32,13 +32,13 @@
   define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
 
 // some code to solve compatibility issues
-  require(DIR_WS_FUNCTIONS . 'compatibility.php');
+  require('includes/functions/compatibility.php');
 
 // set the type of request (secure or not)
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
 
 // set php_self in the local scope
-  $req = parse_url($HTTP_SERVER_VARS['SCRIPT_NAME']);
+  $req = parse_url($_SERVER['SCRIPT_NAME']);
   $PHP_SELF = substr($req['path'], ($request_type == 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
 
 // Used in the "Backup Manager" to compress backups
@@ -47,19 +47,17 @@
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
 
-// include the list of project filenames
-  require(DIR_WS_INCLUDES . 'filenames.php');
-
 // include the list of project database tables
-  require(DIR_WS_INCLUDES . 'database_tables.php');
+  require('includes/database_tables.php');
 
 // Define how do we update currency exchange rates
-// Possible values are 'oanda' 'xe' or ''
-  define('CURRENCY_SERVER_PRIMARY', 'oanda');
-  define('CURRENCY_SERVER_BACKUP', 'xe');
+// Possible values are 'oanda' 'xe' 'fixer' or ''
+// fixer is the lastest added, more details at http://fixer.io
+  define('CURRENCY_SERVER_PRIMARY', 'fixer');
+  define('CURRENCY_SERVER_BACKUP', '');
 
 // include the database functions
-  require(DIR_WS_FUNCTIONS . 'database.php');
+  require('includes/functions/database.php');
 
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
@@ -71,17 +69,17 @@
   }
 
 // define our general functions used application-wide
-  require(DIR_WS_FUNCTIONS . 'general.php');
-  require(DIR_WS_FUNCTIONS . 'html_output.php');
+  require('includes/functions/general.php');
+  require('includes/functions/html_output.php');
 
 // initialize the logger class
-  require(DIR_WS_CLASSES . 'logger.php');
+  require('includes/classes/logger.php');
 
 // include shopping cart class
-  require(DIR_WS_CLASSES . 'shopping_cart.php');
+  require('includes/classes/shopping_cart.php');
 
 // define how the session functions will be used
-  require(DIR_WS_FUNCTIONS . 'sessions.php');
+  require('includes/functions/sessions.php');
 
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
@@ -110,17 +108,17 @@
   }
 
 // set the language
-  if (!tep_session_is_registered('language') || isset($HTTP_GET_VARS['language'])) {
+  if (!tep_session_is_registered('language') || isset($_GET['language'])) {
     if (!tep_session_is_registered('language')) {
       tep_session_register('language');
       tep_session_register('languages_id');
     }
 
-    include(DIR_WS_CLASSES . 'language.php');
+    include('includes/classes/language.php');
     $lng = new language();
 
-    if (isset($HTTP_GET_VARS['language']) && tep_not_null($HTTP_GET_VARS['language'])) {
-      $lng->set_language($HTTP_GET_VARS['language']);
+    if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
+      $lng->set_language($_GET['language']);
     } else {
       $lng->get_browser_language();
     }
@@ -137,36 +135,36 @@
 
 // if the first page request is to the login page, set the current page to the index page
 // so the redirection on a successful login is not made to the login page again
-    if ( ($current_page == FILENAME_LOGIN) && !tep_session_is_registered('redirect_origin') ) {
-      $current_page = FILENAME_DEFAULT;
-      $HTTP_GET_VARS = array();
+    if ( ($current_page == 'login.php') && !tep_session_is_registered('redirect_origin') ) {
+      $current_page = 'index.php';
+      $_GET = array();
     }
 
-    if ($current_page != FILENAME_LOGIN) {
+    if ($current_page != 'login.php') {
       if (!tep_session_is_registered('redirect_origin')) {
         tep_session_register('redirect_origin');
 
         $redirect_origin = array('page' => $current_page,
-                                 'get' => $HTTP_GET_VARS);
+                                 'get' => $_GET);
       }
 
 // try to automatically login with the HTTP Authentication values if it exists
       if (!tep_session_is_registered('auth_ignore')) {
-        if (isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW']) && !empty($HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
-          $redirect_origin['auth_user'] = $HTTP_SERVER_VARS['PHP_AUTH_USER'];
-          $redirect_origin['auth_pw'] = $HTTP_SERVER_VARS['PHP_AUTH_PW'];
+        if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+          $redirect_origin['auth_user'] = $_SERVER['PHP_AUTH_USER'];
+          $redirect_origin['auth_pw'] = $_SERVER['PHP_AUTH_PW'];
         }
       }
 
       $redirect = true;
     }
 
-    if (!isset($login_request) || isset($HTTP_GET_VARS['login_request']) || isset($HTTP_POST_VARS['login_request']) || isset($HTTP_COOKIE_VARS['login_request']) || isset($HTTP_SESSION_VARS['login_request']) || isset($HTTP_POST_FILES['login_request']) || isset($HTTP_SERVER_VARS['login_request'])) {
+    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($_SESSION['login_request']) || isset($_FILES['login_request']) || isset($_SERVER['login_request'])) {
       $redirect = true;
     }
 
     if ($redirect == true) {
-      tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+      tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
 
     unset($redirect);
@@ -174,47 +172,47 @@
 
 // include the language translations
   $_system_locale_numeric = setlocale(LC_NUMERIC, 0);
-  require(DIR_WS_LANGUAGES . $language . '.php');
+  require('includes/languages/' . $language . '.php');
   setlocale(LC_NUMERIC, $_system_locale_numeric); // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
 
   $current_page = basename($PHP_SELF);
-  if (file_exists(DIR_WS_LANGUAGES . $language . '/' . $current_page)) {
-    include(DIR_WS_LANGUAGES . $language . '/' . $current_page);
+  if (file_exists('includes/languages/' . $language . '/' . $current_page)) {
+    include('includes/languages/' . $language . '/' . $current_page);
   }
 
 // define our localization functions
-  require(DIR_WS_FUNCTIONS . 'localization.php');
+  require('includes/functions/localization.php');
 
 // Include validation functions (right now only email address)
-  require(DIR_WS_FUNCTIONS . 'validations.php');
+  require('includes/functions/validations.php');
 
 // setup our boxes
-  require(DIR_WS_CLASSES . 'table_block.php');
-  require(DIR_WS_CLASSES . 'box.php');
+  require('includes/classes/table_block.php');
+  require('includes/classes/box.php');
 
 // initialize the message stack for output messages
-  require(DIR_WS_CLASSES . 'message_stack.php');
+  require('includes/classes/message_stack.php');
   $messageStack = new messageStack;
 
 // split-page-results
-  require(DIR_WS_CLASSES . 'split_page_results.php');
+  require('includes/classes/split_page_results.php');
 
 // entry/item info classes
-  require(DIR_WS_CLASSES . 'object_info.php');
+  require('includes/classes/object_info.php');
 
 // email classes
-  require(DIR_WS_CLASSES . 'mime.php');
-  require(DIR_WS_CLASSES . 'email.php');
+  require('includes/classes/mime.php');
+  require('includes/classes/email.php');
 
 // file uploading class
-  require(DIR_WS_CLASSES . 'upload.php');
+  require('includes/classes/upload.php');
 
 // action recorder
-  require(DIR_WS_CLASSES . 'action_recorder.php');
+  require('includes/classes/action_recorder.php');
 
 // calculate category path
-  if (isset($HTTP_GET_VARS['cPath'])) {
-    $cPath = $HTTP_GET_VARS['cPath'];
+  if (isset($_GET['cPath'])) {
+    $cPath = $_GET['cPath'];
   } else {
     $cPath = '';
   }
@@ -222,13 +220,13 @@
   if (tep_not_null($cPath)) {
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
-    $current_category_id = $cPath_array[(sizeof($cPath_array)-1)];
+    $current_category_id = end($cPath_array);
   } else {
     $current_category_id = 0;
   }
 
 // initialize configuration modules
-  require(DIR_WS_CLASSES . 'cfg_modules.php');
+  require('includes/classes/cfg_modules.php');
   $cfgModules = new cfg_modules();
 
 // the following cache blocks are used in the Tools->Cache section
@@ -237,4 +235,7 @@
                         array('title' => TEXT_CACHE_MANUFACTURERS, 'code' => 'manufacturers', 'file' => 'manufacturers_box-language.cache', 'multiple' => true),
                         array('title' => TEXT_CACHE_ALSO_PURCHASED, 'code' => 'also_purchased', 'file' => 'also_purchased-language.cache', 'multiple' => true)
                        );
-?>
+                       
+  require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
+  $OSCOM_Hooks = new hooks('admin');
+  

@@ -36,4 +36,5 @@ define('ERROR_NEWSLETTER_MODULE', 'Error: Newsletter module required');
 define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before deleting it.');
 define('ERROR_EDIT_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before editing it.');
 define('ERROR_SEND_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before sending it.');
-?>
+
+define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: Module does not exist');

@@ -23,7 +23,7 @@
     }
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -36,7 +36,7 @@
   if (sizeof($languages_array) > 1) {
 ?>
 
-            <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', FILENAME_DEFAULT, '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
+            <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
 
 <?php
   }
@@ -59,8 +59,8 @@
       $class = substr($adm, 0, strrpos($adm, '.'));
 
       if ( !class_exists($class) ) {
-        include(DIR_WS_LANGUAGES . $language . '/modules/dashboard/' . $adm);
-        include(DIR_WS_MODULES . 'dashboard/' . $class . '.php');
+        include('includes/languages/' . $language . '/modules/dashboard/' . $adm);
+        include('includes/modules/dashboard/' . $class . '.php');
       }
 
       $ad = new $class();
@@ -100,6 +100,6 @@
     </table>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

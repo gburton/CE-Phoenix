@@ -40,7 +40,7 @@
 
   // Module already installed
   if (defined('MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_STATUS') && (MODULE_PAYMENT_SOFORTUEBERWEISUNG_DIRECT_STATUS == 'True')) {
-    die('Modul bereits installiert<br /><a href="' . tep_href_link(FILENAME_MODULES, 'set=payment&module=sofortueberweisung_direct', 'SSL') . '">zur�ck zum ShopAdmin</a>');
+    die('Modul bereits installiert<br /><a href="' . tep_href_link('modules.php', 'set=payment&module=sofortueberweisung_direct', 'SSL') . '">zur�ck zum ShopAdmin</a>');
   }
 
   $parameter = array();
@@ -64,7 +64,7 @@
   $header_redir_url = tep_catalog_href_link('checkout_process.php', OSC_CATALOG_SESSION_ID . '=-KUNDEN_VAR_2-&sovar3=-KUNDEN_VAR_3-&sovar4=-KUNDEN_VAR_3_MD5_PASS-&betrag_integer=-BETRAG_INTEGER-','SSL', false, false);
   $alert_http_url = tep_catalog_href_link('ext/modules/payment/sofortueberweisung/callback.php','' ,'SSL', false, false);
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install')) {
+  if (isset($_GET['action']) && ($_GET['action'] == 'install')) {
     $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
     $class = 'sofortueberweisung_direct';
 
@@ -74,7 +74,7 @@
       $module->install();
     }
 
-    tep_redirect(tep_href_link(FILENAME_MODULES, 'set=payment&module=sofortueberweisung_direct', 'SSL'));
+    tep_redirect(tep_href_link('modules.php', 'set=payment&module=sofortueberweisung_direct', 'SSL'));
   }
 ?>
 <html>

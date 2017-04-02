@@ -31,9 +31,9 @@
     }
 
     function execute() {
-      global $HTTP_GET_VARS, $language, $oscTemplate;
+      global $language, $oscTemplate;
 
-      if ( isset($HTTP_GET_VARS['products_id']) && defined('MODULE_SOCIAL_BOOKMARKS_INSTALLED') && tep_not_null(MODULE_SOCIAL_BOOKMARKS_INSTALLED) ) {
+      if ( isset($_GET['products_id']) && defined('MODULE_SOCIAL_BOOKMARKS_INSTALLED') && tep_not_null(MODULE_SOCIAL_BOOKMARKS_INSTALLED) ) {
         $sbm_array = explode(';', MODULE_SOCIAL_BOOKMARKS_INSTALLED);
 
         $social_bookmarks = array();
@@ -42,8 +42,8 @@
           $class = substr($sbm, 0, strrpos($sbm, '.'));
 
           if ( !class_exists($class) ) {
-            include(DIR_WS_LANGUAGES . $language . '/modules/social_bookmarks/' . $sbm);
-            include(DIR_WS_MODULES . 'social_bookmarks/' . $class . '.php');
+            include('includes/languages/' . $language . '/modules/social_bookmarks/' . $sbm);
+            include('includes/modules/social_bookmarks/' . $class . '.php');
           }
 
           $sb = new $class();
@@ -56,7 +56,7 @@
         if ( !empty($social_bookmarks) ) {
 
           ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/product_social_bookmarks.php');
+          include('includes/modules/boxes/templates/product_social_bookmarks.php');
           $data = ob_get_clean();
                   
           $oscTemplate->addBlock($data, $this->group);

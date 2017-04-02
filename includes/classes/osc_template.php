@@ -82,15 +82,15 @@
             $modules_array = explode(';', constant($module_key));
 
             foreach ( $modules_array as $module ) {
-              $class = substr($module, 0, strrpos($module, '.'));
+              $class = basename($module, '.php');
 
               if ( !class_exists($class) ) {
-                if ( file_exists(DIR_WS_LANGUAGES . $language . '/modules/' . $group . '/' . $module) ) {
-                  include(DIR_WS_LANGUAGES . $language . '/modules/' . $group . '/' . $module);
+                if ( file_exists('includes/languages/' . $language . '/modules/' . $group . '/' . $module) ) {
+                  include('includes/languages/' . $language . '/modules/' . $group . '/' . $module);
                 }
 
-                if ( file_exists(DIR_WS_MODULES . $group . '/' . $class . '.php') ) {
-                  include(DIR_WS_MODULES . $group . '/' . $class . '.php');
+                if ( file_exists('includes/modules/' . $group . '/' . $module) ) {
+                  include('includes/modules/' . $group . '/' . $module);
                 }
               }
 
@@ -118,8 +118,8 @@
     function getContent($group) {
       global $language;
 
-      if ( !class_exists('tp_' . $group) && file_exists(DIR_WS_MODULES . 'pages/tp_' . $group . '.php') ) {
-        include(DIR_WS_MODULES . 'pages/tp_' . $group . '.php');
+      if ( !class_exists('tp_' . $group) && file_exists('includes/modules/pages/tp_' . $group . '.php') ) {
+        include('includes/modules/pages/tp_' . $group . '.php');
       }
 
       if ( class_exists('tp_' . $group) ) {
@@ -130,12 +130,12 @@
 
       foreach ( $this->getContentModules($group) as $module ) {
         if ( !class_exists($module) ) {
-          if ( file_exists(DIR_WS_MODULES . 'content/' . $group . '/' . $module . '.php') ) {
-            if ( file_exists(DIR_WS_LANGUAGES . $language . '/modules/content/' . $group . '/' . $module . '.php') ) {
-              include(DIR_WS_LANGUAGES . $language . '/modules/content/' . $group . '/' . $module . '.php');
+          if ( file_exists('includes/modules/content/' . $group . '/' . $module . '.php') ) {
+            if ( file_exists('includes/languages/' . $language . '/modules/content/' . $group . '/' . $module . '.php') ) {
+              include('includes/languages/' . $language . '/modules/content/' . $group . '/' . $module . '.php');
             }
 
-            include(DIR_WS_MODULES . 'content/' . $group . '/' . $module . '.php');
+            include('includes/modules/content/' . $group . '/' . $module . '.php');
           }
         }
 

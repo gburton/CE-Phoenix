@@ -12,16 +12,16 @@
 
   require('includes/application_top.php');
 
-  if (!isset($HTTP_GET_VARS['products_id'])) {
-    tep_redirect(tep_href_link(FILENAME_REVIEWS));
+  if (!isset($_GET['products_id'])) {
+    tep_redirect(tep_href_link('reviews.php'));
   }
   
-  $product_check_query = tep_db_query("select count(*) as total from products p, products_description pd where p.products_status = '1' and p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
+  $product_check_query = tep_db_query("select count(*) as total from products p, products_description pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "'");
   $product_check = tep_db_fetch_array($product_check_query);
 
-  $product_info_query = tep_db_query("select p.products_id, p.products_model, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+  $product_info_query = tep_db_query("select p.products_id, p.products_model, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
   if (!tep_db_num_rows($product_info_query)) {
-    tep_redirect(tep_href_link(FILENAME_REVIEWS));
+    tep_redirect(tep_href_link('reviews.php'));
   } else {
     $product_info = tep_db_fetch_array($product_info_query);
   }
@@ -38,11 +38,11 @@
     $products_name = $product_info['products_name'];
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_PRODUCT_REVIEWS);
+  require('includes/languages/' . $language . '/product_reviews.php');
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_PRODUCT_REVIEWS, tep_get_all_get_params()));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('product_reviews.php', tep_get_all_get_params()));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <?php
@@ -51,11 +51,13 @@
   }
 ?>
 
-<div itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
+<div itemscope itemtype="http://schema.org/Product">
 
 <div class="page-header">
-  <h1 class="pull-right"><?php echo $products_price; ?></h1>
-  <h1 itemprop="itemreviewed"><?php echo $products_name; ?></h1>
+  <div class="row">
+    <h1 class="col-sm-4" itemprop="name"><?php echo $products_name; ?></h1>
+    <h2 class="col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
+  </div>
 </div>
 
 <div class="contentContainer">
@@ -63,7 +65,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" itemscope itemtype="http://data-vocabulary.org/Rating"><meta itemprop="average" content="' . (int)round($average['average']) . '" /><meta itemprop="best" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])), true)) . '</div>';
+echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><meta itemprop="ratingValue" content="' . max(1, (int)round($average['average'])) . '" /><meta itemprop="bestRating" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
 ?>
 
 <?php
@@ -71,9 +73,9 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" it
 ?>
 
   <div class="col-sm-4 text-center">
-    <?php echo '<a href="' . tep_href_link(FILENAME_PRODUCT_INFO, 'products_id=' . $product_info['products_id']) . '">' . tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
+    <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image('images/' . $product_info['products_image'], addslashes($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'glyphicon glyphicon-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now')); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now'), null, null, 'btn-success btn-reviews btn-buy'); ?></p>
   </div>
   
   <div class="clearfix"></div>
@@ -110,11 +112,12 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" it
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       $review_name = tep_output_string_protected($reviews['customers_name']);
 ?>
-      <blockquote class="col-sm-6" itemscope itemtype="http://data-vocabulary.org/Review">
-        <p itemprop="description"><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
-        <div class="hidden" itemprop="dtreviewed" datetime="<?php echo $reviews['date_added']; ?>"><?php echo $reviews['date_added']; ?></div>
-        <div class="hidden" itemprop="itemreviewed"><?php echo $product_info['products_name']; ?></div>
-        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating'], true), $review_name, $review_name); ?></footer>
+      <blockquote class="col-sm-6" itemprop="review" itemscope itemtype="http://schema.org/Review">
+        <p itemprop="reviewBody"><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
+        <meta itemprop="datePublished" content="<?php echo $reviews['date_added']; ?>">
+        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+        <meta itemprop="ratingValue" content="<?php echo (int)$reviews['reviews_rating']; ?>"></span>
+        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
       </blockquote>
 <?php
     }
@@ -154,17 +157,17 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="rating" it
       <?php
       $back = sizeof($navigation->path)-2;
       if (isset($navigation->path[$back])) {
-        echo tep_draw_button(IMAGE_BUTTON_BACK, 'glyphicon glyphicon-chevron-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode']));
+        echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode']));
       }
       ?>&nbsp;
     </div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'glyphicon glyphicon-comment', tep_href_link(FILENAME_PRODUCT_REVIEWS_WRITE, tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fa fa-commenting', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
   </div>
 </div>
 
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

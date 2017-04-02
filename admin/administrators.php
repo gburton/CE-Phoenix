@@ -14,7 +14,7 @@
 
   $htaccess_array = null;
   $htpasswd_array = null;
-  $is_iis = stripos($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'iis');
+  $is_iis = stripos($_SERVER['SERVER_SOFTWARE'], 'iis');
 
   $authuserfile_array = array('##### OSCOMMERCE ADMIN PROTECTION - BEGIN #####',
                               'AuthType Basic',
@@ -44,15 +44,15 @@
     }
   }
 
-  $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
+  $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (tep_not_null($action)) {
     switch ($action) {
       case 'insert':
         require('includes/functions/password_funcs.php');
 
-        $username = tep_db_prepare_input($HTTP_POST_VARS['username']);
-        $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
+        $username = tep_db_prepare_input($_POST['username']);
+        $password = tep_db_prepare_input($_POST['password']);
 
         $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " where user_name = '" . tep_db_input($username) . "' limit 1");
 
@@ -68,7 +68,7 @@
               }
             }
 
-            if (isset($HTTP_POST_VARS['htaccess']) && ($HTTP_POST_VARS['htaccess'] == 'true')) {
+            if (isset($_POST['htaccess']) && ($_POST['htaccess'] == 'true')) {
               $htpasswd_array[] = $username . ':' . tep_crypt_apr_md5($password);
             }
 
@@ -94,15 +94,15 @@
           $messageStack->add_session(ERROR_ADMINISTRATOR_EXISTS, 'error');
         }
 
-        tep_redirect(tep_href_link(FILENAME_ADMINISTRATORS));
+        tep_redirect(tep_href_link('administrators.php'));
         break;
       case 'save':
         require('includes/functions/password_funcs.php');
 
-        $username = tep_db_prepare_input($HTTP_POST_VARS['username']);
-        $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
+        $username = tep_db_prepare_input($_POST['username']);
+        $password = tep_db_prepare_input($_POST['password']);
 
-        $check_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$HTTP_GET_VARS['aID'] . "'");
+        $check_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$_GET['aID'] . "'");
         $check = tep_db_fetch_array($check_query);
 
 // update username in current session if changed
@@ -121,7 +121,7 @@
           }
         }
 
-        tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_name = '" . tep_db_input($username) . "' where id = '" . (int)$HTTP_GET_VARS['aID'] . "'");
+        tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_name = '" . tep_db_input($username) . "' where id = '" . (int)$_GET['aID'] . "'");
 
         if (tep_not_null($password)) {
 // update password in htpasswd
@@ -134,13 +134,13 @@
               }
             }
 
-            if (isset($HTTP_POST_VARS['htaccess']) && ($HTTP_POST_VARS['htaccess'] == 'true')) {
+            if (isset($_POST['htaccess']) && ($_POST['htaccess'] == 'true')) {
               $htpasswd_array[] = $username . ':' . tep_crypt_apr_md5($password);
             }
           }
 
-          tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' where id = '" . (int)$HTTP_GET_VARS['aID'] . "'");
-        } elseif (!isset($HTTP_POST_VARS['htaccess']) || ($HTTP_POST_VARS['htaccess'] != 'true')) {
+          tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' where id = '" . (int)$_GET['aID'] . "'");
+        } elseif (!isset($_POST['htaccess']) || ($_POST['htaccess'] != 'true')) {
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
               list($ht_username, $ht_password) = explode(':', $htpasswd_array[$i], 2);
@@ -173,10 +173,10 @@
           fclose($fp);
         }
 
-        tep_redirect(tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . (int)$HTTP_GET_VARS['aID']));
+        tep_redirect(tep_href_link('administrators.php', 'aID=' . (int)$_GET['aID']));
         break;
       case 'deleteconfirm':
-        $id = tep_db_prepare_input($HTTP_GET_VARS['aID']);
+        $id = tep_db_prepare_input($_GET['aID']);
 
         $check_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$id . "'");
         $check = tep_db_fetch_array($check_query);
@@ -213,7 +213,7 @@
           }
         }
 
-        tep_redirect(tep_href_link(FILENAME_ADMINISTRATORS));
+        tep_redirect(tep_href_link('administrators.php'));
         break;
     }
   }
@@ -230,7 +230,7 @@
     $secMessageStack->add(HTPASSWD_PERMISSIONS, 'error');
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -261,12 +261,12 @@
 <?php
   $admins_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " order by user_name");
   while ($admins = tep_db_fetch_array($admins_query)) {
-    if ((!isset($HTTP_GET_VARS['aID']) || (isset($HTTP_GET_VARS['aID']) && ($HTTP_GET_VARS['aID'] == $admins['id']))) && !isset($aInfo) && (substr($action, 0, 3) != 'new')) {
+    if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $admins['id']))) && !isset($aInfo) && (substr($action, 0, 3) != 'new')) {
       $aInfo = new objectInfo($admins);
     }
 
 
-    $htpasswd_secured = tep_image(DIR_WS_IMAGES . 'icon_status_red.gif', 'Not Secured', 10, 10);
+    $htpasswd_secured = tep_image('images/icon_status_red.gif', 'Not Secured', 10, 10);
 
     if ($is_iis) {
       $htpasswd_secured = 'N/A';
@@ -277,27 +277,27 @@
         list($ht_username, $ht_password) = explode(':', $htpasswd_array[$i], 2);
 
         if ($ht_username == $admins['user_name']) {
-          $htpasswd_secured = tep_image(DIR_WS_IMAGES . 'icon_status_green.gif', 'Secured', 10, 10);
+          $htpasswd_secured = tep_image('images/icon_status_green.gif', 'Secured', 10, 10);
           break;
         }
       }
     }
 
     if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) {
-      echo '                  <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id . '&action=edit') . '\'">' . "\n";
+      echo '                  <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit') . '\'">' . "\n";
     } else {
-      echo '                  <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $admins['id']) . '\'">' . "\n";
+      echo '                  <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '\'">' . "\n";
     }
 ?>
                 <td class="dataTableContent"><?php echo $admins['user_name']; ?></td>
                 <td class="dataTableContent" align="center"><?php echo $htpasswd_secured; ?></td>
-                <td class="dataTableContent" align="right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) { echo tep_image(DIR_WS_IMAGES . 'icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $admins['id']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+                <td class="dataTableContent" align="right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) { echo tep_image('images/icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php
   }
 ?>
               <tr>
-                <td class="smallText" colspan="3" align="right"><?php echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link(FILENAME_ADMINISTRATORS, 'action=new')); ?></td>
+                <td class="smallText" colspan="3" align="right"><?php echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('administrators.php', 'action=new')); ?></td>
               </tr>
             </table></td>
 <?php
@@ -308,7 +308,7 @@
     case 'new':
       $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_ADMINISTRATOR . '</strong>');
 
-      $contents = array('form' => tep_draw_form('administrator', FILENAME_ADMINISTRATORS, 'action=insert', 'post', 'autocomplete="off"'));
+      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
       $contents[] = array('text' => '<br />' . TEXT_INFO_USERNAME . '<br />' . tep_draw_input_field('username'));
       $contents[] = array('text' => '<br />' . TEXT_INFO_PASSWORD . '<br />' . tep_draw_password_field('password'));
@@ -317,12 +317,12 @@
         $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
       }
 
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_ADMINISTRATORS)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php')));
       break;
     case 'edit':
       $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
 
-      $contents = array('form' => tep_draw_form('administrator', FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"'));
+      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
       $contents[] = array('text' => '<br />' . TEXT_INFO_USERNAME . '<br />' . tep_draw_input_field('username', $aInfo->user_name));
       $contents[] = array('text' => '<br />' . TEXT_INFO_NEW_PASSWORD . '<br />' . tep_draw_password_field('password'));
@@ -342,21 +342,21 @@
         $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
       }
 
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
       break;
     case 'delete':
       $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
 
-      $contents = array('form' => tep_draw_form('administrator', FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id . '&action=deleteconfirm'));
+      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
       $contents[] = array('text' => '<br /><strong>' . $aInfo->user_name . '</strong>');
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id)));
+      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
       break;
     default:
       if (isset($aInfo) && is_object($aInfo)) {
         $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link(FILENAME_ADMINISTRATORS, 'aID=' . $aInfo->id . '&action=delete')));
+        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete')));
       }
       break;
   }
@@ -376,6 +376,6 @@
     </table>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

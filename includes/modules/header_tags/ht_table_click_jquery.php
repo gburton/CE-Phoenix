@@ -43,7 +43,7 @@
         }
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
-          $oscTemplate->addBlock('<script>$(\'.table tr\').click(function() { $(\'.table tr\').removeClass(\'success\').find(\'input\').prop(\'checked\', false); $(this).addClass(\'success\').find(\'input\').prop(\'checked\', true); });</script>' . "\n", $this->group);
+          $oscTemplate->addBlock('<script>$(\'.table tr.table-selection\').click(function() { $(\'.table tr\').removeClass(\'success\').find(\'input\').prop(\'checked\', false); $(this).addClass(\'success\').find(\'input\').prop(\'checked\', true); });</script>' . "\n", $this->group);
         }
       }
     }

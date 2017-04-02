@@ -31,7 +31,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $currencies, $HTTP_GET_VARS, $request_type, $currency, $oscTemplate;
+      global $PHP_SELF, $currencies, $request_type, $currency, $oscTemplate;
 
       if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
         if (isset($currencies) && is_object($currencies) && (count($currencies->currencies) > 1)) {
@@ -42,8 +42,8 @@
           }
 
           $hidden_get_variables = '';
-          reset($HTTP_GET_VARS);
-          while (list($key, $value) = each($HTTP_GET_VARS)) {
+          reset($_GET);
+          while (list($key, $value) = each($_GET)) {
             if ( is_string($value) && ($key != 'currency') && ($key != tep_session_name()) && ($key != 'x') && ($key != 'y') ) {
               $hidden_get_variables .= tep_draw_hidden_field($key, $value);
             }
@@ -52,7 +52,7 @@
           $form_output = tep_draw_form('currencies', tep_href_link($PHP_SELF, '', $request_type, false), 'get') . tep_draw_pull_down_menu('currency', $currencies_array, $currency, 'onchange="this.form.submit();" style="width: 100%"') . $hidden_get_variables . tep_hide_session_id() . '</form>';
 
           ob_start();
-          include(DIR_WS_MODULES . 'boxes/templates/currencies.php');
+          include('includes/modules/boxes/templates/currencies.php');
           $data = ob_get_clean();
 
           $oscTemplate->addBlock($data, $this->group);

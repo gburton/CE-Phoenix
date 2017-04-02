@@ -380,8 +380,8 @@
     $bars = array();
     $dbars = array();
     for ($i = 0, $n = sizeof($values); $i < $n; $i++) {
-      $bars[$i] = DIR_WS_IMAGES . 'graph_hbar_blue.gif';
-      $dbars[$i] = DIR_WS_IMAGES . 'graph_hbar_red.gif';
+      $bars[$i] = 'images/graph_hbar_blue.gif';
+      $dbars[$i] = 'images/graph_hbar_red.gif';
     }
 
     $graph_vals = @array('vlabel'=>TEXT_BANNERS_DATA,
@@ -412,7 +412,7 @@
 ////
 // draws a double vertical bar graph for the banner views vs clicks statistics
   function tep_banner_graph_yearly($banner_id) {
-    global $banner, $HTTP_GET_VARS;
+    global $banner;
 
     $banner_stats_query = tep_db_query("select year(banners_history_date) as year, sum(banners_shown) as value, sum(banners_clicked) as dvalue from " . TABLE_BANNERS_HISTORY . " where banners_id = '" . $banner_id . "' group by year(banners_history_date)");
     while ($banner_stats = tep_db_fetch_array($banner_stats_query)) {
@@ -426,8 +426,8 @@
     $bars = array();
     $dbars = array();
     for ($i = 0, $n = sizeof($values); $i < $n; $i++) {
-      $bars[$i] = DIR_WS_IMAGES . 'graph_hbar_blue.gif';
-      $dbars[$i] = DIR_WS_IMAGES . 'graph_hbar_red.gif';
+      $bars[$i] = 'images/graph_hbar_blue.gif';
+      $dbars[$i] = 'images/graph_hbar_red.gif';
     }
 
     $graph_vals = @array('vlabel'=>TEXT_BANNERS_DATA,
@@ -458,9 +458,9 @@
 ////
 // draws a double vertical bar graph for the banner views vs clicks statistics
   function tep_banner_graph_monthly($banner_id) {
-    global $banner, $HTTP_GET_VARS;
+    global $banner;
 
-    $year = (($HTTP_GET_VARS['year']) ? $HTTP_GET_VARS['year'] : date('Y'));
+    $year = (($_GET['year']) ? $_GET['year'] : date('Y'));
 
     for ($i=1; $i<13; $i++) {
       $names[] = strftime('%b', mktime(0,0,0,$i));
@@ -480,8 +480,8 @@
     $bars = array();
     $dbars = array();
     for ($i = 0, $n = sizeof($values); $i < $n; $i++) {
-      $bars[$i] = DIR_WS_IMAGES . 'graph_hbar_blue.gif';
-      $dbars[$i] = DIR_WS_IMAGES . 'graph_hbar_red.gif';
+      $bars[$i] = 'images/graph_hbar_blue.gif';
+      $dbars[$i] = 'images/graph_hbar_red.gif';
     }
 
     $graph_vals = @array('vlabel'=>TEXT_BANNERS_DATA,
@@ -512,10 +512,10 @@
 ////
 // draws a double vertical bar graph for the banner views vs clicks statistics
   function tep_banner_graph_daily($banner_id) {
-    global $banner, $HTTP_GET_VARS;
+    global $banner;
 
-    $year = (isset($HTTP_GET_VARS['year']) ? $HTTP_GET_VARS['year'] : date('Y'));
-    $month = (isset($HTTP_GET_VARS['month']) ? $HTTP_GET_VARS['month'] : date('n'));
+    $year = (isset($_GET['year']) ? $_GET['year'] : date('Y'));
+    $month = (isset($_GET['month']) ? $_GET['month'] : date('n'));
 
     $days = (date('t', mktime(0,0,0,$month))+1);
     $stats = array();
@@ -537,8 +537,8 @@
     $bars = array();
     $dbars = array();
     for ($i = 0, $n = sizeof($values); $i < $n; $i++) {
-      $bars[$i] = DIR_WS_IMAGES . 'graph_hbar_blue.gif';
-      $dbars[$i] = DIR_WS_IMAGES . 'graph_hbar_red.gif';
+      $bars[$i] = 'images/graph_hbar_blue.gif';
+      $dbars[$i] = 'images/graph_hbar_red.gif';
     }
 
     $graph_vals = @array('vlabel'=>TEXT_BANNERS_DATA,

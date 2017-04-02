@@ -15,35 +15,35 @@
 
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
-    tep_redirect(tep_href_link(FILENAME_LOGIN, '', 'SSL'));
+    tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   if ( defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED) && in_array('braintree_cc.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
     if ( !class_exists('braintree_cc') ) {
-      include(DIR_WS_LANGUAGES . $language . '/modules/payment/braintree_cc.php');
-      include(DIR_WS_MODULES . 'payment/braintree_cc.php');
+      include('includes/languages/' . $language . '/modules/payment/braintree_cc.php');
+      include('includes/modules/payment/braintree_cc.php');
     }
 
     $braintree_cc = new braintree_cc();
 
     if ( !$braintree_cc->enabled ) {
-      tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+      tep_redirect(tep_href_link('account.php', '', 'SSL'));
     }
   } else {
-    tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+    tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
-  require(DIR_WS_LANGUAGES . $language . '/modules/content/account/cm_account_braintree_cards.php');
+  require('includes/languages/' . $language . '/modules/content/account/cm_account_braintree_cards.php');
   require('includes/modules/content/account/cm_account_braintree_cards.php');
   $braintree_cards = new cm_account_braintree_cards();
 
   if ( !$braintree_cards->isEnabled() ) {
-    tep_redirect(tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+    tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
-  if ( isset($HTTP_GET_VARS['action']) ) {
-    if ( ($HTTP_GET_VARS['action'] == 'delete') && isset($HTTP_GET_VARS['id']) && is_numeric($HTTP_GET_VARS['id']) && isset($HTTP_GET_VARS['formid']) && ($HTTP_GET_VARS['formid'] == md5($sessiontoken))) {
-      $token_query = tep_db_query("select id, braintree_token from customers_braintree_tokens where id = '" . (int)$HTTP_GET_VARS['id'] . "' and customers_id = '" . (int)$customer_id . "'");
+  if ( isset($_GET['action']) ) {
+    if ( ($_GET['action'] == 'delete') && isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['formid']) && ($_GET['formid'] == md5($sessiontoken))) {
+      $token_query = tep_db_query("select id, braintree_token from customers_braintree_tokens where id = '" . (int)$_GET['id'] . "' and customers_id = '" . (int)$customer_id . "'");
 
       if ( tep_db_num_rows($token_query) ) {
         $token = tep_db_fetch_array($token_query);
@@ -57,10 +57,10 @@
     tep_redirect(tep_href_link('ext/modules/content/account/braintree/cards.php', '', 'SSL'));
   }
 
-  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_NAVBAR_TITLE_1, tep_href_link(FILENAME_ACCOUNT, '', 'SSL'));
+  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/braintree/cards.php', '', 'SSL'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <h1><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_HEADING_TITLE; ?></h1>
@@ -106,11 +106,11 @@
   </div>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link(FILENAME_ACCOUNT, '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link('account.php', '', 'SSL')); ?>
   </div>
 </div>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

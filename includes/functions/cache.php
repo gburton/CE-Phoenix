@@ -104,7 +104,7 @@
 
     if (($refresh == true) || !read_cache($cache_output, 'categories_box-' . $language . '.cache' . $cPath, $auto_expire)) {
       if (!class_exists('bm_categories')) {
-        include(DIR_WS_MODULES . 'boxes/bm_categories.php');
+        include('includes/modules/boxes/bm_categories.php');
       }
 
       $bm_categories = new bm_categories();
@@ -120,18 +120,18 @@
 //! Cache the manufacturers box
 // Cache the manufacturers box
   function tep_cache_manufacturers_box($auto_expire = false, $refresh = false) {
-    global $HTTP_GET_VARS, $language;
+    global $language;
 
     $cache_output = '';
 
     $manufacturers_id = '';
-    if (isset($HTTP_GET_VARS['manufacturers_id']) && is_numeric($HTTP_GET_VARS['manufacturers_id'])) {
-      $manufacturers_id = $HTTP_GET_VARS['manufacturers_id'];
+    if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
+      $manufacturers_id = $_GET['manufacturers_id'];
     }
 
     if (($refresh == true) || !read_cache($cache_output, 'manufacturers_box-' . $language . '.cache' . $manufacturers_id, $auto_expire)) {
       if (!class_exists('bm_manufacturers')) {
-        include(DIR_WS_MODULES . 'boxes/bm_manufacturers.php');
+        include('includes/modules/boxes/bm_manufacturers.php');
       }
 
       $bm_manufacturers = new bm_manufacturers();
@@ -147,17 +147,17 @@
 //! Cache the also purchased module
 // Cache the also purchased module
   function tep_cache_also_purchased($auto_expire = false, $refresh = false) {
-    global $HTTP_GET_VARS, $language, $languages_id;
+    global $language, $languages_id;
 
     $cache_output = '';
 
-    if (isset($HTTP_GET_VARS['products_id']) && is_numeric($HTTP_GET_VARS['products_id'])) {
-      if (($refresh == true) || !read_cache($cache_output, 'also_purchased-' . $language . '.cache' . $HTTP_GET_VARS['products_id'], $auto_expire)) {
+    if (isset($_GET['products_id']) && is_numeric($_GET['products_id'])) {
+      if (($refresh == true) || !read_cache($cache_output, 'also_purchased-' . $language . '.cache' . $_GET['products_id'], $auto_expire)) {
         ob_start();
-        include(DIR_WS_MODULES . FILENAME_ALSO_PURCHASED_PRODUCTS);
+        include('includes/modules/also_purchased_products.php');
         $cache_output = ob_get_contents();
         ob_end_clean();
-        write_cache($cache_output, 'also_purchased-' . $language . '.cache' . $HTTP_GET_VARS['products_id']);
+        write_cache($cache_output, 'also_purchased-' . $language . '.cache' . $_GET['products_id']);
       }
     }
 

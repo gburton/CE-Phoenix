@@ -15,15 +15,13 @@
 
 /* class constructor */
     function splitPageResults($query, $max_rows, $count_key = '*', $page_holder = 'page') {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS;
-
       $this->sql_query = $query;
       $this->page_name = $page_holder;
 
-      if (isset($HTTP_GET_VARS[$page_holder])) {
-        $page = $HTTP_GET_VARS[$page_holder];
-      } elseif (isset($HTTP_POST_VARS[$page_holder])) {
-        $page = $HTTP_POST_VARS[$page_holder];
+      if (isset($_GET[$page_holder])) {
+        $page = $_GET[$page_holder];
+      } elseif (isset($_POST[$page_holder])) {
+        $page = $_POST[$page_holder];
       } else {
         $page = '';
       }
@@ -86,10 +84,10 @@
         $display_links_string .= '<li class="disabled"><span>&laquo;</span></li>';
       }
 // check if number_of_pages > $max_page_links
-      $cur_window_num = intval($this->current_page_number / $max_page_links);
+      $cur_window_num = (int)($this->current_page_number / $max_page_links);
       if ($this->current_page_number % $max_page_links) $cur_window_num++;
 
-      $max_window_num = intval($this->number_of_pages / $max_page_links);
+      $max_window_num = (int)($this->number_of_pages / $max_page_links);
       if ($this->number_of_pages % $max_page_links) $max_window_num++;
 
 // previous window of pages

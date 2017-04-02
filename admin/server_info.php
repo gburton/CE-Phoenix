@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
+  $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   switch ($action) {
     case 'export':
@@ -66,7 +66,7 @@
         $messageStack->add_session(SUCCESS_INFO_SUBMIT, 'success');
       }
 
-      tep_redirect(tep_href_link(FILENAME_SERVER_INFO));
+      tep_redirect(tep_href_link('server_info.php'));
     break;
 
     case 'save':
@@ -84,7 +84,7 @@
       break;
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -119,7 +119,7 @@
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-          <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SEND, 'arrowreturnthick-1-n', tep_href_link(FILENAME_SERVER_INFO, 'action=submit'), 'primary') . tep_draw_button(IMAGE_SAVE, 'disk', tep_href_link(FILENAME_SERVER_INFO, 'action=save'), 'primary');?>
+          <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SEND, 'arrowreturnthick-1-n', tep_href_link('server_info.php', 'action=submit'), 'primary') . tep_draw_button(IMAGE_SAVE, 'disk', tep_href_link('server_info.php', 'action=save'), 'primary');?>
       </tr>
   <?php
   } else {
@@ -168,7 +168,7 @@
             <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="smallText"><?php echo tep_draw_button(IMAGE_EXPORT, 'triangle-1-nw', tep_href_link(FILENAME_SERVER_INFO, 'action=export'));?></td>
+            <td class="smallText"><?php echo tep_draw_button(IMAGE_EXPORT, 'triangle-1-nw', tep_href_link('server_info.php', 'action=export'));?></td>
           </tr>
         </table></td>
       </tr>
@@ -214,6 +214,6 @@ hr {display: none;}
     </table>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

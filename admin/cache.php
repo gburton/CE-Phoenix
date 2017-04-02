@@ -12,14 +12,14 @@
 
   require('includes/application_top.php');
 
-  $action = (isset($HTTP_GET_VARS['action']) ? $HTTP_GET_VARS['action'] : '');
+  $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (tep_not_null($action)) {
     if ($action == 'reset') {
-      tep_reset_cache_block($HTTP_GET_VARS['block']);
+      tep_reset_cache_block($_GET['block']);
     }
 
-    tep_redirect(tep_href_link(FILENAME_CACHE));
+    tep_redirect(tep_href_link('cache.php'));
   }
 
 // check if the cache directory exists
@@ -29,7 +29,7 @@
     $messageStack->add(ERROR_CACHE_DIRECTORY_DOES_NOT_EXIST, 'error');
   }
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -84,7 +84,7 @@
               <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)">
                 <td class="dataTableContent"><?php echo $cache_blocks[$i]['title']; ?></td>
                 <td class="dataTableContent" align="right"><?php echo $cache_mtime; ?></td>
-                <td class="dataTableContent" align="right"><?php echo '<a href="' . tep_href_link(FILENAME_CACHE, 'action=reset&block=' . $cache_blocks[$i]['code']) . '">' . tep_image(DIR_WS_IMAGES . 'icon_reset.gif', 'Reset', 13, 13) . '</a>'; ?>&nbsp;</td>
+                <td class="dataTableContent" align="right"><?php echo '<a href="' . tep_href_link('cache.php', 'action=reset&block=' . $cache_blocks[$i]['code']) . '">' . tep_image('images/icon_reset.gif', 'Reset', 13, 13) . '</a>'; ?>&nbsp;</td>
               </tr>
 <?php
     }
@@ -100,6 +100,6 @@
     </table>
 
 <?php
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

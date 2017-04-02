@@ -12,14 +12,14 @@
 
   require('includes/application_top.php');
 
-  require(DIR_WS_LANGUAGES . $language . '/' . FILENAME_CONTACT_US);
+  require('includes/languages/' . $language . '/contact_us.php');
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'send') && isset($HTTP_POST_VARS['formid']) && ($HTTP_POST_VARS['formid'] == $sessiontoken)) {
+  if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
     $error = false;
 
-    $name = tep_db_prepare_input($HTTP_POST_VARS['name']);
-    $email_address = tep_db_prepare_input($HTTP_POST_VARS['email']);
-    $enquiry = tep_db_prepare_input($HTTP_POST_VARS['enquiry']);
+    $name = tep_db_prepare_input($_POST['name']);
+    $email_address = tep_db_prepare_input($_POST['email']);
+    $enquiry = tep_db_prepare_input($_POST['enquiry']);
 
     if (!tep_validate_email($email_address)) {
       $error = true;
@@ -41,13 +41,13 @@
 
       $actionRecorder->record();
 
-      tep_redirect(tep_href_link(FILENAME_CONTACT_US, 'action=success'));
+      tep_redirect(tep_href_link('contact_us.php', 'action=success'));
     }
   }
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link(FILENAME_CONTACT_US));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('contact_us.php'));
 
-  require(DIR_WS_INCLUDES . 'template_top.php');
+  require('includes/template_top.php');
 ?>
 
 <div class="page-header">
@@ -59,7 +59,7 @@
     echo $messageStack->output('contact');
   }
 
-  if (isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'success')) {
+  if (isset($_GET['action']) && ($_GET['action'] == 'success')) {
 ?>
 
 <div class="contentContainer">
@@ -68,7 +68,7 @@
   </div>
 
   <div class="pull-right">
-    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-chevron-right', tep_href_link(FILENAME_DEFAULT)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php')); ?>
   </div>
 </div>
 
@@ -76,37 +76,37 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('contact_us', tep_href_link(FILENAME_CONTACT_US, 'action=send'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('contact_us', tep_href_link('contact_us.php', 'action=send'), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
   <div class="contentText">
   
-    <p class="inputRequirement text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
+    <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
     <div class="clearfix"></div>
 
     <div class="form-group has-feedback">
-      <label for="inputFromName" class="control-label col-xs-3"><?php echo ENTRY_NAME; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromName" class="control-label col-sm-3"><?php echo ENTRY_NAME; ?></label>
+      <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME . '"');
+        echo tep_draw_input_field('name', NULL, 'required autofocus="autofocus" aria-required="true" id="inputFromName" placeholder="' . ENTRY_NAME_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputFromEmail" class="control-label col-xs-3"><?php echo ENTRY_EMAIL; ?></label>
-      <div class="col-xs-9">
+      <label for="inputFromEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL; ?></label>
+      <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL . '"');
+        echo tep_draw_input_field('email', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
     <div class="form-group has-feedback">
-      <label for="inputEnquiry" class="control-label col-xs-3"><?php echo ENTRY_ENQUIRY; ?></label>
-      <div class="col-xs-9">
+      <label for="inputEnquiry" class="control-label col-sm-3"><?php echo ENTRY_ENQUIRY; ?></label>
+      <div class="col-sm-9">
         <?php
-        echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY . '"');
+        echo tep_draw_textarea_field('enquiry', 'soft', 50, 15, NULL, 'required aria-required="true" id="inputEnquiry" placeholder="' . ENTRY_ENQUIRY_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
@@ -114,7 +114,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'glyphicon glyphicon-send', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-send', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 </div>
 
@@ -123,6 +123,6 @@
 <?php
   }
 
-  require(DIR_WS_INCLUDES . 'template_bottom.php');
-  require(DIR_WS_INCLUDES . 'application_bottom.php');
+  require('includes/template_bottom.php');
+  require('includes/application_bottom.php');
 ?>

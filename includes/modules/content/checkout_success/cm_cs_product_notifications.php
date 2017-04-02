@@ -32,16 +32,16 @@
     }
 
     function execute() {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS, $oscTemplate, $customer_id, $order_id;
+      global $oscTemplate, $customer_id, $order_id;
 
       if ( tep_session_is_registered('customer_id') ) {
         $global_query = tep_db_query("select global_product_notifications from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . (int)$customer_id . "'");
         $global = tep_db_fetch_array($global_query);
 
         if ( $global['global_product_notifications'] != '1' ) {
-          if ( isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'update') ) {
-            if ( isset($HTTP_POST_VARS['notify']) && is_array($HTTP_POST_VARS['notify']) && !empty($HTTP_POST_VARS['notify']) ) {
-              $notify = array_unique($HTTP_POST_VARS['notify']);
+          if ( isset($_GET['action']) && ($_GET['action'] == 'update') ) {
+            if ( isset($_POST['notify']) && is_array($_POST['notify']) && !empty($_POST['notify']) ) {
+              $notify = array_unique($_POST['notify']);
 
               foreach ( $notify as $n ) {
                 if ( is_numeric($n) && ($n > 0) ) {
@@ -67,7 +67,7 @@
           $products_notifications = implode('', $products_displayed);
 
           ob_start();
-          include(DIR_WS_MODULES . 'content/' . $this->group . '/templates/product_notifications.php');
+          include('includes/modules/content/' . $this->group . '/templates/product_notifications.php');
           $template = ob_get_clean();
 
           $oscTemplate->addContent($template, $this->group);
