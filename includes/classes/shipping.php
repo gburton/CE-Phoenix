@@ -96,7 +96,7 @@
           if ($GLOBALS[$class]->enabled) {
             $quotes = $GLOBALS[$class]->quotes;
             for ($i=0, $n=sizeof($quotes['methods']); $i<$n; $i++) {
-              if (isset($quotes['methods'][$i]['cost']) && tep_not_null($quotes['methods'][$i]['cost'])) {
+              if (isset($quotes['methods'][$i]['cost']) && (is_numeric($quotes['methods'][$i]['cost']) || tep_not_null($quotes['methods'][$i]['cost']) )) {
                 $rates[] = array('id' => $quotes['id'] . '_' . $quotes['methods'][$i]['id'],
                                  'title' => $quotes['module'] . ' (' . $quotes['methods'][$i]['title'] . ')',
                                  'cost' => $quotes['methods'][$i]['cost']);
