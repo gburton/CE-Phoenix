@@ -216,6 +216,8 @@
   } else {
     $cPath = '';
   }
+  
+  $cPath_array = array();
 
   if (tep_not_null($cPath)) {
     $cPath_array = tep_parse_category_path($cPath);
