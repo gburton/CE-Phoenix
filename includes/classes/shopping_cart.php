@@ -277,10 +277,9 @@
           $products_price = $product['products_price'];
           $products_weight = $product['products_weight'];
 
-          $specials_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$prid . "' and status = '1'");
-          if (tep_db_num_rows ($specials_query)) {
-            $specials = tep_db_fetch_array($specials_query);
-            $products_price = $specials['specials_new_products_price'];
+          $specials_price = tep_get_products_special_price((int)$prid);
+          if (tep_not_null($specials_price)) {
+              $products_price = $specials_price;
           }
 
           $this->total += $currencies->calculate_price($products_price, $products_tax, $qty);
@@ -335,10 +334,9 @@
           $prid = $products['products_id'];
           $products_price = $products['products_price'];
 
-          $specials_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$prid . "' and status = '1'");
-          if (tep_db_num_rows($specials_query)) {
-            $specials = tep_db_fetch_array($specials_query);
-            $products_price = $specials['specials_new_products_price'];
+          $specials_price = tep_get_products_special_price((int)$prid);
+          if (tep_not_null($specials_price)) {
+              $products_price = $specials_price;
           }
 
           $products_array[] = array('id' => $products_id,
