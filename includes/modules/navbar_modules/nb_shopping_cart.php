@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_shopping_cart() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_SHOPPING_CART_TITLE;
       $this->description = MODULE_NAVBAR_SHOPPING_CART_DESCRIPTION;
 

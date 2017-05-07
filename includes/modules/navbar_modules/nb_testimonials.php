@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_testimonials() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_TESTIMONIALS_TITLE;
       $this->description = MODULE_NAVBAR_TESTIMONIALS_DESCRIPTION;
 

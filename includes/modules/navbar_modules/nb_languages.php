@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;    
     
-    function nb_languages() {
+    function __construct() {
       $this->title = MODULE_NAVBAR_LANGUAGES_TITLE;
       $this->description = MODULE_NAVBAR_LANGUAGES_DESCRIPTION;
 
