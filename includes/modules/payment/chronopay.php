@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function chronopay() {
+    function __construct() {
       global $order;
 
       $this->signature = 'chronopay|chronopay|1.0|2.2';

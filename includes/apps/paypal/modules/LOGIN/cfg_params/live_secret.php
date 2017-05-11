@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 300;
 
-    function OSCOM_PayPal_LOGIN_Cfg_live_secret() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_live_secret_title');

@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 400;
 
-    function OSCOM_PayPal_Cfg_proxy() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_proxy_title');

@@ -19,6 +19,9 @@
     var $table_row_parameters = '';
     var $table_data_parameters = '';
 
+	function __construct() {
+	}
+
     function tableBlock($contents) {
       $tableBox_string = '';
 

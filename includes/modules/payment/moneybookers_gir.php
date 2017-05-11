@@ -23,7 +23,7 @@
     var $_payment_method_image = 'giropay.gif';
 
 // class constructor
-    function moneybookers_gir() {
+    function __construct() {
       global $order;
 
       $this->signature = 'moneybookers|moneybookers_gir|1.0|2.3';

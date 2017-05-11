@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 200;
 
-    function OSCOM_PayPal_LOGIN_Cfg_live_client_id() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_live_client_id_title');

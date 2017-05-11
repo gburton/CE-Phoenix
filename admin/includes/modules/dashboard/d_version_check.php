@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_version_check() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_VERSION_CHECK_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_VERSION_CHECK_DESCRIPTION;
 
