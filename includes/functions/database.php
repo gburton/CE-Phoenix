@@ -21,7 +21,9 @@
 
     if ( !mysqli_connect_errno() ) {
       mysqli_set_charset($$link, 'utf8');
-    } 
+    }
+
+    @mysqli_query($$link, 'set session sql_mode=""');
 
     return $$link;
   }
@@ -32,7 +34,7 @@
     return mysqli_close($$link);
   }
 
-  function tep_db_error($query, $errno, $error) { 
+  function tep_db_error($query, $errno, $error) {
     if (defined('STORE_DB_TRANSACTIONS') && (STORE_DB_TRANSACTIONS == 'true')) {
       error_log('ERROR: [' . $errno . '] ' . $error . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
     }
@@ -40,8 +42,18 @@
     die('<font color="#000000"><strong>' . $errno . ' - ' . $error . '<br /><br />' . $query . '<br /><br /><small><font color="#ff0000">[TEP STOP]</font></small><br /><br /></strong></font>');
   }
 
+  function tep_db_table_name($table) {
+    if (strpos($table, ':table_') === false) {
+      $table = ':table_' . $table;
+    }
+
+    return str_replace(':table_', DB_TABLE_PREFIX, $table);
+  }
+
   function tep_db_query($query, $link = 'db_link') {
     global $$link;
+
+    $query = str_replace(':table_', DB_TABLE_PREFIX, $query);
 
     if (defined('STORE_DB_TRANSACTIONS') && (STORE_DB_TRANSACTIONS == 'true')) {
       error_log('QUERY: ' . $query . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
@@ -53,15 +65,18 @@
   }
 
   function tep_db_perform($table, $data, $action = 'insert', $parameters = '', $link = 'db_link') {
-    reset($data);
+    $table = tep_db_table_name($table);
+
     if ($action == 'insert') {
       $query = 'insert into ' . $table . ' (';
-      while (list($columns, ) = each($data)) {
+
+      foreach (array_keys($data) as $columns) {
         $query .= $columns . ', ';
       }
+
       $query = substr($query, 0, -2) . ') values (';
-      reset($data);
-      while (list(, $value) = each($data)) {
+
+      foreach ($data as $value) {
         switch ((string)$value) {
           case 'now()':
             $query .= 'now(), ';
@@ -136,8 +151,7 @@
     if (is_string($string)) {
       return trim(tep_sanitize_string(stripslashes($string)));
     } elseif (is_array($string)) {
-      reset($string);
-      while (list($key, $value) = each($string)) {
+      foreach ($string as $key => $value) {
         $string[$key] = tep_db_prepare_input($value);
       }
       return $string;
@@ -263,4 +277,3 @@
       return mysql_get_server_info($link);
     }
   }
-?>
