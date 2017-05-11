@@ -17,7 +17,7 @@
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
-  $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where customers_id = '" . (int)$customer_id . "' order by date_purchased desc limit 1");
+  $orders_query = tep_db_query("select orders_id from :table_orders where customers_id = '" . (int)$customer_id . "' order by date_purchased desc limit 1");
 
 // redirect to shopping cart page if no orders exist
   if ( !tep_db_num_rows($orders_query) ) {

@@ -61,7 +61,7 @@
     $order_id = (int)$_POST['invoice'];
     $customer_id = (int)$_POST['custom'];
 
-    $check_query = tep_db_query("select orders_status from orders where orders_id = '" . (int)$order_id . "' and customers_id = '" . (int)$customer_id . "'");
+    $check_query = tep_db_query("select orders_status from :table_orders where orders_id = '" . (int)$order_id . "' and customers_id = '" . (int)$customer_id . "'");
 
     if (tep_db_num_rows($check_query)) {
       $check = tep_db_fetch_array($check_query);
@@ -73,7 +73,7 @@
           $new_order_status = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
         }
 
-        tep_db_query("update orders set orders_status = '" . (int)$new_order_status . "', last_modified = now() where orders_id = '" . (int)$order_id . "'");
+        tep_db_query("update :table_orders set orders_status = '" . (int)$new_order_status . "', last_modified = now() where orders_id = '" . (int)$order_id . "'");
 
         $sql_data_array = array('orders_id' => $order_id,
                                 'orders_status_id' => (int)$new_order_status,
@@ -81,14 +81,14 @@
                                 'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
                                 'comments' => '');
 
-        tep_db_perform('orders_status_history', $sql_data_array);
+        tep_db_perform(':table_orders_status_history', $sql_data_array);
 
         include('includes/classes/order.php');
         $order = new order($order_id);
 
         if (DOWNLOAD_ENABLED == 'true') {
           for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-            $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+            $downloads_query = tep_db_query("select opd.orders_products_filename from :table_orders o, :table_orders_products op, :table_orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
 
             if ( tep_db_num_rows($downloads_query) ) {
               if ( $order->content_type == 'physical' ) {
@@ -117,13 +117,13 @@
 
         for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
           if (STOCK_LIMITED == 'true') {
-            $stock_query = tep_db_query("select products_quantity from products where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+            $stock_query = tep_db_query("select products_quantity from :table_products where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
             $stock_values = tep_db_fetch_array($stock_query);
 
             $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
 
             if (DOWNLOAD_ENABLED == 'true') {
-              $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+              $downloads_query = tep_db_query("select opd.orders_products_filename from :table_orders o, :table_orders_products op, :table_orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
               $downloads_values = tep_db_fetch_array($downloads_query);
 
               if ( tep_db_num_rows($downloads_query) ) {
@@ -132,16 +132,16 @@
             }
 
             if ( $stock_values['products_quantity'] != $stock_left ) {
-              tep_db_query("update products set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+              tep_db_query("update :table_products set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
 
               if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-                tep_db_query("update products set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+                tep_db_query("update :table_products set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
               }
             }
           }
 
 // Update products_ordered (for bestsellers list)
-          tep_db_query("update products set products_ordered = products_ordered + " . sprintf('%d', $order->products[$i]['qty']) . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+          tep_db_query("update :table_products set products_ordered = products_ordered + " . sprintf('%d', $order->products[$i]['qty']) . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
 
           if (isset($order->products[$i]['attributes'])) {
             for ($j=0, $n2=sizeof($order->products[$i]['attributes']); $j<$n2; $j++) {
@@ -196,8 +196,8 @@
           tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
         }
 
-        tep_db_query("delete from customers_basket where customers_id = '" . (int)$customer_id . "'");
-        tep_db_query("delete from customers_basket_attributes where customers_id = '" . (int)$customer_id . "'");
+        tep_db_query("delete from :table_customers_basket where customers_id = '" . (int)$customer_id . "'");
+        tep_db_query("delete from :table_customers_basket_attributes where customers_id = '" . (int)$customer_id . "'");
       }
     }
   }

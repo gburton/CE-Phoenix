@@ -11,7 +11,7 @@
 */
 
   if ( isset($_GET['lID']) && is_numeric($_GET['lID']) ) {
-    $log_query = tep_db_query("select l.*, unix_timestamp(l.date_added) as date_added, c.customers_firstname, c.customers_lastname from oscom_app_paypal_log l left join customers c on (l.customers_id = c.customers_id) where id = '" . (int)$_GET['lID'] . "'");
+    $log_query = tep_db_query("select l.*, unix_timestamp(l.date_added) as date_added, c.customers_firstname, c.customers_lastname from :table_oscom_app_paypal_log l left join :table_customers c on (l.customers_id = c.customers_id) where id = '" . (int)$_GET['lID'] . "'");
 
     if ( tep_db_num_rows($log_query) ) {
       $log = tep_db_fetch_array($log_query);

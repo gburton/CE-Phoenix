@@ -26,7 +26,7 @@
   if ( isset($_GET['skcode']) && isset($_POST['VPSSignature']) && isset($_POST['VPSTxId']) && isset($_POST['VendorTxCode']) && isset($_POST['Status']) ) {
     $skcode = tep_db_prepare_input($_GET['skcode']);
 
-    $sp_query = tep_db_query('select securitykey from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
+    $sp_query = tep_db_query('select securitykey from :table_sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
     if ( tep_db_num_rows($sp_query) ) {
       $sp = tep_db_fetch_array($sp_query);
 
@@ -130,7 +130,7 @@
 
           $transaction_details_string = tep_db_prepare_input($transaction_details_string);
 
-          tep_db_query('update sagepay_server_securitykeys set verified = 1, transaction_details = "' . tep_db_input($transaction_details_string) . '" where code = "' . tep_db_input($skcode) . '"');
+          tep_db_query('update :table_sagepay_server_securitykeys set verified = 1, transaction_details = "' . tep_db_input($transaction_details_string) . '" where code = "' . tep_db_input($skcode) . '"');
 
           $result = 'Status=OK' . chr(13) . chr(10) .
                     'RedirectURL=' . $sage_pay_server->formatURL(tep_href_link('checkout_process.php', 'check=PROCESS&skcode=' . $skcode, 'SSL', false));
@@ -146,7 +146,7 @@
           $result = 'Status=OK' . chr(13) . chr(10) .
                     'RedirectURL=' . $sage_pay_server->formatURL($error_url);
 
-          tep_db_query('delete from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '"');
+          tep_db_query('delete from :table_sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '"');
 
           $sage_pay_server->sendDebugEmail();
         }

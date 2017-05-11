@@ -28,7 +28,7 @@
 
       $zone_class_array = array(array('id' => '0', 'text' => $OSCOM_PayPal->getDef('cfg_dp_zone_global')));
 
-      $zone_class_query = tep_db_query("select geo_zone_id, geo_zone_name from geo_zones order by geo_zone_name");
+      $zone_class_query = tep_db_query("select geo_zone_id, geo_zone_name from :table_geo_zones order by geo_zone_name");
       while ($zone_class = tep_db_fetch_array($zone_class_query)) {
         $zone_class_array[] = array('id' => $zone_class['geo_zone_id'],
                                     'text' => $zone_class['geo_zone_name']);

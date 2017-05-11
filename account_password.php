@@ -38,13 +38,13 @@
     }
 
     if ($error == false) {
-      $check_customer_query = tep_db_query("select customers_password from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customer_id . "'");
+      $check_customer_query = tep_db_query("select customers_password from :table_customers where customers_id = '" . (int)$customer_id . "'");
       $check_customer = tep_db_fetch_array($check_customer_query);
 
       if (tep_validate_password($password_current, $check_customer['customers_password'])) {
-        tep_db_query("update " . TABLE_CUSTOMERS . " set customers_password = '" . tep_encrypt_password($password_new) . "' where customers_id = '" . (int)$customer_id . "'");
+        tep_db_query("update :table_customers set customers_password = '" . tep_encrypt_password($password_new) . "' where customers_id = '" . (int)$customer_id . "'");
 
-        tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customer_id . "'");
+        tep_db_query("update :table_customers_info set customers_info_date_account_last_modified = now() where customers_info_id = '" . (int)$customer_id . "'");
 
         $messageStack->add_session('account', SUCCESS_PASSWORD_UPDATED, 'success');
 
@@ -76,7 +76,7 @@
 <?php echo tep_draw_form('account_password', tep_href_link('account_password.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <?php
-$customer_info_query = tep_db_query("select customers_email_address from customers where customers_id = '" . (int)$customer_id . "'");
+$customer_info_query = tep_db_query("select customers_email_address from :table_customers where customers_id = '" . (int)$customer_id . "'");
 $customer_info = tep_db_fetch_array($customer_info_query);
 echo tep_draw_hidden_field('username', $customer_info['customers_email_address'], 'readonly autocomplete="username"'); 
 ?>

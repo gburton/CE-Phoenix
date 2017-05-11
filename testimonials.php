@@ -26,7 +26,7 @@
 <div class="contentContainer">
 
 <?php
-  $testimonials_query_raw = "select t.testimonials_id, td.testimonials_text, t.date_added, t.customers_name from testimonials t, testimonials_description td where t.testimonials_id = td.testimonials_id and td.languages_id = '" . (int)$languages_id . "' and testimonials_status = 1 order by t.testimonials_id DESC";
+  $testimonials_query_raw = "select t.testimonials_id, td.testimonials_text, t.date_added, t.customers_name from :table_testimonials t, :table_testimonials_description td where t.testimonials_id = td.testimonials_id and td.languages_id = '" . (int)$languages_id . "' and testimonials_status = 1 order by t.testimonials_id DESC";
   $testimonials_split = new splitPageResults($testimonials_query_raw, MAX_DISPLAY_NEW_REVIEWS);
 
   if ($testimonials_split->number_of_rows > 0) {

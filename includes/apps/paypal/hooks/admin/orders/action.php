@@ -29,7 +29,7 @@
 
     function execute() {
       if ( isset($_GET['tabaction']) ) {
-        $ppstatus_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$_GET['oID'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like '%Transaction ID:%' order by date_added limit 1");
+        $ppstatus_query = tep_db_query("select comments from :table_orders_status_history where orders_id = '" . (int)$_GET['oID'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like '%Transaction ID:%' order by date_added limit 1");
         if ( tep_db_num_rows($ppstatus_query) ) {
           $ppstatus = tep_db_fetch_array($ppstatus_query);
 
@@ -44,7 +44,7 @@
           }
 
           if ( isset($pp['Transaction ID']) ) {
-            $o_query = tep_db_query("select o.orders_id, o.payment_method, o.currency, o.currency_value, ot.value as total from orders o, orders_total ot where o.orders_id = '" . (int)$_GET['oID'] . "' and o.orders_id = ot.orders_id and ot.class = 'ot_total'");
+            $o_query = tep_db_query("select o.orders_id, o.payment_method, o.currency, o.currency_value, ot.value as total from :table_orders o, :table_orders_total ot where o.orders_id = '" . (int)$_GET['oID'] . "' and o.orders_id = ot.orders_id and ot.class = 'ot_total'");
             $o = tep_db_fetch_array($o_query);
 
             switch ( $_GET['tabaction'] ) {
@@ -175,7 +175,7 @@
                                 'customer_notified' => '0',
                                 'comments' => $result);
 
-        tep_db_perform('orders_status_history', $sql_data_array);
+        tep_db_perform(':table_orders_status_history', $sql_data_array);
 
         $messageStack->add_session($this->_app->getDef('ms_success_getTransactionDetails'), 'success');
       } else {
@@ -238,7 +238,7 @@
                                 'customer_notified' => '0',
                                 'comments' => $result);
 
-        tep_db_perform('orders_status_history', $sql_data_array);
+        tep_db_perform(':table_orders_status_history', $sql_data_array);
 
         $messageStack->add_session($this->_app->getDef('ms_success_doCapture'), 'success');
       } else {
@@ -268,7 +268,7 @@
       if ( $pass === true ) {
         $capture_total = $this->_app->formatCurrencyRaw($order['total'], $order['currency'], $order['currency_value']);
 
-        $c_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$order['orders_id'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like 'PayPal App: Capture (%'");
+        $c_query = tep_db_query("select comments from :table_orders_status_history where orders_id = '" . (int)$order['orders_id'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like 'PayPal App: Capture (%'");
         while ( $c = tep_db_fetch_array($c_query) ) {
           if ( preg_match('/^PayPal App\: Capture \(([0-9\.]+)\)\n/', $c['comments'], $c_matches) ) {
             $capture_total -= $this->_app->formatCurrencyRaw($c_matches[1], $order['currency'], 1);
@@ -283,7 +283,7 @@
                                 'customer_notified' => '0',
                                 'comments' => $result);
 
-        tep_db_perform('orders_status_history', $sql_data_array);
+        tep_db_perform(':table_orders_status_history', $sql_data_array);
 
         $messageStack->add_session($this->_app->getDef('ms_success_doVoid'), 'success');
       } else {
@@ -297,7 +297,7 @@
       if ( isset($_POST['ppRefund']) ) {
         $tids = array();
 
-        $ppr_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$order['orders_id'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like 'PayPal App: %' order by date_added desc");
+        $ppr_query = tep_db_query("select comments from :table_orders_status_history where orders_id = '" . (int)$order['orders_id'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like 'PayPal App: %' order by date_added desc");
         if ( tep_db_num_rows($ppr_query) ) {
           while ( $ppr = tep_db_fetch_array($ppr_query) ) {
             if ( strpos($ppr['comments'], 'PayPal App: Refund') !== false ) {
@@ -354,7 +354,7 @@
                                     'customer_notified' => '0',
                                     'comments' => $result);
 
-            tep_db_perform('orders_status_history', $sql_data_array);
+            tep_db_perform(':table_orders_status_history', $sql_data_array);
 
             $messageStack->add_session($this->_app->getDef('ms_success_refundTransaction', array('refund_amount' => $tids[$id]['Amount'])), 'success');
           } else {

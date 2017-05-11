@@ -94,7 +94,7 @@
 
       if ( ($this->enabled == true) && ((int)OSCOM_APP_PAYPAL_EC_ZONE > 0) ) {
         $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . OSCOM_APP_PAYPAL_EC_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
+        $check_query = tep_db_query("select zone_id from :table_zones_to_geo_zones where geo_zone_id = '" . OSCOM_APP_PAYPAL_EC_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
           if ($check['zone_id'] < 1) {
             $check_flag = true;
@@ -352,7 +352,7 @@ EOD;
                               'customer_notified' => '0',
                               'comments' => $pp_result);
 
-      tep_db_perform('orders_status_history', $sql_data_array);
+      tep_db_perform(':table_orders_status_history', $sql_data_array);
 
       tep_session_unregister('appPayPalEcResult');
       tep_session_unregister('appPayPalEcSecret');
@@ -376,7 +376,7 @@ EOD;
                               'customer_notified' => '0',
                               'comments' => $pp_result);
 
-      tep_db_perform('orders_status_history', $sql_data_array);
+      tep_db_perform(':table_orders_status_history', $sql_data_array);
 
       tep_session_unregister('appPayPalEcResult');
       tep_session_unregister('appPayPalEcSecret');
@@ -466,7 +466,7 @@ EOD;
                                 'customer_notified' => '0',
                                 'comments' => $result);
 
-        tep_db_perform('orders_status_history', $sql_data_array);
+        tep_db_perform(':table_orders_status_history', $sql_data_array);
       }
     }
 
@@ -475,7 +475,7 @@ EOD;
     }
 
     function check() {
-      $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'OSCOM_APP_PAYPAL_EC_STATUS'");
+      $check_query = tep_db_query("select configuration_value from :table_configuration where configuration_key = 'OSCOM_APP_PAYPAL_EC_STATUS'");
       if ( tep_db_num_rows($check_query) ) {
         $check = tep_db_fetch_array($check_query);
 
@@ -499,7 +499,7 @@ EOD;
 
     function getProductType($id, $attributes) {
       foreach ( $attributes as $a ) {
-        $virtual_check_query = tep_db_query("select pad.products_attributes_id from products_attributes pa, products_attributes_download pad where pa.products_id = '" . (int)$id . "' and pa.options_values_id = '" . (int)$a['value_id'] . "' and pa.products_attributes_id = pad.products_attributes_id limit 1");
+        $virtual_check_query = tep_db_query("select pad.products_attributes_id from :table_products_attributes pa, :table_products_attributes_download pad where pa.products_id = '" . (int)$id . "' and pa.options_values_id = '" . (int)$a['value_id'] . "' and pa.products_attributes_id = pad.products_attributes_id limit 1");
 
         if ( tep_db_num_rows($virtual_check_query) == 1 ) {
           return 'Digital';
