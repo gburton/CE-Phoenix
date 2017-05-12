@@ -74,7 +74,7 @@
   }
 
   function tep_customers_name($customers_id) {
-    $customers = tep_db_query("select customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " where customers_id = '" . (int)$customers_id . "'");
+    $customers = tep_db_query("select customers_firstname, customers_lastname from :table_customers where customers_id = '" . (int)$customers_id . "'");
     $customers_values = tep_db_fetch_array($customers);
 
     return $customers_values['customers_firstname'] . ' ' . $customers_values['customers_lastname'];
@@ -90,10 +90,10 @@
         $cPath_new = $current_category_id;
       } else {
         $cPath_new = '';
-        $last_category_query = tep_db_query("select parent_id from " . TABLE_CATEGORIES . " where categories_id = '" . (int)$cPath_array[(sizeof($cPath_array)-1)] . "'");
+        $last_category_query = tep_db_query("select parent_id from :table_categories where categories_id = '" . (int)$cPath_array[(sizeof($cPath_array)-1)] . "'");
         $last_category = tep_db_fetch_array($last_category_query);
 
-        $current_category_query = tep_db_query("select parent_id from " . TABLE_CATEGORIES . " where categories_id = '" . (int)$current_category_id . "'");
+        $current_category_query = tep_db_query("select parent_id from :table_categories where categories_id = '" . (int)$current_category_id . "'");
         $current_category = tep_db_fetch_array($current_category_query);
 
         if ($last_category['parent_id'] == $current_category['parent_id']) {
@@ -185,12 +185,12 @@
     if ( (sizeof($category_tree_array) < 1) && ($exclude != '0') ) $category_tree_array[] = array('id' => '0', 'text' => TEXT_TOP);
 
     if ($include_itself) {
-      $category_query = tep_db_query("select cd.categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " cd where cd.language_id = '" . (int)$languages_id . "' and cd.categories_id = '" . (int)$parent_id . "'");
+      $category_query = tep_db_query("select cd.categories_name from :table_categories_description cd where cd.language_id = '" . (int)$languages_id . "' and cd.categories_id = '" . (int)$parent_id . "'");
       $category = tep_db_fetch_array($category_query);
       $category_tree_array[] = array('id' => $parent_id, 'text' => $category['categories_name']);
     }
 
-    $categories_query = tep_db_query("select c.categories_id, cd.categories_name, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and c.parent_id = '" . (int)$parent_id . "' order by c.sort_order, cd.categories_name");
+    $categories_query = tep_db_query("select c.categories_id, cd.categories_name, c.parent_id from :table_categories c, :table_categories_description cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and c.parent_id = '" . (int)$parent_id . "' order by c.sort_order, cd.categories_name");
     while ($categories = tep_db_fetch_array($categories_query)) {
       if ($exclude != $categories['categories_id']) $category_tree_array[] = array('id' => $categories['categories_id'], 'text' => $spacing . $categories['categories_name']);
       $category_tree_array = tep_get_category_tree($categories['categories_id'], $spacing . '&nbsp;&nbsp;&nbsp;', $exclude, $category_tree_array);
@@ -214,7 +214,7 @@
 
     $select_string .= '>';
 
-    $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_price from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
+    $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_price from :table_products p, :table_products_description pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
     while ($products = tep_db_fetch_array($products_query)) {
       if (!in_array($products['products_id'], $exclude)) {
         $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . ' (' . $currencies->format($products['products_price']) . ')</option>';
@@ -250,7 +250,7 @@
   function tep_options_name($options_id) {
     global $languages_id;
 
-    $options = tep_db_query("select products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . (int)$options_id . "' and language_id = '" . (int)$languages_id . "'");
+    $options = tep_db_query("select products_options_name from :table_products_options where products_options_id = '" . (int)$options_id . "' and language_id = '" . (int)$languages_id . "'");
     $options_values = tep_db_fetch_array($options);
 
     return $options_values['products_options_name'];
@@ -259,7 +259,7 @@
   function tep_values_name($values_id) {
     global $languages_id;
 
-    $values = tep_db_query("select products_options_values_name from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where products_options_values_id = '" . (int)$values_id . "' and language_id = '" . (int)$languages_id . "'");
+    $values = tep_db_query("select products_options_values_name from :table_products_options_values where products_options_values_id = '" . (int)$values_id . "' and language_id = '" . (int)$languages_id . "'");
     $values_values = tep_db_fetch_array($values);
 
     return $values_values['products_options_values_name'];
@@ -296,7 +296,7 @@
   }
 
   function tep_get_country_name($country_id) {
-    $country_query = tep_db_query("select countries_name from " . TABLE_COUNTRIES . " where countries_id = '" . (int)$country_id . "'");
+    $country_query = tep_db_query("select countries_name from :table_countries where countries_id = '" . (int)$country_id . "'");
 
     if (!tep_db_num_rows($country_query)) {
       return $country_id;
@@ -307,7 +307,7 @@
   }
 
   function tep_get_zone_name($country_id, $zone_id, $default_zone) {
-    $zone_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country_id . "' and zone_id = '" . (int)$zone_id . "'");
+    $zone_query = tep_db_query("select zone_name from :table_zones where zone_country_id = '" . (int)$country_id . "' and zone_id = '" . (int)$zone_id . "'");
     if (tep_db_num_rows($zone_query)) {
       $zone = tep_db_fetch_array($zone_query);
       return $zone['zone_name'];
@@ -340,7 +340,7 @@
 
   function tep_tax_classes_pull_down($parameters, $selected = '') {
     $select_string = '<select ' . $parameters . '>';
-    $classes_query = tep_db_query("select tax_class_id, tax_class_title from " . TABLE_TAX_CLASS . " order by tax_class_title");
+    $classes_query = tep_db_query("select tax_class_id, tax_class_title from :table_tax_class order by tax_class_title");
     while ($classes = tep_db_fetch_array($classes_query)) {
       $select_string .= '<option value="' . $classes['tax_class_id'] . '"';
       if ($selected == $classes['tax_class_id']) $select_string .= ' SELECTED';
@@ -353,7 +353,7 @@
 
   function tep_geo_zones_pull_down($parameters, $selected = '') {
     $select_string = '<select ' . $parameters . '>';
-    $zones_query = tep_db_query("select geo_zone_id, geo_zone_name from " . TABLE_GEO_ZONES . " order by geo_zone_name");
+    $zones_query = tep_db_query("select geo_zone_id, geo_zone_name from :table_geo_zones order by geo_zone_name");
     while ($zones = tep_db_fetch_array($zones_query)) {
       $select_string .= '<option value="' . $zones['geo_zone_id'] . '"';
       if ($selected == $zones['geo_zone_id']) $select_string .= ' SELECTED';
@@ -365,7 +365,7 @@
   }
 
   function tep_get_geo_zone_name($geo_zone_id) {
-    $zones_query = tep_db_query("select geo_zone_name from " . TABLE_GEO_ZONES . " where geo_zone_id = '" . (int)$geo_zone_id . "'");
+    $zones_query = tep_db_query("select geo_zone_name from :table_geo_zones where geo_zone_id = '" . (int)$geo_zone_id . "'");
 
     if (!tep_db_num_rows($zones_query)) {
       $geo_zone_name = $geo_zone_id;
@@ -378,7 +378,7 @@
   }
 
   function tep_address_format($address_format_id, $address, $html, $boln, $eoln) {
-    $address_format_query = tep_db_query("select address_format as format from " . TABLE_ADDRESS_FORMAT . " where address_format_id = '" . (int)$address_format_id . "'");
+    $address_format_query = tep_db_query("select address_format as format from :table_address_format where address_format_id = '" . (int)$address_format_id . "'");
     $address_format = tep_db_fetch_array($address_format_query);
 
     $company = tep_output_string_protected($address['company']);
@@ -461,7 +461,7 @@
   ////////////////////////////////////////////////////////////////////////////////////////////////
   function tep_get_zone_code($country, $zone, $def_state) {
 
-    $state_prov_query = tep_db_query("select zone_code from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and zone_id = '" . (int)$zone . "'");
+    $state_prov_query = tep_db_query("select zone_code from :table_zones where zone_country_id = '" . (int)$country . "' and zone_id = '" . (int)$zone . "'");
 
     if (!tep_db_num_rows($state_prov_query)) {
       $state_prov_code = $def_state;
@@ -492,7 +492,7 @@
   }
 
   function tep_get_languages() {
-    $languages_query = tep_db_query("select languages_id, name, code, image, directory from " . TABLE_LANGUAGES . " order by sort_order");
+    $languages_query = tep_db_query("select languages_id, name, code, image, directory from :table_languages order by sort_order");
     while ($languages = tep_db_fetch_array($languages_query)) {
       $languages_array[] = array('id' => $languages['languages_id'],
                                  'name' => $languages['name'],
@@ -505,7 +505,7 @@
   }
 
   function tep_get_category_name($category_id, $language_id) {
-    $category_query = tep_db_query("select categories_name from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
+    $category_query = tep_db_query("select categories_name from :table_categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
     $category = tep_db_fetch_array($category_query);
 
     return $category['categories_name'];
@@ -515,7 +515,7 @@
     global $languages_id;
 
     if (!$language_id) $language_id = $languages_id;
-    $orders_status_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where orders_status_id = '" . (int)$orders_status_id . "' and language_id = '" . (int)$language_id . "'");
+    $orders_status_query = tep_db_query("select orders_status_name from :table_orders_status where orders_status_id = '" . (int)$orders_status_id . "' and language_id = '" . (int)$language_id . "'");
     $orders_status = tep_db_fetch_array($orders_status_query);
 
     return $orders_status['orders_status_name'];
@@ -525,7 +525,7 @@
     global $languages_id;
 
     $orders_status_array = array();
-    $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "' order by orders_status_id");
+    $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from :table_orders_status where language_id = '" . (int)$languages_id . "' order by orders_status_id");
     while ($orders_status = tep_db_fetch_array($orders_status_query)) {
       $orders_status_array[] = array('id' => $orders_status['orders_status_id'],
                                      'text' => $orders_status['orders_status_name']);
@@ -538,21 +538,21 @@
     global $languages_id;
 
     if ($language_id == 0) $language_id = $languages_id;
-    $product_query = tep_db_query("select products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product_query = tep_db_query("select products_name from :table_products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
     $product = tep_db_fetch_array($product_query);
 
     return $product['products_name'];
   }
 
   function tep_get_products_description($product_id, $language_id) {
-    $product_query = tep_db_query("select products_description from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product_query = tep_db_query("select products_description from :table_products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
     $product = tep_db_fetch_array($product_query);
 
     return $product['products_description'];
   }
 
   function tep_get_products_url($product_id, $language_id) {
-    $product_query = tep_db_query("select products_url from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
+    $product_query = tep_db_query("select products_url from :table_products_description where products_id = '" . (int)$product_id . "' and language_id = '" . (int)$language_id . "'");
     $product = tep_db_fetch_array($product_query);
 
     return $product['products_url'];
@@ -562,7 +562,7 @@
 // Return the manufacturers URL in the needed language
 // TABLES: manufacturers_info
   function tep_get_manufacturer_url($manufacturer_id, $language_id) {
-    $manufacturer_query = tep_db_query("select manufacturers_url from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
+    $manufacturer_query = tep_db_query("select manufacturers_url from :table_manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_url'];
@@ -586,16 +586,16 @@
     $products_count = 0;
 
     if ($include_deactivated) {
-      $products_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$categories_id . "'");
+      $products_query = tep_db_query("select count(*) as total from :table_products p, :table_products_to_categories p2c where p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$categories_id . "'");
     } else {
-      $products_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_id = p2c.products_id and p.products_status = '1' and p2c.categories_id = '" . (int)$categories_id . "'");
+      $products_query = tep_db_query("select count(*) as total from :table_products p, :table_products_to_categories p2c where p.products_id = p2c.products_id and p.products_status = '1' and p2c.categories_id = '" . (int)$categories_id . "'");
     }
 
     $products = tep_db_fetch_array($products_query);
 
     $products_count += $products['total'];
 
-    $childs_query = tep_db_query("select categories_id from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$categories_id . "'");
+    $childs_query = tep_db_query("select categories_id from :table_categories where parent_id = '" . (int)$categories_id . "'");
     if (tep_db_num_rows($childs_query)) {
       while ($childs = tep_db_fetch_array($childs_query)) {
         $products_count += tep_products_in_category_count($childs['categories_id'], $include_deactivated);
@@ -611,7 +611,7 @@
   function tep_childs_in_category_count($categories_id) {
     $categories_count = 0;
 
-    $categories_query = tep_db_query("select categories_id from " . TABLE_CATEGORIES . " where parent_id = '" . (int)$categories_id . "'");
+    $categories_query = tep_db_query("select categories_id from :table_categories where parent_id = '" . (int)$categories_id . "'");
     while ($categories = tep_db_fetch_array($categories_query)) {
       $categories_count++;
       $categories_count += tep_childs_in_category_count($categories['categories_id']);
@@ -629,7 +629,7 @@
       $countries_array[] = array('id' => '',
                                  'text' => $default);
     }
-    $countries_query = tep_db_query("select countries_id, countries_name from " . TABLE_COUNTRIES . " order by countries_name");
+    $countries_query = tep_db_query("select countries_id, countries_name from :table_countries order by countries_name");
     while ($countries = tep_db_fetch_array($countries_query)) {
       $countries_array[] = array('id' => $countries['countries_id'],
                                  'text' => $countries['countries_name']);
@@ -642,7 +642,7 @@
 // return an array with country zones
   function tep_get_country_zones($country_id) {
     $zones_array = array();
-    $zones_query = tep_db_query("select zone_id, zone_name from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country_id . "' order by zone_name");
+    $zones_query = tep_db_query("select zone_id, zone_name from :table_zones where zone_country_id = '" . (int)$country_id . "' order by zone_name");
     while ($zones = tep_db_fetch_array($zones_query)) {
       $zones_array[] = array('id' => $zones['zone_id'],
                              'text' => $zones['zone_name']);
@@ -679,7 +679,7 @@
 ////
 // Get list of address_format_id's
   function tep_get_address_formats() {
-    $address_format_query = tep_db_query("select address_format_id from " . TABLE_ADDRESS_FORMAT . " order by address_format_id");
+    $address_format_query = tep_db_query("select address_format_id from :table_address_format order by address_format_id");
     $address_format_array = array();
     while ($address_format_values = tep_db_fetch_array($address_format_query)) {
       $address_format_array[] = array('id' => $address_format_values['address_format_id'],
@@ -702,7 +702,7 @@
     $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
 
     $tax_class_array = array(array('id' => '0', 'text' => TEXT_NONE));
-    $tax_class_query = tep_db_query("select tax_class_id, tax_class_title from " . TABLE_TAX_CLASS . " order by tax_class_title");
+    $tax_class_query = tep_db_query("select tax_class_id, tax_class_title from :table_tax_class order by tax_class_title");
     while ($tax_class = tep_db_fetch_array($tax_class_query)) {
       $tax_class_array[] = array('id' => $tax_class['tax_class_id'],
                                  'text' => $tax_class['tax_class_title']);
@@ -718,7 +718,7 @@
   }
 
   function tep_cfg_get_zone_name($zone_id) {
-    $zone_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_id = '" . (int)$zone_id . "'");
+    $zone_query = tep_db_query("select zone_name from :table_zones where zone_id = '" . (int)$zone_id . "'");
 
     if (!tep_db_num_rows($zone_query)) {
       return $zone_id;
@@ -732,9 +732,9 @@
 // Sets the status of a banner
   function tep_set_banner_status($banners_id, $status) {
     if ($status == '1') {
-      return tep_db_query("update " . TABLE_BANNERS . " set status = '1', expires_impressions = NULL, expires_date = NULL, date_status_change = NULL where banners_id = '" . $banners_id . "'");
+      return tep_db_query("update :table_banners set status = '1', expires_impressions = NULL, expires_date = NULL, date_status_change = NULL where banners_id = '" . $banners_id . "'");
     } elseif ($status == '0') {
-      return tep_db_query("update " . TABLE_BANNERS . " set status = '0', date_status_change = now() where banners_id = '" . $banners_id . "'");
+      return tep_db_query("update :table_banners set status = '0', date_status_change = now() where banners_id = '" . $banners_id . "'");
     } else {
       return -1;
     }
@@ -744,9 +744,9 @@
 // Sets the status of a product
   function tep_set_product_status($products_id, $status) {
     if ($status == '1') {
-      return tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '1', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
+      return tep_db_query("update :table_products set products_status = '1', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
     } elseif ($status == '0') {
-      return tep_db_query("update " . TABLE_PRODUCTS . " set products_status = '0', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
+      return tep_db_query("update :table_products set products_status = '0', products_last_modified = now() where products_id = '" . (int)$products_id . "'");
     } else {
       return -1;
     }
@@ -756,9 +756,9 @@
 // Sets the status of a review
   function tep_set_review_status($reviews_id, $status) {
     if ($status == '1') {
-      return tep_db_query("update " . TABLE_REVIEWS . " set reviews_status = '1', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
+      return tep_db_query("update :table_reviews set reviews_status = '1', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
     } elseif ($status == '0') {
-      return tep_db_query("update " . TABLE_REVIEWS . " set reviews_status = '0', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
+      return tep_db_query("update :table_reviews set reviews_status = '0', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
     } else {
       return -1;
     }
@@ -768,9 +768,9 @@
 // Sets the status of a product on special
   function tep_set_specials_status($specials_id, $status) {
     if ($status == '1') {
-      return tep_db_query("update " . TABLE_SPECIALS . " set status = '1', expires_date = NULL, date_status_change = NULL where specials_id = '" . (int)$specials_id . "'");
+      return tep_db_query("update :table_specials set status = '1', expires_date = NULL, date_status_change = NULL where specials_id = '" . (int)$specials_id . "'");
     } elseif ($status == '0') {
-      return tep_db_query("update " . TABLE_SPECIALS . " set status = '0', date_status_change = now() where specials_id = '" . (int)$specials_id . "'");
+      return tep_db_query("update :table_specials set status = '0', date_status_change = now() where specials_id = '" . (int)$specials_id . "'");
     } else {
       return -1;
     }
@@ -874,12 +874,12 @@
     if (!is_array($categories_array)) $categories_array = array();
 
     if ($from == 'product') {
-      $categories_query = tep_db_query("select categories_id from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$id . "'");
+      $categories_query = tep_db_query("select categories_id from :table_products_to_categories where products_id = '" . (int)$id . "'");
       while ($categories = tep_db_fetch_array($categories_query)) {
         if ($categories['categories_id'] == '0') {
           $categories_array[$index][] = array('id' => '0', 'text' => TEXT_TOP);
         } else {
-          $category_query = tep_db_query("select cd.categories_name, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$categories['categories_id'] . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
+          $category_query = tep_db_query("select cd.categories_name, c.parent_id from :table_categories c, :table_categories_description cd where c.categories_id = '" . (int)$categories['categories_id'] . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
           $category = tep_db_fetch_array($category_query);
           $categories_array[$index][] = array('id' => $categories['categories_id'], 'text' => $category['categories_name']);
           if ( (tep_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = tep_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
@@ -888,7 +888,7 @@
         $index++;
       }
     } elseif ($from == 'category') {
-      $category_query = tep_db_query("select cd.categories_name, c.parent_id from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
+      $category_query = tep_db_query("select cd.categories_name, c.parent_id from :table_categories c, :table_categories_description cd where c.categories_id = '" . (int)$id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
       $category = tep_db_fetch_array($category_query);
       $categories_array[$index][] = array('id' => $id, 'text' => $category['categories_name']);
       if ( (tep_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) $categories_array = tep_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
@@ -930,10 +930,10 @@
   }
 
   function tep_remove_category($category_id) {
-    $category_image_query = tep_db_query("select categories_image from " . TABLE_CATEGORIES . " where categories_id = '" . (int)$category_id . "'");
+    $category_image_query = tep_db_query("select categories_image from :table_categories where categories_id = '" . (int)$category_id . "'");
     $category_image = tep_db_fetch_array($category_image_query);
 
-    $duplicate_image_query = tep_db_query("select count(*) as total from " . TABLE_CATEGORIES . " where categories_image = '" . tep_db_input($category_image['categories_image']) . "'");
+    $duplicate_image_query = tep_db_query("select count(*) as total from :table_categories where categories_image = '" . tep_db_input($category_image['categories_image']) . "'");
     $duplicate_image = tep_db_fetch_array($duplicate_image_query);
 
     if ($duplicate_image['total'] < 2) {
@@ -942,9 +942,9 @@
       }
     }
 
-    tep_db_query("delete from " . TABLE_CATEGORIES . " where categories_id = '" . (int)$category_id . "'");
-    tep_db_query("delete from " . TABLE_CATEGORIES_DESCRIPTION . " where categories_id = '" . (int)$category_id . "'");
-    tep_db_query("delete from " . TABLE_PRODUCTS_TO_CATEGORIES . " where categories_id = '" . (int)$category_id . "'");
+    tep_db_query("delete from :table_categories where categories_id = '" . (int)$category_id . "'");
+    tep_db_query("delete from :table_categories_description where categories_id = '" . (int)$category_id . "'");
+    tep_db_query("delete from :table_products_to_categories where categories_id = '" . (int)$category_id . "'");
 
     if (USE_CACHE == 'true') {
       tep_reset_cache_block('categories');
@@ -953,10 +953,10 @@
   }
 
   function tep_remove_product($product_id) {
-    $product_image_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$product_id . "'");
+    $product_image_query = tep_db_query("select products_image from :table_products where products_id = '" . (int)$product_id . "'");
     $product_image = tep_db_fetch_array($product_image_query);
 
-    $duplicate_image_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS . " where products_image = '" . tep_db_input($product_image['products_image']) . "'");
+    $duplicate_image_query = tep_db_query("select count(*) as total from :table_products where products_image = '" . tep_db_input($product_image['products_image']) . "'");
     $duplicate_image = tep_db_fetch_array($duplicate_image_query);
 
     if ($duplicate_image['total'] < 2) {
@@ -965,10 +965,10 @@
       }
     }
 
-    $product_images_query = tep_db_query("select image from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_id . "'");
+    $product_images_query = tep_db_query("select image from :table_products_images where products_id = '" . (int)$product_id . "'");
     if (tep_db_num_rows($product_images_query)) {
       while ($product_images = tep_db_fetch_array($product_images_query)) {
-        $duplicate_image_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_IMAGES . " where image = '" . tep_db_input($product_images['image']) . "'");
+        $duplicate_image_query = tep_db_query("select count(*) as total from :table_products_images where image = '" . tep_db_input($product_images['image']) . "'");
         $duplicate_image = tep_db_fetch_array($duplicate_image_query);
 
         if ($duplicate_image['total'] < 2) {
@@ -978,22 +978,22 @@
         }
       }
 
-      tep_db_query("delete from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_id . "'");
+      tep_db_query("delete from :table_products_images where products_id = '" . (int)$product_id . "'");
     }
 
-    tep_db_query("delete from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "'");
-    tep_db_query("delete from " . TABLE_PRODUCTS . " where products_id = '" . (int)$product_id . "'");
-    tep_db_query("delete from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$product_id . "'");
-    tep_db_query("delete from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id = '" . (int)$product_id . "'");
-    tep_db_query("delete from " . TABLE_PRODUCTS_ATTRIBUTES . " where products_id = '" . (int)$product_id . "'");
-    tep_db_query("delete from " . TABLE_CUSTOMERS_BASKET . " where products_id = '" . (int)$product_id . "' or products_id like '" . (int)$product_id . "{%'");
-    tep_db_query("delete from " . TABLE_CUSTOMERS_BASKET_ATTRIBUTES . " where products_id = '" . (int)$product_id . "' or products_id like '" . (int)$product_id . "{%'");
+    tep_db_query("delete from :table_specials where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_products where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_products_to_categories where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_products_description where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_products_attributes where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_customers_basket where products_id = '" . (int)$product_id . "' or products_id like '" . (int)$product_id . "{%'");
+    tep_db_query("delete from :table_customers_basket_attributes where products_id = '" . (int)$product_id . "' or products_id like '" . (int)$product_id . "{%'");
 
-    $product_reviews_query = tep_db_query("select reviews_id from " . TABLE_REVIEWS . " where products_id = '" . (int)$product_id . "'");
+    $product_reviews_query = tep_db_query("select reviews_id from :table_reviews where products_id = '" . (int)$product_id . "'");
     while ($product_reviews = tep_db_fetch_array($product_reviews_query)) {
-      tep_db_query("delete from " . TABLE_REVIEWS_DESCRIPTION . " where reviews_id = '" . (int)$product_reviews['reviews_id'] . "'");
+      tep_db_query("delete from :table_reviews_description where reviews_id = '" . (int)$product_reviews['reviews_id'] . "'");
     }
-    tep_db_query("delete from " . TABLE_REVIEWS . " where products_id = '" . (int)$product_id . "'");
+    tep_db_query("delete from :table_reviews where products_id = '" . (int)$product_id . "'");
 
     if (USE_CACHE == 'true') {
       tep_reset_cache_block('categories');
@@ -1003,17 +1003,17 @@
 
   function tep_remove_order($order_id, $restock = false) {
     if ($restock == 'on') {
-      $order_query = tep_db_query("select products_id, products_quantity from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "'");
+      $order_query = tep_db_query("select products_id, products_quantity from :table_orders_products where orders_id = '" . (int)$order_id . "'");
       while ($order = tep_db_fetch_array($order_query)) {
-        tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = products_quantity + " . $order['products_quantity'] . ", products_ordered = products_ordered - " . $order['products_quantity'] . " where products_id = '" . (int)$order['products_id'] . "'");
+        tep_db_query("update :table_products set products_quantity = products_quantity + " . $order['products_quantity'] . ", products_ordered = products_ordered - " . $order['products_quantity'] . " where products_id = '" . (int)$order['products_id'] . "'");
       }
     }
 
-    tep_db_query("delete from " . TABLE_ORDERS . " where orders_id = '" . (int)$order_id . "'");
-    tep_db_query("delete from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "'");
-    tep_db_query("delete from " . TABLE_ORDERS_PRODUCTS_ATTRIBUTES . " where orders_id = '" . (int)$order_id . "'");
-    tep_db_query("delete from " . TABLE_ORDERS_STATUS_HISTORY . " where orders_id = '" . (int)$order_id . "'");
-    tep_db_query("delete from " . TABLE_ORDERS_TOTAL . " where orders_id = '" . (int)$order_id . "'");
+    tep_db_query("delete from :table_orders where orders_id = '" . (int)$order_id . "'");
+    tep_db_query("delete from :table_orders_products where orders_id = '" . (int)$order_id . "'");
+    tep_db_query("delete from :table_orders_products_attributes where orders_id = '" . (int)$order_id . "'");
+    tep_db_query("delete from :table_orders_status_history where orders_id = '" . (int)$order_id . "'");
+    tep_db_query("delete from :table_orders_total where orders_id = '" . (int)$order_id . "'");
   }
 
   function tep_reset_cache_block($cache_block) {
@@ -1182,7 +1182,7 @@
     if ($tax_class_id == '0') {
       return TEXT_NONE;
     } else {
-      $classes_query = tep_db_query("select tax_class_title from " . TABLE_TAX_CLASS . " where tax_class_id = '" . (int)$tax_class_id . "'");
+      $classes_query = tep_db_query("select tax_class_title from :table_tax_class where tax_class_id = '" . (int)$tax_class_id . "'");
       $classes = tep_db_fetch_array($classes_query);
 
       return $classes['tax_class_title'];
@@ -1246,7 +1246,7 @@
       }
     }
 
-    $tax_query = tep_db_query("select SUM(tax_rate) as tax_rate from " . TABLE_TAX_RATES . " tr left join " . TABLE_ZONES_TO_GEO_ZONES . " za ON tr.tax_zone_id = za.geo_zone_id left join " . TABLE_GEO_ZONES . " tz ON tz.geo_zone_id = tr.tax_zone_id WHERE (za.zone_country_id IS NULL OR za.zone_country_id = '0' OR za.zone_country_id = '" . (int)$country_id . "') AND (za.zone_id IS NULL OR za.zone_id = '0' OR za.zone_id = '" . (int)$zone_id . "') AND tr.tax_class_id = '" . (int)$class_id . "' GROUP BY tr.tax_priority");
+    $tax_query = tep_db_query("select SUM(tax_rate) as tax_rate from :table_tax_rates tr left join :table_zones_to_geo_zones za ON tr.tax_zone_id = za.geo_zone_id left join :table_geo_zones tz ON tz.geo_zone_id = tr.tax_zone_id WHERE (za.zone_country_id IS NULL OR za.zone_country_id = '0' OR za.zone_country_id = '" . (int)$country_id . "') AND (za.zone_id IS NULL OR za.zone_id = '0' OR za.zone_id = '" . (int)$zone_id . "') AND tr.tax_class_id = '" . (int)$class_id . "' GROUP BY tr.tax_priority");
     if (tep_db_num_rows($tax_query)) {
       $tax_multiplier = 0;
       while ($tax = tep_db_fetch_array($tax_query)) {
@@ -1277,7 +1277,7 @@
     if ($zone_class_id == '0') {
       return TEXT_NONE;
     } else {
-      $classes_query = tep_db_query("select geo_zone_name from " . TABLE_GEO_ZONES . " where geo_zone_id = '" . (int)$zone_class_id . "'");
+      $classes_query = tep_db_query("select geo_zone_name from :table_geo_zones where geo_zone_id = '" . (int)$zone_class_id . "'");
       $classes = tep_db_fetch_array($classes_query);
 
       return $classes['geo_zone_name'];
@@ -1288,7 +1288,7 @@
     $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
 
     $zone_class_array = array(array('id' => '0', 'text' => TEXT_NONE));
-    $zone_class_query = tep_db_query("select geo_zone_id, geo_zone_name from " . TABLE_GEO_ZONES . " order by geo_zone_name");
+    $zone_class_query = tep_db_query("select geo_zone_id, geo_zone_name from :table_geo_zones order by geo_zone_name");
     while ($zone_class = tep_db_fetch_array($zone_class_query)) {
       $zone_class_array[] = array('id' => $zone_class['geo_zone_id'],
                                   'text' => $zone_class['geo_zone_name']);
@@ -1303,7 +1303,7 @@
     $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
 
     $statuses_array = array(array('id' => '0', 'text' => TEXT_DEFAULT));
-    $statuses_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "' order by orders_status_name");
+    $statuses_query = tep_db_query("select orders_status_id, orders_status_name from :table_orders_status where language_id = '" . (int)$languages_id . "' order by orders_status_name");
     while ($statuses = tep_db_fetch_array($statuses_query)) {
       $statuses_array[] = array('id' => $statuses['orders_status_id'],
                                 'text' => $statuses['orders_status_name']);
@@ -1319,7 +1319,7 @@
 
     if (!is_numeric($language_id)) $language_id = $languages_id;
 
-    $status_query = tep_db_query("select orders_status_name from " . TABLE_ORDERS_STATUS . " where orders_status_id = '" . (int)$order_status_id . "' and language_id = '" . (int)$language_id . "'");
+    $status_query = tep_db_query("select orders_status_name from :table_orders_status where orders_status_id = '" . (int)$order_status_id . "' and language_id = '" . (int)$language_id . "'");
     $status = tep_db_fetch_array($status_query);
 
     return $status['orders_status_name'];
@@ -1574,7 +1574,7 @@
     
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
 
-    $products_query = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
+    $products_query = tep_db_query("select p.products_id, pd.products_name from :table_products p, :table_products_description pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
     while ($products = tep_db_fetch_array($products_query)) {
       if (!in_array($products['products_id'], $exclude)) {
         $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . '</option>';
@@ -1595,7 +1595,7 @@
     $select_string .= '>';
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
 
-    $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
+    $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from :table_customers order by customers_lastname");
     while ($customers = tep_db_fetch_array($customers_query)) {
        $select_string .= '<option value="' . $customers['customers_id'] . '">' . $customers['customers_lastname'] . ', ' . $customers['customers_firstname'] . '</option>';
     }

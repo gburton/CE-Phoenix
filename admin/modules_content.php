@@ -12,9 +12,9 @@
 
   require('includes/application_top.php');
 
-  $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_CONTENT_INSTALLED' limit 1");
+  $check_query = tep_db_query("select configuration_value from :table_configuration where configuration_key = 'MODULE_CONTENT_INSTALLED' limit 1");
   if (tep_db_num_rows($check_query) < 1) {
-    tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_INSTALLED', '', 'This is automatically updated. No need to edit.', '6', '0', now())");
+    tep_db_query("insert into :table_configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_INSTALLED', '', 'This is automatically updated. No need to edit.', '6', '0', now())");
     define('MODULE_CONTENT_INSTALLED', '');
   }
 
@@ -85,7 +85,7 @@
   }
 
   if ( implode(';', $_installed) != MODULE_CONTENT_INSTALLED ) {
-    tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . implode(';', $_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+    tep_db_query("update :table_configuration set configuration_value = '" . implode(';', $_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
   }
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
@@ -101,7 +101,7 @@
               $key = tep_db_prepare_input($key);
               $value = tep_db_prepare_input($value);
 
-              tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
+              tep_db_query("update :table_configuration set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
             }
 
             break;
@@ -123,7 +123,7 @@
 
             $modules_installed[] = $m['group'] . '/' . $m['code'];
 
-            tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+            tep_db_query("update :table_configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_content.php', 'module=' . $class . '&action=edit'));
           }
@@ -148,7 +148,7 @@
               unset($modules_installed[array_search($m['group'] . '/' . $m['code'], $modules_installed)]);
             }
 
-            tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+            tep_db_query("update :table_configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_content.php'));
           }
@@ -246,7 +246,7 @@
         foreach ($module->keys() as $key) {
           $key = tep_db_prepare_input($key);
 
-          $key_value_query = tep_db_query("select configuration_title, configuration_value, configuration_description, use_function, set_function from " . TABLE_CONFIGURATION . " where configuration_key = '" . tep_db_input($key) . "'");
+          $key_value_query = tep_db_query("select configuration_title, configuration_value, configuration_description, use_function, set_function from :table_configuration where configuration_key = '" . tep_db_input($key) . "'");
           $key_value = tep_db_fetch_array($key_value_query);
 
           $module_info['keys'][$key] = array('title' => $key_value['configuration_title'],

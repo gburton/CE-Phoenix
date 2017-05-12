@@ -16,7 +16,7 @@
   $currencies = new currencies();
 
   $oID = tep_db_prepare_input($_GET['oID']);
-  $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
+  $orders_query = tep_db_query("select orders_id from :table_orders where orders_id = '" . (int)$oID . "'");
 
   include('includes/classes/order.php');
   $order = new order($oID);

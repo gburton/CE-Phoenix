@@ -23,7 +23,7 @@
         $tax_description = tep_db_prepare_input($_POST['tax_description']);
         $tax_priority = tep_db_prepare_input($_POST['tax_priority']);
 
-        tep_db_query("insert into " . TABLE_TAX_RATES . " (tax_zone_id, tax_class_id, tax_rate, tax_description, tax_priority, date_added) values ('" . (int)$tax_zone_id . "', '" . (int)$tax_class_id . "', '" . tep_db_input($tax_rate) . "', '" . tep_db_input($tax_description) . "', '" . tep_db_input($tax_priority) . "', now())");
+        tep_db_query("insert into :table_tax_rates (tax_zone_id, tax_class_id, tax_rate, tax_description, tax_priority, date_added) values ('" . (int)$tax_zone_id . "', '" . (int)$tax_class_id . "', '" . tep_db_input($tax_rate) . "', '" . tep_db_input($tax_description) . "', '" . tep_db_input($tax_priority) . "', now())");
 
         tep_redirect(tep_href_link('tax_rates.php'));
         break;
@@ -35,14 +35,14 @@
         $tax_description = tep_db_prepare_input($_POST['tax_description']);
         $tax_priority = tep_db_prepare_input($_POST['tax_priority']);
 
-        tep_db_query("update " . TABLE_TAX_RATES . " set tax_rates_id = '" . (int)$tax_rates_id . "', tax_zone_id = '" . (int)$tax_zone_id . "', tax_class_id = '" . (int)$tax_class_id . "', tax_rate = '" . tep_db_input($tax_rate) . "', tax_description = '" . tep_db_input($tax_description) . "', tax_priority = '" . tep_db_input($tax_priority) . "', last_modified = now() where tax_rates_id = '" . (int)$tax_rates_id . "'");
+        tep_db_query("update :table_tax_rates set tax_rates_id = '" . (int)$tax_rates_id . "', tax_zone_id = '" . (int)$tax_zone_id . "', tax_class_id = '" . (int)$tax_class_id . "', tax_rate = '" . tep_db_input($tax_rate) . "', tax_description = '" . tep_db_input($tax_description) . "', tax_priority = '" . tep_db_input($tax_priority) . "', last_modified = now() where tax_rates_id = '" . (int)$tax_rates_id . "'");
 
         tep_redirect(tep_href_link('tax_rates.php', 'page=' . $_GET['page'] . '&tID=' . $tax_rates_id));
         break;
       case 'deleteconfirm':
         $tax_rates_id = tep_db_prepare_input($_GET['tID']);
 
-        tep_db_query("delete from " . TABLE_TAX_RATES . " where tax_rates_id = '" . (int)$tax_rates_id . "'");
+        tep_db_query("delete from :table_tax_rates where tax_rates_id = '" . (int)$tax_rates_id . "'");
 
         tep_redirect(tep_href_link('tax_rates.php', 'page=' . $_GET['page']));
         break;
@@ -73,7 +73,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $rates_query_raw = "select r.tax_rates_id, z.geo_zone_id, z.geo_zone_name, tc.tax_class_title, tc.tax_class_id, r.tax_priority, r.tax_rate, r.tax_description, r.date_added, r.last_modified from " . TABLE_TAX_CLASS . " tc, " . TABLE_TAX_RATES . " r left join " . TABLE_GEO_ZONES . " z on r.tax_zone_id = z.geo_zone_id where r.tax_class_id = tc.tax_class_id";
+  $rates_query_raw = "select r.tax_rates_id, z.geo_zone_id, z.geo_zone_name, tc.tax_class_title, tc.tax_class_id, r.tax_priority, r.tax_rate, r.tax_description, r.date_added, r.last_modified from :table_tax_class tc, :table_tax_rates r left join :table_geo_zones z on r.tax_zone_id = z.geo_zone_id where r.tax_class_id = tc.tax_class_id";
   $rates_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $rates_query_raw, $rates_query_numrows);
   $rates_query = tep_db_query($rates_query_raw);
   while ($rates = tep_db_fetch_array($rates_query)) {

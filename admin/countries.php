@@ -22,7 +22,7 @@
         $countries_iso_code_3 = tep_db_prepare_input($_POST['countries_iso_code_3']);
         $address_format_id = tep_db_prepare_input($_POST['address_format_id']);
 
-        tep_db_query("insert into " . TABLE_COUNTRIES . " (countries_name, countries_iso_code_2, countries_iso_code_3, address_format_id) values ('" . tep_db_input($countries_name) . "', '" . tep_db_input($countries_iso_code_2) . "', '" . tep_db_input($countries_iso_code_3) . "', '" . (int)$address_format_id . "')");
+        tep_db_query("insert into :table_countries (countries_name, countries_iso_code_2, countries_iso_code_3, address_format_id) values ('" . tep_db_input($countries_name) . "', '" . tep_db_input($countries_iso_code_2) . "', '" . tep_db_input($countries_iso_code_3) . "', '" . (int)$address_format_id . "')");
 
         tep_redirect(tep_href_link('countries.php'));
         break;
@@ -33,14 +33,14 @@
         $countries_iso_code_3 = tep_db_prepare_input($_POST['countries_iso_code_3']);
         $address_format_id = tep_db_prepare_input($_POST['address_format_id']);
 
-        tep_db_query("update " . TABLE_COUNTRIES . " set countries_name = '" . tep_db_input($countries_name) . "', countries_iso_code_2 = '" . tep_db_input($countries_iso_code_2) . "', countries_iso_code_3 = '" . tep_db_input($countries_iso_code_3) . "', address_format_id = '" . (int)$address_format_id . "' where countries_id = '" . (int)$countries_id . "'");
+        tep_db_query("update :table_countries set countries_name = '" . tep_db_input($countries_name) . "', countries_iso_code_2 = '" . tep_db_input($countries_iso_code_2) . "', countries_iso_code_3 = '" . tep_db_input($countries_iso_code_3) . "', address_format_id = '" . (int)$address_format_id . "' where countries_id = '" . (int)$countries_id . "'");
 
         tep_redirect(tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $countries_id));
         break;
       case 'deleteconfirm':
         $countries_id = tep_db_prepare_input($_GET['cID']);
 
-        tep_db_query("delete from " . TABLE_COUNTRIES . " where countries_id = '" . (int)$countries_id . "'");
+        tep_db_query("delete from :table_countries where countries_id = '" . (int)$countries_id . "'");
 
         tep_redirect(tep_href_link('countries.php', 'page=' . $_GET['page']));
         break;
@@ -69,7 +69,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $countries_query_raw = "select countries_id, countries_name, countries_iso_code_2, countries_iso_code_3, address_format_id from " . TABLE_COUNTRIES . " order by countries_name";
+  $countries_query_raw = "select countries_id, countries_name, countries_iso_code_2, countries_iso_code_3, address_format_id from :table_countries order by countries_name";
   $countries_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $countries_query_raw, $countries_query_numrows);
   $countries_query = tep_db_query($countries_query_raw);
   while ($countries = tep_db_fetch_array($countries_query)) {

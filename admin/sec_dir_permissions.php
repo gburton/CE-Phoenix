@@ -42,7 +42,7 @@
 
   $whitelist_array = array();
 
-  $whitelist_query = tep_db_query("select directory from " . TABLE_SEC_DIRECTORY_WHITELIST);
+  $whitelist_query = tep_db_query("select directory from :table_sec_directory_whitelist");
   while ($whitelist = tep_db_fetch_array($whitelist_query)) {
     $whitelist_array[] = $whitelist['directory'];
   }

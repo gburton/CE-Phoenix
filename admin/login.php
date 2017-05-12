@@ -36,7 +36,7 @@
         $actionRecorder = new actionRecorderAdmin('ar_admin_login', null, $username);
 
         if ($actionRecorder->canPerform()) {
-          $check_query = tep_db_query("select id, user_name, user_password from " . TABLE_ADMINISTRATORS . " where user_name = '" . tep_db_input($username) . "'");
+          $check_query = tep_db_query("select id, user_name, user_password from :table_administrators where user_name = '" . tep_db_input($username) . "'");
 
           if (tep_db_num_rows($check_query) == 1) {
             $check = tep_db_fetch_array($check_query);
@@ -44,7 +44,7 @@
             if (tep_validate_password($password, $check['user_password'])) {
 // migrate old hashed password to new phpass password
               if (tep_password_type($check['user_password']) != 'phpass') {
-                tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
+                tep_db_query("update :table_administrators set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
               }
 
               tep_session_register('admin');
@@ -98,14 +98,14 @@
         break;
 
       case 'create':
-        $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+        $check_query = tep_db_query("select id from :table_administrators limit 1");
 
         if (tep_db_num_rows($check_query) == 0) {
           $username = tep_db_prepare_input($_POST['username']);
           $password = tep_db_prepare_input($_POST['password']);
 
           if ( !empty($username) ) {
-            tep_db_query("insert into " . TABLE_ADMINISTRATORS . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
+            tep_db_query("insert into :table_administrators (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
           }
         }
 
@@ -126,7 +126,7 @@
     }
   }
 
-  $admins_check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+  $admins_check_query = tep_db_query("select id from :table_administrators limit 1");
   if (tep_db_num_rows($admins_check_query) < 1) {
     $messageStack->add(TEXT_CREATE_FIRST_ADMINISTRATOR, 'warning');
   }

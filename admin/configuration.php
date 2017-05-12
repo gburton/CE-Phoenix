@@ -20,7 +20,7 @@
         $configuration_value = tep_db_prepare_input($_POST['configuration_value']);
         $cID = tep_db_prepare_input($_GET['cID']);
 
-        tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($configuration_value) . "', last_modified = now() where configuration_id = '" . (int)$cID . "'");
+        tep_db_query("update :table_configuration set configuration_value = '" . tep_db_input($configuration_value) . "', last_modified = now() where configuration_id = '" . (int)$cID . "'");
 
         tep_redirect(tep_href_link('configuration.php', 'gID=' . $_GET['gID'] . '&cID=' . $cID));
         break;
@@ -29,7 +29,7 @@
 
   $gID = (isset($_GET['gID'])) ? $_GET['gID'] : 1;
 
-  $cfg_group_query = tep_db_query("select configuration_group_title from " . TABLE_CONFIGURATION_GROUP . " where configuration_group_id = '" . (int)$gID . "'");
+  $cfg_group_query = tep_db_query("select configuration_group_title from :table_configuration_group where configuration_group_id = '" . (int)$gID . "'");
   $cfg_group = tep_db_fetch_array($cfg_group_query);
 
   require('includes/template_top.php');
@@ -54,7 +54,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $configuration_query = tep_db_query("select configuration_id, configuration_title, configuration_value, use_function from " . TABLE_CONFIGURATION . " where configuration_group_id = '" . (int)$gID . "' order by sort_order");
+  $configuration_query = tep_db_query("select configuration_id, configuration_title, configuration_value, use_function from :table_configuration where configuration_group_id = '" . (int)$gID . "' order by sort_order");
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     if (tep_not_null($configuration['use_function'])) {
       $use_function = $configuration['use_function'];
@@ -73,7 +73,7 @@
     }
 
     if ((!isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $configuration['configuration_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
-      $cfg_extra_query = tep_db_query("select configuration_key, configuration_description, date_added, last_modified, use_function, set_function from " . TABLE_CONFIGURATION . " where configuration_id = '" . (int)$configuration['configuration_id'] . "'");
+      $cfg_extra_query = tep_db_query("select configuration_key, configuration_description, date_added, last_modified, use_function, set_function from :table_configuration where configuration_id = '" . (int)$configuration['configuration_id'] . "'");
       $cfg_extra = tep_db_fetch_array($cfg_extra_query);
 
       $cInfo_array = array_merge($configuration, $cfg_extra);

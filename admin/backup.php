@@ -17,7 +17,7 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'forget':
-        tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key = 'DB_LAST_RESTORE'");
+        tep_db_query("delete from :table_configuration where configuration_key = 'DB_LAST_RESTORE'");
 
         $messageStack->add_session(SUCCESS_LAST_RESTORE_CLEARED, 'success');
 
@@ -100,7 +100,7 @@
           fputs($fp, $schema);
 
 // dump the data
-          if ( ($table != TABLE_SESSIONS ) && ($table != TABLE_WHOS_ONLINE) ) {
+          if ( ($table != tep_db_table_name('sessions') ) && ($table != tep_db_table_name('whos_online')) ) {
             $rows_query = tep_db_query("select " . implode(',', $table_list) . " from " . $table);
             while ($rows = tep_db_fetch_array($rows_query)) {
               $schema = 'insert into ' . $table . ' (' . implode(', ', $table_list) . ') values (';
@@ -266,11 +266,11 @@
 
           tep_session_close();
 
-          tep_db_query("delete from " . TABLE_WHOS_ONLINE);
-          tep_db_query("delete from " . TABLE_SESSIONS);
+          tep_db_query("delete from :table_whos_online");
+          tep_db_query("delete from :table_sessions");
 
-          tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key = 'DB_LAST_RESTORE'");
-          tep_db_query("insert into " . TABLE_CONFIGURATION . " values (null, 'Last Database Restore', 'DB_LAST_RESTORE', '" . $read_from . "', 'Last database restore file', '6', '0', null, now(), '', '')");
+          tep_db_query("delete from :table_configuration where configuration_key = 'DB_LAST_RESTORE'");
+          tep_db_query("insert into :table_configuration values (null, 'Last Database Restore', 'DB_LAST_RESTORE', '" . $read_from . "', 'Last database restore file', '6', '0', null, now(), '', '')");
 
           if (isset($remove_raw) && ($remove_raw == true)) {
             unlink($restore_from);

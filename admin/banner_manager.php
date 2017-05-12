@@ -82,13 +82,13 @@
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
-            tep_db_perform(TABLE_BANNERS, $sql_data_array);
+            tep_db_perform(':table_banners', $sql_data_array);
 
             $banners_id = tep_db_insert_id();
 
             $messageStack->add_session(SUCCESS_BANNER_INSERTED, 'success');
           } elseif ($action == 'update') {
-            tep_db_perform(TABLE_BANNERS, $sql_data_array, 'update', "banners_id = '" . (int)$banners_id . "'");
+            tep_db_perform(':table_banners', $sql_data_array, 'update', "banners_id = '" . (int)$banners_id . "'");
 
             $messageStack->add_session(SUCCESS_BANNER_UPDATED, 'success');
           }
@@ -96,15 +96,15 @@
           if (tep_not_null($expires_date)) {
             $expires_date = substr($expires_date, 0, 4) . substr($expires_date, 5, 2) . substr($expires_date, 8, 2);
 
-            tep_db_query("update " . TABLE_BANNERS . " set expires_date = '" . tep_db_input($expires_date) . "', expires_impressions = null where banners_id = '" . (int)$banners_id . "'");
+            tep_db_query("update :table_banners set expires_date = '" . tep_db_input($expires_date) . "', expires_impressions = null where banners_id = '" . (int)$banners_id . "'");
           } elseif (tep_not_null($expires_impressions)) {
-            tep_db_query("update " . TABLE_BANNERS . " set expires_impressions = '" . tep_db_input($expires_impressions) . "', expires_date = null where banners_id = '" . (int)$banners_id . "'");
+            tep_db_query("update :table_banners set expires_impressions = '" . tep_db_input($expires_impressions) . "', expires_date = null where banners_id = '" . (int)$banners_id . "'");
           }
 
           if (tep_not_null($date_scheduled)) {
             $date_scheduled = substr($date_scheduled, 0, 4) . substr($date_scheduled, 5, 2) . substr($date_scheduled, 8, 2);
 
-            tep_db_query("update " . TABLE_BANNERS . " set status = '0', date_scheduled = '" . tep_db_input($date_scheduled) . "' where banners_id = '" . (int)$banners_id . "'");
+            tep_db_query("update :table_banners set status = '0', date_scheduled = '" . tep_db_input($date_scheduled) . "' where banners_id = '" . (int)$banners_id . "'");
           }
 
           tep_redirect(tep_href_link('banner_manager.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'bID=' . $banners_id));
@@ -116,7 +116,7 @@
         $banners_id = tep_db_prepare_input($_GET['bID']);
 
         if (isset($_POST['delete_image']) && ($_POST['delete_image'] == 'on')) {
-          $banner_query = tep_db_query("select banners_image from " . TABLE_BANNERS . " where banners_id = '" . (int)$banners_id . "'");
+          $banner_query = tep_db_query("select banners_image from :table_banners where banners_id = '" . (int)$banners_id . "'");
           $banner = tep_db_fetch_array($banner_query);
 
           if (is_file(DIR_FS_CATALOG_IMAGES . $banner['banners_image'])) {
@@ -130,8 +130,8 @@
           }
         }
 
-        tep_db_query("delete from " . TABLE_BANNERS . " where banners_id = '" . (int)$banners_id . "'");
-        tep_db_query("delete from " . TABLE_BANNERS_HISTORY . " where banners_id = '" . (int)$banners_id . "'");
+        tep_db_query("delete from :table_banners where banners_id = '" . (int)$banners_id . "'");
+        tep_db_query("delete from :table_banners_history where banners_id = '" . (int)$banners_id . "'");
 
         if (function_exists('imagecreate') && tep_not_null($banner_extension)) {
           if (is_file('images/graphs/banner_infobox-' . $banners_id . '.' . $banner_extension)) {
@@ -218,7 +218,7 @@ function popupImageWindow(url) {
 
       $bID = tep_db_prepare_input($_GET['bID']);
 
-      $banner_query = tep_db_query("select banners_title, banners_url, banners_image, banners_group, banners_html_text, status, date_format(date_scheduled, '%Y/%m/%d') as date_scheduled, date_format(expires_date, '%Y/%m/%d') as expires_date, expires_impressions, date_status_change from " . TABLE_BANNERS . " where banners_id = '" . (int)$bID . "'");
+      $banner_query = tep_db_query("select banners_title, banners_url, banners_image, banners_group, banners_html_text, status, date_format(date_scheduled, '%Y/%m/%d') as date_scheduled, date_format(expires_date, '%Y/%m/%d') as expires_date, expires_impressions, date_status_change from :table_banners where banners_id = '" . (int)$bID . "'");
       $banner = tep_db_fetch_array($banner_query);
 
       $bInfo->objectInfo($banner);
@@ -227,7 +227,7 @@ function popupImageWindow(url) {
     }
 
     $groups_array = array();
-    $groups_query = tep_db_query("select distinct banners_group from " . TABLE_BANNERS . " order by banners_group");
+    $groups_query = tep_db_query("select distinct banners_group from :table_banners order by banners_group");
     while ($groups = tep_db_fetch_array($groups_query)) {
       $groups_array[] = array('id' => $groups['banners_group'], 'text' => $groups['banners_group']);
     }
@@ -323,11 +323,11 @@ $('#expires_date').datepicker({
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $banners_query_raw = "select banners_id, banners_title, banners_image, banners_group, status, expires_date, expires_impressions, date_status_change, date_scheduled, date_added from " . TABLE_BANNERS . " order by banners_title, banners_group";
+    $banners_query_raw = "select banners_id, banners_title, banners_image, banners_group, status, expires_date, expires_impressions, date_status_change, date_scheduled, date_added from :table_banners order by banners_title, banners_group";
     $banners_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $banners_query_raw, $banners_query_numrows);
     $banners_query = tep_db_query($banners_query_raw);
     while ($banners = tep_db_fetch_array($banners_query)) {
-      $info_query = tep_db_query("select sum(banners_shown) as banners_shown, sum(banners_clicked) as banners_clicked from " . TABLE_BANNERS_HISTORY . " where banners_id = '" . (int)$banners['banners_id'] . "'");
+      $info_query = tep_db_query("select sum(banners_shown) as banners_shown, sum(banners_clicked) as banners_clicked from :table_banners_history where banners_id = '" . (int)$banners['banners_id'] . "'");
       $info = tep_db_fetch_array($info_query);
 
       if ((!isset($_GET['bID']) || (isset($_GET['bID']) && ($_GET['bID'] == $banners['banners_id']))) && !isset($bInfo) && (substr($action, 0, 3) != 'new')) {

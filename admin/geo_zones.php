@@ -21,7 +21,7 @@
         $zone_country_id = tep_db_prepare_input($_POST['zone_country_id']);
         $zone_id = tep_db_prepare_input($_POST['zone_id']);
 
-        tep_db_query("insert into " . TABLE_ZONES_TO_GEO_ZONES . " (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . (int)$zone_country_id . "', '" . (int)$zone_id . "', '" . (int)$zID . "', now())");
+        tep_db_query("insert into :table_zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . (int)$zone_country_id . "', '" . (int)$zone_id . "', '" . (int)$zID . "', now())");
         $new_subzone_id = tep_db_insert_id();
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
@@ -32,14 +32,14 @@
         $zone_country_id = tep_db_prepare_input($_POST['zone_country_id']);
         $zone_id = tep_db_prepare_input($_POST['zone_id']);
 
-        tep_db_query("update " . TABLE_ZONES_TO_GEO_ZONES . " set geo_zone_id = '" . (int)$zID . "', zone_country_id = '" . (int)$zone_country_id . "', zone_id = " . (tep_not_null($zone_id) ? "'" . (int)$zone_id . "'" : 'null') . ", last_modified = now() where association_id = '" . (int)$sID . "'");
+        tep_db_query("update :table_zones_to_geo_zones set geo_zone_id = '" . (int)$zID . "', zone_country_id = '" . (int)$zone_country_id . "', zone_id = " . (tep_not_null($zone_id) ? "'" . (int)$zone_id . "'" : 'null') . ", last_modified = now() where association_id = '" . (int)$sID . "'");
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
         break;
       case 'deleteconfirm_sub':
         $sID = tep_db_prepare_input($_GET['sID']);
 
-        tep_db_query("delete from " . TABLE_ZONES_TO_GEO_ZONES . " where association_id = '" . (int)$sID . "'");
+        tep_db_query("delete from :table_zones_to_geo_zones where association_id = '" . (int)$sID . "'");
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage']));
         break;
@@ -54,7 +54,7 @@
         $geo_zone_name = tep_db_prepare_input($_POST['geo_zone_name']);
         $geo_zone_description = tep_db_prepare_input($_POST['geo_zone_description']);
 
-        tep_db_query("insert into " . TABLE_GEO_ZONES . " (geo_zone_name, geo_zone_description, date_added) values ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', now())");
+        tep_db_query("insert into :table_geo_zones (geo_zone_name, geo_zone_description, date_added) values ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', now())");
         $new_zone_id = tep_db_insert_id();
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
@@ -64,15 +64,15 @@
         $geo_zone_name = tep_db_prepare_input($_POST['geo_zone_name']);
         $geo_zone_description = tep_db_prepare_input($_POST['geo_zone_description']);
 
-        tep_db_query("update " . TABLE_GEO_ZONES . " set geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . (int)$zID . "'");
+        tep_db_query("update :table_geo_zones set geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . (int)$zID . "'");
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
         break;
       case 'deleteconfirm_zone':
         $zID = tep_db_prepare_input($_GET['zID']);
 
-        tep_db_query("delete from " . TABLE_GEO_ZONES . " where geo_zone_id = '" . (int)$zID . "'");
-        tep_db_query("delete from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . (int)$zID . "'");
+        tep_db_query("delete from :table_geo_zones where geo_zone_id = '" . (int)$zID . "'");
+        tep_db_query("delete from :table_zones_to_geo_zones where geo_zone_id = '" . (int)$zID . "'");
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage']));
         break;
@@ -136,7 +136,7 @@ function update_zone(theForm) {
               </tr>
 <?php
     $rows = 0;
-    $zones_query_raw = "select a.association_id, a.zone_country_id, c.countries_name, a.zone_id, a.geo_zone_id, a.last_modified, a.date_added, z.zone_name from " . TABLE_ZONES_TO_GEO_ZONES . " a left join " . TABLE_COUNTRIES . " c on a.zone_country_id = c.countries_id left join " . TABLE_ZONES . " z on a.zone_id = z.zone_id where a.geo_zone_id = " . $_GET['zID'] . " order by association_id";
+    $zones_query_raw = "select a.association_id, a.zone_country_id, c.countries_name, a.zone_id, a.geo_zone_id, a.last_modified, a.date_added, z.zone_name from :table_zones_to_geo_zones a left join :table_countries c on a.zone_country_id = c.countries_id left join :table_zones z on a.zone_id = z.zone_id where a.geo_zone_id = " . $_GET['zID'] . " order by association_id";
     $zones_split = new splitPageResults($_GET['spage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_query_raw, $zones_query_numrows);
     $zones_query = tep_db_query($zones_query_raw);
     while ($zones = tep_db_fetch_array($zones_query)) {
@@ -178,12 +178,12 @@ function update_zone(theForm) {
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $zones_query_raw = "select geo_zone_id, geo_zone_name, geo_zone_description, last_modified, date_added from " . TABLE_GEO_ZONES . " order by geo_zone_name";
+    $zones_query_raw = "select geo_zone_id, geo_zone_name, geo_zone_description, last_modified, date_added from :table_geo_zones order by geo_zone_name";
     $zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_query_raw, $zones_query_numrows);
     $zones_query = tep_db_query($zones_query_raw);
     while ($zones = tep_db_fetch_array($zones_query)) {
       if ((!isset($_GET['zID']) || (isset($_GET['zID']) && ($_GET['zID'] == $zones['geo_zone_id']))) && !isset($zInfo) && (substr($action, 0, 3) != 'new')) {
-        $num_zones_query = tep_db_query("select count(*) as num_zones from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . (int)$zones['geo_zone_id'] . "' group by geo_zone_id");
+        $num_zones_query = tep_db_query("select count(*) as num_zones from :table_zones_to_geo_zones where geo_zone_id = '" . (int)$zones['geo_zone_id'] . "' group by geo_zone_id");
         $num_zones = tep_db_fetch_array($num_zones_query);
 
         if ($num_zones['num_zones'] > 0) {

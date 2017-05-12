@@ -31,7 +31,7 @@
         $expdate = tep_db_prepare_input($_POST['expdate']);
 
         if (substr($specials_price, -1) == '%') {
-          $new_special_insert_query = tep_db_query("select products_id, products_price from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
+          $new_special_insert_query = tep_db_query("select products_id, products_price from :table_products where products_id = '" . (int)$products_id . "'");
           $new_special_insert = tep_db_fetch_array($new_special_insert_query);
 
           $products_price = $new_special_insert['products_price'];
@@ -43,7 +43,7 @@
           $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
         }
 
-        tep_db_query("insert into " . TABLE_SPECIALS . " (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", '1')");
+        tep_db_query("insert into :table_specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", '1')");
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page']));
         break;
@@ -60,14 +60,14 @@
           $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
         }
 
-        tep_db_query("update " . TABLE_SPECIALS . " set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . " where specials_id = '" . (int)$specials_id . "'");
+        tep_db_query("update :table_specials set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . " where specials_id = '" . (int)$specials_id . "'");
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page'] . '&sID=' . $specials_id));
         break;
       case 'deleteconfirm':
         $specials_id = tep_db_prepare_input($_GET['sID']);
 
-        tep_db_query("delete from " . TABLE_SPECIALS . " where specials_id = '" . (int)$specials_id . "'");
+        tep_db_query("delete from :table_specials where specials_id = '" . (int)$specials_id . "'");
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page']));
         break;
@@ -92,7 +92,7 @@
     if ( ($action == 'edit') && isset($_GET['sID']) ) {
       $form_action = 'update';
 
-      $product_query = tep_db_query("select p.products_id, pd.products_name, p.products_price, s.specials_new_products_price, s.expires_date from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_SPECIALS . " s where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = s.products_id and s.specials_id = '" . (int)$_GET['sID'] . "'");
+      $product_query = tep_db_query("select p.products_id, pd.products_name, p.products_price, s.specials_new_products_price, s.expires_date from :table_products p, :table_products_description pd, :table_specials s where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = s.products_id and s.specials_id = '" . (int)$_GET['sID'] . "'");
       $product = tep_db_fetch_array($product_query);
 
       $sInfo = new objectInfo($product);
@@ -102,7 +102,7 @@
 // create an array of products on special, which will be excluded from the pull down menu of products
 // (when creating a new product on special)
       $specials_array = array();
-      $specials_query = tep_db_query("select p.products_id from " . TABLE_PRODUCTS . " p, " . TABLE_SPECIALS . " s where s.products_id = p.products_id");
+      $specials_query = tep_db_query("select p.products_id from :table_products p, :table_specials s where s.products_id = p.products_id");
       while ($specials = tep_db_fetch_array($specials_query)) {
         $specials_array[] = $specials['products_id'];
       }
@@ -154,12 +154,12 @@ $('#expdate').datepicker({
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $specials_query_raw = "select p.products_id, pd.products_name, p.products_price, s.specials_id, s.specials_new_products_price, s.specials_date_added, s.specials_last_modified, s.expires_date, s.date_status_change, s.status from " . TABLE_PRODUCTS . " p, " . TABLE_SPECIALS . " s, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = s.products_id order by pd.products_name";
+    $specials_query_raw = "select p.products_id, pd.products_name, p.products_price, s.specials_id, s.specials_new_products_price, s.specials_date_added, s.specials_last_modified, s.expires_date, s.date_status_change, s.status from :table_products p, :table_specials s, :table_products_description pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = s.products_id order by pd.products_name";
     $specials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $specials_query_raw, $specials_query_numrows);
     $specials_query = tep_db_query($specials_query_raw);
     while ($specials = tep_db_fetch_array($specials_query)) {
       if ((!isset($_GET['sID']) || (isset($_GET['sID']) && ($_GET['sID'] == $specials['specials_id']))) && !isset($sInfo)) {
-        $products_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$specials['products_id'] . "'");
+        $products_query = tep_db_query("select products_image from :table_products where products_id = '" . (int)$specials['products_id'] . "'");
         $products = tep_db_fetch_array($products_query);
         $sInfo_array = array_merge($specials, $products);
         $sInfo = new objectInfo($sInfo_array);
