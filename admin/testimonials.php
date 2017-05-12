@@ -19,7 +19,7 @@
       case 'setflag':
         if ( ($_GET['flag'] == '0') || ($_GET['flag'] == '1') ) {
           if (isset($_GET['tID'])) {
-            tep_db_query("update testimonials set testimonials_status = '" . (int)$_GET['flag'] . "' where testimonials_id = '" . (int)$_GET['tID'] . "'");
+            tep_db_query("update :table_testimonials set testimonials_status = '" . (int)$_GET['flag'] . "' where testimonials_id = '" . (int)$_GET['tID'] . "'");
           }
         }
 
@@ -30,16 +30,16 @@
         $testimonials_text = tep_db_prepare_input($_POST['testimonials_text']);
         $testimonials_status = tep_db_prepare_input($_POST['testimonials_status']);
 
-        tep_db_query("update testimonials set testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
-        tep_db_query("update testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
+        tep_db_query("update :table_testimonials set testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
+        tep_db_query("update :table_testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials_id));
         break;
       case 'deleteconfirm':
         $testimonials_id = tep_db_prepare_input($_GET['tID']);
 
-        tep_db_query("delete from testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
-        tep_db_query("delete from testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
+        tep_db_query("delete from :table_testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
+        tep_db_query("delete from :table_testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page']));
         break;
@@ -48,9 +48,9 @@
         $customers_name = tep_db_prepare_input($_POST['customer_name']);
         $testimonial = tep_db_prepare_input($_POST['testimonials_text']);
 
-        tep_db_query("insert into testimonials (customers_name, date_added, testimonials_status) values ('" . tep_db_input($customers_name) . "', now(), 1)");
+        tep_db_query("insert into :table_testimonials (customers_name, date_added, testimonials_status) values ('" . tep_db_input($customers_name) . "', now(), 1)");
         $insert_id = tep_db_insert_id();
-        tep_db_query("insert into testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
+        tep_db_query("insert into :table_testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
 
         tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params(array('action'))));
         break;
@@ -73,7 +73,7 @@
   if ($action == 'edit') {
     $tID = tep_db_prepare_input($_GET['tID']);
 
-    $testimonials_query = tep_db_query("select t.testimonials_id, t.customers_name, t.date_added, t.last_modified, td.testimonials_text, t.testimonials_status from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
+    $testimonials_query = tep_db_query("select t.testimonials_id, t.customers_name, t.date_added, t.last_modified, td.testimonials_text, t.testimonials_status from :table_testimonials t, :table_testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
     $testimonials = tep_db_fetch_array($testimonials_query);
 
     $tInfo = new objectInfo($testimonials);
@@ -142,12 +142,12 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $testimonials_query_raw = "select testimonials_id, customers_name, date_added, last_modified, testimonials_status from testimonials order by testimonials_id DESC";
+    $testimonials_query_raw = "select testimonials_id, customers_name, date_added, last_modified, testimonials_status from :table_testimonials order by testimonials_id DESC";
     $testimonials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $testimonials_query_raw, $testimonials_query_numrows);
     $testimonials_query = tep_db_query($testimonials_query_raw);
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
       if ((!isset($_GET['tID']) || (isset($_GET['tID']) && ($_GET['tID'] == $testimonials['testimonials_id']))) && !isset($tInfo)) {
-        $testimonials_text_query = tep_db_query("select t.customers_name, length(td.testimonials_text) as testimonials_text_size from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$testimonials['testimonials_id'] . "' and t.testimonials_id = td.testimonials_id");
+        $testimonials_text_query = tep_db_query("select t.customers_name, length(td.testimonials_text) as testimonials_text_size from :table_testimonials t, :table_testimonials_description td where t.testimonials_id = '" . (int)$testimonials['testimonials_id'] . "' and t.testimonials_id = td.testimonials_id");
         $testimonials_text = tep_db_fetch_array($testimonials_text_query);
 
         $tInfo_array = array_merge($testimonials, $testimonials_text);

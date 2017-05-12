@@ -57,8 +57,8 @@ EOD;
         if ( !in_array('d_paypal_app.php', $admin_dashboard_modules) ) {
           $admin_dashboard_modules[] = 'd_paypal_app.php';
 
-          tep_db_query("update configuration set configuration_value = '" . tep_db_input(implode(';', $admin_dashboard_modules)) . "' where configuration_key = 'MODULE_ADMIN_DASHBOARD_INSTALLED'");
-          tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+          tep_db_query("update :table_configuration set configuration_value = '" . tep_db_input(implode(';', $admin_dashboard_modules)) . "' where configuration_key = 'MODULE_ADMIN_DASHBOARD_INSTALLED'");
+          tep_db_query("insert into :table_configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
         }
       }
 
