@@ -47,9 +47,6 @@
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
 
-// include the list of project database tables
-  require('includes/database_tables.php');
-
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' 'fixer' or ''
 // fixer is the lastest added, more details at http://fixer.io
