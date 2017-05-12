@@ -54,9 +54,6 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
-// include the list of project database tables
-  require('includes/database_tables.php');
-
 // include the database functions
   require('includes/functions/database.php');
 
