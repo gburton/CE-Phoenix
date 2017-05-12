@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -18,6 +18,8 @@
   var dbUsername;
   var dbPassword;
   var dbName;
+  var dbTablePrefix;
+  var dbImportSample;
 
   var formSubmited = false;
   var formSuccess = false;
@@ -33,10 +35,12 @@
 
     $('#mBoxContents').html('<p><i class="fa fa-spinner fa-spin fa-2x"></i> Testing database connection..</p>');
 
-    dbServer = $('#DB_SERVER').val();
-    dbUsername = $('#DB_SERVER_USERNAME').val();
-    dbPassword = $('#DB_SERVER_PASSWORD').val();
-    dbName = $('#DB_DATABASE').val();
+    dbServer = $('#dbServer').val();
+    dbUsername = $('#userName').val();
+    dbPassword = $('#passWord').val();
+    dbName = $('#dbName').val();
+    dbTablePrefix = $('#dbTablePrefix').val();
+    dbImportSample = $('#dbImportSample').val();
 
     $.get('rpc.php?action=dbCheck&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password=' + encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName), function (response) {
       var result = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response);
@@ -45,7 +49,7 @@
       if (result[0] == '1') {
         $('#mBoxContents').html('<p><i class="fa fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</p>');
 
-        $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName), function (response2) {
+        $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName) + '&tableprefix=' + encodeURIComponent(dbTablePrefix) + '&importsample=' + encodeURIComponent(dbImportSample), function (response2) {
           var result2 = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response2);
           result2.shift();
 
@@ -116,7 +120,7 @@
     </div>
   </div>
 </div>
-  
+
 <div class="clearfix"></div>
 
 <div class="row">
@@ -127,54 +131,69 @@
         <div id="mBoxContents"></div>
       </div>
     </div>
-    
+
     <div class="page-header">
       <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
       <h2>Database Server</h2>
     </div>
-    
+
     <form name="install" id="installForm" action="install.php?step=2" method="post" class="form-horizontal" role="form">
-    
+
       <div class="form-group has-feedback">
         <label for="dbServer" class="control-label col-xs-3">Database Server</label>
         <div class="col-xs-9">
-          <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The address of the database server in the form of a hostname or IP address.</span>
+          <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer"'); ?>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
+          <span class="help-block">The address of the database server in the form of a hostname or IP address. <i>(e.g. localhost or 127.0.0.1)</i></span>
         </div>
       </div>
-    
+
       <div class="form-group has-feedback">
         <label for="userName" class="control-label col-xs-3">Username</label>
         <div class="col-xs-9">
-          <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName"'); ?>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The username used to connect to the database server.</span>
         </div>
       </div>
-    
-      <div class="form-group has-feedback">
+
+      <div class="form-group">
         <label for="passWord" class="control-label col-xs-3">Password</label>
         <div class="col-xs-9">
-          <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', 'id="passWord"'); ?>
           <span class="help-block">The password that is used together with the username to connect to the database server.</span>
         </div>
       </div>
-    
+
       <div class="form-group has-feedback">
         <label for="dbName" class="control-label col-xs-3">Database Name</label>
         <div class="col-xs-9">
-          <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName"'); ?>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The name of the database to hold the data in.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dbTablePrefix" class="control-label col-xs-3">Table Name Prefix</label>
+        <div class="col-xs-9">
+          <?php echo osc_draw_input_field('DB_TABLE_PREFIX', NULL, 'id="dbTablePrefix"'); ?>
+          <span class="help-block">The name to prefix table names with. <i>(e.g. osc_ or empty for no prefix)</i></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dbImportSample" class="control-label col-xs-3">Import Sample Data</label>
+        <div class="col-xs-9">
+          <?php echo osc_draw_select_menu('DB_IMPORT_SAMPLE', array(array('id' => '0', 'text' => 'Skip sample data'), array('id' => '1', 'text' => 'Import sample data')), '1', 'id="dbImportSample"'); ?>
+          <span class="help-block">Import sample product and category data?</span>
         </div>
       </div>
 
       <p><?php echo osc_draw_button('Continue To Step 2', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
     </form>
-    
+
   </div>
   <div class="col-xs-12 col-sm-pull-9 col-sm-3">
     <div class="panel panel-success">
@@ -187,5 +206,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>

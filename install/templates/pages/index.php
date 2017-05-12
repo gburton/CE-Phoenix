@@ -9,9 +9,6 @@
 
   Released under the GNU General Public License
 */
-
-  $compat_register_globals = true;
-
 ?>
 
 <div class="alert alert-info">
@@ -48,14 +45,8 @@
 
     $warning_array = array();
 
-    if (function_exists('ini_get')) {
-      if ($compat_register_globals == false) {
-        $warning_array['register_globals'] = 'Compatibility with register_globals is supported from PHP 4.3+. This setting <u>must be enabled</u> due to an older PHP version being used.';
-      }
-    }
-
     if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
-      $warning_array['mysql'] = 'The MySQL[i] extension is required but is not installed. Please enable it to continue installation.';
+      $warning_array['mysql'] = 'The MySQLi or older MySQL extension is required but is not installed. Please enable either to continue installation.';
     }
 
     if ((sizeof($configfile_array) > 0) || (sizeof($warning_array) > 0)) {
@@ -177,11 +168,6 @@ $(function() {
             <th colspan="3">PHP Settings</th>
           </tr>
           <tr>
-            <th>register_globals</th>
-            <td align="right"><?php echo (((int)ini_get('register_globals') == 0) ? 'Off' : 'On'); ?></td>
-            <td align="right"><?php echo (($compat_register_globals == true) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
-          </tr>
-          <tr>
             <th>magic_quotes</th>
             <td align="right"><?php echo (((int)ini_get('magic_quotes') == 0) ? 'Off' : 'On'); ?></td>
             <td align="right"><?php echo (((int)ini_get('magic_quotes') == 0) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
@@ -210,7 +196,7 @@ $(function() {
             <th colspan="2">Required PHP Extensions</th>
           </tr>
           <tr>
-            <th>MySQL</th>
+            <th>MySQL<?php echo extension_loaded('mysqli') ? 'i' : ''; ?></th>
             <td align="right"><?php echo (extension_loaded('mysql') || extension_loaded('mysqli') ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
           </tr>
         </table>

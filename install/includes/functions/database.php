@@ -24,6 +24,8 @@
 
     if ( !mysqli_connect_errno() ) {
       mysqli_set_charset($$link, 'utf8');
+
+      @mysqli_query($$link, 'set session sql_mode=""');
     } else {
       $db_error = mysqli_connect_error();
     }
@@ -50,6 +52,10 @@
   function osc_db_query($query, $link = 'db_link') {
     global $$link;
 
+    if (defined('OSCOM_DB_TABLE_PREFIX')) {
+      $query = str_replace(':table_', OSCOM_DB_TABLE_PREFIX, $query);
+    }
+
     return mysqli_query($$link, $query);
   }
 
@@ -57,7 +63,7 @@
     return mysqli_num_rows($db_query);
   }
 
-  function osc_db_install($database, $sql_file, $link = 'db_link') {
+  function osc_db_install($database, $sql_file, $table_prefix = null, $link = 'db_link') {
     global $$link, $db_error;
 
     $db_error = false;
@@ -84,20 +90,20 @@
       $sql_length = strlen($restore_query);
       $pos = strpos($restore_query, ';');
       for ($i=$pos; $i<$sql_length; $i++) {
-        if ($restore_query[0] == '#') {
+        if (substr($restore_query, 0, 1) == '#') {
           $restore_query = ltrim(substr($restore_query, strpos($restore_query, "\n")));
           $sql_length = strlen($restore_query);
           $i = strpos($restore_query, ';')-1;
           continue;
         }
-        if ($restore_query[($i+1)] == "\n") {
+        if (substr($restore_query, $i+1, 1) == "\n") {
           for ($j=($i+2); $j<$sql_length; $j++) {
-            if (trim($restore_query[$j]) != '') {
+            if (trim(substr($restore_query, $j, 1)) != '') {
               $next = substr($restore_query, $j, 6);
-              if ($next[0] == '#') {
+              if (substr($next, 0, 1) == '#') {
 // find out where the break position is so we can remove this line (#comment line)
                 for ($k=$j; $k<$sql_length; $k++) {
-                  if ($restore_query[$k] == "\n") break;
+                  if (substr($restore_query, $k, 1) == "\n") break;
                 }
                 $query = substr($restore_query, 0, $i+1);
                 $restore_query = substr($restore_query, $k);
@@ -124,7 +130,19 @@
       }
 
       for ($i=0; $i<sizeof($sql_array); $i++) {
-        if (!osc_db_query($sql_array[$i])) {
+        $sql_query = $sql_array[$i];
+
+        if (isset($table_prefix) && !empty($table_prefix)) {
+          if (strtoupper(substr($sql_query, 0, 20)) == 'DROP TABLE IF EXISTS') {
+            $sql_query = 'DROP TABLE IF EXISTS ' . $table_prefix . substr($sql_query, 21);
+          } elseif (strtoupper(substr($sql_query, 0, 12)) == 'CREATE TABLE') {
+            $sql_query = 'CREATE TABLE ' . $table_prefix . substr($sql_query, 13);
+          } elseif (strtoupper(substr($sql_query, 0, 11)) == 'INSERT INTO') {
+            $sql_query = 'INSERT INTO ' . $table_prefix . substr($sql_query, 12);
+          }
+        }
+
+        if (!osc_db_query($sql_query)) {
           $db_error = mysqli_error($$link);
 
           return false;

@@ -66,16 +66,16 @@
         <label for="wwwAddress" class="control-label col-xs-3">WWW Address</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('HTTP_WWW_ADDRESS', $www_location, 'required aria-required="true" id="wwwAddress" placeholder="http://"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The web address to the online store.</span>
         </div>
       </div>
-    
+
       <div class="form-group has-feedback">
         <label for="webRoot" class="control-label col-xs-3">Webserver Root Directory</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('DIR_FS_DOCUMENT_ROOT', $dir_fs_www_root, 'required aria-required="true" id="webRoot"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The directory where the online store is installed on the server.</span>
         </div>
       </div>
@@ -103,5 +103,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>

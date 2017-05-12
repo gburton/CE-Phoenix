@@ -62,44 +62,44 @@
         <label for="storeName" class="control-label col-xs-3">Store Name</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_NAME', NULL, 'required aria-required="true" id="storeName" placeholder="Your Store Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The name of the online store that is presented to the public.</span>
         </div>
       </div>
-      
+
 
       <div class="form-group has-feedback">
         <label for="ownerName" class="control-label col-xs-3">Store Owner Name</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_NAME', NULL, 'required aria-required="true" id="ownerName" placeholder="Your Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The name of the store owner that is presented to the public.</span>
         </div>
       </div>
-      
+
       <div class="form-group has-feedback">
         <label for="ownerEmail" class="control-label col-xs-3">Store Owner E-Mail Address</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_EMAIL_ADDRESS', NULL, 'required aria-required="true" id="ownerEmail" placeholder="you@yours.com"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The e-mail address of the store owner that is presented to the public.</span>
         </div>
       </div>
-      
+
       <div class="form-group has-feedback">
         <label for="adminUsername" class="control-label col-xs-3">Administrator Username</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_USERNAME', NULL, 'required aria-required="true" id="adminUsername" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The administrator username to use for the administration tool.</span>
         </div>
       </div>
-      
+
       <div class="form-group has-feedback">
         <label for="adminPassword" class="control-label col-xs-3">Administrator Password</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_PASSWORD', NULL, 'required aria-required="true" id="adminPassword"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The password to use for the administrator account.</span>
         </div>
       </div>
@@ -111,7 +111,7 @@
         <label for="adminDir" class="control-label col-xs-3">Administration Directory Name</label>
         <div class="col-xs-9">
           <?php echo osc_draw_input_field('CFG_ADMIN_DIRECTORY', 'admin', 'required aria-required="true" id="adminDir"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">This is the directory where the administration section will be installed. You should change this for security reasons.</span>
         </div>
       </div>
@@ -123,7 +123,7 @@
         <label for="Zulu" class="control-label col-xs-3">Time Zone</label>
         <div class="col-xs-9">
           <?php echo osc_draw_time_zone_select_menu('CFG_TIME_ZONE'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>
           <span class="help-block">The time zone to base the date and time on.</span>
         </div>
       </div>
@@ -152,5 +152,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>
