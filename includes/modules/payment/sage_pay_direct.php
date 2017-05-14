@@ -13,7 +13,7 @@
   class sage_pay_direct {
     var $code, $title, $description, $enabled;
 
-    function sage_pay_direct() {
+    function __construct() {
       global $PHP_SELF, $order;
 
       $this->signature = 'sage_pay|sage_pay_direct|3.0|2.3';

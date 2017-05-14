@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 600;
 
-    function OSCOM_PayPal_LOGIN_Cfg_theme() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_theme_title');

@@ -13,7 +13,7 @@
   class product_notification {
     var $show_choose_audience, $title, $content;
 
-    function product_notification($title, $content) {
+    function __construct($title, $content) {
       $this->show_choose_audience = true;
       $this->title = $title;
       $this->content = $content;

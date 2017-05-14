@@ -55,7 +55,7 @@
                       'zip_code'
                     );
 
-    function OSCOM_PayPal_LOGIN_Cfg_attributes() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->default = implode(';', $this->getAttributes());

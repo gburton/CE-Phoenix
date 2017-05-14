@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 200;
 
-    function OSCOM_PayPal_HS_Cfg_transaction_method() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_hs_transaction_method_title');

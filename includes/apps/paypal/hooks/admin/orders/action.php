@@ -15,7 +15,7 @@
   }
 
   class paypal_hook_admin_orders_action {
-    function paypal_hook_admin_orders_action() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       if ( !isset($OSCOM_PayPal) || !is_object($OSCOM_PayPal) || (get_class($OSCOM_PayPal) != 'OSCOM_PayPal') ) {

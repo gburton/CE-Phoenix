@@ -13,7 +13,7 @@
   class securityCheck_default_language {
     var $type = 'error';
 
-    function securityCheck_default_language() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/default_language.php');

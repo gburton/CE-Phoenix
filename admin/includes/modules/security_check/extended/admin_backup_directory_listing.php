@@ -14,7 +14,7 @@
     var $type = 'error';
     var $has_doc = true;
 
-    function securityCheckExtended_admin_backup_directory_listing() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/admin_backup_directory_listing.php');

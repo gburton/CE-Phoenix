@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function paypoint_secpay() {
+    function __construct() {
       global $order;
 
       $this->signature = 'paypoint|paypoint_secpay|1.0|2.3';

@@ -13,7 +13,7 @@
   class cfg_modules {
     var $_modules = array();
 
-    function cfg_modules() {
+    function __construct() {
       global $PHP_SELF, $language;
 
       $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));

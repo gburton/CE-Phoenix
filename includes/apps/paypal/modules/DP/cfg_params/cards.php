@@ -17,7 +17,7 @@
     var $sort_order = 200;
     var $cards = array('visa' => 'Visa', 'mastercard' => 'MasterCard', 'discover' => 'Discover Card', 'amex' => 'American Express', 'maestro' => 'Maestro');
 
-    function OSCOM_PayPal_DP_Cfg_cards() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_dp_cards_title');

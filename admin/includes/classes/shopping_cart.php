@@ -13,6 +13,9 @@
   class shoppingCart {
     var $contents, $total, $weight;
 
+    function __construct() {
+		}
+
     function shoppingCart() {
       $this->reset();
     }
