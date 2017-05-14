@@ -229,7 +229,7 @@ EOD;
             }
           }
 
-          tep_db_perform(':table_addres_book', $sql_data_array);
+          tep_db_perform(':table_address_book', $sql_data_array);
 
           $address_id = tep_db_insert_id();
 
