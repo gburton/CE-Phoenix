@@ -14,7 +14,7 @@
 
   <h3><?php echo sprintf(MODULE_CONTENT_NEW_PRODUCTS_HEADING, strftime('%B')); ?></h3>
   
-  <div class="row" itemtype="http://schema.org/ItemList">
+  <div class="row list-group" itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />
     <?php 
     while ($new_products = tep_db_fetch_array($new_products_query)) {
