@@ -177,10 +177,10 @@ if ($result == 'VERIFIED')
                 if (DOWNLOAD_ENABLED == 'true')
                 {
                     $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename 
-                                    FROM ".TABLE_PRODUCTS." p
-                                    LEFT JOIN ".TABLE_PRODUCTS_ATTRIBUTES." pa
+                                    FROM :table_products p
+                                    LEFT JOIN :table_products_attributes pa
                                     ON p.products_id=pa.products_id
-                                    LEFT JOIN ".TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD." pad
+                                    LEFT JOIN :table_products_attributes_download pad
                                     ON pa.products_attributes_id=pad.products_attributes_id
                                     WHERE p.products_id = '".tep_get_prid($order->products[$i]['id'])."'";
                     // Will work with only one option for downloadable products
