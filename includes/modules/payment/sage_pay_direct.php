@@ -143,7 +143,7 @@
       $content = '';
 
       if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True' ) {
-        $tokens_query = tep_db_query("select id, card_type, number_filtered, expiry_date from customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' order by date_added");
+        $tokens_query = tep_db_query("select id, card_type, number_filtered, expiry_date from :table_customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' order by date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
           $content .= '<table id="sagepay_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
@@ -280,7 +280,7 @@
 
         if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True' ) {
           if ( isset($_POST['sagepay_card']) && is_numeric($_POST['sagepay_card']) && ($_POST['sagepay_card'] > 0) ) {
-            $token_query = tep_db_query("select sagepay_token from customers_sagepay_tokens where id = '" . (int)$_POST['sagepay_card'] . "' and customers_id = '" . (int)$customer_id . "'");
+            $token_query = tep_db_query("select sagepay_token from :table_customers_sagepay_tokens where id = '" . (int)$_POST['sagepay_card'] . "' and customers_id = '" . (int)$customer_id . "'");
 
             if ( tep_db_num_rows($token_query) == 1 ) {
               $token = tep_db_fetch_array($token_query);
@@ -575,7 +575,7 @@
       if ( isset($sage_pay_response['Token']) && tep_session_is_registered('sagepay_token_cc_number') ) {
         global $sagepay_token_cc_type, $sagepay_token_cc_number, $sagepay_token_cc_expiry_date;
 
-        $check_query = tep_db_query("select id from customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' and sagepay_token = '" . tep_db_input($sage_pay_response['Token']) . "' limit 1");
+        $check_query = tep_db_query("select id from :table_customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' and sagepay_token = '" . tep_db_input($sage_pay_response['Token']) . "' limit 1");
         if ( tep_db_num_rows($check_query) < 1 ) {
           $sql_data_array = array('customers_id' => $customer_id,
                                   'sagepay_token' => $sage_pay_response['Token'],
@@ -1030,7 +1030,7 @@ EOD;
         }
       }
 
-      tep_db_query("delete from customers_sagepay_tokens where id = '" . (int)$token_id . "' and customers_id = '" . (int)$customer_id . "' and sagepay_token = '" . tep_db_prepare_input(tep_db_input($token)) . "'");
+      tep_db_query("delete from :table_customers_sagepay_tokens where id = '" . (int)$token_id . "' and customers_id = '" . (int)$customer_id . "' and sagepay_token = '" . tep_db_prepare_input(tep_db_input($token)) . "'");
 
       return (tep_db_affected_rows() === 1);
     }
