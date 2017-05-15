@@ -116,13 +116,13 @@
         if ( isset($_GET['skcode']) && tep_session_is_registered('sagepay_server_skey_code') && ($_GET['skcode'] == $sagepay_server_skey_code) ) {
           $skcode = tep_db_prepare_input($_GET['skcode']);
 
-          $sp_query = tep_db_query('select verified, transaction_details from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
+          $sp_query = tep_db_query('select verified, transaction_details from :table_sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
 
           if ( tep_db_num_rows($sp_query) ) {
             $sp = tep_db_fetch_array($sp_query);
 
             tep_session_unregister('sagepay_server_skey_code');
-            tep_db_query('delete from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '"');
+            tep_db_query('delete from :table_sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '"');
 
             if ( $sp['verified'] == '1' ) {
               $sagepay_server_transaction_details = $sp['transaction_details'];
@@ -233,16 +233,16 @@
         }
 
         if ($return['Status'] == 'OK') {
-          $sp_query = tep_db_query('select id, securitykey from sagepay_server_securitykeys where code = "' . tep_db_input($sagepay_server_skey_code) . '" limit 1');
+          $sp_query = tep_db_query('select id, securitykey from :table_sagepay_server_securitykeys where code = "' . tep_db_input($sagepay_server_skey_code) . '" limit 1');
 
           if ( tep_db_num_rows($sp_query) ) {
             $sp = tep_db_fetch_array($sp_query);
 
             if ( $sp['securitykey'] != $return['SecurityKey'] ) {
-              tep_db_query('update sagepay_server_securitykeys set securitykey = "' . tep_db_input($return['SecurityKey']) . '", date_added = now() where id = "' . (int)$sp['id'] . '"');
+              tep_db_query('update :table_sagepay_server_securitykeys set securitykey = "' . tep_db_input($return['SecurityKey']) . '", date_added = now() where id = "' . (int)$sp['id'] . '"');
             }
           } else {
-            tep_db_query('insert into sagepay_server_securitykeys (code, securitykey, date_added) values ("' . tep_db_input($sagepay_server_skey_code) . '", "' . tep_db_input($return['SecurityKey']) . '", now())');
+            tep_db_query('insert into :table_sagepay_server_securitykeys (code, securitykey, date_added) values ("' . tep_db_input($sagepay_server_skey_code) . '", "' . tep_db_input($return['SecurityKey']) . '", now())');
           }
 
           if ( MODULE_PAYMENT_SAGE_PAY_SERVER_PROFILE_PAGE == 'Normal' ) {
@@ -380,7 +380,7 @@
     function getParams() {
       if ( tep_db_num_rows(tep_db_query("show tables like 'sagepay_server_securitykeys'")) != 1 ) {
         $sql = <<<EOD
-CREATE TABLE sagepay_server_securitykeys (
+CREATE TABLE :table_sagepay_server_securitykeys (
   id int NOT NULL auto_increment,
   code char(16) NOT NULL,
   securitykey char(10) NOT NULL,
