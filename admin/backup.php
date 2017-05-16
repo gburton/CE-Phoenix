@@ -100,7 +100,7 @@
           fputs($fp, $schema);
 
 // dump the data
-          if ( ($table != tep_db_table_name('sessions') ) && ($table != tep_db_table_name('whos_online')) ) {
+          if ( ($table != tep_db_table_name(':table_sessions') ) && ($table != tep_db_table_name(':table_whos_online')) ) {
             $rows_query = tep_db_query("select " . implode(',', $table_list) . " from " . $table);
             while ($rows = tep_db_fetch_array($rows_query)) {
               $schema = 'insert into ' . $table . ' (' . implode(', ', $table_list) . ') values (';
