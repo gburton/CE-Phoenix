@@ -378,7 +378,7 @@
     }
 
     function getParams() {
-      if ( tep_db_num_rows(tep_db_query("show tables like 'sagepay_server_securitykeys'")) != 1 ) {
+      if ( tep_db_num_rows(tep_db_query("show tables like ':table_sagepay_server_securitykeys'")) != 1 ) {
         $sql = <<<EOD
 CREATE TABLE :table_sagepay_server_securitykeys (
   id int NOT NULL auto_increment,

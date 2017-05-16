@@ -96,7 +96,7 @@
       global $customer_id, $payment;
 
       if ( (MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True') && !tep_session_is_registered('payment') ) {
-        $tokens_query = tep_db_query("select 1 from customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' limit 1");
+        $tokens_query = tep_db_query("select 1 from :table_customers_sagepay_tokens where customers_id = '" . (int)$customer_id . "' limit 1");
 
         if ( tep_db_num_rows($tokens_query) ) {
           $payment = $this->code;
@@ -728,9 +728,9 @@
     }
 
     function getParams() {
-      if ( tep_db_num_rows(tep_db_query("show tables like 'customers_sagepay_tokens'")) != 1 ) {
+      if ( tep_db_num_rows(tep_db_query("show tables like ':table_customers_sagepay_tokens'")) != 1 ) {
         $sql = <<<EOD
-CREATE TABLE customers_sagepay_tokens (
+CREATE TABLE :table_customers_sagepay_tokens (
   id int NOT NULL auto_increment,
   customers_id int NOT NULL,
   sagepay_token char(38) NOT NULL,

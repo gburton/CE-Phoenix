@@ -548,9 +548,9 @@
     }
 
     function getParams() {
-      if ( tep_db_num_rows(tep_db_query("show tables like 'customers_braintree_tokens'")) != 1 ) {
+      if ( tep_db_num_rows(tep_db_query("show tables like ':table_customers_braintree_tokens'")) != 1 ) {
         $sql = <<<EOD
-CREATE TABLE customers_braintree_tokens (
+CREATE TABLE :table_customers_braintree_tokens (
   id int NOT NULL auto_increment,
   customers_id int NOT NULL,
   braintree_token varchar(255) NOT NULL,
