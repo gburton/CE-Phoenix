@@ -12,9 +12,9 @@
 
   require('includes/application_top.php');
 
-  if ( tep_db_num_rows(tep_db_query("show tables like 'oscom_app_paypal_log'")) != 1 ) {
+  if ( tep_db_num_rows(tep_db_query("show tables like ':table_oscom_app_paypal_log'")) != 1 ) {
     $sql = <<<EOD
-CREATE TABLE oscom_app_paypal_log (
+CREATE TABLE :table_oscom_app_paypal_log (
   id int unsigned NOT NULL auto_increment,
   customers_id int NOT NULL,
   module varchar(8) NOT NULL,
