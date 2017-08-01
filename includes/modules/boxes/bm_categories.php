@@ -30,7 +30,7 @@
       }
     }
 
-    function execute() {
+    function getData() {
       global $oscTemplate, $cPath;
 
       $OSCOM_CategoryTree = new category_tree();
@@ -45,7 +45,19 @@
       include('includes/modules/boxes/templates/categories.php');
       $data = ob_get_clean();
 
-      $oscTemplate->addBlock($data, $this->group);
+      return $data;
+    }
+
+    function execute() {
+      global $SID, $oscTemplate;
+
+      if ((USE_CACHE == 'true') && empty($SID)) {
+        $output = $this->cache();
+      } else {
+        $output = $this->getData();
+      }
+
+      $oscTemplate->addBlock($output, $this->group);
     }
 
     function isEnabled() {
@@ -69,5 +81,17 @@
     function keys() {
       return array('MODULE_BOXES_CATEGORIES_STATUS', 'MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT', 'MODULE_BOXES_CATEGORIES_SORT_ORDER');
     }
-  }
 
+    function cache($auto_expire = false, $refresh = false) {
+      global $cPath;
+
+      $cache_output = '';
+      if (($refresh == true) || !read_cache($cache_output, 'categories_box-' . $_SESSION['language'] . '.cache' . $cPath, $auto_expire)) {
+        $cache_output = $this->getData();
+
+        write_cache($cache_output, 'categories_box-' . $_SESSION['language'] . '.cache' . $cPath);
+      }
+
+      return $cache_output;
+    }
+  }
