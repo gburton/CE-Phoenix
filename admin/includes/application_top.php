@@ -15,6 +15,10 @@
 
 // Set the level of error reporting
   error_reporting(E_ALL & ~E_NOTICE);
+  
+  if (defined('E_DEPRECATED')) {
+    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+  }
 
 // check support for register_globals
   if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
