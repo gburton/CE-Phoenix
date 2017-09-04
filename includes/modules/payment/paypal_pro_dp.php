@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -204,7 +204,7 @@
     }
 
     function before_process_paypal() {
-      global $order, $order_totals, $sendto, $response_array;
+      global $_POST, $order, $order_totals, $sendto, $response_array;
 
       if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
         $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
@@ -215,6 +215,7 @@
                         'FIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
                         'LASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
                         'STREET' => $order->billing['street_address'],
+                        'STREET2' => $order->billing['suburb'],
                         'CITY' => $order->billing['city'],
                         'STATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
                         'COUNTRYCODE' => $order->billing['country']['iso_code_2'],
@@ -231,6 +232,7 @@
         if ( is_numeric($sendto) && ($sendto > 0) ) {
           $params['SHIPTONAME'] = $order->delivery['firstname'] . ' ' . $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
+          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
           $params['SHIPTOCITY'] = $order->delivery['city'];
           $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
           $params['SHIPTOCOUNTRYCODE'] = $order->delivery['country']['iso_code_2'];
@@ -282,7 +284,7 @@
     }
 
     function before_process_payflow() {
-      global $cartID, $order, $order_totals, $sendto, $response_array;
+      global $_POST, $cartID, $order, $order_totals, $sendto, $response_array;
 
       if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
         $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
@@ -290,6 +292,7 @@
                         'BILLTOFIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
                         'BILLTOLASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
                         'BILLTOSTREET' => $order->billing['street_address'],
+                        'BILLTOSTREET2' => $order->billing['suburb'],
                         'BILLTOCITY' => $order->billing['city'],
                         'BILLTOSTATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
                         'BILLTOCOUNTRY' => $order->billing['country']['iso_code_2'],
@@ -303,6 +306,7 @@
           $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
           $params['SHIPTOLASTNAME'] = $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
+          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
           $params['SHIPTOCITY'] = $order->delivery['city'];
           $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
           $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
