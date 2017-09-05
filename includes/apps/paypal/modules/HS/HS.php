@@ -18,7 +18,7 @@
     var $_pm_code = 'paypal_pro_hs';
     var $_sort_order = 300;
 
-    function __construct() {
+    function OSCOM_PayPal_HS() {
       global $OSCOM_PayPal;
 
       $this->_title = $OSCOM_PayPal->getDef('module_hs_title');
@@ -31,10 +31,12 @@
         $this->_req_notes[] = $OSCOM_PayPal->getDef('module_hs_error_curl');
       }
 
-      if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && !$OSCOM_PayPal->hasCredentials('HS') ) { // PayPal
-        $this->_req_notes[] = $OSCOM_PayPal->getDef('module_hs_error_credentials');
-      } elseif ( OSCOM_APP_PAYPAL_GATEWAY == '0' ) { // Payflow
-        $this->_req_notes[] = $OSCOM_PayPal->getDef('module_hs_error_payflow');
+      if ( defined('OSCOM_APP_PAYPAL_GATEWAY') ) {
+        if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && !$OSCOM_PayPal->hasCredentials('HS') ) { // PayPal
+          $this->_req_notes[] = $OSCOM_PayPal->getDef('module_hs_error_credentials');
+        } elseif ( OSCOM_APP_PAYPAL_GATEWAY == '0' ) { // Payflow
+          $this->_req_notes[] = $OSCOM_PayPal->getDef('module_hs_error_payflow');
+        }
       }
     }
 

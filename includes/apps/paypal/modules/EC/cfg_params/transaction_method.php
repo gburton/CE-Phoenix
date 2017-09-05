@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 700;
 
-    function __construct() {
+    function OSCOM_PayPal_EC_Cfg_transaction_method() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ec_transaction_method_title');
@@ -26,8 +26,8 @@
     function getSetField() {
       global $OSCOM_PayPal;
 
-      $input = '<input type="radio" id="transactionMethodSelectionAuthorize" name="transaction_method" value="0"' . (OSCOM_APP_PAYPAL_EC_TRANSACTION_METHOD == '0' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionAuthorize">' . $OSCOM_PayPal->getDef('cfg_ec_transaction_method_authorize') . '</label>' .
-               '<input type="radio" id="transactionMethodSelectionSale" name="transaction_method" value="1"' . (OSCOM_APP_PAYPAL_EC_TRANSACTION_METHOD == '1' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionSale">' . $OSCOM_PayPal->getDef('cfg_ec_transaction_method_sale') . '</label>';
+      $input = '<input type="radio" id="transactionMethodSelectionSale" name="transaction_method" value="1"' . (OSCOM_APP_PAYPAL_EC_TRANSACTION_METHOD == '1' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionSale">' . $OSCOM_PayPal->getDef('cfg_ec_transaction_method_sale') . '</label>' .
+               '<input type="radio" id="transactionMethodSelectionAuthorize" name="transaction_method" value="0"' . (OSCOM_APP_PAYPAL_EC_TRANSACTION_METHOD == '0' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionAuthorize">' . $OSCOM_PayPal->getDef('cfg_ec_transaction_method_authorize') . '</label>';
 
       $result = <<<EOT
 <div>

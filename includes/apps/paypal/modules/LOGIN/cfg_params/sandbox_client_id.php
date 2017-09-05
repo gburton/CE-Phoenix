@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 400;
 
-    function __construct() {
+    function OSCOM_PayPal_LOGIN_Cfg_sandbox_client_id() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_sandbox_client_id_title');

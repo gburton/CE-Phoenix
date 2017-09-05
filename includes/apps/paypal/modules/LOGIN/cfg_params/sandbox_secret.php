@@ -14,7 +14,7 @@
     var $default = '';
     var $sort_order = 500;
 
-    function __construct() {
+    function OSCOM_PayPal_LOGIN_Cfg_sandbox_secret() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_sandbox_secret_title');
