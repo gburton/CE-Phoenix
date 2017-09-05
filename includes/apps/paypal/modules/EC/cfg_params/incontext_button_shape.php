@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 230;
 
-    function OSCOM_PayPal_EC_Cfg_incontext_button_shape() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ec_incontext_button_shape_title');

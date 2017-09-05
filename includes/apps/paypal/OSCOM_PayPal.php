@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  include(DIR_FS_CATALOG . 'includes/apps/paypal/functions/compatibility.php');
+  include('includes/apps/paypal/functions/compatibility.php');
 
   class OSCOM_PayPal {
     var $_code = 'paypal';
@@ -595,20 +595,20 @@
           $description = 'A parameter for the PayPal Application.';
         }
 
-        tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('" . tep_db_input($title) . "', '" . tep_db_input($key) . "', '" . tep_db_input($value) . "', '" . tep_db_input($description) . "', '6', '0', now())");
+        tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('" . tep_db_input($title) . "', '" . tep_db_input($key) . "', '" . tep_db_input($value) . "', '" . tep_db_input($description) . "', '6', '0', now())");
 
         if ( isset($set_func) ) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set set_function = '" . tep_db_input($set_func) . "' where configuration_key = '" . tep_db_input($key) . "'");
+          tep_db_query("update configuration set set_function = '" . tep_db_input($set_func) . "' where configuration_key = '" . tep_db_input($key) . "'");
         }
 
         define($key, $value);
       } else {
-        tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
+        tep_db_query("update configuration set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
       }
     }
 
     function deleteParameter($key) {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key = '" . tep_db_input($key) . "'");
+      tep_db_query("delete from configuration where configuration_key = '" . tep_db_input($key) . "'");
     }
 
     function formatCurrencyRaw($total, $currency_code = null, $currency_value = null) {
@@ -739,7 +739,7 @@
     }
 
     function uninstall($module) {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key like 'OSCOM_APP_PAYPAL_" . tep_db_input($module) . "_%'");
+      tep_db_query("delete from configuration where configuration_key like 'OSCOM_APP_PAYPAL_" . tep_db_input($module) . "_%'");
 
       $m_class = 'OSCOM_PayPal_' . $module;
 

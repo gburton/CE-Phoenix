@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 350;
 
-    function OSCOM_PayPal_Cfg_ssl_version() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ssl_version_title');

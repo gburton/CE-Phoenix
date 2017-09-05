@@ -19,7 +19,7 @@
     var $_pm_pf_code = 'paypal_pro_payflow_ec';
     var $_sort_order = 100;
 
-    function OSCOM_PayPal_EC() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->_title = $OSCOM_PayPal->getDef('module_ec_title');

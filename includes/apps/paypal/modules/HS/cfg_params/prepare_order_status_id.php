@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 300;
 
-    function OSCOM_PayPal_HS_Cfg_prepare_order_status_id() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_hs_prepare_order_status_id_title');
@@ -34,12 +34,12 @@
           $languages = tep_get_languages();
 
           foreach ($languages as $lang) {
-            tep_db_query("insert into " . TABLE_ORDERS_STATUS . " (orders_status_id, language_id, orders_status_name) values ('" . $status_id . "', '" . $lang['id'] . "', 'Preparing [PayPal Pro HS]')");
+            tep_db_query("insert into orders_status (orders_status_id, language_id, orders_status_name) values ('" . $status_id . "', '" . $lang['id'] . "', 'Preparing [PayPal Pro HS]')");
           }
 
-          $flags_query = tep_db_query("describe " . TABLE_ORDERS_STATUS . " public_flag");
+          $flags_query = tep_db_query("describe orders_status public_flag");
           if (tep_db_num_rows($flags_query) == 1) {
-            tep_db_query("update " . TABLE_ORDERS_STATUS . " set public_flag = 0 and downloads_flag = 0 where orders_status_id = '" . $status_id . "'");
+            tep_db_query("update orders_status set public_flag = 0 and downloads_flag = 0 where orders_status_id = '" . $status_id . "'");
           }
         } else {
           $check = tep_db_fetch_array($check_query);
@@ -58,7 +58,7 @@
 
       $statuses_array = array(array('id' => '0', 'text' => $OSCOM_PayPal->getDef('cfg_hs_prepare_order_status_id_default')));
 
-      $statuses_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "' order by orders_status_name");
+      $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$languages_id . "' order by orders_status_name");
       while ($statuses = tep_db_fetch_array($statuses_query)) {
         $statuses_array[] = array('id' => $statuses['orders_status_id'],
                                   'text' => $statuses['orders_status_name']);

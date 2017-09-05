@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 900;
 
-    function OSCOM_PayPal_PS_Cfg_ewp_public_cert() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ps_ewp_public_cert_title');

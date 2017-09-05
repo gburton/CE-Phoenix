@@ -18,7 +18,7 @@
     var $_cm_code = 'login/cm_paypal_login';
     var $_sort_order = 1000;
 
-    function OSCOM_PayPal_LOGIN() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->_title = $OSCOM_PayPal->getDef('module_login_title');

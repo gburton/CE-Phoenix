@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 200;
 
-    function OSCOM_PayPal_EC_Cfg_checkout_flow() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ec_checkout_flow_title');

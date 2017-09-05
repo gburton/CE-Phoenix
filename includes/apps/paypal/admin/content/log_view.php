@@ -12,7 +12,7 @@
 ?>
 
 <div style="text-align: right; padding-bottom: 15px;">
-  <?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_back'), tep_href_link('paypal.php', 'action=log&page=' . $HTTP_GET_VARS['page']), 'info'); ?>
+  <?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_back'), tep_href_link('paypal.php', 'action=log&page=' . $_GET['page']), 'info'); ?>
 </div>
 
 <table class="pp-table pp-table-hover" width="100%">

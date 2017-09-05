@@ -10,15 +10,15 @@
   Released under the GNU General Public License
 */
 
-  $log_query_raw = "select l.id, l.customers_id, l.module, l.action, l.result, l.ip_address, unix_timestamp(l.date_added) as date_added, c.customers_firstname, c.customers_lastname from oscom_app_paypal_log l left join " . TABLE_CUSTOMERS . " c on (l.customers_id = c.customers_id) order by l.date_added desc";
-  $log_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $log_query_raw, $log_query_numrows);
+  $log_query_raw = "select l.id, l.customers_id, l.module, l.action, l.result, l.ip_address, unix_timestamp(l.date_added) as date_added, c.customers_firstname, c.customers_lastname from oscom_app_paypal_log l left join customers c on (l.customers_id = c.customers_id) order by l.date_added desc";
+  $log_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $log_query_raw, $log_query_numrows);
   $log_query = tep_db_query($log_query_raw);
 ?>
 
 <table width="100%" style="margin-bottom: 5px;">
   <tr>
     <td><?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_dialog_delete'), '#', 'warning', 'data-button="delLogs"'); ?></td>
-    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $HTTP_GET_VARS['page'], 'action=log'); ?></td>
+    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'action=log'); ?></td>
   </tr>
 </table>
 
@@ -53,7 +53,7 @@
       <td><?php echo long2ip($log['ip_address']); ?></td>
       <td><?php echo (!empty($customers_name)) ? tep_output_string_protected($customers_name) : '<i>' . $OSCOM_PayPal->getDef('guest') . '</i>'; ?></td>
       <td><?php echo date(PHP_DATE_TIME_FORMAT, $log['date_added']); ?></td>
-      <td class="pp-table-action"><small><?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view'), tep_href_link('paypal.php', 'action=log&page=' . $HTTP_GET_VARS['page'] . '&lID=' . $log['id'] . '&subaction=view'), 'info'); ?></small></td>
+      <td class="pp-table-action"><small><?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view'), tep_href_link('paypal.php', 'action=log&page=' . $_GET['page'] . '&lID=' . $log['id'] . '&subaction=view'), 'info'); ?></small></td>
     </tr>
 
 <?php
@@ -74,8 +74,8 @@
 
 <table width="100%">
   <tr>
-    <td valign="top"><?php echo $log_split->display_count($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $HTTP_GET_VARS['page'], $OSCOM_PayPal->getDef('listing_number_of_log_entries')); ?></td>
-    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $HTTP_GET_VARS['page'], 'action=log'); ?></td>
+    <td valign="top"><?php echo $log_split->display_count($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $OSCOM_PayPal->getDef('listing_number_of_log_entries')); ?></td>
+    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'action=log'); ?></td>
   </tr>
 </table>
 
