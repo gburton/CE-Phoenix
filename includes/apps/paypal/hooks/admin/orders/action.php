@@ -31,7 +31,7 @@
       global $_GET, $_POST;
 
       if ( isset($_GET['tabaction']) ) {
-        $ppstatus_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$HTTP_GET_VARS['oID'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like '%Transaction ID:%' order by date_added limit 1");
+        $ppstatus_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$_GET['oID'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like '%Transaction ID:%' order by date_added limit 1");
         if ( tep_db_num_rows($ppstatus_query) ) {
           $ppstatus = tep_db_fetch_array($ppstatus_query);
 
@@ -67,7 +67,7 @@
                 break;
             }
 
-            tep_redirect(tep_href_link(FILENAME_ORDERS, 'page=' . $_GET['page'] . '&oID=' . $_GET['oID'] . '&action=edit#section_status_history_content'));
+            tep_redirect(tep_href_link('orders.php', 'page=' . $_GET['page'] . '&oID=' . $_GET['oID'] . '&action=edit#section_status_history_content'));
           }
         }
       }
@@ -285,7 +285,7 @@
                                 'customer_notified' => '0',
                                 'comments' => $result);
 
-        tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
+        tep_db_perform('orders_status_history', $sql_data_array);
 
         $messageStack->add_session($this->_app->getDef('ms_success_doVoid'), 'success');
       } else {

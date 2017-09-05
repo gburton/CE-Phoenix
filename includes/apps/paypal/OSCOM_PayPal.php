@@ -10,8 +10,6 @@
   Released under the GNU General Public License
 */
 
-  include('includes/apps/paypal/functions/compatibility.php');
-
   class OSCOM_PayPal {
     var $_code = 'paypal';
     var $_title = 'PayPal App';

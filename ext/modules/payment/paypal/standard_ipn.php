@@ -85,12 +85,12 @@
 
         tep_db_perform('orders_status_history', $sql_data_array);
 
-        include(DIR_FS_CATALOG . 'includes/classes/order.php');
+        include('includes/classes/order.php');
         $order = new order($order_id);
 
         if (DOWNLOAD_ENABLED == 'true') {
           for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-            $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_download opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+            $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
 
             if ( tep_db_num_rows($downloads_query) ) {
               if ( $order->content_type == 'physical' ) {
@@ -125,7 +125,7 @@
             $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
 
             if (DOWNLOAD_ENABLED == 'true') {
-              $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_download opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+              $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
               $downloads_values = tep_db_fetch_array($downloads_query);
 
               if ( tep_db_num_rows($downloads_query) ) {
@@ -159,7 +159,7 @@
         $email_order = STORE_NAME . "\n" .
                        EMAIL_SEPARATOR . "\n" .
                        EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                       EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
+                       EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n" .
                        EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
         if ($order->info['comments']) {
           $email_order .= tep_db_output($order->info['comments']) . "\n\n";

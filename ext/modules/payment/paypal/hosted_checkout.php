@@ -13,8 +13,6 @@
   chdir('../../../../');
   require('includes/application_top.php');
 
-  include('includes/apps/paypal/functions/compatibility.php');
-
   $error = false;
 
   if ( !defined('OSCOM_APP_PAYPAL_HS_STATUS') || !in_array(OSCOM_APP_PAYPAL_HS_STATUS, array('1', '0')) ) {

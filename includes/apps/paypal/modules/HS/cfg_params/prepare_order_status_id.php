@@ -23,10 +23,10 @@
       $this->description = $OSCOM_PayPal->getDef('cfg_hs_prepare_order_status_id_desc');
 
       if ( !defined('OSCOM_APP_PAYPAL_HS_PREPARE_ORDER_STATUS_ID') ) {
-        $check_query = tep_db_query("select orders_status_id from " . TABLE_ORDERS_STATUS . " where orders_status_name = 'Preparing [PayPal Pro HS]' limit 1");
+        $check_query = tep_db_query("select orders_status_id from orders_status where orders_status_name = 'Preparing [PayPal Pro HS]' limit 1");
 
         if (tep_db_num_rows($check_query) < 1) {
-          $status_query = tep_db_query("select max(orders_status_id) as status_id from " . TABLE_ORDERS_STATUS);
+          $status_query = tep_db_query("select max(orders_status_id) as status_id from orders_status");
           $status = tep_db_fetch_array($status_query);
 
           $status_id = $status['status_id']+1;
