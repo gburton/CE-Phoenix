@@ -37,7 +37,7 @@
 
       $languages = tep_get_languages();
 
-      foreach ($languages as $lang) {
+     foreach ($languages as $lang) {
         tep_db_query("insert into orders_status (orders_status_id, language_id, orders_status_name) values ('" . $status_id . "', '" . $lang['id'] . "', 'PayPal [Transactions]')");
       }
 

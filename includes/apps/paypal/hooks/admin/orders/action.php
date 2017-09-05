@@ -28,6 +28,8 @@
     }
 
     function execute() {
+      global $_GET, $_POST;
+
       if ( isset($_GET['tabaction']) ) {
         $ppstatus_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$_GET['oID'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like '%Transaction ID:%' order by date_added limit 1");
         if ( tep_db_num_rows($ppstatus_query) ) {
@@ -184,7 +186,7 @@
     }
 
     function doCapture($comments, $order) {
-      global $messageStack;
+      global $_POST, $messageStack;
 
       $pass = false;
 
@@ -292,7 +294,7 @@
     }
 
     function refundTransaction($comments, $order) {
-      global $messageStack;
+      global $_POST, $messageStack;
 
       if ( isset($_POST['ppRefund']) ) {
         $tids = array();
