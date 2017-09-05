@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,12 +17,11 @@
     exit;
   }
 
-  require('includes/languages/' . $language . '/checkout_process.php');
-
-  require('includes/languages/' . $language . '/modules/payment/paypal_standard.php');
   require('includes/modules/payment/paypal_standard.php');
 
   $paypal_standard = new paypal_standard();
+
+  require('includes/languages/' . $language . '/checkout_process.php');
 
   $result = false;
 
@@ -32,7 +31,7 @@
     $seller_accounts[] = $paypal_standard->_app->getCredentials('PS', 'email_primary');
   }
 
-  if ( isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts) ) {
+  if ( (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) ) {
     $parameters = 'cmd=_notify-validate&';
 
     foreach ( $_POST as $key => $value ) {
@@ -46,11 +45,14 @@
     $result = $paypal_standard->_app->makeApiCall($paypal_standard->form_action_url, $parameters);
   }
 
-  $log_params = $_POST;
-  $log_params['cmd'] = '_notify-validate';
+  $log_params = array();
+
+  foreach ( $_POST as $key => $value ) {
+    $log_params[$key] = stripslashes($value);
+  }
 
   foreach ( $_GET as $key => $value ) {
-    $log_params['GET ' . $key] = $value;
+    $log_params['GET ' . $key] = stripslashes($value);
   }
 
   $paypal_standard->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $log_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox', true);
