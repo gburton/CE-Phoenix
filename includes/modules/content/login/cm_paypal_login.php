@@ -62,7 +62,7 @@
     }
 
     function execute() {
-      global $oscTemplate;
+      global $_GET, $oscTemplate;
 
       if ( isset($_GET['action']) ) {
         if ( $_GET['action'] == 'paypal_login' ) {
@@ -97,7 +97,7 @@
     }
 
     function preLogin() {
-      global $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
+      global $_GET, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
       $return_url = tep_href_link('login.php', '', 'SSL');
 
