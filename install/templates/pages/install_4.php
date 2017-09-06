@@ -196,7 +196,26 @@
     if ($admin_folder != 'admin') {
       @rename($dir_fs_document_root . 'admin', $dir_fs_document_root . $admin_folder);
     }
-    ?>
+
+// Removes install directory after installation
+
+
+   delete_files($dir_fs_document_root . 'install');
+
+   function delete_files($target) {
+     if(is_dir($target)){
+        $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+        foreach( $files as $file )
+        {
+            delete_files( $file );      
+        }
+        rmdir( $target );
+    } elseif(is_file($target)) {
+        unlink( $target );  
+    }
+}
+
+?>
 
     <div class="alert alert-success">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
 
