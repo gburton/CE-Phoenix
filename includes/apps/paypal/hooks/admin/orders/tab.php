@@ -28,7 +28,7 @@
     }
 
     function execute() {
-      global $oID;
+      global $_GET, $oID, $base_url;
 
       $output = '';
 
@@ -80,6 +80,8 @@ EOD;
     }
 
     function getCaptureButton($status, $order) {
+      global $_GET;
+
       $output = '';
 
       if ( ($status['Pending Reason'] == 'authorization') || ($status['Payment Status'] == 'In-Progress') ) {
@@ -171,6 +173,8 @@ EOD;
     }
 
     function getVoidButton($status, $order) {
+      global $_GET;
+
       $output = '';
 
       if ( $status['Pending Reason'] == 'authorization' ) {
@@ -232,6 +236,8 @@ EOD;
     }
 
     function getRefundButton($status, $order) {
+      global $_GET;
+
       $output = '';
 
       $tids = array();
