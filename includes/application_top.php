@@ -15,6 +15,10 @@
 
 // set the level of error reporting
   error_reporting(E_ALL & ~E_NOTICE);
+  
+  if (defined('E_DEPRECATED')) {
+    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+  }
 
 // check support for register_globals
   if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
@@ -435,9 +439,6 @@
 
 // split-page-results
   require('includes/classes/split_page_results.php');
-
-// infobox
-  require('includes/classes/boxes.php');
 
 // auto activate and expire banners
   require('includes/functions/banner.php');

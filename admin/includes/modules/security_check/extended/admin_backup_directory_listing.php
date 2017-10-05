@@ -14,7 +14,7 @@
     var $type = 'error';
     var $has_doc = true;
 
-    function securityCheckExtended_admin_backup_directory_listing() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/admin_backup_directory_listing.php');
@@ -33,8 +33,6 @@
     }
 
     function getHttpRequest($url) {
-      global $HTTP_SERVER_VARS;
-
       $server = parse_url($url);
 
       if (isset($server['port']) === false) {
@@ -54,8 +52,8 @@
       curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'HEAD');
       curl_setopt($curl, CURLOPT_NOBODY, true);
 
-      if ( isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW']) ) {
-        curl_setopt($curl, CURLOPT_USERPWD, $HTTP_SERVER_VARS['PHP_AUTH_USER'] . ':' . $HTTP_SERVER_VARS['PHP_AUTH_PW']);
+      if ( isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) ) {
+        curl_setopt($curl, CURLOPT_USERPWD, $_SERVER['PHP_AUTH_USER'] . ':' . $_SERVER['PHP_AUTH_PW']);
 
         $this->type = 'warning';
       }

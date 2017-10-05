@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 500;
 
-    function OSCOM_PayPal_PS_Cfg_order_status_id() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ps_order_status_id_title');

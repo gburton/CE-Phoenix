@@ -11,7 +11,6 @@
 */
 
   require('includes/application_top.php');
-  require('includes/classes/http_client.php');
 
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {

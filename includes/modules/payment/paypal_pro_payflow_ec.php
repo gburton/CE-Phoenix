@@ -13,7 +13,7 @@
   class paypal_pro_payflow_ec {
     var $code, $title, $description, $enabled;
 
-    function paypal_pro_payflow_ec() {
+    function __construct() {
       global $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_pro_payflow_ec|3.0|2.3';

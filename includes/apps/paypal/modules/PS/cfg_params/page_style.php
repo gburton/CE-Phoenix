@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 200;
 
-    function OSCOM_PayPal_PS_Cfg_page_style() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ps_page_style_title');

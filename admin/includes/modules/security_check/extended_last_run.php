@@ -13,7 +13,7 @@
   class securityCheck_extended_last_run {
     var $type = 'warning';
 
-    function securityCheck_extended_last_run() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended_last_run.php');

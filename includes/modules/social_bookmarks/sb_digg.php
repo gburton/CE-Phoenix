@@ -17,8 +17,8 @@
     var $sort_order;
     var $icon = 'digg.png';
     var $enabled = false;
-
-    function sb_digg() {
+    
+    function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_DIGG_TITLE;
       $this->public_title = MODULE_SOCIAL_BOOKMARKS_DIGG_PUBLIC_TITLE;
       $this->description = MODULE_SOCIAL_BOOKMARKS_DIGG_DESCRIPTION;

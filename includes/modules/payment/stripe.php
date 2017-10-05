@@ -13,7 +13,7 @@
   class stripe {
     var $code, $title, $description, $enabled;
 
-    function stripe() {
+    function __construct() {
       global $PHP_SELF, $order, $payment;
 
       $this->signature = 'stripe|stripe|1.0|2.3';

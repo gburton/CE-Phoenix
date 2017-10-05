@@ -17,7 +17,7 @@
     var $app_configured = false;
     var $set_func = 'tep_cfg_select_option(array(\'Full\', \'Half\'), ';
 
-    function OSCOM_PayPal_LOGIN_Cfg_content_width() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_content_width_title');

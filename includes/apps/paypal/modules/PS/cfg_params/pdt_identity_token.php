@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 650;
 
-    function OSCOM_PayPal_PS_Cfg_pdt_identity_token() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ps_pdt_identity_token_title');

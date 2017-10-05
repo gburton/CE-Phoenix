@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 300;
 
-    function OSCOM_PayPal_EC_Cfg_account_optional() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ec_account_optional_title');

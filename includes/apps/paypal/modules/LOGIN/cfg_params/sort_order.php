@@ -16,7 +16,7 @@
     var $description;
     var $app_configured = false;
 
-    function OSCOM_PayPal_LOGIN_Cfg_sort_order() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_login_sort_order_title');

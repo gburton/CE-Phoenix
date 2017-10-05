@@ -17,7 +17,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function d_total_customers() {
+    function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_TITLE;
       $this->description = MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_DESCRIPTION;
 

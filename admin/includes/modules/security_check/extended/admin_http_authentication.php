@@ -13,7 +13,7 @@
   class securityCheckExtended_admin_http_authentication {
     var $type = 'warning';
 
-    function securityCheckExtended_admin_http_authentication() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/admin_http_authentication.php');
@@ -22,9 +22,7 @@
     }
 
     function pass() {
-      global $HTTP_SERVER_VARS;
-
-      return isset($HTTP_SERVER_VARS['PHP_AUTH_USER']) && isset($HTTP_SERVER_VARS['PHP_AUTH_PW']);
+      return isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']);
     }
 
     function getMessage() {
