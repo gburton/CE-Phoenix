@@ -30,7 +30,7 @@
             <div class="btn-group">
               <a href="<?php echo tep_href_link('product_info.php', tep_get_all_get_params(array('action')) . 'products_id=' . (int)$new_products['products_id']); ?>" class="btn btn-default" role="button"><?php echo MODULE_CONTENT_NEW_PRODUCTS_BUTTON_VIEW; ?></a>
               <?php
-              echo '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . (int)$new_products['products_id']) . '" data-has-attributes="' . ((tep_has_product_attributes((int)$new_products['products_id']) === true) ? '1' : '0') . '" data-in-stock="' . (int)$new_products['in_stock'] . '" data-product-id="' . (int)$new_products['products_id'] . '" class="btn btn-success btn-index btn-buy" role="button">' . MODULE_CONTENT_NEW_PRODUCTS_BUTTON_BUY . '</a>';
+              echo '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . (int)$new_products['products_id']) . '" data-has-attributes="' . ((tep_has_product_attributes((int)$new_products['products_id']) === true) ? '1' : '0') . '" data-in-stock="' . (int)$new_products['in_stock'] . '" data-product-id="' . (int)$new_products['products_id'] . '" data-is-special="' . (int)$new_products['is_special'] . '" class="btn btn-success btn-index btn-buy" role="button">' . MODULE_CONTENT_NEW_PRODUCTS_BUTTON_BUY . '</a>';
               ?>
             </div>
           </div>
