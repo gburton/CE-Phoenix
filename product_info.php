@@ -86,7 +86,7 @@
 ?>
 
 <div class="contentContainer">
-  <div class="contentText">
+  <div class="contentText is-product" data-is-special="<?php echo (int)$is_special; ?>">
 
 <?php
     if (tep_not_null($product_info['products_image'])) {
@@ -202,7 +202,7 @@
 
   <div class="buttonSet row">
     <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'fa fa-commenting', tep_href_link('product_reviews.php', tep_get_all_get_params())); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', null, 'primary', array('params' => 'data-has-attributes="' . (($products_attributes['total'] > 0) ? '1' : '0') . '" data-in-stock="' . (int)$product_info['products_quantity'] . '" data-product-id="' . (int)$product_info['products_id'] . '" data-is-special="' . (int)$is_special . '"'), 'btn-success btn-product-info btn-buy'); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('products_id', $product_info['products_id']) . tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', null, 'primary', array('params' => 'data-has-attributes="' . (($products_attributes['total'] > 0) ? '1' : '0') . '" data-in-stock="' . (int)$product_info['products_quantity'] . '" data-product-id="' . (int)$product_info['products_id'] . '"'), 'btn-success btn-product-info btn-buy'); ?></div>
   </div>
 
   <div class="row">
