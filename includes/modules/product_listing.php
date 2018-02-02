@@ -107,7 +107,7 @@
 
   while ($listing = tep_db_fetch_array($listing_query)) {
     $prod_list_contents .= '<div class="item list-group-item col-sm-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
-	  $prod_list_contents .= '  <div class="productHolder equal-height">';
+	  $prod_list_contents .= '  <div class="productHolder equal-height is-product" data-is-special="' . (int)$listing['is_special'] . '">';
     
     if (PRODUCT_LIST_IMAGE > 0) {
       if (isset($_GET['manufacturers_id'])  && tep_not_null($_GET['manufacturers_id'])) {
@@ -168,7 +168,7 @@
     
       if (PRODUCT_LIST_BUY_NOW > 0) {
         $prod_list_contents .= '       <div class="col-xs-6 text-right">';
-        $prod_list_contents .=           tep_draw_button(IMAGE_BUTTON_BUY_NOW, 'fa fa-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . (int)$listing['products_id']), NULL, array('params' => 'data-has-attributes="' . ((tep_has_product_attributes((int)$listing['products_id']) === true) ? '1' : '0') . '" data-in-stock="' . (int)$listing['in_stock'] . '" data-product-id="' . (int)$listing['products_id'] . '" data-is-special="' . (int)$listing['is_special'] . '"'), 'btn-success btn-product-listing btn-buy');
+        $prod_list_contents .=           tep_draw_button(IMAGE_BUTTON_BUY_NOW, 'fa fa-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . (int)$listing['products_id']), NULL, array('params' => 'data-has-attributes="' . ((tep_has_product_attributes((int)$listing['products_id']) === true) ? '1' : '0') . '" data-in-stock="' . (int)$listing['in_stock'] . '" data-product-id="' . (int)$listing['products_id'] . '"'), 'btn-success btn-product-listing btn-buy');
         $prod_list_contents .= '       </div>';
       }
       $prod_list_contents .= '      </div>';
