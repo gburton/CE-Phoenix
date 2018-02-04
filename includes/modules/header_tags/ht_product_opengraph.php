@@ -54,9 +54,9 @@
           $data['og:image'] = tep_href_link('images/' . $products_image, '', 'NONSSL', false, false);          
 
           if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
-            $products_price = $currencies->display_raw($new_price, $product_info['products_tax_class_id']);
+            $products_price = $currencies->display_raw($new_price, tep_get_tax_rate($product_info['products_tax_class_id']));
           } else {
-            $products_price = $currencies->display_raw($product_info['products_price'], $product_info['products_tax_class_id']);
+            $products_price = $currencies->display_raw($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
           }
           $data['product:price:amount'] = $products_price;
           $data['product:price:currency'] = $currency;
