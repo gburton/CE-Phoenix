@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -30,6 +30,7 @@
 
     function execute() {
       global $PHP_SELF, $oscTemplate, $product_check, $languages_id, $currency;
+      global $currencies;
 
       if ($product_check['total'] > 0) {        
         $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_image, p.products_price, p.products_quantity, p.products_tax_class_id, p.products_date_available from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
@@ -53,9 +54,9 @@
           $data['og:image'] = tep_href_link('images/' . $products_image, '', 'NONSSL', false, false);          
 
           if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
-            $products_price = $this->format_raw($new_price);
+            $products_price = $currencies->display_raw($new_price, tep_get_tax_rate($product_info['products_tax_class_id']));
           } else {
-            $products_price = $this->format_raw($product_info['products_price']);
+            $products_price = $currencies->display_raw($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
           }
           $data['product:price:amount'] = $products_price;
           $data['product:price:currency'] = $currency;
@@ -94,19 +95,4 @@
     function keys() {
       return array('MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_STATUS', 'MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_SORT_ORDER');
     }
-
-    function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
-
-      if (empty($currency_code) || !$this->is_set($currency_code)) {
-        $currency_code = $currency;
-      }
-
-      if (empty($currency_value) || !is_numeric($currency_value)) {
-        $currency_value = $currencies->currencies[$currency_code]['value'];
-      }
-
-      return number_format(tep_round($number * $currency_value, $currencies->currencies[$currency_code]['decimal_places']), $currencies->currencies[$currency_code]['decimal_places'], '.', '');
-    }
   }
-
