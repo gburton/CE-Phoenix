@@ -158,8 +158,7 @@ class inpay
                 $order_totals = array ();
                 if (is_array($order_total_modules->modules))
                 {
-                    reset($order_total_modules->modules);
-                    while ( list (, $value) = each($order_total_modules->modules))
+                    foreach ($order_total_modules->modules as $value)
                     {
                         $class = substr($value, 0, strrpos($value, '.'));
                         if ($GLOBALS[$class]->enabled)
@@ -366,8 +365,7 @@ class inpay
         // calc Md5 sum
         //
         $parameters['checksum'] = $this->calcInpayMd5Key($parameters);
-        reset($parameters);
-        while ( list ($key, $value) = each($parameters))
+        foreach ($parameters as $key => $value)
         {
             $process_button_string .= tep_draw_hidden_field($key, $value);
         }

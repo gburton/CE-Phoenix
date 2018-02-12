@@ -122,8 +122,7 @@
 
     $get_url = '';
 
-    reset($_GET);
-    while (list($key, $value) = each($_GET)) {
+    foreach ($_GET as $key => $value) {
       if (($key != tep_session_name()) && ($key != 'error') && (!in_array($key, $exclude_array))) $get_url .= $key . '=' . $value . '&';
     }
 
@@ -477,7 +476,7 @@
   function tep_get_uprid($prid, $params) {
     $uprid = $prid;
     if ( (is_array($params)) && (!strstr($prid, '{')) ) {
-      while (list($option, $value) = each($params)) {
+      foreach ($params as $option => $value) {
         $uprid = $uprid . '{' . $option . '}' . $value;
       }
     }
@@ -806,8 +805,7 @@
 ////
 // Alias function for module configuration keys
   function tep_mod_select_option($select_array, $key_name, $key_value) {
-    reset($select_array);
-    while (list($key, $value) = each($select_array)) {
+    foreach ($select_array as $key => $value) {
       if (is_int($key)) $key = $value;
       $string .= '<br /><input type="radio" name="configuration[' . $key_name . ']" value="' . $key . '"';
       if ($key_value == $key) $string .= ' checked="checked"';
