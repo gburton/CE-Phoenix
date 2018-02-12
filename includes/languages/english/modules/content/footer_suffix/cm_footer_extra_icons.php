@@ -15,7 +15,7 @@
   
   define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT', '
   <p>
-    <i class="fa fa-cc fa-lg"></i>
+    <i class="far fa-credit-card fa-lg"></i>
     <i class="fa fa-cc-amex fa-lg"></i>
     <i class="fa fa-cc-discover fa-lg"></i>
     <i class="fa fa-cc-mastercard fa-lg"></i>

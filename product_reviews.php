@@ -161,7 +161,7 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateR
       }
       ?>&nbsp;
     </div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fa fa-commenting', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
+    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fas fa-comment-alt', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
   </div>
 </div>
 
