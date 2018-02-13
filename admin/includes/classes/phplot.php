@@ -425,14 +425,12 @@ class PHPlot{
 		  $this->ndx_error_bar_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
-		//reset($this->data_border_color);
 		unset($ndx_data_border_color);
 		$i = 0;
     foreach($this->data_border_color as $col) {
 			$this->ndx_data_border_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
-		//reset($this->data_color); 
 		unset($ndx_data_color);
 		$i = 0;
     foreach($this->data_color as $col) {
@@ -1342,8 +1340,6 @@ class PHPlot{
 		$this->data_border_color = $which_border;  //an array
 
 		unset($this->ndx_data_color);
-		reset($this->data_color);  //data_color can be an array of colors, one for each thing plotted
-    // foreach($this->data_color as $col)     
 		$i = 0;
     foreach($which_data as $col) {
 			$this->ndx_data_color[$i] = $this->SetIndexColor($col);
@@ -1355,7 +1351,6 @@ class PHPlot{
 		//	then lets also set a border color as well.
 		//foreach($this->data_border_color as $col) 
 		unset($this->ndx_data_border_color);
-		reset($this->data_border_color);
 		$i = 0;
     foreach($this->data_border_color as $col) {
 			$this->ndx_data_border_color[$i] = $this->SetIndexColor($col);
@@ -2269,8 +2264,6 @@ class PHPlot{
 			$lasty[0] = $this->xtr(0);
 		}
 
-		//foreach ($this->data_values as $row)
-		reset($this->data_values);
     foreach($this->data_values as $j => $row) {
 
 			$color_index = 0;

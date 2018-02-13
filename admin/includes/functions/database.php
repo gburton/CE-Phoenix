@@ -58,7 +58,6 @@
   }
 
   function tep_db_perform($table, $data, $action = 'insert', $parameters = '', $link = 'db_link') {
-    reset($data);
     if ($action == 'insert') {
       $query = 'insert into ' . $table . ' (';
       foreach (array_keys($data) as $columns) {
