@@ -37,7 +37,7 @@
     $message = tep_db_prepare_input($_POST['message']);
 
     //Let's build a message object using the email class
-    $mimemessage = new email(array('X-Mailer: osCommerce'));
+    $mimemessage = new email();
 
     // Build the text version
     $text = strip_tags($message);
@@ -124,8 +124,7 @@
                 <td class="smallText" align="right">
 <?php
 /* Re-Post all POST'ed variables */
-    reset($_POST);
-    while (list($key, $value) = each($_POST)) {
+    foreach ($_POST as $key => $value) {
       if (!is_array($_POST[$key])) {
         echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
       }

@@ -192,7 +192,7 @@ function selectAll(FormName, SelectBox) {
         }
       }
 
-      $mimemessage = new email(array('X-Mailer: osCommerce'));
+      $mimemessage = new email();
 
       // Build the text version
       $text = strip_tags($this->content);
@@ -204,8 +204,7 @@ function selectAll(FormName, SelectBox) {
 
       $mimemessage->build_message();
 
-      reset($audience);
-      while (list($key, $value) = each ($audience)) {
+      foreach ($audience as $key => $value) {
         $mimemessage->send($value['firstname'] . ' ' . $value['lastname'], $value['email_address'], '', EMAIL_FROM, $this->title);
       }
 

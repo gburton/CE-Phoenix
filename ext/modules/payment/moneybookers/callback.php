@@ -64,15 +64,13 @@
                   'MD5: ' . strtoupper(md5(MODULE_PAYMENT_MONEYBOOKERS_MERCHANT_ID . (isset($_POST['transaction_id']) ? $_POST['transaction_id'] : '') . strtoupper(md5(MODULE_PAYMENT_MONEYBOOKERS_SECRET_WORD)) . (isset($_POST['mb_amount']) ? $_POST['mb_amount'] : '') . (isset($_POST['mb_currency']) ? $_POST['mb_currency'] : '') . (isset($_POST['status']) ? $_POST['status'] : ''))) . "\n\n" .
                   '$_POST:' . "\n\n";
 
-    reset($_POST);
-    while (list($key, $value) = each($_POST)) {
+    foreach($_POST as $key => $value) {
       $email_body .= $key . '=' . $value . "\n";
     }
 
     $email_body .= "\n" . '$_GET:' . "\n\n";
 
-    reset($_GET);
-    while (list($key, $value) = each($_GET)) {
+    foreach($_GET as $key => $value) {
       $email_body .= $key . '=' . $value . "\n";
     }
 
