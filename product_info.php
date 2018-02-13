@@ -128,7 +128,7 @@
 ?>
 
     <div class="piGal pull-right">
-      <?php echo tep_image('images/' . $product_info['products_image'], addslashes($product_info['products_name'])); ?>
+      <?php echo tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name'])); ?>
     </div>
 
 <?php
