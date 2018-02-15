@@ -94,7 +94,7 @@
       $this->_deletePreparing();
 
       return array('id' => $this->code,
-                   'module' => $this->public_title . (!empty($this->_payment_method_image) ? '<br />' . tep_image('ext/modules/payment/moneybookers/logos/' . $this->_payment_method_image, $this->public_title) : ''));
+                   'module' => $this->public_title . (!empty($this->_payment_method_image) ? '<br />' . tep_image('ext/modules/payment/moneybookers/logos/' . $this->_payment_method_image, htmlspecialchars($this->public_title)) : ''));
     }
 
     function pre_confirmation_check() {

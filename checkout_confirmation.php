@@ -270,7 +270,7 @@
       if (is_array($payment_modules->modules)) {
         echo $payment_modules->process_button();
       }
-      echo tep_draw_button(IMAGE_BUTTON_CONFIRM_ORDER, 'fa fa-ok', null, 'primary', null, 'btn-success');
+      echo tep_draw_button(IMAGE_BUTTON_FINALISE_ORDER, 'fas fa-check-circle', null, 'primary', null, 'btn-success btn-block btn-lg');
       ?>
     </div>
   </div>

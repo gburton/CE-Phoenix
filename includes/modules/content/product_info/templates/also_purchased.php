@@ -23,7 +23,7 @@
       ?>
       <div class="col-sm-<?php echo $product_width; ?>">
         <div class="thumbnail equal-height">
-          <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . $orders['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], $orders['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT); ?></a>
+          <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . $orders['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], htmlspecialchars($orders['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT); ?></a>
           <div class="caption">
             <h5 class="text-center" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="url" href="<?php echo tep_href_link('product_info.php', 'products_id=' . $orders['products_id']); ?>"><span itemprop="name"><?php echo $orders['products_name']; ?></span></a><meta itemprop="position" content="<?php echo (int)$position; ?>" /></h5>
           </div>
