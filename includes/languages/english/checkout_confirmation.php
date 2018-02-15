@@ -28,4 +28,5 @@ define('HEADING_PAYMENT_INFORMATION', 'Payment Information');
 define('HEADING_ORDER_COMMENTS', 'Comments About Your Order');
 
 define('TEXT_EDIT', 'Edit');
-?>
+
+define('IMAGE_BUTTON_FINALISE_ORDER', 'Finalise and Pay For my Order');
