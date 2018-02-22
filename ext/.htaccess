@@ -1,0 +1,6 @@
+# $Id$
+#
+# This is used to restrict access to this folder 
+# no directory listings
+
+Options -Indexes

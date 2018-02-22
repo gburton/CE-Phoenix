@@ -12,8 +12,7 @@
 
   require('includes/application_top.php');
 
-  reset($_GET);
-  while (list($key, ) = each($_GET)) {
+  foreach(array_keys($_GET) as $key) {
     switch ($key) {
       case 'banner':
         $banners_id = tep_db_prepare_input($_GET['banner']);

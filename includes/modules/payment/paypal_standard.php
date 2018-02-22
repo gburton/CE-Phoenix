@@ -17,7 +17,7 @@
   class paypal_standard {
     var $code, $title, $description, $enabled, $_app;
 
-    function paypal_standard() {
+    function __construct() {
       global $PHP_SELF, $payment, $order;
 
       $this->_app = new OSCOM_PayPal();
@@ -815,7 +815,7 @@
 
       tep_session_unregister('cart_PayPal_Standard_ID');
 
-      tep_redirect(tep_href_link('checkout_process.php', '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
 
     function get_error() {

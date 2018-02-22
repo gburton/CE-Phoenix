@@ -13,7 +13,7 @@
   class securityCheck_default_currency {
     var $type = 'error';
 
-    function securityCheck_default_currency() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/default_currency.php');

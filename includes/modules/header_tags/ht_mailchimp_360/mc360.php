@@ -9,7 +9,7 @@ class mc360 {
     var $key_valid = false;
     var $store_id = '';
     
-    function mc360() {
+    function __construct() {
         $this->apikey = MODULE_HEADER_TAGS_MAILCHIMP_360_API_KEY;
         $this->store_id = MODULE_HEADER_TAGS_MAILCHIMP_360_STORE_ID;
         $this->key_valid = ((MODULE_HEADER_TAGS_MAILCHIMP_360_KEY_VALID == 'true') ? true : false);

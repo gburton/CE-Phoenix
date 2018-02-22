@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_shopping_cart() {
+    function __construct() {
       $this->title = MODULE_BOXES_SHOPPING_CART_TITLE;
       $this->description = MODULE_BOXES_SHOPPING_CART_DESCRIPTION;
 
@@ -62,7 +62,7 @@
         $cart_contents_string .= '<li class="text-right"><hr>' . $currencies->format($cart->show_total()) . '</li>';
 
       } else {
-        $cart_contents_string .= '<p>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
+        $cart_contents_string .= '<li>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</li>';
       }
               
       ob_start();

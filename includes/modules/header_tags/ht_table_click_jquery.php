@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function ht_table_click_jquery() {
+    function __construct() {
       $this->title = MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_TITLE;
       $this->description = MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_DESCRIPTION;
 

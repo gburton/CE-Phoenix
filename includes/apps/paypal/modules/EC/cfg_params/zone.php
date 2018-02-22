@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 900;
 
-    function OSCOM_PayPal_EC_Cfg_zone() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ec_zone_title');

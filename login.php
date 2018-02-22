@@ -86,7 +86,7 @@
 ?>
 
 <div id="loginModules">
-  <div class="row">
+  <div class="row list-group">
     <?php echo $page_content; ?>
   </div>
 </div>

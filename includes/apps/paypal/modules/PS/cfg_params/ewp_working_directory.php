@@ -16,7 +16,7 @@
     var $description;
     var $sort_order = 1200;
 
-    function OSCOM_PayPal_PS_Cfg_ewp_working_directory() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_ps_ewp_working_directory_title');

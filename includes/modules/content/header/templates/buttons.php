@@ -6,7 +6,7 @@
        tep_draw_button(MODULE_CONTENT_HEADER_BUTTONS_TITLE_MY_ACCOUNT, 'fa fa-user', tep_href_link('account.php', '', 'SSL'));
 
   if ( tep_session_is_registered('customer_id') ) {
-    echo tep_draw_button(MODULE_CONTENT_HEADER_BUTTONS_TITLE_LOGOFF, 'fa fa-sign-out', tep_href_link('logoff.php', '', 'SSL'));
+    echo tep_draw_button(MODULE_CONTENT_HEADER_BUTTONS_TITLE_LOGOFF, 'fas fa-sign-out-alt', tep_href_link('logoff.php', '', 'SSL'));
   }
 ?>
   </div>

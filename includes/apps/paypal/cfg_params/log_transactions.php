@@ -14,7 +14,7 @@
     var $default = '1';
     var $sort_order = 500;
 
-    function OSCOM_PayPal_Cfg_log_transactions() {
+    function __construct() {
       global $OSCOM_PayPal;
 
       $this->title = $OSCOM_PayPal->getDef('cfg_log_transactions_title');

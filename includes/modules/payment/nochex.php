@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
 // class constructor
-    function nochex() {
+    function __construct() {
       global $order;
 
       $this->code = 'nochex';

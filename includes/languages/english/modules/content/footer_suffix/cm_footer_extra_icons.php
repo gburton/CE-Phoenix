@@ -15,12 +15,12 @@
   
   define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT', '
   <p>
-    <i class="fa fa-cc fa-lg"></i>
-    <i class="fa fa-cc-amex fa-lg"></i>
-    <i class="fa fa-cc-discover fa-lg"></i>
-    <i class="fa fa-cc-mastercard fa-lg"></i>
-    <i class="fa fa-cc-paypal fa-lg"></i>
-    <i class="fa fa-cc-stripe fa-lg"></i>
-    <i class="fa fa-cc-visa fa-lg"></i>
+    <i class="far fa-credit-card fa-lg"></i>
+    <i class="fab fa-cc-amex fa-lg"></i>
+    <i class="fab fa-cc-discover fa-lg"></i>
+    <i class="fab fa-cc-mastercard fa-lg"></i>
+    <i class="fab fa-cc-paypal fa-lg"></i>
+    <i class="fab fa-cc-stripe fa-lg"></i>
+    <i class="fab fa-cc-visa fa-lg"></i>
   </p>');
 

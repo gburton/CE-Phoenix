@@ -23,7 +23,7 @@
     var $enabled = false;
     var $_app;
 
-    function cm_paypal_login() {
+    function __construct() {
       global $PHP_SELF;
 
       $this->_app = new OSCOM_PayPal();

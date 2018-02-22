@@ -25,7 +25,7 @@
     while ($new_products = tep_db_fetch_array($new_products_query)) {
       $new_prods_content .= '<div class="col-sm-6 col-md-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
       $new_prods_content .= '  <div class="thumbnail equal-height">';
-      $new_prods_content .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '">' . tep_image('images/' . $new_products['products_image'], $new_products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"') . '</a>';
+      $new_prods_content .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '">' . tep_image('images/' . $new_products['products_image'], htmlspecialchars($new_products['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"') . '</a>';
       $new_prods_content .= '    <div class="caption">';
       $new_prods_content .= '      <p class="text-center"><a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '"><span itemprop="name">' . $new_products['products_name'] . '</span></a></p>';
       $new_prods_content .= '      <hr>';
@@ -44,7 +44,7 @@
 
   <h3><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h3>
 
-  <div class="row" itemtype="http://schema.org/ItemList">
+  <div class="row" itemscope itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />
     <?php echo $new_prods_content; ?>
   </div>

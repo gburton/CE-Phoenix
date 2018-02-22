@@ -13,7 +13,7 @@
   class securityCheckExtended_admin_http_authentication {
     var $type = 'warning';
 
-    function securityCheckExtended_admin_http_authentication() {
+    function __construct() {
       global $language;
 
       include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/extended/admin_http_authentication.php');

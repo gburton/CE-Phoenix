@@ -17,7 +17,7 @@
   class paypal_pro_dp {
     var $code, $title, $description, $enabled, $_app;
 
-    function paypal_pro_dp() {
+    function __construct() {
       global $order;
 
       $this->_app = new OSCOM_PayPal();

@@ -178,8 +178,9 @@
 <?php
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
-      reset($_POST);
-      while (list($key, $value) = each($_POST)) echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
+      foreach($_POST as $key => $value) {
+        echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
+      }
 ?>
       <tr>
         <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id)); ?></td>

@@ -355,6 +355,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
         <td><?php echo ENTRY_NOTIFY_CUSTOMER; ?></td>
         <td><?php echo tep_draw_checkbox_field('notify', '', true); ?></td>
       </tr>
+      <tr>
         <td><?php echo ENTRY_NOTIFY_COMMENTS; ?></td>
         <td><?php echo tep_draw_checkbox_field('notify_comments', '', true); ?></td>
       </tr>

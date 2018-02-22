@@ -18,7 +18,7 @@
     var $sort_order;
     var $enabled = false;
 
-    function bm_categories() {
+    function __construct() {
       $this->title = MODULE_BOXES_CATEGORIES_TITLE;
       $this->description = MODULE_BOXES_CATEGORIES_DESCRIPTION;
 

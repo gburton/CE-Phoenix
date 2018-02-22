@@ -52,7 +52,7 @@
 
   $get_parameter = '';
   $x = 0;
-  while(list($key,$value) = each($parameter)) {
+  foreach($parameter as $key => $value) {
     if (empty($value)) continue;
     if ($x > 0) $get_parameter .= "&";
     $get_parameter .= $key . "=" . urlencode($value);
