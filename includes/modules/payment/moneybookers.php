@@ -94,7 +94,7 @@
       $this->_deletePreparing();
 
       return array('id' => $this->code,
-                   'module' => $this->public_title . (!empty($this->_payment_method_image) ? '<br />' . tep_image('ext/modules/payment/moneybookers/logos/' . $this->_payment_method_image, $this->public_title) : ''));
+                   'module' => $this->public_title . (!empty($this->_payment_method_image) ? '<br />' . tep_image('ext/modules/payment/moneybookers/logos/' . $this->_payment_method_image, htmlspecialchars($this->public_title)) : ''));
     }
 
     function pre_confirmation_check() {
@@ -141,8 +141,7 @@
       if ($insert_order == true) {
         $order_totals = array();
         if (is_array($order_total_modules->modules)) {
-          reset($order_total_modules->modules);
-          while (list(, $value) = each($order_total_modules->modules)) {
+          foreach($order_total_modules->modules as $value) {
             $class = substr($value, 0, strrpos($value, '.'));
             if ($GLOBALS[$class]->enabled) {
               for ($i=0, $n=sizeof($GLOBALS[$class]->output); $i<$n; $i++) {
@@ -323,8 +322,7 @@
 
         $params_string = '';
 
-        reset($parameters);
-        while (list($key, $value) = each($parameters)) {
+        foreach($parameters as $key => $value) {
           $params_string .= $key . '=' . urlencode($value) . '&';
         }
 

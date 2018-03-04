@@ -39,7 +39,7 @@
                                                                                                                  'icon' => 'fa fa-envelope'),
                                                                                           'products' => array('title' => EMAIL_NOTIFICATIONS_PRODUCTS,
                                                                                                               'link' => tep_href_link('account_notifications.php', '', 'SSL'),
-                                                                                                              'icon' => 'fa fa-send'))));
+                                                                                                              'icon' => 'fas fa-paper-plane'))));
     }
 
     function build() {

@@ -115,8 +115,7 @@
             }
           }
 
-          reset($products);
-          while (list($key, $value) = each($products)) {
+          foreach ($products as $key => $value) {
             $category_ids = '';
 
             for ($i=0, $n=sizeof($value['categories']); $i<$n; $i++) {
@@ -137,8 +136,7 @@
             tep_remove_category($categories[$i]['id']);
           }
 
-          reset($products_delete);
-          while (list($key) = each($products_delete)) {
+          foreach ($products_delete as $key) {
             tep_remove_product($key);
           }
         }
@@ -973,7 +971,7 @@ $('#products_date_available').datepicker({
     }
 
     $cPath_back = '';
-    if (sizeof($cPath_array) > 0) {
+    if (isset($cPath_array) && sizeof($cPath_array) > 0) {
       for ($i=0, $n=sizeof($cPath_array)-1; $i<$n; $i++) {
         if (empty($cPath_back)) {
           $cPath_back .= $cPath_array[$i];
@@ -989,7 +987,7 @@ $('#products_date_available').datepicker({
                 <td colspan="3"><table border="0" width="100%" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="smallText"><?php echo TEXT_CATEGORIES . '&nbsp;' . $categories_count . '<br />' . TEXT_PRODUCTS . '&nbsp;' . $products_count; ?></td>
-                    <td align="right" class="smallText"><?php if (sizeof($cPath_array) > 0) echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('categories.php', $cPath_back . 'cID=' . $current_category_id)); if (!isset($_GET['search'])) echo tep_draw_button(IMAGE_NEW_CATEGORY, 'plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category')) . tep_draw_button(IMAGE_NEW_PRODUCT, 'plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product')); ?>&nbsp;</td>
+                    <td align="right" class="smallText"><?php if (isset($cPath_array) && (sizeof($cPath_array) > 0))  echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('categories.php', $cPath_back . 'cID=' . $current_category_id)); if (!isset($_GET['search'])) echo tep_draw_button(IMAGE_NEW_CATEGORY, 'plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category')) . tep_draw_button(IMAGE_NEW_PRODUCT, 'plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product')); ?>&nbsp;</td>
                   </tr>
                 </table></td>
               </tr>

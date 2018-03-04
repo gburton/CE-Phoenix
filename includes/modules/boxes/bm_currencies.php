@@ -35,15 +35,13 @@
 
       if (substr(basename($PHP_SELF), 0, 8) != 'checkout') {
         if (isset($currencies) && is_object($currencies) && (count($currencies->currencies) > 1)) {
-          reset($currencies->currencies);
           $currencies_array = array();
-          while (list($key, $value) = each($currencies->currencies)) {
+          foreach($currencies->currencies as $key => $value) {
             $currencies_array[] = array('id' => $key, 'text' => $value['title']);
           }
 
           $hidden_get_variables = '';
-          reset($_GET);
-          while (list($key, $value) = each($_GET)) {
+          foreach($_GET as $key => $value) {
             if ( is_string($value) && ($key != 'currency') && ($key != tep_session_name()) && ($key != 'x') && ($key != 'y') ) {
               $hidden_get_variables .= tep_draw_hidden_field($key, $value);
             }

@@ -419,24 +419,21 @@ class PHPlot{
 		$this->ndx_light_grid_color= $this->SetIndexColor($this->light_grid_color);
 		$this->ndx_grid_color= $this->SetIndexColor($this->grid_color);
 
-		reset($this->error_bar_color);  
 		unset($ndx_error_bar_color);
 		$i = 0; 
-		while (list(, $col) = each($this->error_bar_color)) {
+    foreach($this->error_bar_color as $col) {
 		  $this->ndx_error_bar_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
-		//reset($this->data_border_color);
 		unset($ndx_data_border_color);
 		$i = 0;
-		while (list(, $col) = each($this->data_border_color)) {
+    foreach($this->data_border_color as $col) {
 			$this->ndx_data_border_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
-		//reset($this->data_color); 
 		unset($ndx_data_color);
 		$i = 0;
-		while (list(, $col) = each($this->data_color)) {
+    foreach($this->data_color as $col) {
 			$this->ndx_data_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
@@ -820,8 +817,7 @@ class PHPlot{
 		$mine = 0; //Maximum value for the -error bar (assume error bars always > 0) 
 		$maxe = 0; //Maximum value for the +error bar (assume error bars always > 0) 
 
-		reset($this->data_values);
-		while (list($dat_key, $dat) = each($this->data_values)) {  //for each X barchart setting
+    foreach($this->data_values as $dat_key => $dat) {  //for each X barchart setting
 		//foreach($this->data_values as $dat)  //can use foreach only in php4
 
 			$tmp = 0;
@@ -831,7 +827,7 @@ class PHPlot{
 				case "text-data":
 					//Find the relative Max and Min
 
-					while (list($key, $val) = each($dat)) {
+          foreach($dat as $key => $val) {
 						if ($key != 0) {  //$dat[0] = label
 							SetType($val,"double");
 							if ($val > $maxy) {
@@ -846,7 +842,7 @@ class PHPlot{
 				break;
 				case "data-data":  //X-Y data is passed in as $data[] = (title,x,y,y2,y3,...) which you can use for multi-dimentional plots.
 
-					while (list($key, $val) = each($dat)) {
+          foreach($dat as $key => $val) {
 						if ($key == 1) {  //$dat[0] = label
 							SetType($val,"double");
 							if ($val > $maxx) {
@@ -869,7 +865,7 @@ class PHPlot{
 				case "data-data-error":  //Assume 2-D for now, can go higher
 				//Regular X-Y data is passed in as $data[] = (title,x,y,error+,error-,y2,error2+,error2-)
 
-					while (list($key, $val) = each($dat)) {
+					foreach($dat as $key => $val) {
 						if ($key == 1) {  //$dat[0] = label
 							SetType($val,'double');
 							if ($val > $maxx) {
@@ -1344,10 +1340,8 @@ class PHPlot{
 		$this->data_border_color = $which_border;  //an array
 
 		unset($this->ndx_data_color);
-		reset($this->data_color);  //data_color can be an array of colors, one for each thing plotted
-		//while (list(, $col) = each($this->data_color)) 
 		$i = 0;
-		while (list(, $col) = each($which_data)) {
+    foreach($which_data as $col) {
 			$this->ndx_data_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
@@ -1357,9 +1351,8 @@ class PHPlot{
 		//	then lets also set a border color as well.
 		//foreach($this->data_border_color as $col) 
 		unset($this->ndx_data_border_color);
-		reset($this->data_border_color);
 		$i = 0;
-		while (list(, $col) = each($this->data_border_color)) {
+    foreach($this->data_border_color as $col) {
 			$this->ndx_data_border_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
@@ -1381,9 +1374,8 @@ class PHPlot{
 	 if ($which_data) {
 		$this->error_bar_color = $which_data;  //an array
 		unset($this->ndx_error_bar_color);
-		reset($this->error_bar_color);  //data_color can be an array of colors, one for each thing plotted
 		$i = 0;
-		while (list(, $col) = each($this->error_bar_color)) {
+    foreach($this->error_bar_color as $col) {
 			$this->ndx_error_bar_color[$i] = $this->SetIndexColor($col);
 			$i++;
 		}
@@ -1868,14 +1860,13 @@ class PHPlot{
 		ImageArc($this->img, $xpos, $ypos, $diameter, $diameter, 0, 360, $this->ndx_grid_color);
 
 		$total = 0;
-		reset($this->data_values);
 		$tmp = $this->number_x_points - 1;
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 			//Get sum of each type
 			$color_index = 0;
 			$i = 0;
 			//foreach ($row as $v) 
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k != 0) {
 					if ($j == 0) { 
 						$sumarr[$i] = $v;
@@ -1895,9 +1886,9 @@ class PHPlot{
 		$color_index = 0;
 		$start_angle = 0;
 
-		reset($sumarr);
 		$end_angle = 0;
-		while (list(, $val) = each($sumarr)) {
+		
+    foreach($sumarr as $val) {
 			if ($color_index >= count($this->ndx_data_color)) $color_index=0;  //data_color = array
 			$label_txt = number_format(($val / $total * 100), $this->y_precision, ".", ",") . "%";
 			$val = 360 * ($val / $total);
@@ -1943,12 +1934,11 @@ class PHPlot{
 		//Draw Lines with Error Bars - data comes in as array("title",x,y,error+,error-,y2,error2+,error2-,...);
 		$start_lines = 0;
 
-		reset($this->data_values);
-		while (list(, $row) = each($this->data_values)) {
+    foreach($this->data_values as $row) {
 			$color_index = 0;
 			$i = 0;
 
-			while (list($key, $val) = each($row)) {
+      foreach($row as $key => $val) {
 //echo "$key, $i, $val<br />";
 				if ($key == 0) {
 					$lab = $val;
@@ -1992,11 +1982,10 @@ class PHPlot{
 
 	function DrawDotsError() {
 		//Draw Dots - data comes in as array("title",x,y,error+,error-,y2,error2+,error2-,...);
-		reset($this->data_values);
-		while (list(, $row) = each($this->data_values)) {
+      foreach($this->data_values as $row) {
 			$color_index = 0;
 			//foreach ($row as $v) 
-			while (list($key, $val) = each($row)) {
+      foreach($row as $key => $val) {
 				if ($key == 0) {
 				} elseif ($key == 1) {
 					$xpos = $val;
@@ -2021,11 +2010,10 @@ class PHPlot{
 
 	function DrawDots() {
 		//Draw Dots - data comes in as array("title",x,y1,y2,y3,...);
-		reset($this->data_values);
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 			$color_index = 0;
 			//foreach ($row as $v) 
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) {
 				} elseif (($k == 1) && ($this->data_type == "data-data"))  { 
 					$xpos = $v;
@@ -2060,10 +2048,9 @@ class PHPlot{
 		if ($this->data_type != "data-data") { $this->DrawError('Data Type for ThinBarLines must be data-data'); };
 		$y1 = $this->ytr($this->x_axis_position);
 
-		reset($this->data_values);
-		while (list(, $row) = each($this->data_values)) {
+    foreach($this->data_values as $row) {
 			$color_index = 0;
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) {
 						$xlab = $v;
 				} elseif ($k == 1) {
@@ -2178,11 +2165,10 @@ class PHPlot{
 			$i++;
 		}
 
-		reset($this->data_values);
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 			$color_index = 0;
 			//foreach ($row as $v)
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) {
 					//Draw Data Labels
 					$xlab = SubStr($v,0,$this->x_datalabel_maxlength);
@@ -2210,8 +2196,7 @@ class PHPlot{
 		$color_index=0;
 
 		//foreach($posarr as $row)
-		reset($posarr);
-		while (list(, $row) = each($posarr)) {
+    foreach($posarr as $row) {
 			if ($color_index >= count($this->ndx_data_color)) $color_index=0;
 			$barcol = $this->ndx_data_color[$color_index];
 //echo "$row[0],$row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7],$row[8],$row[9],$row[10],$row[11],$row[12], $barcol<br />";
@@ -2232,11 +2217,10 @@ class PHPlot{
 			$i++;
 		}
 
-		reset($this->data_values);
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 			$color_index = 0;
 			//foreach ($row as $v)
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) {
 					//Draw Data Labels
 					$xlab = SubStr($v,0,$this->x_datalabel_maxlength);
@@ -2262,8 +2246,7 @@ class PHPlot{
 		$color_index=0;
 
 		//foreach($posarr as $row)
-		reset($posarr);
-		while (list(, $row) = each($posarr)) {
+    foreach($posarr as $row) {
 			if ($color_index >= count($this->ndx_data_color)) $color_index=0;
 			$barcol = $this->ndx_data_color[$color_index];
 //echo "$row[0],$row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7],$row[8],$row[9],$row[10],$row[11],$row[12], $barcol<br />";
@@ -2281,14 +2264,12 @@ class PHPlot{
 			$lasty[0] = $this->xtr(0);
 		}
 
-		//foreach ($this->data_values as $row)
-		reset($this->data_values);
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 
 			$color_index = 0;
 			$i = 0; 
 			//foreach ($row as $v)
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) { 
 					$xlab = SubStr($v,0,$this->x_datalabel_maxlength);
 				} elseif (($k == 1) && ($this->data_type == "data-data"))  { 
@@ -2379,14 +2360,13 @@ class PHPlot{
 
 		$xadjust = ($this->records_per_group * $this->record_bar_width )/4;
 
-		reset($this->data_values);
-		while (list($j, $row) = each($this->data_values)) {
+    foreach($this->data_values as $j => $row) {
 
 			$color_index = 0;
 			$colbarcount = 0;
 			$x_now = $this->xtr($j+.5);
 
-			while (list($k, $v) = each($row)) {
+      foreach($row as $k => $v) {
 				if ($k == 0) {
 					//Draw Data Labels
 					$xlab = SubStr($v,0,$this->x_datalabel_maxlength);
@@ -2437,8 +2417,7 @@ class PHPlot{
 	function DrawLegend($which_x1,$which_y1,$which_boxtype) {
 		//Base code submitted by Marlin Viss
 		$max_legend_length=0;
-		reset($this->legend);
-		while (list(,$leg) = each($this->legend)) {
+    foreach($this->legend as $leg) {
 			$len = strlen($leg);
 			if ($max_legend_length < $len) {
 				$max_legend_length = $len;
@@ -2476,10 +2455,9 @@ class PHPlot{
 		$i = 0;
 
 
-		reset($this->legend);
 
 
-		while (list(,$leg) = each($this->legend)) {
+    foreach($this->legend as $leg) {
 			$y_pos = $box_start_y + $this->small_font_height*($i)*($line_spacing) + $vert_margin;
 
 			ImageString($this->img, $this->small_font,

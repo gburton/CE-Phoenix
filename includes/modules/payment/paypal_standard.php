@@ -815,7 +815,7 @@
 
       tep_session_unregister('cart_PayPal_Standard_ID');
 
-      tep_redirect(tep_href_link('checkout_process.php', '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
 
     function get_error() {

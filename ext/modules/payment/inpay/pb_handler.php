@@ -342,16 +342,14 @@ if ($result == 'VERIFIED')
     {
         $email_body = '$_POST:'."\n\n";
 
-        reset($_POST);
-        while ( list ($key, $value) = each($_POST))
+        foreach ($_POST as $key => $value)
         {
             $email_body .= $key.'='.$value."\n";
         }
 
         $email_body .= "\n".'$_GET:'."\n\n";
 
-        reset($_GET);
-        while ( list ($key, $value) = each($_GET))
+        foreach ($_GET as $key => $value)
         {
             $email_body .= $key.'='.$value."\n";
         }

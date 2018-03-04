@@ -7,15 +7,21 @@
 
       <?php echo tep_draw_form('login', tep_href_link('login.php', 'action=process', 'SSL'), 'post', '', true); ?>
 
-        <div class="form-group">
-          <?php echo tep_draw_input_field('email_address', NULL, 'autofocus="autofocus" required id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email'); ?>
+        <div class="form-group has-feedback">
+          <?php 
+          echo tep_draw_input_field('email_address', NULL, 'autofocus="autofocus" required aria-required="true" id="inputEmail" placeholder="' . MODULE_CONTENT_LOGIN_ENTRY_EMAIL_ADDRESS_PLACEHOLDER . '"', 'email');
+          echo FORM_REQUIRED_INPUT;
+          ?>
         </div>
 
-        <div class="form-group">
-          <?php echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_TEXT . '"', 'password'); ?>
+        <div class="form-group has-feedback">
+          <?php 
+          echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . MODULE_CONTENT_LOGIN_ENTRY_PASSWORD_PLACEHOLDER . '"', 'password');
+          echo FORM_REQUIRED_INPUT;
+          ?>
         </div>
 
-        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'fa fa-sign-in', null, 'primary', NULL, 'btn-success btn-block'); ?></p>
+        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'fas fa-sign-in-alt', null, 'primary', NULL, 'btn-success btn-block'); ?></p>
 
       </form>
     </div>
