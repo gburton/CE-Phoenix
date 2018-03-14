@@ -213,16 +213,10 @@ if (tep_not_null($image['catdesc'])) {
 
 <?php
   } else { // default page
-?>
-
-<div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
-</div>
-
-<?php
-  if ($messageStack->size('product_action') > 0) {
-    echo $messageStack->output('product_action');
-  }
+  
+    if ($messageStack->size('product_action') > 0) {
+      echo $messageStack->output('product_action');
+    }
 ?>
 
 <div class="row">
