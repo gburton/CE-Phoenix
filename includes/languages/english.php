@@ -203,8 +203,8 @@ define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></
 define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>');
 
 // reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="author">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="ratingCount">%s</span> review(s) %s');
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list

@@ -51,11 +51,9 @@
   }
 ?>
 
-<div itemscope itemtype="http://schema.org/Product">
-
 <div class="page-header">
   <div class="row">
-    <h1 class="col-sm-4" itemprop="name"><?php echo $products_name; ?></h1>
+    <h1 class="col-sm-4"><?php echo $products_name; ?></h1>
     <h2 class="col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
   </div>
 </div>
@@ -65,7 +63,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><meta itemprop="ratingValue" content="' . max(1, (int)round($average['average'])) . '" /><meta itemprop="bestRating" content="5" />' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
 ?>
 
 <?php
@@ -112,11 +110,8 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateR
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       $review_name = tep_output_string_protected($reviews['customers_name']);
 ?>
-      <blockquote class="col-sm-6" itemprop="review" itemscope itemtype="http://schema.org/Review">
-        <p itemprop="reviewBody"><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
-        <meta itemprop="datePublished" content="<?php echo $reviews['date_added']; ?>">
-        <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-        <meta itemprop="ratingValue" content="<?php echo (int)$reviews['reviews_rating']; ?>"></span>
+      <blockquote class="col-sm-6">
+        <p><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
         <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
       </blockquote>
 <?php
@@ -163,8 +158,6 @@ echo '<div class="col-sm-8 text-center alert alert-success" itemprop="AggregateR
     </div>
     <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fas fa-comment-alt', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
   </div>
-</div>
-
 </div>
 
 <?php
