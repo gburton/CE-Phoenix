@@ -35,18 +35,10 @@
   require('includes/template_top.php');
 
   if ($category_depth == 'nested') {
-    $category_query = tep_db_query("select cd.categories_name, c.categories_image, cd.categories_description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
-    $category = tep_db_fetch_array($category_query);
-?>
-
-<div class="page-header">
-  <h1><?php echo $category['categories_name']; ?></h1>
-</div>
-
-<?php
-  if ($messageStack->size('product_action') > 0) {
-    echo $messageStack->output('product_action');
-  }
+    
+    if ($messageStack->size('product_action') > 0) {
+      echo $messageStack->output('product_action');
+    }
 ?>
 
 <div class="contentContainer">
