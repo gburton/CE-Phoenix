@@ -133,13 +133,14 @@
 // Check if the required stock is available
 // If insufficent stock is available return an out of stock message
   function tep_check_stock($products_id, $products_quantity) {
-    $stock_left = tep_get_products_stock($products_id) - $products_quantity;
+    $stock_available = tep_get_products_stock($products_id);
+    $stock_left = $stock_available - $products_quantity;
     $out_of_stock = '';
-
-    if ($stock_left < 0) {
-      $out_of_stock = '<span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span>';
+    if ($stock_available <= 0) {
+      $out_of_stock = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '<br />' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '<small>' . ((STOCK_ALLOW_CHECKOUT == 'true') ? TEXT_NOT_INSTOCK_CAN_CHECKOUT : TEXT_NOT_INSTOCK_CANT_CHECKOUT) . '</small></span>';
+    } elseif ($stock_left < 0) {
+      $out_of_stock = '<span class="markProductOutOfStock">' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '<br />' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '<small>' . sprintf(((STOCK_ALLOW_CHECKOUT == 'true') ? TEXT_NOT_ENOUGH_CAN_CHECKOUT : TEXT_NOT_ENOUGH_CANT_CHECKOUT), $stock_available) . '</small></span>';
     }
-
     return $out_of_stock;
   }
 
