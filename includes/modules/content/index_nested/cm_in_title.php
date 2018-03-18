@@ -37,8 +37,7 @@
       
       $content_width = MODULE_CONTENT_IN_TITLE_CONTENT_WIDTH;
      
-      $category_query = tep_db_query("select cd.categories_name, c.categories_image, cd.categories_description from categories c, categories_description cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
-      $category = tep_db_fetch_array($category_query);
+      $OSCOM_CategoryTree = new category_tree();
       
       ob_start();
       include('includes/modules/content/' . $this->group . '/templates/category_title.php');
