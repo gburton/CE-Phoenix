@@ -148,25 +148,30 @@
       }
     }
 
-    $catname = HEADING_TITLE;
+    $pageHeading = null;
     if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-      $image = tep_db_query("select m.manufacturers_image, m.manufacturers_name as catname, mi.manufacturers_description as catdesc from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
-      $image = tep_db_fetch_array($image);
-      $catname = $image['catname'];
-    } elseif ($current_category_id) {
-      $image = tep_db_query("select c.categories_image, cd.categories_name as catname, cd.categories_description as catdesc from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
-      $image = tep_db_fetch_array($image);
-      $catname = $image['catname'];
+
+	  $osC_Manufacturer = new osC_Manufacturer($_GET['manufacturers_id']);
+	  
+	  $pageHeading = $osC_Manufacturer->getTitle();
+      $pageDescription = $osC_Manufacturer->getDescription();
+      $pageImage = $osC_Manufacturer->getImage();    
+	
+	} elseif ($current_category_id) {
+
+	  $pageHeading = $osC_Category->getTitle();
+      $pageDescription = $osC_Category->getDescription();
+      $pageImage = $osC_Category->getImage();
     }
 ?>
 
 <div class="page-header">
-  <h1><?php echo $catname; ?></h1>
+  <h1><?php echo $pageHeading; ?></h1>
 </div>
 
 <?php
-if (tep_not_null($image['catdesc'])) {
-  echo '<div class="well well-sm">' . $image['catdesc'] . '</div>';
+if (tep_not_null($pageDescription)) {
+  echo '<div class="well well-sm">' . $pageDescription . '</div>';
 }
 ?>
 <div class="contentContainer">
