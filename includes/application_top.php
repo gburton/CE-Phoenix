@@ -449,10 +449,26 @@
   require('includes/functions/specials.php');
   tep_expire_specials();
 
+//Category Tree class
+  require('includes/classes/category_tree.php');
+  $osC_CategoryTree = new category_tree();
+//Category class
+  require('includes/classes/Category.php');
+//Product & Products class
+  require('includes/classes/Product.php');
+//Image class
+  require('includes/classes/Image.php');
+//Specials
+  require('includes/classes/Specials.php');
+//Manufacturers & Manufacturer class
+  require('includes/classes/Manufacturers.php');
+  $osC_Manufacturers = new osC_Manufacturers();
+  require('includes/classes/Manufacturer.php');
+//Template class
   require('includes/classes/osc_template.php');
-  $oscTemplate = new oscTemplate();
+  $oscTemplate = new oscTemplate();  
 
-// calculate category path
+  // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
   } elseif (isset($_GET['products_id']) && !isset($_GET['manufacturers_id'])) {
@@ -465,13 +481,14 @@
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
+    $osC_Category = new osC_Category($current_category_id);  
   } else {
     $current_category_id = 0;
   }
 
-// include category tree class
-  require('includes/classes/category_tree.php');
 
+
+  
 // include the breadcrumb class and start the breadcrumb trail
   require('includes/classes/breadcrumb.php');
   $breadcrumb = new breadcrumb;
