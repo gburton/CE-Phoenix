@@ -33,21 +33,20 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $description, $languages_id;
+      global $oscTemplate, $osC_Manufacturer, $osC_Category, $current_category_id, $description, $languages_id;
       
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
      
-			$heading = HEADING_TITLE;
-			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-				$focusq = tep_db_query("select m.manufacturers_image, m.manufacturers_name as name, mi.manufacturers_description as description from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
-				$focus = tep_db_fetch_array($focusq);
-				$heading = $focus['name'];
-				$description = $focus['description'];
+			$heading = '';
+			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {		
+		
+				$heading = $osC_Manufacturer->getTitle();
+				$description = $osC_Manufacturer->getDescription();
+
 			} elseif ($current_category_id) {
-				$focusq = tep_db_query("select c.categories_image, cd.categories_name as name, cd.categories_description as description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
-				$focus = tep_db_fetch_array($focusq);
-				$heading = $focus['name'];
-				$description = $focus['description'];
+				
+				$heading = $osC_Category->getTitle();
+				$description = $osC_Category->getDescription();
 			}
       
       ob_start();

@@ -12,7 +12,7 @@
 	
 	class osC_Manufacturers {
     
-		protected $_data = array();
+		public $_data = array();
 
 		public $root_start_string = '<ul>',
 			$root_end_string = '</ul>',
@@ -102,14 +102,34 @@
 		
 		function exists($id) {
 		  
-			foreach ( $this->_data as $manufacturer_id) {
-					  if ($id == $manufacturer_id) {
-						return true;
-					  }
+			foreach ( $this->_data as $manufacturers => $manufacturer) {
+				
+				if ($id == $manufacturer['id']) {
+					return true;
+				}
 			}
+		  
 		  return false;
 		}
-    
+		
+		public function getData($id, $key = null) {
+		  
+		  foreach ( $this->_data as $manufacturers => $manufacturer ) {
+			  if ( $id == $manufacturer['id'] ) {
+				$data = array('id' => $id,
+							  'name' => $manufacturer['name'],
+							  'description' => $manufacturer['description'],
+							  'seo_description' => $manufacturer['seo_description'],
+							  'seo_keywords' => $manufacturer['seo_keywords'],
+							  'seo_title' => $manufacturer['seo_title'],
+							  'image' => $manufacturer['image']);
+
+				return ( isset($key) ? $data[$key] : $data );
+			  }
+		  }
+
+		  return false;
+		}    
 		function setRootString($root_start_string, $root_end_string) {
 		  $this->root_start_string = $root_start_string;
 		  $this->root_end_string = $root_end_string;

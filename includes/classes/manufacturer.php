@@ -18,7 +18,7 @@
 			* @access private
 		*/
 		
-		private $_data = array();
+		public $_data = array();
 		
 		/**
 			* Constructor
@@ -34,8 +34,6 @@
 				$this->_data = $osC_Manufacturers->getData($id);
 			}
 		}
-		
-		
 		
 		/**
 			* Return the ID of the manufacturer
