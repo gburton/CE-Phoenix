@@ -39,7 +39,8 @@
      
 			$heading = '';
 			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {		
-		
+		        $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
+				
 				$heading = $osC_Manufacturer->getTitle();
 				$description = $osC_Manufacturer->getDescription();
 
