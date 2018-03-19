@@ -449,19 +449,26 @@
   require('includes/functions/specials.php');
   tep_expire_specials();
 
-  require('includes/classes/osc_template.php');
-  $oscTemplate = new oscTemplate();
-// include category tree class
+//Category Tree class
   require('includes/classes/category_tree.php');
   $osC_CategoryTree = new category_tree();
-// include category class
-  require('includes/classes/category.php');
-  require('includes/classes/manufacturers.php');
+//Category class
+  require('includes/classes/Category.php');
+//Product & Products class
+  require('includes/classes/Product.php');
+//Image class
+  require('includes/classes/Image.php');
+//Specials
+  require('includes/classes/Specials.php');
+//Manufacturers & Manufacturer class
+  require('includes/classes/Manufacturers.php');
   $osC_Manufacturers = new osC_Manufacturers();
-  
-  require('includes/classes/manufacturer.php');
-  
-// calculate category path
+  require('includes/classes/Manufacturer.php');
+//Template class
+  require('includes/classes/osc_template.php');
+  $oscTemplate = new oscTemplate();  
+
+  // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
   } elseif (isset($_GET['products_id']) && !isset($_GET['manufacturers_id'])) {
