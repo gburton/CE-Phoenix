@@ -17,7 +17,7 @@
 				if ( is_numeric($id) ) {
 					
 					
-					$Qproduct_Query = tep_db_query(" select products_id as id, parent_id, products_quantity as quantity, products_price as price, products_model as model, products_gtin as gtin, products_tax_class_id as tax_class_id, products_weight as weight, products_weight_class as weight_class_id, products_date_added as date_added, manufacturers_id, has_children, products_date_available from products where products_id = '" . (int)$id . "' and products_status = '1'");
+					$Qproduct_Query = tep_db_query(" select products_id as id, parent_id, products_quantity as quantity, products_price as price, products_model as model, products_gtin as gtin, products_tax_class_id as tax_class_id, products_weight as weight, products_weight_class as weight_class_id, products_date_available as date_expected, products_date_added as date_added, manufacturers_id, has_children, products_date_available from products where products_id = '" . (int)$id . "' and products_status = '1'");
 					$Qproduct = tep_db_fetch_array($Qproduct_Query);
 					
 					if ( tep_db_num_rows($Qproduct_Query) === 1 ) {					
