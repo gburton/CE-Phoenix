@@ -33,9 +33,21 @@
     }
 
     function execute() {
-      global $oscTemplate, $description;  
+      global $oscTemplate, $osC_Manufacturer, $osC_Category;  
 
       $content_width = MODULE_CONTENT_IP_DESCRIPTION_CONTENT_WIDTH;      
+      
+			$description = '';
+			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {		
+		    if (! is_object($osC_Manufacturer) ) $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
+				
+				$description = $osC_Manufacturer->getDescription();
+
+			} elseif ($current_category_id) {
+		    if (! is_object($osC_Category) ) $osC_Category = new osC_Category($current_category_id);
+				
+				$description = $osC_Category->getDescription();
+			}
       
       if (tep_not_null($description)) {
         ob_start();
