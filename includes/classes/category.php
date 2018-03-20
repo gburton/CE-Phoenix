@@ -15,7 +15,6 @@
 	/**
 		* The osC_Category class manages category information
 	*/
-	
 	class osC_Category {
 		
 		/**
@@ -24,7 +23,6 @@
 			* @var array
 			* @access private
 		*/
-		
 		private $_data = array();
 		
 		/**
@@ -33,12 +31,24 @@
 			* @param int $id The ID of the category to retrieve information from
 			* @access public
 		*/
-		
-		public function __construct($id) {
+		public function __construct($id = null) {
 			global $osC_CategoryTree;
-			
-			if ( $osC_CategoryTree->exists($id) ) {
+
+			if ( !isset($id) && isset($_GET['cPath']) ) {
+				$cPath_array = array_unique(array_filter(explode('_', $_GET['cPath']), 'is_numeric'));
+
+				if ( !empty($cPath_array) ) {
+					$id = end($cPath_array);
+				}
+			}
+
+			if ( isset($id) && $osC_CategoryTree->exists($id) ) {
 				$this->_data = $osC_CategoryTree->getData($id);
+
+				$this->_id = $this->_data['id'];
+				$this->_title = $this->_data['name'];
+				$this->_image = $this->_data['image'];
+				$this->_parent_id = $this->_data['parent_id'];
 			}
 		}
 		

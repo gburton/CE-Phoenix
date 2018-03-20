@@ -17,7 +17,7 @@
 				if ( is_numeric($id) ) {
 					
 					
-					$Qproduct_Query = tep_db_query(" select products_id as id, parent_id, products_quantity as quantity, products_price as price, products_model as model, products_tax_class_id as tax_class_id, products_weight as weight, products_weight_class as weight_class_id, products_date_added as date_added, manufacturers_id, has_children, products_date_available from products where products_id = '" . (int)$id . "' and products_status = '1'");
+					$Qproduct_Query = tep_db_query(" select products_id as id, parent_id, products_quantity as quantity, products_price as price, products_model as model, products_gtin as gtin, products_tax_class_id as tax_class_id, products_weight as weight, products_weight_class as weight_class_id, products_date_added as date_added, manufacturers_id, has_children, products_date_available from products where products_id = '" . (int)$id . "' and products_status = '1'");
 					$Qproduct = tep_db_fetch_array($Qproduct_Query);
 					
 					if ( tep_db_num_rows($Qproduct_Query) === 1 ) {					
@@ -104,11 +104,11 @@
 					
 					$this->_data['attributes'] = array();
 					
-					$Qattributes_Query = tep_db_query("select tb.code, pa.value from product_attributes pa, templates_boxes tb where pa.products_id = '" . $this->_data['master_id'] . "' and pa.languages_id in (0, '" . (int)$languages_id . "') and pa.id = tb.id");
+					/*$Qattributes_Query = tep_db_query("select tb.code, pa.value from product_attributes pa, templates_boxes tb where pa.products_id = '" . $this->_data['master_id'] . "' and pa.languages_id in (0, '" . (int)$languages_id . "') and pa.id = tb.id");
 					
 					while ( $Qattributes = tep_db_fetch_array($Qattributes_Query) ) {
 						$this->_data['attributes'][$Qattributes['code']] = $Qattributes['value'];
-					}
+					}*/
 					
 					$Qavg_Query = tep_db_query("select count(*) as count, avg(reviews_rating) as avgrating from reviews r, reviews_description rd where products_id = '" . $this->_data['master_id'] . "' and languages_id = '" . (int)$languages_id . "' and reviews_status = 1");
 					$Qavg = tep_db_fetch_array($Qavg_Query);

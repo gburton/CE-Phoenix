@@ -454,21 +454,8 @@
   $osC_CategoryTree = new category_tree();
 //Category class
   require('includes/classes/Category.php');
-//Product & Products class
-  require('includes/classes/Product.php');
-//Image class
-  require('includes/classes/Image.php');
-//Specials
-  require('includes/classes/Specials.php');
-//Manufacturers & Manufacturer class
-  require('includes/classes/Manufacturers.php');
-  $osC_Manufacturers = new osC_Manufacturers();
-  require('includes/classes/Manufacturer.php');
-//Template class
-  require('includes/classes/osc_template.php');
-  $oscTemplate = new oscTemplate();  
-
-  // calculate category path
+  
+// calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
   } elseif (isset($_GET['products_id']) && !isset($_GET['manufacturers_id'])) {
@@ -486,7 +473,19 @@
     $current_category_id = 0;
   }
 
-
+//Product & Products class
+  require('includes/classes/Product.php');
+//Image class
+  require('includes/classes/Image.php');
+//Specials
+  require('includes/classes/Specials.php');
+//Manufacturers & Manufacturer class
+  require('includes/classes/Manufacturers.php');
+  $osC_Manufacturers = new osC_Manufacturers();
+  require('includes/classes/Manufacturer.php');
+//Template class
+  require('includes/classes/osc_template.php');
+  $oscTemplate = new oscTemplate();
 
   
 // include the breadcrumb class and start the breadcrumb trail
