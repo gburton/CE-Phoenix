@@ -33,21 +33,20 @@
     }
 
     function execute() {
-      global $oscTemplate, $osC_Manufacturer, $osC_Category, $current_category_id, $description, $languages_id;
+      global $oscTemplate, $osC_Manufacturer, $osC_Category, $current_category_id;
       
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
      
 			$heading = '';
 			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {		
-		        $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
+		    if (! is_object($osC_Manufacturer) ) $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
 				
 				$heading = $osC_Manufacturer->getTitle();
-				$description = $osC_Manufacturer->getDescription();
 
 			} elseif ($current_category_id) {
 				
 				$heading = $osC_Category->getTitle();
-				$description = $osC_Category->getDescription();
+
 			}
       
       ob_start();
