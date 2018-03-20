@@ -18,11 +18,9 @@
 			$products_images_groups_query = tep_db_query("select * from products_images_groups where language_id = '" . (int)$languages_id . "'");
 			while($products_images_groups = tep_db_fetch_array($products_images_groups_query)){
 			
-			//foreach ( $products_images_groups as $group ) {
 				$this->_groups[(int)$products_images_groups['id']] = $products_images_groups;
 			}
 		}
-		
 		
 		public function getID($code) {
 			foreach ( $this->_groups as $group ) {
@@ -51,27 +49,32 @@
 		}		
 
 		public function show($image, $title, $parameters = null, $group = null) {
+			
 			if ( empty($group) || !$this->exists($group) ) {
 				$group = $this->getCode(DEFAULT_IMAGE_GROUP_ID);
 			}
+			
+            if($group == 0){
+				$url = tep_image('images/' . $image, $title, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"');
+			}else{	
+				$group_id = $this->getID($group);
 
-			$group_id = $this->getID($group);
+				$width = $height = '';
 
-			$width = $height = '';
+				if ( ($this->_groups[$group_id]['force_size'] == '1') || empty($image) ) {
+					$width = $this->_groups[$group_id]['size_width'];
+					$height = $this->_groups[$group_id]['size_height'];
+				}
 
-			if ( ($this->_groups[$group_id]['force_size'] == '1') || empty($image) ) {
-				$width = $this->_groups[$group_id]['size_width'];
-				$height = $this->_groups[$group_id]['size_height'];
+				if ( empty($image) ) {
+					$image = 'no_image_available_150_150.gif';
+				} else {
+					$image = $this->_groups[$group_id]['code'] . '/' . $image;
+				}
+				$url = tep_image('images/' . $image, $title, $width, $height, $parameters);
 			}
-
-			if ( empty($image) ) {
-				$image = 'no_image_available_150_150.gif';
-			} else {
-				$image = $this->_groups[$group_id]['code'] . '/' . $image;
-			}
-
 			//$url = (OSCOM::getRequestType() == 'NONSSL') ? OSCOM::getConfig('product_images_http_server') . OSCOM::getConfig('product_images_dir_ws_http_server') : OSCOM::getConfig('product_images_http_server') . OSCOM::getConfig('product_images_dir_ws_http_server');
-			$url = tep_image('images/' . $image, $title, $width, $height, $parameters);
+			
 			return $url;
 		}
 
