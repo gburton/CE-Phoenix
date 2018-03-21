@@ -33,18 +33,24 @@
     }
 
     function execute() {
-      global $oscTemplate, $languages_id;
+		global $oscTemplate, $languages_id;
       
-      $content_width = MODULE_CONTENT_UPCOMING_PRODUCTS_CONTENT_WIDTH;
+		$content_width = MODULE_CONTENT_UPCOMING_PRODUCTS_CONTENT_WIDTH;
       
-      $expected_query = tep_db_query("select p.products_id, pd.products_name, products_date_available as date_expected from products p, products_description pd where to_days(products_date_available) >= to_days(now()) and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_FIELD . " " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_SORT . " limit " . (int)MODULE_CONTENT_UPCOMING_PRODUCTS_MAX_DISPLAY);
+		$expected_query = tep_db_query("select products_id, products_date_available as date_expected from products where to_days(products_date_available) >= to_days(now()) order by " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_FIELD . " " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_SORT . " limit " . (int)MODULE_CONTENT_UPCOMING_PRODUCTS_MAX_DISPLAY);
       
-      if (tep_db_num_rows($expected_query) > 0) {
-        ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/upcoming_products.php');
-        $template = ob_get_clean(); 
+		if (tep_db_num_rows($expected_query) > 0) {
         
-        $oscTemplate->addContent($template, $this->group);
+			while ($expected = tep_db_fetch_array($expected_query)) {
+				$OSCOM_Product = new osC_Product($expected['products_id']);
+				$data[$OSCOM_Product->getID()] = $OSCOM_Product->getData();
+			}		
+		
+			ob_start();
+			include('includes/modules/content/' . $this->group . '/templates/upcoming_products.php');
+			$template = ob_get_clean(); 
+			
+			$oscTemplate->addContent($template, $this->group);
       }
     }
 
