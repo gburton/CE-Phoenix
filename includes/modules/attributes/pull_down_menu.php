@@ -16,7 +16,14 @@
 		
 		static public function parse($data) {
 			$selected = null;
+			foreach ( $data['data'] as $option_value ) {
 			
+				if ( $option_value['default'] == $option_value['id'] ) {
+
+					$selected = $option_value['id'];					
+					break;
+				}
+			}			
 			$fr_input = $fr_required = $fr_feedback = null;	
 			if (MODULE_CONTENT_PI_OA_ENFORCE == 'True') {	
 				$fr_input    = FORM_REQUIRED_INPUT;	
@@ -28,15 +35,9 @@
 				$data['data'] = array_merge($enforce_selection, $data['data']);			
 			}			
 			
-			foreach ( $data['data'] as $option_value ) {
 
-				if ( $option_value['default'] == $option_value['id'] ) {
-					$selected = $option_value['id'];					
-					break;
-				}
-			}
 			
-			$string .= '<div class="form-group' . $fr_feedback . '">' . PHP_EOL;	
+			$string = '<div class="form-group' . $fr_feedback . '">' . PHP_EOL;	
 			$string .=   '<label for="input_' . $data['title'] . '" class="control-label col-sm-3">' . $data['title'] . '</label>' . PHP_EOL; 	
 			$string .=   '<div class="col-sm-9">' . PHP_EOL;	
 			$string .=     tep_draw_pull_down_menu('id[' . $data['group_id'] . ']', $data['data'], $selected, $fr_required . 'id="input_' . $data['group_id'] . '"') . PHP_EOL;
