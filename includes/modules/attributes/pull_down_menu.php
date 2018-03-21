@@ -15,7 +15,6 @@
 		const HAS_CUSTOM_VALUE = false;
 		
 		static public function parse($data) {
-			global $cart;
 			$selected = null;
 			
 			$fr_input = $fr_required = $fr_feedback = null;	
@@ -32,16 +31,12 @@
 			foreach ( $data['data'] as $option_value ) {
 
 				if ( $option_value['default'] == $option_value['id'] ) {
-                    
-					if (is_string($_GET['products_id']) && isset($cart->contents[$_GET['products_id']]['attributes'][$data['group_id']])) {
-						array_shift($data['data']);	
-					}
 					$selected = $option_value['id'];					
 					break;
 				}
 			}
 			
-			$string = '<div class="form-group' . $fr_feedback . '">' . PHP_EOL;	
+			$string .= '<div class="form-group' . $fr_feedback . '">' . PHP_EOL;	
 			$string .=   '<label for="input_' . $data['title'] . '" class="control-label col-sm-3">' . $data['title'] . '</label>' . PHP_EOL; 	
 			$string .=   '<div class="col-sm-9">' . PHP_EOL;	
 			$string .=     tep_draw_pull_down_menu('id[' . $data['group_id'] . ']', $data['data'], $selected, $fr_required . 'id="input_' . $data['group_id'] . '"') . PHP_EOL;
