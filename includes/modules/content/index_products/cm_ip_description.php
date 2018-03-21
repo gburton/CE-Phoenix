@@ -39,7 +39,7 @@
       
 			$description = '';
 			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {		
-		    if (! is_object($osC_Manufacturer) ) $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
+		    $osC_Manufacturer = new osC_Manufacturer(($_GET['manufacturers_id']));
 				
 				$description = $osC_Manufacturer->getDescription();
 
@@ -47,6 +47,8 @@
 		    if (! is_object($osC_Category) ) $osC_Category = new osC_Category($current_category_id);
 				
 				$description = $osC_Category->getDescription();
+			}else{
+				 $description = $osC_Category->getDescription();
 			}
       
       if (tep_not_null($description)) {
