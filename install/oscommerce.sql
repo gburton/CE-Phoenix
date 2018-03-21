@@ -251,7 +251,7 @@ CREATE TABLE manufacturers_info (
   manufacturers_id int NOT NULL,
   languages_id int NOT NULL,
   manufacturers_url varchar(255) NOT NULL,
-  url_clicked int(5) NOT NULL default '0',
+  url_clicked int(5) NOT NULL DEFAULT '0',
   date_last_click datetime NULL,
   manufacturers_description TEXT NULL,
   manufacturers_seo_description TEXT NULL,
@@ -376,11 +376,11 @@ CREATE TABLE orders_products_attributes (
 DROP TABLE IF EXISTS orders_products_download;
 CREATE TABLE orders_products_download (
   orders_products_download_id int NOT NULL auto_increment,
-  orders_id int NOT NULL default '0',
-  orders_products_id int NOT NULL default '0',
-  orders_products_filename varchar(255) NOT NULL default '',
-  download_maxdays int(2) NOT NULL default '0',
-  download_count int(2) NOT NULL default '0',
+  orders_id int NOT NULL DEFAULT '0',
+  orders_products_id int NOT NULL DEFAULT '0',
+  orders_products_filename varchar(255) NOT NULL DEFAULT '',
+  download_maxdays int(2) NOT NULL DEFAULT '0',
+  download_count int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY  (orders_products_download_id),
   KEY idx_orders_products_download_orders_id (orders_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -408,14 +408,12 @@ CREATE TABLE products (
   products_date_added datetime NOT NULL,
   products_last_modified datetime,
   products_gtin CHAR(14) NULL,
-  parent_id int NOT NULL DEFAULT '0',
   products_weight decimal(5,2) NOT NULL,
   products_weight_class int NOT NULL,
   products_status tinyint(1) NOT NULL,
   products_tax_class_id int NOT NULL,
   manufacturers_id int DEFAULT NULL,
   products_ordered int NOT NULL DEFAULT '0',
-  has_children int DEFAULT '0',
   products_date_available datetime DEFAULT NULL,  
   PRIMARY KEY (products_id),
   KEY idx_products_model (products_model),
@@ -437,9 +435,9 @@ CREATE TABLE products_attributes (
 DROP TABLE IF EXISTS products_attributes_download;
 CREATE TABLE products_attributes_download (
   products_attributes_id int NOT NULL,
-  products_attributes_filename varchar(255) NOT NULL default '',
-  products_attributes_maxdays int(2) default '0',
-  products_attributes_maxcount int(2) default '0',
+  products_attributes_filename varchar(255) NOT NULL DEFAULT '',
+  products_attributes_maxdays int(2) DEFAULT '0',
+  products_attributes_maxcount int(2) DEFAULT '0',
   PRIMARY KEY  (products_attributes_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -447,15 +445,15 @@ DROP TABLE IF EXISTS products_description;
 CREATE TABLE IF NOT EXISTS products_description (
   products_id int(11) NOT NULL AUTO_INCREMENT,
   language_id int(11) NOT NULL DEFAULT '1',
-  products_name varchar(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  products_description text COLLATE utf8_unicode_ci,
-  products_keyword varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  products_tags varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,  
-  products_url varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  products_name varchar(64) NOT NULL DEFAULT '',
+  products_description text,
+  products_keyword varchar(255) DEFAULT NULL,
+  products_tags varchar(255) DEFAULT NULL,  
+  products_url varchar(255) DEFAULT NULL,
   products_viewed int(5) DEFAULT '0',
-  products_seo_description text COLLATE utf8_unicode_ci,
-  products_seo_keywords varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  products_seo_title varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  products_seo_description text,
+  products_seo_keywords varchar(128) DEFAULT NULL,
+  products_seo_title varchar(128) DEFAULT NULL,
   PRIMARY KEY (products_id,language_id),
   KEY products_name (products_name),
   KEY products_description_keyword (products_keyword)
@@ -472,7 +470,7 @@ CREATE TABLE IF NOT EXISTS products_images (
   date_added datetime NOT NULL,
   PRIMARY KEY (id),
   KEY products_images_prodid (products_id)
-) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS products_images_groups;
 CREATE TABLE IF NOT EXISTS products_images_groups (
@@ -485,7 +483,7 @@ CREATE TABLE IF NOT EXISTS products_images_groups (
   force_size tinyint(1) DEFAULT '0',
   PRIMARY KEY (id,language_id),
   KEY idx_products_images_groups_language_id (language_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS products_notifications;
 CREATE TABLE products_notifications (
@@ -497,18 +495,21 @@ CREATE TABLE products_notifications (
 
 DROP TABLE IF EXISTS products_options;
 CREATE TABLE products_options (
-  products_options_id int NOT NULL default '0',
-  language_id int NOT NULL default '1',
-  products_options_name varchar(32) NOT NULL default '',
-  PRIMARY KEY  (products_options_id,language_id)
+  products_options_id int(11) NOT NULL DEFAULT '0',
+  language_id int(11) NOT NULL DEFAULT '1',
+  products_options_name varchar(32) NOT NULL DEFAULT '',
+  products_options_type text,
+  products_options_order int(3) NOT NULL DEFAULT '0',
+  PRIMARY KEY (products_options_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS products_options_values;
 CREATE TABLE products_options_values (
-  products_options_values_id int NOT NULL default '0',
-  language_id int NOT NULL default '1',
-  products_options_values_name varchar(64) NOT NULL default '',
-  PRIMARY KEY  (products_options_values_id,language_id)
+  products_options_values_id int(11) NOT NULL DEFAULT '0',
+  language_id int(11) NOT NULL DEFAULT '1',
+  products_options_values_name varchar(64) NOT NULL DEFAULT '',
+  sort_order int(3) NOT NULL DEFAULT '0',
+  PRIMARY KEY (products_options_values_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS products_options_values_to_products_options;
@@ -535,8 +536,8 @@ CREATE TABLE reviews (
   reviews_rating int(1),
   date_added datetime,
   last_modified datetime,
-  reviews_status tinyint(1) NOT NULL default '0',
-  reviews_read int(5) NOT NULL default '0',
+  reviews_status tinyint(1) NOT NULL DEFAULT '0',
+  reviews_read int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (reviews_id),
   KEY idx_reviews_products_id (products_id),
   KEY idx_reviews_customers_id (customers_id)
@@ -652,7 +653,7 @@ CREATE TABLE testimonials (
   customers_name varchar(255) NOT NULL,
   date_added datetime,
   last_modified datetime,
-  testimonials_status tinyint(1) NOT NULL default '1',
+  testimonials_status tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (testimonials_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -673,51 +674,51 @@ INSERT INTO address_format VALUES (3, '$firstname $lastname$cr$streets$cr$city$c
 INSERT INTO address_format VALUES (4, '$firstname $lastname$cr$streets$cr$city ($postcode)$cr$country', '$postcode / $country');
 INSERT INTO address_format VALUES (5, '$firstname $lastname$cr$streets$cr$postcode $city$cr$country','$city / $country');
 
-INSERT INTO banners VALUES (1, 'osCommerce', 'http://www.oscommerce.com', 'banners/oscommerce.gif', 'footer', '', 0, null, null, now(), null, 1);
+INSERT INTO banners VALUES (1, 'osCommerce', 'http://www.oscommerce.com', 'banners/oscommerce.gif', 'footer', '', 0, NULL, NULL, now(), NULL, 1);
 
-INSERT INTO categories VALUES ('1', 'category_hardware.gif', '0', '1', now(), null);
-INSERT INTO categories VALUES ('2', 'category_software.gif', '0', '2', now(), null);
-INSERT INTO categories VALUES ('3', 'category_dvd_movies.gif', '0', '3', now(), null);
-INSERT INTO categories VALUES ('4', 'subcategory_graphic_cards.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('5', 'subcategory_printers.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('6', 'subcategory_monitors.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('7', 'subcategory_speakers.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('8', 'subcategory_keyboards.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('9', 'subcategory_mice.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('10', 'subcategory_action.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('11', 'subcategory_science_fiction.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('12', 'subcategory_comedy.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('13', 'subcategory_cartoons.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('14', 'subcategory_thriller.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('15', 'subcategory_drama.gif', '3', '0', now(), null);
-INSERT INTO categories VALUES ('16', 'subcategory_memory.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('17', 'subcategory_cdrom_drives.gif', '1', '0', now(), null);
-INSERT INTO categories VALUES ('18', 'subcategory_simulation.gif', '2', '0', now(), null);
-INSERT INTO categories VALUES ('19', 'subcategory_action_games.gif', '2', '0', now(), null);
-INSERT INTO categories VALUES ('20', 'subcategory_strategy.gif', '2', '0', now(), null);
-INSERT INTO categories VALUES ('21', 'category_gadgets.png', '0', '4', now(), null);
+INSERT INTO categories VALUES ('1', 'category_hardware.gif', '0', '1', now(), NULL);
+INSERT INTO categories VALUES ('2', 'category_software.gif', '0', '2', now(), NULL);
+INSERT INTO categories VALUES ('3', 'category_dvd_movies.gif', '0', '3', now(), NULL);
+INSERT INTO categories VALUES ('4', 'subcategory_graphic_cards.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('5', 'subcategory_printers.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('6', 'subcategory_monitors.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('7', 'subcategory_speakers.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('8', 'subcategory_keyboards.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('9', 'subcategory_mice.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('10', 'subcategory_action.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('11', 'subcategory_science_fiction.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('12', 'subcategory_comedy.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('13', 'subcategory_cartoons.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('14', 'subcategory_thriller.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('15', 'subcategory_drama.gif', '3', '0', now(), NULL);
+INSERT INTO categories VALUES ('16', 'subcategory_memory.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('17', 'subcategory_cdrom_drives.gif', '1', '0', now(), NULL);
+INSERT INTO categories VALUES ('18', 'subcategory_simulation.gif', '2', '0', now(), NULL);
+INSERT INTO categories VALUES ('19', 'subcategory_action_games.gif', '2', '0', now(), NULL);
+INSERT INTO categories VALUES ('20', 'subcategory_strategy.gif', '2', '0', now(), NULL);
+INSERT INTO categories VALUES ('21', 'category_gadgets.png', '0', '4', now(), NULL);
 
-INSERT INTO categories_description VALUES ( '1', '1', 'Hardware', null, null, null, null);
-INSERT INTO categories_description VALUES ( '2', '1', 'Software', null, null, null, null);
-INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies', null, null, null, null);
-INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards', null, null, null, null);
-INSERT INTO categories_description VALUES ( '5', '1', 'Printers', null, null, null, null);
-INSERT INTO categories_description VALUES ( '6', '1', 'Monitors', null, null, null, null);
-INSERT INTO categories_description VALUES ( '7', '1', 'Speakers', null, null, null, null);
-INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards', null, null, null, null);
-INSERT INTO categories_description VALUES ( '9', '1', 'Mice', null, null, null, null);
-INSERT INTO categories_description VALUES ( '10', '1', 'Action', null, null, null, null);
-INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction', null, null, null, null);
-INSERT INTO categories_description VALUES ( '12', '1', 'Comedy', null, null, null, null);
-INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons', null, null, null, null);
-INSERT INTO categories_description VALUES ( '14', '1', 'Thriller', null, null, null, null);
-INSERT INTO categories_description VALUES ( '15', '1', 'Drama', null, null, null, null);
-INSERT INTO categories_description VALUES ( '16', '1', 'Memory', null, null, null, null);
-INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives', null, null, null, null);
-INSERT INTO categories_description VALUES ( '18', '1', 'Simulation', null, null, null, null);
-INSERT INTO categories_description VALUES ( '19', '1', 'Action', null, null, null, null);
-INSERT INTO categories_description VALUES ( '20', '1', 'Strategy', null, null, null, null);
-INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets', null, null, null, null);
+INSERT INTO categories_description VALUES ( '1', '1', 'Hardware', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '2', '1', 'Software', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '3', '1', 'DVD Movies', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '4', '1', 'Graphics Cards', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '5', '1', 'Printers', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '6', '1', 'Monitors', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '7', '1', 'Speakers', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '8', '1', 'Keyboards', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '9', '1', 'Mice', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '10', '1', 'Action', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '11', '1', 'Science Fiction', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '12', '1', 'Comedy', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '13', '1', 'Cartoons', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '14', '1', 'Thriller', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '15', '1', 'Drama', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '16', '1', 'Memory', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '17', '1', 'CDROM Drives', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '18', '1', 'Simulation', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '19', '1', 'Action', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '20', '1', 'Strategy', NULL, NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ( '21', '1', 'Gadgets', NULL, NULL, NULL, NULL);
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'osCommerce', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'Harald Ponce de Leon', 'The name of my store owner', '1', '2', now());
@@ -1163,60 +1164,60 @@ INSERT INTO currencies VALUES (2,'Euro','EUR','','€','.',',','2','1.0000', now
 
 INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
 
-INSERT INTO manufacturers VALUES (1,'Matrox','manufacturer_matrox.gif', now(), null);
-INSERT INTO manufacturers VALUES (2,'Microsoft','manufacturer_microsoft.gif', now(), null);
-INSERT INTO manufacturers VALUES (3,'Warner','manufacturer_warner.gif', now(), null);
-INSERT INTO manufacturers VALUES (4,'Fox','manufacturer_fox.gif', now(), null);
-INSERT INTO manufacturers VALUES (5,'Logitech','manufacturer_logitech.gif', now(), null);
-INSERT INTO manufacturers VALUES (6,'Canon','manufacturer_canon.gif', now(), null);
-INSERT INTO manufacturers VALUES (7,'Sierra','manufacturer_sierra.gif', now(), null);
-INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactive.gif', now(), null);
-INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), null);
-INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), null);
+INSERT INTO manufacturers VALUES (1,'Matrox','manufacturer_matrox.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (2,'Microsoft','manufacturer_microsoft.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (3,'Warner','manufacturer_warner.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (4,'Fox','manufacturer_fox.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (5,'Logitech','manufacturer_logitech.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (6,'Canon','manufacturer_canon.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (7,'Sierra','manufacturer_sierra.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (8,'GT Interactive','manufacturer_gt_interactive.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (9,'Hewlett Packard','manufacturer_hewlett_packard.gif', now(), NULL);
+INSERT INTO manufacturers VALUES (10,'Samsung','manufacturer_samsung.png', now(), NULL);
 
-INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (1, 1, 'http://www.matrox.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (2, 1, 'http://www.microsoft.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (3, 1, 'http://www.warner.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (4, 1, 'http://www.fox.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (5, 1, 'http://www.logitech.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (6, 1, 'http://www.canon.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (7, 1, 'http://www.sierra.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (8, 1, 'http://www.infogrames.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (9, 1, 'http://www.hewlettpackard.com', 0, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO manufacturers_info VALUES (10, 1, 'http://www.samsung.com', 0, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO orders_status VALUES ( '1', '1', 'Pending', '1', '0');
 INSERT INTO orders_status VALUES ( '2', '1', 'Processing', '1', '1');
 INSERT INTO orders_status VALUES ( '3', '1', 'Delivered', '1', '1');
 
-INSERT INTO products VALUES(1, 32, 'MG200MMS', 'matrox/mg200mms.gif', '299.9900', now(), NULL, '', 0, '23.00', 0, 1, 1, 1, 0, 0, NULL);
-INSERT INTO products VALUES(2, 32, 'MG400-32MB', 'matrox/mg400-32mb.gif', '499.9900', now(), NULL, '', 0, '23.00', 0, 1, 1, 1, 0, 0, NULL);
-INSERT INTO products VALUES(3, 2, 'MSIMPRO', 'microsoft/msimpro.gif', '49.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(4, 13, 'DVD-RPMK', 'dvd/replacement_killers.gif', '42.0000', now(), NULL, '', 0, '23.00', 0, 1, 1, 2, 0, 0, NULL);
-INSERT INTO products VALUES(5, 17, 'DVD-BLDRNDC', 'dvd/blade_runner.gif', '35.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(6, 10, 'DVD-MATR', 'dvd/the_matrix.gif', '39.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(7, 10, 'DVD-YGEM', 'dvd/youve_got_mail.gif', '34.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(8, 10, 'DVD-ABUG', 'dvd/a_bugs_life.gif', '35.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(9, 10, 'DVD-UNSG', 'dvd/under_siege.gif', '29.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(10, 10, 'DVD-UNSG2', 'dvd/under_siege2.gif', '29.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(11, 10, 'DVD-FDBL', 'dvd/fire_down_below.gif', '29.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(12, 10, 'DVD-DHWV', 'dvd/die_hard_3.gif', '39.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 4, 0, 0, NULL);
-INSERT INTO products VALUES(13, 10, 'DVD-LTWP', 'dvd/lethal_weapon.gif', '34.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(14, 10, 'DVD-REDC', 'dvd/red_corner.gif', '32.0000', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(15, 10, 'DVD-FRAN', 'dvd/frantic.gif', '35.0000', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(16, 10, 'DVD-CUFI', 'dvd/courage_under_fire.gif', '38.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 4, 0, 0, NULL);
-INSERT INTO products VALUES(17, 10, 'DVD-SPEED', 'dvd/speed.gif', '39.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 4, 0, 0, NULL);
-INSERT INTO products VALUES(18, 10, 'DVD-SPEED2', 'dvd/speed_2.gif', '42.0000', now(), NULL, '', 0, '7.00', 0, 1, 1, 4, 0, 0, NULL);
-INSERT INTO products VALUES(19, 10, 'DVD-TSAB', 'dvd/theres_something_about_mary.gif', '49.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 4, 0, 0, NULL);
-INSERT INTO products VALUES(20, 10, 'DVD-BELOVED', 'dvd/beloved.gif', '54.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 3, 0, 0, NULL);
-INSERT INTO products VALUES(21, 16, 'PC-SWAT3', 'sierra/swat_3.gif', '79.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 7, 0, 0, NULL);
-INSERT INTO products VALUES(22, 13, 'PC-UNTM', 'gt_interactive/unreal_tournament.gif', '89.9900', now(), NULL, '', 0, '7.00', 0, 1, 1, 8, 0, 0, NULL);
-INSERT INTO products VALUES(23, 16, 'PC-TWOF', 'gt_interactive/wheel_of_time.gif', '99.9900', now(), NULL, '', 0, '10.00', 0, 1, 1, 8, 0, 0, NULL);
-INSERT INTO products VALUES(24, 17, 'PC-DISC', 'gt_interactive/disciples.gif', '90.0000', now(), NULL, '', 0, '8.00', 0, 1, 1, 8, 0, 0, NULL);
-INSERT INTO products VALUES(25, 16, 'MSINTKB', 'microsoft/intkeyboardps2.gif', '69.9900', now(), NULL, '', 0, '8.00', 0, 1, 1, 2, 0, 0, NULL);
-INSERT INTO products VALUES(26, 10, 'MSIMEXP', 'microsoft/imexplorer.gif', '64.9500', now(), NULL, '', 0, '8.00', 0, 1, 1, 2, 0, 0, NULL);
-INSERT INTO products VALUES(27, 8, 'HPLJ1100XI', 'hewlett_packard/lj1100xi.gif', '499.9900', now(), NULL, '', 0, '45.00', 0, 1, 1, 9, 0, 0, NULL);
-INSERT INTO products VALUES(28, 100, 'GT-P1000', 'samsung/galaxy_tab.gif', '749.9900', now(), NULL, '', 0, '1.00', 0, 1, 1, 10, 0, 0, NULL);
+INSERT INTO products VALUES(1, 32, 'MG200MMS', 'matrox/mg200mms.gif', '299.9900', now(), NULL, '', '23.00', 0, 1, 1, 1, 0, NULL);
+INSERT INTO products VALUES(2, 32, 'MG400-32MB', 'matrox/mg400-32mb.gif', '499.9900', now(), NULL, '', '23.00', 0, 1, 1, 1, 0, NULL);
+INSERT INTO products VALUES(3, 2, 'MSIMPRO', 'microsoft/msimpro.gif', '49.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(4, 13, 'DVD-RPMK', 'dvd/replacement_killers.gif', '42.0000', now(), NULL, '', '23.00', 0, 1, 1, 2, 0, NULL);
+INSERT INTO products VALUES(5, 17, 'DVD-BLDRNDC', 'dvd/blade_runner.gif', '35.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(6, 10, 'DVD-MATR', 'dvd/the_matrix.gif', '39.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(7, 10, 'DVD-YGEM', 'dvd/youve_got_mail.gif', '34.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(8, 10, 'DVD-ABUG', 'dvd/a_bugs_life.gif', '35.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(9, 10, 'DVD-UNSG', 'dvd/under_siege.gif', '29.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(10, 10, 'DVD-UNSG2', 'dvd/under_siege2.gif', '29.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(11, 10, 'DVD-FDBL', 'dvd/fire_down_below.gif', '29.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(12, 10, 'DVD-DHWV', 'dvd/die_hard_3.gif', '39.9900', now(), NULL, '', '7.00', 0, 1, 1, 4, 0, NULL);
+INSERT INTO products VALUES(13, 10, 'DVD-LTWP', 'dvd/lethal_weapon.gif', '34.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(14, 10, 'DVD-REDC', 'dvd/red_corner.gif', '32.0000', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(15, 10, 'DVD-FRAN', 'dvd/frantic.gif', '35.0000', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(16, 10, 'DVD-CUFI', 'dvd/courage_under_fire.gif', '38.9900', now(), NULL, '', '7.00', 0, 1, 1, 4, 0, NULL);
+INSERT INTO products VALUES(17, 10, 'DVD-SPEED', 'dvd/speed.gif', '39.9900', now(), NULL, '', '7.00', 0, 1, 1, 4, 0, NULL);
+INSERT INTO products VALUES(18, 10, 'DVD-SPEED2', 'dvd/speed_2.gif', '42.0000', now(), NULL, '', '7.00', 0, 1, 1, 4, 0, NULL);
+INSERT INTO products VALUES(19, 10, 'DVD-TSAB', 'dvd/theres_something_about_mary.gif', '49.9900', now(), NULL, '', '7.00', 0, 1, 1, 4, 0, NULL);
+INSERT INTO products VALUES(20, 10, 'DVD-BELOVED', 'dvd/beloved.gif', '54.9900', now(), NULL, '', '7.00', 0, 1, 1, 3, 0, NULL);
+INSERT INTO products VALUES(21, 16, 'PC-SWAT3', 'sierra/swat_3.gif', '79.9900', now(), NULL, '', '7.00', 0, 1, 1, 7, 0, NULL);
+INSERT INTO products VALUES(22, 13, 'PC-UNTM', 'gt_interactive/unreal_tournament.gif', '89.9900', now(), NULL, '', '7.00', 0, 1, 1, 8, 0, NULL);
+INSERT INTO products VALUES(23, 16, 'PC-TWOF', 'gt_interactive/wheel_of_time.gif', '99.9900', now(), NULL, '', '10.00', 0, 1, 1, 8, 0, NULL);
+INSERT INTO products VALUES(24, 17, 'PC-DISC', 'gt_interactive/disciples.gif', '90.0000', now(), NULL, '', '8.00', 0, 1, 1, 8, 0, NULL);
+INSERT INTO products VALUES(25, 16, 'MSINTKB', 'microsoft/intkeyboardps2.gif', '69.9900', now(), NULL, '', '8.00', 0, 1, 1, 2, 0, NULL);
+INSERT INTO products VALUES(26, 10, 'MSIMEXP', 'microsoft/imexplorer.gif', '64.9500', now(), NULL, '', '8.00', 0, 1, 1, 2, 0, NULL);
+INSERT INTO products VALUES(27, 8, 'HPLJ1100XI', 'hewlett_packard/lj1100xi.gif', '499.9900', now(), NULL, NULL, '45.00', 0, 1, 1, 9, 0, NULL);
+INSERT INTO products VALUES(28, 100, 'GT-P1000', 'samsung/galaxy_tab.gif', '749.9900', now(), NULL, 'GT-P1000ZKDPHN', '1.00', 0, 1, 1, 10, 0, NULL);
 
 INSERT INTO products_description VALUES(1, 1, 'Matrox G200 MMS', 'Reinforcing its position as a multi-monitor trailblazer, Matrox Graphics Inc. has once again developed the most flexible and highly advanced solution in the industry. Introducing the new Matrox G200 Multi-Monitor Series; the first graphics card ever to support up to four DVI digital flat panel displays on a single 8&quot; PCI board.<br /><br />With continuing demand for digital flat panels in the financial workplace, the Matrox G200 MMS is the ultimate in flexible solutions. The Matrox G200 MMS also supports the new digital video interface (DVI) created by the Digital Display Working Group (DDWG) designed to ease the adoption of digital flat panels. Other configurations include composite video capture ability and onboard TV tuner, making the Matrox G200 MMS the complete solution for business needs.<br /><br />Based on the award-winning MGA-G200 graphics chip, the Matrox G200 Multi-Monitor Series provides superior 2D/3D graphics acceleration to meet the demanding needs of business applications such as real-time stock quotes (Versus), live video feeds (Reuters &amp; Bloombergs), multiple windows applications, word processing, spreadsheets and CAD.', NULL, NULL, 'www.matrox.com/mga/products/g200_mms/home.cfm', 0, NULL, NULL, NULL);
 INSERT INTO products_description VALUES(2, 1, 'Matrox G400 32MB', '<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry\'s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC\'s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>', NULL, NULL, 'www.matrox.com/mga/products/mill_g400/home.htm', 0, NULL, NULL, NULL);
@@ -1310,23 +1311,23 @@ INSERT INTO products_images_groups VALUES(3, 1, 'Product Information Page', 'pro
 INSERT INTO products_images_groups VALUES(4, 1, 'Large', 'large', 375, 300, 0);
 INSERT INTO products_images_groups VALUES(5, 1, 'Mini', 'mini', 50, 40, 0);
 
-INSERT INTO products_options VALUES (1,1,'Color');
-INSERT INTO products_options VALUES (2,1,'Size');
-INSERT INTO products_options VALUES (3,1,'Model');
-INSERT INTO products_options VALUES (4,1,'Memory');
-INSERT INTO products_options VALUES (5, 1, 'Version');
+INSERT INTO products_options VALUES(1, 1, 'Color', NULL, 0);
+INSERT INTO products_options VALUES(2, 1, 'Size', NULL, 0);
+INSERT INTO products_options VALUES(3, 1, 'Model', NULL, 0);
+INSERT INTO products_options VALUES(4, 1, 'Memory', NULL, 0);
+INSERT INTO products_options VALUES(5, 1, 'Version', NULL, 0);
 
-INSERT INTO products_options_values VALUES (1,1,'4 mb');
-INSERT INTO products_options_values VALUES (2,1,'8 mb');
-INSERT INTO products_options_values VALUES (3,1,'16 mb');
-INSERT INTO products_options_values VALUES (4,1,'32 mb');
-INSERT INTO products_options_values VALUES (5,1,'Value');
-INSERT INTO products_options_values VALUES (6,1,'Premium');
-INSERT INTO products_options_values VALUES (7,1,'Deluxe');
-INSERT INTO products_options_values VALUES (8,1,'PS/2');
-INSERT INTO products_options_values VALUES (9,1,'USB');
-INSERT INTO products_options_values VALUES (10, 1, 'Download: Windows - English');
-INSERT INTO products_options_values VALUES (13, 1, 'Box: Windows - English');
+INSERT INTO products_options_values VALUES(1, 1, '4 mb', 0);
+INSERT INTO products_options_values VALUES(2, 1, '8 mb', 0);
+INSERT INTO products_options_values VALUES(3, 1, '16 mb', 0);
+INSERT INTO products_options_values VALUES(4, 1, '32 mb', 0);
+INSERT INTO products_options_values VALUES(5, 1, 'Value', 0);
+INSERT INTO products_options_values VALUES(6, 1, 'Premium', 0);
+INSERT INTO products_options_values VALUES(7, 1, 'Deluxe', 0);
+INSERT INTO products_options_values VALUES(8, 1, 'PS/2', 0);
+INSERT INTO products_options_values VALUES(9, 1, 'USB', 0);
+INSERT INTO products_options_values VALUES(10, 1, 'Download: Windows - English', 0);
+INSERT INTO products_options_values VALUES(13, 1, 'Box: Windows - English', 0);
 
 INSERT INTO products_options_values_to_products_options VALUES (1,4,1);
 INSERT INTO products_options_values_to_products_options VALUES (2,4,2);
@@ -1369,28 +1370,28 @@ INSERT INTO products_to_categories VALUES (26,9);
 INSERT INTO products_to_categories VALUES (27,5);
 INSERT INTO products_to_categories VALUES (28,21);
 
-INSERT INTO reviews VALUES (1,19,0,'John Doe',5,now(),null,1,0);
+INSERT INTO reviews VALUES (1,19,0,'John Doe',5,now(),NULL,1,0);
 
 INSERT INTO reviews_description VALUES (1,1, 'This has to be one of the funniest movies released for 1999!');
 
-INSERT INTO sec_directory_whitelist values (null, 'admin/backups');
-INSERT INTO sec_directory_whitelist values (null, 'admin/images/graphs');
-INSERT INTO sec_directory_whitelist values (null, 'images');
-INSERT INTO sec_directory_whitelist values (null, 'images/banners');
-INSERT INTO sec_directory_whitelist values (null, 'images/dvd');
-INSERT INTO sec_directory_whitelist values (null, 'images/gt_interactive');
-INSERT INTO sec_directory_whitelist values (null, 'images/hewlett_packard');
-INSERT INTO sec_directory_whitelist values (null, 'images/matrox');
-INSERT INTO sec_directory_whitelist values (null, 'images/microsoft');
-INSERT INTO sec_directory_whitelist values (null, 'images/samsung');
-INSERT INTO sec_directory_whitelist values (null, 'images/sierra');
-INSERT INTO sec_directory_whitelist values (null, 'includes/work');
-INSERT INTO sec_directory_whitelist values (null, 'pub');
+INSERT INTO sec_directory_whitelist values (NULL, 'admin/backups');
+INSERT INTO sec_directory_whitelist values (NULL, 'admin/images/graphs');
+INSERT INTO sec_directory_whitelist values (NULL, 'images');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/banners');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/dvd');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/gt_interactive');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/hewlett_packard');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/matrox');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/microsoft');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/samsung');
+INSERT INTO sec_directory_whitelist values (NULL, 'images/sierra');
+INSERT INTO sec_directory_whitelist values (NULL, 'includes/work');
+INSERT INTO sec_directory_whitelist values (NULL, 'pub');
 
-INSERT INTO specials VALUES (1,3, 39.99, now(), null, null, null, '1');
-INSERT INTO specials VALUES (2,5, 30.00, now(), null, null, null, '1');
-INSERT INTO specials VALUES (3,6, 30.00, now(), null, null, null, '1');
-INSERT INTO specials VALUES (4,16, 29.99, now(), null, null, null, '1');
+INSERT INTO specials VALUES (1,3, 39.99, now(), NULL, NULL, NULL, '1');
+INSERT INTO specials VALUES (2,5, 30.00, now(), NULL, NULL, NULL, '1');
+INSERT INTO specials VALUES (3,6, 30.00, now(), NULL, NULL, NULL, '1');
+INSERT INTO specials VALUES (4,16, 29.99, now(), NULL, NULL, NULL, '1');
 
 INSERT INTO tax_class VALUES (1, 'Taxable Goods', 'The following types of products are included non-food, services, etc', now(), now());
 
