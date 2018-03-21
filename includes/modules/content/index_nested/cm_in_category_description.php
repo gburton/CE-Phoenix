@@ -37,8 +37,8 @@
 
       $content_width = MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_CONTENT_WIDTH;      
       
-	  $descriptiona = new osC_Category();
-	  $description  = $descriptiona->getDescription();
+	  $osC_Category = new osC_Category();
+	  $description  = $osC_Category->getDescription();
 	  
       if (tep_not_null($description)) {
         ob_start();

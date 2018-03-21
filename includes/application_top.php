@@ -475,6 +475,8 @@
 
 //Product & Products class
   require('includes/classes/Product.php');
+// include Attributes class
+  require_once('includes/classes/Attributes.php');  
 //Image class
   require('includes/classes/Image.php');
 //Specials
