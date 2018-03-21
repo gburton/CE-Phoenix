@@ -39,7 +39,9 @@
       $category_width = MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH_EACH;
       
       $OSCOM_CategoryTree = new category_tree();
-      $data = $OSCOM_CategoryTree->getArray($current_category_id);
+      $OSCOM_CategoryTree->setMaximumLevel(1);
+	  
+	  $data = $OSCOM_CategoryTree->getArray($current_category_id);
 
       ob_start();
       include('includes/modules/content/' . $this->group . '/templates/category_listing.php');
