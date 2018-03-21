@@ -127,7 +127,8 @@
           }
 
           $result[] = array('id' => $category_link,
-                            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name']);
+                            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name'],
+							'image' => $category['image']);
 
           if (isset($this->_data[$category_id]) && (($this->max_level == '0') || ($this->max_level > $level+1))) {
             if ($this->follow_cpath === true) {
