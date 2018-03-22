@@ -290,6 +290,7 @@ define('TEXT_FIELD_REQUIRED', '&nbsp;<span class="fieldRequired">* Required</spa
 define('TEXT_CACHE_CATEGORIES', 'Categories Box');
 define('TEXT_CACHE_MANUFACTURERS', 'Manufacturers Box');
 define('TEXT_CACHE_ALSO_PURCHASED', 'Also Purchased Module');
+define('TEXT_CACHE_PRODUCTS', 'Products id <strong>%d</strong>');
 
 define('TEXT_NONE', '--none--');
 define('TEXT_TOP', 'Top');
