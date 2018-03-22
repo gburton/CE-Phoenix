@@ -1002,7 +1002,7 @@
     if (USE_CACHE == 'true') {
       tep_reset_cache_block('categories');
       tep_reset_cache_block('also_purchased');
-    }
+      tep_reset_cache_block('products_id' . (int)$product_id);    }
   }
 
   function tep_remove_order($order_id, $restock = false) {

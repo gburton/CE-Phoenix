@@ -333,6 +333,8 @@
         if (USE_CACHE == 'true') {
           tep_reset_cache_block('categories');
           tep_reset_cache_block('also_purchased');
+          tep_reset_cache_block('products_id' . (int)$products_id);
+
         }
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products_id));
