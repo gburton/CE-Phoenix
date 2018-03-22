@@ -11,12 +11,12 @@
 		var $_data = array();
 		
 		function __construct($id) {
-			global $SID, $languages_id, $cart, $currencies;
+			global $SID, $languages_id, $language, $cart, $currencies;
 			
 			if ( !empty($id) ) {
 				
-				if ( self::hasCache($id, $languages_id) == true && (USE_CACHE == 'true') && empty($SID) ) {
-					self::getCache($id, $languages_id);
+				if ( self::hasCache($id, $language) == true && (USE_CACHE == 'true') && empty($SID) ) {
+					self::getCache($id, $language);
 				
 				}else{
 				
@@ -378,24 +378,25 @@
 			tep_db_query("update products_description set products_viewed = products_viewed+1 where products_id = '" . $this->_data['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
 			
 		}
-		function hasCache($id, $lang){
-			
-			if ( file_exists('includes/Work/Cache/Product_id_'.$id .'_lang_'.(int)$lang.'.cache') ) {
+		function hasCache($id, $language){
+			global $language;
+			if ( file_exists(DIR_FS_CACHE . 'products_id-' . $id . '-' . $language . '.cache') ) {
 				
 				return true;			
 			}
 			return false;
 		}
 		
-		function getCache($id, $lang){
-
-			$this->_data = unserialize(file_get_contents(DIR_FS_CACHE .'Product_id_'.$id .'_lang_'.(int)$lang.'.cache'));
+		function getCache($id, $language){
+			global $language;
+			$this->_data = unserialize(file_get_contents(DIR_FS_CACHE . 'products_id-' . $id .'-' . $language . '.cache'));
 			
 			return $this->_data;
 		}
 		
-		function saveCache($id, $lang){
-			file_put_contents(DIR_FS_CACHE .'Product_id_'.$id .'_lang_'.(int)$lang.'.cache', serialize($this->_data));
+		function saveCache($id, $language){
+			global $language;
+			file_put_contents(DIR_FS_CACHE .'products_id-' . $id . '-' . $language . '.cache', serialize($this->_data));
 		}		
 		
 		protected static function _usortAttributeValues($a, $b) {
