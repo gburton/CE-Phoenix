@@ -159,8 +159,8 @@
 				$prod_list_contents .= '<div class="item list-group-item col-sm-4">';
 				$prod_list_contents .= '  <div class="productHolder equal-height">';
 				
-				if (isset($_GET['manufacturers'])  && tep_not_null($_GET['manufacturers'])) {
-					$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $osC_Product->getID() .'&manufacturers_id=' . $_GET['manufacturers']) . '">' . tep_image('images/' . $osC_Product->getImage(), $osC_Product->getTitle(), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, NULL, NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
+				if (isset($_GET['manufacturers_id'])  && tep_not_null($_GET['manufacturers_id'])) {
+					$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $osC_Product->getID() .'&manufacturers_id=' . $_GET['manufacturers_id']) . '">' . tep_image('images/' . $osC_Product->getImage(), $osC_Product->getTitle(), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, NULL, NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
 				} else {
 				$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $osC_Product->getID() . ($cPath ? '&cPath=' . $cPath : '')) . '">' . tep_image('images/' . $osC_Product->getImage(), $osC_Product->getTitle(), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, NULL, NULL, 'img-responsive thumbnail group list-group-image') . '</a>';
 				}
@@ -168,8 +168,8 @@
 				$prod_list_contents .= '    <div class="caption">';
 				$prod_list_contents .= '      <h2 class="group inner list-group-item-heading">';
 				
-				if (isset($_GET['manufacturers']) && tep_not_null($_GET['manufacturers'])) {
-					$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php',  'products_id=' . $osC_Product->getID() . '&manufacturers_id=' . $_GET['manufacturers'] ) . '">' . $osC_Product->getTitle() . '</a>';
+				if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
+					$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php',  'products_id=' . $osC_Product->getID() . '&manufacturers_id=' . $_GET['manufacturers_id'] ) . '">' . $osC_Product->getTitle() . '</a>';
 				} else {
 					$prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $osC_Product->getID() . ($cPath ? '&cPath=' . $cPath : '')) . '">' . $osC_Product->getTitle() . '</a>';		
 				}
