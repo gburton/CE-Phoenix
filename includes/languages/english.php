@@ -177,8 +177,10 @@ define('SMALL_IMAGE_BUTTON_BUY', 'Buy');
 define('ICON_ARROW_RIGHT', 'more');
 
 define('TEXT_SORT_PRODUCTS', 'Sort products ');
-define('TEXT_DESCENDINGLY', 'descendingly');
-define('TEXT_ASCENDINGLY', 'ascendingly');
+define('TEXT_ALT_DESCENDINGLY', 'descendingly by %s');
+define('TEXT_ALT_ASCENDINGLY', 'ascendingly by %s');
+define('TEXT_DESCENDINGLY', '%s +');
+define('TEXT_ASCENDINGLY', '%s -');
 define('TEXT_BY', ' by ');
 
 define('TEXT_NO_REVIEWS', 'There are currently no product reviews.');

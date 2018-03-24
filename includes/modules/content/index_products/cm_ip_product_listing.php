@@ -36,141 +36,74 @@
       global $oscTemplate, $category, $cPath_array, $cPath, $current_category_id, $languages_id, $messageStack, $currencies, $PHP_SELF;
       
       $content_width  = MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH;
-      $category_width = MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH_EACH;
+      //$category_width = MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH_EACH;
+
+	  $OSCOM_Category = new osC_Category($current_category_id);
+      $OSCOM_Products = new osC_Products($current_category_id);
       
-// create column list
-			$define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
-													 'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,
-													 'PRODUCT_LIST_MANUFACTURER' => PRODUCT_LIST_MANUFACTURER,
-													 'PRODUCT_LIST_PRICE' => PRODUCT_LIST_PRICE,
-													 'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
-													 'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
-													 'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-													 'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
-	
-			asort($define_list);
-	
-			$column_list = array();
-			foreach($define_list as $key => $value) {
-				if ($value > 0) $column_list[] = $key;
-			}
-	
-			$select_column_list = '';
-	
-			for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-				switch ($column_list[$i]) {
-					case 'PRODUCT_LIST_MODEL':
-						$select_column_list .= 'p.products_model, ';
-						break;
-					case 'PRODUCT_LIST_NAME':
-						$select_column_list .= 'pd.products_name, ';
-						break;
-					case 'PRODUCT_LIST_MANUFACTURER':
-						$select_column_list .= 'm.manufacturers_name, ';
-						break;
-					case 'PRODUCT_LIST_QUANTITY':
-						$select_column_list .= 'p.products_quantity, ';
-						break;
-					case 'PRODUCT_LIST_IMAGE':
-						$select_column_list .= 'p.products_image, ';
-						break;
-					case 'PRODUCT_LIST_WEIGHT':
-						$select_column_list .= 'p.products_weight, ';
-						break;
-				}
-			}
-	
-// show the products of a specified manufacturer
-			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-				if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
-// We are asked to show only a specific category
-					$listing_sql = "select " . $select_column_list . " p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$languages_id . "' and p2c.categories_id = '" . (int)$_GET['filter_id'] . "'";
-				} else {
-// We show them all
-					$listing_sql = "select " . $select_column_list . " p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "'";
-				}
+	  if (!isset($_GET['manufacturers_id']) && isset($_GET['filter']) && is_numeric($_GET['filter']) && ($_GET['filter'] > 0) ) {
+        $OSCOM_Products->setManufacturer($_GET['filter']);
+      }
+      if (isset($_GET['manufacturers_id']) && isset($_GET['filter']) && is_numeric($_GET['filter']) && ($_GET['filter'] > 0) ) {
+        $OSCOM_Products = new osC_Products($_GET['filter']);
+	  }
+
+      if ( isset($_GET['sort']) && !empty($_GET['sort']) ) {
+        if ( strpos($_GET['sort'], '|d') !== false ) {
+          $OSCOM_Products->setSortBy(substr($_GET['sort'], 0, -3), '-');
+        } else {
+          $OSCOM_Products->setSortBy($_GET['sort']);
+        }
+      }		
+		// optional Product List Filter
+		if ( PRODUCT_LIST_FILTER > 0 ) {
+			if ( isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id']) ) {
+                $filterlist_sql = "select distinct c.categories_id as id, cd.categories_name as name from products p, products_to_categories p2c, categories c, categories_description cd where p.products_status = '1' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and p2c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' order by cd.categories_name";
 			} else {
-// show the products in a given categorie
-				if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
-// We are asked to show only specific catgeory
-					$listing_sql = "select " . $select_column_list . " p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from " . TABLE_PRODUCTS . " p left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_MANUFACTURERS . " m, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['filter_id'] . "' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$languages_id . "' and p2c.categories_id = '" . (int)$current_category_id . "'";
+				$filterlist_sql = "select distinct m.manufacturers_id as id, m.manufacturers_name as name from products p, products_to_categories p2c, manufacturers m where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and p.products_id = p2c.products_id and p2c.categories_id = '" . $OSCOM_Category->getID() . "' order by m.manufacturers_name";
+			}
+			$filter_result = tep_db_query($filterlist_sql);			
+			if (tep_db_num_rows($filter_result) > 1) {
+				$filterlist = tep_db_fetch_array($filter_result);
+				$filter_data = '<div class="btn-group" role="group">';
+				if ( isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id']) ) {
+					$filter_data .= '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' . TEXT_ALL_CATEGORIES . ' <span class="caret"></span></button>';
 				} else {
-// We show them all
-					$listing_sql = "select " . $select_column_list . " p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m on p.manufacturers_id = m.manufacturers_id left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c where p.products_status = '1' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$languages_id . "' and p2c.categories_id = '" . (int)$current_category_id . "'";
+					$filter_data .= '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' . TEXT_ALL_MANUFACTURERS . ' <span class="caret"></span></button>';
+
 				}
-			}
-	
-			if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > sizeof($column_list)) ) {
-				for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-					if ($column_list[$i] == 'PRODUCT_LIST_NAME') {
-						$_GET['sort'] = $i+1 . 'a';
-						$listing_sql .= " order by pd.products_name";
-						break;
+				$filter_data .= '<ul class="dropdown-menu">';
+
+				if(isset($cPath)&& !empty($cPath) ){
+					$filter_data .= '<li><a href="' . tep_href_link('index.php', 'cPath=' . $cPath . (isset($_GET['sort']) ? '&sort=' .$_GET['sort'] : null) ) . '">' . TEXT_ALL_MANUFACTURERS . '</a></li><li role="separator" class="divider"></li>';				
+					foreach ( $filter_result as $f ) {
+						$filter_data .= '<li><a href="' . tep_href_link('index.php', 'cPath=' . $cPath . '&filter=' . $f['id'] . (isset($_GET['sort']) ? '&sort=' .$_GET['sort'] : null) ) . '">' . $f['name'] . '</a></li>';				
 					}
 				}
-			} else {
-				$sort_col = substr($_GET['sort'], 0 , 1);
-				$sort_order = substr($_GET['sort'], 1);
-	
-				switch ($column_list[$sort_col-1]) {
-					case 'PRODUCT_LIST_MODEL':
-						$listing_sql .= " order by p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-						break;
-					case 'PRODUCT_LIST_NAME':
-						$listing_sql .= " order by pd.products_name " . ($sort_order == 'd' ? 'desc' : '');
-						break;
-					case 'PRODUCT_LIST_MANUFACTURER':
-						$listing_sql .= " order by m.manufacturers_name " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-						break;
-					case 'PRODUCT_LIST_QUANTITY':
-						$listing_sql .= " order by p.products_quantity " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-						break;
-					case 'PRODUCT_LIST_IMAGE':
-						$listing_sql .= " order by pd.products_name";
-						break;
-					case 'PRODUCT_LIST_WEIGHT':
-						$listing_sql .= " order by p.products_weight " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-						break;
-					case 'PRODUCT_LIST_PRICE':
-						$listing_sql .= " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-						break;
+				if(isset($_GET['manufacturers_id'])&& !empty($_GET['manufacturers_id']) ){
+					$filter_data .= '<li><a href="' . tep_href_link('index.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . (isset($_GET['sort']) ? '&sort=' .$_GET['sort'] : null) ) . '">' . TEXT_ALL_CATEGORIES . '</a></li><li role="separator" class="divider"></li>';				
+					
+					foreach ( $filter_result as $f ) {
+						$filter_data .= '<li><a href="' . tep_href_link('index.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&filter=' . $f['id'] . (isset($_GET['sort']) ? '&sort=' .$_GET['sort'] : null) ) . '">' . $f['name'] . '</a></li>';				
+					}				
 				}
+				
+				$filter_data .= '</ul>';
+				$filter_data .= '</div>';
 			}
-			
-			$output = '<div class="col-sm-' . MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH . '">';
-	
-// optional Product List Filter
-			if (PRODUCT_LIST_FILTER > 0) {
-				if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-					$filterlist_sql = "select distinct c.categories_id as id, cd.categories_name as name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where p.products_status = '1' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and p2c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and p.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' order by cd.categories_name";
-				} else {
-					$filterlist_sql= "select distinct m.manufacturers_id as id, m.manufacturers_name as name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_MANUFACTURERS . " m where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by m.manufacturers_name";
-				}
-	
-				$filterlist_query = tep_db_query($filterlist_sql);
-				if (tep_db_num_rows($filterlist_query) > 1) {
-					$output .= '<div>' . tep_draw_form('filter', 'index.php', 'get') . '<p class="text-right">' . TEXT_SHOW . '&nbsp;';
-					if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-						$output .= tep_draw_hidden_field('manufacturers_id', $_GET['manufacturers_id']);
-						$options = array(array('id' => '', 'text' => TEXT_ALL_CATEGORIES));
-					} else {
-						$output .= tep_draw_hidden_field('cPath', $cPath);
-						$options = array(array('id' => '', 'text' => TEXT_ALL_MANUFACTURERS));
-					}
-					$output .= tep_draw_hidden_field('sort', $_GET['sort']);
-					while ($filterlist = tep_db_fetch_array($filterlist_query)) {
-						$options[] = array('id' => $filterlist['id'], 'text' => $filterlist['name']);
-					}
-					$output .= tep_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'onchange="this.form.submit()"');
-					$output .= tep_hide_session_id() . '</p></form></div>' . "\n";
-				}
-			}
+		}
+
+		if ( isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id']) ) {
+			$OSCOM_Products->setManufacturer($_GET['manufacturers_id']);
+		}
+
+		$listing_sql = $OSCOM_Products->execute();
+
+
 
       ob_start();
       include('includes/modules/product_listing.php');
-      $output .= ob_get_clean();
-      $output .= '</div>';
-
+      $output = ob_get_clean();
       $oscTemplate->addContent($output, $this->group);
     }
 
