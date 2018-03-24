@@ -1279,12 +1279,12 @@ INSERT INTO products_images VALUES(12, 9, 'dvd/under_siege_large.jpg', '', 0, 2,
 INSERT INTO products_images VALUES(13, 10, 'dvd/under_siege2.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(14, 11, 'dvd/fire_down_below.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(15, 11, 'dvd/fire_down_below_large.jpg', '', 0, 2, now());
-INSERT INTO products_images VALUES(16, 12, 'dvd/die_hard_3.jpg', '', 1, 1, now());
+INSERT INTO products_images VALUES(16, 12, 'dvd/die_hard_3.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(17, 12, 'dvd/die_hard_3_large.jpg', '', 0, 2, now());
 INSERT INTO products_images VALUES(18, 14, 'dvd/red_corner.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(19, 15, 'dvd/frantic.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(20, 16, 'dvd/courage_under_fire.gif', '', 1, 1, now());
-INSERT INTO products_images VALUES(21, 13, 'dvd/lethal_weapon.jpg', '', 1, 1, now());
+INSERT INTO products_images VALUES(21, 13, 'dvd/lethal_weapon.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(22, 13, 'dvd/lethal_weapon_large.jpg', '', 0, 2, now());
 INSERT INTO products_images VALUES(23, 17, 'dvd/speed.gif', '', 1, 1, now());
 INSERT INTO products_images VALUES(24, 17, 'dvd/speed_large.jpg', '', 0, 2, now());

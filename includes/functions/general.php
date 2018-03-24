@@ -881,19 +881,29 @@
 
 ////
 // Return table heading with sorting capabilities
-  function tep_create_sort_heading($sortby, $colnum, $heading) {
-    global $PHP_SELF;
+	function tep_create_sort_heading($key, $heading) {
+		global $PHP_SELF;
 
-    $sort_prefix = '';
-    $sort_suffix = '';
+		$current = false;
+		$direction = false;
 
-    if ($sortby) {
-	  $sort_prefix = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('info', 'sort')) . 'sort=' . $colnum . ($sortby == $colnum . 'a' ? 'd' : 'a')) . '" title="' . tep_output_string(TEXT_SORT_PRODUCTS . ($sortby == $colnum . 'd' || substr($sortby, 0, 1) != $colnum ? TEXT_ASCENDINGLY : TEXT_DESCENDINGLY) . TEXT_BY . $heading) . '" class="productListing-heading">' ;
-      $sort_suffix = (substr($sortby, 0, 1) == $colnum ? (substr($sortby, 1, 1) == 'a' ? '+' : '-') : '') . '</a>';
-    }
+		if (!isset($_GET['sort'])) {
+		  $current = 'name';
+		} elseif (($_GET['sort'] == $key) || ($_GET['sort'] == $key . '|d')) {
+		  $current = $key;
+		}
 
-    return $sort_prefix . $heading . $sort_suffix;
-  }
+		if ($key == $current) {
+		  
+		  if (isset($_GET['sort'])) {
+				$direction = ($_GET['sort'] == $key) ? '+' : '-';
+			} else {
+				$direction = '+';
+			}
+		}
+
+		return '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('page', 'sort')) . '&sort=' . $key . ($direction == '+' ? '|d' : '')) .(($key == $current) ? $direction : '') . '" title="' . (isset($_GET['sort']) && ($_GET['sort'] == $key) ? sprintf(TEXT_ALT_ASCENDINGLY, $heading) : sprintf(TEXT_ALT_DESCENDINGLY, $heading)) . '" class="productListing-heading">'.(isset($_GET['sort']) && ($_GET['sort'] == $key) ? sprintf(TEXT_ASCENDINGLY, $heading) : sprintf(TEXT_DESCENDINGLY, $heading)).'</a>';
+	}
 
 ////
 // Recursively go through the categories and retreive all parent categories IDs

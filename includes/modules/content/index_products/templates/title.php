@@ -15,4 +15,3 @@
     <h1><?php echo sprintf(MODULE_CONTENT_IP_TITLE_PUBLIC_TITLE,$heading); ?></h1>
   </div>
 </div>
-       
