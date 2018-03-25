@@ -33,11 +33,14 @@
     }
 
     function execute() {
-      global $oscTemplate, $category;  
+      global $oscTemplate;  
 
       $content_width = MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_CONTENT_WIDTH;      
       
-      if (tep_not_null($category['categories_description'])) {
+	  $osC_Category = new osC_Category();
+	  $description  = $osC_Category->getDescription();
+	  
+      if (tep_not_null($description)) {
         ob_start();
         require('includes/modules/content/' . $this->group . '/templates/category_description.php');
         $template = ob_get_clean();       

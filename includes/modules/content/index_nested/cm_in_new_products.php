@@ -33,21 +33,35 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $languages_id, $currencies, $PHP_SELF, $currency;
+		global $oscTemplate, $current_category_id, $languages_id, $currencies, $PHP_SELF, $currency;
       
-      $content_width = MODULE_CONTENT_IN_NEW_PRODUCTS_CONTENT_WIDTH;
-      $product_width = MODULE_CONTENT_IN_NEW_PRODUCTS_DISPLAY_EACH;
-     
-      $new_products_query = tep_db_query("select distinct p.products_id, p.products_image, p.products_tax_class_id, pd.products_name, if(s.status, s.specials_new_products_price, p.products_price) as products_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd, products_to_categories p2c, categories c where p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and c.parent_id = '" . (int)$current_category_id . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_date_added desc limit " . (int)MODULE_CONTENT_IN_NEW_PRODUCTS_MAX_DISPLAY);
-      $num_new_products = tep_db_num_rows($new_products_query);
+		$content_width = MODULE_CONTENT_IN_NEW_PRODUCTS_CONTENT_WIDTH;
+		$product_width = MODULE_CONTENT_IN_NEW_PRODUCTS_DISPLAY_EACH;
+		
+		$OSCOM_Category = new osC_Category();     
+		
+		$new_products_query = tep_db_query("select distinct p2c.products_id from products p, products_to_categories p2c, categories c where c.parent_id = '" . $OSCOM_Category->getID() . "' and c.categories_id = p2c.categories_id and p2c.products_id = p.products_id and p.products_status = '1' order by p.products_date_added desc limit " . (int)MODULE_CONTENT_IN_NEW_PRODUCTS_MAX_DISPLAY);
+		
+		$num_new_products = tep_db_num_rows($new_products_query);
 
-      if ($num_new_products > 0) {
-        ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/category_new_products.php');
-        $template = ob_get_clean(); 
+		if ($num_new_products > 0) {
+			while ($new_products = tep_db_fetch_array($new_products_query)) {
+				$OSCOM_Product = new osC_Product($new_products['products_id']);
+				$OSCOM_Image = new Image();
+				$data[$OSCOM_Product->getID()] = $OSCOM_Product->getData();
+				$data[$OSCOM_Product->getID()]['display_raw'] = $OSCOM_Product->getPriceRaw();
+				$data[$OSCOM_Product->getID()]['display_price'] = $OSCOM_Product->getPriceFormated(true);
+				$data[$OSCOM_Product->getID()]['display_image'] = $OSCOM_Product->getImage();
+				$data[$OSCOM_Product->getID()]['display_quantity'] = $OSCOM_Product->getQuantity();
+				$data[$OSCOM_Product->getID()]['display_manufacturer'] = $OSCOM_Product->getManufacturer();
+			}        
+		
+			ob_start();
+			include('includes/modules/content/' . $this->group . '/templates/category_new_products.php');
+			$template = ob_get_clean(); 
         
-        $oscTemplate->addContent($template, $this->group);
-      }
+			$oscTemplate->addContent($template, $this->group);
+		}
     }
 
     function isEnabled() {

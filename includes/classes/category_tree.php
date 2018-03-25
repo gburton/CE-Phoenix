@@ -38,10 +38,14 @@
         $this->_data = $_category_tree_data;
       } else {
 
-        $categories_query = tep_db_query("select c.categories_id, c.parent_id, c.categories_image, cd.categories_name from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id. "' order by c.parent_id, c.sort_order, cd.categories_name");
+        $categories_query = tep_db_query("select c.categories_id, c.parent_id, c.categories_image, cd.categories_name, cd.categories_description, cd.categories_seo_description, cd.categories_seo_keywords, cd.categories_seo_title from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id. "' order by c.parent_id, c.sort_order, cd.categories_name");
 
         while ( $categories = tep_db_fetch_array($categories_query) ) {
           $this->_data[$categories['parent_id']][$categories['categories_id']] = array('name' => $categories['categories_name'],
+                                                                                       'description' => $categories['categories_description'],
+                                                                                       'seo_description' => $categories['categories_seo_description'],
+                                                                                       'seo_keywords' => $categories['categories_seo_keywords'],
+                                                                                       'seo_title' => $categories['categories_seo_title'],
                                                                                        'image' => $categories['categories_image']);
         }
 
@@ -123,7 +127,8 @@
           }
 
           $result[] = array('id' => $category_link,
-                            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name']);
+                            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name'],
+							'image' => $category['image']);
 
           if (isset($this->_data[$category_id]) && (($this->max_level == '0') || ($this->max_level > $level+1))) {
             if ($this->follow_cpath === true) {
@@ -232,6 +237,10 @@
           if ( $id == $category_id ) {
             $data = array('id' => $id,
                           'name' => $info['name'],
+                          'description' => $info['description'],
+                          'seo_description' => $info['seo_description'],
+                          'seo_keywords' => $info['seo_keywords'],
+                          'seo_title' => $info['seo_title'],
                           'parent_id' => $parent,
                           'image' => $info['image']);
 

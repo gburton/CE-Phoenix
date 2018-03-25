@@ -59,7 +59,21 @@
         $language = $languages[$i]['directory'];
       }
     }
+	
+	$products_cache = array();	
+	$cachefile = 'products_id';
+	$dir = dir(DIR_FS_CACHE);
+	while ($cache_file = $dir->read()) {
 
+		if (preg_match('/^' . $cachefile. '/', $cache_file)) {
+			preg_match('/products_id-(.*?)-/', $cache_file, $id);
+			$products_cache[] = array('title' => sprintf(TEXT_CACHE_PRODUCTS, $id[1]), 'code' => 'products_id' . $id[1], 'file' => 'products_id-' . $id[1] . '-language.cache', 'multiple' => true);
+		}
+	}
+	
+	if(!empty($products_cache)){
+		$cache_blocks = array_merge($products_cache, $cache_blocks);
+	}
     for ($i=0, $n=sizeof($cache_blocks); $i<$n; $i++) {
       $cached_file = preg_replace('/-language/', '-' . $language, $cache_blocks[$i]['file']);
 

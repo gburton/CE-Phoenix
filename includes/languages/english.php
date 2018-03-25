@@ -165,7 +165,6 @@ define('IMAGE_BUTTON_CONTINUE', 'Continue');
 define('IMAGE_BUTTON_DELETE', 'Delete');
 define('IMAGE_BUTTON_LOGIN', 'Sign In');
 define('IMAGE_BUTTON_IN_CART', 'Add to Cart');
-define('IMAGE_BUTTON_REVIEWS', 'Reviews');
 define('IMAGE_BUTTON_SEARCH', 'Search');
 define('IMAGE_BUTTON_UPDATE', 'Update');
 define('IMAGE_BUTTON_WRITE_REVIEW', 'Write Review');
@@ -178,8 +177,10 @@ define('SMALL_IMAGE_BUTTON_BUY', 'Buy');
 define('ICON_ARROW_RIGHT', 'more');
 
 define('TEXT_SORT_PRODUCTS', 'Sort products ');
-define('TEXT_DESCENDINGLY', 'descendingly');
-define('TEXT_ASCENDINGLY', 'ascendingly');
+define('TEXT_ALT_DESCENDINGLY', 'descendingly by %s');
+define('TEXT_ALT_ASCENDINGLY', 'ascendingly by %s');
+define('TEXT_DESCENDINGLY', '%s +');
+define('TEXT_ASCENDINGLY', '%s -');
 define('TEXT_BY', ' by ');
 
 define('TEXT_NO_REVIEWS', 'There are currently no product reviews.');
@@ -203,8 +204,8 @@ define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></
 define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>');
 
 // reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="author">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="ratingCount">%s</span> review(s) %s');
+define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
+define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
 define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list
