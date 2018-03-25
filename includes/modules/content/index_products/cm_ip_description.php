@@ -33,12 +33,24 @@
     }
 
     function execute() {
-      global $oscTemplate, $description;  
+      global $oscTemplate, $current_category_id, $heading, $description, $languages_id;  
 
       $content_width = MODULE_CONTENT_IP_DESCRIPTION_CONTENT_WIDTH;      
       
-      if (tep_not_null($description)) {
-        ob_start();
+      if (! tep_not_null($heading) ) {
+				if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
+					$focusq = tep_db_query("select m.manufacturers_image, m.manufacturers_name as name, mi.manufacturers_description as description from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
+					$focus = tep_db_fetch_array($focusq);
+	        $description = $focus['description'];
+				} elseif ($current_category_id) {
+					$focusq = tep_db_query("select c.categories_image, cd.categories_name as name, cd.categories_description as description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
+					$focus = tep_db_fetch_array($focusq);
+	        $description = $focus['description'];
+				}
+			}
+			
+			if (tep_not_null($description)) {
+				ob_start();
         require('includes/modules/content/' . $this->group . '/templates/description.php');
         $template = ob_get_clean();       
 
