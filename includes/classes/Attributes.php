@@ -10,11 +10,8 @@
   Released under the GNU General Public License
 */
 	
-	abstract class osC_Attributes_Abstract {
-		abstract static public function parse($data);
-		abstract static public function allowsMultipleValues();
-		abstract static public function hasCustomValue();
-		
+	abstract class osC_Attributes_Abstract implements osC_Attributes_InterFace {
+
 		static public function getGroupTitle($data) {
 			return $data['group_title'];
 		}
@@ -22,6 +19,12 @@
 		static public function getValueTitle($data) {
 			return $data['value_title'];
 		}
+	}
+	
+	interface osC_Attributes_InterFace {
+			 static public function parse($data);
+			 static public function allowsMultipleValues();
+			 static public function hasCustomValue();
 	}
 	
 	class osC_Attributes {
