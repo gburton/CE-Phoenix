@@ -173,7 +173,16 @@
 			return $this->_data['tags'];
 		}
 		
-		function getPrice() {
+		function getPriceRaw($with_special = false) {
+			global $currencies;
+			$OSCOM_Specials = new Specials();
+			if (($with_special === true) && ($new_price = $OSCOM_Specials->getPrice($this->_data['id']))) {
+				$price = '<s>' . $currencies->display_raw($this->_data['price'], $this->_data['tax_class_id']) . '</s> <span class="productSpecialPrice">' . $currencies->display_raw($new_price, $this->_data['tax_class_id']) . '</span>';
+			} else {
+				$price = $currencies->display_raw($this->_data['price'], $this->_data['tax_class_id']);				
+			}
+			
+			return $price;		
 		}
 		
 		function getPriceFormated($with_special = false) {
@@ -188,7 +197,15 @@
 			return $price;
 		}
 		
-		function getQuantity() {
+		function getSpecialsStatus() {
+			$OSCOM_Specials = new Specials();
+			return $OSCOM_Specials->getStatus($this->_data['id']);
+		}
+		
+		function getQuantity($zero = false) {
+			if ($zero === true) {
+				return max(0, $this->_data['quantity']);
+			}
 			return $this->_data['quantity'];
 		}
 		

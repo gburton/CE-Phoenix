@@ -53,7 +53,19 @@
 
       return $this->_specials[$id];
     }
+    
+	public function getStatus($id) {
 
+		$Qspecials_query = tep_db_query("select status from specials where products_id = '". (int)$id ."'");
+		
+		if ( tep_db_num_rows($Qspecials_query) > 0 ) {	  
+			
+			$result = tep_db_fetch_array($Qspecials_query);
+			
+			return $result['status'];
+		}
+	}
+	
     public static function getListing() {
 
       $result = array();

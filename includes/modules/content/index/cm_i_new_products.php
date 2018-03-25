@@ -52,10 +52,13 @@
 				$OSCOM_Product = new osC_Product($new_products['products_id']);
 				$OSCOM_Image = new Image();
 				$data[$OSCOM_Product->getID()] = $OSCOM_Product->getData();
+				$data[$OSCOM_Product->getID()]['display_raw'] = $OSCOM_Product->getPriceRaw();
 				$data[$OSCOM_Product->getID()]['display_price'] = $OSCOM_Product->getPriceFormated(true);
 				$data[$OSCOM_Product->getID()]['display_image'] = $OSCOM_Product->getImage();
 				$data[$OSCOM_Product->getID()]['display_quantity'] = $OSCOM_Product->getQuantity();
+				$data[$OSCOM_Product->getID()]['display_stock'] = $OSCOM_Product->getQuantity(true);
 				$data[$OSCOM_Product->getID()]['display_manufacturer'] = $OSCOM_Product->getManufacturer();
+				$data[$OSCOM_Product->getID()]['display_is_special'] = $OSCOM_Product->getSpecialsStatus();
 			}
         ob_start();
         include('includes/modules/content/' . $this->group . '/templates/new_products.php');
