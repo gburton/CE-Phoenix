@@ -41,7 +41,7 @@
     }
 ?>
 
-<div class="contentContainer">
+<div class="row">
 	<?php echo $oscTemplate->getContent('index_nested'); ?>
 </div>
 
@@ -50,7 +50,7 @@
 
 ?>
 
-<div class="contentContainer">
+<div class="row">
 	<?php echo $oscTemplate->getContent('index_products'); ?>
 </div>
 
