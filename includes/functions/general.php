@@ -880,32 +880,6 @@
   }
 
 ////
-// Return table heading with sorting capabilities
-	function tep_create_sort_heading($key, $heading) {
-		global $PHP_SELF;
-
-		$current = false;
-		$direction = false;
-
-		if (!isset($_GET['sort'])) {
-		  $current = 'name';
-		} elseif (($_GET['sort'] == $key) || ($_GET['sort'] == $key . '|d')) {
-		  $current = $key;
-		}
-
-		if ($key == $current) {
-		  
-		  if (isset($_GET['sort'])) {
-				$direction = ($_GET['sort'] == $key) ? '+' : '-';
-			} else {
-				$direction = '+';
-			}
-		}
-
-		return '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('page', 'sort')) . '&sort=' . $key . ($direction == '+' ? '|d' : '')) .(($key == $current) ? $direction : '') . '" title="' . (isset($_GET['sort']) && ($_GET['sort'] == $key) ? sprintf(TEXT_ALT_ASCENDINGLY, $heading) : sprintf(TEXT_ALT_DESCENDINGLY, $heading)) . '" class="productListing-heading">'.(isset($_GET['sort']) && ($_GET['sort'] == $key) ? sprintf(TEXT_ASCENDINGLY, $heading) : sprintf(TEXT_DESCENDINGLY, $heading)).'</a>';
-	}
-
-////
 // Recursively go through the categories and retreive all parent categories IDs
 // TABLES: categories
   function tep_get_parent_categories(&$categories, $categories_id) {

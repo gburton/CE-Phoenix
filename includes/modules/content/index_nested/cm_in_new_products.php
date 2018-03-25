@@ -49,6 +49,7 @@
 				$OSCOM_Product = new osC_Product($new_products['products_id']);
 				$OSCOM_Image = new Image();
 				$data[$OSCOM_Product->getID()] = $OSCOM_Product->getData();
+				$data[$OSCOM_Product->getID()]['display_raw'] = $OSCOM_Product->getPriceRaw();
 				$data[$OSCOM_Product->getID()]['display_price'] = $OSCOM_Product->getPriceFormated(true);
 				$data[$OSCOM_Product->getID()]['display_image'] = $OSCOM_Product->getImage();
 				$data[$OSCOM_Product->getID()]['display_quantity'] = $OSCOM_Product->getQuantity();

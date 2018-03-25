@@ -43,9 +43,8 @@
       if ( !isset($this->_specials[$id]) ) {
         $Qspecials_query = tep_db_query("select specials_new_products_price from specials where products_id = '". (int)$id ."' and status = 1");
 
-        $result = tep_db_fetch_array($Qspecials_query);
-
-        if ( count($result) > 0 ) {
+        if ( tep_db_num_rows($Qspecials_query) > 0 ) {
+          $result = tep_db_fetch_array($Qspecials_query);
           $this->_specials[$id] = $result['specials_new_products_price'];
         } else {
           $this->_specials[$id] = null;
@@ -54,7 +53,7 @@
 
       return $this->_specials[$id];
     }
-
+	
     public static function getListing() {
 
       $result = array();
