@@ -52,6 +52,17 @@
 				}
 				
 				if ( !empty($this->_data) ) {
+					
+
+					$Qspecials_Status_query = tep_db_query("select status from specials where products_id = '" . $this->_data['products_id'] . "'");
+					
+					if ( tep_db_num_rows($Qspecials_Status_query) > 0 ) {	  
+						
+						$Qspecials_Status = tep_db_fetch_array($Qspecials_Status_query);
+						
+						$this->_data['is_special'] = $Qspecials_Status['status'];
+					}
+					
 					$this->_data['images'] = array();
 					
 					$Qimages_Query = tep_db_query("select id, image, htmlcontent, default_flag from products_images where products_id = '" . $this->_data['products_id'] . "' order by sort_order");
@@ -173,16 +184,11 @@
 			return $this->_data['tags'];
 		}
 		
-		function getPriceRaw($with_special = false) {
+		function getPriceRaw() {
 			global $currencies;
-			$OSCOM_Specials = new Specials();
-			if (($with_special === true) && ($new_price = $OSCOM_Specials->getPrice($this->_data['id']))) {
-				$price = '<s>' . $currencies->display_raw($this->_data['price'], $this->_data['tax_class_id']) . '</s> <span class="productSpecialPrice">' . $currencies->display_raw($new_price, $this->_data['tax_class_id']) . '</span>';
-			} else {
-				$price = $currencies->display_raw($this->_data['price'], $this->_data['tax_class_id']);				
-			}
+
+			return $currencies->display_raw($this->_data['price'], $this->_data['tax_class_id']);
 			
-			return $price;		
 		}
 		
 		function getPriceFormated($with_special = false) {
@@ -197,15 +203,8 @@
 			return $price;
 		}
 		
-		function getSpecialsStatus() {
-			$OSCOM_Specials = new Specials();
-			return $OSCOM_Specials->getStatus($this->_data['id']);
-		}
-		
-		function getQuantity($zero = false) {
-			if ($zero === true) {
-				return max(0, $this->_data['quantity']);
-			}
+		function getQuantity() {
+
 			return $this->_data['quantity'];
 		}
 		

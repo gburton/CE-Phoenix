@@ -53,9 +53,7 @@
 				$data[$OSCOM_Product->getID()]['display_price'] = $OSCOM_Product->getPriceFormated(true);
 				$data[$OSCOM_Product->getID()]['display_image'] = $OSCOM_Product->getImage();
 				$data[$OSCOM_Product->getID()]['display_quantity'] = $OSCOM_Product->getQuantity();
-				$data[$OSCOM_Product->getID()]['display_stock'] = $OSCOM_Product->getQuantity(true);
 				$data[$OSCOM_Product->getID()]['display_manufacturer'] = $OSCOM_Product->getManufacturer();
-				$data[$OSCOM_Product->getID()]['display_is_special'] = $OSCOM_Product->getSpecialsStatus();
 			}        
 		
 			ob_start();

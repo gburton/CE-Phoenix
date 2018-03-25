@@ -20,7 +20,7 @@
 	foreach ( $data as $product ) {				
 		
 		$content .= '<div class="col-sm-'. $product_width.'">';
-		$content .= '	<div class="thumbnail equal-height is-product" data-is-special="' . $product['display_is_special'] .'">';			
+		$content .= '	<div class="thumbnail equal-height is-product" data-is-special="' . $product['is_special'] .'">';			
 		
 		if( $showRating == true ){
 			$content .= '  ' . tep_draw_stars($product['reviews_average_rating']) . ' ';
@@ -37,7 +37,7 @@
 		
 		$content .= '				<div class="btn-group">';
 		$content .= '					<a href="' .  tep_href_link('product_info.php', tep_get_all_get_params(array('action')) . 'products_id="' . $product['id']) . '" class="btn btn-default" role="button">' . MODULE_CONTENT_NEW_PRODUCTS_BUTTON_VIEW . '</a>';				
-		$content .= '					<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $product['id']) . '" data-has-attributes="' . (( $product['attributes'] > 0 ) ? 1:0) . '" data-in-stock="' . $product['display_stock'] . '" data-product-id="' . $product['id'] . '" class="btn btn-success btn-index btn-buy" role="button">' . MODULE_CONTENT_NEW_PRODUCTS_BUTTON_BUY . '</a>';
+		$content .= '					<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $product['id']) . '" data-has-attributes="' . (( $product['attributes'] > 0 ) ? 1:0) . '" data-in-stock="' . (( $product['display_quantity'] < 0 ) ? 0:$product['display_quantity']) . '" data-product-id="' . $product['id'] . '" class="btn btn-success btn-index btn-buy" role="button">' . MODULE_CONTENT_NEW_PRODUCTS_BUTTON_BUY . '</a>';
 		$content .= '				</div>';
 		
 		$content .= '			</div>';		
