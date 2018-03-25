@@ -177,9 +177,9 @@
 		}
 		
 		function getPriceFormated($with_special = false) {
-			global $osC_Services, $osC_Specials, $currencies;
-			
-			if (($with_special === true) && ($new_price = tep_get_products_special_price($this->_data['id']))) {
+			global $currencies;
+			$OSCOM_Specials = new Specials();
+			if (($with_special === true) && ($new_price = $OSCOM_Specials->getPrice($this->_data['id']))) {
 				$price = '<s>' . $currencies->display_price($this->_data['price'], $this->_data['tax_class_id']) . '</s> <span class="productSpecialPrice">' . $currencies->display_price($new_price, $this->_data['tax_class_id']) . '</span>';
 			} else {
 				$price = $currencies->display_price($this->_data['price'], $this->_data['tax_class_id']);				
