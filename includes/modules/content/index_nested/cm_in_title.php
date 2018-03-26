@@ -41,7 +41,7 @@
       $category = tep_db_fetch_array($category_query);
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/category_title.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_in_title.php');
       $template = ob_get_clean(); 
       
       $oscTemplate->addContent($template, $this->group);

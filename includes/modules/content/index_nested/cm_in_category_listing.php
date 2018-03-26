@@ -56,7 +56,7 @@
       }
 
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/category_listing.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_in_category_listing.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);

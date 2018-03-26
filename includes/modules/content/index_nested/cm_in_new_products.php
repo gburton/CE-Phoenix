@@ -43,7 +43,7 @@
 
       if ($num_new_products > 0) {
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/category_new_products.php');
+        include('includes/modules/content/' . $this->group . '/templates/cm_in_new_products.php');
         $template = ob_get_clean(); 
         
         $oscTemplate->addContent($template, $this->group);

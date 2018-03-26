@@ -39,7 +39,7 @@
       
       if (tep_not_null($category['categories_description'])) {
         ob_start();
-        require('includes/modules/content/' . $this->group . '/templates/category_description.php');
+        require('includes/modules/content/' . $this->group . '/templates/cm_in_category_description.php');
         $template = ob_get_clean();       
 
         $oscTemplate->addContent($template, $this->group);
