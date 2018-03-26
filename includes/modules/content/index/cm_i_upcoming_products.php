@@ -41,7 +41,7 @@
       
       if (tep_db_num_rows($expected_query) > 0) {
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/upcoming_products.php');
+        include('includes/modules/content/' . $this->group . '/templates/cm_i_upcoming_products.php');
         $template = ob_get_clean(); 
         
         $oscTemplate->addContent($template, $this->group);
