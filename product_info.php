@@ -122,10 +122,6 @@
     }
 ?>
 
-<div class="description">
-  <?php echo stripslashes($product_info['products_description']); ?>
-</div>
-
 <?php
     if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
 ?>
