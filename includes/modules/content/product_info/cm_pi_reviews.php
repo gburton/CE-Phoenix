@@ -50,7 +50,7 @@
         }
         
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/reviews.php');
+        include('includes/modules/content/' . $this->group . '/templates/cm_pi_reviews.php');
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
