@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 ?>
-<div class="col-sm-<?php echo $content_width; ?> also-purchased" itemscope itemtype="http://schema.org/ItemList">
+<div class="col-sm-<?php echo $content_width; ?> cm-pi-also-purchased" itemscope itemtype="http://schema.org/ItemList">
   <meta itemprop="itemListOrder" content="http://schema.org/ItemListUnordered" />
   <meta itemprop="numberOfItems" content="<?php echo (int)$num_products_ordered; ?>" />
 
