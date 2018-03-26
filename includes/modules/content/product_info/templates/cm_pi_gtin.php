@@ -1,4 +1,4 @@
-<div class="col-sm-<?php echo $content_width; ?> gtin">
+<div class="col-sm-<?php echo $content_width; ?> cm-pi-gtin">
   <ul class="list-group">
     <li class="list-group-item">
       <span itemprop="gtin<?php echo MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH; ?>" class="badge"><?php echo $gtin; ?></span>
