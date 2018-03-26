@@ -79,7 +79,7 @@
         }
       
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/pi_options_attributes.php');
+        include('includes/modules/content/' . $this->group . '/templates/cm_pi_options_attributes.php');
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
