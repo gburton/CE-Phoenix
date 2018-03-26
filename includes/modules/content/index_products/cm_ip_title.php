@@ -33,7 +33,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $description, $languages_id;
+      global $oscTemplate, $current_category_id, $heading, $description, $languages_id;
       
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
      
