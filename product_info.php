@@ -74,57 +74,8 @@
 ?>
 
 <div class="contentContainer">
-  <div class="contentText is-product" data-is-special="<?php echo (int)$is_special; ?>">
 
-<?php
-    if (tep_not_null($product_info['products_image'])) {
-
-      $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT;
-
-      $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
-      $pi_total = tep_db_num_rows($pi_query);
-
-      if ($pi_total > 0) {
-?>
-
-    <div class="piGal pull-right" data-imgcount="<?php echo $photoset_layout; ?>">
-
-<?php
-        $pi_counter = 0;
-        $pi_html = array();
-
-        while ($pi = tep_db_fetch_array($pi_query)) {
-          $pi_counter++;
-
-          if (tep_not_null($pi['htmlcontent'])) {
-            $pi_html[] = '<div id="piGalDiv_' . $pi_counter . '">' . $pi['htmlcontent'] . '</div>';
-          }
-
-          echo tep_image('images/' . $pi['image'], '', '', '', 'id="piGalImg_' . $pi_counter . '"');
-        }
-?>
-
-    </div>
-
-<?php
-        if ( !empty($pi_html) ) {
-          echo '    <div style="display: none;">' . implode('', $pi_html) . '</div>';
-        }
-      } else {
-?>
-
-    <div class="piGal pull-right">
-      <?php echo tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name'])); ?>
-    </div>
-
-<?php
-      }
-    }
-?>
-
-  </div>
-
-  <div class="row">
+  <div class="row is-product" data-is-special="<?php echo (int)$is_special; ?>">
     <?php echo $oscTemplate->getContent('product_info'); ?>
   </div>
 
