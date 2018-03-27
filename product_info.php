@@ -43,14 +43,6 @@
 
     tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int)$_GET['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
 
-    if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
-      $products_price = '<del>' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</del> <span class="productPrice productSpecialPrice">' . $currencies->display_price($new_price, tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
-      $is_special = 1;
-    } else {
-      $products_price = '<span class="productPrice">' . $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id'])) . '</span>';
-      $is_special = 0;
-    }
-
     $products_name = '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . $product_info['products_name'] . '</a>';
 
     if (tep_not_null($product_info['products_model'])) {
@@ -75,7 +67,7 @@
 
 <div class="contentContainer">
 
-  <div class="row is-product" data-is-special="<?php echo (int)$is_special; ?>">
+  <div class="row is-product">
     <?php echo $oscTemplate->getContent('product_info'); ?>
   </div>
 
