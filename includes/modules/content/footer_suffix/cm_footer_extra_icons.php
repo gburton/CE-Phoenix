@@ -38,7 +38,7 @@
       $content_width = (int)MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH;
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/icons.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_footer_extra_icons.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
