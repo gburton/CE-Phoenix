@@ -43,9 +43,6 @@
 
     tep_db_query("update " . TABLE_PRODUCTS_DESCRIPTION . " set products_viewed = products_viewed+1 where products_id = '" . (int)$_GET['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
 
-    if (tep_not_null($product_info['products_model'])) {
-      $products_name .= '<br /><small>[' . $product_info['products_model'] . ']</small>';
-    }
 ?>
 
 <?php echo tep_draw_form('cart_quantity', tep_href_link('product_info.php', tep_get_all_get_params(array('action')). 'action=add_product', 'NONSSL'), 'post', 'class="form-horizontal" role="form"'); ?>
