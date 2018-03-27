@@ -1,4 +1,4 @@
-<div class="col-sm-<?php echo $content_width; ?> category-listing">
+<div class="col-sm-<?php echo $content_width; ?> cm-in-category-listing">
   <div itemscope itemtype="http://schema.org/ItemList">
     <meta itemprop="itemListOrder" content="http://schema.org/ItemListUnordered" />
     <meta itemprop="name" content="<?php echo $category['categories_name']; ?>" />

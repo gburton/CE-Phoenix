@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 ?>
-<div class="col-sm-<?php echo $content_width; ?> category-new-products">
+<div class="col-sm-<?php echo $content_width; ?> cm-in-new-products">
 
   <h3><?php echo sprintf(MODULE_CONTENT_IN_NEW_PRODUCTS_HEADING, strftime('%B')); ?></h3>
   
