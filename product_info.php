@@ -27,13 +27,11 @@
 ?>
 
 <div class="contentContainer">
-  <div class="contentText">
-    <div class="alert alert-warning"><?php echo TEXT_PRODUCT_NOT_FOUND; ?></div>
-  </div>
 
-  <div class="pull-right">
-    <?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php')); ?>
+  <div class="row">
+    <?php echo $oscTemplate->getContent('product_info_not_found'); ?>
   </div>
+  
 </div>
 
 <?php
