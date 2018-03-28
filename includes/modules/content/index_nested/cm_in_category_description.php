@@ -33,11 +33,13 @@
     }
 
     function execute() {
-      global $oscTemplate, $category;  
+      global $oscTemplate, $current_category_id, $OSCOM_category;  
 
-      $content_width = MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_CONTENT_WIDTH;      
+      $content_width = MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_CONTENT_WIDTH; 
+
+      $category_description = $OSCOM_category->getData($current_category_id, 'description');      
       
-      if (tep_not_null($category['categories_description'])) {
+      if (tep_not_null($category_description)) {
         ob_start();
         require('includes/modules/content/' . $this->group . '/templates/cm_in_category_description.php');
         $template = ob_get_clean();       
