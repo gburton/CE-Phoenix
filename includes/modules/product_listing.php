@@ -120,7 +120,7 @@
     $prod_list_contents .= '    <div class="caption">';
     
     if (PRODUCT_LIST_NAME > 0) {
-      $prod_list_contents .= '      <h2 class="group inner list-group-item-heading">';
+      $prod_list_contents .= '      <h2 class="h3 group inner list-group-item-heading">';
       if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
         $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
       } else {

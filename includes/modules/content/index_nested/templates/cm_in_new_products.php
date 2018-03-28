@@ -12,7 +12,7 @@
 ?>
 <div class="col-sm-<?php echo $content_width; ?> cm-in-new-products">
 
-  <h3><?php echo sprintf(MODULE_CONTENT_IN_NEW_PRODUCTS_HEADING, strftime('%B')); ?></h3>
+  <h3 class="h3"><?php echo sprintf(MODULE_CONTENT_IN_NEW_PRODUCTS_HEADING, strftime('%B')); ?></h3>
   
   <div class="row list-group" itemscope itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />

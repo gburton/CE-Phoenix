@@ -91,7 +91,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -218,7 +218,7 @@
 ?>
   <hr>
 
-  <h2><?php echo HEADING_PAYMENT_INFORMATION; ?></h2>
+  <h2 class="h3"><?php echo HEADING_PAYMENT_INFORMATION; ?></h2>
 
   <div class="contentText row">
 <?php
@@ -254,7 +254,7 @@
 ?>
   <hr>
 
-  <h2><?php echo '<strong>' . HEADING_ORDER_COMMENTS . '</strong>' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></h2>
+  <h2 class="h3"><?php echo '<strong>' . HEADING_ORDER_COMMENTS . '</strong>' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></h2>
 
   <blockquote>
     <?php echo nl2br(tep_output_string_protected($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']); ?>

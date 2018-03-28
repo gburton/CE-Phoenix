@@ -104,7 +104,7 @@ function check_form() {
 //--></script>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE_1; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE_1; ?></h1>
 </div>
 
 <?php
@@ -139,7 +139,7 @@ function check_form() {
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times"></span></button>
-            <h4 class="modal-title"><?php echo HEADING_SEARCH_HELP; ?></h4>
+            <h4 class="h3 modal-title"><?php echo HEADING_SEARCH_HELP; ?></h4>
           </div>
           <div class="modal-body">
             <p><?php echo TEXT_SEARCH_HELP; ?></p>

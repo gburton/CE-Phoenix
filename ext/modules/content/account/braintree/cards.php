@@ -63,7 +63,7 @@
   require('includes/template_top.php');
 ?>
 
-<h1><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_HEADING_TITLE; ?></h1>
+<h1 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('cards') > 0) {
@@ -74,7 +74,7 @@
 <div class="contentContainer">
   <?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_TEXT_DESCRIPTION; ?>
 
-  <h2><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_SAVED_CARDS_TITLE; ?></h2>
+  <h2 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_SAVED_CARDS_TITLE; ?></h2>
 
   <div class="contentText">
 

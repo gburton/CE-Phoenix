@@ -2,7 +2,7 @@
   <div class="panel panel-info">
     <div class="panel-body">
 
-      <h2><?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?></h2>
+      <h2 class="h3"><?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?></h2>
 
 <?php
   if ( OSCOM_APP_PAYPAL_LOGIN_STATUS == '0' ) {

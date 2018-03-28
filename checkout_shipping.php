@@ -168,13 +168,13 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-  <h2><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
+  <h2 class="h3"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
 
   <div class="contentText row">
     <div class="col-sm-8">
@@ -203,7 +203,7 @@
   if (tep_count_shipping_modules() > 0) {
 ?>
 
-  <h2><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h2>
+  <h2 class="h3"><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h2>
 
 <?php
     if (sizeof($quotes) > 1 && sizeof($quotes[0]) > 1) {

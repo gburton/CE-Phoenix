@@ -89,7 +89,7 @@
 <meta http-equiv="refresh" content="3; URL=<?php echo tep_href_link('checkout_process.php', tep_session_name() . '=' . $_POST['M_sid'] . '&hash=' . $_POST['M_hash'], 'SSL', false); ?>">
 </head>
 <body>
-<h1><?php echo STORE_NAME; ?></h1>
+<h1 class="h3"><?php echo STORE_NAME; ?></h1>
 
 <p><?php echo MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_SUCCESSFUL_TRANSACTION; ?></p>
 

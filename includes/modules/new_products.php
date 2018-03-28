@@ -42,7 +42,7 @@
     }
 ?>
 
-  <h3><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h3>
+  <h3 class="h3"><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h3>
 
   <div class="row" itemscope itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />

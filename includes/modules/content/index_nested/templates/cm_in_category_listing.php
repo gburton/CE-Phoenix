@@ -10,7 +10,7 @@
       echo '  <div class="text-center">';
       echo '    <a href="' . tep_href_link('index.php', $cPath_new) . '">' . tep_image('images/' . $categories['categories_image'], htmlspecialchars($categories['categories_name']), SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '</a>';
       echo '    <div class="caption text-center">';
-      echo '      <h5><a href="' . tep_href_link('index.php', $cPath_new) . '"><span itemprop="itemListElement">' . $categories['categories_name'] . '</span></a></h5>';
+      echo '      <h5 class="h3"><a href="' . tep_href_link('index.php', $cPath_new) . '"><span itemprop="itemListElement">' . $categories['categories_name'] . '</span></a></h5>';
       echo '    </div>';
       echo '  </div>';
       echo '</div>';
