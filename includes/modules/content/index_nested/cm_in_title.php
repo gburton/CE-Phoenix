@@ -33,19 +33,18 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $languages_id;
+      global $oscTemplate, $current_category_id, $OSCOM_category;
       
       $content_width = MODULE_CONTENT_IN_TITLE_CONTENT_WIDTH;
-     
-      $category_query = tep_db_query("select cd.categories_name, c.categories_image, cd.categories_description from categories c, categories_description cd where c.categories_id = '" . (int)$current_category_id . "' and cd.categories_id = '" . (int)$current_category_id . "' and cd.language_id = '" . (int)$languages_id . "'");
-      $category = tep_db_fetch_array($category_query);
       
+      $category_name  = $OSCOM_category->getData($current_category_id, 'name');
+      $category_image = $OSCOM_category->getData($current_category_id, 'image');
+     
       ob_start();
       include('includes/modules/content/' . $this->group . '/templates/cm_in_title.php');
       $template = ob_get_clean(); 
       
       $oscTemplate->addContent($template, $this->group);
-
     }
 
     function isEnabled() {
