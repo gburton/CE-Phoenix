@@ -452,6 +452,9 @@
   require('includes/classes/osc_template.php');
   $oscTemplate = new oscTemplate();
 
+// include category tree class
+  require('includes/classes/category_tree.php');
+
 // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
@@ -465,12 +468,11 @@
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
+    
+    $OSCOM_category = new category_tree;
   } else {
     $current_category_id = 0;
   }
-
-// include category tree class
-  require('includes/classes/category_tree.php');
 
 // include the breadcrumb class and start the breadcrumb trail
   require('includes/classes/breadcrumb.php');
