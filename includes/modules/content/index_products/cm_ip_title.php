@@ -33,25 +33,23 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $description, $languages_id;
+      global $oscTemplate, $current_category_id, $OSCOM_category;
       
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
      
-			$heading = HEADING_TITLE;
-			if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-				$focusq = tep_db_query("select m.manufacturers_image, m.manufacturers_name as name, mi.manufacturers_description as description from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
-				$focus = tep_db_fetch_array($focusq);
-				$heading = $focus['name'];
-				$description = $focus['description'];
-			} elseif ($current_category_id) {
-				$focusq = tep_db_query("select c.categories_image, cd.categories_name as name, cd.categories_description as description from " . TABLE_CATEGORIES . " c, " . TABLE_CATEGORIES_DESCRIPTION . " cd where c.categories_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "'");
-				$focus = tep_db_fetch_array($focusq);
-				$heading = $focus['name'];
-				$description = $focus['description'];
-			}
+      if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
+        $manufacturer_query = tep_db_query("select manufacturers_image, manufacturers_name from manufacturers where manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "'");
+        $manufacturer = tep_db_fetch_array($manufacturer_query);
+
+        $cm_name  = $manufacturer['manufacturers_name'];
+        $cm_image = $manufacturer['manufacturers_image'];
+      } else {
+        $cm_name  = $OSCOM_category->getData($current_category_id, 'name');
+        $cm_image = $OSCOM_category->getData($current_category_id, 'image');
+      }
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/title.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_ip_title.php');
       $template = ob_get_clean(); 
       
       $oscTemplate->addContent($template, $this->group);
