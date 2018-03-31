@@ -81,6 +81,10 @@
 <div class="contentContainer">
   <div class="contentText">
   
+  <div class="row">
+  <?php echo $oscTemplate->getContent('contact_us'); ?>
+  </div>
+  
     <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
     <div class="clearfix"></div>
 

@@ -159,6 +159,12 @@
 
 </form>
 
+<div class="clearfix"></div>
+<br/>
+<div class="row">
+  <?php echo $oscTemplate->getContent('shopping_cart'); ?>
+</div>
+
 <?php
   } else {
 ?>
