@@ -21,6 +21,7 @@
     }
 
     function register($group) {
+      global $language;
       $group = basename($group);
 
       $directory = DIR_FS_CATALOG . 'includes/hooks/' . $this->_site . '/' . $group;
@@ -29,7 +30,11 @@
         if ( $dir = @dir($directory) ) {
           while ( $file = $dir->read() ) {
             if ( !is_dir($directory . '/' . $file) ) {
-              if ( substr($file, strrpos($file, '.')) == '.php' ) {
+              if ( substr($file, strrpos($file, '.')) == '.php' ) {                
+                if ( file_exists('includes/languages/' . $language . '/hooks/' . $this->_site . '/' . $group . '/' . $file) ) {
+                  include('includes/languages/' . $language . '/hooks/' . $this->_site . '/' . $group . '/' . $file);
+                }
+                
                 $code = substr($file, 0, strrpos($file, '.'));
                 $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
 
