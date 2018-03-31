@@ -522,4 +522,6 @@
       $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'cPath=' . $cPath . '&products_id=' . $_GET['products_id']));
     }
   }
+
+  $OSCOM_Hooks->register(strtok($PHP_SELF, '.'));
   
