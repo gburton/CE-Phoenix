@@ -523,5 +523,5 @@
     }
   }
 
-  $OSCOM_Hooks->register(strtok($PHP_SELF, '.'));
+  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
   
