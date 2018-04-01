@@ -243,4 +243,4 @@
   require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('admin');
 
-  $OSCOM_Hooks->register(strtok($PHP_SELF, '.'));
+  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
