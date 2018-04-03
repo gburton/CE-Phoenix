@@ -10,8 +10,6 @@
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Welcome to ' . STORE_NAME);
-
 define('TABLE_HEADING_NEW_PRODUCTS', 'New Products For %s');
 
 define('TEXT_NO_PRODUCTS', 'There are no products available in this category.');

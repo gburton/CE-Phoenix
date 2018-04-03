@@ -40,7 +40,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <div class="contentContainer">
@@ -163,7 +163,7 @@
 
   <hr>
 
-  <h2><?php echo HEADING_ORDER_HISTORY; ?></h2>
+  <h2 class="h3"><?php echo HEADING_ORDER_HISTORY; ?></h2>
 
   <div class="clearfix"></div>
   
@@ -176,7 +176,7 @@
         echo '  <div class="timeline-badge"><i class="far fa-check-square"></i></div>';
         echo '  <div class="timeline-panel">';
         echo '    <div class="timeline-heading">';
-        echo '      <p class="pull-right"><small class="text-muted"><i class="far fa-clock"></i> ' . tep_date_short($statuses['date_added']) . '</small></p><h2 class="timeline-title">' . $statuses['orders_status_name'] . '</h2>';
+        echo '      <p class="pull-right"><small class="text-muted"><i class="far fa-clock"></i> ' . tep_date_short($statuses['date_added']) . '</small></p><h2 class="h3 timeline-title">' . $statuses['orders_status_name'] . '</h2>';
         echo '    </div>';
         echo '    <div class="timeline-body">';
         echo '      <p>' . (empty($statuses['comments']) ? '&nbsp;' : '<blockquote>' . nl2br(tep_output_string_protected($statuses['comments'])) . '</blockquote>') . '</p>';

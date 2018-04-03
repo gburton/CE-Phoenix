@@ -22,6 +22,4 @@ define('TEXT_BAD', '<small><font color="#ff0000"><strong>BAD</strong></font></sm
 define('TEXT_GOOD', '<small><font color="#ff0000"><strong>GOOD</strong></font></small>');
 
 define('TEXT_REVIEW_RECEIVED', 'Thank you for your review. It has been submitted to the store owner for approval and should appear shortly.');
-
-define('TEXT_CLICK_TO_ENLARGE', 'Click to enlarge');
 ?>

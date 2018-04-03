@@ -26,7 +26,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -36,7 +36,7 @@
 ?>
 
 <div class="contentContainer">
-  <h2><?php echo PRIMARY_ADDRESS_TITLE; ?></h2>
+  <h2 class="h3"><?php echo PRIMARY_ADDRESS_TITLE; ?></h2>
 
   <div class="contentText row">
     <div class="col-sm-8">
@@ -55,7 +55,7 @@
 
   <div class="clearfix"></div>
 
-  <h2><?php echo ADDRESS_BOOK_TITLE; ?></h2>
+  <h2 class="h3"><?php echo ADDRESS_BOOK_TITLE; ?></h2>
   
   <div class="alert alert-warning"><?php echo sprintf(TEXT_MAXIMUM_ENTRIES, MAX_ADDRESS_BOOK_ENTRIES); ?></div>
 

@@ -1,0 +1,4 @@
+<div id="storeLogo" class="col-sm-<?php echo $content_width; ?> cm-header-logo storeLogo">
+  <?php echo '<a href="' . tep_href_link('index.php') . '">' . tep_image('images/' . STORE_LOGO, htmlspecialchars(STORE_NAME)) . '</a>'; ?>
+</div>
+

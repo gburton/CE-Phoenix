@@ -14,11 +14,7 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE);
-  
-  if (defined('E_DEPRECATED')) {
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-  }
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
 // check support for register_globals
   if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
@@ -452,6 +448,9 @@
   require('includes/classes/osc_template.php');
   $oscTemplate = new oscTemplate();
 
+// include category tree class
+  require('includes/classes/category_tree.php');
+
 // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
@@ -465,12 +464,11 @@
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
+    
+    $OSCOM_category = new category_tree;
   } else {
     $current_category_id = 0;
   }
-
-// include category tree class
-  require('includes/classes/category_tree.php');
 
 // include the breadcrumb class and start the breadcrumb trail
   require('includes/classes/breadcrumb.php');
@@ -481,20 +479,16 @@
 
 // add category names or the manufacturer name to the breadcrumb trail
   if (isset($cPath_array)) {
-    $n=sizeof($cPath_array);
-    for ($i=0; $i<$n; $i++) {      
+    foreach ($cPath_array as $k => $v) {
+      $breadcrumb_category = $OSCOM_category->getData($v, 'name');
+    
       if ( defined('MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-        $categories_query = tep_db_query("select coalesce(NULLIF(categories_seo_title, ''), categories_name) as categories_name from categories_description where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
-      }
-      else {
-        $categories_query = tep_db_query("select categories_name from categories_description where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
-      }    
-      if (tep_db_num_rows($categories_query) > 0) {
-        $categories = tep_db_fetch_array($categories_query);
-        $breadcrumb->add($categories['categories_name'], tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
-      } else {
-        break;
-      }
+        if (tep_not_null($OSCOM_category->getData($v, 'seo_title'))) {
+          $breadcrumb_category = $OSCOM_category->getData($v, 'seo_title');
+        }
+      }  
+
+      $breadcrumb->add($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
     }
   } elseif (isset($_GET['manufacturers_id'])) {
     if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
@@ -522,4 +516,6 @@
       $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'cPath=' . $cPath . '&products_id=' . $_GET['products_id']));
     }
   }
+
+  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
   

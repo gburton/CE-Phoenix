@@ -65,7 +65,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo MODULE_CONTENT_ACCOUNT_SET_PASSWORD_HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_SET_PASSWORD_HEADING_TITLE; ?></h1>
 </div>
 
 <?php

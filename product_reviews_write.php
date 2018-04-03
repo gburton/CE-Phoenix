@@ -107,8 +107,8 @@ function checkForm() {
 
 <div class="page-header">  
   <div class="row">
-    <h1 class="col-sm-4"><?php echo $products_name; ?></h1>
-    <h2 class="col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
+    <h1 class="h3 col-sm-4"><?php echo $products_name; ?></h1>
+    <h2 class="h3 col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
   </div>
 </div>
 

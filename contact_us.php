@@ -51,7 +51,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -80,6 +80,10 @@
 
 <div class="contentContainer">
   <div class="contentText">
+  
+    <div class="row">
+      <?php echo $oscTemplate->getContent('contact_us'); ?>
+    </div>
   
     <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
     <div class="clearfix"></div>

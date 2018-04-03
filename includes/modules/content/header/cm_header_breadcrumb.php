@@ -38,7 +38,7 @@
       $content_width = (int)MODULE_CONTENT_HEADER_BREADCRUMB_CONTENT_WIDTH;
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/breadcrumb.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_header_breadcrumb.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);

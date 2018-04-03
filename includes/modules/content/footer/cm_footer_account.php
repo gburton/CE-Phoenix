@@ -49,7 +49,7 @@
       }
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/account.php');
+      include('includes/modules/content/' . $this->group . '/templates/cm_footer_account.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
