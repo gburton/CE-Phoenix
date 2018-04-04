@@ -41,7 +41,7 @@
       $category_image = $OSCOM_category->getData($current_category_id, 'image');
      
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/cm_in_title.php');
+      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
       $template = ob_get_clean(); 
       
       $oscTemplate->addContent($template, $this->group);

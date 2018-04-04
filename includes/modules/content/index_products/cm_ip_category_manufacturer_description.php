@@ -48,7 +48,7 @@
       
       if (tep_not_null($cm_description)) {
         ob_start();
-        require('includes/modules/content/' . $this->group . '/templates/cm_ip_category_manufacturer_description.php');
+        require('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean();       
 
         $oscTemplate->addContent($template, $this->group);

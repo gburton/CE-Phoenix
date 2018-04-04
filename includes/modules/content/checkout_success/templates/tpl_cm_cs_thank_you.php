@@ -1,4 +1,4 @@
-<div class="panel panel-success">
+<div class="panel panel-success cm-cs-thank-you">
   <div class="panel-heading">
     <?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_THANKS_FOR_SHOPPING; ?>
   </div>

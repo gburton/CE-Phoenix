@@ -41,7 +41,7 @@
         $products_model = $product_info['products_model'];
         
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/cm_pi_model.php');
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);

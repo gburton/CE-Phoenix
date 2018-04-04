@@ -39,7 +39,7 @@
       
       if (tep_not_null(MODULE_CONTENT_TEXT_MAIN_TEXT)) {
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/cm_i_text_main.php');
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean(); 
         
         $oscTemplate->addContent($template, $this->group);

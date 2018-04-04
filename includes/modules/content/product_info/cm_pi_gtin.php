@@ -41,7 +41,7 @@
         $gtin = substr($product_info['products_gtin'], 0-MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH);
         
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/cm_pi_gtin.php');
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
