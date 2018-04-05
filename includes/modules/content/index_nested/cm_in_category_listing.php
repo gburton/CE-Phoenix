@@ -42,7 +42,7 @@
       $category_array = $OSCOM_category->buildBranchArray($current_category_id);
 
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/cm_in_category_listing.php');
+      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);

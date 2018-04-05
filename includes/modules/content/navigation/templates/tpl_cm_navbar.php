@@ -1,4 +1,4 @@
-<nav class="navbar<?php echo $navbar_style . $navbar_corners . $navbar_margin . $navbar_fixed; ?> navbar-custom" role="navigation">
+<nav class="navbar<?php echo $navbar_style . $navbar_corners . $navbar_margin . $navbar_fixed; ?> cm-navbar" role="navigation">
   <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
     <?php
     if ($oscTemplate->hasBlocks('navbar_modules_home')) {

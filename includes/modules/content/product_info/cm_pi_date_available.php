@@ -41,7 +41,7 @@
         $date = (MODULE_CONTENT_PI_DATE_AVAILABLE_STYLE == 'Long') ? tep_date_long($product_info['products_date_available']) : tep_date_short($product_info['products_date_available']);
         
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/cm_pi_date_available.php');
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);

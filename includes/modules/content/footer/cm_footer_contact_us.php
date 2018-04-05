@@ -38,7 +38,7 @@
       $content_width = (int)MODULE_CONTENT_FOOTER_CONTACT_US_CONTENT_WIDTH;
 
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/cm_footer_contact_us.php');
+      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);

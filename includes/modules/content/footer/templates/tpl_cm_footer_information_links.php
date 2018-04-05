@@ -1,4 +1,4 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-footer-links">
+<div class="col-sm-<?php echo $content_width; ?> cm-footer-information-links">
   <div class="footerbox information">
     <h2 class="h3"><?php echo MODULE_CONTENT_FOOTER_INFORMATION_HEADING_TITLE; ?></h2>
     <ul class="nav nav-pills nav-stacked">
