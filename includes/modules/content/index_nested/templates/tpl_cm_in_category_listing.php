@@ -9,7 +9,7 @@
       echo   '<div class="text-center">';
       echo     '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title']), SUBCATEGORY_IMAGE_WIDTH, SUBCATEGORY_IMAGE_HEIGHT) . '</a>';
       echo     '<div class="caption text-center">';
-      echo       '<h5 class="h3"><a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '"><span itemprop="itemListElement">' . $v['title'] . '</span></a></h5>';
+      echo       '<h5><a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '"><span itemprop="itemListElement">' . $v['title'] . '</span></a></h5>';
       echo     '</div>';
       echo   '</div>';
       echo '</div>';
