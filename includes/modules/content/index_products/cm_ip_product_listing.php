@@ -112,7 +112,7 @@
 				}
 			}
 			
-			$output = '<div class="col-sm-' . MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH . '">';
+			$template = $output = null;
 	
 // optional Product List Filter
 			if (PRODUCT_LIST_FILTER > 0) {
