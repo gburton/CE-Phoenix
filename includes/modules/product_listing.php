@@ -104,9 +104,14 @@
   $listing_query = tep_db_query($listing_split->sql_query);
 
   $prod_list_contents = NULL;
+  
+  // php 5
+  $list_group_item = (isset($item_width) ? $item_width : 4);
+  // php 7
+  // $list_group_item = $item_width ?? 4;
 
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="item list-group-item col-sm-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
+    $prod_list_contents .= '<div class="item list-group-item col-sm-' . $list_group_item . '" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
 	  $prod_list_contents .= '  <div class="productHolder equal-height is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">';
     
     if (PRODUCT_LIST_IMAGE > 0) {
