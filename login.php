@@ -75,18 +75,14 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
-
 <?php
   if ($messageStack->size('login') > 0) {
     echo $messageStack->output('login');
   }
 ?>
 
-<div id="loginModules">
-  <div class="row list-group">
+<div class="contentContainer">
+  <div class="row">
     <?php echo $page_content; ?>
   </div>
 </div>
