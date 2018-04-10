@@ -5,9 +5,10 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Login');
+  const MODULES_ADMIN_MENU_MODULES_ACTIONS = 'Actions';
+  

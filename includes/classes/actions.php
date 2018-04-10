@@ -14,8 +14,8 @@
     public static function parse($module) {
       $module = basename($module);
 
-      if ( !empty($module) && file_exists('includes/modules/actions/' . $module . '.php') ) {
-        include('includes/modules/actions/' . $module . '.php');
+      if ( !empty($module) && file_exists('includes/actions/' . $module . '.php') ) {
+        include('includes/actions/' . $module . '.php');
 
         call_user_func(array('osC_Actions_' . $module, 'execute'));
       }
