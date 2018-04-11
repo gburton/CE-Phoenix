@@ -22,6 +22,8 @@
 
     tep_redirect(tep_href_link('cookie_usage.php'));
   }
+  
+  $page_content = $oscTemplate->getContent('login');
 
   require('includes/languages/' . $language . '/login.php');
 
