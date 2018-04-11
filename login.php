@@ -38,7 +38,7 @@
 
 <div class="contentContainer">
   <div class="row">
-    <?php echo $page_content; ?>
+    <?php echo $oscTemplate->getContent('login'); ?>
   </div>
 </div>
 
