@@ -54,7 +54,7 @@
         }
       }
 
-      if ( MODULE_PAYMENT_SAGE_PAY_FORM_TRANSACTION_SERVER == 'Live' ) {
+      if ( defined('MODULE_PAYMENT_SAGE_PAY_FORM_TRANSACTION_SERVER') && MODULE_PAYMENT_SAGE_PAY_FORM_TRANSACTION_SERVER == 'Live' ) {
         $this->form_action_url = 'https://live.sagepay.com/gateway/service/vspform-register.vsp';
       } else {
         $this->form_action_url = 'https://test.sagepay.com/gateway/service/vspform-register.vsp';
