@@ -9,13 +9,13 @@
 
   Released under the GNU General Public License
 */
-	
-	class osC_Actions_remove_product {
-		function execute() {
-			global $PHP_SELF, $messageStack, $cart, $goto, $parameters; 
+
+  class osC_Actions_remove_product {
+    function execute() {
+      global $PHP_SELF, $messageStack, $cart, $goto, $parameters; 
       
       if (isset($_GET['products_id'])) {       
-        $pid = (int)$_GET['products_id'];
+        $pid = $_GET['products_id'];
         
         $cart->remove($pid);
         
@@ -23,5 +23,5 @@
       }
       
       tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));      
-		}
-	}
+    }
+  }
