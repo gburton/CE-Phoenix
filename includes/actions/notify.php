@@ -11,7 +11,7 @@
 */
 	
 	class osC_Actions_notify {
-		function execute() {
+		public static function execute() {
 			global $PHP_SELF, $messageStack, $customer_id, $navigation;
       
       if (tep_session_is_registered('customer_id')) {
