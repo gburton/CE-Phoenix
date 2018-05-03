@@ -30,22 +30,36 @@
 
     function execute() {
       global $PHP_SELF, $cPath, $oscTemplate, $category_depth;
-
-      if (basename($PHP_SELF) == 'product_info.php') {
-        $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'], 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
-      } elseif (basename($PHP_SELF) == 'index.php') {
-        if (isset($cPath) && tep_not_null($cPath) && ($category_depth == 'products')) {
-          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', 'view=all&cPath=' . $cPath, 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
-        } elseif (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
-          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', 'view=all&manufacturers_id=' . (int)$_GET['manufacturers_id'], 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
-        }
-      }
-      else {
-        $view_all_pages = array('products_new.php', 'specials.php');
-        if (in_array(basename($PHP_SELF), $view_all_pages)) {
+      global $current_category_id, $OSCOM_category;
+      
+      switch (basename($PHP_SELF)) {
+        case 'index.php':
+          if (isset($cPath) && tep_not_null($cPath) && ($current_category_id > 0) && ($category_depth != 'top')) {
+            $canonical = $OSCOM_category->buildBreadcrumb($current_category_id);
+           
+            $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', 'view=all&cPath=' . $canonical, 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+          }
+          elseif (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
+            $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', 'view=all&manufacturers_id=' . (int)$_GET['manufacturers_id'], 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+          }
+          else {
+            $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', null, 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+          }
+        break;
+        
+        case 'product_info.php':
+          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'], 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+        break;
+        
+        case 'products_new.php':
+        case 'specials.php':
           $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, 'view=all', 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
-        }
-      }  
+        break;
+        
+        default: 
+          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+        break;
+      }
     }
 
     function isEnabled() {
