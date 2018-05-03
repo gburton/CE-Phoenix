@@ -11,18 +11,18 @@
 */
 	
 	class osC_Actions_update_product {
-		function execute() {
+		public static function execute() {
 			global $PHP_SELF, $messageStack, $cart, $goto, $parameters;
       
       if (isset($_POST['products_id'])) {
         $n=sizeof($_POST['products_id']);
         
         for ($i=0; $i<$n; $i++) {
-          if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array()))) {
+          if (isset($_POST['cart_delete']) && in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array()))) {
             $cart->remove($_POST['products_id'][$i]);
             $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($_POST['products_id'][$i])), 'warning');
           } else {
-            $attributes = ($_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
+            $attributes = (isset($_POST['id']) && $_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
             $cart->add_cart($_POST['products_id'][$i], $_POST['cart_quantity'][$i], $attributes, false);
           }
         }

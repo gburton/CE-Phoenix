@@ -11,7 +11,7 @@
 */
 	
 	class osC_Actions_buy_now {
-		function execute() {
+		public static function execute() {
 			global $PHP_SELF, $messageStack, $cart, $goto, $parameters;
       
       if (isset($_GET['products_id'])) {       

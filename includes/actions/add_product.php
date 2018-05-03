@@ -11,7 +11,7 @@
 */
 	
 	class osC_Actions_add_product {
-		function execute() {
+		public static function execute() {
 			global $PHP_SELF, $messageStack, $cart, $goto, $parameters;
       
       if (isset($_POST['products_id'])) {       

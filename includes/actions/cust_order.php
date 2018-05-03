@@ -11,7 +11,7 @@
 */
 	
 	class osC_Actions_cust_order {
-		function execute() {
+		public static function execute() {
 			global $customer_id, $PHP_SELF, $messageStack, $cart, $goto, $parameters;
       
       if (tep_session_is_registered('customer_id') && isset($_GET['pid'])) {
