@@ -39,7 +39,8 @@
       $category_width = MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH_EACH;
       
       $category_name  = $OSCOM_category->getData($current_category_id, 'name');
-      $category_array = $OSCOM_category->buildBranchArray($current_category_id);
+      $category_level = $OSCOM_category->setMaximumLevel(1);
+      $category_array = $OSCOM_category->buildBranchArray($current_category_id, $category_level);
 
       ob_start();
       include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
