@@ -67,7 +67,6 @@
         if ( isset($order) && is_object($order) ) {
           $this->update_status();
         }
-      }
 
       if ( basename($PHP_SELF) == 'shopping_cart.php' ) {
         if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '1') ) {
@@ -86,6 +85,8 @@
         if ( tep_session_is_registered('payment') && ($payment == $this->code) ) {
           tep_redirect(tep_href_link('checkout_confirmation.php', '', 'SSL'));
         }
+      }
+
       }
     }
 
