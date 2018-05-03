@@ -102,10 +102,13 @@
       $this->code = 'zones';
       $this->title = MODULE_SHIPPING_ZONES_TEXT_TITLE;
       $this->description = MODULE_SHIPPING_ZONES_TEXT_DESCRIPTION;
-      $this->sort_order = MODULE_SHIPPING_ZONES_SORT_ORDER;
-      $this->icon = '';
-      $this->tax_class = MODULE_SHIPPING_ZONES_TAX_CLASS;
-      $this->enabled = ((MODULE_SHIPPING_ZONES_STATUS == 'True') ? true : false);
+      
+      if ( defined('MODULE_SHIPPING_ZONES_STATUS') ) {
+        $this->sort_order = MODULE_SHIPPING_ZONES_SORT_ORDER;
+        $this->icon = '';
+        $this->tax_class = MODULE_SHIPPING_ZONES_TAX_CLASS;
+        $this->enabled = ((MODULE_SHIPPING_ZONES_STATUS == 'True') ? true : false);
+      }
 
       // CUSTOMIZE THIS SETTING FOR THE NUMBER OF ZONES NEEDED
       $this->num_zones = 1;
