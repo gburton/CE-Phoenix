@@ -421,10 +421,10 @@
 // add the products model to the breadcrumb trail
   if (isset($_GET['products_id'])) {    
     if ( defined('MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), p.products_model) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+      $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     }
     else {
-      $model_query = tep_db_query("select products_model from " . TABLE_PRODUCTS . " where products_id = '" . (int)$_GET['products_id'] . "'");
+      $model_query = tep_db_query("select coalesce(NULLIF(p.products_model, ''), pd.products_name) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     }
     if (tep_db_num_rows($model_query)) {
       $model = tep_db_fetch_array($model_query);
