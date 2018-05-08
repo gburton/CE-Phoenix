@@ -29,7 +29,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $cPath, $oscTemplate, $category_depth, $request_type;
+      global $PHP_SELF, $cPath, $oscTemplate, $category_depth;
       global $current_category_id, $OSCOM_category;
       
       switch (basename($PHP_SELF)) {
@@ -57,7 +57,7 @@
         break;
         
         default: 
-          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, '', $request_type, false) . '" />' . PHP_EOL, $this->group);
+          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, '', 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
         break;
       }
     }
