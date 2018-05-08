@@ -17,8 +17,11 @@
       $this->code = 'ot_loworderfee';
       $this->title = MODULE_ORDER_TOTAL_LOWORDERFEE_TITLE;
       $this->description = MODULE_ORDER_TOTAL_LOWORDERFEE_DESCRIPTION;
-      $this->enabled = ((MODULE_ORDER_TOTAL_LOWORDERFEE_STATUS == 'true') ? true : false);
-      $this->sort_order = MODULE_ORDER_TOTAL_LOWORDERFEE_SORT_ORDER;
+      
+      if ( defined('MODULE_ORDER_TOTAL_LOWORDERFEE_STATUS') ) {
+        $this->enabled = ((MODULE_ORDER_TOTAL_LOWORDERFEE_STATUS == 'true') ? true : false);
+        $this->sort_order = MODULE_ORDER_TOTAL_LOWORDERFEE_SORT_ORDER;
+      }
 
       $this->output = array();
     }
