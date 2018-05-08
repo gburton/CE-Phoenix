@@ -42,6 +42,8 @@
         $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
         $class = basename($_GET['module']);
         if (file_exists($module_directory . $class . $file_extension)) {
+          // include lang file
+          include($module_language_directory . $language . '/modules/' . $module_type . '/' . $class . $file_extension);
           include($module_directory . $class . $file_extension);
           $module = new $class;
           if ($action == 'install') {
