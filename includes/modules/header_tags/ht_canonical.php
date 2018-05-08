@@ -57,7 +57,7 @@
         break;
         
         default: 
-          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
+          $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link($PHP_SELF, '', 'NONSSL', false) . '" />' . PHP_EOL, $this->group);
         break;
       }
     }
