@@ -21,6 +21,10 @@
       $this->title = MODULE_PAYMENT_MONEYORDER_TEXT_TITLE;
       $this->description = MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION;
       
+      if ( !defined('MODULE_PAYMENT_MONEYORDER_PAYTO') || (!tep_not_null(MODULE_PAYMENT_MONEYORDER_PAYTO))) {
+        $this->description .= '<div class="secWarning">' . MODULE_PAYMENT_MONEYORDER_WARNING_SETUP . '</div>';
+      }
+      
       if ( defined('MODULE_PAYMENT_MONEYORDER_STATUS') ) {
         $this->sort_order = MODULE_PAYMENT_MONEYORDER_SORT_ORDER;
         $this->enabled = ((MODULE_PAYMENT_MONEYORDER_STATUS == 'True') ? true : false);

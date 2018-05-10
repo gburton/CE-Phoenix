@@ -42,6 +42,8 @@
         $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
         $class = basename($_GET['module']);
         if (file_exists($module_directory . $class . $file_extension)) {
+          // include lang file
+          include($module_language_directory . $language . '/modules/' . $module_type . '/' . $class . $file_extension);
           include($module_directory . $class . $file_extension);
           $module = new $class;
           if ($action == 'install') {
@@ -254,46 +256,33 @@
       $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module'])));
       break;
     default:
-      $heading[] = array('text' => '<strong>' . $mInfo->title . '</strong>');
+      if (isset($mInfo)) {
+        $heading[] = array('text' => '<strong>' . $mInfo->title . '</strong>');
 
-      if (in_array($mInfo->code . $file_extension, $modules_installed) && ($mInfo->status > 0)) {
-        $keys = '';
-        foreach ($mInfo->keys as $value) {
-          $keys .= '<strong>' . $value['title'] . '</strong><br />';
-          if ($value['use_function']) {
-            $use_function = $value['use_function'];
-            if (preg_match('/->/', $use_function)) {
-              $class_method = explode('->', $use_function);
-              if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
-                include('includes/classes/' . $class_method[0] . '.php');
-                ${$class_method[0]} = new $class_method[0]();
+        if (in_array($mInfo->code . $file_extension, $modules_installed) && ($mInfo->status > 0)) {
+          $keys = '';
+          foreach ($mInfo->keys as $value) {
+            $keys .= '<strong>' . $value['title'] . '</strong><br />';
+            if ($value['use_function']) {
+              $use_function = $value['use_function'];
+              if (preg_match('/->/', $use_function)) {
+                $class_method = explode('->', $use_function);
+                if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
+                  include('includes/classes/' . $class_method[0] . '.php');
+                  ${$class_method[0]} = new $class_method[0]();
+                }
+                $keys .= tep_call_function($class_method[1], $value['value'], ${$class_method[0]});
+              } else {
+                $keys .= tep_call_function($use_function, $value['value']);
               }
-              $keys .= tep_call_function($class_method[1], $value['value'], ${$class_method[0]});
             } else {
-              $keys .= tep_call_function($use_function, $value['value']);
+              $keys .= $value['value'];
             }
-          } else {
-            $keys .= $value['value'];
+            $keys .= '<br /><br />';
           }
-          $keys .= '<br /><br />';
-        }
-        $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
+          $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove')));
-
-        if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
-          $contents[] = array('text' => '<br />' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)');
-        }
-
-        if (isset($mInfo->api_version)) {
-          $contents[] = array('text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version);
-        }
-
-        $contents[] = array('text' => '<br />' . $mInfo->description);
-        $contents[] = array('text' => '<br />' . $keys);
-      } elseif (isset($_GET['list']) && ($_GET['list'] == 'new')) {
-        if (isset($mInfo)) {
-          $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_MODULE_INSTALL, 'plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=install')));
+          $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove')));
 
           if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
             $contents[] = array('text' => '<br />' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)');
@@ -304,6 +293,21 @@
           }
 
           $contents[] = array('text' => '<br />' . $mInfo->description);
+          $contents[] = array('text' => '<br />' . $keys);
+        } elseif (isset($_GET['list']) && ($_GET['list'] == 'new')) {
+          if (isset($mInfo)) {
+            $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_MODULE_INSTALL, 'plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=install')));
+
+            if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
+              $contents[] = array('text' => '<br />' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)');
+            }
+
+            if (isset($mInfo->api_version)) {
+              $contents[] = array('text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version);
+            }
+
+            $contents[] = array('text' => '<br />' . $mInfo->description);
+          }
         }
       }
       break;
