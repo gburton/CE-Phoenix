@@ -26,7 +26,7 @@
     }
 ?>
 
-    <div class="form-group">
+    <div class="form-group has-feedback">
       <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-sm-9">
         <label class="radio-inline">
@@ -36,6 +36,9 @@
           <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
         </label>
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+      </div>
+      <div class="pull-right">
+        <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
 
@@ -48,6 +51,7 @@
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('firstname', NULL, 'id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
@@ -56,6 +60,7 @@
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('lastname', NULL, 'id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
@@ -82,6 +87,7 @@
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('street_address', NULL, 'id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
@@ -108,6 +114,7 @@
       <div class="col-sm-9">        
         <?php
         echo tep_draw_input_field('city', NULL, 'id="inputCity" placeholder="' . ENTRY_CITY_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
@@ -116,6 +123,7 @@
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('postcode', NULL, 'id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
@@ -155,6 +163,7 @@
       <div class="col-sm-9">
         <?php
         echo tep_get_country_list('country', NULL, 'aria-describedby="atCountry" id="inputCountry"');
+        echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
         ?>
       </div>
