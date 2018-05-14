@@ -26,7 +26,7 @@
     }
 ?>
 
-    <div class="form-group has-feedback">
+    <div class="form-group">
       <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-sm-9">
         <label class="radio-inline">
