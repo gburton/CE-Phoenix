@@ -43,7 +43,7 @@ This will never become a "loaded" osCommerce.  So if you are looking for somethi
 Demo Site
 =========
 
-Check out the demo site at http://template.me.uk/234bs3/ - please note that this might be slightly behind "Edge", or might have modules that are about to be added to "Edge". 
+Check out the demo site at http://template.me.uk/234bs3/index.php - please note that this might be slightly behind "Edge", or might have modules that are about to be added to "Edge". 
 More or less, this is how Responsive osCommerce looks out of the box.
 
 
