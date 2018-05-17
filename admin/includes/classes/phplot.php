@@ -1317,7 +1317,7 @@ class PHPlot{
 		//Returns an array in R,G,B format 0-255
 		if ($color_asked == "") { $color_asked = array(0,0,0); };
 
-		if ( count($color_asked) == 3 ) { //already array of 3 rgb
+		if (is_array($color_asked) && (count($color_asked) == 3))
 	   		$ret_val =  $color_asked;
 		} else { // is asking for a color by string
 			if(substr($color_asked,0,1) == "#") {  //asking in #FFFFFF format. 
