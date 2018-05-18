@@ -25,7 +25,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -158,6 +158,11 @@
 </div>
 
 </form>
+
+<div class="clearfix"></div>
+<div class="row">
+  <?php echo $oscTemplate->getContent('shopping_cart'); ?>
+</div>
 
 <?php
   } else {

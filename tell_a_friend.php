@@ -108,7 +108,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo sprintf(HEADING_TITLE, $product_info['products_name']); ?></h1>
+  <h1 class="h3"><?php echo sprintf(HEADING_TITLE, $product_info['products_name']); ?></h1>
 </div>
 
 <?php
@@ -123,7 +123,7 @@
 
   <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
-  <h2><?php echo FORM_TITLE_CUSTOMER_DETAILS; ?></h2>
+  <h2 class="h3"><?php echo FORM_TITLE_CUSTOMER_DETAILS; ?></h2>
 
   <div class="contentText">
     <div class="form-group has-feedback">
@@ -146,7 +146,7 @@
     </div>
   </div>
 
-  <h2><?php echo FORM_TITLE_FRIEND_DETAILS; ?></h2>
+  <h2 class="h3"><?php echo FORM_TITLE_FRIEND_DETAILS; ?></h2>
 
   <div class="contentText">
     <div class="form-group has-feedback">

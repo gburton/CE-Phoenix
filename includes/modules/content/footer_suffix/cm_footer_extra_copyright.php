@@ -38,7 +38,7 @@
       $content_width = (int)MODULE_CONTENT_FOOTER_EXTRA_COPYRIGHT_CONTENT_WIDTH;
       
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/copyright.php');
+      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);

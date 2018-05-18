@@ -198,7 +198,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -215,7 +215,7 @@
   if ($process == false) {
 ?>
 
-  <h2><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h2>
+  <h2 class="h3"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h2>
 
   <div class="contentText row">
     <div class="col-sm-8">
@@ -239,7 +239,7 @@
     if ($addresses_count > 1) {
 ?>
 
-  <h2><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+  <h2 class="h3"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
   
   <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
 
@@ -278,7 +278,7 @@
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
 ?>
 
-  <h2><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h2>
+  <h2 class="h3"><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h2>
   
   <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
 

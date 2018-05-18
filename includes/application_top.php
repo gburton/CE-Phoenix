@@ -14,11 +14,7 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE);
-  
-  if (defined('E_DEPRECATED')) {
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-  }
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
 // check support for register_globals
   if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
@@ -336,95 +332,10 @@
         $parameters = array('action', 'pid');
       }
     }
-    switch ($_GET['action']) {
-      // customer wants to update the product quantity in their shopping cart
-      case 'update_product' : $n=sizeof($_POST['products_id']);
-                              for ($i=0; $i<$n; $i++) {
-                                if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array()))) {
-                                  $cart->remove($_POST['products_id'][$i]);
-                                  $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($_POST['products_id'][$i])), 'warning');
-                                } else {
-                                  $attributes = ($_POST['id'][$_POST['products_id'][$i]]) ? $_POST['id'][$_POST['products_id'][$i]] : '';
-                                  $cart->add_cart($_POST['products_id'][$i], $_POST['cart_quantity'][$i], $attributes, false);
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      // customer adds a product from the products page
-      case 'add_product' :    if (isset($_POST['products_id']) && is_numeric($_POST['products_id'])) {
-                                $attributes = isset($_POST['id']) ? $_POST['id'] : '';
-                                $cart->add_cart($_POST['products_id'], $cart->get_quantity(tep_get_uprid($_POST['products_id'], $attributes))+1, $attributes);
-                              }
-                              $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$_POST['products_id'])), 'success');
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      // customer removes a product from their shopping cart
-      case 'remove_product' : if (isset($_GET['products_id'])) {
-                                $cart->remove($_GET['products_id']);
-                                $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($_GET['products_id'])), 'warning');
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      // performed by the 'buy now' button in product listings and review page
-      case 'buy_now' :        if (isset($_GET['products_id'])) {
-                                if (tep_has_product_attributes($_GET['products_id'])) {
-                                  tep_redirect(tep_href_link('product_info.php', 'products_id=' . $_GET['products_id']));
-                                } else {
-                                  $cart->add_cart($_GET['products_id'], $cart->get_quantity($_GET['products_id'])+1);
-                                  $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$_GET['products_id'])), 'success');
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-      case 'notify' :         if (tep_session_is_registered('customer_id')) {
-                                if (isset($_GET['products_id'])) {
-                                  $notify = $_GET['products_id'];
-                                } elseif (isset($_GET['notify'])) {
-                                  $notify = $_GET['notify'];
-                                } elseif (isset($_POST['notify'])) {
-                                  $notify = $_POST['notify'];
-                                } else {
-                                  tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
-                                }
-                                if (!is_array($notify)) $notify = array($notify);
-                                $n=sizeof($notify);
-                                for ($i=0; $i<$n; $i++) {
-                                  $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$notify[$i] . "' and customers_id = '" . (int)$customer_id . "'");
-                                  $check = tep_db_fetch_array($check_query);
-                                  if ($check['count'] < 1) {
-                                    tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . (int)$notify[$i] . "', '" . (int)$customer_id . "', now())");
-                                  }
-                                }
-                                $messageStack->add_session('product_action', sprintf(PRODUCT_SUBSCRIBED, tep_get_products_name((int)$_GET['products_id'])), 'success');
-                                tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action', 'notify'))));
-                              } else {
-                                $navigation->set_snapshot();
-                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
-                              }
-                              break;
-      case 'notify_remove' :  if (tep_session_is_registered('customer_id') && isset($_GET['products_id'])) {
-                                $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$_GET['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
-                                $check = tep_db_fetch_array($check_query);
-                                if ($check['count'] > 0) {
-                                  tep_db_query("delete from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$_GET['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
-                                }
-                                $messageStack->add_session('product_action', sprintf(PRODUCT_UNSUBSCRIBED, tep_get_products_name((int)$_GET['products_id'])), 'warning');
-                                tep_redirect(tep_href_link($PHP_SELF, tep_get_all_get_params(array('action'))));
-                              } else {
-                                $navigation->set_snapshot();
-                                tep_redirect(tep_href_link('login.php', '', 'SSL'));
-                              }
-                              break;
-      case 'cust_order' :     if (tep_session_is_registered('customer_id') && isset($_GET['pid'])) {
-                                if (tep_has_product_attributes($_GET['pid'])) {
-                                  tep_redirect(tep_href_link('product_info.php', 'products_id=' . $_GET['pid']));
-                                } else {
-                                  $cart->add_cart($_GET['pid'], $cart->get_quantity($_GET['pid'])+1);
-                                }
-                              }
-                              tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
-                              break;
-    }
+    
+    include('includes/classes/actions.php');
+		osC_Actions::parse($_GET['action']);
+    
   }
 
 // include the who's online functions
@@ -452,6 +363,9 @@
   require('includes/classes/osc_template.php');
   $oscTemplate = new oscTemplate();
 
+// include category tree class
+  require('includes/classes/category_tree.php');
+
 // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
@@ -465,12 +379,11 @@
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
+    
+    $OSCOM_category = new category_tree;
   } else {
     $current_category_id = 0;
   }
-
-// include category tree class
-  require('includes/classes/category_tree.php');
 
 // include the breadcrumb class and start the breadcrumb trail
   require('includes/classes/breadcrumb.php');
@@ -481,20 +394,16 @@
 
 // add category names or the manufacturer name to the breadcrumb trail
   if (isset($cPath_array)) {
-    $n=sizeof($cPath_array);
-    for ($i=0; $i<$n; $i++) {      
+    foreach ($cPath_array as $k => $v) {
+      $breadcrumb_category = $OSCOM_category->getData($v, 'name');
+    
       if ( defined('MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-        $categories_query = tep_db_query("select coalesce(NULLIF(categories_seo_title, ''), categories_name) as categories_name from categories_description where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
-      }
-      else {
-        $categories_query = tep_db_query("select categories_name from categories_description where categories_id = '" . (int)$cPath_array[$i] . "' and language_id = '" . (int)$languages_id . "'");
-      }    
-      if (tep_db_num_rows($categories_query) > 0) {
-        $categories = tep_db_fetch_array($categories_query);
-        $breadcrumb->add($categories['categories_name'], tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($i+1)))));
-      } else {
-        break;
-      }
+        if (tep_not_null($OSCOM_category->getData($v, 'seo_title'))) {
+          $breadcrumb_category = $OSCOM_category->getData($v, 'seo_title');
+        }
+      }  
+
+      $breadcrumb->add($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
     }
   } elseif (isset($_GET['manufacturers_id'])) {
     if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
@@ -512,14 +421,16 @@
 // add the products model to the breadcrumb trail
   if (isset($_GET['products_id'])) {    
     if ( defined('MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), p.products_model) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+      $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     }
     else {
-      $model_query = tep_db_query("select products_model from " . TABLE_PRODUCTS . " where products_id = '" . (int)$_GET['products_id'] . "'");
+      $model_query = tep_db_query("select coalesce(NULLIF(p.products_model, ''), pd.products_name) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     }
     if (tep_db_num_rows($model_query)) {
       $model = tep_db_fetch_array($model_query);
       $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'cPath=' . $cPath . '&products_id=' . $_GET['products_id']));
     }
   }
+
+  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
   

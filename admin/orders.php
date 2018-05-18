@@ -12,8 +12,6 @@
 
   require('includes/application_top.php');
 
-  $OSCOM_Hooks->register('orders');
-
   require('includes/classes/currencies.php');
   $currencies = new currencies();
 

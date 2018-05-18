@@ -29,21 +29,17 @@
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $categories, $current_category_id, $languages_id;
+      global $PHP_SELF, $oscTemplate, $current_category_id, $OSCOM_category;
 
-      if (basename($PHP_SELF) == 'index.php') {
-        if ($current_category_id > 0) {
-          $categories_query = tep_db_query("select categories_name, categories_seo_title from categories_description where categories_id = '" . (int)$current_category_id . "' and language_id = '" . (int)$languages_id . "' limit 1");
-          if (tep_db_num_rows($categories_query) > 0) {
-            $categories = tep_db_fetch_array($categories_query);
-
-            if ( tep_not_null($categories['categories_seo_title']) && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
-              $oscTemplate->setTitle($categories['categories_seo_title'] . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
-            }
-            else {
-              $oscTemplate->setTitle($categories['categories_name'] . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
-            }
-          }
+      if ( (basename($PHP_SELF) == 'index.php') && ($current_category_id > 0) ) {
+        $category_seo_title = $OSCOM_category->getData($current_category_id, 'seo_title');
+        $category_name      = $OSCOM_category->getData($current_category_id, 'name');
+      
+        if ( tep_not_null($category_seo_title) && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
+          $oscTemplate->setTitle($category_seo_title . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
+        }
+        else {
+          $oscTemplate->setTitle($category_name . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
         }
       }
     }

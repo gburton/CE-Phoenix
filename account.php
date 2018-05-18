@@ -24,10 +24,6 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
-</div>
-
 <?php
   if ($messageStack->size('account') > 0) {
     echo $messageStack->output('account');

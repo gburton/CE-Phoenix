@@ -258,7 +258,7 @@
 ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
 </div>
 
 <?php
@@ -275,7 +275,7 @@
 
 <div class="contentContainer">
 
-  <h2><?php echo CATEGORY_PERSONAL; ?></h2>
+  <h2 class="h3"><?php echo CATEGORY_PERSONAL; ?></h2>
   <div class="contentText">
 
 <?php
@@ -290,8 +290,10 @@
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
         </label>
-        <?php echo FORM_REQUIRED_INPUT; ?>
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+      </div>
+      <div class="pull-right">
+        <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
 <?php
@@ -344,7 +346,7 @@
   if (ACCOUNT_COMPANY == 'true') {
 ?>
 
-  <h2><?php echo CATEGORY_COMPANY; ?></h2>
+  <h2 class="h3"><?php echo CATEGORY_COMPANY; ?></h2>
   
   <div class="contentText">
     <div class="form-group">
@@ -361,7 +363,7 @@
   }
 ?>
 
-  <h2><?php echo CATEGORY_ADDRESS; ?></h2>
+  <h2 class="h3"><?php echo CATEGORY_ADDRESS; ?></h2>
   <div class="contentText">
     <div class="form-group has-feedback">
       <label for="inputStreet" class="control-label col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
@@ -448,7 +450,7 @@
     </div>
   </div>
 
-  <h2><?php echo CATEGORY_CONTACT; ?></h2>
+  <h2 class="h3"><?php echo CATEGORY_CONTACT; ?></h2>
   
   <div class="contentText">
     <div class="form-group has-feedback">
@@ -482,7 +484,7 @@
   
   </div>
 
-  <h2><?php echo CATEGORY_PASSWORD; ?></h2>
+  <h2 class="h3"><?php echo CATEGORY_PASSWORD; ?></h2>
   
   <div class="contentText">
     <div class="form-group has-feedback">

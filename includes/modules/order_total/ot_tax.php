@@ -17,8 +17,11 @@
       $this->code = 'ot_tax';
       $this->title = MODULE_ORDER_TOTAL_TAX_TITLE;
       $this->description = MODULE_ORDER_TOTAL_TAX_DESCRIPTION;
-      $this->enabled = ((MODULE_ORDER_TOTAL_TAX_STATUS == 'true') ? true : false);
-      $this->sort_order = MODULE_ORDER_TOTAL_TAX_SORT_ORDER;
+      
+      if ( defined('MODULE_ORDER_TOTAL_TAX_STATUS') ) {
+        $this->enabled = ((MODULE_ORDER_TOTAL_TAX_STATUS == 'true') ? true : false);
+        $this->sort_order = MODULE_ORDER_TOTAL_TAX_SORT_ORDER;
+      }
 
       $this->output = array();
     }

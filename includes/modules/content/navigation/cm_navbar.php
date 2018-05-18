@@ -74,7 +74,7 @@
 
         if ( !empty($navbar_modules) ) {          
           ob_start();
-          include('includes/modules/content/' . $this->group . '/templates/navbar.php');
+          include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
           $template = ob_get_clean();
 
           $oscTemplate->addContent($template, $this->group);

@@ -29,17 +29,17 @@
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $categories, $current_category_id, $languages_id;
+      global $PHP_SELF, $oscTemplate, $current_category_id, $OSCOM_category;
 
       if ( (basename($PHP_SELF) == 'index.php') && ($current_category_id > 0) ){
-        $meta_info_query = tep_db_query("select categories_seo_description, categories_seo_keywords from categories_description where categories_id = '" . (int)$current_category_id  . "' and language_id = '" . (int)$languages_id . "'");
-        $meta_info = tep_db_fetch_array($meta_info_query);
-
-        if (tep_not_null($meta_info['categories_seo_description'])) {
-          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($meta_info['categories_seo_description']) . '" />' . PHP_EOL, $this->group);
+        $category_seo_description = $OSCOM_category->getData($current_category_id, 'seo_description');
+        $category_seo_keywords    = $OSCOM_category->getData($current_category_id, 'seo_keywords');
+        
+        if (tep_not_null($category_seo_description)) {
+          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($category_seo_description) . '" />' . PHP_EOL, $this->group);
         }
-        if ( (tep_not_null($meta_info['categories_seo_keywords'])) && (MODULE_HEADER_TAGS_CATEGORY_SEO_KEYWORDS_STATUS == 'True') ) {
-          $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($meta_info['categories_seo_keywords']) . '" />' . PHP_EOL, $this->group);
+        if ( (tep_not_null($category_seo_keywords)) && (MODULE_HEADER_TAGS_CATEGORY_SEO_KEYWORDS_STATUS == 'True') ) {
+          $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($category_seo_keywords) . '" />' . PHP_EOL, $this->group);
         }
       }
     }

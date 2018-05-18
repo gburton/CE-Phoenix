@@ -42,19 +42,11 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
-</div>
-
 <?php echo tep_draw_form('order', tep_href_link('checkout_success.php', 'action=update', 'SSL'), 'post', 'class="form-horizontal" role="form"'); ?>
 
 <div class="contentContainer">
-  <?php echo $page_content; ?>
-</div>
-
-<div class="contentContainer">
-  <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+  <div class="row">
+    <?php echo $page_content; ?>
   </div>
 </div>
 

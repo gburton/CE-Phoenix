@@ -37,7 +37,7 @@
       if ($messageStack->size('header') > 0) {
 
         ob_start();
-        include('includes/modules/content/' . $this->group . '/templates/messagestack.php');
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
         $template = ob_get_clean();
 
         $oscTemplate->addContent($template, $this->group);
