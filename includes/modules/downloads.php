@@ -27,7 +27,7 @@
   <h2 class="h3"><?php echo HEADING_DOWNLOAD; ?></h2>
 
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
+    <table class="table table-striped">
 
 <?php
     while ($downloads = tep_db_fetch_array($downloads_query)) {
@@ -50,7 +50,7 @@
       }
 
       echo '        <td>' . TABLE_HEADING_DOWNLOAD_DATE . tep_date_long($download_expiry) . '</td>' . "\n" .
-           '        <td align="right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>' . "\n" .
+           '        <td class="text-right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>' . "\n" .
            '      </tr>' . "\n";
     }
 ?>
