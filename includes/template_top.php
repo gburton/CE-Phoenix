@@ -36,7 +36,7 @@
 <link href="custom.css" rel="stylesheet">
 <link href="user.css" rel="stylesheet">
 
-<script src="ext/jquery/jquery-3.1.1.min.js"></script>
+<script src="ext/jquery/jquery-3.3.1.min.js"></script>
 
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
