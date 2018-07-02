@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -62,12 +62,12 @@
     }
 
     function execute() {
-      global $oscTemplate;
+      global $HTTP_GET_VARS, $oscTemplate;
 
-      if ( isset($_GET['action']) ) {
-        if ( $_GET['action'] == 'paypal_login' ) {
+      if ( isset($HTTP_GET_VARS['action']) ) {
+        if ( $HTTP_GET_VARS['action'] == 'paypal_login' ) {
           $this->preLogin();
-        } elseif ( $_GET['action'] == 'paypal_login_process' ) {
+        } elseif ( $HTTP_GET_VARS['action'] == 'paypal_login_process' ) {
           $this->postLogin();
         }
       }
@@ -90,22 +90,22 @@
       $cm_paypal_login = $this;
 
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
+      include(DIR_FS_CATALOG . 'includes/modules/content/' . $this->group . '/templates/paypal_login.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
     }
 
     function preLogin() {
-      global $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
+      global $HTTP_GET_VARS, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
-      $return_url = tep_href_link('login.php', '', 'SSL');
+      $return_url = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 
-      if ( isset($_GET['code']) ) {
+      if ( isset($HTTP_GET_VARS['code']) ) {
         $paypal_login_customer_id = false;
 
-        $params = array('code' => $_GET['code'],
-                        'redirect_uri' => str_replace('&amp;', '&', tep_href_link('login.php', 'action=paypal_login', 'SSL')));
+        $params = array('code' => $HTTP_GET_VARS['code'],
+                        'redirect_uri' => str_replace('&amp;', '&', tep_href_link(FILENAME_LOGIN, 'action=paypal_login', 'SSL')));
 
         $response_token = $this->_app->getApiResult('LOGIN', 'GrantToken', $params);
 
@@ -135,7 +135,7 @@
 
               $email_address = tep_db_prepare_input($response['email']);
 
-              $check_query = tep_db_query("select customers_id from customers where customers_email_address = '" . tep_db_input($email_address) . "' limit 1");
+              $check_query = tep_db_query("select customers_id from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($email_address) . "' limit 1");
               if (tep_db_num_rows($check_query)) {
                 $check = tep_db_fetch_array($check_query);
 
@@ -158,11 +158,11 @@
                   $sql_data_array['customers_telephone'] = $customers_telephone;
                 }
 
-                tep_db_perform('customers', $sql_data_array);
+                tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
 
                 $customer_id = (int)tep_db_insert_id();
 
-                tep_db_query("insert into customers_info (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
+                tep_db_query("insert into " . TABLE_CUSTOMERS_INFO . " (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
               }
             }
 
@@ -178,7 +178,7 @@
             $ship_country_id = 0;
             $ship_address_format_id = 1;
 
-            $country_query = tep_db_query("select countries_id, address_format_id from countries where countries_iso_code_2 = '" . tep_db_input($ship_country) . "' limit 1");
+            $country_query = tep_db_query("select countries_id, address_format_id from " . TABLE_COUNTRIES . " where countries_iso_code_2 = '" . tep_db_input($ship_country) . "' limit 1");
             if (tep_db_num_rows($country_query)) {
               $country = tep_db_fetch_array($country_query);
 
@@ -187,7 +187,7 @@
             }
 
             if ($ship_country_id > 0) {
-              $zone_query = tep_db_query("select zone_id from zones where zone_country_id = '" . (int)$ship_country_id . "' and (zone_name = '" . tep_db_input($ship_zone) . "' or zone_code = '" . tep_db_input($ship_zone) . "') limit 1");
+              $zone_query = tep_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$ship_country_id . "' and (zone_name = '" . tep_db_input($ship_zone) . "' or zone_code = '" . tep_db_input($ship_zone) . "') limit 1");
               if (tep_db_num_rows($zone_query)) {
                 $zone = tep_db_fetch_array($zone_query);
 
@@ -195,7 +195,7 @@
               }
             }
 
-            $check_query = tep_db_query("select address_book_id from address_book where customers_id = '" . (int)$customer_id . "' and entry_firstname = '" . tep_db_input($ship_firstname) . "' and entry_lastname = '" . tep_db_input($ship_lastname) . "' and entry_street_address = '" . tep_db_input($ship_address) . "' and entry_postcode = '" . tep_db_input($ship_postcode) . "' and entry_city = '" . tep_db_input($ship_city) . "' and (entry_state = '" . tep_db_input($ship_zone) . "' or entry_zone_id = '" . (int)$ship_zone_id . "') and entry_country_id = '" . (int)$ship_country_id . "' limit 1");
+            $check_query = tep_db_query("select address_book_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and entry_firstname = '" . tep_db_input($ship_firstname) . "' and entry_lastname = '" . tep_db_input($ship_lastname) . "' and entry_street_address = '" . tep_db_input($ship_address) . "' and entry_postcode = '" . tep_db_input($ship_postcode) . "' and entry_city = '" . tep_db_input($ship_city) . "' and (entry_state = '" . tep_db_input($ship_zone) . "' or entry_zone_id = '" . (int)$ship_zone_id . "') and entry_country_id = '" . (int)$ship_country_id . "' limit 1");
             if (tep_db_num_rows($check_query)) {
               $check = tep_db_fetch_array($check_query);
 
@@ -219,14 +219,14 @@
                 }
               }
 
-              tep_db_perform('address_book', $sql_data_array);
+              tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
 
               $address_id = tep_db_insert_id();
 
               $sendto = $address_id;
 
               if ($customer_default_address_id < 1) {
-                tep_db_query("update customers set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
+                tep_db_query("update " . TABLE_CUSTOMERS . " set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
                 $customer_default_address_id = $address_id;
               }
             }
@@ -251,7 +251,7 @@
               tep_session_register('billto');
             }
 
-            $return_url = tep_href_link('login.php', 'action=paypal_login_process', 'SSL');
+            $return_url = tep_href_link(FILENAME_LOGIN, 'action=paypal_login_process', 'SSL');
           }
         }
       }
@@ -277,8 +277,7 @@
         if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
           if ( in_array('paypal_express.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
             if ( !class_exists('paypal_express') ) {
-              include('includes/languages/' . $language . '/modules/payment/paypal_express.php');
-              include('includes/modules/payment/paypal_express.php');
+              include(DIR_FS_CATALOG . 'includes/modules/payment/paypal_express.php');
             }
 
             $ppe = new paypal_express();

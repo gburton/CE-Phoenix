@@ -13,18 +13,20 @@
   $content = 'credentials.php';
 
   $modules = array('PP', 'PF');
-  $current_module = (isset($_GET['module']) && in_array($_GET['module'], $modules) ? $_GET['module'] : $modules[0]);
+  $current_module = (isset($HTTP_GET_VARS['module']) && in_array($HTTP_GET_VARS['module'], $modules) ? $HTTP_GET_VARS['module'] : $modules[0]);
 
   $data = array('OSCOM_APP_PAYPAL_LIVE_SELLER_EMAIL',
                 'OSCOM_APP_PAYPAL_LIVE_SELLER_EMAIL_PRIMARY',
                 'OSCOM_APP_PAYPAL_LIVE_API_USERNAME',
                 'OSCOM_APP_PAYPAL_LIVE_API_PASSWORD',
                 'OSCOM_APP_PAYPAL_LIVE_API_SIGNATURE',
+                'OSCOM_APP_PAYPAL_LIVE_MERCHANT_ID',
                 'OSCOM_APP_PAYPAL_SANDBOX_SELLER_EMAIL',
                 'OSCOM_APP_PAYPAL_SANDBOX_SELLER_EMAIL_PRIMARY',
                 'OSCOM_APP_PAYPAL_SANDBOX_API_USERNAME',
                 'OSCOM_APP_PAYPAL_SANDBOX_API_PASSWORD',
                 'OSCOM_APP_PAYPAL_SANDBOX_API_SIGNATURE',
+                'OSCOM_APP_PAYPAL_SANDBOX_MERCHANT_ID',
                 'OSCOM_APP_PAYPAL_PF_LIVE_PARTNER',
                 'OSCOM_APP_PAYPAL_PF_LIVE_VENDOR',
                 'OSCOM_APP_PAYPAL_PF_LIVE_USER',

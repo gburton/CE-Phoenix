@@ -43,8 +43,8 @@ EOD;
 
   $OSCOM_PayPal->loadLanguageFile('admin.php');
 
-  if ( isset($_GET['action']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . basename($_GET['action']) . '.php') ) {
-    $action = basename($_GET['action']);
+  if ( isset($HTTP_GET_VARS['action']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . basename($HTTP_GET_VARS['action']) . '.php') ) {
+    $action = basename($HTTP_GET_VARS['action']);
   }
 
   $OSCOM_PayPal->loadLanguageFile('admin/' . $action . '.php');
@@ -57,8 +57,8 @@ EOD;
         if ( !in_array('d_paypal_app.php', $admin_dashboard_modules) ) {
           $admin_dashboard_modules[] = 'd_paypal_app.php';
 
-          tep_db_query("update configuration set configuration_value = '" . tep_db_input(implode(';', $admin_dashboard_modules)) . "' where configuration_key = 'MODULE_ADMIN_DASHBOARD_INSTALLED'");
-          tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input(implode(';', $admin_dashboard_modules)) . "' where configuration_key = 'MODULE_ADMIN_DASHBOARD_INSTALLED'");
+          tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
         }
       }
 
@@ -68,15 +68,15 @@ EOD;
 
   include(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '.php');
 
-  if ( isset($_GET['subaction']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '/' . basename($_GET['subaction']) . '.php') ) {
-    $subaction = basename($_GET['subaction']);
+  if ( isset($HTTP_GET_VARS['subaction']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '/' . basename($HTTP_GET_VARS['subaction']) . '.php') ) {
+    $subaction = basename($HTTP_GET_VARS['subaction']);
   }
 
   if ( !empty($subaction) ) {
     include(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '/' . $subaction . '.php');
   }
 
-  include('includes/template_top.php');
+  include(DIR_FS_ADMIN . 'includes/template_top.php');
 ?>
 
 <style>
@@ -456,6 +456,6 @@ $(function() {
 </script>
 
 <?php
-  include('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  include(DIR_FS_ADMIN . 'includes/template_bottom.php');
+  require(DIR_FS_ADMIN . 'includes/application_bottom.php');
 ?>

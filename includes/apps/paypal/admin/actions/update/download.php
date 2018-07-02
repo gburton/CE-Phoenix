@@ -12,7 +12,7 @@
 
   $ppUpdateDownloadResult = array('rpcStatus' => -1);
 
-  if ( isset($_GET['v']) && is_numeric($_GET['v']) && ($_GET['v'] > $OSCOM_PayPal->getVersion()) ) {
+  if ( isset($HTTP_GET_VARS['v']) && is_numeric($HTTP_GET_VARS['v']) && ($HTTP_GET_VARS['v'] > $OSCOM_PayPal->getVersion()) ) {
     if ( $OSCOM_PayPal->isWritable(DIR_FS_CATALOG . 'includes/apps/paypal/work') ) {
       if ( !file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/work') ) {
         mkdir(DIR_FS_CATALOG . 'includes/apps/paypal/work', 0777, true);
@@ -24,7 +24,7 @@
         unlink($filepath);
       }
 
-      $ppUpdateDownloadFile = $OSCOM_PayPal->makeApiCall('http://apps.oscommerce.com/index.php?Download&paypal&app&2_300&' . str_replace('.', '_', $_GET['v']) . '&update');
+      $ppUpdateDownloadFile = $OSCOM_PayPal->makeApiCall('https://apps.oscommerce.com/index.php?Download&paypal&app&2_300&' . str_replace('.', '_', $HTTP_GET_VARS['v']) . '&update');
 
       $save_result = @file_put_contents($filepath, $ppUpdateDownloadFile);
 

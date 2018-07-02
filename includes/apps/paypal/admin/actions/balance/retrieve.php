@@ -15,8 +15,8 @@
 
   $ppBalanceResult = array('rpcStatus' => -1);
 
-  if ( isset($_GET['type']) && in_array($_GET['type'], array('live', 'sandbox')) ) {
-    $ppBalanceResponse = $OSCOM_PayPal->getApiResult('APP', 'GetBalance', null, $_GET['type']);
+  if ( isset($HTTP_GET_VARS['type']) && in_array($HTTP_GET_VARS['type'], array('live', 'sandbox')) ) {
+    $ppBalanceResponse = $OSCOM_PayPal->getApiResult('APP', 'GetBalance', null, $HTTP_GET_VARS['type']);
 
     if ( is_array($ppBalanceResponse) && isset($ppBalanceResponse['ACK']) && ($ppBalanceResponse['ACK'] == 'Success') ) {
       $ppBalanceResult['rpcStatus'] = 1;
@@ -25,7 +25,13 @@
 
       while ( true ) {
         if ( isset($ppBalanceResponse['L_AMT' . $counter]) && isset($ppBalanceResponse['L_CURRENCYCODE' . $counter]) ) {
-          $ppBalanceResult['balance'][$ppBalanceResponse['L_CURRENCYCODE' . $counter]] = $currencies->format($ppBalanceResponse['L_AMT' . $counter], false, $ppBalanceResponse['L_CURRENCYCODE' . $counter]);
+          $balance = $ppBalanceResponse['L_AMT' . $counter];
+
+          if (isset($currencies->currencies[$ppBalanceResponse['L_CURRENCYCODE' . $counter]])) {
+            $balance = $currencies->format($balance, false, $ppBalanceResponse['L_CURRENCYCODE' . $counter]);
+          }
+
+          $ppBalanceResult['balance'][$ppBalanceResponse['L_CURRENCYCODE' . $counter]] = $balance;
 
           $counter++;
         } else {
