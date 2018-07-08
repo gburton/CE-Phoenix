@@ -22,4 +22,6 @@ define('TEXT_BAD', '<small><font color="#ff0000"><strong>BAD</strong></font></sm
 define('TEXT_GOOD', '<small><font color="#ff0000"><strong>GOOD</strong></font></small>');
 
 define('TEXT_REVIEW_RECEIVED', 'Thank you for your review. It has been submitted to the store owner for approval and should appear shortly.');
-?>
+
+define('JS_REVIEW_TEXT', '\'Review Text\' must have at least ' . REVIEW_TEXT_MIN_LENGTH . ' characters.');
+define('JS_REVIEW_RATING', 'You must rate the product for your review.');
