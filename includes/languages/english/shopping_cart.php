@@ -21,5 +21,5 @@ define('OUT_OF_STOCK_CAN_CHECKOUT', 'Products marked with ' . STOCK_MARK_PRODUCT
 
 define('TEXT_ALTERNATIVE_CHECKOUT_METHODS', '- OR -');
 
-define('CART_BUTTON_UPDATE', '');
-define('CART_BUTTON_REMOVE', '');
+define('CART_BUTTON_UPDATE', '<i title="Update" class="fas fa-sync fa-fw"></i>');
+define('CART_BUTTON_REMOVE', '<i title="Remove" class="fas fa-times fa-fw"></i>');
