@@ -386,7 +386,7 @@
     $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
-      $button .= ' <span class="' . $icon . '"></span> ';
+      $button .= ' <span class="' . $icon . '" aria-hidden="true"></span> ';
     }
 
     $button .= $title;
