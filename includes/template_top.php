@@ -21,7 +21,7 @@
   }
 ?>
 <!DOCTYPE html>
-<html <?php echo HTML_PARAMS; ?>>
+<html<?php echo HTML_PARAMS; ?>>
 <head>
 <meta charset="<?php echo CHARSET; ?>">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
