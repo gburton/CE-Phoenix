@@ -41,9 +41,9 @@
 
     <div id="headerShortcuts" class="col-sm-6 text-right">
       <ul class="list-unstyled list-inline">
-        <li><a href="http://www.oscommerce.com" target="_blank">osCommerce Website</a></li>
-        <li><a href="http://www.oscommerce.com/support" target="_blank">Support</a></li>
-        <li><a href="http://www.oscommerce.info" target="_blank">Documentation</a></li>
+        <li><a href="http://www.oscommerce.com" target="_blank" rel="noopener">osCommerce Website</a></li>
+        <li><a href="http://www.oscommerce.com/support" target="_blank" rel="noopener">Support</a></li>
+        <li><a href="http://www.oscommerce.info" target="_blank" rel="noopener">Documentation</a></li>
       </ul>
     </div>
   </div>
@@ -55,7 +55,7 @@
   <?php require('templates/pages/' . $page_contents); ?>
 
   <footer>
-    <div class="text-center well well-sm"><p>osCommerce Online Merchant Copyright &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank">Copyright and Trademark Policy</a>)</p></div>
+    <div class="text-center well well-sm"><p>osCommerce Online Merchant Copyright &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank" rel="noopener">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank" rel="noopener">Copyright and Trademark Policy</a>)</p></div>
   </footer>
 </div>
 

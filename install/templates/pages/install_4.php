@@ -217,7 +217,7 @@
         <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
       </div>
       <div class="panel-footer">
-        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank">The osCommerce Team</a></p>
+        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank" rel="noopener">The osCommerce Team</a></p>
       </div>
     </div>
   </div>
