@@ -75,7 +75,7 @@
  
         call_user_func(array($converter, 'execute'));
 
-        tep_redirect(tep_href_link(FILENAME_CURRENCIES, 'page=' . $HTTP_GET_VARS['page'] . '&cID=' . $HTTP_GET_VARS['cID']));
+        tep_redirect(tep_href_link('currencies.php', 'page=' . $HTTP_GET_VARS['page'] . '&cID=' . $HTTP_GET_VARS['cID']));
         break;
       case 'delete':
         $currencies_id = tep_db_prepare_input($_GET['cID']);
