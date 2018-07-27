@@ -26,11 +26,13 @@
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID']));
         break;
       case 'update':
+        $customers_id = (int)$_POST['customers_id'];
+        $customers_name = tep_db_prepare_input($_POST['customer_name']);
         $testimonials_id = tep_db_prepare_input($_GET['tID']);
         $testimonials_text = tep_db_prepare_input($_POST['testimonials_text']);
         $testimonials_status = tep_db_prepare_input($_POST['testimonials_status']);
 
-        tep_db_query("update testimonials set testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
+        tep_db_query("update testimonials set customers_id = '" . (int)$customers_id . "', customers_name  = '" . tep_db_input($customers_name) . "', testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("update testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials_id));
@@ -45,10 +47,11 @@
         break;
         
       case 'addnew':
+        $customers_id = (int)$_POST['customers_id'];
         $customers_name = tep_db_prepare_input($_POST['customer_name']);
         $testimonial = tep_db_prepare_input($_POST['testimonials_text']);
 
-        tep_db_query("insert into testimonials (customers_name, date_added, testimonials_status) values ('" . tep_db_input($customers_name) . "', now(), 1)");
+        tep_db_query("insert into testimonials (customers_id, customers_name, date_added, testimonials_status) values ('" . $customers_id . "', '" . tep_db_input($customers_name) . "', now(), 1)");
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
 
@@ -73,7 +76,7 @@
   if ($action == 'edit') {
     $tID = tep_db_prepare_input($_GET['tID']);
 
-    $testimonials_query = tep_db_query("select t.testimonials_id, t.customers_name, t.date_added, t.last_modified, td.testimonials_text, t.testimonials_status from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
+    $testimonials_query = tep_db_query("select t.testimonials_id, t.customers_id, t.customers_name, t.date_added, t.last_modified, td.testimonials_text, t.testimonials_status from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
     $testimonials = tep_db_fetch_array($testimonials_query);
 
     $tInfo = new objectInfo($testimonials);
@@ -88,13 +91,31 @@
       <tr><?php echo tep_draw_form('testimonial', 'testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID'] . '&action=update'); ?>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="main" colspan="2"><strong><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></strong> <?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_radio_field('testimonials_status', '1', $in_status) . '&nbsp;' . TEXT_TESTIMONIAL_PUBLISHED . '&nbsp;' . tep_draw_radio_field('testimonials_status', '0', $out_status) . '&nbsp;' . TEXT_TESTIMONIAL_NOT_PUBLISHED; ?></td>
+            <td class="main"><strong><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></strong></td>
+            <td><?php echo tep_draw_radio_field('testimonials_status', '1', $in_status) . '&nbsp;' . TEXT_TESTIMONIAL_PUBLISHED . '&nbsp;' . tep_draw_radio_field('testimonials_status', '0', $out_status) . '&nbsp;' . TEXT_TESTIMONIAL_NOT_PUBLISHED; ?></td>
           </tr>
           <tr>
-            <td class="main" valign="top"><strong><?php echo ENTRY_TESTIMONIAL; ?></strong><br /><br /><?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text); ?></td>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="smallText" align="right"><?php echo ENTRY_TESTIMONIAL_TEXT; ?></td>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_FROM; ?></strong></td>
+            <td><?php echo tep_draw_customers('customers_id', '', $tInfo->customers_id); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_FROM_NICKNAME; ?></strong></td>
+            <td><?php echo tep_draw_input_field('customer_name', $tInfo->customers_name, 'required aria-required="true" style="font-size:10px; width: 240px;"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main" colspan="2"><strong><?php echo ENTRY_TESTIMONIAL; ?></strong></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text); ?></td>
           </tr>
         </table></td>
       </tr>
@@ -111,13 +132,20 @@
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
             <td class="main" valign="top" width="140"><strong><?php echo ENTRY_FROM; ?></strong></td>
-            <td><?php echo tep_draw_input_field('customer_name', '', 'style="font-size:10px; width: 240px;"'); ?></td>
+            <td><?php echo tep_draw_customers('customers_id'); ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
-            <td class="main"  colspan="2" valign="top"><strong><?php echo ENTRY_TESTIMONIAL; ?></strong><br /><br /><?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15'); ?></td>
+            <td class="main" valign="top" width="140"><strong><?php echo ENTRY_FROM_NICKNAME; ?></strong></td>
+            <td><?php echo tep_draw_input_field('customer_name', '', 'required aria-required="true" style="font-size:10px; width: 240px;"'); ?></td>
+          </tr>
+          <tr>
+            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+          </tr>
+          <tr>
+            <td class="main" colspan="2" valign="top"><strong><?php echo ENTRY_TESTIMONIAL; ?></strong><br /><br /><?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', '', 'required aria-required="true"'); ?></td>
           </tr>
           <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
@@ -136,13 +164,14 @@
           <tr>
             <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
               <tr class="dataTableHeadingRow">
+                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_CUSTOMER_ID; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_CUSTOMER_NAME; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_DATE_ADDED; ?></td>
                 <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_STATUS; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $testimonials_query_raw = "select testimonials_id, customers_name, date_added, last_modified, testimonials_status from testimonials order by testimonials_id DESC";
+    $testimonials_query_raw = "select testimonials_id, customers_id, customers_name, date_added, last_modified, testimonials_status from testimonials order by testimonials_id DESC";
     $testimonials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $testimonials_query_raw, $testimonials_query_numrows);
     $testimonials_query = tep_db_query($testimonials_query_raw);
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
@@ -160,6 +189,7 @@
         echo '              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials['testimonials_id']) . '\'">' . "\n";
       }
 ?>
+                <td class="dataTableContent"><?php echo (int)$testimonials['customers_id']; ?></td>
                 <td class="dataTableContent"><?php echo $testimonials['customers_name']; ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($testimonials['date_added']); ?></td>
                 <td class="dataTableContent" align="center">
@@ -176,16 +206,16 @@
     }
 ?>
               <tr>
-                <td colspan="4"><table border="0" width="100%" cellspacing="0" cellpadding="2">
+                <td colspan="5"><table border="0" width="100%" cellspacing="0" cellpadding="2">
                   <tr>
                     <td class="smallText" valign="top"><?php echo $testimonials_split->display_count($testimonials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?></td>
                     <td class="smallText" align="right"><?php echo $testimonials_split->display_links($testimonials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
                   </tr>
                 </table></td>
                 <tr>
-                  <td colspan="4"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+                  <td colspan="5"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
                 </tr>                
-                <td colspan="4" class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'triangle-1-e', tep_href_link('testimonials.php', 'action=new')); ?></td>
+                <td colspan="5" class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'triangle-1-e', tep_href_link('testimonials.php', 'action=new')); ?></td>
               </tr>
             </table></td>
 <?php

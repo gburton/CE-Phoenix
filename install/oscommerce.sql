@@ -628,6 +628,7 @@ CREATE TABLE zones_to_geo_zones (
 DROP TABLE IF EXISTS testimonials;
 CREATE TABLE testimonials (
   testimonials_id int NOT NULL auto_increment,
+  customers_id INT(11) NOT NULL DEFAULT '0',
   customers_name varchar(255) NOT NULL,
   date_added datetime,
   last_modified datetime,
