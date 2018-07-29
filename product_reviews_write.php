@@ -78,33 +78,6 @@
   require('includes/template_top.php');
 ?>
 
-<script><!--
-function checkForm() {
-  var error = 0;
-  var error_message = "<?php echo JS_ERROR; ?>";
-
-  var review = document.product_reviews_write.review.value;
-
-  if (review.length < <?php echo REVIEW_TEXT_MIN_LENGTH; ?>) {
-    error_message = error_message + "<?php echo JS_REVIEW_TEXT; ?>";
-    error = 1;
-  }
-
-  if ((document.product_reviews_write.rating[0].checked) || (document.product_reviews_write.rating[1].checked) || (document.product_reviews_write.rating[2].checked) || (document.product_reviews_write.rating[3].checked) || (document.product_reviews_write.rating[4].checked)) {
-  } else {
-    error_message = error_message + "<?php echo JS_REVIEW_RATING; ?>";
-    error = 1;
-  }
-
-  if (error == 1) {
-    alert(error_message);
-    return false;
-  } else {
-    return true;
-  }
-}
-//--></script>
-
 <div class="page-header">  
   <div class="row">
     <h1 class="h3 col-sm-4"><?php echo $products_name; ?></h1>
@@ -118,7 +91,7 @@ function checkForm() {
   }
 ?>
 
-<?php echo tep_draw_form('product_reviews_write', tep_href_link('product_reviews_write.php', 'action=process&products_id=' . $_GET['products_id']), 'post', 'class="form-horizontal" onsubmit="return checkForm();"', true); ?>
+<?php echo tep_draw_form('product_reviews_write', tep_href_link('product_reviews_write.php', 'action=process&products_id=' . $_GET['products_id']), 'post', 'class="form-horizontal"', true); ?>
 
 <div class="contentContainer">
 
@@ -168,7 +141,7 @@ function checkForm() {
           <?php echo tep_draw_radio_field('rating', '4'); ?>
         </label>
         <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '5', 1); ?>
+          <?php echo tep_draw_radio_field('rating', '5', 1, 'required aria-required="true"'); ?>
         </label>
         <?php echo '<div class="help-block justify" style="width: 150px;">' . TEXT_BAD . '<p class="pull-right">' . TEXT_GOOD . '</p></div>'; ?>
       </div>

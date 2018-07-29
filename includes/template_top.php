@@ -21,7 +21,7 @@
   }
 ?>
 <!DOCTYPE html>
-<html <?php echo HTML_PARAMS; ?>>
+<html<?php echo HTML_PARAMS; ?>>
 <head>
 <meta charset="<?php echo CHARSET; ?>">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,18 +31,12 @@
 
 <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- font awesome -->
-<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
 <link href="custom.css" rel="stylesheet">
 <link href="user.css" rel="stylesheet">
 
-<!--[if lt IE 9]>
-   <script src="ext/js/html5shiv.js"></script>
-   <script src="ext/js/respond.min.js"></script>
-   <script src="ext/js/excanvas.min.js"></script>
-<![endif]-->
- 
-<script src="ext/jquery/jquery-3.1.1.min.js"></script>
+<script src="ext/jquery/jquery-3.3.1.min.js"></script>
 
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>

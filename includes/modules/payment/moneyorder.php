@@ -36,7 +36,7 @@
 
       if (is_object($order)) $this->update_status();
     
-      //$this->email_footer = MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER;
+      $this->email_footer = MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER;
     }
 
 // class methods

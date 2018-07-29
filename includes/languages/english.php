@@ -70,9 +70,6 @@ define('PULL_DOWN_DEFAULT', 'Please Select');
 // javascript messages
 define('JS_ERROR', 'Errors have occured during the process of your form.\n\nPlease make the following corrections:\n\n');
 
-define('JS_REVIEW_TEXT', '* The \'Review Text\' must have at least ' . REVIEW_TEXT_MIN_LENGTH . ' characters.\n');
-define('JS_REVIEW_RATING', '* You must rate the product for your review.\n');
-
 define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Please select a payment method for your order.\n');
 
 define('ERROR_NO_PAYMENT_MODULE_SELECTED', 'Please select a payment method for your order.');

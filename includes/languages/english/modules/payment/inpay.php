@@ -14,7 +14,7 @@
   	  <tr><td><img src="https://resources.inpay.com/images/oscommerce/inpay_check.png" alt="100% Secure payments using inpay" /></td><td class="main">100% Secure payments using inpay <span style="color: #666;">- our security level matches the security of your online bank.</span></td></tr>
   	  <tr><td><img src="https://resources.inpay.com/images/oscommerce/inpay_check.png" alt="Instant payments using inpay" /></td><td class="main">Instant payments using inpay <span style="color: #666;">- our system ensures you will receive your order as soon as possible.</span></td></tr>
   	  <tr><td><img src="https://resources.inpay.com/images/oscommerce/inpay_check.png" alt="Anonymous payment using inpay" /></td><td class="main">Anonymous payment using inpay <span style="color: #666;">- no need to share your credit card number or any other personal information.</span></td></tr>
-  </table><a href="http://inpay.com/shoppers" style="text-decoration: underline;" target="_blank" class="main">Click here to read more about inpay</a><br />');
+  </table><a href="http://inpay.com/shoppers" style="text-decoration: underline;" target="_blank" rel="noopener" class="main">Click here to read more about inpay</a><br />');
   define('MODULE_PAYMENT_INPAY_TEXT_DESCRIPTION', '<strong>What is inpay?</strong><br />
   	  inpay is an extra payment option for webshops, that allows customers to pay using their online bank - instantly and worldwide.<br />
   	  <br />
@@ -26,7 +26,7 @@ By offering your customers the inpay payment option you increase your market sha
 <br />
 <strong>No risk</strong><br />
 With inpay there is no risk of credit card fraud or any kind of chargebacks. This means that when you get paid you stay paid! With inpay you can even sell to customers from \'high risk\' regions including all parts of Asia and Eastern Europe.<br /><br />
-  <a href="http://inpay.com/" style="text-decoration: underline;" target="_blank">Read more or signup at inpay.com</a><br />');
+  <a href="http://inpay.com/" style="text-decoration: underline;" target="_blank" rel="noopener">Read more or signup at inpay.com</a><br />');
   // ------------- e-mail settings ---------------------------------
   define('EMAIL_TEXT_SUBJECT', 'Payment confirmed by inpay');
   define('EMAIL_TEXT_ORDER_NUMBER', 'Order Number:');

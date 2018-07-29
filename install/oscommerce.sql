@@ -628,6 +628,7 @@ CREATE TABLE zones_to_geo_zones (
 DROP TABLE IF EXISTS testimonials;
 CREATE TABLE testimonials (
   testimonials_id int NOT NULL auto_increment,
+  customers_id INT(11) NOT NULL DEFAULT '0',
   customers_name varchar(255) NOT NULL,
   date_added datetime,
   last_modified datetime,
@@ -1714,7 +1715,7 @@ insert into configuration (configuration_title, configuration_key, configuration
 
 insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Continue Button', 'MODULE_CONTENT_CS_CONTINUE_BUTTON_STATUS', 'True', 'Should this module be shown on the product info page?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());
 insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_CS_CONTINUE_BUTTON_CONTENT_WIDTH', '12', 'What width container should the content be shown in?', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now());
-insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_CS_CONTINUE_BUTTON_SORT_ORDER', '1000', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
+insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_CS_CONTINUE_BUTTON_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
 
 # ModularIndex
 insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Title Module', 'MODULE_CONTENT_I_TITLE_STATUS', 'True', 'Do you want to enable this module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());

@@ -97,7 +97,7 @@
         }
       }
 
-      $products_name .= '<br>' . tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number') . tep_draw_hidden_field('products_id[]', $products[$i]['id']) . ' ' . tep_draw_button(CART_BUTTON_UPDATE, 'fas fa-sync', NULL, NULL, NULL, 'btn-info btn-xs') . ' ' . tep_draw_button(CART_BUTTON_REMOVE, 'fas fa-times', tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger btn-xs');
+      $products_name .= '<br>' . tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number') . tep_draw_hidden_field('products_id[]', $products[$i]['id']) . ' ' . tep_draw_button(CART_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info btn-xs') . ' ' . tep_draw_button(CART_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger btn-xs');
 
       $products_name .= '</td>';
 
