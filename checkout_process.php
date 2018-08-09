@@ -236,7 +236,7 @@
       }
     }
 //------insert customer choosen option eof ----
-    $products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . (is_empty($order->products[$i]['model'])? '': ' (' . $order->products[$i]['model'] . ')') . ' = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n"; 
+    $products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . (empty($order->products[$i]['model']) ? '' : ' (' . $order->products[$i]['model'] . ')') . ' = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n"; 
   }
 
 // lets start with the email confirmation
