@@ -1,6 +1,10 @@
-<div class="panel panel-default bm-languages">
-  <div class="panel-heading"><?php echo MODULE_BOXES_LANGUAGES_BOX_TITLE; ?></div>
-  <div class="panel-body text-center"><?php echo $languages_string; ?></div>
+<div class="card bm-languages">
+  <div class="card-header">
+    <?php echo MODULE_BOXES_LANGUAGES_BOX_TITLE; ?>
+  </div>
+  <div class="card-body text-center">
+    <?php echo $languages_string; ?>
+  </div>
 </div>
 
 <?php

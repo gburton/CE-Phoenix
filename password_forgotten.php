@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -57,9 +57,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('password_forgotten') > 0) {
@@ -70,34 +68,31 @@
 ?>
 
 <div class="contentContainer">
-  <div class="contentText">
-    <div class="alert alert-success"><?php echo TEXT_PASSWORD_RESET_INITIATED; ?></div>
-  </div>
+  <div class="alert alert-success"><?php echo TEXT_PASSWORD_RESET_INITIATED; ?></div>
 </div>
 
 <?php
   } else {
 ?>
 
-<?php echo tep_draw_form('password_forgotten', tep_href_link('password_forgotten.php', 'action=process', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('password_forgotten', tep_href_link('password_forgotten.php', 'action=process', 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
-  <div class="contentText">
-    <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
+  <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
 
-    <div class="form-group has-feedback">
-      <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
-      <div class="col-sm-9">
-        <?php echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" autofocus="autofocus" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email'); ?>
-        <?php echo FORM_REQUIRED_INPUT; ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+    <div class="col-sm-9">
+      <?php echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" autofocus="autofocus" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email'); ?>
+      <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('login.php', '', 'SSL')); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('login.php', '', 'SSL')); ?></p>
   </div>
+  
 </div>
 
 </form>

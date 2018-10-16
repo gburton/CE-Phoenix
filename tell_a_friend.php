@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -107,9 +107,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo sprintf(HEADING_TITLE, $product_info['products_name']); ?></h1>
-</div>
+<h1 class="display-4"><?php echo sprintf(HEADING_TITLE, $product_info['products_name']); ?></h1>
 
 <?php
   if ($messageStack->size('friend') > 0) {
@@ -117,75 +115,69 @@
   }
 ?>
 
-<?php echo tep_draw_form('email_friend', tep_href_link('tell_a_friend.php', 'action=process&products_id=' . (int)$_GET['products_id']), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('email_friend', tep_href_link('tell_a_friend.php', 'action=process&products_id=' . (int)$_GET['products_id']), 'post', '', true); ?>
 
 <div class="contentContainer">
 
-  <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
+  <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
 
-  <h2 class="h3"><?php echo FORM_TITLE_CUSTOMER_DETAILS; ?></h2>
+  <h4><?php echo FORM_TITLE_CUSTOMER_DETAILS; ?></h4>
 
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputFromName" class="control-label col-sm-3"><?php echo FORM_FIELD_CUSTOMER_NAME; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('from_name', NULL, 'required aria-required="true" id="inputFromName" placeholder="' . FORM_FIELD_CUSTOMER_NAME . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputFromName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo FORM_FIELD_CUSTOMER_NAME; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('from_name', NULL, 'required aria-required="true" id="inputFromName" placeholder="' . FORM_FIELD_CUSTOMER_NAME . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputFromEmail" class="control-label col-sm-3"><?php echo FORM_FIELD_CUSTOMER_EMAIL; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('from_email_address', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . FORM_FIELD_CUSTOMER_EMAIL . '"', 'email');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputFromEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo FORM_FIELD_CUSTOMER_EMAIL; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('from_email_address', NULL, 'required aria-required="true" id="inputFromEmail" placeholder="' . FORM_FIELD_CUSTOMER_EMAIL . '"', 'email');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
   </div>
 
-  <h2 class="h3"><?php echo FORM_TITLE_FRIEND_DETAILS; ?></h2>
+  <h4><?php echo FORM_TITLE_FRIEND_DETAILS; ?></h4>
 
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputToName" class="control-label col-sm-3"><?php echo FORM_FIELD_FRIEND_NAME; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('to_name', NULL, 'required aria-required="true" id="inputToName" placeholder="' . FORM_FIELD_FRIEND_NAME . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputToName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo FORM_FIELD_FRIEND_NAME; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('to_name', NULL, 'required aria-required="true" id="inputToName" placeholder="' . FORM_FIELD_FRIEND_NAME . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputToEmail" class="control-label col-sm-3"><?php echo FORM_FIELD_FRIEND_EMAIL; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('to_email_address', NULL, 'required aria-required="true" id="inputToEmail" placeholder="' . FORM_FIELD_FRIEND_EMAIL . '"', 'email');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputToEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo FORM_FIELD_FRIEND_EMAIL; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('to_email_address', NULL, 'required aria-required="true" id="inputToEmail" placeholder="' . FORM_FIELD_FRIEND_EMAIL . '"', 'email');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
   </div>
 
   <hr>
 
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputMessage" class="control-label col-sm-3"><?php echo FORM_TITLE_FRIEND_MESSAGE; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_textarea_field('message', 'soft', 40, 8, NULL, 'required aria-required="true" id="inputMessage" placeholder="' . FORM_TITLE_FRIEND_MESSAGE . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputMessage" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo FORM_TITLE_FRIEND_MESSAGE; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_textarea_field('message', 'soft', 40, 8, NULL, 'required aria-required="true" id="inputMessage" placeholder="' . FORM_TITLE_FRIEND_MESSAGE . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
   </div>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-paper-plane', null, 'primary', null, 'btn-success'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></p>
   </div>
 </div>
 

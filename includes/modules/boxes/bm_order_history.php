@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -47,7 +47,7 @@
           
           $products_query = tep_db_query("select products_id, products_name from " . TABLE_PRODUCTS_DESCRIPTION . " where products_id in (" . $product_ids . ") and language_id = '" . (int)$languages_id . "' order by products_name");
           while ($products = tep_db_fetch_array($products_query)) {
-            $customer_orders_string .= '<li><span class="pull-right"><a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=cust_order&pid=' . $products['products_id']) . '"><span class="fa fa-shopping-cart"></span></a></span><a href="' . tep_href_link('product_info.php', 'products_id=' . $products['products_id']) . '">' . $products['products_name'] . '</a></li>';
+            $customer_orders_string .= '<li class="list-group-item d-flex justify-content-between align-items-center"><a href="' . tep_href_link('product_info.php', 'products_id=' . $products['products_id']) . '">' . $products['products_name'] . '</a><span class="badge"><a class="badge badge-primary" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=cust_order&pid=' . $products['products_id']) . '"><span class="fa fa-fw fa-2x fa-shopping-cart"></span></a></span></li>';
           }
 
           ob_start();

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -110,7 +110,7 @@
     $image .= ' class="';
 
     if (tep_not_null($responsive) && ($responsive === true)) {
-      $image .= 'img-responsive';
+      $image .= 'img-fluid';
     }
 
     if (tep_not_null($bootstrap_css)) $image .= ' ' . $bootstrap_css;

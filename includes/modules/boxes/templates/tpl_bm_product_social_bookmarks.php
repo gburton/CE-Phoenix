@@ -1,6 +1,10 @@
-<div class="panel panel-default bm-product-social-bookmarks">
-  <div class="panel-heading"><?php echo MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_BOX_TITLE; ?></div>
-  <div class="panel-body text-center"><?php echo implode(' ', $social_bookmarks); ?></div>
+<div class="card bm-product-social-bookmarks">
+  <div class="card-header">
+    <?php echo MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_BOX_TITLE; ?>
+  </div>
+  <div class="card-body text-center">
+    <?php echo implode(' ', $social_bookmarks); ?>
+  </div>
 </div>
 
 <?php

@@ -5,12 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
+  
+  $OSCOM_Hooks->register('progress');
 
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
@@ -209,9 +211,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('checkout_address') > 0) {
@@ -219,7 +219,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping_address.php', '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping_address.php', '', 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
 
@@ -227,17 +227,17 @@
   if ($process == false) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
+  <h4><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h4>
 
-  <div class="contentText row">
+  <div class="row">
     <div class="col-sm-8">
       <div class="alert alert-warning"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
+      <div class="card">
+        <div class="card-header"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
 
-        <div class="panel-body">
+        <div class="card-body">
           <?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br />'); ?>
         </div>
       </div>
@@ -250,11 +250,11 @@
     if ($addresses_count > 1) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+  <h4><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h4>
   
   <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_SHIPPING_DESTINATION; ?></div>
 
-  <div class="contentText row">
+  <div class="row">
 
 <?php
       $radio_buttons = 0;
@@ -264,12 +264,12 @@
         $format_id = tep_get_address_format_id($addresses['country_id']);
 ?>
       <div class="col-sm-4">
-        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $sendto) ? 'primary' : 'default'; ?>">
-          <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
-          <div class="panel-body">
+        <div class="card <?php echo ($addresses['address_book_id'] == $sendto) ? ' text-white bg-info' : ' bg-light'; ?>">
+          <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
+          <div class="card-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
           </div>
-          <div class="panel-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $sendto)); ?></div>
+          <div class="card-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $sendto)); ?></div>
         </div>
       </div>
 
@@ -285,7 +285,7 @@
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h2>
+  <h4><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h4>
 
   <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></div>
 
@@ -296,28 +296,15 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
   <div class="clearfix"></div>
 
-  <div class="contentText">
-    <div class="stepwizard">
-      <div class="stepwizard-row">
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-primary btn-circle">1</button>
-          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
-          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-          <p><?php echo CHECKOUT_BAR_CONFIRMATION; ?></p>
-        </div>
-      </div>
-    </div>
+  <div class="progressBarHook">
+    <?php
+    echo $OSCOM_Hooks->call('progress', 'progressBar', $arr = array('style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => array('position' => 1, 'min' => 0, 'max' => 100, 'now' => 33)));
+    ?>  
   </div>
   
 

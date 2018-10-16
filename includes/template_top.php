@@ -5,13 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
   $oscTemplate->buildBlocks();
-
+  
   if (!$oscTemplate->hasBlocks('boxes_column_left')) {
     $oscTemplate->setGridContentWidth($oscTemplate->getGridContentWidth() + $oscTemplate->getGridColumnWidth());
   }
@@ -29,14 +29,14 @@
 <title><?php echo tep_output_string_protected($oscTemplate->getTitle()); ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
-<link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- bs4 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
 <!-- font awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
 
 <link href="custom.css" rel="stylesheet">
 <link href="user.css" rel="stylesheet">
-
-<script src="ext/jquery/jquery-3.3.1.min.js"></script>
 
 <?php echo $oscTemplate->getBlocks('header_tags'); ?>
 </head>
@@ -45,8 +45,8 @@
   <?php echo $oscTemplate->getContent('navigation'); ?>
   
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+
+    <?php require('includes/header.php'); ?>
+
     <div class="row">
-
-      <?php require('includes/header.php'); ?>
-
-      <div id="bodyContent" class="col-md-<?php echo $oscTemplate->getGridContentWidth(); ?> <?php echo ($oscTemplate->hasBlocks('boxes_column_left') ? 'col-md-push-' . $oscTemplate->getGridColumnWidth() : ''); ?>">
+      <div id="bodyContent" class="col order-xs-1 order-md-6">

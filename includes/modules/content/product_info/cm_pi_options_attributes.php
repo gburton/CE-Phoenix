@@ -1,13 +1,17 @@
 <?php
 /*
-  $Id$
+  Copyright (c) 2018, G Burton
+  All rights reserved.
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-  Copyright (c) 2018 osCommerce
+  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-  Released under the GNU General Public License
+  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
   class cm_pi_options_attributes {
@@ -44,11 +48,10 @@
         while ($products_options_name = tep_db_fetch_array($products_options_name_query)) {
           $products_options_array = array();
           
-          $fr_input = $fr_required = $fr_feedback = null;
+          $fr_input = $fr_required = null;
           if (MODULE_CONTENT_PI_OA_ENFORCE == 'True') {
             $fr_input    = FORM_REQUIRED_INPUT;
             $fr_required = 'required aria-required="true" '; 
-            $fr_feedback = ' has-feedback';
           }
           if (MODULE_CONTENT_PI_OA_HELPER == 'True') {
             $products_options_array[] = array('id' => '', 'text' => MODULE_CONTENT_PI_OA_ENFORCE_SELECTION);            
@@ -68,14 +71,13 @@
             $selected_attribute = false;
           }
           
-          $options_output .= '<div class="form-group' . $fr_feedback . '">' . PHP_EOL;
-          $options_output .=   '<label for="input_' . $products_options_name['products_options_id'] . '" class="control-label col-sm-3">' . $products_options_name['products_options_name'] . '</label>' . PHP_EOL; 
+          $options_output .= '<div class="form-group row">' . PHP_EOL;
+          $options_output .=   '<label for="input_' . $products_options_name['products_options_id'] . '" class="control-label col-sm-3 text-right">' . $products_options_name['products_options_name'] . '</label>' . PHP_EOL; 
           $options_output .=   '<div class="col-sm-9">' . PHP_EOL;
           $options_output .=     tep_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute, $fr_required . 'id="input_' . $products_options_name['products_options_id'] . '"') . PHP_EOL;
           $options_output .=     $fr_input;
           $options_output .=   '</div>' . PHP_EOL;
-          $options_output .= '</div>' . PHP_EOL;
-    
+          $options_output .= '</div>' . PHP_EOL;    
         }
       
         ob_start();

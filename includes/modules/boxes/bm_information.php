@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -32,6 +32,11 @@
 
     function execute() {
       global $oscTemplate;
+      
+      $bm_information_links = null;      
+      foreach (MODULE_BOXES_INFORMATION_BOX_DATA as $a => $b) {
+        $bm_information_links .= '<li class="list-group-item"><a href="' . tep_href_link($a) . '">' . $b . '</a></li>' . PHP_EOL; 
+      }
 
       ob_start();
       include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));

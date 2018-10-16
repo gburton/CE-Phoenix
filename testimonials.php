@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -19,9 +19,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <div class="contentContainer">
 
@@ -33,39 +31,36 @@
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
 <div class="row">
-  <div class="col-sm-6 pagenumber hidden-xs">
-    <?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?>
+  <div class="col-sm-6 pagenumber d-none d-sm-block">
+    <span class="align-middle"><?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?></span>
   </div>
   <div class="col-sm-6">
-    <span class="pull-right pagenav"><ul class="pagination"><?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+    <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
   </div>
 </div>
 <?php
     }
-    ?>
-    <div class="contentText">
-      <div class="testimonials">
+?>
+    <div class="row">
+
 <?php
     $testimonials_query = tep_db_query($testimonials_split->sql_query);
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
-      echo '<blockquote class="col-sm-6">';
-      echo '  <p>' . tep_output_string_protected($testimonials['testimonials_text']) . '</p><div class="clearfix"></div>';
-      echo '  <p><small>' . tep_output_string_protected($testimonials['customers_name']) . '</small></p>';
-      echo '</blockquote>';
+      echo '<div class="col-sm-6">' . PHP_EOL;
+        echo '<blockquote class="blockquote">' . PHP_EOL;
+          echo '<p>' . tep_output_string_protected($testimonials['testimonials_text']) . '</p>' . PHP_EOL;
+          echo '<footer class="blockquote-footer">' . tep_output_string_protected($testimonials['customers_name']) . '</footer>' . PHP_EOL;
+        echo '</blockquote>' . PHP_EOL;
+      echo '</div>' . PHP_EOL;
     }
     ?>
-      </div>
-      <div class="clearfix"></div>
     </div>
 <?php
   } else {
 ?>
 
-  <div class="contentText">
-    <div class="alert alert-info">
-      <?php echo TEXT_NO_TESTIMONIALS; ?>
-    </div>
+  <div class="alert alert-info">
+    <?php echo TEXT_NO_TESTIMONIALS; ?>
   </div>
 
 <?php
@@ -74,12 +69,11 @@
   if (($testimonials_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3'))) {
 ?>
 <div class="row">
-  <div class="col-sm-6 pagenumber hidden-xs">
-    <?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?>
+  <div class="col-sm-6 pagenumber d-none d-sm-block">
+    <span class="align-middle"><?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?></span>
   </div>
   <div class="col-sm-6">
-    <span class="pull-right pagenav"><ul class="pagination"><?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+    <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
   </div>
 </div>
 <?php

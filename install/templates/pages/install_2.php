@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -34,8 +34,8 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
           <li class="text-success"><strong>Web Server</strong></li>
@@ -43,40 +43,39 @@
           <li class="text-muted">Finished!</li>
         </ol>
       </div>
-    </div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">50%</div>
-    </div>
+      <div class="card-footer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">50%</div>
+        </div>
+      </div>
+    </div>    
   </div>
 </div>
 
 <div class="clearfix"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-push-3 col-sm-9">
+  <div class="col-xs-12 col-sm-9">
+    <h2 class="h4">Web Server</h2>
+    <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
 
-    <div class="page-header">
-      <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
-      <h2>Web Server</h2>
-    </div>
+    <form name="install" id="installForm" action="install.php?step=3" method="post" role="form">
 
-    <form name="install" id="installForm" action="install.php?step=3" method="post" class="form-horizontal" role="form">
-
-      <div class="form-group has-feedback">
-        <label for="wwwAddress" class="control-label col-xs-3">WWW Address</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="wwwAddress" class="col-form-label col-sm-3 text-left text-sm-right">WWW Address</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_input_field('HTTP_WWW_ADDRESS', $www_location, 'required aria-required="true" id="wwwAddress" placeholder="http://"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The web address to the online store.</span>
+          <span class="form-text">The web address to the online store.</span>
         </div>
       </div>
     
-      <div class="form-group has-feedback">
-        <label for="webRoot" class="control-label col-xs-3">Webserver Root Directory</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="webRoot" class="col-form-label col-sm-3 text-left text-sm-right">Webserver Root Directory</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_input_field('DIR_FS_DOCUMENT_ROOT', $dir_fs_www_root, 'required aria-required="true" id="webRoot"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The directory where the online store is installed on the server.</span>
+          <span class="form-text">The directory where the online store is installed on the server.</span>
         </div>
       </div>
 
@@ -91,16 +90,11 @@
       ?>
 
     </form>
-
   </div>
-  <div class="col-xs-12 col-sm-pull-9 col-sm-3">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        Step 2: Web Server
-      </div>
-      <div class="panel-body">
-        <p>The web server takes care of serving the pages of your online store to your guests and customers. The web server parameters make sure the links to the pages point to the correct location.</p>
-      </div>
+  <div class="col-xs-12 col-sm-3">
+    <h2 class="h4">Step 2</h2>
+    <div class="card card-body">      
+      <p>The web server takes care of serving the pages of your online store to your guests and customers. The web server parameters make sure the links to the pages point to the correct location.</p>
     </div>
   </div>
   

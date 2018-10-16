@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 
@@ -33,13 +33,13 @@
 // class methods
     function add($class, $message, $type = 'error') {
       if ($type == 'error') {
-        $this->messages[] = array('params' => 'class="alert alert-danger alert-dismissible"', 'class' => $class, 'text' => $message);
+        $this->messages[] = array('params' => 'class="alert alert-danger alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
       } elseif ($type == 'warning') {
-        $this->messages[] = array('params' => 'class="alert alert-warning alert-dismissible"', 'class' => $class, 'text' => $message);
+        $this->messages[] = array('params' => 'class="alert alert-warning alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
       } elseif ($type == 'success') {
-        $this->messages[] = array('params' => 'class="alert alert-success alert-dismissible"', 'class' => $class, 'text' => $message);
+        $this->messages[] = array('params' => 'class="alert alert-success alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
       } else {
-        $this->messages[] = array('params' => 'class="alert alert-info alert-dismissible"', 'class' => $class, 'text' => $message);
+        $this->messages[] = array('params' => 'class="alert alert-info alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
       }
     }
 

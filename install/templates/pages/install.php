@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -101,8 +101,8 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <ol>
           <li class="text-success"><strong>Database Server</strong></li>
           <li class="text-muted">Web Server</li>
@@ -110,81 +110,77 @@
           <li class="text-muted">Finished!</li>
         </ol>
       </div>
+      <div class="card-footer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">25%</div>
+        </div>
+      </div>
     </div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">25%</div>
-    </div>
+    
   </div>
 </div>
   
 <div class="clearfix"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-push-3 col-sm-9">
+  <div class="col-xs-12 col-sm-9">
 
     <div id="mBox">
-      <div class="well well-sm">
+      <div class="card card-body">
         <div id="mBoxContents"></div>
       </div>
     </div>
     
-    <div class="page-header">
-      <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
-      <h2>Database Server</h2>
-    </div>
+    <h2 class="h4">Database Server</h2>
+    <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
+
+    <form name="install" id="installForm" action="install.php?step=2" method="post" role="form">
     
-    <form name="install" id="installForm" action="install.php?step=2" method="post" class="form-horizontal" role="form">
-    
-      <div class="form-group has-feedback">
-        <label for="dbServer" class="control-label col-xs-3">Database Server</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="dbServer" class="col-form-label col-sm-3 text-left text-sm-right">Database Server</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The address of the database server in the form of a hostname or IP address.</span>
+          <span class="form-text">The address of the database server in the form of a hostname or IP address.</span>
         </div>
       </div>
     
-      <div class="form-group has-feedback">
-        <label for="userName" class="control-label col-xs-3">Username</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="userName" class="col-form-label col-sm-3 text-left text-sm-right">Username</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The username used to connect to the database server.</span>
+          <span class="form-text">The username used to connect to the database server.</span>
         </div>
       </div>
     
-      <div class="form-group has-feedback">
-        <label for="passWord" class="control-label col-xs-3">Password</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="passWord" class="col-form-label col-sm-3 text-left text-sm-right">Password</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The password that is used together with the username to connect to the database server.</span>
+          <span class="form-text">The password that is used together with the username to connect to the database server.</span>
         </div>
       </div>
     
-      <div class="form-group has-feedback">
-        <label for="dbName" class="control-label col-xs-3">Database Name</label>
-        <div class="col-xs-9">
+      <div class="form-group row">
+        <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Database Name</label>
+        <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
           <span class="fa fa-asterisk form-control-feedback text-danger"></span>
-          <span class="help-block">The name of the database to hold the data in.</span>
+          <span class="form-text">The name of the database to hold the data in.</span>
         </div>
       </div>
 
       <p><?php echo osc_draw_button('Continue To Step 2', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
-    </form>
-    
+    </form>    
   </div>
-  <div class="col-xs-12 col-sm-pull-9 col-sm-3">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        Step 1: Database Server
-      </div>
-      <div class="panel-body">
-        <p>The database server stores the content of the online store such as product information, customer information, and the orders that have been made.</p>
-        <p>Please consult your server administrator if your database server parameters are not yet known.</p>
-      </div>
+  <div class="col-xs-12 col-sm-3">
+    <h2 class="h4">Step 1</h2>
+    <div class="card card-body">      
+      <p>The database server stores the content of the online store such as product information, customer information, and the orders that have been made.</p>
+      <p>Please consult your server administrator if your database server parameters are not yet known.</p>
     </div>
   </div>
   

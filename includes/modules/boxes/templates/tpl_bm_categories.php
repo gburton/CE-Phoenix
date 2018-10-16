@@ -1,6 +1,10 @@
-<div class="panel panel-default bm-categories">
-  <div class="panel-heading"><?php echo MODULE_BOXES_CATEGORIES_BOX_TITLE; ?></div>
-  <?php echo $category_tree; ?>
+<div class="card bm-categories">
+  <div class="card-header">
+    <?php echo MODULE_BOXES_CATEGORIES_BOX_TITLE; ?>
+  </div>
+  <div class="list-group list-group-flush">
+    <?php echo $category_tree; ?>
+  </div>
 </div>
 
 <?php

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -29,7 +29,7 @@
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate;
+      global $PHP_SELF, $oscTemplate, $item_width;
 
       if (tep_not_null(MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES)) {
         $pages_array = array();
@@ -48,20 +48,20 @@
 var cc = sessionStorage.list_grid;
   
 if (cc == 'list') {
-  $('#products .item').removeClass('grid-group-item').addClass('list-group-item');
+  $('#products .item').removeClass('g-g-i').addClass('l-g-i').addClass('col-sm-12');
 }else {
-  $('#products .item').removeClass('list-group-item').addClass('grid-group-item');
+  $('#products .item').removeClass('l-g-i').addClass('g-g-i').removeClass('col-sm-12');
 }
   
 $(document).ready(function() {
-  $('#list').click(function(event){ 
+  $('#list').click(function(event){
     event.preventDefault();
-    $('#products .item').addClass('list-group-item').removeClass('grid-group-item');
+    $('#products .item').addClass('l-g-i').removeClass('g-g-i').addClass('col-sm-12');
     sessionStorage.setItem('list_grid', 'list');
   });
   $('#grid').click(function(event){
     event.preventDefault();
-    $('#products .item').removeClass('list-group-item').addClass('grid-group-item');
+    $('#products .item').removeClass('l-g-i').addClass('g-g-i').removeClass('col-sm-12');
     sessionStorage.setItem('list_grid', 'grid');
   });    
 });

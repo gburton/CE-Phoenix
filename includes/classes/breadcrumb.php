@@ -26,17 +26,19 @@
     }
 
     function trail($separator = NULL) {
-      $trail_string = '<ol class="breadcrumb">';
+      $trail_string .= '<nav aria-label="breadcrumb">' . PHP_EOL;
+        $trail_string .= '<ol class="breadcrumb">' . PHP_EOL;
 
-      for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
-        if (isset($this->_trail[$i]['link']) && tep_not_null($this->_trail[$i]['link'])) {
-          $trail_string .= '<li><a href="' . $this->_trail[$i]['link'] . '">' . $this->_trail[$i]['title'] . '</a></li>';
-        } else {
-          $trail_string .= '<li>' . $this->_trail[$i]['title'] . '</li>';
-        }
-      }      
-  
-      $trail_string .= '</ol>';
+        for ($i=0, $n=sizeof($this->_trail); $i<$n; $i++) {
+          if (isset($this->_trail[$i]['link']) && tep_not_null($this->_trail[$i]['link'])) {
+            $trail_string .= '<li class="breadcrumb-item"><a href="' . $this->_trail[$i]['link'] . '">' . $this->_trail[$i]['title'] . '</a></li>';
+          } else {
+            $trail_string .= '<li class="breadcrumb-item">' . $this->_trail[$i]['title'] . '</li>';
+          }
+        } 
+
+        $trail_string .= '</ol>' . PHP_EOL;
+      $trail_string .= '</nav>' . PHP_EOL;
 
       return $trail_string;
     }
