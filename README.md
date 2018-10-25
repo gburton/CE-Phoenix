@@ -1,20 +1,26 @@
-osCommerce 2.3.4.1 CE
-=====================
-osCommerce
-+ Bootstrap v3  
+osCommerce CE
+=============
+osCommerce 2.3.4.1
++ Bootstrap v4 (Shop Side)  
 + jQuery
 + other external scripts
 
 Status
 ======
-FROZEN.  From today onwards;
+Forward movement, slowly.
 
-- no Issues will be accepted
-- no Pushes will be accepted 
+Your Help
+=========
+Would be "helpful", Time or Money.
+Get in touch.
 
 Minimum PHP Version
 ===================
 7.0
+
+Maximum PHP Version
+===================
+7.1.x
 
 Discussion Forum
 ================
@@ -22,7 +28,7 @@ https://forums.oscommerce.com/forum/107-oscommerce-online-merchant-community-boo
 
 Demo Site
 =========
-http://template.me.uk/234bs3/index.php
+https://template.me.uk/frozen2bs4/index.php
 
 Thank You
 =========
