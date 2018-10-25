@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -53,9 +53,9 @@
       $output = '<div class="col-sm-12">';
 
       foreach ( $oscTemplate->_data[$this->group] as $group ) {
-        $output .= '<h2 class="h3">' . $group['title'] . '</h2>' .
+        $output .= '<h4>' . $group['title'] . '</h4>' .
                    '<div class="contentText">' .
-                   '  <ul class="list-unstyled">';
+                   '  <ul class="list-unstyled list-tap-target">';
 
         foreach ( $group['links'] as $entry ) {
           $output .= '    <li>';

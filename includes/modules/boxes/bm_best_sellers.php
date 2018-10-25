@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -45,7 +45,7 @@
         $bestsellers_list = NULL;
 
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<li><a href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '"><span itemprop="itemListElement">' . $best_sellers['products_name'] . '</span></a></li>';
+          $bestsellers_list .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '"><span itemprop="itemListElement">' . $best_sellers['products_name'] . '</span></a>';
         }
 
         ob_start();

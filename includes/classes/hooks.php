@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -50,11 +50,11 @@
       }
     }
 
-    function call($group, $action) {
+    function call($group, $action, $arr = array()) {
       $result = '';
 
       foreach ( (array)$this->_hooks[$this->_site][$group][$action] as $hook ) {
-        $result .= call_user_func(array($GLOBALS['hook_' . $this->_site . '_' . $group . '_' . $hook], 'listen_' . $action));
+        $result .= call_user_func(array($GLOBALS['hook_' . $this->_site . '_' . $group . '_' . $hook], 'listen_' . $action), $arr);
       }
 
       if ( !empty($result) ) {

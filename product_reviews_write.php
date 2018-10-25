@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -68,7 +68,7 @@
   }
 
   if (tep_not_null($product_info['products_model'])) {
-    $products_name = $product_info['products_name'] . '<br /><small>[' . $product_info['products_model'] . ']</small>';
+    $products_name = $product_info['products_name'] . '<br /><small class="text-muted">[' . $product_info['products_model'] . ']</small>';
   } else {
     $products_name = $product_info['products_name'];
   }
@@ -78,11 +78,9 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">  
-  <div class="row">
-    <h1 class="h3 col-sm-4"><?php echo $products_name; ?></h1>
-    <h2 class="h3 col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
-  </div>
+<div class="row">
+  <h1 class="display-4 col-sm-8"><?php echo $products_name; ?></h1>
+  <h2 class="display-4 col-sm-4 text-left text-sm-right"><?php echo $products_price; ?></h2>
 </div>
 
 <?php
@@ -91,7 +89,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('product_reviews_write', tep_href_link('product_reviews_write.php', 'action=process&products_id=' . $_GET['products_id']), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('product_reviews_write', tep_href_link('product_reviews_write.php', 'action=process&products_id=' . $_GET['products_id']), 'post', '', true); ?>
 
 <div class="contentContainer">
 
@@ -99,10 +97,8 @@
   if (tep_not_null($product_info['products_image'])) {
 ?>
 
-  <div class="pull-right text-center">
+  <div class="text-center">
     <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
-
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now'), null, null, 'btn-success btn-reviews btn-buy'); ?></p>
   </div>
 
   <div class="clearfix"></div>
@@ -111,48 +107,53 @@
   }
 ?>
 
-  <div class="contentText">
-    <div class="row">
-      <p class="col-sm-3 text-right-not-xs"><strong><?php echo SUB_TITLE_FROM; ?></strong></p>
-      <p class="col-sm-9"><?php echo tep_output_string_protected($customer['customers_firstname'] . ' ' . $customer['customers_lastname']); ?></p>
+  <div class="row">
+    <p class="col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_FROM; ?></p>
+    <p class="col-sm-9"><?php echo tep_output_string_protected($customer['customers_firstname'] . ' ' . $customer['customers_lastname']); ?></p>
+  </div>
+  <div class="form-group row">
+    <label for="inputReview" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_REVIEW; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_textarea_field('review', 'soft', 60, 15, NULL, 'required aria-required="true" id="inputReview" placeholder="' . SUB_TITLE_REVIEW_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputReview" class="control-label col-sm-3"><?php echo SUB_TITLE_REVIEW; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_textarea_field('review', 'soft', 60, 15, NULL, 'required aria-required="true" id="inputReview" placeholder="' . SUB_TITLE_REVIEW_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
+  </div>
+    
+  <div class="form-group row">
+    <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_RATING; ?></label>
+    <div class="col-sm-9">
+    
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rating" id="Rating5" value="5" checked>
+        <label class="form-check-label" for="exampleRadios1"><?php echo sprintf(TEXT_GOOD, tep_draw_stars(5)); ?></label>
       </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-3"><?php echo SUB_TITLE_RATING; ?></label>
-      <div class="col-sm-9">
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '1'); ?>
-        </label>
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '2'); ?>
-        </label>
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '3'); ?>
-        </label>
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '4'); ?>
-        </label>
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('rating', '5', 1, 'required aria-required="true"'); ?>
-        </label>
-        <?php echo '<div class="help-block justify" style="width: 150px;">' . TEXT_BAD . '<p class="pull-right">' . TEXT_GOOD . '</p></div>'; ?>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rating" id="Rating4" value="4">
+        <label class="form-check-label" for="exampleRadios1"><?php echo tep_draw_stars(4); ?></label>
       </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rating" id="Rating3" value="3">
+        <label class="form-check-label" for="exampleRadios1"><?php echo tep_draw_stars(3); ?></label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rating" id="Rating2" value="2">
+        <label class="form-check-label" for="exampleRadios1"><?php echo tep_draw_stars(2); ?></label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="rating" id="Rating1" value="1">
+        <label class="form-check-label" for="exampleRadios1"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
+      </div>
+   
     </div>
-
   </div>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('product_reviews.php', tep_get_all_get_params(array('reviews_id', 'action')))); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></p>
   </div>
+  
 </div>
 
 </form>

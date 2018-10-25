@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -33,37 +33,32 @@
     function execute() {
       global $cart, $new_products_id_in_cart, $currencies, $oscTemplate;
 
-      $cart_contents_string = '';
+      $cart_contents_string = $cart_totalised = '';
 
       if ($cart->count_contents() > 0) {
         $cart_contents_string = NULL;
         $products = $cart->get_products();
         for ($i=0, $n=sizeof($products); $i<$n; $i++) {
-
-          $cart_contents_string .= '<li';
+          $cart_contents_string .= '<a class="list-group-item list-group-item-action';
           if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
-            $cart_contents_string .= ' class="newItemInCart"';
+            $cart_contents_string .= ' active';
           }
-          $cart_contents_string .= '>';
+          $cart_contents_string .= '" href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">';
 
-          $cart_contents_string .= $products[$i]['quantity'] . '&nbsp;x&nbsp;';
+          $cart_contents_string .= $products[$i]['quantity'] . ' x ' . $products[$i]['name'];
 
-          $cart_contents_string .= '<a href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">';
-
-          $cart_contents_string .= $products[$i]['name'];
-
-          $cart_contents_string .= '</a></li>';
+          $cart_contents_string .= '</a>';
 
           if ((tep_session_is_registered('new_products_id_in_cart')) && ($new_products_id_in_cart == $products[$i]['id'])) {
             tep_session_unregister('new_products_id_in_cart');
           }
         }
-
-        $cart_contents_string .= '<li class="text-right"><hr>' . $currencies->format($cart->show_total()) . '</li>';
-
       } else {
-        $cart_contents_string .= '<li>' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</li>';
+        $cart_contents_string .= '<p class="list-group-item">' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
       }
+      
+      $cart_totalised = $currencies->format($cart->show_total());
+
               
       ob_start();
       include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
@@ -94,4 +89,4 @@
       return array('MODULE_BOXES_SHOPPING_CART_STATUS', 'MODULE_BOXES_SHOPPING_CART_CONTENT_PLACEMENT', 'MODULE_BOXES_SHOPPING_CART_SORT_ORDER');
     }
   }
-?>
+  

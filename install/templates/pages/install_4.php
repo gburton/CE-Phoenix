@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -48,8 +48,8 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
           <li class="text-muted">Web Server</li>
@@ -57,21 +57,21 @@
           <li class="text-success"><strong>Finished!</strong></li>
         </ol>
       </div>
-    </div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">100%</div>
-    </div>
+      <div class="text-footer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">100%</div>
+        </div>
+      </div>
+    </div>    
   </div>
 </div>
 
 <div class="clearfix"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-push-3 col-sm-9">
+  <div class="col-xs-12 col-sm-9">
 
-    <div class="page-header">
-      <h2>Finished!</h2>
-    </div>
+    <h2 class="h4">Finished!</h2>
     
     <?php
     $dir_fs_document_root = $_POST['DIR_FS_DOCUMENT_ROOT'];
@@ -140,8 +140,6 @@
       $file_contents .= '  define(\'CFG_TIME_ZONE\', \'' . trim($_POST['CFG_TIME_ZONE']) . '\');' . "\n";
     }
 
-    $file_contents .= '?>';
-
     $fp = fopen($dir_fs_document_root . 'includes/configure.php', 'w');
     fputs($fp, $file_contents);
     fclose($fp);
@@ -185,8 +183,6 @@
       $file_contents .= '  define(\'CFG_TIME_ZONE\', \'' . trim($_POST['CFG_TIME_ZONE']) . '\');' . "\n";
     }
 
-    $file_contents .= '?>';
-
     $fp = fopen($dir_fs_document_root . 'admin/includes/configure.php', 'w');
     fputs($fp, $file_contents);
     fclose($fp);
@@ -203,23 +199,21 @@
     <br />
 
     <div class="row">
-      <div class="col-sm-6"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
-      <div class="col-sm-6"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-pull-9 col-sm-3">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        Step 4: Finished!
-      </div>
-      <div class="panel-body">
-        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
-        <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
-      </div>
-      <div class="panel-footer">
-        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank" rel="noopener">The osCommerce Team</a></p>
-      </div>
+      <div class="col"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
+      <div class="col"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
     </div>
   </div>
   
+  <div class="col-xs-12 col-sm-3">
+    <h2 class="h4">Step 4</h2>
+    <div class="card">
+      <div class="card-body">      
+        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
+        <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
+      </div>
+      <div class="card-footer">      
+        <p>- <a class="card-link" href="http://www.oscommerce.com/Us&Team" target="_blank">The osCommerce Team</a></p>
+      </div>
+    </div>
+  </div>  
 </div>

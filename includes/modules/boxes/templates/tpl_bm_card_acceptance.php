@@ -1,6 +1,6 @@
-<div class="panel panel-default bm-card-acceptance">
-  <div class="panel-heading"><?php echo MODULE_BOXES_CARD_ACCEPTANCE_BOX_TITLE; ?></div>
-  <div class="panel-body text-center"><?php echo $output; ?></div>
+<div class="card bm-card-acceptance">
+  <div class="card-header"><?php echo MODULE_BOXES_CARD_ACCEPTANCE_BOX_TITLE; ?></div>
+  <div class="card-body text-center"><?php echo $output; ?></div>
 </div>
 
 <?php

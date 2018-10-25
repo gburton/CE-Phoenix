@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -33,7 +33,7 @@
   }
 
   if (tep_not_null($product_info['products_model'])) {
-    $products_name = $product_info['products_name'] . '<br /><small>[' . $product_info['products_model'] . ']</small>';
+    $products_name = $product_info['products_name'] . '<br /><small class="text-muted">[' . $product_info['products_model'] . ']</small>';
   } else {
     $products_name = $product_info['products_name'];
   }
@@ -51,11 +51,9 @@
   }
 ?>
 
-<div class="page-header">
-  <div class="row">
-    <h1 class="h3 col-sm-4"><?php echo $products_name; ?></h1>
-    <h2 class="h3 col-sm-8 text-right-not-xs"><?php echo $products_price; ?></h2>
-  </div>
+<div class="row">
+  <h1 class="display-4 col-sm-8"><?php echo $products_name; ?></h1>
+  <h2 class="display-4 col-sm-4 text-left text-sm-right"><?php echo $products_price; ?></h2>
 </div>
 
 <div class="contentContainer">
@@ -63,24 +61,20 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from " . TABLE_REVIEWS . " r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
 ?>
 
 <?php
   if (tep_not_null($product_info['products_image'])) {
 ?>
 
-  <div class="col-sm-4 text-center">
+  <div class="text-center">
     <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
     <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now'), null, null, 'btn-success btn-reviews btn-buy'); ?></p>
   </div>
-  
-  <div class="clearfix"></div>
 
   <hr>
-  
-  <div class="clearfix"></div>
 
 <?php
   }
@@ -92,33 +86,31 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
 <div class="row">
-  <div class="col-sm-6 pagenumber hidden-xs">
-    <?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?>
+  <div class="col-sm-6 pagenumber d-none d-sm-block">
+    <span class="align-middle"><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></span>
   </div>
   <div class="col-sm-6">
-    <span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+    <?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
   </div>
 </div>
 <?php
     }
 ?>
 
-    <div class="reviews">
+    <div class="row">
 <?php
     $reviews_query = tep_db_query($reviews_split->sql_query);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       $review_name = tep_output_string_protected($reviews['customers_name']);
-?>
-      <blockquote class="col-sm-6">
-        <p><?php echo tep_output_string_protected($reviews['reviews_text']); ?></p>
-        <footer><?php echo sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name); ?></footer>
-      </blockquote>
-<?php
+      echo '<div class="col-sm-6">' . PHP_EOL;
+        echo '<blockquote class="blockquote">' . PHP_EOL;
+          echo '<p>' . tep_output_string_protected($reviews['reviews_text']) . '</p>' . PHP_EOL;
+          echo '<footer class="blockquote-footer">' . sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name) . '</footer>' . PHP_EOL;
+        echo '</blockquote>' . PHP_EOL;
+      echo '</div>' . PHP_EOL;
     }
 ?>
-	</div>
-    <div class="clearfix"></div>
+	  </div>
 <?php
   } else {
 ?>
@@ -133,31 +125,27 @@ echo '<div class="col-sm-8 text-center alert alert-success">' . sprintf(REVIEWS_
   if (($reviews_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3'))) {
 ?>
 <div class="row">
-  <div class="col-sm-6 pagenumber hidden-xs">
-    <?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?>
+  <div class="col-sm-6 pagenumber d-none d-sm-block">
+    <span class="align-middle"><?php echo $reviews_split->display_count(TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></span>
   </div>
   <div class="col-sm-6">
-    <span class="pull-right pagenav"><ul class="pagination"><?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?></ul></span>
-    <span class="pull-right"><?php echo TEXT_RESULT_PAGE; ?></span>
+    <?php echo $reviews_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
   </div>
 </div>
 <?php
   }
 ?>
 
-  <br />
-
-  <div class="buttonSet row">
-    <div class="col-xs-6">
-      <?php
-      $back = sizeof($navigation->path)-2;
-      if (isset($navigation->path[$back])) {
-        echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode']));
-      }
-      ?>&nbsp;
-    </div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fas fa-comment-alt', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_WRITE_REVIEW, 'fas fa-comment-alt', tep_href_link('product_reviews_write.php', tep_get_all_get_params()), 'primary', NULL, 'btn-success btn-lg btn-block'); ?></div>
+    <?php
+    $back = sizeof($navigation->path)-2;
+    if (isset($navigation->path[$back])) {
+      echo '<p>' . tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode'])) . '</p>';
+    }
+    ?>
   </div>
+  
 </div>
 
 <?php

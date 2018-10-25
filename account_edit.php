@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -122,9 +122,9 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
+
 
 <?php
   if ($messageStack->size('account_edit') > 0) {
@@ -132,7 +132,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('account_edit', tep_href_link('account_edit.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('account_edit', tep_href_link('account_edit.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
   <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
@@ -146,31 +146,35 @@
     }
     $female = !$male;
   ?>
-  <div class="form-group has-feedback">
-    <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
+  <div class="form-group row">  
+    <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
     <div class="col-sm-9">
-      <label class="radio-inline">
-        <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true" aria-describedby="atGender"') . ' ' . MALE; ?>
-      </label>
-      <label class="radio-inline">
-        <?php echo tep_draw_radio_field('gender', 'f', $female) . ' ' . FEMALE; ?>
-      </label>
-      <?php echo FORM_REQUIRED_INPUT; ?>
-      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
-    </div>
+      <div class="form-check form-check-inline">
+        <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true" id="genderM" aria-describedby="atGender"'); ?>
+        &nbsp;<label class="form-check-label" for="genderM"><?php echo MALE; ?></label>
+      </div>
+      <div class="form-check form-check-inline">
+        <?php echo tep_draw_radio_field('gender', 'f', $female, 'id="genderF" aria-describedby="atGender"'); ?>
+        &nbsp;<label class="form-check-label" for="genderF"><?php echo FEMALE; ?></label>
+      </div>    
+      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="form-text">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+      <div class="float-right">
+        <?php echo FORM_REQUIRED_INPUT; ?>
+      </div>
+    </div> 
   </div>
   <?php
   }
   ?>
-  <div class="form-group has-feedback">
-    <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
+  <div class="form-group row">
+    <label for="inputFirstName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FIRST_NAME; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('firstname', $account['customers_firstname'], 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
-  <div class="form-group has-feedback">
-    <label for="inputLastName" class="control-label col-sm-3"><?php echo ENTRY_LAST_NAME; ?></label>
+  <div class="form-group row">
+    <label for="inputLastName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_LAST_NAME; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('lastname', $account['customers_lastname'], 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
@@ -180,8 +184,8 @@
   <?php
   if (ACCOUNT_DOB == 'true') {
 ?>
-  <div class="form-group has-feedback">
-    <label for="inputName" class="control-label col-sm-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
+  <div class="form-group row">
+    <label for="inputName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('dob', tep_date_short($account['customers_dob']), 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH_TEXT . '"'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
@@ -191,31 +195,32 @@
   }
 ?>
 
-  <div class="form-group has-feedback">
-    <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+  <div class="form-group row">
+    <label for="inputEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('email_address', $account['customers_email_address'], 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
-  <div class="form-group has-feedback">
-    <label for="inputTelephone" class="control-label col-sm-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
+  <div class="form-group row">
+    <label for="inputTelephone" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('telephone', $account['customers_telephone'], 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER_TEXT . '"', 'tel'); ?>
       <?php echo FORM_REQUIRED_INPUT; ?>
     </div>
   </div>
-  <div class="form-group">
-    <label for="inputFax" class="control-label col-sm-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
+  <div class="form-group row">
+    <label for="inputFax" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FAX_NUMBER; ?></label>
     <div class="col-sm-9">
       <?php echo tep_draw_input_field('fax', $account['customers_fax'], 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER_TEXT . '"'); ?>
     </div>
   </div>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
+  
 </div>
 
 </form>

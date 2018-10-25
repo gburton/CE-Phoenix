@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -18,10 +18,7 @@ define('SUB_TITLE_RATING', 'Rating');
 define('SUB_TITLE_REVIEW_TEXT', 'Your Review...');
 
 define('TEXT_NO_HTML', '<small><font color="#ff0000"><strong>NOTE:</strong></font></small>&nbsp;HTML is not translated!');
-define('TEXT_BAD', '<small><font color="#ff0000"><strong>BAD</strong></font></small>');
-define('TEXT_GOOD', '<small><font color="#ff0000"><strong>GOOD</strong></font></small>');
+define('TEXT_BAD', '%s (Worst)');
+define('TEXT_GOOD', '%s (Best)');
 
 define('TEXT_REVIEW_RECEIVED', 'Thank you for your review. It has been submitted to the store owner for approval and should appear shortly.');
-
-define('JS_REVIEW_TEXT', '\'Review Text\' must have at least ' . REVIEW_TEXT_MIN_LENGTH . ' characters.');
-define('JS_REVIEW_RATING', 'You must rate the product for your review.');

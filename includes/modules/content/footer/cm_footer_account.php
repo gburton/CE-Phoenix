@@ -1,13 +1,17 @@
 <?php
 /*
-  $Id$
+  Copyright (c) 2018, G Burton
+  All rights reserved.
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-  Copyright (c) 2014 osCommerce
+  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-  Released under the GNU General Public License
+  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
   class cm_footer_account {
@@ -41,11 +45,11 @@
         $account_content = '<li><a href="' . tep_href_link('account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ACCOUNT . '</a></li>' .
                            '<li><a href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ADDRESS_BOOK . '</a></li>' .
                            '<li><a href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ORDER_HISTORY . '</a></li>' .
-                           '<li><br><a class="btn btn-danger btn-sm btn-block" role="button" href="' . tep_href_link('logoff.php', '', 'SSL') . '"><i class="fas fa-sign-out-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGOFF . '</a></li>';
+                           '<li><br><a class="btn btn-danger btn-block" role="button" href="' . tep_href_link('logoff.php', '', 'SSL') . '"><i class="fas fa-sign-out-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGOFF . '</a></li>';
       }
       else {
         $account_content = '<li><a href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_CREATE_ACCOUNT . '</a></li>' .
-                           '<li><br><a class="btn btn-success btn-sm btn-block" role="button" href="' . tep_href_link('login.php', '', 'SSL') . '"><i class="fas fa-sign-in-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGIN . '</a></li>';
+                           '<li><br><a class="btn btn-success btn-block" role="button" href="' . tep_href_link('login.php', '', 'SSL') . '"><i class="fas fa-sign-in-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGIN . '</a></li>';
       }
       
       ob_start();

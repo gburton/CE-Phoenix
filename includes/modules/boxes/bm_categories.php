@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -35,9 +35,10 @@
 
       $OSCOM_CategoryTree = new category_tree();
       $OSCOM_CategoryTree->setCategoryPath($cPath, '<strong>', '</strong>');
-      $OSCOM_CategoryTree->setSpacerString('&nbsp;&nbsp;', 1);
-
-      $OSCOM_CategoryTree->setParentGroupString('<ul class="nav nav-pills nav-stacked">', '</ul>', true);
+      $OSCOM_CategoryTree->setMaximumLevel(1);
+      
+      $OSCOM_CategoryTree->setParentGroupString('<div class="list-group list-group-flush">', '</div>', false);
+      $OSCOM_CategoryTree->setChildString('', '');
       
       $category_tree = $OSCOM_CategoryTree->getTree();
       

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -257,9 +257,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('create_account') > 0) {
@@ -268,94 +266,96 @@
 ?>
 
 <div class="alert alert-warning">
-  <?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link('login.php', tep_get_all_get_params(), 'SSL')); ?><span class="text-danger pull-right text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></span>
+  <div class="row">
+    <div class="col-sm-9"><?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link('login.php', tep_get_all_get_params(), 'SSL')); ?></div>
+    <div class="col-sm-3 text-left text-sm-right"><span class="text-danger"><?php echo FORM_REQUIRED_INFORMATION; ?></span></div>
+  </div>  
 </div>
 
-<?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
 
-  <h2 class="h3"><?php echo CATEGORY_PERSONAL; ?></h2>
-  <div class="contentText">
+  <h4><?php echo CATEGORY_PERSONAL; ?></h4>
 
 <?php
   if (ACCOUNT_GENDER == 'true') {
 ?>
-    <div class="form-group has-feedback">
-      <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
-      <div class="col-sm-9">
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true" aria-describedby="atGender"') . ' ' . MALE; ?>
-        </label>
-        <label class="radio-inline">
-          <?php echo tep_draw_radio_field('gender', 'f') . ' ' . FEMALE; ?>
-        </label>
-        <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="help-block">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+    
+  <div class="form-group row">
+    <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
+    <div class="col-sm-9">
+      <div class="form-check form-check-inline">
+        <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true" id="genderM" aria-describedby="atGender"'); ?>
+        &nbsp;<label class="form-check-label" for="genderM"><?php echo MALE; ?></label>
       </div>
-      <div class="pull-right">
+      <div class="form-check form-check-inline">
+        <?php echo tep_draw_radio_field('gender', 'f', NULL, 'id="genderF" aria-describedby="atGender"'); ?>
+        &nbsp;<label class="form-check-label" for="genderF"><?php echo FEMALE; ?></label>
+      </div>    
+      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="form-text">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+      <div class="float-right">
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
     </div>
+  </div>
 <?php
   }
 ?>
-    <div class="form-group has-feedback">
-      <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('firstname', NULL, 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputFirstName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FIRST_NAME; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('firstname', NULL, 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputLastName" class="control-label col-sm-3"><?php echo ENTRY_LAST_NAME; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('lastname', NULL, 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputLastName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_LAST_NAME; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('lastname', NULL, 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
+  </div>
 <?php
   if (ACCOUNT_DOB == 'true') {
 ?>
-    <div class="form-group has-feedback">
-      <label for="dob" class="control-label col-sm-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('dob', '', 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="dob" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('dob', '', 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
+  </div>
 <?php
   }
 ?>
-    <div class="form-group has-feedback">
-      <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" autocomplete="username email" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
   </div>
 <?php
   if (ACCOUNT_COMPANY == 'true') {
 ?>
 
-  <h2 class="h3"><?php echo CATEGORY_COMPANY; ?></h2>
+  <h4><?php echo CATEGORY_COMPANY; ?></h4>
   
-  <div class="contentText">
-    <div class="form-group">
-      <label for="inputCompany" class="control-label col-sm-3"><?php echo ENTRY_COMPANY; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY_TEXT . '"');
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputCompany" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_COMPANY; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY_TEXT . '"');
+      ?>
     </div>
   </div>
 
@@ -363,152 +363,148 @@
   }
 ?>
 
-  <h2 class="h3"><?php echo CATEGORY_ADDRESS; ?></h2>
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputStreet" class="control-label col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <h4><?php echo CATEGORY_ADDRESS; ?></h4>
+
+  <div class="form-group row">
+    <label for="inputStreet" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_STREET_ADDRESS; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
+  </div>
 
 <?php
   if (ACCOUNT_SUBURB == 'true') {
 ?>
-    <div class="form-group">
-    <label for="inputSuburb" class="control-label col-sm-3"><?php echo ENTRY_SUBURB; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB_TEXT . '"');
-        ?>
-      </div>
+  <div class="form-group row">
+  <label for="inputSuburb" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_SUBURB; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB_TEXT . '"');
+      ?>
     </div>
+  </div>
 <?php
   }
 ?>
-    <div class="form-group has-feedback">
-      <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputCity" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_CITY; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-     </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputZip" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_POST_CODE; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
+  </div>
 <?php
   if (ACCOUNT_STATE == 'true') {
 ?>
-    <div class="form-group has-feedback">
-      <label for="inputState" class="control-label col-sm-3"><?php echo ENTRY_STATE; ?></label>
-      <div class="col-sm-9">
-        <?php
-        if ($process == true) {
-          if ($entry_state_has_zones == true) {
-            $zones_array = array();
-            $zones_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' order by zone_name");
-            while ($zones_values = tep_db_fetch_array($zones_query)) {
-              $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
-            }
-            echo tep_draw_pull_down_menu('state', $zones_array, 0, 'id="inputState" aria-describedby="atState"');
-            echo FORM_REQUIRED_INPUT;
-            if (tep_not_null(ENTRY_STATE_TEXT)) echo '<span id="atState" class="help-block">' . ENTRY_STATE_TEXT . '</span>';
-          } else {
-            echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
-            echo FORM_REQUIRED_INPUT;
+  <div class="form-group row">
+    <label for="inputState" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_STATE; ?></label>
+    <div class="col-sm-9">
+      <?php
+      if ($process == true) {
+        if ($entry_state_has_zones == true) {
+          $zones_array = array();
+          $zones_query = tep_db_query("select zone_name from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' order by zone_name");
+          while ($zones_values = tep_db_fetch_array($zones_query)) {
+            $zones_array[] = array('id' => $zones_values['zone_name'], 'text' => $zones_values['zone_name']);
           }
+          echo tep_draw_pull_down_menu('state', $zones_array, 0, 'id="inputState" aria-describedby="atState"');
+          echo FORM_REQUIRED_INPUT;
+          if (tep_not_null(ENTRY_STATE_TEXT)) echo '<span id="atState" class="form-text">' . ENTRY_STATE_TEXT . '</span>';
         } else {
           echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
           echo FORM_REQUIRED_INPUT;
         }
-        ?>
-      </div>
+      } else {
+        echo tep_draw_input_field('state', NULL, 'id="inputState" placeholder="' . ENTRY_STATE_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
+      }
+      ?>
     </div>
+  </div>
 <?php
   }
 ?>
-    <div class="form-group has-feedback">
-      <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
-        echo FORM_REQUIRED_INPUT;
-        if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
-        ?>
+  <div class="form-group row">
+    <label for="inputCountry" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_COUNTRY; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+      echo FORM_REQUIRED_INPUT;
+      if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="form-text">' . ENTRY_COUNTRY_TEXT . '</span>';
+      ?>
+    </div>
+  </div>
+
+  <h4><?php echo CATEGORY_CONTACT; ?></h4>
+  
+  <div class="form-group row">
+    <label for="inputTelephone" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('telephone', NULL, 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER_TEXT . '"', 'tel');
+      echo FORM_REQUIRED_INPUT;
+      ?>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputFax" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FAX_NUMBER; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER_TEXT . '"', 'tel');
+      ?>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputNewsletter" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NEWSLETTER; ?></label>
+    <div class="col-sm-9">
+      <div class="form-check">
+        <label>
+          <?php
+          echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"');
+          if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT;
+          ?>
+        </label>
       </div>
     </div>
   </div>
 
-  <h2 class="h3"><?php echo CATEGORY_CONTACT; ?></h2>
+  <h4><?php echo CATEGORY_PASSWORD; ?></h4>
   
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputTelephone" class="control-label col-sm-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('telephone', NULL, 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER_TEXT . '"', 'tel');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputPassword" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PASSWORD; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_TEXT . '"', 'password');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
-    <div class="form-group">
-      <label for="inputFax" class="control-label col-sm-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER_TEXT . '"', 'tel');
-        ?>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputNewsletter" class="control-label col-sm-3"><?php echo ENTRY_NEWSLETTER; ?></label>
-      <div class="col-sm-9">
-        <div class="checkbox">
-          <label>
-            <?php echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"'); ?>
-            <?php if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT; ?>
-          </label>
-        </div>
-      </div>
-    </div>
-  
   </div>
-
-  <h2 class="h3"><?php echo CATEGORY_PASSWORD; ?></h2>
-  
-  <div class="contentText">
-    <div class="form-group has-feedback">
-      <label for="inputPassword" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_TEXT . '"', 'password');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
-    </div>
-    <div class="form-group has-feedback">
-      <label for="inputConfirmation" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('confirmation', NULL, 'required aria-required="true" id="inputConfirmation" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"', 'password');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
+  <div class="form-group row">
+    <label for="inputConfirmation" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('confirmation', NULL, 'required aria-required="true" id="inputConfirmation" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"', 'password');
+      echo FORM_REQUIRED_INPUT;
+      ?>
     </div>
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-user', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
 
 </div>

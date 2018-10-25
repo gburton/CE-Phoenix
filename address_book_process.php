@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -250,9 +250,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php if (isset($_GET['edit'])) { echo HEADING_TITLE_MODIFY_ENTRY; } elseif (isset($_GET['delete'])) { echo HEADING_TITLE_DELETE_ENTRY; } else { echo HEADING_TITLE_ADD_ENTRY; } ?></h1>
-</div>
+<h1 class="display-4"><?php if (isset($_GET['edit'])) { echo HEADING_TITLE_MODIFY_ENTRY; } elseif (isset($_GET['delete'])) { echo HEADING_TITLE_DELETE_ENTRY; } else { echo HEADING_TITLE_ADD_ENTRY; } ?></h1>
 
 <?php
   if ($messageStack->size('addressbook') > 0) {
@@ -266,15 +264,15 @@
 
 <div class="contentContainer">
 
-  <div class="contentText row">
+  <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-warning"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
+      <div class="alert alert-danger"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="panel panel-danger">
-        <div class="panel-heading"><?php echo DELETE_ADDRESS_TITLE; ?></div>
+      <div class="card">
+        <div class="card-header"><?php echo DELETE_ADDRESS_TITLE; ?></div>
 
-        <div class="panel-body">
+        <div class="card-body">
           <?php echo tep_address_label($customer_id, (int)$_GET['delete'], true, ' ', '<br />'); ?>
         </div>
       </div>
@@ -282,9 +280,8 @@
   </div>
 
   <div class="buttonSet">
-    <span class="buttonAction"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'fas fa-trash-alt', tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger'); ?></span>
-
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'fas fa-trash-alt', tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
 </div>
@@ -293,7 +290,7 @@
   } else {
 ?>
 
-<?php echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($_GET['edit']) ? 'edit=' . $_GET['edit'] : ''), 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($_GET['edit']) ? 'edit=' . $_GET['edit'] : ''), 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
 
@@ -303,9 +300,9 @@
     if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
 ?>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $_GET['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'fas fa-sync', null, 'primary'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $_GET['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'fas fa-sync', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
 <?php
@@ -317,9 +314,9 @@
       }
 ?>
 
-  <div class="buttonSet row">
-    <div class="col-xs-6"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', $back_link); ?></div>
-    <div class="col-xs-6 text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary'); ?></div>
+  <div class="buttonSet">
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', $back_link); ?></p>
   </div>
 
 <?php

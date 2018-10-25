@@ -1,12 +1,13 @@
 <div class="cm-paypal-login <?php echo (OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH == 'Half') ? 'col-sm-6' : 'col-sm-12'; ?>">
-  <div class="panel panel-info">
-    <div class="panel-body">
-
-      <h2 class="h3"><?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?></h2>
+  <div class="card">
+    <div class="card-header">
+      <?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?>
+    </div>
+    <div class="card-body">
 
 <?php
   if ( OSCOM_APP_PAYPAL_LOGIN_STATUS == '0' ) {
-    echo '      <p class="alert alert-warning">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
+    echo '<p class="alert alert-warning">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
   }
 ?>
 

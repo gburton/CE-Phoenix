@@ -2,7 +2,7 @@
 /**
  * osCommerce Online Merchant
  * 
- * @copyright Copyright (c) 2014 osCommerce; http://www.oscommerce.com
+ * @copyright Copyright (c) 2018 osCommerce; http://www.oscommerce.com
  * @license GNU General Public License; http://www.oscommerce.com/gpllicense.txt
  */
 
@@ -80,7 +80,7 @@
             $link_title = $category['name'];
           }
 
-          $result .= '<a href="' . tep_href_link('index.php', 'cPath=' . $category_link) . '">';
+          $result .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('index.php', 'cPath=' . $category_link) . '">';
           $result .= str_repeat($this->spacer_string, $this->spacer_multiplier * $level);
           $result .= $link_title . '</a>';
 
