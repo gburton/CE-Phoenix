@@ -41,6 +41,15 @@
       
       $content_width = (int)MODULE_CONTENT_HEADER_BREADCRUMB_CONTENT_WIDTH;
       
+      $trail_string = null;
+      foreach ($breadcrumb->trail() as $k => $v) {
+        if (isset($v['link']) && tep_not_null($v['link'])) {
+          $trail_string .= '<li class="breadcrumb-item"><a href="' . $v['link'] . '">' . $v['title'] . '</a></li>';
+        } else {
+          $trail_string .= '<li class="breadcrumb-item">' . $v['title'] . '</li>';
+        }
+      }
+      
       ob_start();
       include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
       $template = ob_get_clean();
