@@ -1,5 +1,9 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-header-breadcrumb">
-  <?php echo $breadcrumb->trail(' &raquo; '); ?>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <?php echo $trail_string; ?>
+    </ol>
+  </nav>
 </div>
 
 <?php
