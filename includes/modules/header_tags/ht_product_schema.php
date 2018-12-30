@@ -48,8 +48,15 @@
             $products_image = $pi['image'];
           }
           
+          $manufacturers_name_query = tep_db_query("select manufacturers_name from manufacturers where manufacturers_id='" . (int)$product_info['manufacturers_id'] . "'");
+          if (tep_db_num_rows($manufacturers_name_query)) {
+            $manufacturers_name = tep_db_fetch_array($manufacturers_name_query);
+          }
+          
           $schema_product = array("@context"    => "http://schema.org",
                                   "@type"       => "Product",
+                                  "sku"         => tep_db_output((int)$product_info['products_id']),
+                                  "brand"       => tep_db_output($manufacturers_name['manufacturers_name']),
                                   "name"        => tep_db_output($product_info['products_name']),
                                   "image"       => tep_href_link('images/' . $products_image, '', 'NONSSL', false, false),
                                   "url"         => tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false, false),
@@ -73,6 +80,11 @@
           }          
           
           $schema_product['offers']['price'] = $products_price;
+          
+          $time = strtotime(date("Y-m-d"));
+          $schema_product['offers']['priceValidUntil'] = date("Y-m-d", strtotime("+1 month", $time));
+          
+          $schema_product['offers']['url'] = tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false, false);
           
           $specials_expiry_query = tep_db_query("select expires_date from specials where products_id = '" . (int)$product_info['products_id'] . "' and status = 1");
           if (tep_db_num_rows($specials_expiry_query)) {
@@ -98,7 +110,7 @@
           $average = tep_db_fetch_array($average_query);
           if ($average['count'] > 0) {
             $schema_product['aggregateRating'] = array("@type"       => "AggregateRating",
-                                                       "ratingValue" => (int)$average['average'],
+                                                       "ratingValue" => round($average['average'],2),
                                                        "reviewCount" => (int)$average['count']);
           }
           
