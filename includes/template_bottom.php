@@ -49,7 +49,7 @@
   
   <script>
   var filter = $('.filter-list');
-  $('ul.nav').append($('<ul>').attr('class','nav ml-auto').append($('<li>').append(filter)));  
+  $('div.alert-filters > ul.nav').append($('<ul>').attr('class','nav ml-auto').append($('<li>').append(filter)));  
   </script>
 
 </body>
