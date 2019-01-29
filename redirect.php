@@ -27,7 +27,7 @@
       if (isset($_GET['goto']) && tep_not_null($_GET['goto'])) {
         $check_query = tep_db_query("select products_url from " . TABLE_PRODUCTS_DESCRIPTION . " where products_url = '" . tep_db_input($_GET['goto']) . "' limit 1");
         if (tep_db_num_rows($check_query)) {
-          tep_redirect('http://' . $_GET['goto']);
+          tep_redirect($_GET['goto']);
         }
       }
       break;
@@ -62,4 +62,4 @@
   }
 
   tep_redirect(tep_href_link('index.php'));
-?>
+  
