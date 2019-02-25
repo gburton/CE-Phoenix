@@ -43,9 +43,11 @@
 
       if ($num_best_sellers >= MIN_DISPLAY_BESTSELLERS) {
         $bestsellers_list = NULL;
+        $positon = 0;
 
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '"><span itemprop="itemListElement">' . $best_sellers['products_name'] . '</span></a>';
+          $positon ++;
+          $bestsellers_list .= '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><meta itemprop="position" content="' . $positon  .'" /><a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a></li>';
         }
 
         ob_start();
