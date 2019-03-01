@@ -596,7 +596,7 @@ CREATE TABLE whos_online (
   customer_id int,
   full_name varchar(255) NOT NULL,
   session_id varchar(128) NOT NULL,
-  ip_address varchar(15) NOT NULL,
+  ip_address varchar(255) NOT NULL,
   time_entry varchar(14) NOT NULL,
   time_last_click varchar(14) NOT NULL,
   last_page_url text NOT NULL,
