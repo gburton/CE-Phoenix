@@ -37,7 +37,7 @@
   }
 
   if ( $error == false ) {
-    $order_query = tep_db_query("select orders_id, orders_status, currency, currency_value from " . TABLE_ORDERS . " where orders_id = '" . (int)$_POST['cartId'] . "' and customers_id = '" . (int)$_POST['M_cid'] . "'");
+    $order_query = tep_db_query("select orders_id, orders_status, currency, currency_value from orders where orders_id = '" . (int)$_POST['cartId'] . "' and customers_id = '" . (int)$_POST['M_cid'] . "'");
 
     if (!tep_db_num_rows($order_query)) {
       $error = true;
@@ -55,7 +55,7 @@
   if ($order['orders_status'] == MODULE_PAYMENT_RBSWORLDPAY_HOSTED_PREPARE_ORDER_STATUS_ID) {
     $order_status_id = (MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID > 0 ? (int)MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID : (int)DEFAULT_ORDERS_STATUS_ID);
 
-    tep_db_query("update " . TABLE_ORDERS . " set orders_status = '" . $order_status_id . "', last_modified = now() where orders_id = '" . (int)$order['orders_id'] . "'");
+    tep_db_query("update orders set orders_status = '" . $order_status_id . "', last_modified = now() where orders_id = '" . (int)$order['orders_id'] . "'");
 
     $sql_data_array = array('orders_id' => $order['orders_id'],
                             'orders_status_id' => $order_status_id,
@@ -63,7 +63,7 @@
                             'customer_notified' => '0',
                             'comments' => '');
 
-    tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
+    tep_db_perform('orders_status_history', $sql_data_array);
   }
 
   $trans_result = 'WorldPay: Transaction Verified (Callback)' . "\n" .
@@ -79,7 +79,7 @@
                           'customer_notified' => '0',
                           'comments' => $trans_result);
 
-  tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
+  tep_db_perform('orders_status_history', $sql_data_array);
 ?>
 <!DOCTYPE html>
 <html <?php echo HTML_PARAMS; ?>>

@@ -34,9 +34,9 @@
       global $current_category_id, $languages_id, $oscTemplate;
 
       if (isset($current_category_id) && ($current_category_id > 0)) {
-        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c, " . TABLE_CATEGORIES . " c where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and '" . (int)$current_category_id . "' in (c.categories_id, c.parent_id) order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
+        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from products p, products_description pd, products_to_categories p2c, categories c where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and '" . (int)$current_category_id . "' in (c.categories_id, c.parent_id) order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
       } else {
-        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
+        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from products p, products_description pd where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
       }
       
       $num_best_sellers = tep_db_num_rows($best_sellers_query);
@@ -46,7 +46,7 @@
         $pos = 1;
 
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">';
+          $bestsellers_list .= '<li class="list-group-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">';
             $bestsellers_list .= '<meta itemprop="position" content="' . (int)$pos  .'" />';
             $bestsellers_list .= '<a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a>';
           $bestsellers_list .= '</li>';

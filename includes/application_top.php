@@ -54,9 +54,6 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
-// include the list of project database tables
-  require('includes/database_tables.php');
-
 // include the database functions
   require('includes/functions/database.php');
 
@@ -64,7 +61,7 @@
   tep_db_connect() or die('Unable to connect to database server!');
 
 // set the application parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
+  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
