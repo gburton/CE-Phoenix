@@ -171,7 +171,7 @@
             $prod_list_contents .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />' . PHP_EOL;
             $prod_list_contents .= '<p class="text-muted">' . PHP_EOL;
               $prod_list_contents .= '<span class="align-middle">' . PHP_EOL;
-                $prod_list_contents .= '<small><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></small>&nbsp;<span class="productSpecialPrice" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>' . PHP_EOL;
+                $prod_list_contents .= '<small><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></small>&nbsp;<span class="productPrice text-danger productSpecialPrice" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>' . PHP_EOL;
               $prod_list_contents .= '</span>' . PHP_EOL;
             $prod_list_contents .= '</p>' . PHP_EOL;
           $prod_list_contents .= '</div>' . PHP_EOL;

@@ -46,7 +46,12 @@
   
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
 
-    <?php require('includes/header.php'); ?>
+    <?php 
+    $OSCOM_Hooks->register('noJs');
+    echo $OSCOM_Hooks->call('noJs', 'showMessage');
+    
+    require('includes/header.php'); 
+    ?>
 
     <div class="row">
       <div id="bodyContent" class="col order-xs-1 order-md-6">
