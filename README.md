@@ -1,9 +1,7 @@
 osCommerce CE
 =============
 osCommerce 2.3.4.1
-+ Bootstrap v4 (Shop Side)  
-+ jQuery
-+ other external scripts
+https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
 
 Status
 ======
