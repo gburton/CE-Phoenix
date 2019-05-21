@@ -98,7 +98,7 @@
           $average = tep_db_fetch_array($average_query);
           if ($average['count'] > 0) {
             $schema_product['aggregateRating'] = array("@type"       => "AggregateRating",
-                                                       "ratingValue" => (int)$average['average'],
+                                                       "ratingValue" => (float)$average['average'],
                                                        "reviewCount" => (int)$average['count']);
           }
           
