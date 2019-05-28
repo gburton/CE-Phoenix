@@ -92,7 +92,7 @@
   } else {
 ?>
 
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <p><?php echo TEXT_NO_PURCHASES; ?></p>
   </div>
 

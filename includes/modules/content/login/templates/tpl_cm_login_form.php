@@ -1,6 +1,6 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-login-form ">
 
-  <p class="alert alert-success"><?php echo MODULE_CONTENT_LOGIN_TEXT_RETURNING_CUSTOMER; ?></p>
+  <p class="alert alert-success" role="alert"><?php echo MODULE_CONTENT_LOGIN_TEXT_RETURNING_CUSTOMER; ?></p>
 
   <?php echo tep_draw_form('login', tep_href_link('login.php', 'action=process', 'SSL'), 'post', '', true); ?>
    

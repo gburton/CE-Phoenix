@@ -7,7 +7,7 @@
 
 <?php
   if ( OSCOM_APP_PAYPAL_LOGIN_STATUS == '0' ) {
-    echo '<p class="alert alert-warning">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
+    echo '<p class="alert alert-warning" role="alert">' . $cm_paypal_login->_app->getDef('module_login_template_sandbox_alert') . '</p>';
   }
 ?>
 

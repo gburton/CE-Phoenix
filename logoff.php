@@ -49,7 +49,7 @@ if ( tep_session_is_registered('comments') ) {
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <div class="contentContainer">
-  <div class="alert alert-danger">
+  <div class="alert alert-danger" role="alert">
     <?php echo TEXT_MAIN; ?>
   </div>
 

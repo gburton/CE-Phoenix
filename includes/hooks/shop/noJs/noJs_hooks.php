@@ -22,7 +22,7 @@ class hook_shop_noJs_noJs_hooks {
      
     $showMessage = <<<eod
       <noscript>
-        <div class="alert alert-danger text-center">{$msg}</div>
+        <div class="alert alert-danger text-center" role="alert">{$msg}</div>
         <div class="w-100"></div>
       </noscript> 
 eod;

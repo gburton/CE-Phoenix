@@ -22,7 +22,7 @@
 
 <div class="row">
   <div class="col-sm-9">
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
       <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>

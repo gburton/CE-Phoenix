@@ -219,7 +219,7 @@
 
   <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-warning"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
+      <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
       <div class="card">
@@ -239,7 +239,7 @@
 
   <h4><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h4>
   
-  <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
 
   <div class="row">
 
@@ -278,7 +278,7 @@
 
   <h4><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h4>
   
-  <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
 
   <?php require('includes/modules/checkout_new_address.php'); ?>
 

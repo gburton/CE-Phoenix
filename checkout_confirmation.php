@@ -219,7 +219,7 @@
 <?php
     if (tep_not_null($confirmation['title'])) {
       echo '<div class="col-sm-6">';
-      echo '  <div class="alert alert-danger">';
+      echo '  <div class="alert alert-danger" role="alert">';
       echo $confirmation['title'];
       echo '  </div>';
       echo '</div>';
@@ -228,7 +228,7 @@
 <?php
       if (isset($confirmation['fields'])) {
         echo '<div class="col-sm-6">';
-        echo '  <div class="alert alert-info">';
+        echo '  <div class="alert alert-info" role="alert">';
         $fields = '';
         for ($i=0, $n=sizeof($confirmation['fields']); $i<$n; $i++) {
           $fields .= $confirmation['fields'][$i]['title'] . ' ' . $confirmation['fields'][$i]['field'] . '<br>';

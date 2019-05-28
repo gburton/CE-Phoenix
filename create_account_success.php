@@ -30,7 +30,7 @@
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <div class="contentContainer">  
-  <div class="alert alert-success">
+  <div class="alert alert-success" role="alert">
     <?php echo TEXT_ACCOUNT_CREATED; ?>
   </div>
 

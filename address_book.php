@@ -40,7 +40,7 @@
   <div class="row">
   
     <div class="col-sm-8">
-      <div class="alert alert-info"><?php echo PRIMARY_ADDRESS_DESCRIPTION; ?></div>
+      <div class="alert alert-info" role="alert"><?php echo PRIMARY_ADDRESS_DESCRIPTION; ?></div>
     </div>
     
     <div class="col-sm-4">
@@ -59,7 +59,7 @@
 
   <h4><?php echo ADDRESS_BOOK_TITLE; ?></h4>
   
-  <div class="alert alert-danger"><?php echo sprintf(TEXT_MAXIMUM_ENTRIES, MAX_ADDRESS_BOOK_ENTRIES); ?></div>
+  <div class="alert alert-danger" role="alert"><?php echo sprintf(TEXT_MAXIMUM_ENTRIES, MAX_ADDRESS_BOOK_ENTRIES); ?></div>
 
   <div class="row">
 <?php

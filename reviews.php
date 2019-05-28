@@ -61,7 +61,7 @@
   } else {
 ?>
 
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <?php echo TEXT_NO_REVIEWS; ?>
   </div>
 

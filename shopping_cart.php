@@ -135,13 +135,13 @@
       if (STOCK_ALLOW_CHECKOUT == 'true') {
 ?>
 
-  <div class="alert alert-warning"><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></div>
+  <div class="alert alert-warning" role="alert"><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></div>
 
 <?php
       } else {
 ?>
 
-  <div class="alert alert-danger"><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></div>
+  <div class="alert alert-danger" role="alert"><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></div>
 
 <?php
       }
@@ -183,7 +183,7 @@
   } else {
 ?>
 
-<div class="alert alert-danger">
+<div class="alert alert-danger" role="alert">
   <?php echo TEXT_CART_EMPTY; ?>
 </div>
 

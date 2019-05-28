@@ -266,7 +266,7 @@
 
   <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-danger"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
+      <div class="alert alert-danger" role="alert"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
     </div>
     <div class="col-sm-4">
       <div class="card">

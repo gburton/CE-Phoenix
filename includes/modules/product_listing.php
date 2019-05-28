@@ -37,7 +37,7 @@
   }
 
   if ($listing_split->number_of_rows > 0) { ?>
-    <div class="alert alert-light alert-filters">
+    <div class="alert alert-light alert-filters" role="alert">
       <ul class="nav">
         <li class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -209,7 +209,7 @@
 } else {
 ?>
 
-  <div class="alert alert-info"><?php echo TEXT_NO_PRODUCTS; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_NO_PRODUCTS; ?></div>
 
 <?php
 }

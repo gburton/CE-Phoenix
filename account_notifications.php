@@ -78,7 +78,7 @@
 
 <div class="contentContainer">
 
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <?php echo MY_NOTIFICATIONS_DESCRIPTION; ?>
   </div>
 
@@ -102,7 +102,7 @@
 ?>
 
     <div class="clearfix"></div>
-    <div class="alert alert-warning"><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
+    <div class="alert alert-warning" role="alert"><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
 
     <div class="form-group row">
       <label class="col-form-label col-sm-4 text-left text-sm-right"><?php echo MY_NOTIFICATIONS_TITLE; ?></label>
@@ -127,7 +127,7 @@
     } else {
 ?>
 
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" role="alert">
       <?php echo NOTIFICATIONS_NON_EXISTING; ?>
     </div>
 

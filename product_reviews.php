@@ -61,7 +61,7 @@
 <?php
 $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from reviews r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
 $average = tep_db_fetch_array($average_query);
-echo '<div class="text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
+echo '<div class="text-center alert alert-success" role="alert">' . sprintf(REVIEWS_TEXT_AVERAGE, tep_output_string_protected($average['count']), tep_draw_stars(tep_output_string_protected(round($average['average'])))) . '</div>';
 ?>
 
 <?php
@@ -115,7 +115,7 @@ echo '<div class="text-center alert alert-success">' . sprintf(REVIEWS_TEXT_AVER
   } else {
 ?>
 
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <?php echo TEXT_NO_REVIEWS; ?>
   </div>
 
