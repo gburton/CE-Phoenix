@@ -159,7 +159,7 @@ $(function() {
       </tr>
       <tr>
         <th><?php echo PHP_VERSION; ?></th>
-        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 5.3) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 5.3) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
 <?php
   if (function_exists('ini_get')) {
@@ -170,49 +170,49 @@ $(function() {
       <tr>
         <th>register_globals</th>
         <td align="right"><?php echo (((int)ini_get('register_globals') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (($compat_register_globals == true) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td align="right"><?php echo (($compat_register_globals == true) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>magic_quotes</th>
         <td align="right"><?php echo (((int)ini_get('magic_quotes') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('magic_quotes') == 0) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td align="right"><?php echo (((int)ini_get('magic_quotes') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>file_uploads</th>
         <td align="right"><?php echo (((int)ini_get('file_uploads') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('file_uploads') == 1) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td align="right"><?php echo (((int)ini_get('file_uploads') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>auto_start</th>
         <td align="right"><?php echo (((int)ini_get('session.auto_start') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('session.auto_start') == 0) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td align="right"><?php echo (((int)ini_get('session.auto_start') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>use_trans_sid</th>
         <td align="right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td align="right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th colspan="3">Required Extensions</th>
       </tr>
       <tr>
         <th>MySQL<?php echo extension_loaded('mysqli') ? 'i' : ''; ?></th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('mysql') || extension_loaded('mysqli') ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo (extension_loaded('mysql') || extension_loaded('mysqli') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th colspan="3">Recommended Extensions</th>
       </tr>
       <tr>
         <th>GD</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('gd') ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo (extension_loaded('gd') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>cURL</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('curl') ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo (extension_loaded('curl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>OpenSSL</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('openssl') ? '<i class="fa fa-thumbs-up text-success"></i>' : '<i class="fa fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo (extension_loaded('openssl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
     </table>
 <?php

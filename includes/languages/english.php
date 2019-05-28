@@ -195,8 +195,8 @@ define('TEXT_VIEW_GRID', ' Grid');
 define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></span> Required information');
-define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><span class="fa fa-asterisk"></span></span>');
+define('FORM_REQUIRED_INFORMATION', '<span class="fas fa-asterisk text-danger"></span> Required information');
+define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><span class="fas fa-asterisk"></span></span>');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');

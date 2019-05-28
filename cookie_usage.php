@@ -36,7 +36,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('login.php'), null, null, 'btn-light btn-block btn-lg'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('login.php'), null, null, 'btn-light btn-block btn-lg'); ?></div>
   </div>
 </div>
 

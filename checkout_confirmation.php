@@ -115,7 +115,7 @@
         <tr>
           <th><?php echo HEADING_QTY; ?></th>
           <th><?php echo HEADING_PRODUCTS; ?></th>
-          <th colspan="2" class="text-right"><?php echo tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('shopping_cart.php'), NULL, NULL, 'btn btn-light btn-sm'); ?></th>
+          <th colspan="2" class="text-right"><?php echo tep_draw_button(TEXT_EDIT, 'fas fa-edit', tep_href_link('shopping_cart.php'), NULL, NULL, 'btn btn-light btn-sm'); ?></th>
         </tr>
       </thead>
      <tbody>
@@ -198,9 +198,9 @@
       <tr>
         <?php
         if ($order->info['shipping_method']) {
-          echo '<td scope="row">' . $order->info['shipping_method'] . ' ' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_shipping.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm') . '</td>';
+          echo '<td scope="row">' . $order->info['shipping_method'] . ' ' . tep_draw_button(TEXT_EDIT, 'fas fa-edit', tep_href_link('checkout_shipping.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm') . '</td>';
         }
-        echo '<td scope="row">' . $order->info['payment_method'] . ' ' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm') . '</td>';
+        echo '<td scope="row">' . $order->info['payment_method'] . ' ' . tep_draw_button(TEXT_EDIT, 'fas fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm') . '</td>';
         ?>
       </tr>
     </tbody>
@@ -250,7 +250,7 @@
   <hr>
 
   <h4><?php echo HEADING_ORDER_COMMENTS; ?></h4>
-  <p><?php echo nl2br(tep_output_string_protected($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']) . ' ' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm'); ?></p>
+  <p><?php echo nl2br(tep_output_string_protected($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']) . ' ' . tep_draw_button(TEXT_EDIT, 'fas fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'btn-light btn-sm'); ?></p>
 
 <?php
   }

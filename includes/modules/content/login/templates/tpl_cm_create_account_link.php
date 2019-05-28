@@ -2,7 +2,7 @@
   <p class="alert alert-info" role="alert"><?php echo MODULE_CONTENT_LOGIN_TEXT_NEW_CUSTOMER; ?></p>
   <p><?php echo MODULE_CONTENT_LOGIN_TEXT_NEW_CUSTOMER_INTRODUCTION; ?></p>
 
-  <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('create_account.php', '', 'SSL'), null, null, 'btn-primary btn-block'); ?></p>
+  <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('create_account.php', '', 'SSL'), null, null, 'btn-primary btn-block'); ?></p>
 </div>
 
 <?php

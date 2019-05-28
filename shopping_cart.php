@@ -149,7 +149,7 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHECKOUT, 'fa fa-angle-right', tep_href_link('checkout_shipping.php', '', 'SSL'), 'primary', NULL, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHECKOUT, 'fas fa-angle-right', tep_href_link('checkout_shipping.php', '', 'SSL'), 'primary', NULL, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
 <?php
@@ -187,7 +187,7 @@
   <?php echo TEXT_CART_EMPTY; ?>
 </div>
 
-<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
+<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
 
 <?php
   }

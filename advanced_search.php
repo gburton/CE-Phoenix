@@ -103,7 +103,7 @@ function check_form() {
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'fa fa-search', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_SEARCH, 'fas fa-search', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p><a data-toggle="modal" href="#helpSearch" class="btn btn-light"><?php echo TEXT_SEARCH_HELP_LINK; ?></a></p>
   </div>
   

@@ -504,7 +504,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
 
 </div>

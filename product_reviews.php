@@ -71,7 +71,7 @@ echo '<div class="text-center alert alert-success" role="alert">' . sprintf(REVI
   <div class="text-center">
     <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $product_info['products_id']) . '">' . tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"') . '</a>'; ?>
 
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fa fa-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now'), null, null, 'btn-success btn-reviews btn-buy'); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_IN_CART, 'fas fa-shopping-cart', tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now'), null, null, 'btn-success btn-reviews btn-buy'); ?></p>
   </div>
 
   <hr>
@@ -141,7 +141,7 @@ echo '<div class="text-center alert alert-success" role="alert">' . sprintf(REVI
     <?php
     $back = sizeof($navigation->path)-2;
     if (isset($navigation->path[$back])) {
-      echo '<p>' . tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode'])) . '</p>';
+      echo '<p>' . tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link($navigation->path[$back]['page'], tep_array_to_string($navigation->path[$back]['get'], array('action')), $navigation->path[$back]['mode'])) . '</p>';
     }
     ?>
   </div>

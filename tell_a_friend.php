@@ -177,7 +177,7 @@
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></p>
   </div>
 </div>
 
