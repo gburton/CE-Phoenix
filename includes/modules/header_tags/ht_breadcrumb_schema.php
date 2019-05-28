@@ -39,7 +39,7 @@
                                                    'name' => strip_tags($v['title'])));
       }
       
-      $schema_breadcrumb = array('@context' => 'http://schema.org', 
+      $schema_breadcrumb = array('@context' => 'https://schema.org', 
                                  '@type' => 'BreadcrumbList', 
                                  'itemListElement' => $itemlistelement);
 

@@ -1,13 +1,13 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-i-card-products">
   <h4><?php echo sprintf(MODULE_CONTENT_CARD_PRODUCTS_HEADING, strftime('%B')); ?></h4>
 
-  <div class="card-deck cm-i-card-products" itemscope itemtype="http://schema.org/ItemList">
+  <div class="card-deck cm-i-card-products" itemscope itemtype="https://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_card_products; ?>" />
     <?php
     $item = 1;
     while ($card_products = tep_db_fetch_array($card_products_query)) {
       ?>
-      <div class="card text-center is-product" data-is-special="<?php echo (int)$card_products['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($card_products['products_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$card_products['manufacturers_id']); ?>" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">
+      <div class="card text-center is-product" data-is-special="<?php echo (int)$card_products['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($card_products['products_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$card_products['manufacturers_id']); ?>" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/Product">
         <div class="card-header caption">
           <h6 class="group inner list-group-item-heading">
             <a itemprop="url" href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$card_products['products_id']); ?>"><span itemprop="name"><?php echo $card_products['products_name']; ?></span></a>
@@ -18,7 +18,7 @@
         </div>
         <div class="card-footer">          
           <div class="row">
-            <div class="col text-left" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <div class="col text-left" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
               <meta itemprop="priceCurrency" content="<?php echo tep_output_string($currency); ?>" />
               <span class="align-middle" itemprop="price" content="<?php echo $currencies->display_raw($card_products['products_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?>"><?php echo $currencies->display_price($card_products['products_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?></span>
             </div>

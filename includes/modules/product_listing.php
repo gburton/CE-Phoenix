@@ -113,7 +113,7 @@
   // $list_group_item = $item_width ?? 4;
   
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="item l-g-i col-sm-' . $list_group_item . '" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
+    $prod_list_contents .= '<div class="item l-g-i col-sm-' . $list_group_item . '" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/Product">';
 	  $prod_list_contents .= '  <div class="productHolder equal-height is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">';
     
     if (PRODUCT_LIST_IMAGE > 0) {
@@ -167,7 +167,7 @@
     
       if (PRODUCT_LIST_PRICE > 0) {
         if (tep_not_null($listing['specials_new_products_price'])) {
-          $prod_list_contents .= '<div class="col-sm-4" itemprop="offers" itemscope itemtype="http://schema.org/Offer">' . PHP_EOL;
+          $prod_list_contents .= '<div class="col-sm-4" itemprop="offers" itemscope itemtype="https://schema.org/Offer">' . PHP_EOL;
             $prod_list_contents .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />' . PHP_EOL;
             $prod_list_contents .= '<p class="text-muted">' . PHP_EOL;
               $prod_list_contents .= '<span class="align-middle">' . PHP_EOL;
@@ -176,7 +176,7 @@
             $prod_list_contents .= '</p>' . PHP_EOL;
           $prod_list_contents .= '</div>' . PHP_EOL;
         } else {
-          $prod_list_contents .= '<div class="col-sm-12 col-md-4" itemprop="offers" itemscope itemtype="http://schema.org/Offer">' . PHP_EOL;
+          $prod_list_contents .= '<div class="col-sm-12 col-md-4" itemprop="offers" itemscope itemtype="https://schema.org/Offer">' . PHP_EOL;
             $prod_list_contents .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />' . PHP_EOL;
             $prod_list_contents .= '<p class="text-muted">' . PHP_EOL;
               $prod_list_contents .= '<span class="align-middle" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>' . PHP_EOL;
@@ -202,7 +202,7 @@
 
   }
 
-  echo '<div id="products" class="row" itemscope itemtype="http://schema.org/ItemList">' . PHP_EOL;
+  echo '<div id="products" class="row" itemscope itemtype="https://schema.org/ItemList">' . PHP_EOL;
   echo '  <meta itemprop="numberOfItems" content="' . (int)$listing_split->number_of_rows . '" />' . PHP_EOL;
   echo $prod_list_contents;
   echo '</div>' . PHP_EOL;
