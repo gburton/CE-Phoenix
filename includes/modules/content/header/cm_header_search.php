@@ -46,7 +46,7 @@
       $search_box .= '<div class="input-group">';
         $search_box .= tep_draw_input_field('keywords', '', 'required aria-required="true" aria-label="' . TEXT_SEARCH_PLACEHOLDER . '" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search');
         $search_box .= '<div class="input-group-append">';
-          $search_box .= '<button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>';
+          $search_box .= '<button type="submit" class="btn btn-info"><i class="fas fa-search"></i></button>';
         $search_box .= '</div>';
       $search_box .= '</div>';
       $search_box .=  tep_hide_session_id() . '</form>';

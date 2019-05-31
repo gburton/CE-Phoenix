@@ -17,5 +17,5 @@
   define('MODULE_NAVBAR_REVIEWS_TITLE', 'Reviews'); 
   define('MODULE_NAVBAR_REVIEWS_DESCRIPTION', 'Show Reviews Link in Navbar.');
   
-  define('MODULE_NAVBAR_REVIEWS_PUBLIC_TEXT', '<a class="nav-link" href="' . tep_href_link('reviews.php') . '"><i class="fa fa-fw fa-comment"></i> Reviews</a>');
+  define('MODULE_NAVBAR_REVIEWS_PUBLIC_TEXT', '<a class="nav-link" href="' . tep_href_link('reviews.php') . '"><i class="fas fa-comment fa-fw"></i> Reviews</a>');
   

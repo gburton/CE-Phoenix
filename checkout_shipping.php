@@ -180,9 +180,9 @@
   <div class="row">
   
     <div class="col-sm-8">
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" role="alert">
         <?php echo TEXT_CHOOSE_SHIPPING_DESTINATION; ?>
-        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
+        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fas fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
       </div>
     </div>
     <div class="col-sm-4">
@@ -205,7 +205,7 @@
     if (sizeof($quotes) > 1 && sizeof($quotes[0]) > 1) {
 ?>
 
-  <div class="alert alert-warning">
+  <div class="alert alert-warning" role="alert">
     <div class="row">
       <div class="col-sm-8">
         <?php echo TEXT_CHOOSE_SHIPPING_METHOD; ?>
@@ -222,7 +222,7 @@
     } elseif ($free_shipping == false) {
 ?>
 
-  <div class="alert alert-info"><?php echo TEXT_ENTER_SHIPPING_INFORMATION; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_ENTER_SHIPPING_INFORMATION; ?></div>
 
 <?php
     }
@@ -230,7 +230,7 @@
     if ($free_shipping == true) {
 ?>
 
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <h4><?php echo FREE_SHIPPING_TITLE; ?></h4>
       <p class="lead"><?php echo sprintf(FREE_SHIPPING_DESCRIPTION, $currencies->format(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER)) . tep_draw_hidden_field('shipping', 'free_free'); ?></p>
     </div>
@@ -321,7 +321,7 @@
 
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
   <div class="clearfix"></div>

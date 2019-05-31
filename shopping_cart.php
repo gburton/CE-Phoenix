@@ -114,7 +114,7 @@
 
         $products_name .= '<td><div class="input-group">' . tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number') . tep_draw_hidden_field('products_id[]', $products[$i]['id']) . '<div class="input-group-append">' . tep_draw_button(CART_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info') . '</div></div></td>';
 
-        $products_name .= '<td>' . tep_draw_button(CART_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger btn-xs') .'  </td>'  ;
+        $products_name .= '<td>' . tep_draw_button(CART_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger btn-sm') .'  </td>'  ;
         $products_name .= '<td class="text-right">' . $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</td>';
 
         $products_name .='</tr>';
@@ -135,13 +135,13 @@
       if (STOCK_ALLOW_CHECKOUT == 'true') {
 ?>
 
-  <div class="alert alert-warning"><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></div>
+  <div class="alert alert-warning" role="alert"><?php echo OUT_OF_STOCK_CAN_CHECKOUT; ?></div>
 
 <?php
       } else {
 ?>
 
-  <div class="alert alert-danger"><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></div>
+  <div class="alert alert-danger" role="alert"><?php echo OUT_OF_STOCK_CANT_CHECKOUT; ?></div>
 
 <?php
       }
@@ -149,7 +149,7 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHECKOUT, 'fa fa-angle-right', tep_href_link('checkout_shipping.php', '', 'SSL'), 'primary', NULL, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHECKOUT, 'fas fa-angle-right', tep_href_link('checkout_shipping.php', '', 'SSL'), 'primary', NULL, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
 <?php
@@ -183,11 +183,11 @@
   } else {
 ?>
 
-<div class="alert alert-danger">
+<div class="alert alert-danger" role="alert">
   <?php echo TEXT_CART_EMPTY; ?>
 </div>
 
-<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
+<p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
 
 <?php
   }

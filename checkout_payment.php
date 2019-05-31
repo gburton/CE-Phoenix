@@ -112,9 +112,9 @@
 
   <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" role="alert">
         <?php echo TEXT_SELECTED_BILLING_DESTINATION; ?>
-        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_payment_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
+        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fas fa-home', tep_href_link('checkout_payment_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
       </div>
     </div>
     <div class="col-sm-4">
@@ -137,7 +137,7 @@
   if (sizeof($selection) > 1) {
 ?>
 
-  <div class="alert alert-warning">
+  <div class="alert alert-warning" role="alert">
     <div class="row">
       <div class="col-sm-8">
         <?php echo TEXT_SELECT_PAYMENT_METHOD; ?>
@@ -154,7 +154,7 @@
     } else {
 ?>
 
-  <div class="alert alert-info"><?php echo TEXT_ENTER_PAYMENT_INFORMATION; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_ENTER_PAYMENT_INFORMATION; ?></div>
 
 <?php
     }
@@ -233,7 +233,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
   <div class="progressBarHook">

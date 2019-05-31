@@ -231,7 +231,7 @@
 
   <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-warning"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
+      <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
       <div class="card">
@@ -252,7 +252,7 @@
 
   <h4><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h4>
   
-  <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_SHIPPING_DESTINATION; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_SELECT_OTHER_SHIPPING_DESTINATION; ?></div>
 
   <div class="row">
 
@@ -287,7 +287,7 @@
 
   <h4><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h4>
 
-  <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></div>
 
   <?php require('includes/modules/checkout_new_address.php'); ?>
 
@@ -296,7 +296,7 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
   <div class="clearfix"></div>
@@ -313,7 +313,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
   </div>
 
 <?php

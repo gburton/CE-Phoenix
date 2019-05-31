@@ -46,7 +46,7 @@
         $pos = 1;
 
         while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<li class="list-group-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">';
+          $bestsellers_list .= '<li class="list-group-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
             $bestsellers_list .= '<meta itemprop="position" content="' . (int)$pos  .'" />';
             $bestsellers_list .= '<a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a>';
           $bestsellers_list .= '</li>';

@@ -35,7 +35,7 @@ define('ENTRY_DATE_TO_TEXT', 'To');
 define('ENTRY_DATE', 'Date');
 define('ENTRY_PRICE', 'Price');
 
-define('TEXT_SEARCH_HELP_LINK', '<span class="fa fa-info-circle"></span> Search Help');
+define('TEXT_SEARCH_HELP_LINK', '<span class="fas fa-info-circle"></span> Search Help');
 
 define('TEXT_ALL_CATEGORIES', 'All Categories');
 define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');

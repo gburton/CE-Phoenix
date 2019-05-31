@@ -22,7 +22,7 @@
 ?>
 <div class="clearfix"></div>
 <div class="col-xs-12">
-  <div class="alert alert-danger">
+  <div class="alert alert-danger" role="alert">
     <a href="#" class="close fas fa-times" data-dismiss="alert"></a>
     <?php echo htmlspecialchars(stripslashes(urldecode($_GET['error_message']))); ?>
   </div>
@@ -34,7 +34,7 @@
 ?>
 <div class="clearfix"></div>
 <div class="col-xs-12">
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <a href="#" class="close fas fa-times" data-dismiss="alert"></a>
     <?php echo htmlspecialchars(stripslashes(urldecode($_GET['info_message']))); ?>
   </div>

@@ -1,5 +1,5 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-pi-also-purchased" itemscope itemtype="http://schema.org/ItemList">
-  <meta itemprop="itemListOrder" content="http://schema.org/ItemListUnordered" />
+<div class="col-sm-<?php echo $content_width; ?> cm-pi-also-purchased" itemscope itemtype="https://schema.org/ItemList">
+  <meta itemprop="itemListOrder" content="https://schema.org/ItemListUnordered" />
   <meta itemprop="numberOfItems" content="<?php echo (int)$num_products_ordered; ?>" />
 
   <h4 itemprop="name"><?php echo MODULE_CONTENT_PRODUCT_INFO_ALSO_PURCHASED_PUBLIC_TITLE; ?></h4>
@@ -10,7 +10,7 @@
     while ($orders = tep_db_fetch_array($orders_query)) {      
       ?>
       <div class="card text-center">        
-        <div class="card-body" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+        <div class="card-body" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$card_products['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], htmlspecialchars($orders['products_name']), null, null, 'itemprop="image"'); ?></a>
           <br>
           <a class="card-link" itemprop="url" href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']); ?>"><span itemprop="name"><?php echo $orders['products_name']; ?></span></a>

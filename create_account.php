@@ -265,7 +265,7 @@
   }
 ?>
 
-<div class="alert alert-warning">
+<div class="alert alert-warning" role="alert">
   <div class="row">
     <div class="col-sm-9"><?php echo sprintf(TEXT_ORIGIN_LOGIN, tep_href_link('login.php', tep_get_all_get_params(), 'SSL')); ?></div>
     <div class="col-sm-3 text-left text-sm-right"><span class="text-danger"><?php echo FORM_REQUIRED_INFORMATION; ?></span></div>
@@ -504,7 +504,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
 
 </div>

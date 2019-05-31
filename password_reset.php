@@ -98,7 +98,7 @@
 <?php echo tep_draw_form('password_reset', tep_href_link('password_reset.php', 'account=' . $email_address . '&key=' . $password_key . '&action=process', 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
-  <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_MAIN; ?></div>
   
   <div class="form-group row">
     <label for="inputPassword" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PASSWORD; ?></label>
@@ -116,7 +116,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 </div>
 

@@ -70,7 +70,7 @@
           <td><?php echo tep_date_long($history['date_purchased']); ?></td>
           <td><?php echo $products['count']; ?></td>
           <td><?php echo strip_tags($history['order_total']); ?></td>
-          <td><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_VIEW, 'fa fa-file', tep_href_link('account_history_info.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm btn-block'); ?></td>
+          <td><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_VIEW, 'fas fa-file', tep_href_link('account_history_info.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm btn-block'); ?></td>
         </tr>
 
 <?php
@@ -92,7 +92,7 @@
   } else {
 ?>
 
-  <div class="alert alert-info">
+  <div class="alert alert-info" role="alert">
     <p><?php echo TEXT_NO_PURCHASES; ?></p>
   </div>
 
@@ -101,7 +101,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?>
   </div>
 </div>
 

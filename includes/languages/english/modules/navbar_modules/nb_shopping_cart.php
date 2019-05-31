@@ -17,11 +17,11 @@
   define('MODULE_NAVBAR_SHOPPING_CART_TITLE', 'Shopping Cart');
   define('MODULE_NAVBAR_SHOPPING_CART_DESCRIPTION', 'Show Shopping Cart in Navbar');
   
-  define('MODULE_NAVBAR_SHOPPING_CART_CONTENTS', '<i class="fa fa-fw fa-shopping-cart"></i> %s item(s) <span class="caret"></span>');
-  define('MODULE_NAVBAR_SHOPPING_CART_NO_CONTENTS', '<i class="fa fa-fw fa-shopping-cart"></i> 0 items');
+  define('MODULE_NAVBAR_SHOPPING_CART_CONTENTS', '<i class="fas fa-shopping-cart fa-fw"></i> %s item(s) <span class="caret"></span>');
+  define('MODULE_NAVBAR_SHOPPING_CART_NO_CONTENTS', '<i class="fas fa-shopping-cart fa-fw"></i> 0 items');
   define('MODULE_NAVBAR_SHOPPING_CART_HAS_CONTENTS', '%s item(s), %s');
   define('MODULE_NAVBAR_SHOPPING_CART_VIEW_CART', 'View Cart');
-  define('MODULE_NAVBAR_SHOPPING_CART_CHECKOUT', '<i class="fa fa-fw fa-angle-right"></i> Checkout');
+  define('MODULE_NAVBAR_SHOPPING_CART_CHECKOUT', '<i class="fas fa-angle-right fa-fw"></i> Checkout');
   
   define('MODULE_NAVBAR_SHOPPING_CART_PRODUCT', '<a class="dropdown-item" href="' . tep_href_link('product_info.php', 'products_id=%s') . '">%s x %s</a>');
   

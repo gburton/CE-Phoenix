@@ -22,7 +22,7 @@
 
 <div class="row">
   <div class="col-sm-9">
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
       <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
@@ -53,7 +53,7 @@
 <div class="row">
   <div class="col-xs-12 col-sm-9">
     <h2 class="h4">Online Store Settings</h2>
-    <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
+    <p class="text-danger pull-right text-right"><span class="fas fa-asterisk text-danger"></span> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=4" method="post" role="form">
 
@@ -61,7 +61,7 @@
         <label for="storeName" class="col-form-label col-sm-3 text-left text-sm-right">Store Name</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_STORE_NAME', NULL, 'required aria-required="true" id="storeName" placeholder="Your Store Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The name of the online store that is presented to the public.</span>
         </div>
       </div>
@@ -71,7 +71,7 @@
         <label for="ownerName" class="col-form-label col-sm-3 text-left text-sm-right">Store Owner Name</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_NAME', NULL, 'required aria-required="true" id="ownerName" placeholder="Your Name"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The name of the store owner that is presented to the public.</span>
         </div>
       </div>
@@ -80,7 +80,7 @@
         <label for="ownerEmail" class="col-form-label col-sm-3 text-left text-sm-right">Store Owner E-Mail Address</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_STORE_OWNER_EMAIL_ADDRESS', NULL, 'required aria-required="true" id="ownerEmail" placeholder="you@yours.com"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The e-mail address of the store owner that is presented to the public.</span>
         </div>
       </div>
@@ -89,7 +89,7 @@
         <label for="adminUsername" class="col-form-label col-sm-3 text-left text-sm-right">Administrator Username</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_USERNAME', NULL, 'required aria-required="true" id="adminUsername" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The administrator username to use for the administration tool.</span>
         </div>
       </div>
@@ -98,7 +98,7 @@
         <label for="adminPassword" class="col-form-label col-sm-3 text-left text-sm-right">Administrator Password</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_ADMINISTRATOR_PASSWORD', NULL, 'required aria-required="true" id="adminPassword"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The password to use for the administrator account.</span>
         </div>
       </div>
@@ -110,7 +110,7 @@
         <label for="adminDir" class="col-form-label col-sm-3 text-left text-sm-right">Administration Directory Name</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('CFG_ADMIN_DIRECTORY', 'admin', 'required aria-required="true" id="adminDir"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">This is the directory where the administration section will be installed. You should change this for security reasons.</span>
         </div>
       </div>
@@ -122,7 +122,7 @@
         <label for="Zulu" class="col-form-label col-sm-3 text-left text-sm-right">Time Zone</label>
         <div class="col-sm-9">
           <?php echo osc_draw_time_zone_select_menu('CFG_TIME_ZONE'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The time zone to base the date and time on.</span>
         </div>
       </div>

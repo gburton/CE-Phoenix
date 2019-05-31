@@ -36,7 +36,7 @@
       $form_output = '    ' . tep_draw_form('quick_find', tep_href_link('advanced_search_result.php', '', $request_type, false), 'get') .
                      '    <div class="input-group">' .
                      '    ' . tep_draw_input_field('keywords', '', 'required placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search') .
-                     '      <span class="input-group-btn"><button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button></span>' .
+                     '      <span class="input-group-btn"><button type="submit" class="btn btn-search"><i class="fas fa-search"></i></button></span>' .
                      '    </div>' . tep_draw_hidden_field('search_in_description', '0') . tep_hide_session_id() .
                      '    </form>';
               

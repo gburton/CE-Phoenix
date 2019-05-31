@@ -31,7 +31,7 @@
 
     $('#mBox').show();
 
-    $('#mBoxContents').html('<p><i class="fa fa-spinner fa-spin fa-2x"></i> Testing database connection..</p>');
+    $('#mBoxContents').html('<p><i class="fas fa-spinner fa-spin fa-2x"></i> Testing database connection..</p>');
 
     dbServer = $('#DB_SERVER').val();
     dbUsername = $('#DB_SERVER_USERNAME').val();
@@ -43,14 +43,14 @@
       result.shift();
 
       if (result[0] == '1') {
-        $('#mBoxContents').html('<p><i class="fa fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</p>');
+        $('#mBoxContents').html('<p><i class="fas fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</p>');
 
         $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName), function (response2) {
           var result2 = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response2);
           result2.shift();
 
           if (result2[0] == '1') {
-            $('#mBoxContents').html('<p class="text-success"><i class="fa fa-thumbs-up fa-2x"></i> Database imported successfully.</p>');
+            $('#mBoxContents').html('<p class="text-success"><i class="fas fa-thumbs-up fa-2x"></i> Database imported successfully.</p>');
 
             formSuccess = true;
 
@@ -60,7 +60,7 @@
           } else {
             var result2_error = result2[1].replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-            $('#mBoxContents').html('<p class="text-danger"><i class="fa fa-thumbs-down fa-2x text-danger"></i> There was a problem importing the database. The following error had occured:</p><p  class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p>'.replace('%s', result2_error));
+            $('#mBoxContents').html('<p class="text-danger"><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem importing the database. The following error had occured:</p><p  class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p>'.replace('%s', result2_error));
 
             formSubmited = false;
           }
@@ -70,7 +70,7 @@
       } else {
         var result_error = result[1].replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-        $('#mBoxContents').html('<p class="text-danger"><i class="fa fa-thumbs-down fa-2x text-danger"></i> There was a problem connecting to the database server. The following error had occured:</p><p class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p></div>'.replace('%s', result_error));
+        $('#mBoxContents').html('<p class="text-danger"><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem connecting to the database server. The following error had occured:</p><p class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p></div>'.replace('%s', result_error));
 
         formSubmited = false;
       }
@@ -93,7 +93,7 @@
 </script>
 <div class="row">
   <div class="col-sm-9">
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
       <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
@@ -132,7 +132,7 @@
     </div>
     
     <h2 class="h4">Database Server</h2>
-    <p class="text-danger pull-right text-right"><span class="fa fa-asterisk text-danger"></span> Required information</p>
+    <p class="text-danger pull-right text-right"><span class="fas fa-asterisk text-danger"></span> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=2" method="post" role="form">
     
@@ -140,7 +140,7 @@
         <label for="dbServer" class="col-form-label col-sm-3 text-left text-sm-right">Database Server</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The address of the database server in the form of a hostname or IP address.</span>
         </div>
       </div>
@@ -149,7 +149,7 @@
         <label for="userName" class="col-form-label col-sm-3 text-left text-sm-right">Username</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The username used to connect to the database server.</span>
         </div>
       </div>
@@ -158,7 +158,7 @@
         <label for="passWord" class="col-form-label col-sm-3 text-left text-sm-right">Password</label>
         <div class="col-sm-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The password that is used together with the username to connect to the database server.</span>
         </div>
       </div>
@@ -167,7 +167,7 @@
         <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Database Name</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
-          <span class="fa fa-asterisk form-control-feedback text-danger"></span>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
           <span class="form-text">The name of the database to hold the data in.</span>
         </div>
       </div>

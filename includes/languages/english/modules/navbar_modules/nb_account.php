@@ -17,10 +17,10 @@
   define('MODULE_NAVBAR_ACCOUNT_TITLE', 'Account');
   define('MODULE_NAVBAR_ACCOUNT_DESCRIPTION', 'Show Customer Account Actions in Navbar.');
   
-  define('MODULE_NAVBAR_ACCOUNT_LOGGED_OUT', '<i class="fa fa-fw fa-user"></i> My Account <span class="caret"></span>');
-  define('MODULE_NAVBAR_ACCOUNT_LOGGED_IN', '<i class="fa fa-fw fa-user"></i> %s <span class="caret"></span>');
-  define('MODULE_NAVBAR_ACCOUNT_LOGIN', '<i class="fas fa-fw fa-sign-in-alt"></i> Log In');
-  define('MODULE_NAVBAR_ACCOUNT_LOGOFF', '<i class="fas fa-fw fa-sign-out-alt"></i> Log Off');
+  define('MODULE_NAVBAR_ACCOUNT_LOGGED_OUT', '<i class="fas fa-user fa-fw"></i> My Account <span class="caret"></span>');
+  define('MODULE_NAVBAR_ACCOUNT_LOGGED_IN', '<i class="fas fa-user fa-fw"></i> %s <span class="caret"></span>');
+  define('MODULE_NAVBAR_ACCOUNT_LOGIN', '<i class="fas fa-sign-in-alt fa-fw"></i> Log In');
+  define('MODULE_NAVBAR_ACCOUNT_LOGOFF', '<i class="fas fa-sign-out-alt fa-fw"></i> Log Off');
   define('MODULE_NAVBAR_ACCOUNT', 'My Account');
   define('MODULE_NAVBAR_ACCOUNT_HISTORY', 'My Orders');
   define('MODULE_NAVBAR_ACCOUNT_EDIT', 'My Details');

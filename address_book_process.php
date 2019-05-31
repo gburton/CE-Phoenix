@@ -266,7 +266,7 @@
 
   <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-danger"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
+      <div class="alert alert-danger" role="alert"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
     </div>
     <div class="col-sm-4">
       <div class="card">
@@ -281,7 +281,7 @@
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'fas fa-trash-alt', tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
 </div>
@@ -302,7 +302,7 @@
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $_GET['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'fas fa-sync', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
 <?php
@@ -315,8 +315,8 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', $back_link); ?></p>
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', $back_link); ?></p>
   </div>
 
 <?php

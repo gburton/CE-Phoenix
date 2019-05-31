@@ -68,7 +68,7 @@
 ?>
 
 <div class="contentContainer">
-  <div class="alert alert-success"><?php echo TEXT_PASSWORD_RESET_INITIATED; ?></div>
+  <div class="alert alert-success" role="alert"><?php echo TEXT_PASSWORD_RESET_INITIATED; ?></div>
 </div>
 
 <?php
@@ -78,7 +78,7 @@
 <?php echo tep_draw_form('password_forgotten', tep_href_link('password_forgotten.php', 'action=process', 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
-  <div class="alert alert-info"><?php echo TEXT_MAIN; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_MAIN; ?></div>
 
   <div class="form-group row">
     <label for="inputEmail" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
@@ -89,8 +89,8 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('login.php', '', 'SSL')); ?></p>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('login.php', '', 'SSL')); ?></p>
   </div>
   
 </div>
