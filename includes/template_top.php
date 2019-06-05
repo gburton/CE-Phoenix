@@ -31,16 +31,13 @@
 <title><?php echo tep_output_string_protected($oscTemplate->getTitle()); ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
-<!-- bs -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<?php 
+echo $OSCOM_Hooks->call('siteWide', 'BS_header');
+echo $OSCOM_Hooks->call('siteWide', 'FA');
+echo $OSCOM_Hooks->call('siteWide', 'SS');
 
-<!-- fa -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
-<link href="custom.css" rel="stylesheet">
-<link href="user.css" rel="stylesheet">
-
-<?php echo $oscTemplate->getBlocks('header_tags'); ?>
+echo $oscTemplate->getBlocks('header_tags'); 
+?>
 </head>
 <body>
 
