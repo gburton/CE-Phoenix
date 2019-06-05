@@ -42,6 +42,7 @@
   <?php require('includes/footer.php'); ?> 
   
   <?php 
+  echo $OSCOM_Hooks->call('siteWide', 'JQ');
   echo $OSCOM_Hooks->call('siteWide', 'BS_footer');
   echo $OSCOM_Hooks->call('siteWide', 'FL');
   
