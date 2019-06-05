@@ -10,6 +10,8 @@
   Released under the GNU General Public License
 */
 
+  $OSCOM_Hooks->register('siteWide');
+  
   $oscTemplate->buildBlocks();
   
   if (!$oscTemplate->hasBlocks('boxes_column_left')) {
@@ -46,9 +48,8 @@
   
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
 
-    <?php 
-    $OSCOM_Hooks->register('noJs');
-    echo $OSCOM_Hooks->call('noJs', 'showMessage');
+    <?php
+    echo $OSCOM_Hooks->call('siteWide', 'noJs');
     
     require('includes/header.php'); 
     ?>
