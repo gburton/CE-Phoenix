@@ -15,6 +15,8 @@
 */
 
 class hook_shop_siteWide_bootStrap {
+  var $version = '4.3.1';
+  
   var $header = null;
   var $footer = null;
   

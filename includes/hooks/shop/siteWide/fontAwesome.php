@@ -15,15 +15,17 @@
 */
 
 class hook_shop_siteWide_fontAwesome {
+  var $version = '5.7.2';
+
   var $fa = null;
-  
+
   function listen_FA() {
     global $oscTemplate;
-    
+
     $this->fa .= '<!-- fa hooked -->' . PHP_EOL;
     $this->fa .= '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">' . PHP_EOL;
 
     return $oscTemplate->addBlock($this->fa, 'header_tags');
   }
-  
+
 }
