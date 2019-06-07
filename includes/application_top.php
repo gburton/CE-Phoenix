@@ -429,5 +429,7 @@
     }
   }
 
+  $OSCOM_Hooks->register('siteWide');
+  
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
   

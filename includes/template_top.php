@@ -10,8 +10,6 @@
   Released under the GNU General Public License
 */
 
-  $OSCOM_Hooks->register('siteWide');
-  
   $oscTemplate->buildBlocks();
   
   if (!$oscTemplate->hasBlocks('boxes_column_left')) {
