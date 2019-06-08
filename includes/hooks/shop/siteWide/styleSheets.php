@@ -18,13 +18,11 @@ class hook_shop_siteWide_styleSheets {
   var $ss = null;
   
   function listen_SS() {
-    global $oscTemplate;
-    
     $this->ss .= '<!-- stylesheets hooked -->' . PHP_EOL;
     $this->ss .= '<link href="custom.css" rel="stylesheet">' . PHP_EOL;
     $this->ss .= '<link href="user.css" rel="stylesheet">' . PHP_EOL;
 
-    return $oscTemplate->addBlock($this->ss, 'header_tags');
+    return $this->ss;
   }
   
 }

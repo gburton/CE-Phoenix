@@ -23,8 +23,6 @@ class hook_shop_siteWide_jQuery {
     $this->jq .= '<!-- jquery hooked -->' . PHP_EOL;
     $this->jq .= '<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>' . PHP_EOL;
 
-    // not using oscTemplate
-    // as no sort ordering
     return $this->jq;
   }
 

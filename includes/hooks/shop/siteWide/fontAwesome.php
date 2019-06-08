@@ -20,12 +20,10 @@ class hook_shop_siteWide_fontAwesome {
   var $fa = null;
 
   function listen_FA() {
-    global $oscTemplate;
-
     $this->fa .= '<!-- fa hooked -->' . PHP_EOL;
     $this->fa .= '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" crossorigin="anonymous">' . PHP_EOL;
 
-    return $oscTemplate->addBlock($this->fa, 'header_tags');
+    return $this->fa;
   }
 
 }
