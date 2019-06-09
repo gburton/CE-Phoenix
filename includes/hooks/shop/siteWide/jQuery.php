@@ -17,13 +17,25 @@
 class hook_shop_siteWide_jQuery {
   var $version = '3.3.1';
 
-  var $jq = null;
+  var $header = null;
+  var $footer = null;
 
-  function listen_JQ() {
-    $this->jq .= '<!-- jquery hooked -->' . PHP_EOL;
-    $this->jq .= '<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>' . PHP_EOL;
-
-    return $this->jq;
+  function listen_injectHeader() {
+    return $this->header;
   }
+
+  function listen_injectFooter() {
+    return $this->footer;
+  }
+
+  // extra call as this must go in a certain position
+  // so cannot use header/footer as no sort ordering
+  function listen_injectJquery() {
+    $injectJquery = '<!-- jquery hooked -->' . PHP_EOL;
+    $injectJquery .= '<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>' . PHP_EOL;
+
+    return $injectJquery;
+  }
+  // eof
 
 }

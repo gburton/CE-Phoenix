@@ -30,9 +30,7 @@
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
 <?php 
-echo $OSCOM_Hooks->call('siteWide', 'BS_header');
-echo $OSCOM_Hooks->call('siteWide', 'FA');
-echo $OSCOM_Hooks->call('siteWide', 'SS');
+echo $OSCOM_Hooks->call('siteWide', 'injectHeader');
 
 echo $oscTemplate->getBlocks('header_tags'); 
 ?>
@@ -44,7 +42,7 @@ echo $oscTemplate->getBlocks('header_tags');
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
 
     <?php
-    echo $OSCOM_Hooks->call('siteWide', 'noJs');
+    echo $OSCOM_Hooks->call('siteWide', 'injectNoJs');
     
     require('includes/header.php'); 
     ?>

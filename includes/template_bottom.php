@@ -42,9 +42,8 @@
   <?php require('includes/footer.php'); ?> 
   
   <?php 
-  echo $OSCOM_Hooks->call('siteWide', 'JQ');
-  echo $OSCOM_Hooks->call('siteWide', 'BS_footer');
-  echo $OSCOM_Hooks->call('siteWide', 'FL');
+  echo $OSCOM_Hooks->call('siteWide', 'injectJquery');  
+  echo $OSCOM_Hooks->call('siteWide', 'injectFooter');
   
   echo $oscTemplate->getBlocks('footer_scripts'); 
   ?>

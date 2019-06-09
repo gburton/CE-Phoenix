@@ -15,14 +15,29 @@
 */
 
 class hook_shop_siteWide_noJs {
-  function listen_noJs() {
-    $msg = TEXT_NOSCRIPT;
-     
-    $showMessage = <<<eod
-<noscript><div class="alert alert-danger text-center">{$msg}</div><div class="w-100"></div></noscript> 
-eod;
 
-    return $showMessage;
+  function listen_injectHeader() {
+    return $this->header;
+  }
+
+  function listen_injectFooter() {
+    return $this->footer;
   }
   
+  // extra call as this does not go in the header or the footer
+  function listen_injectNoJs() {
+    $msg = TEXT_NOSCRIPT;
+
+    $injectNoJs = <<<eod
+<!-- noJs hooked -->
+<noscript>
+  <div class="alert alert-danger text-center">{$msg}</div>
+  <div class="w-100"></div>
+</noscript>
+eod;
+
+    return $injectNoJs;
+  }
+  // eof
+
 }

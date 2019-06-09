@@ -15,11 +15,14 @@
 */
 
 class hook_shop_siteWide_filterList {
-  var $fl = null;
+  var $header = null;
+  var $footer = null;
 
-  function listen_FL() {
-    global $oscTemplate;
-
+  function listen_injectHeader() {
+    return $this->header;
+  }
+  
+  function listen_injectFooter() {
     $filterListScript = <<<eod
 <script>
 var filter = $('.filter-list');
@@ -27,10 +30,10 @@ $('div.alert-filters > ul.nav').append($('<ul>').attr('class','nav ml-auto').app
 </script>
 eod;
 
-    $this->fl .= '<!-- filterlist hooked -->' . PHP_EOL;
-    $this->fl .= $filterListScript . PHP_EOL;
+    $this->footer .= '<!-- filterlist hooked -->' . PHP_EOL;
+    $this->footer .= $filterListScript . PHP_EOL;
 
-    return $oscTemplate->addBlock($this->fl, 'footer_scripts');
+    return $this->footer;
   }
-
+  
 }
