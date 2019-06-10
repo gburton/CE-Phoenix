@@ -15,6 +15,8 @@
 */
 
 class hook_shop_siteWide_noJs {
+  var $header = null;
+  var $footer = null;
 
   function listen_injectHeader() {
     return $this->header;
