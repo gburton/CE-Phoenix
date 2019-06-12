@@ -34,7 +34,7 @@
       $itemlistelement = array();
       foreach($breadcrumb->_trail as $k => $v) {
         $itemlistelement[] = array('@type' => 'ListItem', 
-                                   'position' => $k, 
+                                   'position' => ($k + 1),
                                    'item' => array('@id' => $v['link'], 
                                                    'name' => strip_tags($v['title'])));
       }
