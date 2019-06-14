@@ -11,7 +11,7 @@
       ?>
       <div class="card text-center">        
         <div class="card-body" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$card_products['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], htmlspecialchars($orders['products_name']), null, null, 'itemprop="image"'); ?></a>
+          <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], htmlspecialchars($orders['products_name']), null, null, 'itemprop="image"'); ?></a>
           <br>
           <a class="card-link" itemprop="url" href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']); ?>"><span itemprop="name"><?php echo $orders['products_name']; ?></span></a>
           <meta itemprop="position" content="<?php echo (int)$item; ?>" />
