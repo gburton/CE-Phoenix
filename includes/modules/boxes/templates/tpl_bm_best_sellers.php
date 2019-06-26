@@ -1,10 +1,8 @@
-<div class="card bm-best-sellers" itemscope itemtype="https://schema.org/ItemList">
-  <meta itemprop="itemListOrder" content="https://schema.org/ItemListOrderDescending" />
-  <meta itemprop="numberOfItems" content="<?php echo (int)$num_best_sellers; ?>" />
-  <div class="card-header" itemprop="name"><?php echo MODULE_BOXES_BEST_SELLERS_BOX_TITLE; ?></div>
-  <ul class="list-group list-group-flush">
+<div class="card bm-best-sellers">
+  <div class="card-header"><?php echo MODULE_BOXES_BEST_SELLERS_BOX_TITLE; ?></div>
+  <div class="list-group list-group-flush">
     <?php echo $bestsellers_list; ?>
-  </ul>  
+  </div>  
 </div>
 
 <?php
