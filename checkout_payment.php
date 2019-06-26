@@ -127,7 +127,7 @@
     </div>
   </div>
 
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
   <h4><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h4>
 

@@ -136,7 +136,7 @@
       $prod_list_contents .= '      </h2>';
     }    
 
-    $prod_list_contents .= '      <p class="group inner list-group-item-text" itemprop="description">' . strip_tags($listing['products_description'], '<br>') . '</p><div class="clearfix"></div>';
+    $prod_list_contents .= '      <p class="group inner list-group-item-text" itemprop="description">' . strip_tags($listing['products_description'], '<br>') . '</p><div class="w-100"></div>';
 
     $extra_list_contents = NULL;
 	  if ( (PRODUCT_LIST_MANUFACTURER > 0) && tep_not_null($listing['manufacturers_id']) ) {

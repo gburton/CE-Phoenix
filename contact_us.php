@@ -81,7 +81,7 @@
   </div>
 
   <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
   
   <div class="form-group row">
     <label for="inputFromName" class="col-sm-3 col-form-label text-right"><?php echo ENTRY_NAME; ?></label>

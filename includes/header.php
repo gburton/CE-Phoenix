@@ -15,12 +15,12 @@
   <?php echo $oscTemplate->getContent('header'); ?>
 </div>
 
-<div class="body-sans-header clearfix">
+<div class="body-sans-header">
 
 <?php
   if (isset($_GET['error_message']) && tep_not_null($_GET['error_message'])) {
 ?>
-<div class="clearfix"></div>
+<div class="w-100"></div>
 <div class="col-xs-12">
   <div class="alert alert-danger" role="alert">
     <a href="#" class="close fas fa-times" data-dismiss="alert"></a>
@@ -32,7 +32,7 @@
 
   if (isset($_GET['info_message']) && tep_not_null($_GET['info_message'])) {
 ?>
-<div class="clearfix"></div>
+<div class="w-100"></div>
 <div class="col-xs-12">
   <div class="alert alert-info" role="alert">
     <a href="#" class="close fas fa-times" data-dismiss="alert"></a>

@@ -157,7 +157,7 @@
 
     if (!empty($initialize_checkout_methods)) {
 ?>
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
   <p class="text-right"><?php echo TEXT_ALTERNATIVE_CHECKOUT_METHODS; ?></p>
 
 <?php
