@@ -236,5 +236,7 @@
                        
   require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('admin');
+  
+  $OSCOM_Hooks->register('siteWide');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
