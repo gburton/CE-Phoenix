@@ -11,6 +11,10 @@
 */
 ?>
 
+      <?php 
+      echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentEnd');
+      ?>
+      
       </div> <!-- bodyContent //-->
 
 <?php
@@ -36,14 +40,21 @@
 ?>
 
     </div> <!-- row -->
+    
+    <?php 
+    echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperEnd');
+    ?>
 
   </div> <!-- bodyWrapper //-->
 
-  <?php require('includes/footer.php'); ?> 
-  
   <?php 
-  echo $OSCOM_Hooks->call('siteWide', 'injectJquery');  
-  echo $OSCOM_Hooks->call('siteWide', 'injectFooter');
+  echo $OSCOM_Hooks->call('siteWide', 'injectBeforeFooter');
+  
+  require('includes/footer.php');
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectAfterFooter');
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
   
   echo $oscTemplate->getBlocks('footer_scripts'); 
   ?>

@@ -15,21 +15,14 @@
 */
 
 class hook_shop_siteWide_styleSheets {
-  var $header = null;
-  var $footer = null;
+  var $sitestart = null;
   
-  function listen_injectHeader() {
-    global $oscTemplate;
-    
-    $this->header .= '<!-- stylesheets hooked -->' . PHP_EOL;
-    $this->header .= '<link href="custom.css" rel="stylesheet">' . PHP_EOL;
-    $this->header .= '<link href="user.css" rel="stylesheet">' . PHP_EOL;
+  function listen_injectSiteStart() {
+    $this->sitestart .= '<!-- stylesheets hooked -->' . PHP_EOL;
+    $this->sitestart .= '<link href="custom.css" rel="stylesheet">' . PHP_EOL;
+    $this->sitestart .= '<link href="user.css" rel="stylesheet">' . PHP_EOL;
 
-    return $this->header;
+    return $this->sitestart;
   }
-  
-  function listen_injectFooter() {
-    return $this->footer;
-  }
-  
+
 }

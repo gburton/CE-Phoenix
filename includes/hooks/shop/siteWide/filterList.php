@@ -15,14 +15,9 @@
 */
 
 class hook_shop_siteWide_filterList {
-  var $header = null;
-  var $footer = null;
+  var $siteend = null;
 
-  function listen_injectHeader() {
-    return $this->header;
-  }
-  
-  function listen_injectFooter() {
+  function listen_injectSiteEnd() {
     $filterListScript = <<<eod
 <script>
 var filter = $('.filter-list');
@@ -30,10 +25,10 @@ $('div.alert-filters > ul.nav').append($('<ul>').attr('class','nav ml-auto').app
 </script>
 eod;
 
-    $this->footer .= '<!-- filterlist hooked -->' . PHP_EOL;
-    $this->footer .= $filterListScript . PHP_EOL;
+    $this->siteend .= '<!-- filterlist hooked -->' . PHP_EOL;
+    $this->siteend .= $filterListScript . PHP_EOL;
 
-    return $this->footer;
+    return $this->siteend;
   }
   
 }

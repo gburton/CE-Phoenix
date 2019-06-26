@@ -15,22 +15,12 @@
 */
 
 class hook_shop_siteWide_noJs {
-  var $header = null;
-  var $footer = null;
+  var $bodywrapperstart = null;
 
-  function listen_injectHeader() {
-    return $this->header;
-  }
-
-  function listen_injectFooter() {
-    return $this->footer;
-  }
-  
-  // extra call as this does not go in the header or the footer
-  function listen_injectNoJs() {
+  function listen_injectBodyWrapperStart() {
     $msg = TEXT_NOSCRIPT;
 
-    $injectNoJs = <<<eod
+    $this->bodywrapperstart .= <<<eod
 <!-- noJs hooked -->
 <noscript>
   <div class="alert alert-danger text-center">{$msg}</div>
@@ -38,8 +28,7 @@ class hook_shop_siteWide_noJs {
 </noscript>
 eod;
 
-    return $injectNoJs;
+    return $this->bodywrapperstart;
   }
-  // eof
 
 }
