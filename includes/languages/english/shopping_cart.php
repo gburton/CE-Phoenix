@@ -26,9 +26,7 @@ define('CART_BUTTON_REMOVE', '<i title="Remove" class="fas fa-times fa-fw"></i>'
 
 define('TABLE_HEADING_PRODUCT', 'Product');
 define('TABLE_HEADING_AVAILABILITY', 'Stock');
-define('TABLE_HEADING_QUANTITY', 'Qty');
 define('TABLE_HEADING_REMOVE', 'Remove');
-define('TABLE_HEADING_PRICE', 'Price');
 
 define('TEXT_IN_STOCK', '<i class="fas fa-check fa-2x text-success"></i>');
 
