@@ -244,7 +244,7 @@
     </div>
   </div>
 
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
 <?php
     if ($addresses_count > 1) {
@@ -299,7 +299,7 @@
     <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
   <div class="progressBarHook">
     <?php
@@ -313,7 +313,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL')); ?>
   </div>
 
 <?php

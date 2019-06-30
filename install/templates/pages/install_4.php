@@ -64,7 +64,7 @@
   </div>
 </div>
 
-<div class="clearfix"></div>
+<div class="w-100"></div>
 
 <div class="row">
   <div class="col-xs-12 col-sm-9">

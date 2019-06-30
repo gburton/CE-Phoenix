@@ -324,7 +324,7 @@
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
   <div class="progressBarHook"> 
     <?php

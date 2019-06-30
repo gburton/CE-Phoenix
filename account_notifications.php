@@ -101,7 +101,7 @@
     if ($products_check['total'] > 0) {
 ?>
 
-    <div class="clearfix"></div>
+    <div class="w-100"></div>
     <div class="alert alert-warning" role="alert"><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
 
     <div class="form-group row">

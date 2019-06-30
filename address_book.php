@@ -55,7 +55,7 @@
     
   </div>
 
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
   <h4><?php echo ADDRESS_BOOK_TITLE; ?></h4>
   

@@ -13,7 +13,11 @@
 
 </div>
 
-<?php require('includes/footer.php'); ?>
+<?php 
+require('includes/footer.php');
+
+echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
+?>
 
 <br />
 

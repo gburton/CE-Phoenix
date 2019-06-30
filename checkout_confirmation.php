@@ -239,7 +239,7 @@
       }
 ?>
   </div>
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
 <?php
     }

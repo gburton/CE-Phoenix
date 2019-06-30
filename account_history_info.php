@@ -166,7 +166,7 @@
 
   <br>
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account_history_info.php', tep_get_all_get_params(array('order_id')), 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account_history.php', tep_get_all_get_params(array('order_id')), 'SSL')); ?>
   </div>
   
 </div>

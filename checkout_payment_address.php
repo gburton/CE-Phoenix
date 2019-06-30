@@ -254,7 +254,7 @@
 ?>
       <div class="col-sm-4">
         <div class="card<?php echo ($addresses['address_book_id'] == $billto) ? ' text-white bg-info' : ' bg-light'; ?>">
-          <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
+          <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
           <div class="card-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
           </div>
@@ -302,7 +302,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment.php', '', 'SSL')); ?>
   </div>
 
 <?php

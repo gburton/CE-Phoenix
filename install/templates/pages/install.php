@@ -18,6 +18,7 @@
   var dbUsername;
   var dbPassword;
   var dbName;
+  var dbImportSample;
 
   var formSubmited = false;
   var formSuccess = false;
@@ -37,6 +38,7 @@
     dbUsername = $('#DB_SERVER_USERNAME').val();
     dbPassword = $('#DB_SERVER_PASSWORD').val();
     dbName = $('#DB_DATABASE').val();
+    dbImportSample = $('#DB_IMPORT_SAMPLE').val();
 
     $.get('rpc.php?action=dbCheck&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password=' + encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName), function (response) {
       var result = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response);
@@ -45,7 +47,7 @@
       if (result[0] == '1') {
         $('#mBoxContents').html('<p><i class="fas fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</p>');
 
-        $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName), function (response2) {
+        $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName) + '&importsample=' + encodeURIComponent(dbImportSample), function (response2) {      
           var result2 = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response2);
           result2.shift();
 
@@ -120,7 +122,7 @@
   </div>
 </div>
   
-<div class="clearfix"></div>
+<div class="w-100"></div>
 
 <div class="row">
   <div class="col-xs-12 col-sm-9">
@@ -171,7 +173,16 @@
           <span class="form-text">The name of the database to hold the data in.</span>
         </div>
       </div>
-
+      
+      <div class="form-group row">
+        <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Import Sample Data</label>
+        <div class="col-sm-9">
+          <?php echo osc_draw_select_menu('DB_IMPORT_SAMPLE', array(array('id' => '0', 'text' => 'Skip sample data'), array('id' => '1', 'text' => 'Import sample data')), '1'); ?>
+          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
+          <span class="form-text">Import sample product and category data?</span>
+        </div>
+      </div>
+      
       <p><?php echo osc_draw_button('Continue To Step 2', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
     </form>    

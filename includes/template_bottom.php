@@ -11,6 +11,10 @@
 */
 ?>
 
+      <?php 
+      echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentEnd');
+      ?>
+      
       </div> <!-- bodyContent //-->
 
 <?php
@@ -36,22 +40,24 @@
 ?>
 
     </div> <!-- row -->
+    
+    <?php 
+    echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperEnd');
+    ?>
 
   </div> <!-- bodyWrapper //-->
 
-  <?php require('includes/footer.php'); ?> 
+  <?php 
+  echo $OSCOM_Hooks->call('siteWide', 'injectBeforeFooter');
   
-  <!-- bs -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-  <?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
+  require('includes/footer.php');
   
-  <script>
-  var filter = $('.filter-list');
-  $('div.alert-filters > ul.nav').append($('<ul>').attr('class','nav ml-auto').append($('<li>').append(filter)));  
-  </script>
+  echo $OSCOM_Hooks->call('siteWide', 'injectAfterFooter');
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
+  
+  echo $oscTemplate->getBlocks('footer_scripts'); 
+  ?>
 
 </body>
 </html>
