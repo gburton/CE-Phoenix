@@ -15,13 +15,13 @@
 */
 
 class hook_shop_siteWide_jQuery {
-  var $version = '3.3.1';
+  var $version = '3.4.1';
   
   var $afterfooter = null;
 
   function listen_injectAfterFooter() {
     $this->afterfooter .= '<!-- jquery hooked -->' . PHP_EOL;
-    $this->afterfooter .= '<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>' . PHP_EOL;
+    $this->afterfooter .= '<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>' . PHP_EOL;
 
     return $this->afterfooter;
   }
