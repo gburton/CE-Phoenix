@@ -72,12 +72,12 @@
           }
           
           $options_output .= '<div class="form-group row">' . PHP_EOL;
-          $options_output .=   '<label for="input_' . $products_options_name['products_options_id'] . '" class="control-label col-sm-3 text-right">' . $products_options_name['products_options_name'] . '</label>' . PHP_EOL; 
-          $options_output .=   '<div class="col-sm-9">' . PHP_EOL;
-          $options_output .=     tep_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute, $fr_required . 'id="input_' . $products_options_name['products_options_id'] . '"') . PHP_EOL;
-          $options_output .=     $fr_input;
-          $options_output .=   '</div>' . PHP_EOL;
-          $options_output .= '</div>' . PHP_EOL;    
+            $options_output .= '<label for="input' . $products_options_name['products_options_id'] . '" class="col-form-label col-sm-3 text-left text-sm-right">' . $products_options_name['products_options_name'] . '</label>' . PHP_EOL;
+            $options_output .= '<div class="col-sm-9">' . PHP_EOL;
+              $options_output .= tep_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute, $fr_required . 'id="input_' . $products_options_name['products_options_id'] . '"') . PHP_EOL;
+              $options_output .= $fr_input;
+            $options_output .= '</div>' . PHP_EOL;
+          $options_output .= '</div>' . PHP_EOL;
         }
       
         ob_start();
