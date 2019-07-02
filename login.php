@@ -26,6 +26,8 @@
   // login content module must return $login_customer_id as an integer after successful customer authentication	
   $login_customer_id = false;
   
+  $page_content = $oscTemplate->getContent('login');
+  
   if ( is_int($login_customer_id) && ($login_customer_id > 0) ) {
     if (SESSION_RECREATE == 'True') {
       tep_session_recreate();
@@ -66,8 +68,6 @@
     tep_redirect(tep_href_link('index.php'));
   }
   
-  $page_content = $oscTemplate->getContent('login');
-
   require('includes/languages/' . $language . '/login.php');
 
   $breadcrumb->add(NAVBAR_TITLE, tep_href_link('login.php', '', 'SSL'));
