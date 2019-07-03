@@ -74,11 +74,11 @@
       <thead>
         <tr>
           <th class="d-none d-md-block">&nbsp;</th>
-          <th><?php echo TABLE_HEADING_PRODUCT; ?></th>
-          <th><?php echo TABLE_HEADING_AVAILABILITY; ?></th>
-          <th><?php echo TABLE_HEADING_QUANTITY; ?></th>          
-          <th><?php echo TABLE_HEADING_REMOVE; ?></th>
-          <th class="text-right"><?php echo TABLE_HEADING_PRICE; ?></th>
+          <th><?php echo TABLE_SC_HEADING_PRODUCT; ?></th>
+          <th><?php echo TABLE_SC_HEADING_AVAILABILITY; ?></th>
+          <th><?php echo TABLE_SC_HEADING_QUANTITY; ?></th>          
+          <th><?php echo TABLE_SC_HEADING_REMOVE; ?></th>
+          <th class="text-right"><?php echo TABLE_SC_HEADING_PRICE; ?></th>
         </tr>
       </thead>
       <tbody>
