@@ -1,35 +1,62 @@
-osCommerce CE
-=============
-osCommerce 2.3.4.1
+# CE Phoenix
+
+Phoenix is the Community Version of osCommerce
+
+![Phoenix Logo](https://raw.githubusercontent.com/gburton/Responsive-osCommerce/master/.github/ce-phoenix.png)
+
+# Demo Site
+
+https://template.me.uk/phoenix/index.php
+
+## External Libraries
+
 https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
 
-Status
-======
-Forward movement, slowly.
+### PHP Version
 
-Your Help
-=========
-Would be "helpful", Time or Money.
-Get in touch.
+Minimum | Maximum
+------------ | -------------
+7.0 | 7.1.x
 
-Minimum PHP Version
-===================
-7.0
+### User Checklist
 
-Maximum PHP Version
-===================
-7.1.x
+- [x] read this README document
+- [ ] download Phoenix & perform installation
+- [ ] check security page in administrative area.  admin > tools > security checks
+- [ ] join osCommerce forum
+- [ ] consider joining Phoenix club
+- [ ] install one or more navbar modules.  admin > modules > navbar modules > {install}
+- [ ] install one or more footer modules.  admin > modules > content > {install}
+- [ ] install one or more box modules.  admin > modules > boxes > {install}
+- [ ] install shipping module(s).  admin > modules > shipping
+- [ ] install payment module(s).  admin > modules > payment
+- [ ] perform a test checkout
+- [ ] load your categories and products
 
-Discussion Forum
-================
-https://forums.oscommerce.com/forum/107-oscommerce-online-merchant-community-bootstrap-edition/
+### Image Credits
 
-Demo Site
-=========
-https://template.me.uk/frozen2bs4/index.php
+Images in the default installation are copyright their respective owners;
 
-Thank You
-=========
-- all the Developers who supported the Project.
-- all the Shopowners who supported the Project.
-- all the osCommerce Forum Users who had their say over the years.
+Image | Owner
+------------ | -------------
+osCommerce Logo | osCommerce
+Phoenix Logo | G Burton
+Oranges | Eelffica from Pixabay
+Lemons | Eelffica from Pixabay
+Pears | Eelffica from Pixabay
+Apples | Eelffica from Pixabay
+Tomatoes | Rocky_H from Pixabay
+Heart | Gerhard Gellinger from Pixabay
+
+# Thank You
+
+To all shopowners, developers, consultants and business owners who have supported the project over the years.
+
+## Beer Tokens
+
+"Beer Tokens" are not used to purchase beer - they are used to give time into the Project.  I am hopeful that enough shopowners, developers, consultants and businesses ... will join the Phoenix Club to allow two professional developers to work on the code on an ad-hoc basis.  
+
+### Join the Phoenix Club
+
+If you wish to support ongoing and future development, please consider joining the club
+https://forums.oscommerce.com/clubs/1-phoenix/
