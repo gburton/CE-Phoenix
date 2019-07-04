@@ -74,11 +74,11 @@
       <thead>
         <tr>
           <th class="d-none d-md-block">&nbsp;</th>
-          <th><?php echo TABLE_HEADING_PRODUCT; ?></th>
-          <th><?php echo TABLE_HEADING_AVAILABILITY; ?></th>
-          <th><?php echo TABLE_HEADING_QUANTITY; ?></th>          
-          <th><?php echo TABLE_HEADING_REMOVE; ?></th>
-          <th class="text-right"><?php echo TABLE_HEADING_PRICE; ?></th>
+          <th><?php echo TABLE_SC_HEADING_PRODUCT; ?></th>
+          <th><?php echo TABLE_SC_HEADING_AVAILABILITY; ?></th>
+          <th><?php echo TABLE_SC_HEADING_QUANTITY; ?></th>          
+          <th><?php echo TABLE_SC_HEADING_REMOVE; ?></th>
+          <th class="text-right"><?php echo TABLE_SC_HEADING_PRICE; ?></th>
         </tr>
       </thead>
       <tbody>
@@ -114,7 +114,7 @@
 
         $products_name .= '<td><div class="input-group">' . tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number') . tep_draw_hidden_field('products_id[]', $products[$i]['id']) . '<div class="input-group-append">' . tep_draw_button(CART_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info') . '</div></div></td>';
 
-        $products_name .= '<td>' . tep_draw_button(CART_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger btn-sm') .'  </td>'  ;
+        $products_name .= '<td>' . tep_draw_button(CART_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger') .'  </td>'  ;
         $products_name .= '<td class="text-right">' . $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</td>';
 
         $products_name .='</tr>';

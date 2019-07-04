@@ -7,7 +7,7 @@
  */
 
 class manufacturer {
-  static $_data = array();
+  public $_data = array();
 
   function __construct($mID) {
     $this->buildManufacturer($mID);

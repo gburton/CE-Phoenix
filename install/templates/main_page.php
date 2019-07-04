@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>osCommerce, Starting Your Online Business</title>
+    <title>OSCOM, Starting Your Online Business with CE Phoenix</title>
     <meta name="robots" content="noindex,nofollow" />
     <link rel="icon" type="image/png" href="images/oscommerce_icon.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -47,7 +47,7 @@
       <?php require('templates/pages/' . $page_contents); ?>
 
       <footer>
-        <div class="card bg-light mb-3 card-body text-center"><p>osCommerce Online Merchant Copyright &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank">Copyright and Trademark Policy</a>)</p></div>
+        <div class="card bg-light mb-3 card-body text-center"><p>OSCOM CE Phoenix &copy; 2000-<?php echo date('Y'); ?> <a href="http://www.oscommerce.com" target="_blank">osCommerce</a> (<a href="http://www.oscommerce.com/Us&amp;Legal" target="_blank">Copyright and Trademark Policy</a>)</p></div>
       </footer>
     </div>
 
