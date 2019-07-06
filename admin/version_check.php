@@ -21,7 +21,7 @@
 
   if (function_exists('curl_init')) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://www.oscommerce.com/version/online_merchant/' . $major_version);
+    curl_setopt($ch, CURLOPT_URL, 'https://www.oscommerce.com/version/online_merchant/ce/phoenix/' . $major_version);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $response = trim(curl_exec($ch));
     curl_close($ch);
@@ -31,7 +31,7 @@
     }
   } else {
     if ($fp = @fsockopen('www.oscommerce.com', 80, $errno, $errstr, 30)) {
-      $header = 'GET /version/online_merchant/' . $major_version . ' HTTP/1.0' . "\r\n" .
+      $header = 'GET /version/online_merchant/ce/phoenix/' . $major_version . ' HTTP/1.0' . "\r\n" .
                 'Host: www.oscommerce.com' . "\r\n" .
                 'Connection: close' . "\r\n\r\n";
 
@@ -92,7 +92,7 @@
         </table></td>
       </tr>
       <tr>
-        <td class="smallText"><?php echo TITLE_INSTALLED_VERSION . ' <strong>osCommerce Online Merchant v' . $current_version . '</strong>'; ?></td>
+        <td class="smallText"><?php echo TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>'; ?></td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
@@ -129,7 +129,7 @@
 <?php
     }
 ?>
-            </table></rd>
+            </table></td>
           </tr>
         </table></td>
       </tr>

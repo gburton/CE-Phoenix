@@ -20,8 +20,7 @@ define('TEXT_RELEASE_LINK', 'View Release Annoucement');
 
 define('TITLE_INSTALLED_VERSION', 'Installed Version:');
 
-define('VERSION_RUNNING_LATEST', 'You are running the latest version of osCommerce Online Merchant.');
-define('VERSION_UPGRADES_AVAILABLE', 'A new version is available for download! (osCommerce Online Merchant v%s)');
+define('VERSION_RUNNING_LATEST', 'You are running the latest version of OSCOM CE Phoenix.');
+define('VERSION_UPGRADES_AVAILABLE', 'A new version is available for download! (OSCOM CE Phoenix v%s)');
 
 define('ERROR_COULD_NOT_CONNECT', 'Could not connect to the osCommerce website to check for new versions.');
-?>
