@@ -16,7 +16,7 @@
 
 class hook_shop_siteWide_styleSheets {
   var $sitestart = null;
-  var $version = '1.0.0'; 
+  var $version = '1.0.0';
 
   
   function listen_injectSiteStart() {
