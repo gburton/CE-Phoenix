@@ -16,11 +16,12 @@
 
 class hook_shop_siteWide_styleSheets {
   var $sitestart = null;
+  var $version = '1.0.0'; 
+
   
   function listen_injectSiteStart() {
-    $this->sitestart .= '<!-- stylesheets hooked -->' . PHP_EOL;
-    $this->sitestart .= '<link href="custom.css" rel="stylesheet">' . PHP_EOL;
-    $this->sitestart .= '<link href="user.css" rel="stylesheet">' . PHP_EOL;
+    $this->sitestart .= '<!-- stylesheets hooked -->' . PHP_EOL;   
+    $this->sitestart .= '<link href="custom.css?v=' . $version .  '"" rel="stylesheet">' . PHP_EOL;
 
     return $this->sitestart;
   }
