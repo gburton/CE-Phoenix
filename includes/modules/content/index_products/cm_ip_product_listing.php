@@ -137,7 +137,7 @@
 					while ($filterlist = tep_db_fetch_array($filterlist_query)) {
 						$options[] = array('id' => $filterlist['id'], 'text' => $filterlist['name']);
 					}
-					$output .= tep_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'onchange="this.form.submit()" class="form-control input-sm"');
+					$output .= tep_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'onchange="this.form.submit()"');
 					$output .= tep_hide_session_id() . PHP_EOL;
 					$output .= '</form>' . PHP_EOL;
 					$output .= '</div><br class="d-block d-sm-none">' . PHP_EOL;
