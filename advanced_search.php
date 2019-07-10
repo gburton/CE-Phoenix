@@ -108,11 +108,13 @@ function check_form() {
   </div>
   
   <div class="modal fade" id="helpSearch" tabindex="-1" role="dialog" aria-labelledby="helpSearchLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times"></span></button>
-          <h4 class="h3 modal-title"><?php echo HEADING_SEARCH_HELP; ?></h4>
+          <h5 class="modal-title"><?php echo HEADING_SEARCH_HELP; ?></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="fas fa-times"></span>
+          </button>
         </div>
         <div class="modal-body">
           <p><?php echo TEXT_SEARCH_HELP; ?></p>
