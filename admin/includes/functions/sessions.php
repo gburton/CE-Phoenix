@@ -10,11 +10,6 @@
   Released under the GNU General Public License
 */
 
-  if ( (PHP_VERSION >= 4.3) && ((bool)ini_get('register_globals') == false) ) {
-    @ini_set('session.bug_compat_42', 1);
-    @ini_set('session.bug_compat_warn', 0);
-  }
-
   if (STORE_SESSIONS == 'mysql') {
     function _sess_open($save_path, $session_name) {
       return true;
@@ -43,19 +38,19 @@
       } else {
         $result = tep_db_query("insert into " . TABLE_SESSIONS . " values ('" . tep_db_input($key) . "', '" . tep_db_input(time()) . "', '" . tep_db_input($value) . "')");
       }
-      
+
       return $result !== false;
     }
 
     function _sess_destroy($key) {
       $result = tep_db_query("delete from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
-      
+
       return $result !== false;
     }
 
     function _sess_gc($maxlifetime) {
       $result = tep_db_query("delete from " . TABLE_SESSIONS . " where expiry < '" . (time() - $maxlifetime) . "'");
-      
+
       return $result !== false;
     }
 
