@@ -166,6 +166,8 @@
 
       $messageStack->add('create_account', ENTRY_PASSWORD_ERROR_NOT_MATCHING);
     }
+    
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     if ($error == false) {
       $sql_data_array = array('customers_firstname' => $firstname,
@@ -502,6 +504,10 @@
       ?>
     </div>
   </div>
+  
+  <?php
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+  ?>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>

@@ -12,6 +12,8 @@
 
   $oscTemplate->buildBlocks();
   
+  $OSCOM_Hooks->call('siteWide', 'injectRedirects');
+  
   if (!$oscTemplate->hasBlocks('boxes_column_left')) {
     $oscTemplate->setGridContentWidth($oscTemplate->getGridContentWidth() + $oscTemplate->getGridColumnWidth());
   }
