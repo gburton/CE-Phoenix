@@ -100,15 +100,11 @@
     global $session_started;
 
     if ($session_started == true) {
-      if (PHP_VERSION < 4.3) {
-        return session_register($variable);
-      } else {
-        if (!isset($GLOBALS[$variable])) {
-          $GLOBALS[$variable] = null;
-        }
-
-        $_SESSION[$variable] =& $GLOBALS[$variable];
+      if (!isset($GLOBALS[$variable])) {
+        $GLOBALS[$variable] = null;
       }
+
+      $_SESSION[$variable] =& $GLOBALS[$variable];
     }
 
     return false;
