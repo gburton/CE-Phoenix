@@ -514,12 +514,8 @@
 
       $headers = array_merge($this->headers, array('From: ' . $from), $headers, $xtra_headers);
 
-      $additional_parameters = '';
+      $additional_parameters = '-f' . $from_addr;
 
-      if ((PHP_VERSION > '5.3') || ((bool)ini_get('safe_mode') === false)) {
-        $additional_parameters = '-f' . $from_addr;
-      }
-      
       return mail($to, $subject, $this->output, implode($this->lf, $headers), $additional_parameters);
     }
 

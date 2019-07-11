@@ -23,7 +23,7 @@
 
 <div class="row">
   <div class="col-sm-12 col-md-9 order-last">
-    
+
     <h1 class="h4">New Installation</h1>
 
 <?php
@@ -152,14 +152,14 @@ $(function() {
   </div>
   <div class="col-sm-12 col-md-3 order-first">
     <h2 class="h4">Server Capabilities</h2>
-    
+
     <table class="table table-condensed table-striped">
       <tr>
         <th colspan="3">PHP Version</th>
       </tr>
       <tr>
         <th><?php echo PHP_VERSION; ?></th>
-        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 5.3) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 7) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
 <?php
   if (function_exists('ini_get')) {

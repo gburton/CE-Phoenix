@@ -135,11 +135,7 @@
   }
 
   function tep_session_close() {
-    if (PHP_VERSION >= '4.0.4') {
-      return session_write_close();
-    } elseif (function_exists('session_close')) {
-      return session_close();
-    }
+    return session_write_close();
   }
 
   function tep_session_destroy() {
@@ -164,16 +160,14 @@
   function tep_session_recreate() {
     global $SID;
 
-    if (PHP_VERSION >= 5.1) {
-      $old_id = session_id();
+    $old_id = session_id();
 
-      session_regenerate_id(true);
+    session_regenerate_id(true);
 
-      if (!empty($SID)) {
-        $SID = tep_session_name() . '=' . tep_session_id();
-      }
-
-      tep_whos_online_update_session_id($old_id, tep_session_id());
+    if (!empty($SID)) {
+      $SID = tep_session_name() . '=' . tep_session_id();
     }
+
+    tep_whos_online_update_session_id($old_id, tep_session_id());
   }
 ?>

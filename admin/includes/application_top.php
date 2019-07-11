@@ -15,14 +15,9 @@
 
 // Set the level of error reporting
   error_reporting(E_ALL & ~E_NOTICE);
-  
+
   if (defined('E_DEPRECATED')) {
     error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-  }
-
-// check support for register_globals
-  if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
-    exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
   }
 
 // load server configuration parameters
@@ -101,7 +96,7 @@
 // lets start our session
   tep_session_start();
 
-  if ( (PHP_VERSION >= 4.3) && function_exists('ini_get') && (ini_get('register_globals') == false) ) {
+  if (ini_get('register_globals') == false) {
     extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
   }
 
@@ -233,10 +228,10 @@
                         array('title' => TEXT_CACHE_MANUFACTURERS, 'code' => 'manufacturers', 'file' => 'manufacturers_box-language.cache', 'multiple' => true),
                         array('title' => TEXT_CACHE_ALSO_PURCHASED, 'code' => 'also_purchased', 'file' => 'also_purchased-language.cache', 'multiple' => true)
                        );
-                       
+
   require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('admin');
-  
+
   $OSCOM_Hooks->register('siteWide');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
