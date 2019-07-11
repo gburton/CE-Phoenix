@@ -48,18 +48,4 @@
 
 // set default timezone if none exists (PHP 5.3 throws an E_WARNING)
   date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
-
-  if (!function_exists('checkdnsrr')) {
-    function checkdnsrr($host, $type) {
-      if(tep_not_null($host) && tep_not_null($type)) {
-        @exec("nslookup -type=" . escapeshellarg($type) . " " . escapeshellarg($host), $output);
-        foreach ($output as $k => $line) {
-          if(preg_match("/^$host/i", $line)) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-  }
 ?>

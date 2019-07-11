@@ -16,7 +16,7 @@
                     'site_url' => tep_href_link(FILENAME_DEFAULT, '', 'SSL', false),
                     'site_currency' => DEFAULT_CURRENCY);
 
-    if (tep_not_null(STORE_OWNER_EMAIL_ADDRESS) && function_exists('filter_var') && (filter_var(STORE_OWNER_EMAIL_ADDRESS, FILTER_VALIDATE_EMAIL) !== false)) {
+    if (tep_not_null(STORE_OWNER_EMAIL_ADDRESS) && (filter_var(STORE_OWNER_EMAIL_ADDRESS, FILTER_VALIDATE_EMAIL) !== false)) {
       $params['email'] = STORE_OWNER_EMAIL_ADDRESS;
     }
 
