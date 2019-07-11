@@ -35,7 +35,7 @@
       
       $bm_information_links = null;      
       foreach (MODULE_BOXES_INFORMATION_BOX_DATA as $a => $b) {
-        $bm_information_links .= '<li class="list-group-item"><a href="' . tep_href_link($a) . '">' . $b . '</a></li>' . PHP_EOL; 
+        $bm_information_links .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link($a) . '">' . $b . '</a>' . PHP_EOL; 
       }
 
       ob_start();

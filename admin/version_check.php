@@ -23,6 +23,15 @@
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://www.oscommerce.com/version/online_merchant/ce/phoenix/' . $major_version);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    if ( file_exists(DIR_FS_CATALOG . 'includes/cacert.pem') ) {
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+      curl_setopt($ch, CURLOPT_CAINFO, DIR_FS_CATALOG . 'includes/cacert.pem');
+    }
+    else {
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    }
+    
     $response = trim(curl_exec($ch));
     curl_close($ch);
 
