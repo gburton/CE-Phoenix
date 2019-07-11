@@ -41,12 +41,10 @@
     if (!is_array($HTTP_COOKIE_VARS)) $HTTP_COOKIE_VARS = array();
   }
 
-// handle magic_quotes_gpc turned off.
-  if (!get_magic_quotes_gpc()) {
-    do_magic_quotes_gpc($HTTP_GET_VARS);
-    do_magic_quotes_gpc($HTTP_POST_VARS);
-    do_magic_quotes_gpc($HTTP_COOKIE_VARS);
-  }
+// force magic_quotes_gpc
+  do_magic_quotes_gpc($HTTP_GET_VARS);
+  do_magic_quotes_gpc($HTTP_POST_VARS);
+  do_magic_quotes_gpc($HTTP_COOKIE_VARS);
 
 // set default timezone if none exists (PHP 5.3 throws an E_WARNING)
   date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());

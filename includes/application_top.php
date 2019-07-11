@@ -179,7 +179,7 @@
     $session_started = true;
   }
 
-  if ( ($session_started == true) && (ini_get('register_globals') == false) ) {
+  if ($session_started == true) { // force register_globals
     extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
   }
 

@@ -96,9 +96,8 @@
 // lets start our session
   tep_session_start();
 
-  if (ini_get('register_globals') == false) {
-    extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
-  }
+  // force register_globals
+  extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
 
 // set the language
   if (!tep_session_is_registered('language') || isset($_GET['language'])) {
