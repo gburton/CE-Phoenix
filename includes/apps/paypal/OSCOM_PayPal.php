@@ -875,27 +875,26 @@
       if ( function_exists('tep_get_ip_address') ) {
         return tep_get_ip_address();
       }
-      global $HTTP_SERVER_VARS;
       $ip_address = null;
       $ip_addresses = array();
-      if (isset($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR']) && !empty($HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) {
-        foreach ( array_reverse(explode(',', $HTTP_SERVER_VARS['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
+      if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        foreach ( array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
           $x_ip = trim($x_ip);
           if ($this->isValidIpAddress($x_ip)) {
             $ip_addresses[] = $x_ip;
           }
         }
       }
-      if (isset($HTTP_SERVER_VARS['HTTP_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_CLIENT_IP'])) {
-        $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_CLIENT_IP'];
+      if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip_addresses[] = $_SERVER['HTTP_CLIENT_IP'];
       }
-      if (isset($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'])) {
-        $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_X_CLUSTER_CLIENT_IP'];
+      if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
+        $ip_addresses[] = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
       }
-      if (isset($HTTP_SERVER_VARS['HTTP_PROXY_USER']) && !empty($HTTP_SERVER_VARS['HTTP_PROXY_USER'])) {
-        $ip_addresses[] = $HTTP_SERVER_VARS['HTTP_PROXY_USER'];
+      if (isset($_SERVER['HTTP_PROXY_USER']) && !empty($_SERVER['HTTP_PROXY_USER'])) {
+        $ip_addresses[] = $_SERVER['HTTP_PROXY_USER'];
       }
-      $ip_addresses[] = $HTTP_SERVER_VARS['REMOTE_ADDR'];
+      $ip_addresses[] = $_SERVER['REMOTE_ADDR'];
       foreach ( $ip_addresses as $ip ) {
         if (!empty($ip) && $this->isValidIpAddress($ip)) {
           $ip_address = $ip;

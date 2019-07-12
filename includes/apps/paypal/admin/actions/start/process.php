@@ -10,9 +10,9 @@
   Released under the GNU General Public License
 */
 
-  if ( isset($HTTP_GET_VARS['type']) && in_array($HTTP_GET_VARS['type'], array('live', 'sandbox')) ) {
+  if ( isset($_GET['type']) && in_array($_GET['type'], array('live', 'sandbox')) ) {
     $params = array('return_url' => tep_href_link('paypal.php', 'action=start&subaction=retrieve', 'SSL'),
-                    'type' => $HTTP_GET_VARS['type'],
+                    'type' => $_GET['type'],
                     'site_url' => tep_href_link(FILENAME_DEFAULT, '', 'SSL', false),
                     'site_currency' => DEFAULT_CURRENCY);
 
