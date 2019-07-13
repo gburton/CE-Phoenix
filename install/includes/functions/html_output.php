@@ -154,7 +154,7 @@
     }
     
     $button .= ' class="btn ';
-    $button .= (isset($class)) ? $class : 'btn-default';
+    $button .= (isset($class)) ? $class : 'btn-outline-secondary';
     $button .= '"';
 
     $button .= '>' . $title;
