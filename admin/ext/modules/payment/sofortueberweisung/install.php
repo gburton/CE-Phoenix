@@ -14,7 +14,7 @@
   chdir('../../../../');
   require('includes/application_top.php');
 
-  define('OSC_CATALOG_SESSION_ID', 'osCsid');
+  define('OSC_CATALOG_SESSION_ID', 'ceid');
 
   function tep_create_random_value($length, $type = 'mixed') {
     if ( ($type != 'mixed') && ($type != 'chars') && ($type != 'digits')) return false;

@@ -143,7 +143,7 @@
       $button .= '<a id="tdb' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank"';
+        $button .= ' target="_blank" rel="noopener"';
       }
     } else {
       $button .= '<button id="tdb' . $button_counter . '" type="' . osc_output_string($params['type']) . '"';

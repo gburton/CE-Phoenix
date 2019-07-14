@@ -291,7 +291,7 @@
         $keys .= '<strong>' . $value['title'] . '</strong><br />' . $value['description'] . '<br />';
 
         if ($value['set_function']) {
-          eval('$keys .= ' . $value['set_function'] . "'" . $value['value'] . "', '" . $key . "');");
+          eval('$keys .= ' . $value['set_function'] . "'" . tep_db_input($value['value']) . "', '" . $key . "');");
         } else {
           $keys .= tep_draw_input_field('configuration[' . $key . ']', $value['value']);
         }
@@ -299,7 +299,7 @@
         $keys .= '<br /><br />';
       }
 
-      $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
+      $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br /><br />'))));
 
       $heading[] = array('text' => '<strong>' . $mInfo->title . '</strong>');
 
@@ -353,7 +353,7 @@
             $keys .= '<br /><br />';
           }
 
-          $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
+          $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br /><br />'))));
 
           $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=remove')));
 

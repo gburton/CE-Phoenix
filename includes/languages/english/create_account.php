@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,7 +14,7 @@ define('NAVBAR_TITLE', 'Create an Account');
 
 define('HEADING_TITLE', 'My Account Information');
 
-define('TEXT_ORIGIN_LOGIN', '<font color="#FF0000"><small><strong>NOTE:</strong></small></font> If you already have an account with us, please login at the <a href="%s"><u>login page</u></a>.');
+define('TEXT_ORIGIN_LOGIN', '<span class="text-danger"><strong>NOTE:</strong></span> If you already have an account with us, please login at the <a class="alert-link" href="%s"><u>login page</u></a>.');
 
 define('EMAIL_SUBJECT', 'Welcome to ' . STORE_NAME);
 define('EMAIL_GREET_MR', 'Dear Mr. %s,' . "\n\n");

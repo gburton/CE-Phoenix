@@ -48,7 +48,7 @@
             $products_image = $pi['image'];
           }
           
-          $schema_product = array("@context"    => "http://schema.org",
+          $schema_product = array("@context"    => "https://schema.org",
                                   "@type"       => "Product",
                                   "name"        => tep_db_output($product_info['products_name']),
                                   "image"       => tep_href_link('images/' . $products_image, '', 'NONSSL', false, false),
@@ -98,7 +98,7 @@
           $average = tep_db_fetch_array($average_query);
           if ($average['count'] > 0) {
             $schema_product['aggregateRating'] = array("@type"       => "AggregateRating",
-                                                       "ratingValue" => (int)$average['average'],
+                                                       "ratingValue" => number_format($average['average'],2),
                                                        "reviewCount" => (int)$average['count']);
           }
           

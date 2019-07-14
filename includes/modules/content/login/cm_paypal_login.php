@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -62,12 +62,12 @@
     }
 
     function execute() {
-      global $oscTemplate;
+      global $HTTP_GET_VARS, $oscTemplate;
 
-      if ( isset($_GET['action']) ) {
-        if ( $_GET['action'] == 'paypal_login' ) {
+      if ( isset($HTTP_GET_VARS['action']) ) {
+        if ( $HTTP_GET_VARS['action'] == 'paypal_login' ) {
           $this->preLogin();
-        } elseif ( $_GET['action'] == 'paypal_login_process' ) {
+        } elseif ( $HTTP_GET_VARS['action'] == 'paypal_login_process' ) {
           $this->postLogin();
         }
       }
@@ -90,22 +90,22 @@
       $cm_paypal_login = $this;
 
       ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
+      include(DIR_FS_CATALOG . 'includes/modules/content/' . $this->group . '/templates/paypal_login.php');
       $template = ob_get_clean();
 
       $oscTemplate->addContent($template, $this->group);
     }
 
     function preLogin() {
-      global $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
+      global $HTTP_GET_VARS, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
-      $return_url = tep_href_link('login.php', '', 'SSL');
+      $return_url = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 
-      if ( isset($_GET['code']) ) {
+      if ( isset($HTTP_GET_VARS['code']) ) {
         $paypal_login_customer_id = false;
 
-        $params = array('code' => $_GET['code'],
-                        'redirect_uri' => str_replace('&amp;', '&', tep_href_link('login.php', 'action=paypal_login', 'SSL')));
+        $params = array('code' => $HTTP_GET_VARS['code'],
+                        'redirect_uri' => str_replace('&amp;', '&', tep_href_link(FILENAME_LOGIN, 'action=paypal_login', 'SSL')));
 
         $response_token = $this->_app->getApiResult('LOGIN', 'GrantToken', $params);
 
@@ -251,7 +251,7 @@
               tep_session_register('billto');
             }
 
-            $return_url = tep_href_link('login.php', 'action=paypal_login_process', 'SSL');
+            $return_url = tep_href_link(FILENAME_LOGIN, 'action=paypal_login_process', 'SSL');
           }
         }
       }
@@ -277,8 +277,7 @@
         if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
           if ( in_array('paypal_express.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
             if ( !class_exists('paypal_express') ) {
-              include('includes/languages/' . $language . '/modules/payment/paypal_express.php');
-              include('includes/modules/payment/paypal_express.php');
+              include(DIR_FS_CATALOG . 'includes/modules/payment/paypal_express.php');
             }
 
             $ppe = new paypal_express();

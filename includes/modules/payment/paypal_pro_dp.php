@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -204,17 +204,18 @@
     }
 
     function before_process_paypal() {
-      global $order, $order_totals, $sendto, $response_array;
+      global $HTTP_POST_VARS, $order, $order_totals, $sendto, $response_array;
 
-      if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
+      if ( isset($HTTP_POST_VARS['cc_owner']) && !empty($HTTP_POST_VARS['cc_owner']) && isset($HTTP_POST_VARS['cc_type']) && $this->isCardAccepted($HTTP_POST_VARS['cc_type']) && isset($HTTP_POST_VARS['cc_number_nh-dns']) && !empty($HTTP_POST_VARS['cc_number_nh-dns']) ) {
         $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
-                        'CREDITCARDTYPE' => $_POST['cc_type'],
-                        'ACCT' => $_POST['cc_number_nh-dns'],
-                        'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
-                        'CVV2' => $_POST['cc_cvc_nh-dns'],
-                        'FIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
-                        'LASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
+                        'CREDITCARDTYPE' => $HTTP_POST_VARS['cc_type'],
+                        'ACCT' => $HTTP_POST_VARS['cc_number_nh-dns'],
+                        'EXPDATE' => $HTTP_POST_VARS['cc_expires_month'] . $HTTP_POST_VARS['cc_expires_year'],
+                        'CVV2' => $HTTP_POST_VARS['cc_cvc_nh-dns'],
+                        'FIRSTNAME' => substr($HTTP_POST_VARS['cc_owner'], 0, strpos($HTTP_POST_VARS['cc_owner'], ' ')),
+                        'LASTNAME' => substr($HTTP_POST_VARS['cc_owner'], strpos($HTTP_POST_VARS['cc_owner'], ' ')+1),
                         'STREET' => $order->billing['street_address'],
+                        'STREET2' => $order->billing['suburb'],
                         'CITY' => $order->billing['city'],
                         'STATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
                         'COUNTRYCODE' => $order->billing['country']['iso_code_2'],
@@ -223,14 +224,15 @@
                         'SHIPTOPHONENUM' => $order->customer['telephone'],
                         'CURRENCYCODE' => $order->info['currency']);
 
-        if ( $_POST['cc_type'] == 'MAESTRO' ) {
-          $params['STARTDATE'] = $_POST['cc_starts_month'] . $_POST['cc_starts_year'];
-          $params['ISSUENUMBER'] = $_POST['cc_issue_nh-dns'];
+        if ( $HTTP_POST_VARS['cc_type'] == 'MAESTRO' ) {
+          $params['STARTDATE'] = $HTTP_POST_VARS['cc_starts_month'] . $HTTP_POST_VARS['cc_starts_year'];
+          $params['ISSUENUMBER'] = $HTTP_POST_VARS['cc_issue_nh-dns'];
         }
 
         if ( is_numeric($sendto) && ($sendto > 0) ) {
           $params['SHIPTONAME'] = $order->delivery['firstname'] . ' ' . $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
+          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
           $params['SHIPTOCITY'] = $order->delivery['city'];
           $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
           $params['SHIPTOCOUNTRYCODE'] = $order->delivery['country']['iso_code_2'];
@@ -274,35 +276,37 @@
         $response_array = $this->_app->getApiResult('DP', 'DoDirectPayment', $params);
 
         if ( !in_array($response_array['ACK'], array('Success', 'SuccessWithWarning')) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+          tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
       }
     }
 
     function before_process_payflow() {
-      global $cartID, $order, $order_totals, $sendto, $response_array;
+      global $HTTP_POST_VARS, $cartID, $order, $order_totals, $sendto, $response_array;
 
-      if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
+      if ( isset($HTTP_POST_VARS['cc_owner']) && !empty($HTTP_POST_VARS['cc_owner']) && isset($HTTP_POST_VARS['cc_type']) && $this->isCardAccepted($HTTP_POST_VARS['cc_type']) && isset($HTTP_POST_VARS['cc_number_nh-dns']) && !empty($HTTP_POST_VARS['cc_number_nh-dns']) ) {
         $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
                         'CURRENCY' => $order->info['currency'],
-                        'BILLTOFIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
-                        'BILLTOLASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
+                        'BILLTOFIRSTNAME' => substr($HTTP_POST_VARS['cc_owner'], 0, strpos($HTTP_POST_VARS['cc_owner'], ' ')),
+                        'BILLTOLASTNAME' => substr($HTTP_POST_VARS['cc_owner'], strpos($HTTP_POST_VARS['cc_owner'], ' ')+1),
                         'BILLTOSTREET' => $order->billing['street_address'],
+                        'BILLTOSTREET2' => $order->billing['suburb'],
                         'BILLTOCITY' => $order->billing['city'],
                         'BILLTOSTATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
                         'BILLTOCOUNTRY' => $order->billing['country']['iso_code_2'],
                         'BILLTOZIP' => $order->billing['postcode'],
                         'EMAIL' => $order->customer['email_address'],
-                        'ACCT' => $_POST['cc_number_nh-dns'],
-                        'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
-                        'CVV2' => $_POST['cc_cvc_nh-dns']);
+                        'ACCT' => $HTTP_POST_VARS['cc_number_nh-dns'],
+                        'EXPDATE' => $HTTP_POST_VARS['cc_expires_month'] . $HTTP_POST_VARS['cc_expires_year'],
+                        'CVV2' => $HTTP_POST_VARS['cc_cvc_nh-dns']);
 
         if ( is_numeric($sendto) && ($sendto > 0) ) {
           $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
           $params['SHIPTOLASTNAME'] = $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
+          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
           $params['SHIPTOCITY'] = $order->delivery['city'];
           $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
           $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
@@ -375,10 +379,10 @@
               break;
           }
 
-          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message, 'SSL'));
+          tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $error_message, 'SSL'));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
       }
     }
 

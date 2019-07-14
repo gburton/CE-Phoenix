@@ -1591,7 +1591,7 @@
   }
 
 
-  function tep_draw_customers($name, $parameters = '') {
+  function tep_draw_customers($name, $parameters = '', $selected = '') {
     $select_string = '<select name="' . $name . '"';
     if ($parameters) {
       $select_string .= ' ' . $parameters;
@@ -1601,7 +1601,14 @@
 
     $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
     while ($customers = tep_db_fetch_array($customers_query)) {
-       $select_string .= '<option value="' . $customers['customers_id'] . '">' . $customers['customers_lastname'] . ', ' . $customers['customers_firstname'] . '</option>';
+             
+      $select_string .= '<option value="' .$customers['customers_id'] . '"';
+      if ($selected == $customers['customers_id']) {
+        $select_string .= ' selected="selected"';
+      } 
+      $select_string .= '>';
+      $select_string .=  $customers['customers_lastname'] . ', ' . $customers['customers_firstname'];
+      $select_string .= '</option>';
     }
 
     $select_string .= '</select>';

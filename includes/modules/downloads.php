@@ -12,7 +12,7 @@
 
   if (!strstr($PHP_SELF, 'account_history_info.php')) {
 // Get last order id for checkout_success
-    $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where customers_id = '" . (int)$customer_id . "' order by orders_id desc limit 1");
+    $orders_query = tep_db_query("select orders_id from orders where customers_id = '" . (int)$customer_id . "' order by orders_id desc limit 1");
     $orders = tep_db_fetch_array($orders_query);
     $last_order = $orders['orders_id'];
   } else {
@@ -20,14 +20,14 @@
   }
 
 // Now get all downloadable products in that order
-  $downloads_query = tep_db_query("select date_format(o.date_purchased, '%Y-%m-%d') as date_purchased_day, opd.download_maxdays, op.products_name, opd.orders_products_download_id, opd.orders_products_filename, opd.download_count, opd.download_maxdays from " . TABLE_ORDERS . " o, " . TABLE_ORDERS_PRODUCTS . " op, " . TABLE_ORDERS_PRODUCTS_DOWNLOAD . " opd, " . TABLE_ORDERS_STATUS . " os where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = '" . (int)$last_order . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != '' and o.orders_status = os.orders_status_id and os.downloads_flag = '1' and os.language_id = '" . (int)$languages_id . "'");
+  $downloads_query = tep_db_query("select date_format(o.date_purchased, '%Y-%m-%d') as date_purchased_day, opd.download_maxdays, op.products_name, opd.orders_products_download_id, opd.orders_products_filename, opd.download_count, opd.download_maxdays from orders o, orders_products op, orders_products_download opd, orders_status os where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = '" . (int)$last_order . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != '' and o.orders_status = os.orders_status_id and os.downloads_flag = '1' and os.language_id = '" . (int)$languages_id . "'");
   if (tep_db_num_rows($downloads_query) > 0) {
 ?>
 
   <h2 class="h3"><?php echo HEADING_DOWNLOAD; ?></h2>
 
   <div class="contentText">
-    <table border="0" width="100%" cellspacing="1" cellpadding="2">
+    <table class="table table-striped">
 
 <?php
     while ($downloads = tep_db_fetch_array($downloads_query)) {
@@ -50,7 +50,7 @@
       }
 
       echo '        <td>' . TABLE_HEADING_DOWNLOAD_DATE . tep_date_long($download_expiry) . '</td>' . "\n" .
-           '        <td align="right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>' . "\n" .
+           '        <td class="text-right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>' . "\n" .
            '      </tr>' . "\n";
     }
 ?>

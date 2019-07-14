@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -45,7 +45,7 @@
 
 // Add the session ID when moving from different HTTP and HTTPS servers, or when SID is defined
     if ( ($add_session_id == true) && ($session_started == true) && (SESSION_FORCE_COOKIE_USE == 'False') ) {
-      if (tep_not_null($SID)) {
+      if (isset($SID) && tep_not_null($SID)) {
         $_sid = $SID;
       } elseif ( ( ($request_type == 'NONSSL') && ($connection == 'SSL') && (ENABLE_SSL == true) ) || ( ($request_type == 'SSL') && ($connection == 'NONSSL') ) ) {
         if (HTTP_COOKIE_DOMAIN != HTTPS_COOKIE_DOMAIN) {
@@ -110,7 +110,7 @@
     $image .= ' class="';
 
     if (tep_not_null($responsive) && ($responsive === true)) {
-      $image .= 'img-responsive';
+      $image .= 'img-fluid';
     }
 
     if (tep_not_null($bootstrap_css)) $image .= ' ' . $bootstrap_css;
@@ -345,6 +345,8 @@
     static $button_counter = 1;
 
     $types = array('submit', 'button', 'reset');
+    
+    if ( !is_array($params) ) $params = array();
 
     if ( !isset($params['type']) ) {
       $params['type'] = 'submit';
@@ -368,7 +370,7 @@
       $button .= '<a id="btn' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank"';
+        $button .= ' target="_blank" rel="noopener"';
       }
     } else {
       $button .= '<button ';
@@ -386,7 +388,7 @@
     $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
-      $button .= ' <span class="' . $icon . '"></span> ';
+      $button .= ' <span class="' . $icon . '" aria-hidden="true"></span> ';
     }
 
     $button .= $title;

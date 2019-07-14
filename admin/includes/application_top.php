@@ -54,12 +54,6 @@
 // include the list of project database tables
   require('includes/database_tables.php');
 
-// Define how do we update currency exchange rates
-// Possible values are 'oanda' 'xe' 'fixer' or ''
-// fixer is the lastest added, more details at http://fixer.io
-  define('CURRENCY_SERVER_PRIMARY', 'fixer');
-  define('CURRENCY_SERVER_BACKUP', '');
-
 // include the database functions
   require('includes/functions/database.php');
 
@@ -242,5 +236,7 @@
                        
   require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('admin');
+  
+  $OSCOM_Hooks->register('siteWide');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));

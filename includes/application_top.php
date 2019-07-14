@@ -54,9 +54,6 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
-// include the list of project database tables
-  require('includes/database_tables.php');
-
 // include the database functions
   require('includes/functions/database.php');
 
@@ -64,7 +61,7 @@
   tep_db_connect() or die('Unable to connect to database server!');
 
 // set the application parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
+  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
@@ -136,7 +133,7 @@
   require('includes/functions/sessions.php');
 
 // set the session name and save path
-  tep_session_name('osCsid');
+  tep_session_name('ceid');
   tep_session_save_path(SESSION_WRITE_DIRECTORY);
 
 // set the session cookie parameters
@@ -366,6 +363,9 @@
 // include category tree class
   require('includes/classes/category_tree.php');
 
+// manufacturer class
+  require('includes/classes/manufacturer.php');
+
 // calculate category path
   if (isset($_GET['cPath'])) {
     $cPath = $_GET['cPath'];
@@ -406,16 +406,17 @@
       $breadcrumb->add($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
     }
   } elseif (isset($_GET['manufacturers_id'])) {
+    $brand = new manufacturer((int)$_GET['manufacturers_id']);
+
+    $breadcrumb_brand = $brand->getData('manufacturers_name');
+    
     if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      $manufacturers_query = tep_db_query("select coalesce(NULLIF(mi.manufacturers_seo_title, ''), m.manufacturers_name) as manufacturers_name from manufacturers m, manufacturers_info mi where m.manufacturers_id = mi.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and mi.languages_id = '" . (int)$languages_id . "'");
+      if (tep_not_null($brand->getData('manufacturers_seo_title'))) {
+        $breadcrumb_brand = $brand->getData('manufacturers_seo_title');
+      }
     }
-    else {
-      $manufacturers_query = tep_db_query("select manufacturers_name from manufacturers where manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "'");
-    } 
-    if (tep_db_num_rows($manufacturers_query)) {
-      $manufacturers = tep_db_fetch_array($manufacturers_query);
-      $breadcrumb->add($manufacturers['manufacturers_name'], tep_href_link('index.php', 'manufacturers_id=' . $_GET['manufacturers_id']));
-    }
+    
+    $breadcrumb->add($breadcrumb_brand, tep_href_link('index.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id']));    
   }
 
 // add the products model to the breadcrumb trail
@@ -432,5 +433,7 @@
     }
   }
 
+  $OSCOM_Hooks->register('siteWide');
+  
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
   

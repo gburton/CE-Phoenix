@@ -98,7 +98,7 @@
 
           $email_address = tep_db_prepare_input($response_array['EMAIL']);
 
-          $check_query = tep_db_query("select * from " . TABLE_CUSTOMERS . " where customers_email_address = '" . tep_db_input($email_address) . "' limit 1");
+          $check_query = tep_db_query("select * from customers where customers_email_address = '" . tep_db_input($email_address) . "' limit 1");
           if (tep_db_num_rows($check_query)) {
             $check = tep_db_fetch_array($check_query);
 
@@ -145,17 +145,17 @@ EOD;
               $sql_data_array['customers_telephone'] = $customers_telephone;
             }
 
-            tep_db_perform(TABLE_CUSTOMERS, $sql_data_array);
+            tep_db_perform('customers', $sql_data_array);
 
             $customer_id = tep_db_insert_id();
 
-            tep_db_query("insert into " . TABLE_CUSTOMERS_INFO . " (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
+            tep_db_query("insert into customers_info (customers_info_id, customers_info_number_of_logons, customers_info_date_account_created) values ('" . (int)$customer_id . "', '0', now())");
 
 // Only generate a password and send an email if the Set Password Content Module is not enabled
             if ( !defined('MODULE_CONTENT_ACCOUNT_SET_PASSWORD_STATUS') || (MODULE_CONTENT_ACCOUNT_SET_PASSWORD_STATUS != 'True') ) {
               $customer_password = tep_create_random_value(max(ENTRY_PASSWORD_MIN_LENGTH, 8));
 
-              tep_db_perform(TABLE_CUSTOMERS, array('customers_password' => tep_encrypt_password($customer_password)), 'update', 'customers_id = "' . (int)$customer_id . '"');
+              tep_db_perform('customers', array('customers_password' => tep_encrypt_password($customer_password)), 'update', 'customers_id = "' . (int)$customer_id . '"');
 
 // build the message content
               $name = $customers_firstname . ' ' . $customers_lastname;
@@ -188,7 +188,7 @@ EOD;
         $ship_country_id = 0;
         $ship_address_format_id = 1;
 
-        $country_query = tep_db_query("select countries_id, address_format_id from " . TABLE_COUNTRIES . " where countries_iso_code_2 = '" . tep_db_input($ship_country) . "' limit 1");
+        $country_query = tep_db_query("select countries_id, address_format_id from countries where countries_iso_code_2 = '" . tep_db_input($ship_country) . "' limit 1");
         if (tep_db_num_rows($country_query)) {
           $country = tep_db_fetch_array($country_query);
 
@@ -197,7 +197,7 @@ EOD;
         }
 
         if ($ship_country_id > 0) {
-          $zone_query = tep_db_query("select zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$ship_country_id . "' and (zone_name = '" . tep_db_input($ship_zone) . "' or zone_code = '" . tep_db_input($ship_zone) . "') limit 1");
+          $zone_query = tep_db_query("select zone_id from zones where zone_country_id = '" . (int)$ship_country_id . "' and (zone_name = '" . tep_db_input($ship_zone) . "' or zone_code = '" . tep_db_input($ship_zone) . "') limit 1");
           if (tep_db_num_rows($zone_query)) {
             $zone = tep_db_fetch_array($zone_query);
 
@@ -205,7 +205,7 @@ EOD;
           }
         }
 
-        $check_query = tep_db_query("select address_book_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and entry_firstname = '" . tep_db_input($ship_firstname) . "' and entry_lastname = '" . tep_db_input($ship_lastname) . "' and entry_street_address = '" . tep_db_input($ship_address) . "' and entry_postcode = '" . tep_db_input($ship_postcode) . "' and entry_city = '" . tep_db_input($ship_city) . "' and (entry_state = '" . tep_db_input($ship_zone) . "' or entry_zone_id = '" . (int)$ship_zone_id . "') and entry_country_id = '" . (int)$ship_country_id . "' limit 1");
+        $check_query = tep_db_query("select address_book_id from address_book where customers_id = '" . (int)$customer_id . "' and entry_firstname = '" . tep_db_input($ship_firstname) . "' and entry_lastname = '" . tep_db_input($ship_lastname) . "' and entry_street_address = '" . tep_db_input($ship_address) . "' and entry_postcode = '" . tep_db_input($ship_postcode) . "' and entry_city = '" . tep_db_input($ship_city) . "' and (entry_state = '" . tep_db_input($ship_zone) . "' or entry_zone_id = '" . (int)$ship_zone_id . "') and entry_country_id = '" . (int)$ship_country_id . "' limit 1");
         if (tep_db_num_rows($check_query)) {
           $check = tep_db_fetch_array($check_query);
 
@@ -229,14 +229,14 @@ EOD;
             }
           }
 
-          tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
+          tep_db_perform('address_book', $sql_data_array);
 
           $address_id = tep_db_insert_id();
 
           $sendto = $address_id;
 
           if ($customer_default_address_id < 1) {
-            tep_db_query("update " . TABLE_CUSTOMERS . " set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
+            tep_db_query("update customers set customers_default_address_id = '" . (int)$address_id . "' where customers_id = '" . (int)$customer_id . "'");
             $customer_default_address_id = $address_id;
           }
         }

@@ -5,12 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
+  
+  $OSCOM_Hooks->register('progress');
 
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
@@ -91,11 +93,11 @@
 
       if (ACCOUNT_STATE == 'true') {
         $zone_id = 0;
-        $check_query = tep_db_query("select count(*) as total from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "'");
+        $check_query = tep_db_query("select count(*) as total from zones where zone_country_id = '" . (int)$country . "'");
         $check = tep_db_fetch_array($check_query);
         $entry_state_has_zones = ($check['total'] > 0);
         if ($entry_state_has_zones == true) {
-          $zone_query = tep_db_query("select distinct zone_id from " . TABLE_ZONES . " where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
+          $zone_query = tep_db_query("select distinct zone_id from zones where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
           if (tep_db_num_rows($zone_query) == 1) {
             $zone = tep_db_fetch_array($zone_query);
             $zone_id = $zone['zone_id'];
@@ -143,7 +145,7 @@
 
         if (!tep_session_is_registered('billto')) tep_session_register('billto');
 
-        tep_db_perform(TABLE_ADDRESS_BOOK, $sql_data_array);
+        tep_db_perform('address_book', $sql_data_array);
 
         $billto = tep_db_insert_id();
 
@@ -166,7 +168,7 @@
 
       $billto = $_POST['address'];
 
-      $check_address_query = tep_db_query("select count(*) as total from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$billto . "'");
+      $check_address_query = tep_db_query("select count(*) as total from address_book where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$billto . "'");
       $check_address = tep_db_fetch_array($check_address_query);
 
       if ($check_address['total'] == '1') {
@@ -197,9 +199,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('checkout_address') > 0) {
@@ -207,7 +207,7 @@
   }
 ?>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', 'class="form-horizontal"', true); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
 
@@ -215,52 +215,50 @@
   if ($process == false) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h2>
+  <h4><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h4>
 
-  <div class="contentText row">
+  <div class="row">
     <div class="col-sm-8">
-      <div class="alert alert-warning"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
+      <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading"><?php echo TITLE_PAYMENT_ADDRESS; ?></div>
+      <div class="card">
+        <div class="card-header"><?php echo TITLE_PAYMENT_ADDRESS; ?></div>
 
-        <div class="panel-body">
+        <div class="card-body">
           <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="clearfix"></div>
-  
+ 
 
 <?php
     if ($addresses_count > 1) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+  <h4><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h4>
   
-  <div class="alert alert-info"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_SELECT_OTHER_PAYMENT_DESTINATION; ?></div>
 
-  <div class="contentText row">
+  <div class="row">
 
 <?php
       $radio_buttons = 0;
 
-      $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "'");
+      $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from address_book where customers_id = '" . (int)$customer_id . "'");
       while ($addresses = tep_db_fetch_array($addresses_query)) {
         $format_id = tep_get_address_format_id($addresses['country_id']);
 
 
 ?>
       <div class="col-sm-4">
-        <div class="panel panel-<?php echo ($addresses['address_book_id'] == $billto) ? 'primary' : 'default'; ?>">
-          <div class="panel-heading"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong></div>
-          <div class="panel-body">
+        <div class="card<?php echo ($addresses['address_book_id'] == $billto) ? ' text-white bg-info' : ' bg-light'; ?>">
+          <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
+          <div class="card-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
           </div>
-          <div class="panel-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $billto)); ?></div>
+          <div class="card-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $billto)); ?></div>
         </div>
       </div>
 
@@ -278,9 +276,9 @@
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h2>
+  <h4><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h4>
   
-  <div class="alert alert-info"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></div>
 
   <?php require('includes/modules/checkout_new_address.php'); ?>
 
@@ -289,28 +287,13 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
-  <div class="clearfix"></div>
-
-  <div class="contentText">
-    <div class="stepwizard">
-      <div class="stepwizard-row">
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">1</button>
-          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-primary btn-circle">2</button>
-          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-          <p><?php echo CHECKOUT_BAR_CONFIRMATION; ?></p>
-        </div>
-      </div>
-    </div>
+  <div class="progressBarHook">
+    <?php
+    echo $OSCOM_Hooks->call('progress', 'progressBar', $arr = array('style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => array('position' => 2, 'min' => 0, 'max' => 100, 'now' => 67)));
+    ?>  
   </div>
 
 
@@ -319,7 +302,7 @@
 ?>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment.php', '', 'SSL')); ?>
   </div>
 
 <?php

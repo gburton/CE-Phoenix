@@ -12,12 +12,14 @@
 
 define('HEADING_TITLE', 'Testimonials');
 
-define('TABLE_HEADING_CUSTOMER_NAME', 'Customer');
+define('TABLE_HEADING_CUSTOMER_ID', 'Customer ID');
+define('TABLE_HEADING_CUSTOMER_NAME', 'Customer Name');
 define('TABLE_HEADING_DATE_ADDED', 'Date Added');
 define('TABLE_HEADING_ACTION', 'Action');
 define('TABLE_HEADING_STATUS', 'Status');
 
 define('ENTRY_PRODUCT', 'Product:');
+define('ENTRY_FROM_NICKNAME', 'Name/Nickname:');
 define('ENTRY_FROM', 'From:');
 define('ENTRY_DATE', 'Date:');
 define('ENTRY_TESTIMONIAL', 'Testimonial:');

@@ -5,42 +5,40 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('../includes/database_tables.php');
-
   osc_db_connect(trim($_POST['DB_SERVER']), trim($_POST['DB_SERVER_USERNAME']), trim($_POST['DB_SERVER_PASSWORD']));
   osc_db_select_db(trim($_POST['DB_DATABASE']));
 
-  osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . trim($_POST['CFG_STORE_NAME']) . '" where configuration_key = "STORE_NAME"');
-  osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_NAME']) . '" where configuration_key = "STORE_OWNER"');
-  osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "STORE_OWNER_EMAIL_ADDRESS"');
+  osc_db_query('update configuration set configuration_value = "' . trim($_POST['CFG_STORE_NAME']) . '" where configuration_key = "STORE_NAME"');
+  osc_db_query('update configuration set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_NAME']) . '" where configuration_key = "STORE_OWNER"');
+  osc_db_query('update configuration set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "STORE_OWNER_EMAIL_ADDRESS"');
 
   if (!empty($_POST['CFG_STORE_OWNER_NAME']) && !empty($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS'])) {
-    osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "\"' . trim($_POST['CFG_STORE_OWNER_NAME']) . '\" <' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '>" where configuration_key = "EMAIL_FROM"');
+    osc_db_query('update configuration set configuration_value = "\"' . trim($_POST['CFG_STORE_OWNER_NAME']) . '\" <' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '>" where configuration_key = "EMAIL_FROM"');
   } else {
-    osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "EMAIL_FROM"');
+    osc_db_query('update configuration set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "EMAIL_FROM"');
   }
 
   if ( !empty($_POST['CFG_ADMINISTRATOR_USERNAME']) ) {
-    $check_query = osc_db_query('select user_name from ' . TABLE_ADMINISTRATORS . ' where user_name = "' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '"');
+    $check_query = osc_db_query('select user_name from administrators where user_name = "' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '"');
 
     if (osc_db_num_rows($check_query)) {
-      osc_db_query('update ' . TABLE_ADMINISTRATORS . ' set user_password = "' . osc_encrypt_password(trim($_POST['CFG_ADMINISTRATOR_PASSWORD'])) . '" where user_name = "' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '"');
+      osc_db_query('update administrators set user_password = "' . osc_encrypt_password(trim($_POST['CFG_ADMINISTRATOR_PASSWORD'])) . '" where user_name = "' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '"');
     } else {
-      osc_db_query('insert into ' . TABLE_ADMINISTRATORS . ' (user_name, user_password) values ("' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '", "' . osc_encrypt_password(trim($_POST['CFG_ADMINISTRATOR_PASSWORD'])) . '")');
+      osc_db_query('insert into administrators (user_name, user_password) values ("' . trim($_POST['CFG_ADMINISTRATOR_USERNAME']) . '", "' . osc_encrypt_password(trim($_POST['CFG_ADMINISTRATOR_PASSWORD'])) . '")');
     }
   }
 
-  osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT"');
+  osc_db_query('update configuration set configuration_value = "' . trim($_POST['CFG_STORE_OWNER_EMAIL_ADDRESS']) . '" where configuration_key = "MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT"');
 ?>
 
 <div class="row">
   <div class="col-sm-9">
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
       <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
@@ -48,8 +46,8 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="panel panel-default">
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
           <li class="text-muted">Web Server</li>
@@ -57,21 +55,21 @@
           <li class="text-success"><strong>Finished!</strong></li>
         </ol>
       </div>
-    </div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">100%</div>
-    </div>
+      <div class="text-footer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">100%</div>
+        </div>
+      </div>
+    </div>    
   </div>
 </div>
 
-<div class="clearfix"></div>
+<div class="w-100"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-push-3 col-sm-9">
+  <div class="col-xs-12 col-sm-9">
 
-    <div class="page-header">
-      <h2>Finished!</h2>
-    </div>
+    <h2 class="h4">Finished!</h2>
     
     <?php
     $dir_fs_document_root = $_POST['DIR_FS_DOCUMENT_ROOT'];
@@ -83,8 +81,8 @@
       }
     }
 
-    osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . $dir_fs_document_root . 'includes/work/" where configuration_key = "DIR_FS_CACHE"');
-    osc_db_query('update ' . TABLE_CONFIGURATION . ' set configuration_value = "' . $dir_fs_document_root . 'includes/work/" where configuration_key = "SESSION_WRITE_DIRECTORY"');
+    osc_db_query('update configuration set configuration_value = "' . $dir_fs_document_root . 'includes/work/" where configuration_key = "DIR_FS_CACHE"');
+    osc_db_query('update configuration set configuration_value = "' . $dir_fs_document_root . 'includes/work/" where configuration_key = "SESSION_WRITE_DIRECTORY"');
 
     if ($handle = opendir($dir_fs_document_root . 'includes/work/')) {
       while (false !== ($filename = readdir($handle))) {
@@ -140,8 +138,6 @@
       $file_contents .= '  define(\'CFG_TIME_ZONE\', \'' . trim($_POST['CFG_TIME_ZONE']) . '\');' . "\n";
     }
 
-    $file_contents .= '?>';
-
     $fp = fopen($dir_fs_document_root . 'includes/configure.php', 'w');
     fputs($fp, $file_contents);
     fclose($fp);
@@ -185,8 +181,6 @@
       $file_contents .= '  define(\'CFG_TIME_ZONE\', \'' . trim($_POST['CFG_TIME_ZONE']) . '\');' . "\n";
     }
 
-    $file_contents .= '?>';
-
     $fp = fopen($dir_fs_document_root . 'admin/includes/configure.php', 'w');
     fputs($fp, $file_contents);
     fclose($fp);
@@ -198,28 +192,26 @@
     }
     ?>
 
-    <div class="alert alert-success">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
+    <div class="alert alert-success" role="alert">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
 
     <br />
 
     <div class="row">
-      <div class="col-sm-6"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
-      <div class="col-sm-6"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-pull-9 col-sm-3">
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        Step 4: Finished!
-      </div>
-      <div class="panel-body">
-        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
-        <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
-      </div>
-      <div class="panel-footer">
-        <p class="text-right">- <a href="http://www.oscommerce.com/Us&Team" target="_blank">The osCommerce Team</a></p>
-      </div>
+      <div class="col"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
+      <div class="col"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
     </div>
   </div>
   
+  <div class="col-xs-12 col-sm-3">
+    <h2 class="h4">Step 4</h2>
+    <div class="card">
+      <div class="card-body">      
+        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
+        <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
+      </div>
+      <div class="card-footer">      
+        <p>- <a class="card-link" href="http://www.oscommerce.com/Us&Team" target="_blank">The osCommerce Team</a></p>
+      </div>
+    </div>
+  </div>  
 </div>
