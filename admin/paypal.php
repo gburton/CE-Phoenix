@@ -43,8 +43,8 @@ EOD;
 
   $OSCOM_PayPal->loadLanguageFile('admin.php');
 
-  if ( isset($HTTP_GET_VARS['action']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . basename($HTTP_GET_VARS['action']) . '.php') ) {
-    $action = basename($HTTP_GET_VARS['action']);
+  if ( isset($_GET['action']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . basename($_GET['action']) . '.php') ) {
+    $action = basename($_GET['action']);
   }
 
   $OSCOM_PayPal->loadLanguageFile('admin/' . $action . '.php');
@@ -68,8 +68,8 @@ EOD;
 
   include(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '.php');
 
-  if ( isset($HTTP_GET_VARS['subaction']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '/' . basename($HTTP_GET_VARS['subaction']) . '.php') ) {
-    $subaction = basename($HTTP_GET_VARS['subaction']);
+  if ( isset($_GET['subaction']) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/admin/actions/' . $action . '/' . basename($_GET['subaction']) . '.php') ) {
+    $subaction = basename($_GET['subaction']);
   }
 
   if ( !empty($subaction) ) {

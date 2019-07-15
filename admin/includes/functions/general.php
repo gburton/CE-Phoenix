@@ -473,7 +473,7 @@
       $state_prov_values = tep_db_fetch_array($state_prov_query);
       $state_prov_code = $state_prov_values['zone_code'];
     }
-    
+
     return $state_prov_code;
   }
 
@@ -496,7 +496,7 @@
 
   function tep_get_languages() {
     $languages_array = array();
-    
+
     $languages_query = tep_db_query("select languages_id, name, code, image, directory from " . TABLE_LANGUAGES . " order by sort_order");
     while ($languages = tep_db_fetch_array($languages_query)) {
       $languages_array[] = array('id' => $languages['languages_id'],
@@ -575,13 +575,8 @@
 
 ////
 // Wrapper for class_exists() function
-// This function is not available in all PHP versions so we test it before using it.
   function tep_class_exists($class_name) {
-    if (function_exists('class_exists')) {
-      return class_exists($class_name);
-    } else {
-      return true;
-    }
+    return class_exists($class_name);
   }
 
 ////
@@ -785,9 +780,7 @@
 // Sets timeout for the current script.
 // Cant be used in safe mode.
   function tep_set_time_limit($limit) {
-    if (!get_cfg_var('safe_mode')) {
-      set_time_limit($limit);
-    }
+    set_time_limit($limit);
   }
 
 ////
@@ -848,7 +841,6 @@
                             'zend' => zend_version(),
                             'sapi' => PHP_SAPI,
                             'int_size'	=> defined('PHP_INT_SIZE') ? PHP_INT_SIZE : '',
-                            'safe_mode'	=> (int) @ini_get('safe_mode'),
                             'open_basedir' => (int) @ini_get('open_basedir'),
                             'memory_limit' => @ini_get('memory_limit'),
                             'error_reporting' => error_reporting(),
@@ -861,8 +853,6 @@
                             'disable_functions' => @ini_get('disable_functions'),
                             'disable_classes' => @ini_get('disable_classes'),
                             'enable_dl'	=> (int) @ini_get('enable_dl'),
-                            'magic_quotes_gpc' => (int) @ini_get('magic_quotes_gpc'),
-                            'register_globals' => (int) @ini_get('register_globals'),
                             'filter.default'   => @ini_get('filter.default'),
                             'zend.ze1_compatibility_mode' => (int) @ini_get('zend.ze1_compatibility_mode'),
                             'unicode.semantics' => (int) @ini_get('unicode.semantics'),
@@ -1332,16 +1322,6 @@
 ////
 // Return a random value
   function tep_rand($min = null, $max = null) {
-    static $seeded;
-
-    if (!isset($seeded)) {
-      $seeded = true;
-
-      if ( (PHP_VERSION < '4.2.0') ) {
-        mt_srand((double)microtime()*1000000);
-      }
-    }
-
     if (isset($min) && isset($max)) {
       if ($min >= $max) {
         return $min;
@@ -1355,11 +1335,7 @@
 
 // nl2br() prior PHP 4.2.0 did not convert linefeeds on all OSs (it only converted \n)
   function tep_convert_linefeeds($from, $to, $string) {
-    if ((PHP_VERSION < "4.0.5") && is_array($from)) {
-      return preg_replace('/(' . implode('|', $from) . ')/', $to, $string);
-    } else {
-      return str_replace($from, $to, $string);
-    }
+    return str_replace($from, $to, $string);
   }
 
   function tep_string_to_int($string) {
@@ -1385,23 +1361,7 @@
   }
 
   function tep_validate_ip_address($ip_address) {
-    if (function_exists('filter_var') && defined('FILTER_VALIDATE_IP')) {
-      return filter_var($ip_address, FILTER_VALIDATE_IP, array('flags' => FILTER_FLAG_IPV4));
-    }
-
-    if (preg_match('/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/', $ip_address)) {
-      $parts = explode('.', $ip_address);
-
-      foreach ($parts as $ip_parts) {
-        if ( ((int)($ip_parts) > 255) || ((int)($ip_parts) < 0) ) {
-          return false; // number is not within 0-255
-        }
-      }
-
-      return true;
-    }
-
-    return false;
+    return filter_var($ip_address, FILTER_VALIDATE_IP, array('flags' => FILTER_FLAG_IPV4));
   }
 
   function tep_get_ip_address() {
@@ -1481,28 +1441,28 @@
 
     return $category['categories_description'];
   }
-  
+
   function tep_get_manufacturer_description($manufacturer_id, $language_id) {
     $manufacturer_query = tep_db_query("select manufacturers_description from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_description'];
   }
-  
+
   function tep_get_category_seo_description($category_id, $language_id) {
     $category_query = tep_db_query("select categories_seo_description from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
     $category = tep_db_fetch_array($category_query);
 
     return $category['categories_seo_description'];
   }
-  
+
   function tep_get_category_seo_keywords($category_id, $language_id) {
     $category_query = tep_db_query("select categories_seo_keywords from categories_description where categories_id = '" . (int)$category_id . "' and language_id = '" . (int)$language_id . "'");
     $category = tep_db_fetch_array($category_query);
 
     return $category['categories_seo_keywords'];
   }
-  
+
   function tep_get_category_seo_title($category_id, $language_id = 0) {
     global $languages_id;
 
@@ -1512,21 +1472,21 @@
 
     return $category['categories_seo_title'];
   }
-  
+
   function tep_get_manufacturer_seo_description($manufacturer_id, $language_id) {
     $manufacturer_query = tep_db_query("select manufacturers_seo_description from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_seo_description'];
   }
-  
+
   function tep_get_manufacturer_seo_keywords($manufacturer_id, $language_id) {
     $manufacturer_query = tep_db_query("select manufacturers_seo_keywords from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_seo_keywords'];
   }
-  
+
   function tep_get_manufacturer_seo_title($manufacturer_id, $language_id) {
     $manufacturer_query = tep_db_query("select manufacturers_seo_title from manufacturers_info where manufacturers_id = '" . (int)$manufacturer_id . "' and languages_id = '" . (int)$language_id . "'");
     $manufacturer = tep_db_fetch_array($manufacturer_query);
@@ -1542,7 +1502,7 @@
 
     return $product['products_seo_description'];
   }
-  
+
   function tep_get_products_seo_keywords($product_id, $language_id = 0) {
     global $languages_id;
 
@@ -1552,7 +1512,7 @@
 
     return $product['products_seo_keywords'];
   }
-  
+
   function tep_get_products_seo_title($product_id, $language_id = 0) {
     global $languages_id;
 
@@ -1575,7 +1535,7 @@
       $select_string .= ' ' . $parameters;
     }
     $select_string .= '>';
-    
+
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
 
     $products_query = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_name");
@@ -1601,11 +1561,11 @@
 
     $customers_query = tep_db_query("select customers_id, customers_firstname, customers_lastname from " . TABLE_CUSTOMERS . " order by customers_lastname");
     while ($customers = tep_db_fetch_array($customers_query)) {
-             
+
       $select_string .= '<option value="' .$customers['customers_id'] . '"';
       if ($selected == $customers['customers_id']) {
         $select_string .= ' selected="selected"';
-      } 
+      }
       $select_string .= '>';
       $select_string .=  $customers['customers_lastname'] . ', ' . $customers['customers_firstname'];
       $select_string .= '</option>';
@@ -1615,5 +1575,4 @@
 
     return $select_string;
   }
- 
-  
+

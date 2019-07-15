@@ -62,12 +62,12 @@
     }
 
     function execute() {
-      global $HTTP_GET_VARS, $oscTemplate;
+      global $oscTemplate;
 
-      if ( isset($HTTP_GET_VARS['action']) ) {
-        if ( $HTTP_GET_VARS['action'] == 'paypal_login' ) {
+      if ( isset($_GET['action']) ) {
+        if ( $_GET['action'] == 'paypal_login' ) {
           $this->preLogin();
-        } elseif ( $HTTP_GET_VARS['action'] == 'paypal_login_process' ) {
+        } elseif ( $_GET['action'] == 'paypal_login_process' ) {
           $this->postLogin();
         }
       }
@@ -97,14 +97,14 @@
     }
 
     function preLogin() {
-      global $HTTP_GET_VARS, $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
+      global $paypal_login_access_token, $paypal_login_customer_id, $sendto, $billto;
 
       $return_url = tep_href_link(FILENAME_LOGIN, '', 'SSL');
 
-      if ( isset($HTTP_GET_VARS['code']) ) {
+      if ( isset($_GET['code']) ) {
         $paypal_login_customer_id = false;
 
-        $params = array('code' => $HTTP_GET_VARS['code'],
+        $params = array('code' => $_GET['code'],
                         'redirect_uri' => str_replace('&amp;', '&', tep_href_link(FILENAME_LOGIN, 'action=paypal_login', 'SSL')));
 
         $response_token = $this->_app->getApiResult('LOGIN', 'GrantToken', $params);

@@ -13,7 +13,7 @@
   $content = 'credentials.php';
 
   $modules = array('PP', 'PF');
-  $current_module = (isset($HTTP_GET_VARS['module']) && in_array($HTTP_GET_VARS['module'], $modules) ? $HTTP_GET_VARS['module'] : $modules[0]);
+  $current_module = (isset($_GET['module']) && in_array($_GET['module'], $modules) ? $_GET['module'] : $modules[0]);
 
   $data = array('OSCOM_APP_PAYPAL_LIVE_SELLER_EMAIL',
                 'OSCOM_APP_PAYPAL_LIVE_SELLER_EMAIL_PRIMARY',
