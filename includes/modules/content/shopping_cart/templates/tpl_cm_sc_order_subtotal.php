@@ -1,3 +1,5 @@
+<style>.cm-sc-order-subtotal > h4 {padding: 14px;}</style>
+
 <div class="col-sm-<?php echo $content_width ?> cm-sc-order-subtotal">
   <h4 class="text-right">
     <?php echo sprintf(MODULE_CONTENT_SC_ORDER_SUBTOTAL_SUB_TOTAL, $currencies->format($cart->show_total())); ?>

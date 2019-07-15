@@ -1,3 +1,5 @@
+<style>.cm-sc-stock-notice {margin-top: 10px;}</style>
+
 <div class="col-sm-<?php echo $content_width ?> cm-sc-stock-notice">
 	<?php echo $sc_stock_notice; ?>
 </div>
