@@ -31,10 +31,10 @@
     $seller_accounts[] = $paypal_standard->_app->getCredentials('PS', 'email_primary');
   }
 
-  if ( (isset($HTTP_POST_VARS['receiver_email']) && in_array($HTTP_POST_VARS['receiver_email'], $seller_accounts)) || (isset($HTTP_POST_VARS['business']) && in_array($HTTP_POST_VARS['business'], $seller_accounts)) ) {
+  if ( (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) ) {
     $parameters = 'cmd=_notify-validate&';
 
-    foreach ( $HTTP_POST_VARS as $key => $value ) {
+    foreach ( $_POST as $key => $value ) {
       if ( $key != 'cmd' ) {
         $parameters .= $key . '=' . urlencode(stripslashes($value)) . '&';
       }
@@ -47,21 +47,21 @@
 
   $log_params = array();
 
-  foreach ( $HTTP_POST_VARS as $key => $value ) {
+  foreach ( $_POST as $key => $value ) {
     $log_params[$key] = stripslashes($value);
   }
 
-  foreach ( $HTTP_GET_VARS as $key => $value ) {
+  foreach ( $_GET as $key => $value ) {
     $log_params['GET ' . $key] = stripslashes($value);
   }
 
   $paypal_standard->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $log_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox', true);
 
   if ( $result == 'VERIFIED' ) {
-    $paypal_standard->verifyTransaction($HTTP_POST_VARS, true);
+    $paypal_standard->verifyTransaction($_POST, true);
 
-    $order_id = (int)$HTTP_POST_VARS['invoice'];
-    $customer_id = (int)$HTTP_POST_VARS['custom'];
+    $order_id = (int)$_POST['invoice'];
+    $customer_id = (int)$_POST['custom'];
 
     $check_query = tep_db_query("select orders_status from orders where orders_id = '" . (int)$order_id . "' and customers_id = '" . (int)$customer_id . "'");
 

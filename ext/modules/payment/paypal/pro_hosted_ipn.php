@@ -21,10 +21,10 @@
 
   $result = false;
 
-  if ( isset($HTTP_POST_VARS['txn_id']) && !empty($HTTP_POST_VARS['txn_id']) ) {
+  if ( isset($_POST['txn_id']) && !empty($_POST['txn_id']) ) {
     $paypal_pro_hs = new paypal_pro_hs();
 
-    $result = $paypal_pro_hs->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $HTTP_POST_VARS['txn_id']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox', true);
+    $result = $paypal_pro_hs->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $_POST['txn_id']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox', true);
   }
 
   if ( is_array($result) && isset($result['ACK']) && (($result['ACK'] == 'Success') || ($result['ACK'] == 'SuccessWithWarning')) ) {
