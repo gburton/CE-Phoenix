@@ -530,7 +530,7 @@
     }
 
     function pre_before_check() {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS, $messageStack, $order_id, $cart_PayPal_Standard_ID, $customer_id, $comments;
+      global $messageStack, $order_id, $cart_PayPal_Standard_ID, $customer_id, $comments;
 
       $result = false;
 
@@ -542,10 +542,10 @@
         $seller_accounts[] = $this->_app->getCredentials('PS', 'email_primary');
       }
 
-      if ( (isset($HTTP_POST_VARS['receiver_email']) && in_array($HTTP_POST_VARS['receiver_email'], $seller_accounts)) || (isset($HTTP_POST_VARS['business']) && in_array($HTTP_POST_VARS['business'], $seller_accounts)) ) {
+      if ( (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) ) {
         $parameters = 'cmd=_notify-validate&';
 
-        foreach ( $HTTP_POST_VARS as $key => $value ) {
+        foreach ( $_POST as $key => $value ) {
           if ( $key != 'cmd' ) {
             $parameters .= $key . '=' . urlencode(stripslashes($value)) . '&';
           }
@@ -555,20 +555,20 @@
 
         $result = $this->_app->makeApiCall($this->form_action_url, $parameters);
 
-        foreach ( $HTTP_POST_VARS as $key => $value ) {
+        foreach ( $_POST as $key => $value ) {
           $pptx_params[$key] = stripslashes($value);
         }
 
-        foreach ( $HTTP_GET_VARS as $key => $value ) {
+        foreach ( $_GET as $key => $value ) {
           $pptx_params['GET ' . $key] = stripslashes($value);
         }
 
         $this->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $pptx_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox');
-      } elseif ( isset($HTTP_GET_VARS['tx']) ) { // PDT
+      } elseif ( isset($_GET['tx']) ) { // PDT
         if ( tep_not_null(OSCOM_APP_PAYPAL_PS_PDT_IDENTITY_TOKEN) ) {
           $pptx_params['cmd'] = '_notify-synch';
 
-          $parameters = 'cmd=_notify-synch&tx=' . urlencode(stripslashes($HTTP_GET_VARS['tx'])) . '&at=' . urlencode(OSCOM_APP_PAYPAL_PS_PDT_IDENTITY_TOKEN);
+          $parameters = 'cmd=_notify-synch&tx=' . urlencode(stripslashes($_GET['tx'])) . '&at=' . urlencode(OSCOM_APP_PAYPAL_PS_PDT_IDENTITY_TOKEN);
 
           $pdt_raw = $this->_app->makeApiCall($this->form_action_url, $parameters);
 
@@ -596,13 +596,13 @@
             }
           }
 
-          foreach ( $HTTP_GET_VARS as $key => $value ) {
+          foreach ( $_GET as $key => $value ) {
             $pptx_params['GET ' . $key] = stripslashes($value);
           }
 
           $this->_app->log('PS', $pptx_params['cmd'], ($result == 'VERIFIED') ? 1 : -1, $pptx_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox');
         } else {
-          $details = $this->_app->getApiResult('PS', 'GetTransactionDetails', array('TRANSACTIONID' => stripslashes($HTTP_GET_VARS['tx'])), (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox');
+          $details = $this->_app->getApiResult('PS', 'GetTransactionDetails', array('TRANSACTIONID' => stripslashes($_GET['tx'])), (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox');
 
           if ( in_array($details['ACK'], array('Success', 'SuccessWithWarning')) ) {
             $result = 'VERIFIED';
@@ -621,11 +621,11 @@
           }
         }
       } else {
-        foreach ( $HTTP_POST_VARS as $key => $value ) {
+        foreach ( $_POST as $key => $value ) {
           $pptx_params[$key] = stripslashes($value);
         }
 
-        foreach ( $HTTP_GET_VARS as $key => $value ) {
+        foreach ( $_GET as $key => $value ) {
           $pptx_params['GET ' . $key] = stripslashes($value);
         }
 

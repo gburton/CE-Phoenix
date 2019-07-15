@@ -36,10 +36,6 @@
 
       $braintree_error = null;
 
-      if ( version_compare(PHP_VERSION, '5.2.1', '<') ) {
-        $braintree_error = sprintf(MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP, '5.2.1');
-      }
-
       if ( !isset($braintree_error) ) {
         $requiredExtensions = array('xmlwriter', 'SimpleXML', 'openssl', 'dom', 'hash', 'curl');
 
@@ -149,7 +145,7 @@
                                 'text' => tep_output_string_protected(sprintf('%02d', $i)));
       }
 
-      $today = getdate(); 
+      $today = getdate();
       $years_array = array();
 
       for ($i=$today['year']; $i < $today['year']+10; $i++) {
@@ -170,7 +166,7 @@
           $content .= '<table id="braintree_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
 
           while ( $tokens = tep_db_fetch_array($tokens_query) ) {
-            $content .= '<tr class="moduleRow" id="braintree_card_' . (int)$tokens['id'] . '">' . 
+            $content .= '<tr class="moduleRow" id="braintree_card_' . (int)$tokens['id'] . '">' .
                         '  <td width="40" valign="top"><input type="radio" name="braintree_card" value="' . (int)$tokens['id'] . '" /></td>' .
                         '  <td valign="top">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>' .
                         '</tr>';
@@ -280,7 +276,7 @@
           $months_array[] = sprintf('%02d', $i);
         }
 
-        $today = getdate(); 
+        $today = getdate();
         $years_array = array();
 
         for ($i=$today['year']; $i < $today['year']+10; $i++) {

@@ -383,7 +383,7 @@
 
     $button .= ' class="btn ';
 
-    $button .= (isset($style)) ? $style : 'btn-default';
+    $button .= (isset($style)) ? $style : 'btn-outline-secondary';
 
     $button .= '">';
 

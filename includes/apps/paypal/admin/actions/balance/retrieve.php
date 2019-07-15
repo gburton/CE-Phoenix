@@ -15,8 +15,8 @@
 
   $ppBalanceResult = array('rpcStatus' => -1);
 
-  if ( isset($HTTP_GET_VARS['type']) && in_array($HTTP_GET_VARS['type'], array('live', 'sandbox')) ) {
-    $ppBalanceResponse = $OSCOM_PayPal->getApiResult('APP', 'GetBalance', null, $HTTP_GET_VARS['type']);
+  if ( isset($_GET['type']) && in_array($_GET['type'], array('live', 'sandbox')) ) {
+    $ppBalanceResponse = $OSCOM_PayPal->getApiResult('APP', 'GetBalance', null, $_GET['type']);
 
     if ( is_array($ppBalanceResponse) && isset($ppBalanceResponse['ACK']) && ($ppBalanceResponse['ACK'] == 'Success') ) {
       $ppBalanceResult['rpcStatus'] = 1;

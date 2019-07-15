@@ -391,14 +391,14 @@ EOD;
     }
 
     function before_process() {
-      global $HTTP_GET_VARS, $HTTP_POST_VARS, $cart_PayPal_Pro_HS_ID, $customer_id, $pphs_result, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $$payment;
+      global $cart_PayPal_Pro_HS_ID, $customer_id, $pphs_result, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $$payment;
 
       $result = false;
 
-      if ( isset($HTTP_GET_VARS['tx']) && !empty($HTTP_GET_VARS['tx']) ) { // direct payment (eg, credit card)
-        $result = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $HTTP_GET_VARS['tx']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox');
-      } elseif ( isset($HTTP_POST_VARS['txn_id']) && !empty($HTTP_POST_VARS['txn_id']) ) { // paypal payment
-        $result = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $HTTP_POST_VARS['txn_id']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox');
+      if ( isset($_GET['tx']) && !empty($_GET['tx']) ) { // direct payment (eg, credit card)
+        $result = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $_GET['tx']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox');
+      } elseif ( isset($_POST['txn_id']) && !empty($_POST['txn_id']) ) { // paypal payment
+        $result = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $_POST['txn_id']), (OSCOM_APP_PAYPAL_HS_STATUS == '1') ? 'live' : 'sandbox');
       }
 
       if ( !in_array($result['ACK'], array('Success', 'SuccessWithWarning')) ) {

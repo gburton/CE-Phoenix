@@ -16,11 +16,6 @@
 // set the level of error reporting
   error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
-// check support for register_globals
-  if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
-    exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
-  }
-
 // load server configuration parameters
   if (file_exists('includes/local/configure.php')) { // for developers
     include('includes/local/configure.php');
@@ -69,15 +64,7 @@
 // if gzip_compression is enabled, start to buffer the output
   if ( (GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded = extension_loaded('zlib')) && !headers_sent() ) {
     if (($ini_zlib_output_compression = (int)ini_get('zlib.output_compression')) < 1) {
-      if (PHP_VERSION < '5.4' || PHP_VERSION > '5.4.5') { // see PHP bug 55544
-        if (PHP_VERSION >= '4.0.4') {
-          ob_start('ob_gzhandler');
-        } elseif (PHP_VERSION >= '4.0.1') {
-          include('includes/functions/gzip_compression.php');
-          ob_start();
-          ob_implicit_flush();
-        }
-      }
+      ob_start('ob_gzhandler');
     } elseif (function_exists('ini_set')) {
       ini_set('zlib.output_compression_level', GZIP_LEVEL);
     }
@@ -111,7 +98,7 @@
 // define general functions used application-wide
   require('includes/functions/general.php');
   require('includes/functions/html_output.php');
-  
+
 // hooks
   require('includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('shop');
@@ -137,13 +124,7 @@
   tep_session_save_path(SESSION_WRITE_DIRECTORY);
 
 // set the session cookie parameters
-   if (function_exists('session_set_cookie_params')) {
-    session_set_cookie_params(0, $cookie_path, $cookie_domain);
-  } elseif (function_exists('ini_set')) {
-    ini_set('session.cookie_lifetime', '0');
-    ini_set('session.cookie_path', $cookie_path);
-    ini_set('session.cookie_domain', $cookie_domain);
-  }
+  session_set_cookie_params(0, $cookie_path, $cookie_domain);
 
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
@@ -192,7 +173,7 @@
     $session_started = true;
   }
 
-  if ( ($session_started == true) && (PHP_VERSION >= 4.3) && function_exists('ini_get') && (ini_get('register_globals') == false) ) {
+  if ($session_started == true) { // force register_globals
     extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
   }
 
@@ -329,10 +310,10 @@
         $parameters = array('action', 'pid');
       }
     }
-    
+
     include('includes/classes/actions.php');
 		osC_Actions::parse($_GET['action']);
-    
+
   }
 
 // include the who's online functions
@@ -379,7 +360,7 @@
     $cPath_array = tep_parse_category_path($cPath);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
-    
+
     $OSCOM_category = new category_tree;
   } else {
     $current_category_id = 0;
@@ -396,12 +377,12 @@
   if (isset($cPath_array)) {
     foreach ($cPath_array as $k => $v) {
       $breadcrumb_category = $OSCOM_category->getData($v, 'name');
-    
+
       if ( defined('MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
         if (tep_not_null($OSCOM_category->getData($v, 'seo_title'))) {
           $breadcrumb_category = $OSCOM_category->getData($v, 'seo_title');
         }
-      }  
+      }
 
       $breadcrumb->add($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
     }
@@ -409,18 +390,18 @@
     $brand = new manufacturer((int)$_GET['manufacturers_id']);
 
     $breadcrumb_brand = $brand->getData('manufacturers_name');
-    
+
     if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
       if (tep_not_null($brand->getData('manufacturers_seo_title'))) {
         $breadcrumb_brand = $brand->getData('manufacturers_seo_title');
       }
     }
-    
-    $breadcrumb->add($breadcrumb_brand, tep_href_link('index.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id']));    
+
+    $breadcrumb->add($breadcrumb_brand, tep_href_link('index.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id']));
   }
 
 // add the products model to the breadcrumb trail
-  if (isset($_GET['products_id'])) {    
+  if (isset($_GET['products_id'])) {
     if ( defined('MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
       $model_query = tep_db_query("select coalesce(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) as products_model from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
     }
@@ -434,6 +415,6 @@
   }
 
   $OSCOM_Hooks->register('siteWide');
-  
+
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
-  
+
