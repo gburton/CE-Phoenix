@@ -28,7 +28,7 @@
   }
 
 // Define the project version --- obsolete, now retrieved with tep_get_version()
-  define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
+  define('PROJECT_VERSION', 'OSCOM CE Phoenix');
 
 // some code to solve compatibility issues
   require('includes/functions/compatibility.php');

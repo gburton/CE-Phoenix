@@ -41,7 +41,7 @@
     <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
-      <p>This web-based installation routine will correctly setup and configure osCommerce Online Merchant to run on this server.</p>
+      <p>This web-based installation routine will correctly setup and configure OSCOM CE Phoenix to run on this server.</p>
       <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help at the community support forums.</p>
     </div>
   </div>
@@ -206,7 +206,7 @@
     <h2 class="h4">Step 4</h2>
     <div class="card">
       <div class="card-body">      
-        <p>Congratulations on installing and configuring osCommerce Online Merchant as your online store solution!</p>
+        <p>Congratulations on installing and configuring OSCOM CE Phoenix as your online store solution!</p>
         <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>
       </div>
       <div class="card-footer">      
