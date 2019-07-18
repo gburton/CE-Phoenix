@@ -1,75 +1,62 @@
-osCommerce Community Edition
-============================
+# CE Phoenix
 
-osCommerce 2.3.4.1 with Bootstrap.  This is an ongoing COMMUNITY effort.  
+Phoenix is the Community Version of osCommerce
 
-You can choose to download;
+![Phoenix Logo](https://raw.githubusercontent.com/gburton/Responsive-osCommerce/master/.github/ce-phoenix.png)
 
-GOLD: https://github.com/gburton/Responsive-osCommerce/archive/v2.3.4-GOLD.zip
-EDGE: https://github.com/gburton/Responsive-osCommerce/archive/master.zip
+# Demo Site
 
-I advise Edge, as Gold is now ancient.
+https://template.me.uk/phoenix/index.php
 
-Help to move the Project forward
-================================
+## External Libraries
 
-I need your help to move this Project forward.  At the moment, this project is done on my own, as and when time can be given.  
+https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
 
-To allow me to give more time to this Project, I need your support;
+### PHP Version
 
-- give time for testing new code and/or getting involved in discussions
-- give code to the project - create a github account, fork and start coding
+Minimum | Maximum
+------------ | -------------
+7.0 | 7.1.x
 
-If you cannot give time or code, have a look here;
-https://forums.oscommerce.com/forum/117-announcements/
-where I offer a range of Themes, Modules and more for the Community Version.
+### User Checklist
 
+- [x] read this README document
+- [ ] download Phoenix & perform installation
+- [ ] check security page in administrative area.  admin > tools > security checks
+- [ ] join osCommerce forum
+- [ ] consider joining Phoenix club
+- [ ] install one or more navbar modules.  admin > modules > navbar modules > {install}
+- [ ] install one or more footer modules.  admin > modules > content > {install}
+- [ ] install one or more box modules.  admin > modules > boxes > {install}
+- [ ] install shipping module(s).  admin > modules > shipping
+- [ ] install payment module(s).  admin > modules > payment
+- [ ] perform a test checkout
+- [ ] load your categories and products
 
-Minimum PHP Version
-===================
+### Image Credits
 
-5.4
+Images in the default installation are copyright their respective owners;
 
-If you are on an older PHP version, you WILL find errors.  
-Update your PHP version.
-We believe the software should be OK all the way up to php7.1
+Image | Owner
+------------ | -------------
+osCommerce Logo | osCommerce
+Phoenix Logo | G Burton
+Oranges | Eelffica from Pixabay
+Lemons | Eelffica from Pixabay
+Pears | Eelffica from Pixabay
+Apples | Eelffica from Pixabay
+Tomatoes | Rocky_H from Pixabay
+Heart | Gerhard Gellinger from Pixabay
 
-Looking for Loaded?
-===================
+# Thank You
 
-This will never become a "loaded" osCommerce.  So if you are looking for something with a lot of addons pre-installed, this is not for you.  
+To all shopowners, developers, consultants and business owners who have supported the project over the years.
 
+## Beer Tokens
 
-Demo Site
-=========
+"Beer Tokens" are not used to purchase beer - they are used to give time into the Project.  I am hopeful that enough shopowners, developers, consultants and businesses ... will join the Phoenix Club to allow two professional developers to work on the code on an ad-hoc basis.  
 
-Check out the demo site at http://template.me.uk/234bs3/ - please note that this might be slightly behind "Edge", or might have modules that are about to be added to "Edge". 
-More or less, this is how Responsive osCommerce looks out of the box.
+### Join the Phoenix Club
 
-
-Installation
-============
-
-Install as if this is a new osCommerce installation.
-You can now play with the Modular aspect we've introduced.
-
-Database Conversion Script
-==========================
-
-To go from an older osCommerce to this one, this Script might help:
-
-http://forums.oscommerce.com/topic/399678-234normal-to-234responsive-database-conversion-script/
-
-Got Questions, Comments or Concerns
-===================================
-
-http://forums.oscommerce.com/topic/396152-bootstrap-3-in-234-responsive-from-the-get-go/
-
-How to keep a clean Master copy using Github
-============================================
-
-I have put together a couple of videos.
-1.  how to create a new Github account and Fork this project.
-2.  how to check for new commits to this project and pull them into your own Fork.
-
-You can find these videos at http://forums.oscommerce.com/topic/396152-bootstrap-3-in-2334-responsive-from-the-get-go/?p=1709648
+If you wish to support ongoing and future development, please consider joining the club
+https://forums.oscommerce.com/clubs/1-phoenix/

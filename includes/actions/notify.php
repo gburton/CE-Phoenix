@@ -28,10 +28,10 @@
         if (!is_array($notify)) $notify = array($notify);
         $n=sizeof($notify);
         for ($i=0; $i<$n; $i++) {
-          $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$notify[$i] . "' and customers_id = '" . (int)$customer_id . "'");
+          $check_query = tep_db_query("select count(*) as count from products_notifications where products_id = '" . (int)$notify[$i] . "' and customers_id = '" . (int)$customer_id . "'");
           $check = tep_db_fetch_array($check_query);
           if ($check['count'] < 1) {
-            tep_db_query("insert into " . TABLE_PRODUCTS_NOTIFICATIONS . " (products_id, customers_id, date_added) values ('" . (int)$notify[$i] . "', '" . (int)$customer_id . "', now())");
+            tep_db_query("insert into products_notifications (products_id, customers_id, date_added) values ('" . (int)$notify[$i] . "', '" . (int)$customer_id . "', now())");
           }
         }
         

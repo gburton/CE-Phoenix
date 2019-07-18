@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -305,12 +305,12 @@
         $order_id = substr($cart_PayPal_Pro_HS_ID, strpos($cart_PayPal_Pro_HS_ID, '-')+1);
 
         $params = array('buyer_email' => $order->customer['email_address'],
-                        'cancel_return' => tep_href_link('checkout_payment.php', '', 'SSL'),
+                        'cancel_return' => tep_href_link(FILENAME_CHECKOUT_PAYMENT, '', 'SSL'),
                         'currency_code' => $currency,
                         'invoice' => $order_id,
                         'custom' => $customer_id,
                         'paymentaction' => OSCOM_APP_PAYPAL_HS_TRANSACTION_METHOD == '1' ? 'sale' : 'authorization',
-                        'return' => tep_href_link('checkout_process.php', '', 'SSL'),
+                        'return' => tep_href_link(FILENAME_CHECKOUT_PROCESS, '', 'SSL'),
                         'notify_url' => tep_href_link('ext/modules/payment/paypal/pro_hosted_ipn.php', '', 'SSL', false, false),
                         'shipping' => $this->_app->formatCurrencyRaw($order->info['shipping_cost']),
                         'tax' => $this->_app->formatCurrencyRaw($order->info['tax']),
@@ -318,6 +318,7 @@
                         'billing_first_name' => $order->billing['firstname'],
                         'billing_last_name' => $order->billing['lastname'],
                         'billing_address1' => $order->billing['street_address'],
+                        'billing_address2' => $order->billing['suburb'],
                         'billing_city' => $order->billing['city'],
                         'billing_state' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
                         'billing_zip' => $order->billing['postcode'],
@@ -334,6 +335,7 @@
           $params['first_name'] = $order->delivery['firstname'];
           $params['last_name'] = $order->delivery['lastname'];
           $params['address1'] = $order->delivery['street_address'];
+          $params['address2'] = $order->delivery['suburb'];
           $params['city'] = $order->delivery['city'];
           $params['state'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
           $params['zip'] = $order->delivery['postcode'];
@@ -360,7 +362,7 @@
       }
 
       $iframe_url = tep_href_link('ext/modules/payment/paypal/hosted_checkout.php', 'key=' . $pphs_key, 'SSL');
-      $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
+      $form_url = tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=paypal_pro_hs', 'SSL');
 
 // include jquery if it doesn't exist in the template
       $output = <<<EOD
@@ -400,7 +402,7 @@ EOD;
       }
 
       if ( !in_array($result['ACK'], array('Success', 'SuccessWithWarning')) ) {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($result['L_LONGMESSAGE0'])));
+        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($result['L_LONGMESSAGE0'])));
       }
 
       $order_id = substr($cart_PayPal_Pro_HS_ID, strpos($cart_PayPal_Pro_HS_ID, '-')+1);
@@ -412,7 +414,7 @@ EOD;
       }
 
       if ( !isset($result['RECEIVERBUSINESS']) || !in_array($result['RECEIVERBUSINESS'], $seller_accounts) || ($result['INVNUM'] != $order_id) || ($result['CUSTOM'] != $customer_id) ) {
-        tep_redirect(tep_href_link('shopping_cart.php'));
+        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
       }
 
       $pphs_result = $result;
@@ -423,7 +425,7 @@ EOD;
       $tx_customer_id = $pphs_result['CUSTOM'];
 
       if (!tep_db_num_rows($check_query) || ($order_id != $tx_order_id) || ($customer_id != $tx_customer_id)) {
-        tep_redirect(tep_href_link('shopping_cart.php'));
+        tep_redirect(tep_href_link(FILENAME_SHOPPING_CART));
       }
 
       $check = tep_db_fetch_array($check_query);
@@ -533,7 +535,7 @@ EOD;
       $email_order = STORE_NAME . "\n" .
                      EMAIL_SEPARATOR . "\n" .
                      EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n" .
+                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
                      EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
       if ($order->info['comments']) {
         $email_order .= tep_db_output($order->info['comments']) . "\n\n";
@@ -590,7 +592,7 @@ EOD;
       tep_session_unregister('pphs_result');
       tep_session_unregister('pphs_key');
 
-      tep_redirect(tep_href_link('checkout_process.php', '', 'SSL'));
+      tep_redirect(tep_href_link(FILENAME_CHECKOUT_SUCCESS, '', 'SSL'));
     }
 
     function after_process() {

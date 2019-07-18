@@ -5,29 +5,33 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 ?>
 
+      <?php 
+      echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentEnd');
+      ?>
+      
       </div> <!-- bodyContent //-->
 
 <?php
-  if ($oscTemplate->hasBlocks('boxes_column_left')) {
+  if ( $oscTemplate->hasBlocks('boxes_column_left') && ($oscTemplate->getGridColumnWidth() > 0) ) {
 ?>
 
-      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>  col-md-pull-<?php echo $oscTemplate->getGridContentWidth(); ?>">
+      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?> order-xs-6 order-md-1">
         <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
       </div>
 
 <?php
   }
 
-  if ($oscTemplate->hasBlocks('boxes_column_right')) {
+  if ( $oscTemplate->hasBlocks('boxes_column_right') && ($oscTemplate->getGridColumnWidth() > 0) ) {
 ?>
 
-      <div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?>">
+      <div id="columnRight" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?> order-last">
         <?php echo $oscTemplate->getBlocks('boxes_column_right'); ?>
       </div>
 
@@ -36,13 +40,24 @@
 ?>
 
     </div> <!-- row -->
+    
+    <?php 
+    echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperEnd');
+    ?>
 
   </div> <!-- bodyWrapper //-->
 
-  <?php require('includes/footer.php'); ?>
-
-<script src="ext/bootstrap/js/bootstrap.min.js"></script>
-<?php echo $oscTemplate->getBlocks('footer_scripts'); ?>
+  <?php 
+  echo $OSCOM_Hooks->call('siteWide', 'injectBeforeFooter');
+  
+  require('includes/footer.php');
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectAfterFooter');
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
+  
+  echo $oscTemplate->getBlocks('footer_scripts'); 
+  ?>
 
 </body>
 </html>

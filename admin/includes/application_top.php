@@ -15,14 +15,9 @@
 
 // Set the level of error reporting
   error_reporting(E_ALL & ~E_NOTICE);
-  
+
   if (defined('E_DEPRECATED')) {
     error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-  }
-
-// check support for register_globals
-  if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
-    exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
   }
 
 // load server configuration parameters
@@ -53,12 +48,6 @@
 
 // include the list of project database tables
   require('includes/database_tables.php');
-
-// Define how do we update currency exchange rates
-// Possible values are 'oanda' 'xe' 'fixer' or ''
-// fixer is the lastest added, more details at http://fixer.io
-  define('CURRENCY_SERVER_PRIMARY', 'fixer');
-  define('CURRENCY_SERVER_BACKUP', '');
 
 // include the database functions
   require('includes/functions/database.php');
@@ -94,22 +83,15 @@
   tep_session_save_path(SESSION_WRITE_DIRECTORY);
 
 // set the session cookie parameters
-   if (function_exists('session_set_cookie_params')) {
-    session_set_cookie_params(0, $cookie_path, $cookie_domain);
-  } elseif (function_exists('ini_set')) {
-    ini_set('session.cookie_lifetime', '0');
-    ini_set('session.cookie_path', $cookie_path);
-    ini_set('session.cookie_domain', $cookie_domain);
-  }
+  session_set_cookie_params(0, $cookie_path, $cookie_domain);
 
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
 // lets start our session
   tep_session_start();
 
-  if ( (PHP_VERSION >= 4.3) && function_exists('ini_get') && (ini_get('register_globals') == false) ) {
-    extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
-  }
+  // force register_globals
+  extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
 
 // set the language
   if (!tep_session_is_registered('language') || isset($_GET['language'])) {
@@ -239,8 +221,10 @@
                         array('title' => TEXT_CACHE_MANUFACTURERS, 'code' => 'manufacturers', 'file' => 'manufacturers_box-language.cache', 'multiple' => true),
                         array('title' => TEXT_CACHE_ALSO_PURCHASED, 'code' => 'also_purchased', 'file' => 'also_purchased-language.cache', 'multiple' => true)
                        );
-                       
+
   require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('admin');
+
+  $OSCOM_Hooks->register('siteWide');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));

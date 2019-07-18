@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -110,7 +110,7 @@
     $image .= ' class="';
 
     if (tep_not_null($responsive) && ($responsive === true)) {
-      $image .= 'img-responsive';
+      $image .= 'img-fluid';
     }
 
     if (tep_not_null($bootstrap_css)) $image .= ' ' . $bootstrap_css;
@@ -345,6 +345,8 @@
     static $button_counter = 1;
 
     $types = array('submit', 'button', 'reset');
+    
+    if ( !is_array($params) ) $params = array();
 
     if ( !isset($params['type']) ) {
       $params['type'] = 'submit';
@@ -368,7 +370,7 @@
       $button .= '<a id="btn' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank"';
+        $button .= ' target="_blank" rel="noopener"';
       }
     } else {
       $button .= '<button ';
@@ -381,12 +383,12 @@
 
     $button .= ' class="btn ';
 
-    $button .= (isset($style)) ? $style : 'btn-default';
+    $button .= (isset($style)) ? $style : 'btn-outline-secondary';
 
     $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
-      $button .= ' <span class="' . $icon . '"></span> ';
+      $button .= ' <span class="' . $icon . '" aria-hidden="true"></span> ';
     }
 
     $button .= $title;

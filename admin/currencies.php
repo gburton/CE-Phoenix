@@ -68,30 +68,12 @@
         tep_redirect(tep_href_link('currencies.php', 'page=' . $_GET['page']));
         break;
       case 'update':
-        $server_used = CURRENCY_SERVER_PRIMARY;
-
-        $currency_query = tep_db_query("select currencies_id, code, title from " . TABLE_CURRENCIES);
-        while ($currency = tep_db_fetch_array($currency_query)) {
-          $quote_function = 'quote_' . CURRENCY_SERVER_PRIMARY . '_currency';
-          $rate = $quote_function($currency['code']);
-
-          if (empty($rate) && (tep_not_null(CURRENCY_SERVER_BACKUP))) {
-            $messageStack->add_session(sprintf(WARNING_PRIMARY_SERVER_FAILED, CURRENCY_SERVER_PRIMARY, $currency['title'], $currency['code']), 'warning');
-
-            $quote_function = 'quote_' . CURRENCY_SERVER_BACKUP . '_currency';
-            $rate = $quote_function($currency['code']);
-
-            $server_used = CURRENCY_SERVER_BACKUP;
-          }
-
-          if (tep_not_null($rate)) {
-            tep_db_query("update " . TABLE_CURRENCIES . " set value = '" . $rate . "', last_updated = now() where currencies_id = '" . (int)$currency['currencies_id'] . "'");
-
-            $messageStack->add_session(sprintf(TEXT_INFO_CURRENCY_UPDATED, $currency['title'], $currency['code'], $server_used), 'success');
-          } else {
-            $messageStack->add_session(sprintf(ERROR_CURRENCY_INVALID, $currency['title'], $currency['code'], $server_used), 'error');
-          }
-        }
+        include_once('includes/languages/' . $language . '/modules/currencies/' . MODULE_ADMIN_CURRENCIES_INSTALLED);
+        include_once('includes/modules/currencies/' . MODULE_ADMIN_CURRENCIES_INSTALLED);
+        
+        $converter = basename(MODULE_ADMIN_CURRENCIES_INSTALLED, '.php');
+ 
+        call_user_func(array($converter, 'execute'));
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . $_GET['page'] . '&cID=' . $_GET['cID']));
         break;
@@ -227,7 +209,7 @@ function updateForm() {
   if (empty($action)) {
 ?>
                   <tr>
-                    <td class="smallText"><?php if (CURRENCY_SERVER_PRIMARY) { echo tep_draw_button(IMAGE_UPDATE_CURRENCIES, 'refresh', tep_href_link('currencies.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=update')); } ?></td>
+                    <td class="smallText"><?php echo tep_draw_button(IMAGE_UPDATE_CURRENCIES, 'refresh', tep_href_link('currencies.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=update')); ?></td>
                     <td class="smallText" align="right"><?php echo tep_draw_button(IMAGE_NEW_CURRENCY, 'plus', tep_href_link('currencies.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=new')); ?></td>
                   </tr>
 <?php

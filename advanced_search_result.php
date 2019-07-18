@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
@@ -49,33 +49,6 @@
 
     if (isset($_GET['keywords'])) {
       $keywords = tep_db_prepare_input($_GET['keywords']);
-    }
-
-    $date_check_error = false;
-    if (tep_not_null($dfrom)) {
-      if (!tep_checkdate($dfrom, DOB_FORMAT_STRING, $dfrom_array)) {
-        $error = true;
-        $date_check_error = true;
-
-        $messageStack->add_session('search', ERROR_INVALID_FROM_DATE);
-      }
-    }
-
-    if (tep_not_null($dto)) {
-      if (!tep_checkdate($dto, DOB_FORMAT_STRING, $dto_array)) {
-        $error = true;
-        $date_check_error = true;
-
-        $messageStack->add_session('search', ERROR_INVALID_TO_DATE);
-      }
-    }
-
-    if (($date_check_error == false) && tep_not_null($dfrom) && tep_not_null($dto)) {
-      if (mktime(0, 0, 0, $dfrom_array[1], $dfrom_array[2], $dfrom_array[0]) > mktime(0, 0, 0, $dto_array[1], $dto_array[2], $dto_array[0])) {
-        $error = true;
-
-        $messageStack->add_session('search', ERROR_TO_DATE_LESS_THAN_FROM_DATE);
-      }
     }
 
     $price_check_error = false;
@@ -130,9 +103,7 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE_2; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE_2; ?></h1>
 
 <div class="contentContainer">
 
@@ -176,23 +147,23 @@
     }
   }
 
-  $select_str = "select distinct " . $select_column_list . " m.manufacturers_id, p.products_id, SUBSTRING_INDEX(pd.products_description, ' ', 20) as products_description, pd.products_name, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, if(s.status, 1, 0) as is_special ";
+  $select_str = "select distinct " . $select_column_list . " m.manufacturers_id, p.products_id, pd.products_description, pd.products_name, p.products_price, p.products_tax_class_id, p.products_quantity as in_stock, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, if(s.status, 1, 0) as is_special ";
 
   if ( (DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null($pto)) ) {
     $select_str .= ", SUM(tr.tax_rate) as tax_rate ";
   }
 
-  $from_str = "from " . TABLE_PRODUCTS . " p left join " . TABLE_MANUFACTURERS . " m using(manufacturers_id) left join " . TABLE_SPECIALS . " s on p.products_id = s.products_id";
+  $from_str = "from products p left join manufacturers m using(manufacturers_id) left join specials s on p.products_id = s.products_id";
 
   if ( (DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null($pto)) ) {
     if (!tep_session_is_registered('customer_country_id')) {
       $customer_country_id = STORE_COUNTRY;
       $customer_zone_id = STORE_ZONE;
     }
-    $from_str .= " left join " . TABLE_TAX_RATES . " tr on p.products_tax_class_id = tr.tax_class_id left join " . TABLE_ZONES_TO_GEO_ZONES . " gz on tr.tax_zone_id = gz.geo_zone_id and (gz.zone_country_id is null or gz.zone_country_id = '0' or gz.zone_country_id = '" . (int)$customer_country_id . "') and (gz.zone_id is null or gz.zone_id = '0' or gz.zone_id = '" . (int)$customer_zone_id . "')";
+    $from_str .= " left join tax_rates tr on p.products_tax_class_id = tr.tax_class_id left join zones_to_geo_zones gz on tr.tax_zone_id = gz.geo_zone_id and (gz.zone_country_id is null or gz.zone_country_id = '0' or gz.zone_country_id = '" . (int)$customer_country_id . "') and (gz.zone_id is null or gz.zone_id = '0' or gz.zone_id = '" . (int)$customer_zone_id . "')";
   }
 
-  $from_str .= ", " . TABLE_PRODUCTS_DESCRIPTION . " pd, " . TABLE_CATEGORIES . " c, " . TABLE_PRODUCTS_TO_CATEGORIES . " p2c";
+  $from_str .= ", products_description pd, categories c, products_to_categories p2c";
 
   $where_str = " where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id ";
 
@@ -240,14 +211,6 @@
       }
     }
     $where_str .= " )";
-  }
-
-  if (tep_not_null($dfrom)) {
-    $where_str .= " and p.products_date_added >= '" . tep_date_raw($dfrom) . "'";
-  }
-
-  if (tep_not_null($dto)) {
-    $where_str .= " and p.products_date_added <= '" . tep_date_raw($dto) . "'";
   }
 
   if (tep_not_null($pfrom)) {
@@ -318,10 +281,10 @@
   require('includes/modules/product_listing.php');
 ?>
 
-  <br />
+  <br>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fa fa-angle-left', tep_href_link('advanced_search.php', tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?>
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('advanced_search.php', tep_get_all_get_params(array('sort', 'page')), 'NONSSL', true, false)); ?>
   </div>
 </div>
 

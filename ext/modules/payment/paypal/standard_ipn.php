@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2017 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,12 +17,11 @@
     exit;
   }
 
-  require('includes/languages/' . $language . '/checkout_process.php');
-
-  require('includes/languages/' . $language . '/modules/payment/paypal_standard.php');
   require('includes/modules/payment/paypal_standard.php');
 
   $paypal_standard = new paypal_standard();
+
+  require(DIR_FS_CATALOG . 'includes/languages/' . $language . '/' . FILENAME_CHECKOUT_PROCESS);
 
   $result = false;
 
@@ -32,7 +31,7 @@
     $seller_accounts[] = $paypal_standard->_app->getCredentials('PS', 'email_primary');
   }
 
-  if ( isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts) ) {
+  if ( (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) ) {
     $parameters = 'cmd=_notify-validate&';
 
     foreach ( $_POST as $key => $value ) {
@@ -46,11 +45,14 @@
     $result = $paypal_standard->_app->makeApiCall($paypal_standard->form_action_url, $parameters);
   }
 
-  $log_params = $_POST;
-  $log_params['cmd'] = '_notify-validate';
+  $log_params = array();
+
+  foreach ( $_POST as $key => $value ) {
+    $log_params[$key] = stripslashes($value);
+  }
 
   foreach ( $_GET as $key => $value ) {
-    $log_params['GET ' . $key] = $value;
+    $log_params['GET ' . $key] = stripslashes($value);
   }
 
   $paypal_standard->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $log_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox', true);
@@ -83,12 +85,12 @@
 
         tep_db_perform('orders_status_history', $sql_data_array);
 
-        include('includes/classes/order.php');
+        include(DIR_FS_CATALOG . 'includes/classes/order.php');
         $order = new order($order_id);
 
         if (DOWNLOAD_ENABLED == 'true') {
           for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-            $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+            $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_download opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
 
             if ( tep_db_num_rows($downloads_query) ) {
               if ( $order->content_type == 'physical' ) {
@@ -123,7 +125,7 @@
             $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
 
             if (DOWNLOAD_ENABLED == 'true') {
-              $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_downloads opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
+              $downloads_query = tep_db_query("select opd.orders_products_filename from orders o, orders_products op, orders_products_download opd where o.orders_id = '" . (int)$order_id . "' and o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != ''");
               $downloads_values = tep_db_fetch_array($downloads_query);
 
               if ( tep_db_num_rows($downloads_query) ) {
@@ -157,7 +159,7 @@
         $email_order = STORE_NAME . "\n" .
                        EMAIL_SEPARATOR . "\n" .
                        EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                       EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n" .
+                       EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link(FILENAME_ACCOUNT_HISTORY_INFO, 'order_id=' . $order_id, 'SSL', false) . "\n" .
                        EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
         if ($order->info['comments']) {
           $email_order .= tep_db_output($order->info['comments']) . "\n\n";

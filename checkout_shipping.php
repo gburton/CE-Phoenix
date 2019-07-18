@@ -5,12 +5,14 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
+  
+  $OSCOM_Hooks->register('progress');
 
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
@@ -30,7 +32,7 @@
   } else {
 // verify the selected shipping address
     if ( (is_array($sendto) && empty($sendto)) || is_numeric($sendto) ) {
-      $check_address_query = tep_db_query("select count(*) as total from " . TABLE_ADDRESS_BOOK . " where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$sendto . "'");
+      $check_address_query = tep_db_query("select count(*) as total from address_book where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$sendto . "'");
       $check_address = tep_db_fetch_array($check_address_query);
 
       if ($check_address['total'] != '1') {
@@ -167,55 +169,49 @@
   require('includes/template_top.php');
 ?>
 
-<div class="page-header">
-  <h1 class="h3"><?php echo HEADING_TITLE; ?></h1>
-</div>
+<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
-<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping.php', '', 'SSL'), 'post', 'class="form-horizontal"', true) . tep_draw_hidden_field('action', 'process'); ?>
+<?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-  <h2 class="h3"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
+  
+  <h4><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h4>
 
-  <div class="contentText row">
+  <div class="row">
+  
     <div class="col-sm-8">
-      <div class="alert alert-warning">
+      <div class="alert alert-warning" role="alert">
         <?php echo TEXT_CHOOSE_SHIPPING_DESTINATION; ?>
-        <div class="clearfix"></div>
-        <div class="pull-right">
-          <?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
-        </div>
-        <div class="clearfix"></div>
+        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fas fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
-        <div class="panel-body">
+      <div class="card">
+        <div class="card-header"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
+        <div class="card-body">
           <?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br />'); ?>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="clearfix"></div>
-
 <?php
   if (tep_count_shipping_modules() > 0) {
 ?>
 
-  <h2 class="h3"><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h2>
+  <h4><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h4>
 
 <?php
     if (sizeof($quotes) > 1 && sizeof($quotes[0]) > 1) {
 ?>
 
-  <div class="contentText">
-    <div class="alert alert-warning">
-      <div class="row">
-        <div class="col-xs-8">
-          <?php echo TEXT_CHOOSE_SHIPPING_METHOD; ?>
-        </div>
-        <div class="col-xs-4 text-right">
+  <div class="alert alert-warning" role="alert">
+    <div class="row">
+      <div class="col-sm-8">
+        <?php echo TEXT_CHOOSE_SHIPPING_METHOD; ?>
+      </div>
+      <div class="col-sm-4">
+        <div class="text-right">
           <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
         </div>
       </div>
@@ -226,33 +222,26 @@
     } elseif ($free_shipping == false) {
 ?>
 
-  <div class="contentText">
-    <div class="alert alert-info"><?php echo TEXT_ENTER_SHIPPING_INFORMATION; ?></div>
-  </div>
+  <div class="alert alert-info" role="alert"><?php echo TEXT_ENTER_SHIPPING_INFORMATION; ?></div>
 
 <?php
     }
-?>
 
-  <div class="contentText">
-    <table class="table table-striped table-condensed table-hover">
-      <tbody>
-
-<?php
     if ($free_shipping == true) {
 ?>
 
-    <div class="contentText">
-      <div class="panel panel-success">
-        <div class="panel-heading"><strong><?php echo FREE_SHIPPING_TITLE; ?></strong>&nbsp;<?php echo $quotes[$i]['icon']; ?></div>
-        <div class="panel-body">
-          <?php echo sprintf(FREE_SHIPPING_DESCRIPTION, $currencies->format(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER)) . tep_draw_hidden_field('shipping', 'free_free'); ?>
-        </div>
-      </div>
+    <div class="alert alert-info" role="alert">
+      <h4><?php echo FREE_SHIPPING_TITLE; ?></h4>
+      <p class="lead"><?php echo sprintf(FREE_SHIPPING_DESCRIPTION, $currencies->format(MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER)) . tep_draw_hidden_field('shipping', 'free_free'); ?></p>
     </div>
 
 <?php
     } else {
+      ?>
+
+    <table class="table table-striped table-sm table-hover">
+      <tbody>
+      <?php
       for ($i=0, $n=sizeof($quotes); $i<$n; $i++) {
         for ($j=0, $n2=sizeof($quotes[$i]['methods']); $j<$n2; $j++) {
 // set the radio button to be checked if it is the method chosen
@@ -268,12 +257,12 @@
 
           <?php
           if (isset($quotes[$i]['error'])) {
-            echo '<div class="help-block">' . $quotes[$i]['error'] . '</div>';
+            echo '<div class="form-text">' . $quotes[$i]['error'] . '</div>';
           }
           ?>
 
           <?php
-          if (tep_not_null($quotes[$i]['methods'][$j]['title'])) echo '<div class="help-block">' . $quotes[$i]['methods'][$j]['title'] . '</div>';
+          if (tep_not_null($quotes[$i]['methods'][$j]['title'])) echo '<div class="form-text">' . $quotes[$i]['methods'][$j]['title'] . '</div>';
           ?>
           </td>
 
@@ -313,7 +302,6 @@
 
       </tbody>
     </table>
-  </div>
 
 <?php
   }
@@ -321,42 +309,29 @@
 
   <hr>
 
-  <div class="contentText">
-    <div class="form-group">
-      <label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-      <div class="col-sm-8">
-        <?php
-        echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
-        ?>
-      </div>
+  
+  <div class="form-group row">
+    <label for="inputComments" class="col-form-label col-sm-4 text-left text-sm-right"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+    <div class="col-sm-8">
+      <?php
+      echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
+      ?>
     </div>
   </div>
+
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
   
-  <div class="clearfix"></div>
+  <div class="w-100"></div>
 
-  <div class="contentText">
-    <div class="stepwizard">
-      <div class="stepwizard-row">
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-primary btn-circle">1</button>
-          <p><?php echo CHECKOUT_BAR_DELIVERY; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">2</button>
-          <p><?php echo CHECKOUT_BAR_PAYMENT; ?></p>
-        </div>
-        <div class="stepwizard-step">
-          <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
-          <p><?php echo CHECKOUT_BAR_CONFIRMATION; ?></p>
-        </div>
-      </div>
-    </div>
+  <div class="progressBarHook"> 
+    <?php
+    echo $OSCOM_Hooks->call('progress', 'progressBar', $arr = array('style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => array('position' => 1, 'min' => 0, 'max' => 100, 'now' => 33)));
+    ?>       
   </div>
-
+  
 </div>
 
 </form>

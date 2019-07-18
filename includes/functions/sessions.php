@@ -10,11 +10,6 @@
   Released under the GNU General Public License
 */
 
-  if ( (PHP_VERSION >= 4.3) && ((bool)ini_get('register_globals') == false) ) {
-    @ini_set('session.bug_compat_42', 1);
-    @ini_set('session.bug_compat_warn', 0);
-  }
-
   if (STORE_SESSIONS == 'mysql') {
     function _sess_open($save_path, $session_name) {
       return true;
@@ -25,7 +20,7 @@
     }
 
     function _sess_read($key) {
-      $value_query = tep_db_query("select value from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
+      $value_query = tep_db_query("select value from sessions where sesskey = '" . tep_db_input($key) . "'");
       $value = tep_db_fetch_array($value_query);
 
       if (isset($value['value'])) {
@@ -36,26 +31,26 @@
     }
 
     function _sess_write($key, $value) {
-      $check_query = tep_db_query("select 1 from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
+      $check_query = tep_db_query("select 1 from sessions where sesskey = '" . tep_db_input($key) . "'");
 
       if ( tep_db_num_rows($check_query) > 0 ) {
-        $result = tep_db_query("update " . TABLE_SESSIONS . " set expiry = '" . tep_db_input(time()) . "', value = '" . tep_db_input($value) . "' where sesskey = '" . tep_db_input($key) . "'");
+        $result = tep_db_query("update sessions set expiry = '" . tep_db_input(time()) . "', value = '" . tep_db_input($value) . "' where sesskey = '" . tep_db_input($key) . "'");
        } else {
-        $result = tep_db_query("insert into " . TABLE_SESSIONS . " values ('" . tep_db_input($key) . "', '" . tep_db_input(time()) . "', '" . tep_db_input($value) . "')");
+        $result = tep_db_query("insert into sessions values ('" . tep_db_input($key) . "', '" . tep_db_input(time()) . "', '" . tep_db_input($value) . "')");
       }
-      
+
       return $result !== false;
     }
 
     function _sess_destroy($key) {
-      $result = tep_db_query("delete from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
-      
+      $result = tep_db_query("delete from sessions where sesskey = '" . tep_db_input($key) . "'");
+
       return $result !== false;
     }
 
     function _sess_gc($maxlifetime) {
-      $result = tep_db_query("delete from " . TABLE_SESSIONS . " where expiry < '" . (time() - $maxlifetime) . "'");
-      
+      $result = tep_db_query("delete from sessions where expiry < '" . (time() - $maxlifetime) . "'");
+
       return $result !== false;
     }
 
@@ -105,34 +100,22 @@
     global $session_started;
 
     if ($session_started == true) {
-      if (PHP_VERSION < 4.3) {
-        return session_register($variable);
-      } else {
-        if (!isset($GLOBALS[$variable])) {
-          $GLOBALS[$variable] = null;
-        }
-
-        $_SESSION[$variable] =& $GLOBALS[$variable];
+      if (!isset($GLOBALS[$variable])) {
+        $GLOBALS[$variable] = null;
       }
+
+      $_SESSION[$variable] =& $GLOBALS[$variable];
     }
 
     return false;
   }
 
   function tep_session_is_registered($variable) {
-    if (PHP_VERSION < 4.3) {
-      return session_is_registered($variable);
-    } else {
-      return isset($_SESSION) && array_key_exists($variable, $_SESSION);
-    }
+    return isset($_SESSION) && array_key_exists($variable, $_SESSION);
   }
 
   function tep_session_unregister($variable) {
-    if (PHP_VERSION < 4.3) {
-      return session_unregister($variable);
-    } else {
-      unset($_SESSION[$variable]);
-    }
+    unset($_SESSION[$variable]);
   }
 
   function tep_session_id($sessid = '') {
@@ -152,11 +135,7 @@
   }
 
   function tep_session_close() {
-    if (PHP_VERSION >= '4.0.4') {
-      return session_write_close();
-    } elseif (function_exists('session_close')) {
-      return session_close();
-    }
+    return session_write_close();
   }
 
   function tep_session_destroy() {
@@ -181,16 +160,14 @@
   function tep_session_recreate() {
     global $SID;
 
-    if (PHP_VERSION >= 5.1) {
-      $old_id = session_id();
+    $old_id = session_id();
 
-      session_regenerate_id(true);
+    session_regenerate_id(true);
 
-      if (!empty($SID)) {
-        $SID = tep_session_name() . '=' . tep_session_id();
-      }
-
-      tep_whos_online_update_session_id($old_id, tep_session_id());
+    if (!empty($SID)) {
+      $SID = tep_session_name() . '=' . tep_session_id();
     }
+
+    tep_whos_online_update_session_id($old_id, tep_session_id());
   }
 ?>
