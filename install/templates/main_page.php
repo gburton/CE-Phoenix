@@ -30,7 +30,7 @@
     <div class="container">
       <div class="row">
         <div id="storeLogo" class="col-sm-6">
-          <a href="index.php"><img src="images/oscommerce.png" title="osCommerce Online Merchant" style="margin: 10px 10px 0 10px;" /></a>
+          <a href="index.php"><img src="images/oscommerce.png" title="OSCOM CE Phoenix" style="margin: 10px 10px 0 10px;" /></a>
         </div>
 
         <div id="headerShortcuts" class="col-sm-6">

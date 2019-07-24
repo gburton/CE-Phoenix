@@ -27,7 +27,7 @@
       if ( (sizeof($result) == 2) && ($result[0] == 'OK') ) {
         $pass = true;
 
-        $email_body = 'Store Name: ' . STORE_NAME . ' (powered by osCommerce Online Merchant (' . $mb->signature . '))' . "\n" .
+        $email_body = 'Store Name: ' . STORE_NAME . ' (powered by OSCOM CE Phoenix (' . $mb->signature . '))' . "\n" .
                       'Merchant Name: ' . STORE_OWNER . "\n" .
                       'Moneybookers E-Mail Address: ' . $_POST['mb_email'] . "\n" .
                       'Moneybookers Customer ID: ' . $result[1] . "\n" .
