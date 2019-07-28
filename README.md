@@ -16,7 +16,7 @@ https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
 
 Minimum | Maximum
 ------------ | -------------
-7.0 | 7.1.x
+7.0 | 7.3
 
 ### User Checklist
 
@@ -58,5 +58,5 @@ To all shopowners, developers, consultants and business owners who have supporte
 
 ### Join the Phoenix Club
 
-If you wish to support ongoing and future development, please consider joining the club
+If you wish to support and sponsor ongoing and future development, please consider joining the club
 https://forums.oscommerce.com/clubs/1-phoenix/

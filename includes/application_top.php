@@ -31,7 +31,7 @@
   }
 
 // define the project version --- obsolete, now retrieved with tep_get_version()
-  define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
+  define('PROJECT_VERSION', 'OSCOM CE Phoenix');
 
 // some code to solve compatibility issues
   require('includes/functions/compatibility.php');
@@ -62,11 +62,13 @@
   }
 
 // if gzip_compression is enabled, start to buffer the output
-  if ( (GZIP_COMPRESSION == 'true') && ($ext_zlib_loaded = extension_loaded('zlib')) && !headers_sent() ) {
-    if (($ini_zlib_output_compression = (int)ini_get('zlib.output_compression')) < 1) {
-      ob_start('ob_gzhandler');
-    } elseif (function_exists('ini_set')) {
+  if ( (GZIP_COMPRESSION == 'true') && extension_loaded('zlib') && !headers_sent() ) {
+    if (function_exists('ini_set')) {
       ini_set('zlib.output_compression_level', GZIP_LEVEL);
+    }
+
+    if ((int)ini_get('zlib.output_compression') < 1) {
+      ob_start('ob_gzhandler');
     }
   }
 

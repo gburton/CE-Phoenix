@@ -18,7 +18,7 @@
 
   $authuserfile_array = array('##### OSCOMMERCE ADMIN PROTECTION - BEGIN #####',
                               'AuthType Basic',
-                              'AuthName "osCommerce Online Merchant Administration Tool"',
+                              'AuthName "OSCOM CE Phoenix Administration Tool"',
                               'AuthUserFile ' . DIR_FS_ADMIN . '.htpasswd_oscommerce',
                               'Require valid-user',
                               '##### OSCOMMERCE ADMIN PROTECTION - END #####');

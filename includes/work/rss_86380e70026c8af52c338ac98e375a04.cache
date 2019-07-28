@@ -1,4 +1,4 @@
-a:12:{s:8:"encoding";s:5:"UTF-8";s:5:"title";s:15:"osCommerce News";s:4:"link";s:26:"https://www.oscommerce.com";s:11:"description";s:29:"osCommerce News Announcements";s:8:"language";s:2:"en";s:9:"copyright";s:29:"Copyright (c) 2019 osCommerce";s:14:"managingEditor";s:19:"hpdl@oscommerce.com";s:11:"image_title";s:10:"osCommerce";s:9:"image_url";s:69:"https://www.oscommerce.com/public/sites/Website/images/oscommerce.png";s:10:"image_link";s:26:"https://www.oscommerce.com";s:5:"items";a:5:{i:0;a:5:{s:5:"title";s:10:"CE Phoenix";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=155";s:11:"description";s:275:"<p>Phoenix is the official Community Edition of osCommerce.  </p><p>If you wish to support ongoing and future development, please consider joining the Phoenix Club <a href="https://forums.oscommerce.com/clubs/1-phoenix/">https://forums.oscommerce.com/clubs/1-phoenix/</a></p>";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=155";s:7:"pubDate";s:31:"Thu, 04 Jul 2019 12:25:11 +0200";}i:1;a:5:{s:5:"title";s:15:"17 Years Young!";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=154";s:11:"description";s:424:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/happy_birthday.jpg" alt="" />
+a:12:{s:8:"encoding";s:5:"UTF-8";s:5:"title";s:15:"osCommerce News";s:4:"link";s:26:"https://www.oscommerce.com";s:11:"description";s:29:"osCommerce News Announcements";s:8:"language";s:2:"en";s:9:"copyright";s:29:"Copyright (c) 2019 osCommerce";s:14:"managingEditor";s:19:"hpdl@oscommerce.com";s:11:"image_title";s:10:"osCommerce";s:9:"image_url";s:69:"https://www.oscommerce.com/public/sites/Website/images/oscommerce.png";s:10:"image_link";s:26:"https://www.oscommerce.com";s:5:"items";a:5:{i:0;a:5:{s:5:"title";s:19:"CE Phoenix v1.0.1.0";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=156";s:11:"description";s:1023:"<p><strong>CE Phoenix v1.0.1.0</strong></p><p><em>This release includes a number of hotfixes as well as a modular shopping cart.</em></p><p>Phoenix is the official Community Edition of osCommerce, read more;<a href="https://forums.oscommerce.com/topic/493635-phoenix/">https://forums.oscommerce.com/topic/493635-phoenix/</a></p><p>Thank you to the many forum members who found and reported bugs, as well as providing feedback and fixes.<br />Special thanks to Rainer @raiwa for his work on putting together the modular shopping cart and to @haraldpdl for his 7.3 improvements.</p><p><strong>If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base.  Phoenix needs you as much as you need Phoenix!</strong></p><p>If you can help to sponsor ongoing and future development, please consider joining the Phoenix Club;<a href="https://forums.oscommerce.com/clubs/1-phoenix/">https://forums.oscommerce.com/clubs/1-phoenix/</a></p>";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=156";s:7:"pubDate";s:31:"Wed, 17 Jul 2019 16:03:58 +0200";}i:1;a:5:{s:5:"title";s:10:"CE Phoenix";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=155";s:11:"description";s:275:"<p>Phoenix is the official Community Edition of osCommerce.  </p><p>If you wish to support ongoing and future development, please consider joining the Phoenix Club <a href="https://forums.oscommerce.com/clubs/1-phoenix/">https://forums.oscommerce.com/clubs/1-phoenix/</a></p>";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=155";s:7:"pubDate";s:31:"Thu, 04 Jul 2019 12:25:11 +0200";}i:2;a:5:{s:5:"title";s:15:"17 Years Young!";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=154";s:11:"description";s:424:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/happy_birthday.jpg" alt="" />
 We're 17 today! 17 years working on Open Source. 17 years working with you. Trusting us for 17 years.<br />
 <br />
 Thank you!<br />
@@ -7,7 +7,7 @@ We're not only celebrating just today, but this whole month! New releases coming
 <br />
 #celebratingwithyou<br />
 <br />
-Happy Birthday osCommerce!";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=154";s:7:"pubDate";s:31:"Sun, 12 Mar 2017 21:36:34 +0100";}i:2;a:5:{s:5:"title";s:15:"Happy Holidays!";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=153";s:11:"description";s:3864:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/happy_holidays.jpg" alt="" />
+Happy Birthday osCommerce!";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=154";s:7:"pubDate";s:31:"Sun, 12 Mar 2017 21:36:34 +0100";}i:3;a:5:{s:5:"title";s:15:"Happy Holidays!";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=153";s:11:"description";s:3864:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/happy_holidays.jpg" alt="" />
 We wish everyone a great holiday season and a fantastic start in 2017!<br />
 <br />
 Special thanks to the team, our community members, and our partners - thank you for your continued support in not only helping us, but also continuing to welcoming and helping new store owners joining the community.<br />
@@ -30,7 +30,7 @@ We look forward in making 2017 your best year yet!<br />
 <br />
 Happy holidays!<br />
 <br />
-<span class="fa fa-fw fa-heart text-danger"></span>, osCommerce";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=153";s:7:"pubDate";s:31:"Wed, 21 Dec 2016 11:18:20 +0100";}i:3;a:5:{s:5:"title";s:43:"osCommerce Online Merchant v2.4.0 Joli Beta";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=152";s:11:"description";s:3788:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/oscom240.png" alt="" />
+<span class="fa fa-fw fa-heart text-danger"></span>, osCommerce";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=153";s:7:"pubDate";s:31:"Wed, 21 Dec 2016 11:18:20 +0100";}i:4;a:5:{s:5:"title";s:43:"osCommerce Online Merchant v2.4.0 Joli Beta";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=152";s:11:"description";s:3788:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/oscom240.png" alt="" />
 We're extremely proud to announce the next osCommerce Online Merchant release series is rolling out now starting with the beta release of v2.4.0 Joli! This is a developers release that has a rapid weekly release schedule to finalize the framework API and to build on to the v2.x series with quality production ready releases.<br />
 <br />
 v2.4.0 Joli Beta includes the community led effort by Gary Burton to modernize the frontend with a responsive Bootstrap template called Sail. This not only aims to improve the customer experience on the site frontend to encourage and improve sales, but also on the site backend with a more user intuitive interface to work with the business side of sales.<br />
@@ -71,31 +71,4 @@ An online demonstration of v2.4.0 Joli Beta can be found at:<br />
 <br />
 We'd like to thank the community for helping us out with the development of this release and for their continued dedication and support, and especially thank Joli for the good times he shared with all of us in the community. This release series is dedicated to you pal, you will always be remembered.<br />
 <br />
-<span class="fa fa-fw fa-heart text-danger"></span>, osCommerce";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=152";s:7:"pubDate";s:31:"Fri, 11 Nov 2016 22:47:58 +0100";}i:4;a:5:{s:5:"title";s:41:"PayPal App for osCommerce Online Merchant";s:4:"link";s:42:"https://www.oscommerce.com/Us&amp;News=151";s:11:"description";s:2658:"<img src="https://www.oscommerce.com/public/sites/Website/images/news/paypal_app.png" alt="" />
-We're proud to announce the introduction of a new App endeavor with the release of PayPal App for osCommerce Online Merchant!<br />
-<br />
-We've worked in close collaboration with PayPal to not only bring you updated PayPal payment modules but have also bundled all PayPal modules, including Log In with PayPal, into a single App package for an even tighter integration with osCommerce Online Merchant to enhance both sellers and buyers experiences with PayPal.<br />
-<br />
-The PayPal App is optimized for and will be bundled with the upcoming osCommerce Online Merchant v2.3.5 release and can be installed on existing installations from v2.2RC2a to v2.3.4.<br />
-<br />
-The PayPal App has been architectured to preview and showcase the direction we are taking the new osCommerce Online Merchant v2.4 series in and how the new series will allow you to install and update Apps on your online store through the Administration Dashboard. The PayPal App includes an online update feature that can update itself with a click of a button that will be part of the core in v2.4 for all Apps to take advantage of.<br />
-<br />
-We are also extremely proud to be one of the first self-hosted e-commerce solutions to allow the PayPal App to configure itself by securely retrieving the PayPal account API Credentials for you. This is currently available for US and UK sellers and allows you to sign into or create a PayPal live or sandbox account to retrieve the API Credentials from. This makes it extremely easy for new PayPal sellers to start experiencing the PayPal payment methods through a sandbox account and to create a live account as soon as they are ready to accept payments - directly from the osCommerce Administration Dashboard.<br />
-<br />
-In addition, the PayPal App includes:<br />
-<br />
-- Updated payment modules<br />
-- Payments Standard: Support for Payment Data Transfer (PDT) payments<br />
-- Payments Standard: Stock management in IPN notifications<br />
-- Order Administration: Capture full or partial authorizations, refund full or partial transactions<br />
-- API Logging: All parameters sent in and received from API calls are logged<br />
-<br />
-Documentation for the PayPal App is available at:<br />
-<br />
-<a href="http://library.oscommerce.com/Package&paypal">http://library.oscommerce.com/Package&paypal</a><br />
-<br />
-The PayPal App can be downloaded for free at:<br />
-<br />
-<a href="http://addons.oscommerce.com/info/9184">http://addons.oscommerce.com/info/9184</a><br />
-<br />
-We look forward to your feedback on this announcement!";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=151";s:7:"pubDate";s:31:"Tue, 09 Dec 2014 19:20:27 +0100";}}s:11:"items_count";i:5;}
+<span class="fa fa-fw fa-heart text-danger"></span>, osCommerce";s:4:"guid";s:42:"https://www.oscommerce.com/Us&amp;News=152";s:7:"pubDate";s:31:"Fri, 11 Nov 2016 22:47:58 +0100";}}s:11:"items_count";i:5;}
