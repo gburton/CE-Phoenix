@@ -60,3 +60,9 @@ To all shopowners, developers, consultants and business owners who have supporte
 
 If you wish to support and sponsor ongoing and future development, please consider joining the club
 https://forums.oscommerce.com/clubs/1-phoenix/
+
+### Other Languages
+
+Language | URL | Credit & Thanks
+------------ | ------------- | -------------
+German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | cupidare
