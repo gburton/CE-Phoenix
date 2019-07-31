@@ -1,7 +1,7 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-sc-no-products">
   <div class="alert alert-danger"><?php echo MODULE_CONTENT_SC_NO_PRODUCTS_TEXT_CART_EMPTY; ?></div>
   
-  <p class="text-right"><?php echo tep_draw_button(MODULE_CONTENT_SC_NO_PRODUCTS_BUTTON_CONTINUE, 'fa fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
+  <p class="text-right"><?php echo tep_draw_button(MODULE_CONTENT_SC_NO_PRODUCTS_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></p>
 </div>
 
 <?php
