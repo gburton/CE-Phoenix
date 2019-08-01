@@ -66,7 +66,7 @@
 
       $oscTemplate->_data['account']['account']['links']['stripe_cards'] = array('title' => $this->public_title,
                                                                                  'link' => tep_href_link('ext/modules/content/account/stripe/cards.php', '', 'SSL'),
-                                                                                 'icon' => 'newwin');
+                                                                                 'icon' => 'fab fa-cc-stripe fa-5x');
     }
 
     function isEnabled() {
