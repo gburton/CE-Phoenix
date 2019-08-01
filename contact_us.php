@@ -26,6 +26,8 @@
 
       $messageStack->add('contact', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
     }
+    
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     $actionRecorder = new actionRecorder('ar_contact_us', (tep_session_is_registered('customer_id') ? $customer_id : null), $name);
     if (!$actionRecorder->canPerform()) {
@@ -113,6 +115,10 @@
     </div>
   </div>    
 
+  <?php
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+  ?>
+  
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
