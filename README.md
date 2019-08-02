@@ -65,4 +65,5 @@ https://forums.oscommerce.com/clubs/1-phoenix/
 
 Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
-German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | cupidare
+German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
+Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
