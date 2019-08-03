@@ -37,28 +37,30 @@ Minimum | Maximum
 
 Images in the default installation are copyright their respective owners;
 
-Image | Owner
------------- | -------------
-osCommerce Logo | osCommerce
-Phoenix Logo | G Burton
-Oranges | Eelffica from Pixabay
-Lemons | Eelffica from Pixabay
-Pears | Eelffica from Pixabay
-Apples | Eelffica from Pixabay
-Tomatoes | Rocky_H from Pixabay
-Heart | Gerhard Gellinger from Pixabay
+Image | Owner | Usage
+------------ | ------------- | -------------
+osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#legalTabContentTrademark
+Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
+Oranges | Eelffica from Pixabay | https://pixabay.com/service/license/
+Lemons | Eelffica from Pixabay | https://pixabay.com/service/license/
+Pears | Eelffica from Pixabay | https://pixabay.com/service/license/
+Apples | Eelffica from Pixabay | https://pixabay.com/service/license/
+Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
+Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/
 
-# Thank You
+### Thank You
 
 To all shopowners, developers, consultants and business owners who have supported the project over the years.
 
-## Beer Tokens
+### Support the Project
 
-"Beer Tokens" are not used to purchase beer - they are used to give time into the Project.  I am hopeful that enough shopowners, developers, consultants and businesses ... will join the Phoenix Club to allow two professional developers to work on the code on an ad-hoc basis.  
+If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base. Phoenix needs you as much as you need Phoenix!
+
+I am hopeful that all shopowners, developers, consultants and businesses ... will join the Phoenix Club to allow two professional developers to work on the code on an ad-hoc basis.  
 
 ### Join the Phoenix Club
 
-If you wish to support and sponsor ongoing and future development, please consider joining the club
+If you wish to support and sponsor ongoing and future development (as well as receive free gifts), please join the Phoenix Club
 https://forums.oscommerce.com/clubs/1-phoenix/
 
 ### Other Languages
