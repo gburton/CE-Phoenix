@@ -40,9 +40,6 @@ INSERT INTO products_attributes VALUES (1, 4, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (2, 4, 1, 2, '5.0000', '+');
 INSERT INTO products_attributes VALUES (3, 2, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (4, 2, 1, 2, '4.5000', '+');
-INSERT INTO products_attributes VALUES (5, 1, 1, 1, '0.0000', '+');
-INSERT INTO products_attributes VALUES (6, 1, 1, 2, '4.9900', '+');
-INSERT INTO products_attributes VALUES (7, 3, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (8, 5, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (9, 5, 1, 2, '4.9900', '+');
 
