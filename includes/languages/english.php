@@ -227,3 +227,9 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
 
 // noscript helper
 define('TEXT_NOSCRIPT', '<p><strong>JavaScript seems to be disabled in your browser.</strong></p><p>You must have JavaScript enabled in your browser to utilize the functionality of this website.<br><a class="alert-link" href="https://www.enable-javascript.com/" target="_blank" rel="nofollow">Click here for instructions on enabling javascript in your browser</a>.</p>');
+
+// sitewide is-product 
+define('IS_PRODUCT_SHOW_PRICE', '%s');
+define('IS_PRODUCT_SHOW_PRICE_SPECIAL', '<del>%s</del> <span class="text-danger">now %s</span>');
+define('IS_PRODUCT_BUTTON_BUY', '<span class="fas fa-shopping-cart"></span>');
+define('IS_PRODUCT_BUTTON_VIEW', '<span class="fas fa-eye"></span> View');
