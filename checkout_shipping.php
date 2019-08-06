@@ -126,8 +126,12 @@
             tep_session_unregister('shipping');
           } else {
             if ( (isset($quote[0]['methods'][0]['title'])) && (isset($quote[0]['methods'][0]['cost'])) ) {
+              $way = ''; 
+              if (!empty($quote[0]['methods'][0]['title'])) {
+                  $way = ' (' . $quote[0]['methods'][0]['title'] . ')'; 
+              }
               $shipping = array('id' => $shipping,
-                                'title' => (($free_shipping == true) ?  $quote[0]['methods'][0]['title'] : $quote[0]['module'] . ' (' . $quote[0]['methods'][0]['title'] . ')'),
+                                'title' => (($free_shipping == true) ?  $quote[0]['methods'][0]['title'] : $quote[0]['module'] . $way), 
                                 'cost' => $quote[0]['methods'][0]['cost']);
 
               tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
