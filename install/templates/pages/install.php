@@ -134,7 +134,7 @@
     </div>
     
     <h2 class="h4">Database Server</h2>
-    <p class="text-danger pull-right text-right"><span class="fas fa-asterisk text-danger"></span> Required information</p>
+    <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=2" method="post" role="form">
     
@@ -142,7 +142,7 @@
         <label for="dbServer" class="col-form-label col-sm-3 text-left text-sm-right">Database Server</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
-          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
+          <i class="fas fa-asterisk form-control-feedback text-danger"></i>
           <span class="form-text">The address of the database server in the form of a hostname or IP address.</span>
         </div>
       </div>
@@ -151,7 +151,7 @@
         <label for="userName" class="col-form-label col-sm-3 text-left text-sm-right">Username</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
-          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
+          <i class="fas fa-asterisk form-control-feedback text-danger"></i>
           <span class="form-text">The username used to connect to the database server.</span>
         </div>
       </div>
@@ -160,8 +160,8 @@
         <label for="passWord" class="col-form-label col-sm-3 text-left text-sm-right">Password</label>
         <div class="col-sm-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
-          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
-          <span class="form-text">The password that is used together with the username to connect to the database server.</span>
+          <i class="fas fa-asterisk form-control-feedback text-danger"></i>
+          <i class="form-text">The password that is used together with the username to connect to the database server.</i>
         </div>
       </div>
     
@@ -169,7 +169,7 @@
         <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Database Name</label>
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
-          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
+          <i class="fas fa-asterisk form-control-feedback text-danger"></i>
           <span class="form-text">The name of the database to hold the data in.</span>
         </div>
       </div>
@@ -178,7 +178,7 @@
         <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Import Sample Data</label>
         <div class="col-sm-9">
           <?php echo osc_draw_select_menu('DB_IMPORT_SAMPLE', array(array('id' => '0', 'text' => 'Skip sample data'), array('id' => '1', 'text' => 'Import sample data')), '1'); ?>
-          <span class="fas fa-asterisk form-control-feedback text-danger"></span>
+          <i class="fas fa-asterisk form-control-feedback text-danger"></i>
           <span class="form-text">Import sample product and category data?</span>
         </div>
       </div>

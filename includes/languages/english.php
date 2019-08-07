@@ -195,8 +195,8 @@ define('TEXT_VIEW_GRID', ' Grid');
 define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<span class="fas fa-asterisk text-danger"></span> Required information');
-define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><span class="fas fa-asterisk"></span></span>');
+define('FORM_REQUIRED_INFORMATION', '<i class="fas fa-asterisk text-danger"></i> Required information');
+define('FORM_REQUIRED_INPUT', '<i class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></i>');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
@@ -231,5 +231,5 @@ define('TEXT_NOSCRIPT', '<p><strong>JavaScript seems to be disabled in your brow
 // sitewide is-product 
 define('IS_PRODUCT_SHOW_PRICE', '%s');
 define('IS_PRODUCT_SHOW_PRICE_SPECIAL', '<del>%s</del> <span class="text-danger">now %s</span>');
-define('IS_PRODUCT_BUTTON_BUY', '<span class="fas fa-shopping-cart"></span>');
-define('IS_PRODUCT_BUTTON_VIEW', '<span class="fas fa-eye"></span> View');
+define('IS_PRODUCT_BUTTON_BUY', '<i class="fas fa-shopping-cart"></i>');
+define('IS_PRODUCT_BUTTON_VIEW', '<i class="fas fa-eye"></i> View');
