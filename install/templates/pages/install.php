@@ -161,7 +161,7 @@
         <div class="col-sm-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <i class="form-text">The password that is used together with the username to connect to the database server.</i>
+          <span class="form-text">The password that is used together with the username to connect to the database server.</span>
         </div>
       </div>
     
