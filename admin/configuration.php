@@ -56,6 +56,7 @@
 <?php
   $configuration_query = tep_db_query("select configuration_id, configuration_title, configuration_value, use_function from " . TABLE_CONFIGURATION . " where configuration_group_id = '" . (int)$gID . "' order by sort_order");
   while ($configuration = tep_db_fetch_array($configuration_query)) {
+    $cfgValue = 0; 
     if (tep_not_null($configuration['use_function'])) {
       $use_function = $configuration['use_function'];
       if (preg_match('/->/', $use_function)) {
@@ -66,12 +67,14 @@
         }
         $cfgValue = tep_call_function($class_method[1], $configuration['configuration_value'], ${$class_method[0]});
       } else {
-        $cfgValue = tep_call_function($use_function, $configuration['configuration_value']);
+        if (function_exists($use_function)) { 
+           $cfgValue = tep_call_function($use_function, $configuration['configuration_value']);
+        }
       }
     } else {
       $cfgValue = $configuration['configuration_value'];
     }
-
+    
     if ((!isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $configuration['configuration_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
       $cfg_extra_query = tep_db_query("select configuration_key, configuration_description, date_added, last_modified, use_function, set_function from " . TABLE_CONFIGURATION . " where configuration_id = '" . (int)$configuration['configuration_id'] . "'");
       $cfg_extra = tep_db_fetch_array($cfg_extra_query);

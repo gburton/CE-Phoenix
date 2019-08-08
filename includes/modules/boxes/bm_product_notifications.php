@@ -46,9 +46,9 @@
         $notif_contents = '';
 
         if ($notification_exists == true) {
-          $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify_remove', $request_type) . '"><span class="fas fa-times"></span> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY_REMOVE, tep_get_products_name($_GET['products_id'])) .'</a>';
+          $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify_remove', $request_type) . '"><i class="fas fa-times"></i> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY_REMOVE, tep_get_products_name($_GET['products_id'])) .'</a>';
         } else {
-          $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><span class="fas fa-envelope"></span> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($_GET['products_id'])) .'</a>';
+          $notif_contents = '<a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><i class="fas fa-envelope"></i> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($_GET['products_id'])) .'</a>';
         }
         
         ob_start();

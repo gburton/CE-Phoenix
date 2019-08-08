@@ -1,13 +1,17 @@
-<div class="card bm-whats-new">
-  <div class="card-header"><a href="<?php echo tep_href_link('products_new.php'); ?>"><?php echo MODULE_BOXES_WHATS_NEW_BOX_TITLE; ?></a></div>
-  <div class="card-body text-center">
-    <?php echo '<a href="' . tep_href_link('product_info.php', 'products_id=' . $random_product['products_id']) . '">' . tep_image('images/' . $random_product['products_image'], htmlspecialchars($random_product['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br /><a href="' . tep_href_link('product_info.php', 'products_id=' . $random_product['products_id']) . '">' . $random_product['products_name'] . '</a><br />' . $whats_new_price; ?>
+<div class="card is-product"<?php echo $box_attr; ?>>
+  <div class="card-header">
+    <?php echo sprintf(MODULE_BOXES_WHATS_NEW_BOX_TITLE, tep_href_link('products_new.php')); ?>
+  </div>
+  <?php echo $box_image; ?>
+  <div class="card-body">
+    <h5 class="card-title"><?php echo $box_title; ?></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><?php echo $box_price; ?></h6>
   </div>
 </div>
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2019, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
