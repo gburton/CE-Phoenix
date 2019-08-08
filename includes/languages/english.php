@@ -196,7 +196,7 @@ define('TEXT_SEARCH_PLACEHOLDER','Search');
 
 // message for required inputs
 define('FORM_REQUIRED_INFORMATION', '<i class="fas fa-asterisk text-danger"></i> Required information');
-define('FORM_REQUIRED_INPUT', '<i class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></i>');
+define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
