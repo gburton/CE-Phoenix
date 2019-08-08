@@ -12,7 +12,7 @@
 ?>
 
 <div class="alert alert-info" role="alert">
-  <h1>Welcome to OSCOM v<?php echo osc_get_version(); ?>!</h1>
+  <h1>Welcome to OSCOM CE Phoenix v<?php echo osc_get_version(); ?></h1>
 
   <p>OSCOM CE Phoenix helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials, and more to successfully build the success of your online business.</p>
   <p>osCommerce has attracted a large community of store owners and developers who support each other and have provided thousands of free and paid-for add-ons that can extend the features and potential of your online store.</p>

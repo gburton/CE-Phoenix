@@ -91,10 +91,10 @@
     if ( (defined('MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS') && MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS == 'True') && (strpos(MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES, basename($PHP_SELF)) !== false) ) {
       ?>
       <li class="nav-item">
-        <a href="#" id="list" class="nav-link"><span class="fas fa-th-list"></span><?php echo TEXT_VIEW_LIST; ?></a>
+        <a href="#" id="list" class="nav-link"><i class="fas fa-th-list"></i><?php echo TEXT_VIEW_LIST; ?></a>
       </li>
       <li class="nav-item">
-        <a href="#" id="grid" class="nav-link"><span class="fas fa-th"></span><?php echo TEXT_VIEW_GRID; ?></a>
+        <a href="#" id="grid" class="nav-link"><i class="fas fa-th"></i><?php echo TEXT_VIEW_GRID; ?></a>
       </li>
       <?php
     }

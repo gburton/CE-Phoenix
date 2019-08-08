@@ -15,7 +15,7 @@
 </div>
 
 <footer>
-  <div class="jumbotron jumbotron-fluid jumbotron-footer">
+  <div class="jumbotron jumbotron-fluid jumbotron-footer m-0 pt-1 pb-1 border-top border-light">
     <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
       <div class="footer">
         <div class="row">
