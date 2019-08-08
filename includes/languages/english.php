@@ -210,11 +210,12 @@ define('TABLE_HEADING_IMAGE', '');
 define('TABLE_HEADING_MODEL', 'Model');
 define('TABLE_HEADING_PRODUCTS', 'Product Name');
 define('TABLE_HEADING_MANUFACTURER', 'Manufacturer');
-define('TABLE_HEADING_QUANTITY', 'Quantity');
+define('TABLE_HEADING_QUANTITY', 'Stock');
 define('TABLE_HEADING_PRICE', 'Price');
 define('TABLE_HEADING_WEIGHT', 'Weight');
 define('TABLE_HEADING_BUY_NOW', 'Buy Now');
-define('TABLE_HEADING_LATEST_ADDED', 'Latest Products');
+define('TABLE_HEADING_LATEST_ADDED', 'Date Added');
+define('TABLE_HEADING_ORDERED', 'Most Popular');
 
 // product notifications
 define('PRODUCT_SUBSCRIBED', '%s has been added to your Notification List');

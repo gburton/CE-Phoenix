@@ -30,7 +30,9 @@
                        'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
                        'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
                        'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-                       'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
+                       'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
+                       'PRODUCT_LIST_ID' => PRODUCT_LIST_ID,
+                       'PRODUCT_LIST_ORDERED' => PRODUCT_LIST_ORDERED);
 
   asort($define_list);
 
@@ -39,32 +41,7 @@
     if ($value > 0) $column_list[] = $key;
   }
 
-  $select_column_list = '';
-
-  for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-    switch ($column_list[$i]) {
-      case 'PRODUCT_LIST_MODEL':
-        $select_column_list .= 'p.products_model, ';
-        break;
-      case 'PRODUCT_LIST_NAME':
-        $select_column_list .= 'pd.products_name, ';
-        break;
-      case 'PRODUCT_LIST_MANUFACTURER':
-        $select_column_list .= 'm.manufacturers_name, ';
-        break;
-      case 'PRODUCT_LIST_QUANTITY':
-        $select_column_list .= 'p.products_quantity, ';
-        break;
-      case 'PRODUCT_LIST_IMAGE':
-        $select_column_list .= 'p.products_image, ';
-        break;
-      case 'PRODUCT_LIST_WEIGHT':
-        $select_column_list .= 'p.products_weight, ';
-        break;
-    }
-  }
-
-  $listing_sql = "select " . $select_column_list . " p.products_id, pd.products_description, p.manufacturers_id, p.products_price, p.products_tax_class_id, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join manufacturers m on p.manufacturers_id = m.manufacturers_id left join specials s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1'";
+  $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join manufacturers m on p.manufacturers_id = m.manufacturers_id left join specials s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1'";
 
   if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > sizeof($column_list)) ) {
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
@@ -99,6 +76,12 @@
         break;
       case 'PRODUCT_LIST_PRICE':
         $listing_sql .= " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
+        break;
+      case 'PRODUCT_LIST_ID':
+        $listing_sql .= " order by p.products_id " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
+        break;
+      case 'PRODUCT_LIST_ORDERED':
+        $listing_sql .= " order by p.products_ordered " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
     }
   }
