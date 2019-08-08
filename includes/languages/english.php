@@ -234,3 +234,7 @@ define('IS_PRODUCT_SHOW_PRICE', '%s');
 define('IS_PRODUCT_SHOW_PRICE_SPECIAL', '<del>%s</del> <span class="text-danger">now %s</span>');
 define('IS_PRODUCT_BUTTON_BUY', '<i class="fas fa-shopping-cart"></i>');
 define('IS_PRODUCT_BUTTON_VIEW', '<i class="fas fa-eye"></i> View');
+
+// sitewide product listing
+define('LISTING_SORT_DOWN', '<i class="fas fa-level-down-alt"></i>');
+define('LISTING_SORT_UP', '<i class="fas fa-level-up-alt"></i>');
