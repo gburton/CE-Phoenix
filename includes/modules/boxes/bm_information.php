@@ -32,9 +32,19 @@
 
     function execute() {
       global $oscTemplate;
-      
+
       $bm_information_links = null;      
-      foreach (MODULE_BOXES_INFORMATION_BOX_DATA as $a => $b) {
+
+      $box_list = array(
+        'privacy.php' => MODULE_BOXES_INFORMATION_PRIVACY, 
+        'conditions.php' => MODULE_BOXES_INFORMATION_CONDITIONS, 
+        'shipping.php' => MODULE_BOXES_INFORMATION_SHIPPING, 
+        'contact_us.php' => MODULE_BOXES_INFORMATION_CONTACT_US, 
+      );
+      if (defined('MODULE_BOXES_INFORMATION_EXTRAS')) {
+         $box_list = array_merge($box_list, MODULE_BOXES_INFORMATION_EXTRAS);
+      }
+      foreach ($box_list as $a => $b) {
         $bm_information_links .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link($a) . '">' . $b . '</a>' . PHP_EOL; 
       }
 

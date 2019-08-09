@@ -14,10 +14,14 @@
   define('MODULE_BOXES_INFORMATION_DESCRIPTION', 'Show information page links');
   define('MODULE_BOXES_INFORMATION_BOX_TITLE', 'Information');
   
-  const MODULE_BOXES_INFORMATION_BOX_DATA = array(
-    'privacy.php' => 'Privacy Notice',
-    'conditions.php' => 'Conditions of Use',
-    'shipping.php' => 'Shipping &amp; Returns',
-    'contact_us.php' => 'Contact Us'
-  );
-  
+  define('MODULE_BOXES_INFORMATION_PRIVACY', 'Privacy Notice');
+  define('MODULE_BOXES_INFORMATION_CONDITIONS', 'Conditions of Use'); 
+  define('MODULE_BOXES_INFORMATION_SHIPPING',  'Shipping &amp; Returns');
+  define('MODULE_BOXES_INFORMATION_CONTACT_US', 'Contact Us'); 
+
+  /* To define additional boxes, uncomment this block: 
+    define('MODULE_BOXES_INFORMATION_EXTRAS', array(
+      'your-box-filename.php','your-box-define',
+    )); 
+   *
+   */  
