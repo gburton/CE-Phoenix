@@ -32,19 +32,26 @@
 
     function execute() {
       global $oscTemplate;
+      global $language; 
 
       $bm_information_links = null;      
 
-      $box_list = array(
+      $information_box_list = array(
         'privacy.php' => MODULE_BOXES_INFORMATION_PRIVACY, 
         'conditions.php' => MODULE_BOXES_INFORMATION_CONDITIONS, 
         'shipping.php' => MODULE_BOXES_INFORMATION_SHIPPING, 
         'contact_us.php' => MODULE_BOXES_INFORMATION_CONTACT_US, 
       );
-      if (defined('MODULE_BOXES_INFORMATION_EXTRAS')) {
-         $box_list = array_merge($box_list, MODULE_BOXES_INFORMATION_EXTRAS);
+      $dir = 'includes/languages/' . $language . '/modules/boxes/extras/'; 
+      if ($dh = opendir($dir)) { 
+        while (($file = readdir($dh)) !== false){
+          if (strncmp(basename($file,".php"), basename(__FILE__, ".php"), strlen(basename(__FILE__, ".php"))) == 0) {
+             require($dir . $file); 
+          }
+        }
+        closedir($dh);
       }
-      foreach ($box_list as $a => $b) {
+      foreach ($information_box_list as $a => $b) {
         $bm_information_links .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link($a) . '">' . $b . '</a>' . PHP_EOL; 
       }
 

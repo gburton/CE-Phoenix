@@ -19,9 +19,3 @@
   define('MODULE_BOXES_INFORMATION_SHIPPING',  'Shipping &amp; Returns');
   define('MODULE_BOXES_INFORMATION_CONTACT_US', 'Contact Us'); 
 
-  /* To define additional boxes, uncomment this block: 
-    define('MODULE_BOXES_INFORMATION_EXTRAS', array(
-      'your-box-filename.php','your-box-define',
-    )); 
-   *
-   */  
