@@ -9,4 +9,4 @@
 
   Released under the GNU General Public License
 */
-//  $information_box_list['some_example.php'] = 'Some Example Title'; 
+$box_list['some_example.php'] = 'Some Example Title'; 

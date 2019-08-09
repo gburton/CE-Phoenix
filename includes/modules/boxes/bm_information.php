@@ -36,22 +36,19 @@
 
       $bm_information_links = null;      
 
-      $information_box_list = array(
-        'privacy.php' => MODULE_BOXES_INFORMATION_PRIVACY, 
-        'conditions.php' => MODULE_BOXES_INFORMATION_CONDITIONS, 
-        'shipping.php' => MODULE_BOXES_INFORMATION_SHIPPING, 
-        'contact_us.php' => MODULE_BOXES_INFORMATION_CONTACT_US, 
-      );
+      $box_list = MODULE_BOXES_INFORMATION_BOX_DATA; 
+
+      $box_name = basename(__FILE__, ".php"); 
       $dir = 'includes/languages/' . $language . '/modules/boxes/extras/'; 
       if ($dh = opendir($dir)) { 
         while (($file = readdir($dh)) !== false){
-          if (strncmp(basename($file,".php"), basename(__FILE__, ".php"), strlen(basename(__FILE__, ".php"))) == 0) {
+          if (strncmp(basename($file,".php"), $box_name, strlen($box_name)) == 0) {
              require($dir . $file); 
           }
         }
         closedir($dh);
       }
-      foreach ($information_box_list as $a => $b) {
+      foreach ($box_list as $a => $b) {
         $bm_information_links .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link($a) . '">' . $b . '</a>' . PHP_EOL; 
       }
 
