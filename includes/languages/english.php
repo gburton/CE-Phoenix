@@ -236,5 +236,6 @@ define('IS_PRODUCT_BUTTON_BUY', '<i class="fas fa-shopping-cart"></i>');
 define('IS_PRODUCT_BUTTON_VIEW', '<i class="fas fa-eye"></i> View');
 
 // sitewide product listing
-define('LISTING_SORT_DOWN', '<i class="fas fa-level-down-alt"></i>');
-define('LISTING_SORT_UP', '<i class="fas fa-level-up-alt"></i>');
+define('LISTING_SORT_DOWN', '<i class="fas fa-level-down-alt text-primary"></i>');
+define('LISTING_SORT_UP', '<i class="fas fa-level-up-alt text-primary"></i>');
+define('LISTING_SORT_UNSELECTED', '<i class="fas fa-level-up-alt text-black-50"></i>');
