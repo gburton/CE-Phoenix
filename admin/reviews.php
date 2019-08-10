@@ -50,9 +50,9 @@
         $review = tep_db_prepare_input($_POST['reviews_text']);
         $rating = tep_db_prepare_input($_POST['rating']);
 
-        tep_db_query("insert into " . TABLE_REVIEWS . " (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_customers_name($customers_id) . "', '" . (int)$rating . "', now(), 1)");
+        tep_db_query("insert into " . TABLE_REVIEWS . " (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_db_input(tep_customers_name($customers_id)) . "', '" . (int)$rating . "', now(), 1)");
         $insert_id = tep_db_insert_id();
-        tep_db_query("insert into " . TABLE_REVIEWS_DESCRIPTION . " (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
+        tep_db_query("insert into " . TABLE_REVIEWS_DESCRIPTION . " (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($review) . "')");
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(array('action'))));
         break;   
