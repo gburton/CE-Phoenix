@@ -1,6 +1,6 @@
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2019, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -18,7 +18,4 @@
   const MODULE_CONTENT_IN_CARD_PRODUCTS_DESCRIPTION = 'Shows the "New Products" module on your Index page.';
   
   const MODULE_CONTENT_IN_CARD_PRODUCTS_HEADING     = 'New Products For %s';
-  
-  const MODULE_CONTENT_IN_CARD_PRODUCTS_BUTTON_VIEW = '<i class="fas fa-eye"></i> View';
-  const MODULE_CONTENT_IN_CARD_PRODUCTS_BUTTON_BUY  = '<i class="fas fa-shopping-cart"></i> Buy';
   

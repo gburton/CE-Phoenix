@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  $num_list = (isset($_GET['view']) && ($_GET['view'] == 'all') ) ? 999999 : MAX_DISPLAY_SEARCH_RESULTS; 
+  $num_list = (isset($_GET['view']) && ($_GET['view'] == 'all') ) ? 999999 : MAX_DISPLAY_SEARCH_RESULTS;
   $listing_split = new splitPageResults($listing_sql, $num_list, 'p.products_id');
 ?>
 
@@ -35,7 +35,7 @@
 </div>
 <?php
   }
-
+  
   if ($listing_split->number_of_rows > 0) { ?>
     <div class="alert alert-light alert-filters" role="alert">
       <ul class="nav">
@@ -75,6 +75,9 @@
                 case 'PRODUCT_LIST_ID':
                 $lc_text = TABLE_HEADING_LATEST_ADDED;
                 break;
+                case 'PRODUCT_LIST_ORDERED':
+                $lc_text = TABLE_HEADING_ORDERED;
+                break;
               }
 
               if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
@@ -86,132 +89,69 @@
           </div>
 
         </li>
-        
-        <?php
-    if ( (defined('MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS') && MODULE_HEADER_TAGS_GRID_LIST_VIEW_STATUS == 'True') && (strpos(MODULE_HEADER_TAGS_GRID_LIST_VIEW_PAGES, basename($PHP_SELF)) !== false) ) {
-      ?>
-      <li class="nav-item">
-        <a href="#" id="list" class="nav-link"><i class="fas fa-th-list"></i><?php echo TEXT_VIEW_LIST; ?></a>
-      </li>
-      <li class="nav-item">
-        <a href="#" id="grid" class="nav-link"><i class="fas fa-th"></i><?php echo TEXT_VIEW_GRID; ?></a>
-      </li>
-      <?php
-    }
-    ?>
-    </ul>
-  </div>
+      </ul>
+    </div>
 
   <?php
   $listing_query = tep_db_query($listing_split->sql_query);
 
   $prod_list_contents = NULL;
-  
-  // php 5
-  $list_group_item = (isset($item_width) ? $item_width : 4);
-  // php 7
-  // $list_group_item = $item_width ?? 4;
-  
+
+  $item = 1;
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="item l-g-i col-sm-' . $list_group_item . '" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/Product">';
-	  $prod_list_contents .= '  <div class="productHolder equal-height is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">';
-    
-    if (PRODUCT_LIST_IMAGE > 0) {
+    $prod_list_contents .= '<div class="card is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">' . PHP_EOL;
       if (isset($_GET['manufacturers_id'])  && tep_not_null($_GET['manufacturers_id'])) {
-        $prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '">' . tep_image('images/' . $listing['products_image'], htmlspecialchars($listing['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', true, 'group list-group-image') . '</a>';
+        $prod_list_contents .= '<a href="' . tep_href_link('product_info.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id'] . '&products_id=' . (int)$listing['products_id']) . '">' . tep_image('images/' . $listing['products_image'], htmlspecialchars($listing['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>' . PHP_EOL;
       } else {
-        $prod_list_contents .= '    <a href="' . tep_href_link('product_info.php', (isset($sort) ? 'sort=' . $sort . '&' : '') . ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '">' . tep_image('images/' . $listing['products_image'], htmlspecialchars($listing['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"', true, 'group list-group-image') . '</a>';
+        $prod_list_contents .= '<a href="' . tep_href_link('product_info.php', (isset($sort) ? 'sort=' . $sort . '&' : '') . ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . (int)$listing['products_id']) . '">' . tep_image('images/' . $listing['products_image'], htmlspecialchars($listing['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>' . PHP_EOL;
       }
-    }
-    
-    $prod_list_contents .= '    <div class="caption">';
-    
-    if (PRODUCT_LIST_NAME > 0) {
-      $prod_list_contents .= '      <h2 class="h3 group inner list-group-item-heading">';
-      if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
-      } else {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
-      }
-      $prod_list_contents .= '      </h2>';
-    }    
 
-    $prod_list_contents .= '      <p class="group inner list-group-item-text" itemprop="description">' . strip_tags($listing['products_description'], '<br>') . '</p><div class="w-100"></div>';
-
-    $extra_list_contents = NULL;
-	  if ( (PRODUCT_LIST_MANUFACTURER > 0) && tep_not_null($listing['manufacturers_id']) ) {
-      $extra_list_contents .= '<dt>' . TABLE_HEADING_MANUFACTURER . '</dt>';
-      $extra_list_contents .= '<dd><a href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$listing['manufacturers_id']) . '">' . $listing['manufacturers_name'] . '</a></dd>';
-    }
-	  if ( (PRODUCT_LIST_MODEL > 0) && tep_not_null($listing['products_model']) ) {
-      $extra_list_contents .= '<dt>' . TABLE_HEADING_MODEL . '</dt>';
-      $extra_list_contents .= '<dd>' . $listing['products_model'] . '</dd>';
-    }
-	  if ( (PRODUCT_LIST_QUANTITY > 0) && (tep_get_products_stock($listing['products_id']) > 0) ) {
-      $extra_list_contents .= '<dt>' . TABLE_HEADING_QUANTITY . '</dt>';
-      $extra_list_contents .= '<dd>' . tep_get_products_stock($listing['products_id']) . '</dd>';
-    }
-	  if (PRODUCT_LIST_WEIGHT > 0) {
-      $extra_list_contents .= '<dt>' . TABLE_HEADING_WEIGHT . '</dt>';
-      $extra_list_contents .= '<dd>' . $listing['products_weight'] . '</dd>';
-    }
-
-    if (tep_not_null($extra_list_contents)) {
-       $prod_list_contents .= '    <dl class="dl-horizontal list-group-item-text">';
-       $prod_list_contents .=  $extra_list_contents;
-       $prod_list_contents .= '    </dl>';
-    }
-
-	  if ( (PRODUCT_LIST_PRICE > 0) || (PRODUCT_LIST_BUY_NOW > 0) ) {
-      $prod_list_contents .= '      <div class="row">';
-    
-      if (PRODUCT_LIST_PRICE > 0) {
-        if (tep_not_null($listing['specials_new_products_price'])) {
-          $prod_list_contents .= '<div class="col-sm-4" itemprop="offers" itemscope itemtype="https://schema.org/Offer">' . PHP_EOL;
-            $prod_list_contents .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />' . PHP_EOL;
-            $prod_list_contents .= '<p class="text-muted">' . PHP_EOL;
-              $prod_list_contents .= '<span class="align-middle">' . PHP_EOL;
-                $prod_list_contents .= '<small><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></small>&nbsp;<span class="productPrice text-danger productSpecialPrice" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>' . PHP_EOL;
-              $prod_list_contents .= '</span>' . PHP_EOL;
-            $prod_list_contents .= '</p>' . PHP_EOL;
-          $prod_list_contents .= '</div>' . PHP_EOL;
+      $prod_list_contents .= '<div class="card-body">' . PHP_EOL;
+        $prod_list_contents .= '<h5 class="card-title">';
+        if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
+          $prod_list_contents .= '<a href="' . tep_href_link('product_info.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id'] . '&products_id=' . (int)$listing['products_id']) . '">' . $listing['products_name'] . '</a>';
         } else {
-          $prod_list_contents .= '<div class="col-sm-12 col-md-4" itemprop="offers" itemscope itemtype="https://schema.org/Offer">' . PHP_EOL;
-            $prod_list_contents .= '<meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" />' . PHP_EOL;
-            $prod_list_contents .= '<p class="text-muted">' . PHP_EOL;
-              $prod_list_contents .= '<span class="align-middle" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span>' . PHP_EOL;
-            $prod_list_contents .= '</p>' . PHP_EOL;
+          $prod_list_contents .= '<a href="' . tep_href_link('product_info.php', ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . (int)$listing['products_id']) . '">' . $listing['products_name'] . '</a>';
+        }
+        $prod_list_contents .= '</h5>' . PHP_EOL;
+        $prod_list_contents .= '<h6 class="card-subtitle mb-2 text-muted">';
+          if ($listing['is_special'] == 1) {
+            $prod_list_contents .= sprintf(IS_PRODUCT_SHOW_PRICE_SPECIAL, $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])), $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])));
+          }
+          else {
+            $prod_list_contents .= sprintf(IS_PRODUCT_SHOW_PRICE, $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])));
+          }
+        $prod_list_contents .= '</h6>' . PHP_EOL;
+        if (tep_not_null($listing['products_seo_description'])) {
+          $prod_list_contents .= '<div class="pt-2 font-weight-lighter">';
+            $prod_list_contents .= $listing['products_seo_description'];
           $prod_list_contents .= '</div>' . PHP_EOL;
         }
-      }
-    
-      if (PRODUCT_LIST_BUY_NOW > 0) {
-        $prod_list_contents .= '<div class="col-sm-12 col-md-8 text-md-right">' . PHP_EOL;
-          $prod_list_contents .= '<div class="btn-group" role="group">' . PHP_EOL;
-            $prod_list_contents .= '<a role="button" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$listing['products_id']) . '" class="btn btn-light btn-sm btn-product-listing btn-view">' . SMALL_IMAGE_BUTTON_VIEW . '</a>' . PHP_EOL;
-            $prod_list_contents .=  tep_draw_button(SMALL_IMAGE_BUTTON_BUY, 'fas fa-shopping-cart', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . (int)$listing['products_id']), NULL, array('params' => 'data-has-attributes="' . ((tep_has_product_attributes((int)$listing['products_id']) === true) ? '1' : '0') . '" data-in-stock="' . (int)$listing['in_stock'] . '" data-product-id="' . (int)$listing['products_id'] . '"'), 'btn-success btn-sm btn-product-listing btn-buy') . PHP_EOL;
-          $prod_list_contents .= '</div>' . PHP_EOL;
-        $prod_list_contents .= '</div>' . PHP_EOL;
-      }
       $prod_list_contents .= '</div>' . PHP_EOL;
-    }
 
-    $prod_list_contents .= '    </div>' . PHP_EOL;
-    $prod_list_contents .= '  </div>' . PHP_EOL;
-    $prod_list_contents .= '</div>' . PHP_EOL;   
+      $prod_list_contents .= '<div class="card-footer bg-white pt-0 border-0">' . PHP_EOL;
+        $prod_list_contents .= '<div class="btn-group" role="group">';
+          $prod_list_contents .= tep_draw_button(IS_PRODUCT_BUTTON_VIEW, '', tep_href_link('product_info.php', tep_get_all_get_params(array('action', 'products_id', 'sort', 'keywords')) . 'products_id=' . (int)$listing['products_id']), NULL, NULL, 'btn-info btn-product-listing btn-view') . PHP_EOL;
+          $has_attributes = (tep_has_product_attributes((int)$listing['products_id']) === true) ? '1' : '0';
+          if ($has_attributes == 0) $prod_list_contents .= tep_draw_button(IS_PRODUCT_BUTTON_BUY, '', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'products_id', 'sort', 'keywords')) . 'action=buy_now&products_id=' . (int)$listing['products_id']), NULL, array('params' => 'data-has-attributes="' . $has_attributes . '" data-in-stock="' . (int)$listing['in_stock'] . '" data-product-id="' . (int)$listing['products_id'] . '"'), 'btn-light btn-product-listing btn-buy') . PHP_EOL;
+        $prod_list_contents .= '</div>' . PHP_EOL;
+      $prod_list_contents .= '</div>' . PHP_EOL;
 
+    $prod_list_contents .= '</div>' . PHP_EOL;
+
+    if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_SM == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-sm-block d-md-none"></div>' . PHP_EOL;
+    if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_MD == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-md-block d-lg-none"></div>' . PHP_EOL;
+    if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_LG == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-lg-block d-xl-none"></div>' . PHP_EOL;
+    if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_XL == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
+    $item++;
   }
 
-  echo '<div id="products" class="row" itemscope itemtype="https://schema.org/ItemList">' . PHP_EOL;
-  echo '  <meta itemprop="numberOfItems" content="' . (int)$listing_split->number_of_rows . '" />' . PHP_EOL;
-  echo $prod_list_contents;
+  echo '<div class="' . IS_PRODUCT_PRODUCTS_LAYOUT . '">' . PHP_EOL;
+    echo $prod_list_contents;
   echo '</div>' . PHP_EOL;
+  
 } else {
-?>
-
-  <div class="alert alert-info" role="alert"><?php echo TEXT_NO_PRODUCTS; ?></div>
-
-<?php
+  echo '<div class="alert alert-info" role="alert">' . TEXT_NO_PRODUCTS . '</div>';
 }
 
 if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3')) ) {
