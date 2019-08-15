@@ -33,7 +33,7 @@
     function execute() {
       global $languages_id, $currencies, $oscTemplate;
 
-      $random_select = "select r.*, p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special, substring(reviews_text, 1, 60) as reviews_text from reviews r, reviews_description rd, products p left join specials s on p.products_id = s.products_id, products_description pd where p.products_status = '1' and p.products_id = r.products_id and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and r.reviews_status = 1";
+      $random_select = "select r.*, p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special, substring(rd.reviews_text, 1, 60) as reviews_text from reviews r, reviews_description rd, products p left join specials s on p.products_id = s.products_id, products_description pd where p.products_status = '1' and p.products_id = r.products_id and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and r.reviews_status = 1";
       if (isset($_GET['products_id'])) {
         $random_select .= " and p.products_id = '" . (int)$_GET['products_id'] . "'";
       }
