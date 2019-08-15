@@ -116,7 +116,9 @@
                        'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
                        'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
                        'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-                       'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW);
+                       'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
+                       'PRODUCT_LIST_ID' => PRODUCT_LIST_ID,
+                       'PRODUCT_LIST_ORDERED' => PRODUCT_LIST_ORDERED);
 
   asort($define_list);
 
@@ -125,29 +127,7 @@
     if ($value > 0) $column_list[] = $key;
   }
 
-  $select_column_list = '';
-
-  for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {
-    switch ($column_list[$i]) {
-      case 'PRODUCT_LIST_MODEL':
-        $select_column_list .= 'p.products_model, ';
-        break;
-      case 'PRODUCT_LIST_MANUFACTURER':
-        $select_column_list .= 'm.manufacturers_name, ';
-        break;
-      case 'PRODUCT_LIST_QUANTITY':
-        $select_column_list .= 'p.products_quantity, ';
-        break;
-      case 'PRODUCT_LIST_IMAGE':
-        $select_column_list .= 'p.products_image, ';
-        break;
-      case 'PRODUCT_LIST_WEIGHT':
-        $select_column_list .= 'p.products_weight, ';
-        break;
-    }
-  }
-
-  $select_str = "select distinct " . $select_column_list . " m.manufacturers_id, p.products_id, pd.products_description, pd.products_name, p.products_price, p.products_tax_class_id, p.products_quantity as in_stock, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, if(s.status, 1, 0) as is_special ";
+  $select_str = "select distinct p.products_id, m.*, p.*, pd.*, p.products_quantity as in_stock, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, if(s.status, 1, 0) as is_special ";
 
   if ( (DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null($pto)) ) {
     $select_str .= ", SUM(tr.tax_rate) as tax_rate ";
@@ -272,6 +252,12 @@
         break;
       case 'PRODUCT_LIST_PRICE':
         $order_str = " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
+        break;
+      case 'PRODUCT_LIST_ID':
+        $order_str = " order by p.products_id " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
+        break;
+      case 'PRODUCT_LIST_ORDERED':
+        $order_str = " order by p.products_ordered " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
         break;
     }
   }

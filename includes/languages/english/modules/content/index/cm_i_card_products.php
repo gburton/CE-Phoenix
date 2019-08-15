@@ -18,7 +18,4 @@
   const MODULE_CONTENT_CARD_PRODUCTS_DESCRIPTION = 'Shows the "New Products" module on your Index page.';
   
   const MODULE_CONTENT_CARD_PRODUCTS_HEADING     = 'New Products For %s';
-  
-  const MODULE_CONTENT_CARD_PRODUCTS_BUTTON_VIEW = '<i class="fas fa-eye"></i> View';
-  const MODULE_CONTENT_CARD_PRODUCTS_BUTTON_BUY  = '<i class="fas fa-shopping-cart"></i> Buy';
-  
+   
