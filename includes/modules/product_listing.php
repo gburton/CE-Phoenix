@@ -37,12 +37,10 @@
   }
   
   if ($listing_split->number_of_rows > 0) { ?>
-    <div class="alert alert-light alert-filters" role="alert">
+    <div class="card card-body alert-filters">
       <ul class="nav">
         <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          <?php echo TEXT_SORT_BY; ?><span class="caret"></span>
-        </a>
+          <a href="#" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo TEXT_SORT_BY; ?><span class="caret"></span></a>
 
           <div class="dropdown-menu">
             <?php
