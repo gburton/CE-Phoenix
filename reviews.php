@@ -47,7 +47,7 @@
   while ($reviews = tep_db_fetch_array($reviews_query)) {
     echo '<div class="col-sm-6">' . PHP_EOL;
       echo '<blockquote class="blockquote">';
-        echo '<p>' . tep_image('images/' . tep_output_string_protected($reviews['products_image']), htmlspecialchars($reviews['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, null, null, 'rounded float-left') . tep_output_string_protected($reviews['reviews_text']) . ' ... </p>';
+        echo '<p class="font-weight-lighter">' . tep_image('images/' . tep_output_string_protected($reviews['products_image']), htmlspecialchars($reviews['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, null, true, 'img-thumbnail rounded float-left mr-3') . tep_output_string_protected($reviews['reviews_text']) . ' ... </p>';
         $reviews_name = tep_output_string_protected($reviews['customers_name']);
         echo '<div class="w-100"></div><footer class="blockquote-footer">' . sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $reviews_name, $reviews_name) . '</footer>' . PHP_EOL;
         echo '<div class="w-100"></div><p><a class="btn btn-light btn-sm btn-block" href="' . tep_href_link('product_reviews.php', 'products_id=' . (int)$reviews['products_id']) . '">' . REVIEWS_TEXT_READ_MORE . '</a></p>';

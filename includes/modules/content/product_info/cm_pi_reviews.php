@@ -48,7 +48,7 @@
         while ($review = tep_db_fetch_array($review_query)) {
           $review_data .=  '<div class="col-sm-6">';
             $review_data .=  '<blockquote class="blockquote">';
-              $review_data .=  '<p>' . tep_output_string_protected($review['reviews_text']) . ' ... </p>';
+              $review_data .=  '<p class="font-weight-lighter">' . tep_output_string_protected($review['reviews_text']) . ' ... </p>';
               $review_name = tep_output_string_protected($review['customers_name']);
               $review_data .=  '<footer class="blockquote-footer">' . sprintf(MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED, tep_draw_stars($review['reviews_rating']), $review_name, $review_name) . '</footer>';
             $review_data .=  '</blockquote>';

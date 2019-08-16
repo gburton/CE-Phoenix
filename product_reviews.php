@@ -104,7 +104,7 @@ echo '<div class="text-center alert alert-success" role="alert">' . sprintf(REVI
       $review_name = tep_output_string_protected($reviews['customers_name']);
       echo '<div class="col-sm-6">' . PHP_EOL;
         echo '<blockquote class="blockquote">' . PHP_EOL;
-          echo '<p>' . tep_output_string_protected($reviews['reviews_text']) . '</p>' . PHP_EOL;
+          echo '<p class="font-weight-lighter">' . tep_output_string_protected($reviews['reviews_text']) . '</p>' . PHP_EOL;
           echo '<footer class="blockquote-footer">' . sprintf(REVIEWS_TEXT_RATED, tep_draw_stars($reviews['reviews_rating']), $review_name, $review_name) . '</footer>' . PHP_EOL;
         echo '</blockquote>' . PHP_EOL;
       echo '</div>' . PHP_EOL;

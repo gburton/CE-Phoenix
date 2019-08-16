@@ -48,7 +48,7 @@
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
       echo '<div class="col-sm-6">' . PHP_EOL;
         echo '<blockquote class="blockquote">' . PHP_EOL;
-          echo '<p>' . tep_output_string_protected($testimonials['testimonials_text']) . '</p>' . PHP_EOL;
+          echo '<p class="font-weight-lighter">' . tep_output_string_protected($testimonials['testimonials_text']) . '</p>' . PHP_EOL;
           echo '<footer class="blockquote-footer">' . tep_output_string_protected($testimonials['customers_name']) . '</footer>' . PHP_EOL;
         echo '</blockquote>' . PHP_EOL;
       echo '</div>' . PHP_EOL;
