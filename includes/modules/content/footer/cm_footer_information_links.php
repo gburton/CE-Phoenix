@@ -43,7 +43,7 @@
       
       $cm_footer_information_links = null;      
       foreach (MODULE_CONTENT_FOOTER_INFORMATION_DATA as $a => $b) {
-        $cm_footer_information_links .= '<li><a href="' . tep_href_link($a) . '">' . $b . '</a></li>' . PHP_EOL; 
+        $cm_footer_information_links .= '<a class="nav-link pl-0" href="' . tep_href_link($a) . '">' . $b . '</a>' . PHP_EOL; 
       }
 
       ob_start();
