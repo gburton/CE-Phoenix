@@ -1,4 +1,4 @@
-<div class="card bm-best-sellers">
+<div class="card mb-2 bm-best-sellers">
   <div class="card-header"><?php echo MODULE_BOXES_BEST_SELLERS_BOX_TITLE; ?></div>
   <div class="list-group list-group-flush">
     <?php echo $bestsellers_list; ?>

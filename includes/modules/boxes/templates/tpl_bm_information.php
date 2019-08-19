@@ -1,4 +1,4 @@
-<div class="card bm-information">
+<div class="card mb-2 bm-information">
   <div class="card-header"><?php echo MODULE_BOXES_INFORMATION_BOX_TITLE; ?></div>
   <div class="list-group list-group-flush">
     <?php echo $bm_information_links; ?>

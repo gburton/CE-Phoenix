@@ -34,7 +34,7 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="card">
+    <div class="card mb-2">
       <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
@@ -93,7 +93,7 @@
   </div>
   <div class="col-xs-12 col-sm-3">
     <h2 class="h4">Step 2</h2>
-    <div class="card card-body">      
+    <div class="card mb-2 card-body">      
       <p>The web server takes care of serving the pages of your online store to your guests and customers. The web server parameters make sure the links to the pages point to the correct location.</p>
     </div>
   </div>

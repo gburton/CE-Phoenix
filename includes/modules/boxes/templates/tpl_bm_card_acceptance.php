@@ -1,4 +1,4 @@
-<div class="card bm-card-acceptance">
+<div class="card mb-2 bm-card-acceptance">
   <div class="card-header"><?php echo MODULE_BOXES_CARD_ACCEPTANCE_BOX_TITLE; ?></div>
   <div class="card-body text-center"><?php echo $output; ?></div>
 </div>

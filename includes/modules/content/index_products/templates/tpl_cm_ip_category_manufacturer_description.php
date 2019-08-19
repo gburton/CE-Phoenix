@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-ip-category-manufacturer-description">
-  <div class="card card-body">
+  <div class="card mb-2 card-body">
     <?php echo $cm_description; ?>
   </div>
 </div>

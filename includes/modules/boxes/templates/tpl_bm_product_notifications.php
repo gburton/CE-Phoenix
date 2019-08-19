@@ -1,4 +1,4 @@
-<div class="card bm-product-notifications">
+<div class="card mb-2 bm-product-notifications">
   <div class="card-header"><a href="<?php echo tep_href_link('account_notifications.php', '', 'SSL'); ?>"><?php echo MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE; ?></a></div>
   <div class="card-body">
     <?php echo $notif_contents; ?>

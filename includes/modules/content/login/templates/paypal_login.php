@@ -1,5 +1,5 @@
 <div class="cm-paypal-login <?php echo (OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH == 'Half') ? 'col-sm-6' : 'col-sm-12'; ?>">
-  <div class="card">
+  <div class="card mb-2">
     <div class="card-header">
       <?php echo $cm_paypal_login->_app->getDef('module_login_template_title'); ?>
     </div>
