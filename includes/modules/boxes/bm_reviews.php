@@ -62,7 +62,7 @@
         $box_review_text .= tep_draw_stars($random_product['reviews_rating']) . '<br>';
         $box_review_text .= tep_output_string_protected($random_product['reviews_text']) . '...';
       } elseif (isset($_GET['products_id'])) {
-        $box_review_text .= '<i class="fas fa-thumbs-up"></i> <a href="' . tep_href_link('product_reviews_write.php', 'products_id=' . $_GET['products_id']) . '">' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
+        $box_review_text .= '<i class="fas fa-thumbs-up"></i> <a href="' . tep_href_link('ext/modules/content/reviews/write.php', 'products_id=' . (int)$_GET['products_id']) . '">' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
       } else {
         $box_review_text .= '<p>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</p>';
       }
