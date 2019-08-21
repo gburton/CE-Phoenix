@@ -138,7 +138,6 @@ define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'The Password Confirmation must 
 // constants for use in tep_prev_next_display function
 define('TEXT_RESULT_PAGE', 'Result Pages:');
 define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products)');
-define('TEXT_DISPLAY_NUMBER_OF_REVIEWS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> reviews)');
 
 define('PREVNEXT_TITLE_FIRST_PAGE', 'First Page');
 define('PREVNEXT_TITLE_PREVIOUS_PAGE', 'Previous Page');
@@ -164,7 +163,6 @@ define('IMAGE_BUTTON_LOGIN', 'Sign In');
 define('IMAGE_BUTTON_IN_CART', 'Add to Cart');
 define('IMAGE_BUTTON_SEARCH', 'Search');
 define('IMAGE_BUTTON_UPDATE', 'Update');
-define('IMAGE_BUTTON_WRITE_REVIEW', 'Write Review');
 
 define('SMALL_IMAGE_BUTTON_DELETE', 'Delete');
 define('SMALL_IMAGE_BUTTON_EDIT', 'Edit');
@@ -177,8 +175,6 @@ define('TEXT_SORT_PRODUCTS', 'Sort products ');
 define('TEXT_DESCENDINGLY', 'descendingly');
 define('TEXT_ASCENDINGLY', 'ascendingly');
 define('TEXT_BY', ' by ');
-
-define('TEXT_NO_REVIEWS', 'There are currently no product reviews.');
 
 define('TEXT_UNKNOWN_TAX_RATE', 'Unknown tax rate');
 
@@ -197,11 +193,6 @@ define('TEXT_SEARCH_PLACEHOLDER','Search');
 // message for required inputs
 define('FORM_REQUIRED_INFORMATION', '<i class="fas fa-asterisk text-danger"></i> Required information');
 define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>');
-
-// reviews
-define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s">%s</cite>');
-define('REVIEWS_TEXT_AVERAGE', 'Average rating based on %s review(s) %s');
-define('REVIEWS_TEXT_TITLE', 'What our customers say...');
 
 // grid/list
 define('TEXT_SORT_BY', 'Sort By ');

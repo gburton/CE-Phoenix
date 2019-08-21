@@ -52,8 +52,8 @@
     $products_price = $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
   }
   
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('product_reviews.php', tep_get_all_get_params()));
-
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('ext/modules/content/account/set_password.php',  tep_get_all_get_params(), 'SSL'));
+  
   require('includes/template_top.php');
 ?>
 

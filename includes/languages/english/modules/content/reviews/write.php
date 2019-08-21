@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE', 'Reviews');
+define('NAVBAR_TITLE', 'Write a Review');
 
 define('SUB_TITLE_FROM', 'From');
 define('SUB_TITLE_REVIEW', 'Your Review');
