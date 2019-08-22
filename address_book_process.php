@@ -269,7 +269,7 @@
       <div class="alert alert-danger" role="alert"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header"><?php echo DELETE_ADDRESS_TITLE; ?></div>
 
         <div class="card-body">

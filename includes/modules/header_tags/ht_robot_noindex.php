@@ -94,7 +94,6 @@
                    'logoff.php',
                    'password_forgotten.php',
                    'password_reset.php',
-                   'product_reviews_write.php',
                    'shopping_cart.php',
                    'ssl_check.php',
                    'tell_a_friend.php');

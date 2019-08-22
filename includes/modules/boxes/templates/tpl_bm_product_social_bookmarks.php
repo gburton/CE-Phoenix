@@ -1,4 +1,4 @@
-<div class="card bm-product-social-bookmarks">
+<div class="card mb-2 bm-product-social-bookmarks">
   <div class="card-header">
     <?php echo MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_BOX_TITLE; ?>
   </div>

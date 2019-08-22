@@ -60,7 +60,7 @@ I am hopeful that all shopowners, developers, consultants and businesses ... wil
 
 ### Join the Phoenix Club
 
-If you wish to support and sponsor ongoing and future development (as well as receive free gifts), please join the Phoenix Club
+If you wish to help support the Phoenix project and steer the future direction of the software please join the Phoenix Club
 https://forums.oscommerce.com/clubs/1-phoenix/
 
 ### Other Languages
@@ -69,3 +69,4 @@ Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
 German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
+Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.0.4_RU | @Fredi

@@ -8,7 +8,7 @@
       $item = 1;
       
       foreach ($category_array as $k => $v) {
-        echo '<div class="card card-body text-center border-0">' . PHP_EOL;
+        echo '<div class="card mb-2 card-body text-center border-0">' . PHP_EOL;
           echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
           echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '"><span itemprop="itemListElement">' . $v['title'] . '</span></a>';
         echo '</div>' . PHP_EOL;   

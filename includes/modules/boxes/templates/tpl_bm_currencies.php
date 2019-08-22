@@ -1,4 +1,4 @@
-<div class="card bm-currencies">
+<div class="card mb-2 bm-currencies">
   <div class="card-header">
     <?php echo MODULE_BOXES_CURRENCIES_BOX_TITLE; ?>
   </div>

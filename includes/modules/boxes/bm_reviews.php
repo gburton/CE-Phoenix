@@ -52,8 +52,8 @@
           $box_attr .= ' ' . tep_output_string_protected($key) . '="' . tep_output_string_protected($value) . '"';
         }
         
-        $box_title = '<a href="' . tep_href_link('product_reviews.php', 'products_id=' . (int)$random_product['products_id']) . '">' . $random_product['products_name'] . '</a>';
-        $box_image = '<a href="' . tep_href_link('product_reviews.php', 'products_id=' . $random_product['products_id']) . '">' . tep_image('images/' . $random_product['products_image'], htmlspecialchars($random_product['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>';
+        $box_title = '<a href="' . tep_href_link('product_info.php', 'products_id=' . (int)$random_product['products_id']) . '">' . $random_product['products_name'] . '</a>';
+        $box_image = '<a href="' . tep_href_link('product_info.php', 'products_id=' . $random_product['products_id']) . '">' . tep_image('images/' . $random_product['products_image'], htmlspecialchars($random_product['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>';
         if ($random_product['is_special'] == 1) {
           $box_price = sprintf(IS_PRODUCT_SHOW_PRICE_SPECIAL, $currencies->display_price($random_product['products_price'], tep_get_tax_rate($random_product['products_tax_class_id'])), $currencies->display_price($random_product['specials_new_products_price'], tep_get_tax_rate($random_product['products_tax_class_id'])));
         } else {
@@ -62,7 +62,7 @@
         $box_review_text .= tep_draw_stars($random_product['reviews_rating']) . '<br>';
         $box_review_text .= tep_output_string_protected($random_product['reviews_text']) . '...';
       } elseif (isset($_GET['products_id'])) {
-        $box_review_text .= '<i class="fas fa-thumbs-up"></i> <a href="' . tep_href_link('product_reviews_write.php', 'products_id=' . $_GET['products_id']) . '">' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
+        $box_review_text .= '<i class="fas fa-thumbs-up"></i> <a href="' . tep_href_link('ext/modules/content/reviews/write.php', 'products_id=' . (int)$_GET['products_id']) . '">' . MODULE_BOXES_REVIEWS_BOX_WRITE_REVIEW .'</a>';
       } else {
         $box_review_text .= '<p>' . MODULE_BOXES_REVIEWS_BOX_NO_REVIEWS . '</p>';
       }

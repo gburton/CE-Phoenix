@@ -222,7 +222,7 @@
       <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_PAYMENT_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header"><?php echo TITLE_PAYMENT_ADDRESS; ?></div>
 
         <div class="card-body">

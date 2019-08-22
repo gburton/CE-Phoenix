@@ -1,4 +1,4 @@
-<div class="card bm-manufacturers">
+<div class="card mb-2 bm-manufacturers">
   <div class="card-header"><?php echo MODULE_BOXES_MANUFACTURERS_BOX_TITLE; ?></div>
   <ul class="list-group list-group-flush">
     <?php echo $output; ?>

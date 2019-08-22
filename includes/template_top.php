@@ -41,7 +41,7 @@ echo $oscTemplate->getBlocks('header_tags');
 
   <?php echo $oscTemplate->getContent('navigation'); ?>
   
-  <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+  <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?> pt-2">
 
     <?php
     echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperStart');

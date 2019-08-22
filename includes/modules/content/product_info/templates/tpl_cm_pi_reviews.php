@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-pi-reviews">
-  <h4><?php echo REVIEWS_TEXT_TITLE; ?></h4>
+  <h4><?php echo MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_TITLE; ?></h4>
   <div class="row">
     <?php echo $review_data; ?>
   </div>

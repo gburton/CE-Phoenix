@@ -1,10 +1,10 @@
 <div class="col-sm-6 col-md-<?php echo $content_width; ?> cm-footer-account">
   <h4><?php echo MODULE_CONTENT_FOOTER_ACCOUNT_HEADING_TITLE; ?></h4>
-  <ul class="list-unstyled list-tap-target">
+  <nav class="nav nav-pills flex-column">
     <?php
     echo $account_content;
     ?>
-  </ul>
+  </nav>
 </div>
 
 <?php

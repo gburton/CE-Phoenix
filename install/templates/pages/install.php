@@ -103,7 +103,7 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="card">
+    <div class="card mb-2">
       <div class="card-body">
         <ol>
           <li class="text-success"><strong>Database Server</strong></li>
@@ -128,7 +128,7 @@
   <div class="col-xs-12 col-sm-9">
 
     <div id="mBox">
-      <div class="card card-body">
+      <div class="card mb-2 card-body">
         <div id="mBoxContents"></div>
       </div>
     </div>
