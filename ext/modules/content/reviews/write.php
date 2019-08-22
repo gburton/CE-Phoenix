@@ -52,7 +52,7 @@
     $products_price = $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
   }
   
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('ext/modules/content/account/set_password.php',  tep_get_all_get_params(), 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('ext/modules/content/reviews/write.php',  tep_get_all_get_params(), 'SSL'));
   
   require('includes/template_top.php');
 ?>
@@ -68,7 +68,7 @@ tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_
 <div class="contentContainer">
 
   <div class="alert alert-warning" role="alert">
-    <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer['customers_firstname']), $product_info['products_name']); ?>
+    <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer_first_name), $product_info['products_name']); ?>
   </div>
 
   <div class="row">
