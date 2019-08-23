@@ -190,7 +190,7 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
         <div class="card-body">
           <?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br />'); ?>

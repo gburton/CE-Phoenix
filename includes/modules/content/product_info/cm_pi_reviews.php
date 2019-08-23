@@ -40,19 +40,21 @@
       global $oscTemplate, $languages_id;
       
       $content_width = (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH;
+      $item_width = (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH_EACH;
+      
+      $sql_order_by = MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER;
 
-      $review_query = tep_db_query("select SUBSTRING_INDEX(rd.reviews_text, ' ', 20) as reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read, p.products_id, p.products_price, p.products_tax_class_id, p.products_image, p.products_model, pd.products_name from reviews r, reviews_description rd, products p, products_description pd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.products_id = p.products_id and p.products_status = '1' and r.reviews_status = '1' and p.products_id = pd.products_id and pd.language_id = '". (int)$languages_id . "' order by r.reviews_rating DESC limit " . (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT);
+      $review_query = tep_db_query("select rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read, p.products_id, p.products_price, p.products_tax_class_id, p.products_image, p.products_model, pd.products_name from reviews r, reviews_description rd, products p, products_description pd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.products_id = p.products_id and p.products_status = '1' and r.reviews_status = '1' and p.products_id = pd.products_id and pd.language_id = '". (int)$languages_id . "' order by r." .$sql_order_by . " DESC limit " . (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT);
       $review_data = NULL;
 
       if (tep_db_num_rows($review_query) > 0) {
         while ($review = tep_db_fetch_array($review_query)) {
-          $review_data .=  '<div class="col-sm-6">';
-            $review_data .=  '<blockquote class="blockquote">';
-              $review_data .=  '<p>' . tep_output_string_protected($review['reviews_text']) . ' ... </p>';
-              $review_name = tep_output_string_protected($review['customers_name']);
-              $review_data .=  '<footer class="blockquote-footer">' . sprintf(MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED, tep_draw_stars($review['reviews_rating']), $review_name, $review_name) . '</footer>';
-            $review_data .=  '</blockquote>';
-          $review_data .=  '</div>';
+          $review_data .= '<div class="col-sm-' . $item_width . '">';
+            $review_data .= '<blockquote class="blockquote">';
+              $review_data .= '<p class="font-weight-lighter">' . tep_output_string_protected($review['reviews_text']) . '</p>';
+              $review_data .= '<footer class="blockquote-footer">' . sprintf(MODULE_CONTENT_PRODUCT_INFO_REVIEWS_TEXT_RATED, tep_draw_stars($review['reviews_rating']), tep_output_string_protected($review['customers_name'])) . '</footer>';
+            $review_data .= '</blockquote>';
+          $review_data .= '</div>';
         }
         
         ob_start();
@@ -74,7 +76,9 @@
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Reviews Module', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_STATUS', 'True', 'Should the reviews block be shown on the product info page?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH', '6', 'What width container should the content be shown in?', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Number of Reviews', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT', '4', 'How many reviews should be shown?', '6', '1', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH_EACH', '6', 'What width container should each Review be shown in?', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Number of Reviews', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT', '99', 'How many reviews should be shown?', '6', '1', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Sort Order', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER', 'reviews_rating', 'Display Reviews by Rating (High to Low) or Date Added (New to Old)', '6', '1', 'tep_cfg_select_option(array(\'reviews_rating\', \'date_added\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
@@ -83,7 +87,7 @@
     }
 
     function keys() {
-      return array('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_STATUS', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_SORT_ORDER');
+      return array('MODULE_CONTENT_PRODUCT_INFO_REVIEWS_STATUS', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH_EACH',       'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT', 'MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER','MODULE_CONTENT_PRODUCT_INFO_REVIEWS_SORT_ORDER');
     }
   }
 

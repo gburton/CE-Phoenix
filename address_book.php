@@ -44,7 +44,7 @@
     </div>
     
     <div class="col-sm-4">
-      <div class="card text-white bg-info">
+      <div class="card mb-2 text-white bg-info">
         <div class="card-header"><?php echo PRIMARY_ADDRESS_TITLE; ?></div>
 
         <div class="card-body">
@@ -68,7 +68,7 @@
     $format_id = tep_get_address_format_id($addresses['country_id']);
 ?>
     <div class="col-sm-4">
-      <div class="card <?php echo ($addresses['address_book_id'] == $customer_default_address_id) ? ' text-white bg-info' : ' bg-light'; ?>">
+      <div class="card mb-2 <?php echo ($addresses['address_book_id'] == $customer_default_address_id) ? ' text-white bg-info' : ' bg-light'; ?>">
         <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></strong><?php if ($addresses['address_book_id'] == $customer_default_address_id) echo '&nbsp;<small><i>' . PRIMARY_ADDRESS . '</i></small>'; ?></div>
         <div class="card-body">
           <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>

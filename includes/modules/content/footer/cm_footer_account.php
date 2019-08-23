@@ -42,14 +42,14 @@
       $content_width = (int)MODULE_CONTENT_FOOTER_ACCOUNT_CONTENT_WIDTH;
       
       if ( tep_session_is_registered('customer_id') ) {
-        $account_content = '<li><a href="' . tep_href_link('account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ACCOUNT . '</a></li>' .
-                           '<li><a href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ADDRESS_BOOK . '</a></li>' .
-                           '<li><a href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ORDER_HISTORY . '</a></li>' .
-                           '<li><br><a class="btn btn-danger btn-block" role="button" href="' . tep_href_link('logoff.php', '', 'SSL') . '"><i class="fas fa-sign-out-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGOFF . '</a></li>';
+        $account_content = '<a class="nav-link pl-0" href="' . tep_href_link('account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ACCOUNT . '</a>' .
+                           '<a class="nav-link pl-0" href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ADDRESS_BOOK . '</a>' .
+                           '<a class="nav-link pl-0" href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_ORDER_HISTORY . '</a>' .
+                           '<a class="nav-link mt-2 btn btn-danger btn-block" role="button" href="' . tep_href_link('logoff.php', '', 'SSL') . '"><i class="fas fa-sign-out-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGOFF . '</a>';
       }
       else {
-        $account_content = '<li><a href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_CREATE_ACCOUNT . '</a></li>' .
-                           '<li><br><a class="btn btn-success btn-block" role="button" href="' . tep_href_link('login.php', '', 'SSL') . '"><i class="fas fa-sign-in-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGIN . '</a></li>';
+        $account_content = '<a class="nav-link pl-0" href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_CREATE_ACCOUNT . '</a>' .
+                           '<a class="nav-link mt-2 btn btn-success btn-block" role="button" href="' . tep_href_link('login.php', '', 'SSL') . '"><i class="fas fa-sign-in-alt"></i> ' . MODULE_CONTENT_FOOTER_ACCOUNT_BOX_LOGIN . '</a>';
       }
       
       ob_start();

@@ -46,7 +46,7 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="card">
+    <div class="card mb-2">
       <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
@@ -204,7 +204,7 @@
   
   <div class="col-xs-12 col-sm-3">
     <h2 class="h4">Step 4</h2>
-    <div class="card">
+    <div class="card mb-2">
       <div class="card-body">      
         <p>Congratulations on installing and configuring OSCOM CE Phoenix as your online store solution!</p>
         <p>We wish you all the best with the success of your online store and welcome you to join and participate in our community.</p>

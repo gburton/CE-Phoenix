@@ -1,4 +1,4 @@
-<div class="card bm-shopping-cart">
+<div class="card mb-2 bm-shopping-cart">
   <div class="card-header"><a href="<?php echo tep_href_link('shopping_cart.php'); ?>"><?php echo MODULE_BOXES_SHOPPING_CART_BOX_TITLE; ?></a></div>
   <div class="list-group list-group-flush">
     <?php echo $cart_contents_string; ?>

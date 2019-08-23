@@ -1,4 +1,4 @@
-<div class="card bm-categories">
+<div class="card mb-2 bm-categories">
   <div class="card-header">
     <?php echo MODULE_BOXES_CATEGORIES_BOX_TITLE; ?>
   </div>

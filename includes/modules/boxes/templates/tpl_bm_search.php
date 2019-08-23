@@ -1,4 +1,4 @@
-<div class="card bm-search">
+<div class="card mb-2 bm-search">
   <div class="card-header">
     <?php echo MODULE_BOXES_SEARCH_BOX_TITLE; ?>
   </div>

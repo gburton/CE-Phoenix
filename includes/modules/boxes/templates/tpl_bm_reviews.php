@@ -1,6 +1,6 @@
-<div class="card is-product"<?php echo $box_attr; ?>>
+<div class="card mb-2 is-product"<?php echo $box_attr; ?>>
   <div class="card-header">
-    <?php echo sprintf(MODULE_BOXES_REVIEWS_BOX_TITLE, tep_href_link('reviews.php')); ?>
+    <?php echo MODULE_BOXES_REVIEWS_BOX_TITLE; ?>
   </div>
   <?php echo $box_image; ?>
   <div class="card-body">

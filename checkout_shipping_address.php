@@ -234,7 +234,7 @@
       <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
 
         <div class="card-body">
@@ -264,7 +264,7 @@
         $format_id = tep_get_address_format_id($addresses['country_id']);
 ?>
       <div class="col-sm-4">
-        <div class="card <?php echo ($addresses['address_book_id'] == $sendto) ? ' text-white bg-info' : ' bg-light'; ?>">
+        <div class="card mb-2 <?php echo ($addresses['address_book_id'] == $sendto) ? ' text-white bg-info' : ' bg-light'; ?>">
           <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
           <div class="card-body">
             <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>

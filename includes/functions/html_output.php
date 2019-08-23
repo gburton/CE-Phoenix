@@ -409,6 +409,6 @@
     $stars = str_repeat('<i class="fas fa-star"></i>', (int)$rating);
     $stars .= str_repeat('<i class="far fa-star"></i>', 5-(int)$rating);
 
-    return $stars;
+    return '<span class="text-warning">' . $stars . '</span>';
   }
   

@@ -1,4 +1,4 @@
-<div class="card bm-manufacturer-info">
+<div class="card mb-2 bm-manufacturer-info">
   <div class="card-header">
     <?php echo MODULE_BOXES_MANUFACTURER_INFO_BOX_TITLE; ?>
   </div>

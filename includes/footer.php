@@ -14,8 +14,8 @@
 
 </div>
 
-<footer>
-  <div class="jumbotron jumbotron-fluid jumbotron-footer m-0 pt-1 pb-1 border-top border-light">
+<footer class="pt-2">
+  <div class="bg-light m-0 pt-2 pb-2">
     <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
       <div class="footer">
         <div class="row">
@@ -24,10 +24,12 @@
       </div>
     </div>
   </div>
-  <div class="footer-extra">
+  <div class="bg-dark text-white pt-3">
     <div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
-      <div class="row">
-        <?php echo $oscTemplate->getContent('footer_suffix'); ?>
+      <div class="footer-extra">
+        <div class="row">
+          <?php echo $oscTemplate->getContent('footer_suffix'); ?>
+        </div>
       </div>
     </div>
   </div>

@@ -35,9 +35,6 @@
     function execute() {
       global $oscTemplate, $category, $cPath_array, $cPath, $current_category_id, $languages_id, $messageStack, $currencies, $currency, $PHP_SELF;
       
-      $content_width  = MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH;
-      $item_width     = MODULE_CONTENT_IP_PRODUCT_LISTING_CONTENT_WIDTH_EACH;
-      
 // create column list
 			$define_list = array('PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
 													 'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,

@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="col-sm-3">
-    <div class="card">
+    <div class="card mb-2">
       <div class="card-body">
         <ol>
           <li class="text-muted">Database Server</li>
@@ -141,7 +141,7 @@
   </div>
   <div class="col-xs-12 col-sm-3">
     <h2 class="h4">Step 3</h2>
-    <div class="card card-body">      
+    <div class="card mb-2 card-body">      
       <p>Here you can define the name of your online store and the contact information for the store owner.</p>
       <p>The administrator username and password are used to log into the protected administration tool section.</p>
     </div>

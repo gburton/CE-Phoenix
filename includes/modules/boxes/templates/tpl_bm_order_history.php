@@ -1,4 +1,4 @@
-<div class="card bm-order-history">
+<div class="card mb-2 bm-order-history">
   <div class="card-header"><?php echo MODULE_BOXES_ORDER_HISTORY_BOX_TITLE; ?></div>
   <ul class="list-group list-group-flush">
     <?php echo $customer_orders_string; ?>

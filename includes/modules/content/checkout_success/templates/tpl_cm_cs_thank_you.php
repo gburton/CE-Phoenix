@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-cs-thank-you">
-  <div class="card text-white bg-success">
+  <div class="card mb-2 text-white bg-success">
     <div class="card-header">
       <?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_THANKS_FOR_SHOPPING; ?>
     </div>
