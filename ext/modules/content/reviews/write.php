@@ -102,11 +102,11 @@ tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_
       </div>
       <div class="custom-control custom-radio">
         <input type="radio" id="Rating2" name="rating" class="custom-control-input" value="2">
-        <label class="custom-control-label" for="Rating3"><?php echo tep_draw_stars(2); ?></label>
+        <label class="custom-control-label" for="Rating2"><?php echo tep_draw_stars(2); ?></label>
       </div>
       <div class="custom-control custom-radio">
         <input type="radio" id="Rating1" name="rating" class="custom-control-input" value="1">
-        <label class="custom-control-label" for="Rating3"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
+        <label class="custom-control-label" for="Rating1"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
       </div>
     </div>
   </div>
