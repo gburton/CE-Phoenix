@@ -41,7 +41,7 @@
 
     tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($review) . "')");
 
-    $messageStack->add_session('product_action', TEXT_REVIEW_RECEIVED, 'success');
+    $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $customer_first_name), 'success');
 
     tep_redirect(tep_href_link('product_info.php', tep_get_all_get_params(array('action'))));
   }
