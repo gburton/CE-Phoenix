@@ -11,7 +11,6 @@
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRODUCT; ?></th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_AVAILABILITY; ?></th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY; ?></th>          
-          <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_REMOVE; ?></th>
           <th class="text-right"><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRICE; ?></th>
         </tr>
       </thead>

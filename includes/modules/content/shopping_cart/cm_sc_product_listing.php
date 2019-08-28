@@ -9,7 +9,7 @@
     Rainer Schmied - @raiwa
 
   All rights reserved.
-  
+
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
@@ -80,34 +80,40 @@
 
         for ($i=0, $n=sizeof($products); $i<$n; $i++) {
           $products_name .= '<tr>';
-          $products_name .=   '<td class="d-none d-md-table-cell"><a href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">' . tep_image('images/' . $products[$i]['image'], htmlspecialchars($products[$i]['name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
-          $products_name .=   '<th><a href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">' . $products[$i]['name'] . '</a>';
-          if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
-            foreach($products[$i]['attributes'] as $option => $value) {
-              $products_name .= '<small><br><i> - ' . $products[$i][$option]['products_options_name'] . ' ' . $products[$i][$option]['products_options_values_name'] . '</i></small>';
+            $products_name .= '<td class="d-none d-md-table-cell"><a href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">' . tep_image('images/' . $products[$i]['image'], htmlspecialchars($products[$i]['name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
+            $products_name .=   '<th><a href="' . tep_href_link('product_info.php', 'products_id=' . $products[$i]['id']) . '">' . $products[$i]['name'] . '</a>';
+            if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
+              foreach($products[$i]['attributes'] as $option => $value) {
+                $products_name .= '<small><br><i> - ' . $products[$i][$option]['products_options_name'] . ' ' . $products[$i][$option]['products_options_values_name'] . '</i></small>';
+              }
             }
-          }
-          $products_name .=   '</th>';
+            $products_name .=   '</th>';
 
-          if (STOCK_CHECK == 'true') {
-            $stock_check = tep_check_stock($products[$i]['id'], $products[$i]['quantity']);
-            if (tep_not_null($stock_check)) {
-              $any_out_of_stock = 1;
+            if (STOCK_CHECK == 'true') {
+              $stock_check = tep_check_stock($products[$i]['id'], $products[$i]['quantity']);
+              if (tep_not_null($stock_check)) {
+                $any_out_of_stock = 1;
 
-              $products_name .= '<td>' . $stock_check . '</td>';
+                $products_name .= '<td>' . $stock_check . '</td>';
+              }
+              else {
+                goto in_stock;
+              }
             }
             else {
-              goto in_stock;
+              in_stock:
+              $products_name .= '<td>' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
             }
-          }
-          else {
-            in_stock:
-            $products_name .= '<td>' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
-          }
 
-          $products_name .=   '<td><div class="input-group">' . tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number') . tep_draw_hidden_field('products_id[]', $products[$i]['id']) . '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info') . '</div></div></td>';
-          $products_name .=   '<td>' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger') . '</td>';
-          $products_name .=   '<td class="text-right">' . $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</td>';
+            $products_name .= '<td>';
+              $products_name .= '<div class="input-group">';
+                $products_name .= tep_draw_input_field('cart_quantity[]', $products[$i]['quantity'], 'style="width: 65px;" min="0"', 'number');
+                $products_name .= tep_draw_hidden_field('products_id[]', $products[$i]['id']);
+                $products_name .= '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info') . '</div>';
+                $products_name .= '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $products[$i]['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger') . '</div>';
+              $products_name .= '</div>';
+            $products_name .= '</td>';
+            $products_name .= '<td class="text-right">' . $currencies->display_price($products[$i]['final_price'], tep_get_tax_rate($products[$i]['tax_class_id']), $products[$i]['quantity']) . '</td>';
           $products_name .= '</tr>';
         }
 
