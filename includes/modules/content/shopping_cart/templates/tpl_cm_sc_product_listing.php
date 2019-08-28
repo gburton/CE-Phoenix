@@ -4,7 +4,7 @@
   echo $products_field . PHP_EOL; 
   ?>
   <div class="table-responsive">  
-    <table class="table" style="margin-bottom: 0;">
+    <table class="table mb-0">
       <thead>
         <tr>
           <th class="d-none d-md-table-cell">&nbsp;</th>
