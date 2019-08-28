@@ -1,5 +1,3 @@
-<style>.cm-sc-product-listing > hr {margin: 0;padding: 0;}</style>
-
 <div class="col-sm-<?php echo $content_width ?> cm-sc-product-listing">
   <?php 
   echo tep_draw_form('cart_quantity', tep_href_link('shopping_cart.php', 'action=update_product')) . PHP_EOL;
@@ -23,7 +21,7 @@
     </table>
   </div>
   </form>
-  <hr>
+  <hr class="mt-0">
 </div>	
 
 <?php
