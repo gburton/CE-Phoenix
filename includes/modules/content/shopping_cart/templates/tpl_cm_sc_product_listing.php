@@ -1,19 +1,16 @@
-<style>.cm-sc-product-listing > hr {margin: 0;padding: 0;}</style>
-
 <div class="col-sm-<?php echo $content_width ?> cm-sc-product-listing">
   <?php 
   echo tep_draw_form('cart_quantity', tep_href_link('shopping_cart.php', 'action=update_product')) . PHP_EOL;
   echo $products_field . PHP_EOL; 
   ?>
   <div class="table-responsive">  
-    <table class="table" style="margin-bottom: 0;">
+    <table class="table mb-0">
       <thead>
         <tr>
           <th class="d-none d-md-table-cell">&nbsp;</th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRODUCT; ?></th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_AVAILABILITY; ?></th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY; ?></th>          
-          <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_REMOVE; ?></th>
           <th class="text-right"><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRICE; ?></th>
         </tr>
       </thead>
@@ -23,7 +20,7 @@
     </table>
   </div>
   </form>
-  <hr>
+  <hr class="mt-0">
 </div>	
 
 <?php

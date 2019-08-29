@@ -412,7 +412,7 @@
     }
     if (tep_db_num_rows($model_query)) {
       $model = tep_db_fetch_array($model_query);
-      $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'cPath=' . $cPath . '&products_id=' . $_GET['products_id']));
+      $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id']));
     }
   }
 
