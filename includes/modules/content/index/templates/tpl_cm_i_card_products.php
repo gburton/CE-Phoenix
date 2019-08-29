@@ -26,9 +26,9 @@
         <div class="card-footer bg-white pt-0 border-0">
           <div class="btn-group" role="group">
             <?php
-            echo tep_draw_button(IS_PRODUCT_BUTTON_VIEW, '', tep_href_link('product_info.php', tep_get_all_get_params(array('action', 'products_id', 'sort')) . 'products_id=' . (int)$card_products['products_id']), NULL, NULL, 'btn-info btn-product-listing btn-view') . PHP_EOL;
+            echo tep_draw_button(IS_PRODUCT_BUTTON_VIEW, '', tep_href_link('product_info.php', tep_get_all_get_params(array('action', 'products_id', 'sort', 'cPath')) . 'products_id=' . (int)$card_products['products_id']), NULL, NULL, 'btn-info btn-product-listing btn-view') . PHP_EOL;
             $has_attributes = (tep_has_product_attributes((int)$card_products['products_id']) === true) ? '1' : '0';
-            if ($has_attributes == 0) echo tep_draw_button(IS_PRODUCT_BUTTON_BUY, '', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'products_id', 'sort')) . 'action=buy_now&products_id=' . (int)$card_products['products_id']), NULL, array('params' => 'data-has-attributes="' . $has_attributes . '" data-in-stock="' . (int)$card_products['in_stock'] . '" data-product-id="' . (int)$card_products['products_id'] . '"'), 'btn-light btn-product-listing btn-buy') . PHP_EOL;
+            if ($has_attributes == 0) echo tep_draw_button(IS_PRODUCT_BUTTON_BUY, '', tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action', 'products_id', 'sort', 'cPath')) . 'action=buy_now&products_id=' . (int)$card_products['products_id']), NULL, array('params' => 'data-has-attributes="' . $has_attributes . '" data-in-stock="' . (int)$card_products['in_stock'] . '" data-product-id="' . (int)$card_products['products_id'] . '"'), 'btn-light btn-product-listing btn-buy') . PHP_EOL;
             ?>
           </div>
         </div>

@@ -41,7 +41,7 @@
 
     tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($review) . "')");
 
-    $messageStack->add_session('product_action', TEXT_REVIEW_RECEIVED, 'success');
+    $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $customer_first_name), 'success');
 
     tep_redirect(tep_href_link('product_info.php', tep_get_all_get_params(array('action'))));
   }
@@ -52,7 +52,7 @@
     $products_price = $currencies->display_price($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
   }
   
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('ext/modules/content/account/set_password.php',  tep_get_all_get_params(), 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('ext/modules/content/reviews/write.php',  tep_get_all_get_params(), 'SSL'));
   
   require('includes/template_top.php');
 ?>
@@ -68,7 +68,7 @@ tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_
 <div class="contentContainer">
 
   <div class="alert alert-warning" role="alert">
-    <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer['customers_firstname']), $product_info['products_name']); ?>
+    <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer_first_name), $product_info['products_name']); ?>
   </div>
 
   <div class="row">
@@ -102,11 +102,11 @@ tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_
       </div>
       <div class="custom-control custom-radio">
         <input type="radio" id="Rating2" name="rating" class="custom-control-input" value="2">
-        <label class="custom-control-label" for="Rating3"><?php echo tep_draw_stars(2); ?></label>
+        <label class="custom-control-label" for="Rating2"><?php echo tep_draw_stars(2); ?></label>
       </div>
       <div class="custom-control custom-radio">
         <input type="radio" id="Rating1" name="rating" class="custom-control-input" value="1">
-        <label class="custom-control-label" for="Rating3"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
+        <label class="custom-control-label" for="Rating1"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
       </div>
     </div>
   </div>
