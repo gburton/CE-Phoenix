@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  QTpro
+  Version 6.0 Phoenix 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -691,43 +698,80 @@
 
       for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
 // Stock Update - Joao Correia
+//++++ QT Pro: Begin Changed code
+        $products_stock_attributes = null;
         if (STOCK_LIMITED == 'true') {
-          if (DOWNLOAD_ENABLED == 'true') {
-            $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename
-                                FROM products p
-                                LEFT JOIN products_attributes pa
-                                ON p.products_id=pa.products_id
-                                LEFT JOIN products_attributes_download pad
-                                ON pa.products_attributes_id=pad.products_attributes_id
-                                WHERE p.products_id = '" . tep_get_prid($order->products[$i]['id']) . "'";
+          $products_attributes = (isset($order->products[$i]['attributes'])) ? $order->products[$i]['attributes'] : '';
+          $stock_query_raw = "SELECT products_quantity, pad.products_attributes_filename 
+                              FROM products p
+                              LEFT JOIN products_attributes pa
+                              ON p.products_id=pa.products_id
+                              LEFT JOIN products_attributes_download pad
+                              ON pa.products_attributes_id=pad.products_attributes_id
+                              WHERE p.products_id = '" . tep_get_prid($order->products[$i]['id']) . "'";
 // Will work with only one option for downloadable products
 // otherwise, we have to build the query dynamically with a loop
-            $products_attributes = (isset($order->products[$i]['attributes'])) ? $order->products[$i]['attributes'] : '';
-            if (is_array($products_attributes)) {
-              $stock_query_raw .= " AND pa.options_id = '" . (int)$products_attributes[0]['option_id'] . "' AND pa.options_values_id = '" . (int)$products_attributes[0]['value_id'] . "'";
-            }
-            $stock_query = tep_db_query($stock_query_raw);
-          } else {
-            $stock_query = tep_db_query("select products_quantity from products where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-          }
-          if (tep_db_num_rows($stock_query) > 0) {
-            $stock_values = tep_db_fetch_array($stock_query);
-// do not decrement quantities if products_attributes_filename exists
-            if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
-              $stock_left = $stock_values['products_quantity'] - $order->products[$i]['qty'];
+        if (is_array($products_attributes)) {
+          $stock_query_raw .= " AND pa.options_id = '" . (int)$products_attributes[0]['option_id'] . "' AND pa.options_values_id = '" . (int)$products_attributes[0]['value_id'] . "'";
+        }
+        $stock_query = tep_db_query($stock_query_raw);
+      } else {
+        $stock_query = tep_db_query("select products_quantity from products where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+      }
+      if (tep_db_num_rows($stock_query) > 0) {
+        $stock_values = tep_db_fetch_array($stock_query);
+        $actual_stock_bought = $order->products[$i]['qty'];
+        $download_selected = false;
+        if ((DOWNLOAD_ENABLED == 'true') && isset($stock_values['products_attributes_filename']) && tep_not_null($stock_values['products_attributes_filename'])) {
+          $download_selected = true;
+          $products_stock_attributes='$$DOWNLOAD$$';
+        }
+            if (!$download_selected && is_array($products_attributes)) {
+              $all_nonstocked = true;
+              $products_stock_attributes_array = array();
+              foreach ($products_attributes as $attribute) {
+                if ($attribute['track_stock'] == 1) {
+                  $products_stock_attributes_array[] = $attribute['option_id'] . "-" . $attribute['value_id'];
+                  $all_nonstocked = false;
+                }
+              } 
+          if ($all_nonstocked) {
+            $actual_stock_bought = $order->products[$i]['qty'];
+          }  else {
+            asort($products_stock_attributes_array, SORT_NUMERIC);
+            $products_stock_attributes = implode(",", $products_stock_attributes_array);
+            $attributes_stock_query = tep_db_query("select products_stock_quantity from products_stock where products_stock_attributes = '$products_stock_attributes' AND products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+            if (tep_db_num_rows($attributes_stock_query) > 0) {
+              $attributes_stock_values = tep_db_fetch_array($attributes_stock_query);
+              $attributes_stock_left = $attributes_stock_values['products_stock_quantity'] - $order->products[$i]['qty'];
+              tep_db_query("update products_stock set products_stock_quantity = '" . $attributes_stock_left . "' where products_stock_attributes = '$products_stock_attributes' AND products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+              $actual_stock_bought = ($attributes_stock_left < 1) ? $attributes_stock_values['products_stock_quantity'] : $order->products[$i]['qty'];
             } else {
-              $stock_left = $stock_values['products_quantity'];
-            }
-            tep_db_query("update products set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
-            if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-              tep_db_query("update products set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+              $attributes_stock_left = 0 - $order->products[$i]['qty'];
+              tep_db_query("insert into products_stock (products_id, products_stock_attributes, products_stock_quantity) values ('" . tep_get_prid($order->products[$i]['id']) . "', '" . $products_stock_attributes . "', '" . $attributes_stock_left . "')");
+              $actual_stock_bought = 0;
             }
           }
         }
+// do not decrement quantities if products_attributes_filename exists
+        if (!$download_selected) {
+          $stock_left = $stock_values['products_quantity'] - $actual_stock_bought;
+          tep_db_query("UPDATE products 
+                        SET products_quantity = products_quantity - '" . $actual_stock_bought . "' 
+                        WHERE products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+				if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
+          tep_db_query("update products set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+        }
+      }
+    }
 
 // Update products_ordered (for bestsellers list)
-        tep_db_query("update products set products_ordered = products_ordered + " . sprintf('%d', $order->products[$i]['qty']) . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+    tep_db_query("update products set products_ordered = products_ordered + " . sprintf('%d', $order->products[$i]['qty']) . " where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
 
+    if (!isset($products_stock_attributes)) $products_stock_attributes = null;
+    tep_db_query("update orders_products set products_stock_attributes = '" . $products_stock_attributes . "' where orders_id = '" . (int)$order_id . "' and products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
+//++++ QT Pro: End Changed Code
+        
 //------insert customer choosen option to order--------
         $attributes_exist = '0';
         $products_ordered_attributes = '';

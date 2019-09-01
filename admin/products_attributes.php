@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  QTpro
+  Version 6.0 Phoenix
+  by @raiwa
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -11,6 +18,16 @@
 */
 
   require('includes/application_top.php');
+
+  //++++ QT Pro: Begin Added code
+  $qtpro_sick_count = qtpro_sick_product_count();
+  if ($qtpro_sick_count != 0) {
+    $messageStack->add(sprintf(constant('MODULE_CONTENT_QTPRO_ADMIN_WARNING_' . strtoupper($language)), $qtpro_sick_count, tep_href_link('qtprodoctor.php')), 'error');
+  }
+
+  $products_attributes_filename = null;
+  //++++ QT Pro: End added code
+
   $languages = tep_get_languages();
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
@@ -29,9 +46,11 @@
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
-
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
-        }
+          //++++ QT Pro: Begin Changed code
+          $track_stock=isset($_POST['track_stock'])?1:0;
+          tep_db_query("insert into products_options (products_options_id, products_options_name, language_id,products_options_track_stock) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . (int)$track_stock . "')");
+          //++++ QT Pro: End Changed Code
+          }
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'add_product_option_values':
@@ -79,7 +98,10 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          //++++ QT Pro: Begin Changed code
+          $track_stock=isset($_POST['track_stock'])?1:0;
+          tep_db_query("update products_options set products_options_track_stock='" . (int)$track_stock . "',products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          //++++ QT Pro: End Changed Code
         }
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
@@ -201,19 +223,19 @@
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
                   </tr>
                   <tr>
-                    <td colspan="3" class="main"><br /><?php echo TEXT_WARNING_OF_DELETE; ?></td>
+                    <td colspan="3" class="main"><br><?php echo TEXT_WARNING_OF_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td align="right" colspan="3" class="smallText"><br /><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td align="right" colspan="3" class="smallText"><br><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
                   </tr>
 <?php
     } else {
 ?>
                   <tr>
-                    <td class="main" colspan="3"><br /><?php echo TEXT_OK_TO_DELETE; ?></td>
+                    <td class="main" colspan="3"><br><?php echo TEXT_OK_TO_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td class="smallText" align="right" colspan="3"><br /><?php echo tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_option&option_id=' . $_GET['option_id'] . '&' . $page_info), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td class="smallText" align="right" colspan="3"><br><?php echo tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_option&option_id=' . $_GET['option_id'] . '&' . $page_info), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
                   </tr>
 <?php
     }
@@ -237,15 +259,34 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
               <tr class="dataTableHeadingRow">
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_ID; ?>&nbsp;</td>
                 <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_NAME; ?>&nbsp;</td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td class="dataTableHeadingContent">&nbsp;<?php echo constant('MODULE_CONTENT_QTPRO_TRACK_STOCK_' . strtoupper($language)); ?>&nbsp;</td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
                 <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     $next_id = 1;
@@ -262,18 +303,32 @@
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
           $option_name = tep_db_query("select products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
           $option_name = tep_db_fetch_array($option_name);
-          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '">&nbsp;<br />';
+          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '"> <br>';
         }
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_id']; ?><input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>">&nbsp;</td>
                 <td class="smallText"><?php echo $inputs; ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" class="smallText"><input type=checkbox name=track_stock <?php echo $options_values['products_options_track_stock']?"checked":""; ?>></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
                 <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
 <?php
         echo '</form>' . "\n";
       } else {
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $options_values["products_options_id"]; ?>&nbsp;</td>
-                <td class="smallText">&nbsp;<?php echo $options_values["products_options_name"]; ?>&nbsp;</td>
+                <td class="smallText"> <?php echo $options_values["products_options_name"]; ?> </td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_track_stock']? tep_image('images/icons/' . 'tick.gif', ICON_TICK): tep_image('images/icons/' . 'cross.gif', ICON_CROSS); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
                 <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('products_attributes.php', 'action=update_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info)) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_product_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info)); ?>&nbsp;</td>
 <?php
       }
@@ -286,7 +341,13 @@
     }
 ?>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     if ($action != 'update_option') {
@@ -296,18 +357,29 @@
       echo '<form name="options" action="' . tep_href_link('products_attributes.php', 'action=add_product_options&' . $page_info) . '" method="post"><input type="hidden" name="products_options_id" value="' . $next_id . '">';
       $inputs = '';
       for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20">&nbsp;<br />';
+        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20"> <br>';
       }
 ?>
-                <td align="center" class="smallText">&nbsp;<?php echo $next_id; ?>&nbsp;</td>
+                <td align="center" class="smallText">&nbsp;<?php echo $next_id; ?> </td>
                 <td class="smallText"><?php echo $inputs; ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" ><input type=checkbox name=track_stock></td>
                 <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_INSERT, 'plus'); ?>&nbsp;</td>
 <?php
+//++++ QT Pro: End Changed Code
       echo '</form>';
 ?>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     }
@@ -315,7 +387,7 @@
 ?>
             </table></td>
 <!-- options eof //-->
-            <td valign="top" width="50%"><table width="100%" border="0" cellspacing="0" cellpadding="2">
+<td valign="top" width="50%"><table width="100%" border="0" cellspacing="0" cellpadding="2">
 <!-- value //-->
 <?php
   if ($action == 'delete_option_value') { // delete product option value
@@ -358,19 +430,19 @@
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
                   </tr>
                   <tr>
-                    <td class="main" colspan="3"><br /><?php echo TEXT_WARNING_OF_DELETE; ?></td>
+                    <td class="main" colspan="3"><br><?php echo TEXT_WARNING_OF_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td class="smallText" align="right" colspan="3"><br /><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td class="smallText" align="right" colspan="3"><br><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
                   </tr>
 <?php
     } else {
 ?>
                   <tr>
-                    <td class="main" colspan="3"><br /><?php echo TEXT_OK_TO_DELETE; ?></td>
+                    <td class="main" colspan="3"><br><?php echo TEXT_OK_TO_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td class="smallText" align="right" colspan="3"><br /><?php echo tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_value&value_id=' . $_GET['value_id'] . '&' . $page_info), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td class="smallText" align="right" colspan="3"><br><?php echo tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_value&value_id=' . $_GET['value_id'] . '&' . $page_info), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
                   </tr>
 <?php
     }
@@ -422,7 +494,7 @@
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
           $value_name = tep_db_query("select products_options_values_name from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where products_options_values_id = '" . (int)$values_values['products_options_values_id'] . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
           $value_name = tep_db_fetch_array($value_name);
-          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="value_name[' . $languages[$i]['id'] . ']" size="15" value="' . $value_name['products_options_values_name'] . '">&nbsp;<br />';
+          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="value_name[' . $languages[$i]['id'] . ']" size="15" value="' . $value_name['products_options_values_name'] . '">&nbsp;<br>';
         }
 ?>
                 <td align="center" class="smallText">&nbsp;<?php echo $values_values['products_options_values_id']; ?><input type="hidden" name="value_id" value="<?php echo $values_values['products_options_values_id']; ?>">&nbsp;</td>
@@ -431,11 +503,11 @@
         $options = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$languages_id . "' order by products_options_name");
         while ($options_values = tep_db_fetch_array($options)) {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '"';
-          if ($values_values['products_options_id'] == $options_values['products_options_id']) { 
+          if ($values_values['products_options_id'] == $options_values['products_options_id']) {
             echo ' selected';
           }
           echo '>' . $options_values['products_options_name'] . '</option>';
-        } 
+        }
 ?>
                 </select>&nbsp;</td>
                 <td class="smallText"><?php echo $inputs; ?></td>
@@ -476,7 +548,7 @@
 
       $inputs = '';
       for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="value_name[' . $languages[$i]['id'] . ']" size="15">&nbsp;<br />';
+        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="value_name[' . $languages[$i]['id'] . ']" size="15">&nbsp;<br>';
       }
 ?>
                 </select>&nbsp;</td>
@@ -497,8 +569,8 @@
           </tr>
         </table></td>
 <!-- option value eof //-->
-      </tr> 
-<!-- products_attributes //-->  
+      </tr>
+<!-- products_attributes //-->
       <tr>
         <td class="smallText">&nbsp;</td>
       </tr>
@@ -568,7 +640,7 @@
         } else {
           echo "\n" . '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '">' . $products_values['products_name'] . '</option>';
         }
-      } 
+      }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
@@ -580,7 +652,7 @@
         } else {
           echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
         }
-      } 
+      }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
@@ -592,16 +664,16 @@
         } else {
           echo "\n" . '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
         }
-      } 
-?>        
+      }
+?>
             </select>&nbsp;</td>
             <td align="right" class="smallText">&nbsp;<input type="text" name="value_price" value="<?php echo $attributes_values['options_values_price']; ?>" size="6">&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<input type="text" name="price_prefix" value="<?php echo $attributes_values['price_prefix']; ?>" size="2">&nbsp;</td>
             <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
 <?php
       if (DOWNLOAD_ENABLED == 'true') {
-        $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount 
-                              from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " 
+        $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount
+                              from " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . "
                               where products_attributes_id='" . $attributes_values['products_attributes_id'] . "'";
         $download_query = tep_db_query($download_query_raw);
         if (tep_db_num_rows($download_query) > 0) {
@@ -672,7 +744,7 @@
     $products = tep_db_query("select p.products_id, pd.products_name from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
     while ($products_values = tep_db_fetch_array($products)) {
       echo '<option name="' . $products_values['products_name'] . '" value="' . $products_values['products_id'] . '">' . $products_values['products_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="options_id">
@@ -680,7 +752,7 @@
     $options = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . $languages_id . "' order by products_options_name");
     while ($options_values = tep_db_fetch_array($options)) {
       echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td class="smallText">&nbsp;<select name="values_id">
@@ -688,7 +760,7 @@
     $values = tep_db_query("select * from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id = '" . $languages_id . "' order by products_options_values_name");
     while ($values_values = tep_db_fetch_array($values)) {
       echo '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
-    } 
+    }
 ?>
             </select>&nbsp;</td>
             <td align="right" class="smallText">&nbsp;<input type="text" name="value_price" size="6">&nbsp;</td>

@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  QTpro
+  Version 6.0 Phoenix 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -944,6 +951,9 @@
       tep_reset_cache_block('categories');
       tep_reset_cache_block('also_purchased');
     }
+//++++ QT Pro: Begin Changed code
+    qtpro_doctor_amputate_all_from_product($product_id);
+//++++ QT Pro: End Changed code
   }
 
   function tep_remove_product($product_id) {
@@ -997,9 +1007,37 @@
 
   function tep_remove_order($order_id, $restock = false) {
     if ($restock == 'on') {
-      $order_query = tep_db_query("select products_id, products_quantity from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "'");
+ //++++ QT Pro: Begin Changed code
+      $order_query = tep_db_query("select products_id, products_quantity, products_stock_attributes from " . TABLE_ORDERS_PRODUCTS . " where orders_id = '" . (int)$order_id . "'");
       while ($order = tep_db_fetch_array($order_query)) {
-        tep_db_query("update " . TABLE_PRODUCTS . " set products_quantity = products_quantity + " . $order['products_quantity'] . ", products_ordered = products_ordered - " . $order['products_quantity'] . " where products_id = '" . (int)$order['products_id'] . "'");
+        $product_stock_adjust = 0;
+        if (tep_not_null($order['products_stock_attributes'])) {
+          if ($order['products_stock_attributes'] != '$$DOWNLOAD$$') {
+            $attributes_stock_query = tep_db_query("SELECT products_stock_quantity 
+                                                    FROM products_stock 
+                                                    WHERE products_stock_attributes = '" . $order['products_stock_attributes'] . "' 
+                                                    AND products_id = '" . (int)$order['products_id'] . "'");
+            if (tep_db_num_rows($attributes_stock_query) > 0) {
+                $attributes_stock_values = tep_db_fetch_array($attributes_stock_query);
+                tep_db_query("UPDATE products_stock 
+                              SET products_stock_quantity = products_stock_quantity + '" . (int)$order['products_quantity'] . "' 
+                              WHERE products_stock_attributes = '" . $order['products_stock_attributes'] . "' 
+                              AND products_id = '" . (int)$order['products_id'] . "'");
+                $product_stock_adjust = min($order['products_quantity'],  $order['products_quantity']+$attributes_stock_values['products_stock_quantity']);
+            } else {
+                tep_db_query("INSERT into products_stock 
+                              (products_id, products_stock_attributes, products_stock_quantity)
+                              VALUES ('" . (int)$order['products_id'] . "', '" . $order['products_stock_attributes'] . "', '" . (int)$order['products_quantity'] . "')");
+                $product_stock_adjust = $order['products_quantity'];
+            }
+          }
+        } else {
+            $product_stock_adjust = $order['products_quantity'];
+        } 
+        tep_db_query("UPDATE " . TABLE_PRODUCTS . " 
+                      SET products_quantity = products_quantity + " . $product_stock_adjust . ", products_ordered = products_ordered - " . (int)$order['products_quantity'] . " 
+                      WHERE products_id = '" . (int)$order['products_id'] . "'");
+//++++ QT Pro: End Changed Code
       }
     }
 
@@ -1576,3 +1614,6 @@
     return $select_string;
   }
 
+//++++ QT Pro: Begin Changed code
+  require('includes/functions/qtpro_functions.php');
+//++++ QT Pro: End Changed code
