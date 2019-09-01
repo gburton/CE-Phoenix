@@ -16,7 +16,7 @@
   define('DB_SERVER', 'localhost');
   define('DB_SERVER_USERNAME', 'root');
   define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'phoenix_git_spanish_lng');
+  define('DB_DATABASE', 'phoenix_git_qtpro');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', 'mysql');
   define('CFG_TIME_ZONE', 'Europe/Berlin');
