@@ -1,4 +1,4 @@
-<div class="card mb-2 is-product"<?php echo $box_attr; ?>>
+<div class="card mb-2 is-product bm-whats-new"<?php echo $box_attr; ?>>
   <div class="card-header">
     <?php echo sprintf(MODULE_BOXES_WHATS_NEW_BOX_TITLE, tep_href_link('products_new.php')); ?>
   </div>

@@ -1,4 +1,4 @@
-<div class="card mb-2 is-product"<?php echo $box_attr; ?>>
+<div class="card mb-2 is-product bm-reviews"<?php echo $box_attr; ?>>
   <div class="card-header">
     <?php echo MODULE_BOXES_REVIEWS_BOX_TITLE; ?>
   </div>
