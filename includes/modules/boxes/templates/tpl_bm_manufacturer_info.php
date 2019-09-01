@@ -2,17 +2,18 @@
   <div class="card-header">
     <?php echo MODULE_BOXES_MANUFACTURER_INFO_BOX_TITLE; ?>
   </div>
+  <?php echo $box_image; ?>
   <div class="card-body">
-    <?php echo $manufacturer_info_string; ?>
+    <h5 class="card-title mb-0"><?php echo $box_title; ?></h5>
   </div>
-  <div class="card-footer">
-    <a href="<?php echo tep_href_link('index.php', 'manufacturers_id=' . $manufacturer['manufacturers_id']); ?>"><?php echo MODULE_BOXES_MANUFACTURER_INFO_BOX_OTHER_PRODUCTS; ?></a>
-  </div>
+  <div class="list-group list-group-flush">
+    <?php echo $box_url; ?>
+  </div> 
 </div>
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2019, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
