@@ -24,6 +24,35 @@
   
   require('includes/languages/' . $language . '/modules/content/reviews/write.php');
 
+  $reviewed = array();
+  $reviewed_products_array = tep_db_query("select distinct products_id from reviews where customers_id = '" . (int)$customer_id . "'");
+  while ($reviewed_products = tep_db_fetch_array($reviewed_products_array)) {
+    $reviewed[] = $reviewed_products['products_id'];
+  }
+    
+  if (in_array((int)$_GET['products_id'], $reviewed)) {
+    $messageStack->add_session('product_action', sprintf(TEXT_ALREADY_REVIEWED, $customer_first_name), 'error');
+
+    tep_redirect(tep_href_link('product_info.php', tep_get_all_get_params(array('action'))));
+  }
+  
+  if (ALLOW_ALL_REVIEWS == 'false') {
+    $purchased = array();
+    $purchased_products_array = tep_db_query("select distinct op.products_id from orders o, orders_products op where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id group by products_id");
+  
+    while ($purchased_products = tep_db_fetch_array($purchased_products_array)) {
+      $purchased[] = $purchased_products['products_id'];
+    }
+  
+    $allowable_reviews = array_diff($purchased, $reviewed);
+    
+    if (!in_array((int)$_GET['products_id'], $allowable_reviews)) {
+      $messageStack->add_session('product_action', sprintf(TEXT_NOT_PURCHASED, $customer_first_name), 'error');
+
+      tep_redirect(tep_href_link('product_info.php', tep_get_all_get_params(array('action'))));
+    }
+  }
+  
   $product_info_query = tep_db_query("select p.products_id, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name, SUBSTRING_INDEX(pd.products_description, ' ', 40) as products_description from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
   
   if (!tep_db_num_rows($product_info_query)) {

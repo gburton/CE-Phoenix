@@ -26,3 +26,6 @@ define('IMAGE_BUTTON_ADD_REVIEW', 'Send this Review to the store owner');
 define('TEXT_REVIEW_RECEIVED', '%s thank you for your review. It has been sent to the store owner for approval and should appear on site shortly.');
 
 define('TEXT_REVIEW_WRITING', '<p class="lead">%s, please let us know your thoughts and rating on %s - thank you!</p><p>After you press the "Send" button, it will go to the store owner and should appear on site shortly.</p>');
+
+define('TEXT_NOT_PURCHASED', '%s there appears to be a conflict!  You have not purchased this product!');
+define('TEXT_ALREADY_REVIEWED', '%s there appears to be a conflict!  You have already reviewed this product!');
