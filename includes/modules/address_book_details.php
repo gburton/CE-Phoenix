@@ -29,7 +29,7 @@
     }
 ?>
       
-      <div class="form-group row">
+      <div class="form-group row align-items-center">
         <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
         <div class="col-sm-9">
           <div class="form-check form-check-inline">
