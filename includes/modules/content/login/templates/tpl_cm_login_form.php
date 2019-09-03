@@ -25,8 +25,6 @@
 
   </form>
 
-  <p><?php echo '<a class="btn btn-link" role="button" href="' . tep_href_link('password_forgotten.php', '', 'SSL') . '">' . MODULE_CONTENT_LOGIN_TEXT_PASSWORD_FORGOTTEN . '</a>'; ?></p>
-
 </div>
 
 <?php
