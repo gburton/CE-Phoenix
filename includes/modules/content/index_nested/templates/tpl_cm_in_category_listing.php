@@ -1,33 +1,29 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-in-category-listing">
-  <div itemscope itemtype="https://schema.org/ItemList">
-    <meta itemprop="itemListOrder" content="https://schema.org/ItemListUnordered" />
-    <meta itemprop="name" content="<?php echo $category_name; ?>" />    
+  <div class="<?php echo $category_card_layout; ?>">    
+    <?php
+    $item = 1;
     
-    <div class="card-deck">    
-      <?php
-      $item = 1;
-      
-      foreach ($category_array as $k => $v) {
-        echo '<div class="card mb-2 card-body text-center border-0">' . PHP_EOL;
-          echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
-          echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '"><span itemprop="itemListElement">' . $v['title'] . '</span></a>';
-        echo '</div>' . PHP_EOL;   
+    foreach ($category_array as $k => $v) {
+      echo '<div class="card is-category mb-2 card-body text-center border-0">' . PHP_EOL;
+        echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
+        echo '<div class="card-footer border-0 bg-white">';
+          echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . $v['title'] . '</a>';
+        echo '</div>' . PHP_EOL;
+      echo '</div>' . PHP_EOL;   
 
-        if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM == 0 ) echo '<div class="w-100 d-none d-sm-block d-md-none"></div>' . PHP_EOL; 
-        if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD == 0 ) echo '<div class="w-100 d-none d-md-block d-lg-none"></div>' . PHP_EOL; 
-        if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG == 0 ) echo '<div class="w-100 d-none d-lg-block d-xl-none"></div>' . PHP_EOL;
-        if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL == 0 ) echo '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
-        $item++;        
-      }
-      ?>
-    </div>
-    
+      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM == 0 ) echo '<div class="w-100 d-none d-sm-block d-md-none"></div>' . PHP_EOL; 
+      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD == 0 ) echo '<div class="w-100 d-none d-md-block d-lg-none"></div>' . PHP_EOL; 
+      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG == 0 ) echo '<div class="w-100 d-none d-lg-block d-xl-none"></div>' . PHP_EOL;
+      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL == 0 ) echo '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
+      $item++;        
+    }
+    ?>
   </div>
 </div>
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2019, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
