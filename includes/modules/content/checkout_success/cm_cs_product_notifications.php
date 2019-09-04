@@ -60,7 +60,11 @@
           $products_query = tep_db_query("select products_id, products_name from orders_products where orders_id = '" . (int)$order_id . "' order by products_name");
           while ($products = tep_db_fetch_array($products_query)) {
             if ( !isset($products_displayed[$products['products_id']]) ) {
-              $products_displayed[$products['products_id']] = '<div class="checkbox"><label> ' . tep_draw_checkbox_field('notify[]', $products['products_id']) . ' ' . $products['products_name'] . '</label></div>';
+              $checkbox = '<div class="custom-control custom-switch">';
+              $checkbox .= tep_draw_checkbox_field('notify[]', $products['products_id'], false, 'class="custom-control-input" id="notify_' . $products['products_id'] . '"');
+              $checkbox .= '<label class="custom-control-label" for="notify_' . $products['products_id'] . '">' . $products['products_name'] . '</label></div>';
+              
+              $products_displayed[$products['products_id']] = $checkbox;
             }
           }
 
