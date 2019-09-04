@@ -83,10 +83,10 @@
   </div>
 
   <div class="form-group row align-items-center">
-    <label for="inputGlobalNotification" class="col-form-label col-sm-4 text-left text-sm-right"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
+    <div class="col-form-label col-sm-4 text-left text-sm-right"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></div>
     <div class="col-sm-8 pl-5 custom-control custom-switch">
       <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false), 'class="custom-control-input" id="inputGlobalNotification"');
-      echo '<span class="custom-control-label">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '&nbsp;</span>';      
+      echo '<label for="inputGlobalNotification" class="custom-control-label">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '&nbsp;</label>';      
       ?>
     </div>
   </div>
