@@ -35,9 +35,9 @@
       
       if (isset($_GET['products_id'])) {
         $manufacturer_query = tep_db_query("select manufacturers_id from products where products_id = '" . (int)$_GET['products_id'] . "' and manufacturers_id is not null");
-        if (tep_db_num_rows($manufacturer_query)) {
-          $manufacturer = tep_db_fetch_array($manufacturer_query);
-          
+        $manufacturer = tep_db_fetch_array($manufacturer_query);
+        
+        if ((int)$manufacturer['manufacturers_id'] > 0) {
           $bm_brand = new manufacturer((int)$manufacturer['manufacturers_id']);
 
           $_brand = $bm_brand->getData('manufacturers_name');
