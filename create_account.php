@@ -284,18 +284,18 @@
   if (ACCOUNT_GENDER == 'true') {
 ?>
     
-  <div class="form-group row">
+  <div class="form-group row align-items-center">
     <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
     <div class="col-sm-9">
-      <div class="form-check form-check-inline">
-        <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true" id="genderM" aria-describedby="atGender"'); ?>
-        &nbsp;<label class="form-check-label" for="genderM"><?php echo MALE; ?></label>
+      <div class="custom-control custom-radio custom-control-inline">
+        <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true" id="genderM" aria-describedby="atGender" class="custom-control-input"'); ?>
+        <label class="custom-control-label" for="genderM"><?php echo MALE; ?></label>
       </div>
-      <div class="form-check form-check-inline">
-        <?php echo tep_draw_radio_field('gender', 'f', NULL, 'id="genderF" aria-describedby="atGender"'); ?>
-        &nbsp;<label class="form-check-label" for="genderF"><?php echo FEMALE; ?></label>
+      <div class="custom-control custom-radio custom-control-inline">
+        <?php echo tep_draw_radio_field('gender', 'f', NULL, 'id="genderF" aria-describedby="atGender" class="custom-control-input"'); ?>
+        <label class="custom-control-label" for="genderF"><?php echo FEMALE; ?></label>
       </div>    
-      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="form-text">' . ENTRY_GENDER_TEXT . '</span>'; ?>
+      <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="form-text"><small>' . ENTRY_GENDER_TEXT . '</small></span>'; ?>
       <div class="float-right">
         <?php echo FORM_REQUIRED_INPUT; ?>
       </div>
@@ -470,17 +470,12 @@
       ?>
     </div>
   </div>
-  <div class="form-group row">
-    <label for="inputNewsletter" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NEWSLETTER; ?></label>
-    <div class="col-sm-9">
-      <div class="form-check">
-        <label>
-          <?php
-          echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"');
-          if (tep_not_null(ENTRY_NEWSLETTER_TEXT)) echo ENTRY_NEWSLETTER_TEXT;
-          ?>
-        </label>
-      </div>
+  <div class="form-group row align-items-center">
+    <div class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NEWSLETTER; ?></div>
+    <div class="col-sm-9 pl-5 custom-control custom-switch">
+      <?php echo tep_draw_checkbox_field('newsletter', 1, false, 'class="custom-control-input" id="inputNewsletter"');
+      echo '<label for="inputNewsletter" class="custom-control-label text-muted"><small>' . ENTRY_NEWSLETTER_TEXT . '&nbsp;</small></label>';      
+      ?>
     </div>
   </div>
 

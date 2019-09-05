@@ -1,24 +1,9 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-in-category-listing">
-  <div class="<?php echo $category_card_layout; ?>">    
-    <?php
-    $item = 1;
-    
-    foreach ($category_array as $k => $v) {
-      echo '<div class="card is-category mb-2 card-body text-center border-0">' . PHP_EOL;
-        echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
-        echo '<div class="card-footer border-0 bg-white">';
-          echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . $v['title'] . '</a>';
-        echo '</div>' . PHP_EOL;
-      echo '</div>' . PHP_EOL;   
+<div class="col-sm-<?php echo $content_width; ?> cm-forgot-password">
 
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM == 0 ) echo '<div class="w-100 d-none d-sm-block d-md-none"></div>' . PHP_EOL; 
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD == 0 ) echo '<div class="w-100 d-none d-md-block d-lg-none"></div>' . PHP_EOL; 
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG == 0 ) echo '<div class="w-100 d-none d-lg-block d-xl-none"></div>' . PHP_EOL;
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL == 0 ) echo '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
-      $item++;        
-    }
-    ?>
-  </div>
+  <div class="alert alert-warning" role="alert"><?php echo MODULE_CONTENT_FORGOT_PASSWORD_INTRO_TEXT; ?></div>
+
+  <p><?php echo tep_draw_button(MODULE_CONTENT_FORGOT_PASSWORD_BUTTON_TEXT, 'fas fa-unlock-alt', tep_href_link('password_forgotten.php', '', 'SSL'), null, null, 'btn-warning btn-block'); ?></p>
+
 </div>
 
 <?php

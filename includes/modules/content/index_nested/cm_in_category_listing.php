@@ -40,6 +40,7 @@
       global $oscTemplate, $current_category_id, $OSCOM_category;
       
       $content_width  = MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH;
+      $category_card_layout = MODULE_CONTENT_IN_CATEGORY_LISTING_LAYOUT;
       
       $category_name  = $OSCOM_category->getData($current_category_id, 'name');
       $category_level = $OSCOM_category->setMaximumLevel(1);
@@ -63,7 +64,7 @@
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Sub-Category Listing Module', 'MODULE_CONTENT_IN_CATEGORY_LISTING_STATUS', 'True', 'Should this module be enabled?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH', '12', 'What width container should the content be shown in?', '6', '2', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
-
+      tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Category Card Layout', 'MODULE_CONTENT_IN_CATEGORY_LISTING_LAYOUT', 'card-deck', 'What Layout suits your shop?  See https://getbootstrap.com/docs/4.3/components/card/#card-layout <div class=\"secWarning\">card-columns is a special use case that will not suit most shops as card-columns is very difficult to layout and sort by...</div>', '6', '3', 'tep_cfg_select_option(array(\'card-group\', \'card-deck\', \'card-columns\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Items In Each Row (SM)', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM', '2', 'How many products should display per Row in SM (Small) viewport?', '6', '4', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Items In Each Row (MD)', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD', '3', 'How many products should display per Row in MD (Medium) viewport?', '6', '4', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Items In Each Row (LG)', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG', '4', 'How many products should display per Row in LG (Large) viewport?', '6', '4', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
@@ -77,7 +78,7 @@
     }
     
     function keys() {
-      return array('MODULE_CONTENT_IN_CATEGORY_LISTING_STATUS', 'MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL', 'MODULE_CONTENT_IN_CATEGORY_LISTING_SORT_ORDER');
+      return array('MODULE_CONTENT_IN_CATEGORY_LISTING_STATUS', 'MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH', 'MODULE_CONTENT_IN_CATEGORY_LISTING_LAYOUT',  'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG', 'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL', 'MODULE_CONTENT_IN_CATEGORY_LISTING_SORT_ORDER');
     }  
   }
   

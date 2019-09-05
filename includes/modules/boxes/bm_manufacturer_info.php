@@ -32,15 +32,28 @@
 
     function execute() {
       global $languages_id, $oscTemplate;
-
+      
       if (isset($_GET['products_id'])) {
-        $manufacturer_query = tep_db_query("select m.manufacturers_id, m.manufacturers_name, m.manufacturers_image, mi.manufacturers_url from manufacturers m left join manufacturers_info mi on (m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'), products p  where p.products_id = '" . (int)$_GET['products_id'] . "' and p.manufacturers_id = m.manufacturers_id");
-        if (tep_db_num_rows($manufacturer_query)) {
-          $manufacturer = tep_db_fetch_array($manufacturer_query);
+        $manufacturer_query = tep_db_query("select manufacturers_id from products where products_id = '" . (int)$_GET['products_id'] . "' and manufacturers_id is not null");
+        $manufacturer = tep_db_fetch_array($manufacturer_query);
+        
+        if ((int)$manufacturer['manufacturers_id'] > 0) {
+          $bm_brand = new manufacturer((int)$manufacturer['manufacturers_id']);
 
-          $manufacturer_info_string = NULL;
-          if (tep_not_null($manufacturer['manufacturers_image'])) $manufacturer_info_string .= '<div>' . tep_image('images/' . $manufacturer['manufacturers_image'], htmlspecialchars($manufacturer['manufacturers_name'])) . '</div>';
-          if (tep_not_null($manufacturer['manufacturers_url'])) $manufacturer_info_string .= '<div class="text-center"><a href="' . tep_href_link('redirect.php', 'action=manufacturer&manufacturers_id=' . $manufacturer['manufacturers_id']) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $manufacturer['manufacturers_name']) . '</a></div>';
+          $_brand = $bm_brand->getData('manufacturers_name');
+          $_image = $bm_brand->getData('manufacturers_image');
+          $_url   = $bm_brand->getData('manufacturers_url');
+          $_id    = $bm_brand->getData('manufacturers_id');
+
+          $box_image = $box_title = NULL;
+          
+          // title
+          $box_title = '<a href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$_id) . '">' . $_brand . '</a>';
+          // image
+          if (tep_not_null($_image)) $box_image = '<a href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$_id) . '">' . tep_image('images/' . $_image, htmlspecialchars($_brand), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>';
+          // link to urls
+          $box_url = '<a class="list-group-item list-group-item-action text-muted" href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$_id) . '">' . MODULE_BOXES_MANUFACTURER_INFO_BOX_OTHER_PRODUCTS . '</a>';
+          if (tep_not_null($_url)) $box_url .= '<a class="list-group-item list-group-item-action text-muted" href="' . tep_href_link('redirect.php', 'action=manufacturer&manufacturers_id=' . (int)$_id) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $_brand) . '</a>';
 
           ob_start();
           include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));

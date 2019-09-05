@@ -1,26 +1,3 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-in-category-listing">
-  <div class="<?php echo $category_card_layout; ?>">    
-    <?php
-    $item = 1;
-    
-    foreach ($category_array as $k => $v) {
-      echo '<div class="card is-category mb-2 card-body text-center border-0">' . PHP_EOL;
-        echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
-        echo '<div class="card-footer border-0 bg-white">';
-          echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . $v['title'] . '</a>';
-        echo '</div>' . PHP_EOL;
-      echo '</div>' . PHP_EOL;   
-
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_SM == 0 ) echo '<div class="w-100 d-none d-sm-block d-md-none"></div>' . PHP_EOL; 
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_MD == 0 ) echo '<div class="w-100 d-none d-md-block d-lg-none"></div>' . PHP_EOL; 
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_LG == 0 ) echo '<div class="w-100 d-none d-lg-block d-xl-none"></div>' . PHP_EOL;
-      if ( $item%MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL == 0 ) echo '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
-      $item++;        
-    }
-    ?>
-  </div>
-</div>
-
 <?php
 /*
   Copyright (c) 2019, G Burton
@@ -36,4 +13,10 @@
 
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-?>
+
+  define('MODULE_CONTENT_FORGOT_PASSWORD_TITLE', 'Forgot Password');
+  define('MODULE_CONTENT_FORGOT_PASSWORD_DESCRIPTION', 'Show a link to allow customer to reset password on the login page');
+
+  define('MODULE_CONTENT_FORGOT_PASSWORD_INTRO_TEXT', 'Did you forget your Password?  No problem!');
+  define('MODULE_CONTENT_FORGOT_PASSWORD_BUTTON_TEXT', 'Reset Password');
+  

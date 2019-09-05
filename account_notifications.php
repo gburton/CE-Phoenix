@@ -82,14 +82,13 @@
     <?php echo MY_NOTIFICATIONS_DESCRIPTION; ?>
   </div>
 
-  <div class="form-group row">
-    <label class="col-form-label col-sm-4 text-left text-sm-right"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></label>
+  <div class="form-group row align-items-center">
+    <div class="col-form-label col-sm-4 text-left text-sm-right"><?php echo GLOBAL_NOTIFICATIONS_TITLE; ?></div>
     <div class="col-sm-8">
-      <div class="checkbox">
-        <label>
-          <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false)); ?>
-          <?php if (tep_not_null(GLOBAL_NOTIFICATIONS_DESCRIPTION)) echo GLOBAL_NOTIFICATIONS_DESCRIPTION; ?>
-        </label>
+      <div class="custom-control custom-switch">
+        <?php echo tep_draw_checkbox_field('product_global', '1', (($global['global_product_notifications'] == '1') ? true : false), 'class="custom-control-input" id="inputGlobalNotification"');
+        echo '<label for="inputGlobalNotification" class="custom-control-label">' . GLOBAL_NOTIFICATIONS_DESCRIPTION . '&nbsp;</label>';      
+        ?>
       </div>
     </div>
   </div>
@@ -104,22 +103,18 @@
     <div class="w-100"></div>
     <div class="alert alert-warning" role="alert"><?php echo NOTIFICATIONS_DESCRIPTION; ?></div>
 
-    <div class="form-group row">
-      <label class="col-form-label col-sm-4 text-left text-sm-right"><?php echo MY_NOTIFICATIONS_TITLE; ?></label>
+    <div class="form-group row align-items-center">
+      <div class="col-form-label col-sm-4 text-left text-sm-right"><?php echo MY_NOTIFICATIONS_TITLE; ?></div>
       <div class="col-sm-8">
-
-<?php
-      $products_query = tep_db_query("select pd.products_id, pd.products_name from products_description pd, products_notifications pn where pn.customers_id = '" . (int)$customer_id . "' and pn.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name");
-      while ($products = tep_db_fetch_array($products_query)) {
-?>
-        <div class="checkbox">
-          <label>
-            <?php echo tep_draw_checkbox_field('products[]', $products['products_id'], true) . $products['products_name']; ?>
-          </label>
-        </div>
-<?php
-      }
-?>
+        <?php
+        $products_query = tep_db_query("select pd.products_id, pd.products_name from products_description pd, products_notifications pn where pn.customers_id = '" . (int)$customer_id . "' and pn.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name");
+        while ($products = tep_db_fetch_array($products_query)) {
+          echo '<div class="custom-control custom-switch">';
+            echo tep_draw_checkbox_field('products[]', $products['products_id'], true, 'class="custom-control-input" id="input_' . $products['products_id'] . 'Notification"');
+            echo '<label for="input_' . $products['products_id'] . 'Notification" class="custom-control-label">' . $products['products_name'] . '</label>';
+          echo '</div>';
+        }
+        ?>
       </div>
     </div>
 
@@ -137,7 +132,7 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_UPDATE_PREFERENCES, 'fas fa-users-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
   
