@@ -1,13 +1,14 @@
 <div class="card mb-2 bm-product-notifications">
-  <div class="card-header"><a href="<?php echo tep_href_link('account_notifications.php', '', 'SSL'); ?>"><?php echo MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE; ?></a></div>
-  <div class="card-body">
+  <div class="card-header"><?php echo MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_TITLE; ?></div>
+  <div class="list-group list-group-flush">
     <?php echo $notif_contents; ?>
   </div>
+  <div class="card-footer"><a class="card-link" href="<?php echo tep_href_link('account_notifications.php', '', 'SSL'); ?>"><?php echo MODULE_BOXES_PRODUCT_NOTIFICATIONS_VIEW; ?></a></div>
 </div>
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2019, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
