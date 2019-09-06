@@ -33,60 +33,52 @@
   $orders_total = tep_count_customer_orders();
 
   if ($orders_total > 0) {
-    ?>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th scope="col"><?php echo TEXT_ORDER_NUMBER; ?></th>
-          <th scope="col"><?php echo TEXT_ORDER_STATUS; ?></th>
-          <th scope="col"><?php echo TEXT_ORDER_DATE; ?></th>
-          <th scope="col"><?php echo TEXT_ORDER_PRODUCTS; ?></th>
-          <th scope="col"><?php echo TEXT_ORDER_COST; ?></th>
-          <th scope="col"><?php echo TEXT_VIEW_ORDER; ?></th>
-        </tr>
-      </thead>
-      <tbody>          
-    
-    <?php
     $history_query_raw = "select o.orders_id, o.date_purchased, o.delivery_name, o.billing_name, ot.text as order_total, s.orders_status_name from orders o, orders_total ot, orders_status s where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = ot.orders_id and ot.class = 'ot_total' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and s.public_flag = '1' order by orders_id DESC";
     $history_split = new splitPageResults($history_query_raw, MAX_DISPLAY_ORDER_HISTORY);
     $history_query = tep_db_query($history_split->sql_query);
+    ?>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <caption class="sr-only"><?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></caption>
+        <thead class="thead-light">
+          <tr>
+            <th scope="col"><?php echo TEXT_ORDER_NUMBER; ?></th>
+            <th scope="col" class="d-none d-md-table-cell"><?php echo TEXT_ORDER_STATUS; ?></th>
+            <th scope="col"><?php echo TEXT_ORDER_DATE; ?></th>
+            <th scope="col" class="d-none d-md-table-cell"><?php echo TEXT_ORDER_PRODUCTS; ?></th>
+            <th scope="col"><?php echo TEXT_ORDER_COST; ?></th>
+            <th class="text-right" scope="col"><?php echo TEXT_VIEW_ORDER; ?></th>
+          </tr>
+        </thead>
+        <tbody>          
+        <?php
+        while ($history = tep_db_fetch_array($history_query)) {
+          $products_query = tep_db_query("select sum(products_quantity) as count from orders_products where orders_id = '" . (int)$history['orders_id'] . "'");
+          $products = tep_db_fetch_array($products_query);
+          ?>
+          <tr>
+            <th scope="row"><?php echo $history['orders_id']; ?></th>
+            <td class="d-none d-md-table-cell"><?php echo $history['orders_status_name']; ?></td>
+            <td><?php echo tep_date_short($history['date_purchased']); ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $products['count']; ?></td>
+            <td><?php echo strip_tags($history['order_total']); ?></td>
+            <td class="text-right"><?php echo tep_draw_button(BUTTON_VIEW_ORDER, null, tep_href_link('account_history_info.php', tep_get_all_get_params(array('order_id')) . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm'); ?></td>
+          </tr>
+          <?php
+        }
+        ?>
+        </tbody>
+      </table>
+    </div>
 
-    while ($history = tep_db_fetch_array($history_query)) {
-      $products_query = tep_db_query("select count(*) as count from orders_products where orders_id = '" . (int)$history['orders_id'] . "'");
-      $products = tep_db_fetch_array($products_query);
-
-      if (tep_not_null($history['delivery_name'])) {
-        $order_type = TEXT_ORDER_SHIPPED_TO;
-        $order_name = $history['delivery_name'];
-      } else {
-        $order_type = TEXT_ORDER_BILLED_TO;
-        $order_name = $history['billing_name'];
-      }
-?>
-        <tr>
-          <th scope="row"><?php echo $history['orders_id']; ?></td>
-          <td><?php echo $history['orders_status_name']; ?></td>
-          <td><?php echo tep_date_long($history['date_purchased']); ?></td>
-          <td><?php echo $products['count']; ?></td>
-          <td><?php echo strip_tags($history['order_total']); ?></td>
-          <td><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_VIEW, 'fas fa-file', tep_href_link('account_history_info.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm btn-block'); ?></td>
-        </tr>
-
-<?php
-    }
-?>
-      </tbody>
-    </table>
-
-<div class="row align-items-center">
-  <div class="col-sm-6 d-none d-sm-block">
-    <?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?>
-  </div>
-  <div class="col-sm-6">
-    <?php echo $history_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?>
-  </div>
-</div>
+    <div class="row align-items-center">
+      <div class="col-sm-6 d-none d-sm-block">
+        <?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?>
+      </div>
+      <div class="col-sm-6">
+        <?php echo $history_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?>
+      </div>
+    </div>
 
 <?php
   } else {

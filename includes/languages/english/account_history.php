@@ -24,6 +24,8 @@ define('TEXT_ORDER_PRODUCTS', 'Products');
 define('TEXT_ORDER_COST', 'Cost');
 define('TEXT_VIEW_ORDER', 'View');
 
+define('BUTTON_VIEW_ORDER', '<i title="View this Order" class="fas fa-eye"></i>');
+
 define('TEXT_NO_PURCHASES', 'You have not yet made any purchases.');
 
 define('TEXT_DISPLAY_NUMBER_OF_ORDERS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> orders)');
