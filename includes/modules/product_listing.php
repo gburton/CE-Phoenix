@@ -25,8 +25,8 @@
 <?php
   if ( ($listing_split->number_of_rows > 0) && ( (PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3') ) ) {
 ?>
-<div class="row">
-  <div class="col-sm-6 pagenumber d-none d-sm-block">
+<div class="row align-items-center">
+  <div class="col-sm-6 d-none d-sm-block">
     <?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?>
   </div>
   <div class="col-sm-6">
@@ -154,8 +154,8 @@
 
 if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3')) ) {
   ?>
-<div class="row">
-  <div class="col-sm-6 pagenumber d-none d-sm-block">
+<div class="row align-items-center">
+  <div class="col-sm-6 d-none d-sm-block">
     <?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?>
   </div>
   <div class="col-sm-6">

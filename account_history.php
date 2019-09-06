@@ -79,9 +79,9 @@
       </tbody>
     </table>
 
-<div class="row">
-  <div class="col-sm-6 pagenumber d-none d-sm-block">
-    <span class="align-middle"><?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></span>
+<div class="row align-items-center">
+  <div class="col-sm-6 d-none d-sm-block">
+    <?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?>
   </div>
   <div class="col-sm-6">
     <?php echo $history_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?>
