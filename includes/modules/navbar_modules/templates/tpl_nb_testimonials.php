@@ -1,5 +1,5 @@
 <li class="nav-item nb-testimonials">
-  <?php echo MODULE_NAVBAR_TESTIMONIALS_PUBLIC_TEXT; ?>
+  <a class="nav-link" href="<?php echo tep_href_link('testimonials.php'); ?>"><?php echo MODULE_NAVBAR_TESTIMONIALS_PUBLIC_TEXT; ?></a>
 </li>
 
 <?php
