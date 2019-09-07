@@ -15,5 +15,5 @@
 */
 
 define('MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_OSC_TITLE', 'Versioning - osCommerce');
-define('MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_OSC_MESSAGE', 'Your shop is based on OSCOM v%s, see <a href="' . tep_href_link('version_check.php') . '"><u>Tools > Version Checker</u></a> for more detailed information.');
+define('MODULE_SECURITY_CHECK_EXTENDED_SHOPSIDE_OSC_MESSAGE', 'Your shop is based on OSCOM CE Phoenix v%s, see <a href="' . tep_href_link('version_check.php') . '"><u>Tools > Version Checker</u></a> for more detailed information.');
 
