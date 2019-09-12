@@ -30,9 +30,9 @@
 
     formSubmited = true;
 
-    $('#mBox').show();
+    $('.mBox').show();
 
-    $('#mBoxContents').html('<p><i class="fas fa-spinner fa-spin fa-2x"></i> Testing database connection..</p>');
+    $('.mBoxContents').html('<div class="alert alert-warning"><i class="fas fa-spinner fa-spin fa-2x"></i> Testing database connection..</div>');
 
     dbServer = $('#DB_SERVER').val();
     dbUsername = $('#DB_SERVER_USERNAME').val();
@@ -45,14 +45,14 @@
       result.shift();
 
       if (result[0] == '1') {
-        $('#mBoxContents').html('<p><i class="fas fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</p>');
+        $('.mBoxContents').html('<div class="alert alert-success"><i class="fas fa-spinner fa-spin fa-2x"></i> The database structure is now being imported. Please be patient during this procedure.</div>');
 
         $.get('rpc.php?action=dbImport&server=' + encodeURIComponent(dbServer) + '&username=' + encodeURIComponent(dbUsername) + '&password='+ encodeURIComponent(dbPassword) + '&name=' + encodeURIComponent(dbName) + '&importsample=' + encodeURIComponent(dbImportSample), function (response2) {      
           var result2 = /\[\[([^|]*?)(?:\|([^|]*?)){0,1}\]\]/.exec(response2);
           result2.shift();
 
           if (result2[0] == '1') {
-            $('#mBoxContents').html('<p class="text-success"><i class="fas fa-thumbs-up fa-2x"></i> Database imported successfully.</p>');
+            $('.mBoxContents').html('<div class="alert alert-success"><i class="fas fa-thumbs-up fa-2x"></i> Database imported successfully.</div>');
 
             formSuccess = true;
 
@@ -62,7 +62,7 @@
           } else {
             var result2_error = result2[1].replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-            $('#mBoxContents').html('<p class="text-danger"><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem importing the database. The following error had occured:</p><p  class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p>'.replace('%s', result2_error));
+            $('.mBoxContents').html('<div class="alert alert-danger"><p><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem importing the database. The following error had occured:</p><p  class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p></div>'.replace('%s', result2_error));
 
             formSubmited = false;
           }
@@ -72,7 +72,7 @@
       } else {
         var result_error = result[1].replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-        $('#mBoxContents').html('<p class="text-danger"><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem connecting to the database server. The following error had occured:</p><p class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p></div>'.replace('%s', result_error));
+        $('.mBoxContents').html('<div class="alert alert-danger"><p><i class="fas fa-thumbs-down fa-2x text-danger"></i> There was a problem connecting to the database server. The following error had occured:</p><p class="text-danger"><strong>%s</strong></p><p class="text-danger">Please verify the connection parameters and try again.</p></div>'.replace('%s', result_error));
 
         formSubmited = false;
       }
@@ -127,10 +127,8 @@
 <div class="row">
   <div class="col-xs-12 col-sm-9">
 
-    <div id="mBox">
-      <div class="card mb-2 card-body">
-        <div id="mBoxContents"></div>
-      </div>
+    <div class="mBox">
+      <div class="mBoxContents"></div>
     </div>
     
     <h2 class="h4">Database Server</h2>
@@ -181,6 +179,10 @@
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
           <span class="form-text">Import sample product and category data?</span>
         </div>
+      </div>
+      
+      <div class="mBox">
+        <div class="mBoxContents"></div>
       </div>
       
       <p><?php echo osc_draw_button('Continue To Step 2', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
