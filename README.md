@@ -1,8 +1,14 @@
 # CE Phoenix
 
-Phoenix is the Community Version of osCommerce
+CE Phoenix is a powerful ecommerce shop ready to use out of the box, putting you online and in full control of your business right from the start.
+
+Your customers will love the modern, responsive design that will not only make your website look great on all mobile viewing devices but also perform at speed whilst giving you the power to create an individual and unique look to your shop with just a few clicks!
+
+CE Phoenix is packed with many first class utilities as standard but its modular software design lets you add many more with no programming skills required. The full suite of product, shipping and payment options included will let you sell thousands of products in any number of categories worldwide in any currency or language providing a seamless customer experience.
 
 ![Phoenix Logo](https://raw.githubusercontent.com/gburton/Responsive-osCommerce/master/.github/ce-phoenix.png)
+
+CE Phoenix is the official Community Version of osCommerce.  Check out what you can do with CE Phoenix at the demo site; 
 
 # Demo Site
 
@@ -25,11 +31,11 @@ Minimum | Maximum
 - [ ] check security page in administrative area.  admin > tools > security checks
 - [ ] join osCommerce forum
 - [ ] consider joining Phoenix club
-- [ ] install one or more navbar modules.  admin > modules > navbar modules > {install}
-- [ ] install one or more footer modules.  admin > modules > content > {install}
-- [ ] install one or more box modules.  admin > modules > boxes > {install}
-- [ ] install shipping module(s).  admin > modules > shipping
-- [ ] install payment module(s).  admin > modules > payment
+- [ ] install one or more navbar modules;  admin > modules > navbar modules > {install}
+- [ ] install one or more footer modules;  admin > modules > content > {install}
+- [ ] install one or more box modules;  admin > modules > boxes > {install}
+- [ ] install shipping module(s);  admin > modules > shipping
+- [ ] install payment module(s);  admin > modules > payment
 - [ ] perform a test checkout
 - [ ] load your categories and products
 
@@ -60,7 +66,7 @@ I am hopeful that all shopowners, developers, consultants and businesses ... wil
 
 ### Join the Phoenix Club
 
-If you wish to help support the Phoenix project and steer the future direction of the software please join the Phoenix Club
+If you wish to help steer the future direction of the software please join the Phoenix Club
 https://forums.oscommerce.com/clubs/1-phoenix/
 
 ### Other Languages

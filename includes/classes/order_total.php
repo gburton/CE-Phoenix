@@ -63,10 +63,10 @@
           if ($GLOBALS[$class]->enabled) {
             $size = sizeof($GLOBALS[$class]->output);
             for ($i=0; $i<$size; $i++) {
-              $output_string .= '              <tr>' . "\n" .
-                                '                <td align="right" class="main">' . $GLOBALS[$class]->output[$i]['title'] . '</td>' . "\n" .
-                                '                <td align="right" class="main">' . $GLOBALS[$class]->output[$i]['text'] . '</td>' . "\n" .
-                                '              </tr>';
+              $output_string .= '<tr>';
+                $output_string .= '<td>' . $GLOBALS[$class]->output[$i]['title'] . '</td>';
+                $output_string .= '<td class="text-right">' . $GLOBALS[$class]->output[$i]['text'] . '</td>';
+              $output_string .= '</tr>';
             }
           }
         }

@@ -30,9 +30,9 @@
   if ($testimonials_split->number_of_rows > 0) {
     if ((PREV_NEXT_BAR_LOCATION == '1') || (PREV_NEXT_BAR_LOCATION == '3')) {
 ?>
-<div class="row">
-  <div class="col-sm-6 pagenumber d-none d-sm-block">
-    <span class="align-middle"><?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?></span>
+<div class="row align-items-center">
+  <div class="col-sm-6 d-none d-sm-block">
+    <?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?>
   </div>
   <div class="col-sm-6">
     <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
@@ -68,9 +68,9 @@
 
   if (($testimonials_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') || (PREV_NEXT_BAR_LOCATION == '3'))) {
 ?>
-<div class="row">
-  <div class="col-sm-6 pagenumber d-none d-sm-block">
-    <span class="align-middle"><?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?></span>
+<div class="row align-items-center">
+  <div class="col-sm-6 d-none d-sm-block">
+    <?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?>
   </div>
   <div class="col-sm-6">
     <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>

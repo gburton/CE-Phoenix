@@ -249,7 +249,7 @@
         }
       }
     } else {
-      $cPath_new = implode('_', $cPath_array);
+      $cPath_new = implode('_', (array)$cPath_array);
     }
 
     return 'cPath=' . $cPath_new;

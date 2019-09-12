@@ -42,8 +42,14 @@
       $content_width = (int)MODULE_CONTENT_PI_GALLERY_CONTENT_WIDTH;
       
       if (tep_not_null($product_info['products_image'])) {
-        $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT;
-        $photoset_limit  = array_sum(str_split(MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT));
+        if (defined('MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT')) {
+          $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT;
+          $photoset_limit  = array_sum(str_split(MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT));
+        }
+        else {
+          $photoset_layout = 155;
+          $photoset_limit  = 11;
+        }
 
         $pi_query = tep_db_query("select image, htmlcontent from products_images where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order limit " . (int)$photoset_limit);
         $pi_total = tep_db_num_rows($pi_query);

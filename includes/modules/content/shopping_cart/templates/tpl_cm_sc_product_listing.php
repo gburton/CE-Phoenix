@@ -5,7 +5,7 @@
   ?>
   <div class="table-responsive">  
     <table class="table mb-0">
-      <thead>
+      <thead class="thead-light">
         <tr>
           <th class="d-none d-md-table-cell">&nbsp;</th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRODUCT; ?></th>

@@ -56,8 +56,8 @@ define('HEADER_TITLE_TOP', '<i class="fas fa-home"></i><span class="sr-only"> Ho
 define('HEADER_TITLE_CATALOG', 'Catalog');
 
 // text for gender
-define('MALE', 'M<span class="hidden-xs">ale</span>');
-define('FEMALE', 'F<span class="hidden-xs">emale</span>');
+define('MALE', 'Male');
+define('FEMALE', 'Female');
 
 // checkout procedure text
 define('CHECKOUT_BAR_DELIVERY', 'Delivery Information');
