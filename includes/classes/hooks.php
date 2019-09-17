@@ -26,7 +26,8 @@
       $directory = DIR_FS_CATALOG . 'includes/hooks/' . $this->_site . '/' . $group;
 
       $files = [];
-	  if ( file_exists($directory) ) {
+      
+      if ( file_exists($directory) ) {
         if ( $dir = @dir($directory) ) {
           while ( $file = $dir->read() ) {
             if ( !is_dir($directory . '/' . $file) ) {
@@ -36,9 +37,11 @@
 
           $dir->close();
         }
-		natsort($files);
-		foreach ($files as $file) {
-		  if ( substr($file, strrpos($file, '.')) == '.php' ) {
+        
+        natsort($files);
+        
+        foreach ($files as $file) {
+          if ( substr($file, strrpos($file, '.')) == '.php' ) {
             $code = substr($file, 0, strrpos($file, '.'));
             $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
 
@@ -51,7 +54,7 @@
               }
             }
           }
-		}
+        }
       }
     }
 
