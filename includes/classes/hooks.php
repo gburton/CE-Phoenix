@@ -25,27 +25,35 @@
 
       $directory = DIR_FS_CATALOG . 'includes/hooks/' . $this->_site . '/' . $group;
 
+      $files = [];
+      
       if ( file_exists($directory) ) {
         if ( $dir = @dir($directory) ) {
           while ( $file = $dir->read() ) {
             if ( !is_dir($directory . '/' . $file) ) {
-              if ( substr($file, strrpos($file, '.')) == '.php' ) {
-                $code = substr($file, 0, strrpos($file, '.'));
-                $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
-
-                include($directory . '/' . $file);
-                $GLOBALS[$class] = new $class();
-
-                foreach ( get_class_methods($GLOBALS[$class]) as $method ) {
-                  if ( substr($method, 0, 7) == 'listen_' ) {
-                    $this->_hooks[$this->_site][$group][substr($method, 7)][] = $code;
-                  }
-                }
-              }
+              $files[] = $file;
             }
           }
 
           $dir->close();
+        }
+        
+        natsort($files);
+        
+        foreach ($files as $file) {
+          if ( substr($file, strrpos($file, '.')) == '.php' ) {
+            $code = substr($file, 0, strrpos($file, '.'));
+            $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
+
+            include($directory . '/' . $file);
+            $GLOBALS[$class] = new $class();
+
+            foreach ( get_class_methods($GLOBALS[$class]) as $method ) {
+              if ( substr($method, 0, 7) == 'listen_' ) {
+                $this->_hooks[$this->_site][$group][substr($method, 7)][] = $code;
+              }
+            }
+          }
         }
       }
     }
