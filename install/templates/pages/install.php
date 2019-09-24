@@ -125,7 +125,7 @@
 <div class="w-100"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-9">
+  <div class="col-12 col-sm-9">
 
     <div class="mBox">
       <div class="mBoxContents"></div>
@@ -189,7 +189,7 @@
 
     </form>    
   </div>
-  <div class="col-xs-12 col-sm-3">
+  <div class="col-12 col-sm-3">
     <h2 class="h4">Step 1</h2>
     <div class="card card-body">      
       <p>The database server stores the content of the online store such as product information, customer information, and the orders that have been made.</p>

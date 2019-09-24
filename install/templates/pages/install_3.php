@@ -51,7 +51,7 @@
 <div class="w-100"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-9">
+  <div class="col-12 col-sm-9">
     <h2 class="h4">Online Store Settings</h2>
     <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
@@ -139,7 +139,7 @@
 
     </form>
   </div>
-  <div class="col-xs-12 col-sm-3">
+  <div class="col-12 col-sm-3">
     <h2 class="h4">Step 3</h2>
     <div class="card mb-2 card-body">      
       <p>Here you can define the name of your online store and the contact information for the store owner.</p>
