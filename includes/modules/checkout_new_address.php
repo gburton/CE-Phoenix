@@ -30,7 +30,7 @@
       <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-sm-9">
         <div class="custom-control custom-radio custom-control-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', $male, 'required aria-required="true" id="genderM" aria-describedby="atGender" class="custom-control-input"'); ?>
+          <?php echo tep_draw_radio_field('gender', 'm', $male, 'id="genderM" aria-describedby="atGender" class="custom-control-input"'); ?>
           <label class="custom-control-label" for="genderM"><?php echo MALE; ?></label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
