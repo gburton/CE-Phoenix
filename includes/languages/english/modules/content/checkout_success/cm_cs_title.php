@@ -17,6 +17,6 @@
   const MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_TITLE        = 'Page Heading';
   const MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_DESCRIPTION  = 'Shows the Page Heading.';
   
-  const MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_PUBLIC_TITLE = 'Your Order Has Been Processed!';
+  const MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_PUBLIC_TITLE = 'Your Order is Complete';
 
   
