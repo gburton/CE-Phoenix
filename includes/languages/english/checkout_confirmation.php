@@ -33,3 +33,5 @@ define('IMAGE_BUTTON_FINALISE_ORDER', 'Finalise and Pay For my Order');
 
 define('HEADING_QTY', 'Qty');
 
+define('LIST_PRODUCTS', 'Products');
+define('ORDER_DETAILS', 'Order Details');

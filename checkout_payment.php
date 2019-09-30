@@ -98,142 +98,99 @@
 
 <?php
   if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
-?>
-  
-  <?php echo '<strong>' . tep_output_string_protected($error['title']) . '</strong>'; ?>
-
-  <p class="messageStackError"><?php echo tep_output_string_protected($error['error']); ?></p>
-
-<?php
+    echo '<div class="alert alert-danger">';
+      echo '<p class="lead"><b>' . tep_output_string_protected($error['title']) . '</b></p>';
+      echo '<p>' . tep_output_string_protected($error['error']) . '</p>';
+    echo '</div>';
   }
+  
+  $selection = $payment_modules->selection();
 ?>
-
-  <h4><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></h4>
 
   <div class="row">
-    <div class="col-sm-8">
-      <div class="alert alert-warning" role="alert">
-        <?php echo TEXT_SELECTED_BILLING_DESTINATION; ?>
-        <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fas fa-home', tep_href_link('checkout_payment_address.php', '', 'SSL'), null, null, 'btn-light btn-sm'); ?></p>
+    <div class="col-sm-7">
+      <h5 class="mb-1"><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h5>
+      <div>
+        <table class="table border-right border-left border-bottom table-hover m-0">
+        <?php
+        for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
+          ?>
+          <tr class="table-selection">
+            <td><?php echo $selection[$i]['module']; ?></td>
+            <td class="text-right">
+              <?php
+              if (sizeof($selection) > 1) {
+                echo '<div class="custom-control custom-radio custom-control-inline">';
+                  echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'id="p_' . $selection[$i]['id'] . '" required aria-required="true" aria-describedby="d_' . $quotes[$i]['methods'][$j]['id'] . '" class="custom-control-input"');
+                  echo '<label class="custom-control-label" for="p_' . $selection[$i]['id'] . '">&nbsp;</label>';
+                echo '</div>';
+              } else {
+                echo tep_draw_hidden_field('payment', $selection[$i]['id']);
+              }
+              ?>
+            </td>
+          </tr>
+          <?php
+          if (isset($selection[$i]['error'])) {
+            ?>
+            <tr>
+              <td colspan="2"><?php echo $selection[$i]['error']; ?></td>
+            </tr>
+            <?php
+          } elseif (isset($selection[$i]['fields']) && is_array($selection[$i]['fields'])) {
+            for ($j=0, $n2=sizeof($selection[$i]['fields']); $j<$n2; $j++) {
+              ?>
+              <tr>
+                <td><?php echo $selection[$i]['fields'][$j]['title']; ?></td>
+                <td><?php echo $selection[$i]['fields'][$j]['field']; ?></td>
+              </tr>
+              <?php
+            }
+          }
+        }
+        ?>
+        </table>
+        <?php
+        if (sizeof($selection) == 1) {
+          echo '<p class="m-2 font-weight-lighter">' . TEXT_ENTER_PAYMENT_INFORMATION . '</p>';
+        }
+        ?>
       </div>
     </div>
-    <div class="col-sm-4">
-      <div class="card mb-2">
-        <div class="card-header"><?php echo TITLE_BILLING_ADDRESS; ?></div>
-        <div class="card-body">
-          <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
-        </div>
+    <div class="col-sm-5">
+      <h5 class="mb-1">
+        <?php 
+        echo TABLE_HEADING_BILLING_ADDRESS;
+        echo sprintf(LINK_TEXT_EDIT, 'font-weight-lighter ml-3', 'checkout_payment_address.php');      
+        ?>
+      </h5>
+      <div class="border">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <?php
+            echo PAYMENT_FA_ICON;            
+            echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); 
+            ?>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-
-  <div class="w-100"></div>
-
-  <h4><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h4>
-
-<?php
-  $selection = $payment_modules->selection();
-
-  if (sizeof($selection) > 1) {
-?>
-
-  <div class="alert alert-warning" role="alert">
-    <div class="row">
-      <div class="col-sm-8">
-        <?php echo TEXT_SELECT_PAYMENT_METHOD; ?>
-      </div>
-      <div class="col-sm-4">
-        <div class="text-right">
-          <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<?php
-    } else {
-?>
-
-  <div class="alert alert-info" role="alert"><?php echo TEXT_ENTER_PAYMENT_INFORMATION; ?></div>
-
-<?php
-    }
-?>
-
-  <table class="table table-striped table-sm table-hover">
-    <tbody>
-<?php
-  $radio_buttons = 0;
-  for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
-?>
-    <tr class="table-selection">
-      <td><strong><?php echo $selection[$i]['module']; ?></strong></td>
-      <td align="right">
-
-<?php
-    if (sizeof($selection) > 1) {
-      echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'required aria-required="true"');
-    } else {
-      echo tep_draw_hidden_field('payment', $selection[$i]['id']);
-    }
-?>
-
-      </td>
-    </tr>
-
-<?php
-    if (isset($selection[$i]['error'])) {
-?>
-
-    <tr>
-      <td colspan="2"><?php echo $selection[$i]['error']; ?></td>
-    </tr>
-
-<?php
-    } elseif (isset($selection[$i]['fields']) && is_array($selection[$i]['fields'])) {
-?>
-
-    <tr>
-      <td colspan="2"><table border="0" cellspacing="0" cellpadding="2">
-
-<?php
-      for ($j=0, $n2=sizeof($selection[$i]['fields']); $j<$n2; $j++) {
-?>
-
-        <tr>
-          <td><?php echo $selection[$i]['fields'][$j]['title']; ?></td>
-          <td><?php echo $selection[$i]['fields'][$j]['field']; ?></td>
-        </tr>
-
-<?php
-      }
-?>
-
-      </table></td>
-    </tr>
-
-<?php
-    }
-
-    $radio_buttons++;
-  }
-?>
-    </tbody>
-  </table>
-
+  
   <hr>
 
+
   <div class="form-group row">
-    <label for="inputComments" class="col-form-label col-sm-4 text-sm-right"><?php echo TABLE_HEADING_COMMENTS; ?></label>
+    <label for="inputComments" class="col-form-label col-sm-4 text-sm-right"><?php echo ENTRY_COMMENTS; ?></label>
     <div class="col-sm-8">
       <?php
-      echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
+      echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . ENTRY_COMMENTS_PLACEHOLDER . '"');
       ?>
     </div>
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(TITLE_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
   <div class="progressBarHook">
