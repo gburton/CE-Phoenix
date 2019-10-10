@@ -15,16 +15,7 @@
 */
 
   define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TITLE', 'Payment Icons');
-  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_DESCRIPTION', 'Adds a Payment Icons Block to the Extra Footer Area of your site');
+  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_DESCRIPTION', 'Adds Brand Icons to the Extra Footer Area of your site.<div class="secInfo">Available Brand Icons are shown here: https://fontawesome.com/icons?d=gallery&s=brands&c=payments-shopping</div>');
   
-  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT', '
-  <p>
-    <i class="far fa-credit-card fa-lg"></i>
-    <i class="fab fa-cc-amex fa-lg"></i>
-    <i class="fab fa-cc-discover fa-lg"></i>
-    <i class="fab fa-cc-mastercard fa-lg"></i>
-    <i class="fab fa-cc-paypal fa-lg"></i>
-    <i class="fab fa-cc-stripe fa-lg"></i>
-    <i class="fab fa-cc-visa fa-lg"></i>
-  </p>');
+  define('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT', '');
 
