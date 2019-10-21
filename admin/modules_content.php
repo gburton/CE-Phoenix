@@ -228,6 +228,7 @@
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_MODULES; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_GROUP; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_SORT_ORDER; ?></td>
+                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_MODULE_ACTIVE; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
@@ -268,6 +269,9 @@
                 <td class="dataTableContent"><?php echo $module->title; ?></td>
                 <td class="dataTableContent"><?php echo $module->group; ?></td>
                 <td class="dataTableContent"><?php echo $module->sort_order; ?></td>
+                <td class="dataTableContent">
+                  <?php echo ($module->enabled == 1) ? tep_image('images/icon_status_green.gif', null, 10, 10): tep_image('images/icon_status_red_light.gif', null, 10, 10); ?>
+                </td>
                 <td class="dataTableContent" align="right"><?php if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) { echo tep_image('images/icon_arrow_right.gif'); } else { echo '<a href="' . tep_href_link('modules_content.php', 'module=' . $module->code) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>
 <?php

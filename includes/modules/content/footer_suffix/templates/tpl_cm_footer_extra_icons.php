@@ -1,5 +1,5 @@
 <div class="col-sm-<?php echo $content_width; ?> text-center text-sm-right cm-footer-extra-icons">
-  <?php echo MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT; ?>
+  <p><?php echo $brand_icons; ?></p>
 </div>
 
 <?php

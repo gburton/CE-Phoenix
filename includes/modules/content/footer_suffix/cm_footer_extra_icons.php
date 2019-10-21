@@ -40,12 +40,25 @@
       global $oscTemplate;
       
       $content_width = (int)MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH;
+      $icons = explode(',', MODULE_CONTENT_FOOTER_EXTRA_ICONS_DISPLAY);
       
-      ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
-      $template = ob_get_clean();
+      $brand_icons = null;      
+      if ( defined('MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT') && tep_not_null(MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT)) {
+        $brand_icons .= MODULE_CONTENT_FOOTER_EXTRA_ICONS_TEXT;
+      }
+      elseif (sizeof($icons) > 0) {
+        foreach ($icons as $i ) {
+          $brand_icons .= '<i class="fab fa-' . $i . ' fa-lg"></i> ';
+        }
+      }
+      
+      if (tep_not_null($brand_icons)) {
+        ob_start();
+        include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
+        $template = ob_get_clean();
 
-      $oscTemplate->addContent($template, $this->group);
+        $oscTemplate->addContent($template, $this->group);
+      }
     }
 
     function isEnabled() {
@@ -59,7 +72,8 @@
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Payment Icons Footer Module', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_STATUS', 'True', 'Do you want to enable the Payment Icons content module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Icons', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_DISPLAY', 'apple-pay,bitcoin,cc-paypal,cc-stripe', 'Icons to display.', '6', '0', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_SORT_ORDER', '20', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
     function remove() {
@@ -67,7 +81,7 @@
     }
 
     function keys() {
-      return array('MODULE_CONTENT_FOOTER_EXTRA_ICONS_STATUS', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_SORT_ORDER');
+      return array('MODULE_CONTENT_FOOTER_EXTRA_ICONS_STATUS', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_CONTENT_WIDTH', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_DISPLAY', 'MODULE_CONTENT_FOOTER_EXTRA_ICONS_SORT_ORDER');
     }
   }
   
