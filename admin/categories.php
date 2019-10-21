@@ -24,11 +24,6 @@
           if (isset($_GET['pID'])) {
             tep_set_product_status($_GET['pID'], $_GET['flag']);
           }
-
-          if (USE_CACHE == 'true') {
-            tep_reset_cache_block('categories');
-            tep_reset_cache_block('also_purchased');
-          }
         }
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $_GET['cPath'] . '&pID=' . $_GET['pID']));
@@ -92,11 +87,6 @@
           tep_db_query("update " . TABLE_CATEGORIES . " set categories_image = '" . tep_db_input($categories_image->filename) . "' where categories_id = '" . (int)$categories_id . "'");
         }
 
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('categories');
-          tep_reset_cache_block('also_purchased');
-        }
-
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $categories_id));
         break;
       case 'delete_category_confirm':
@@ -141,11 +131,6 @@
           }
         }
 
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('categories');
-          tep_reset_cache_block('also_purchased');
-        }
-
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath));
         break;
       case 'delete_product_confirm':
@@ -165,11 +150,6 @@
           }
         }
 
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('categories');
-          tep_reset_cache_block('also_purchased');
-        }
-
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath));
         break;
       case 'move_category_confirm':
@@ -186,11 +166,6 @@
           } else {
             tep_db_query("update " . TABLE_CATEGORIES . " set parent_id = '" . (int)$new_parent_id . "', last_modified = now() where categories_id = '" . (int)$categories_id . "'");
 
-            if (USE_CACHE == 'true') {
-              tep_reset_cache_block('categories');
-              tep_reset_cache_block('also_purchased');
-            }
-
             tep_redirect(tep_href_link('categories.php', 'cPath=' . $new_parent_id . '&cID=' . $categories_id));
           }
         }
@@ -203,11 +178,6 @@
         $duplicate_check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$new_parent_id . "'");
         $duplicate_check = tep_db_fetch_array($duplicate_check_query);
         if ($duplicate_check['total'] < 1) tep_db_query("update " . TABLE_PRODUCTS_TO_CATEGORIES . " set categories_id = '" . (int)$new_parent_id . "' where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$current_category_id . "'");
-
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('categories');
-          tep_reset_cache_block('also_purchased');
-        }
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $new_parent_id . '&pID=' . $products_id));
         break;
@@ -330,11 +300,6 @@
           tep_db_query("delete from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$products_id . "' and id not in (" . implode(',', $piArray) . ")");
         }
 
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('categories');
-          tep_reset_cache_block('also_purchased');
-        }
-
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products_id));
         break;
       case 'copy_to_confirm':
@@ -371,11 +336,6 @@
 
             tep_db_query("insert into " . TABLE_PRODUCTS_TO_CATEGORIES . " (products_id, categories_id) values ('" . (int)$dup_products_id . "', '" . (int)$categories_id . "')");
             $products_id = $dup_products_id;
-          }
-
-          if (USE_CACHE == 'true') {
-            tep_reset_cache_block('categories');
-            tep_reset_cache_block('also_purchased');
           }
         }
 

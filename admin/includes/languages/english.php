@@ -63,7 +63,6 @@ define('DOB_FORMAT_STRING', 'mm/dd/yyyy');
 define('BOX_HEADING_CONFIGURATION', 'Configuration');
 define('BOX_CONFIGURATION_MYSTORE', 'My Store');
 define('BOX_CONFIGURATION_LOGGING', 'Logging');
-define('BOX_CONFIGURATION_CACHE', 'Cache');
 define('BOX_CONFIGURATION_ADMINISTRATORS', 'Administrators');
 define('BOX_CONFIGURATION_STORE_LOGO', 'Store Logo');
 
@@ -106,7 +105,6 @@ define('BOX_HEADING_TOOLS', 'Tools');
 define('BOX_TOOLS_ACTION_RECORDER', 'Action Recorder');
 define('BOX_TOOLS_BACKUP', 'Database Backup');
 define('BOX_TOOLS_BANNER_MANAGER', 'Banner Manager');
-define('BOX_TOOLS_CACHE', 'Cache Control');
 define('BOX_TOOLS_DEFINE_LANGUAGE', 'Define Languages');
 define('BOX_TOOLS_MAIL', 'Send Email');
 define('BOX_TOOLS_NEWSLETTER_MANAGER', 'Newsletter Manager');
@@ -286,10 +284,6 @@ define('PREVNEXT_BUTTON_NEXT', '&gt;&gt;');
 define('TEXT_DEFAULT', 'default');
 define('TEXT_SET_DEFAULT', 'Set as default');
 define('TEXT_FIELD_REQUIRED', '&nbsp;<span class="fieldRequired">* Required</span>');
-
-define('TEXT_CACHE_CATEGORIES', 'Categories Box');
-define('TEXT_CACHE_MANUFACTURERS', 'Manufacturers Box');
-define('TEXT_CACHE_ALSO_PURCHASED', 'Also Purchased Module');
 
 define('TEXT_NONE', '--none--');
 define('TEXT_TOP', 'Top');

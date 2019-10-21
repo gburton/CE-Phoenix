@@ -72,10 +72,6 @@
           }
         }
 
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('manufacturers');
-        }
-
         tep_redirect(tep_href_link('manufacturers.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'mID=' . $manufacturers_id));
         break;
       case 'deleteconfirm':
@@ -100,10 +96,6 @@
           }
         } else {
           tep_db_query("update " . TABLE_PRODUCTS . " set manufacturers_id = '' where manufacturers_id = '" . (int)$manufacturers_id . "'");
-        }
-
-        if (USE_CACHE == 'true') {
-          tep_reset_cache_block('manufacturers');
         }
 
         tep_redirect(tep_href_link('manufacturers.php', 'page=' . $_GET['page']));
