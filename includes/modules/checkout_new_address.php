@@ -27,15 +27,15 @@
 ?>
     
     <div class="form-group row align-items-center">
-      <label class="col-form-label col-sm-3 text-sm-right"><?php echo ENTRY_GENDER; ?></label>
+      <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></label>
       <div class="col-sm-9">
-        <div class="form-check form-check-inline">
-          <?php echo tep_draw_radio_field('gender', 'm', $male, 'id="genderM" aria-describedby="atGender"'); ?>
-          &nbsp;<label class="form-check-label" for="genderM"><?php echo MALE; ?></label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <?php echo tep_draw_radio_field('gender', 'm', $male, 'id="genderM" aria-describedby="atGender" class="custom-control-input"'); ?>
+          <label class="custom-control-label" for="genderM"><?php echo MALE; ?></label>
         </div>
-        <div class="form-check form-check-inline">
-          <?php echo tep_draw_radio_field('gender', 'f', $female, 'id="genderF" aria-describedby="atGender"'); ?>
-          &nbsp;<label class="form-check-label" for="genderF"><?php echo FEMALE; ?></label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <?php echo tep_draw_radio_field('gender', 'f', $female, 'id="genderF" aria-describedby="atGender" class="custom-control-input"'); ?>
+          <label class="custom-control-label" for="genderF"><?php echo FEMALE; ?></label>
         </div>    
         <?php if (tep_not_null(ENTRY_GENDER_TEXT)) echo '<span id="atGender" class="form-text">' . ENTRY_GENDER_TEXT . '</span>'; ?>
       </div>

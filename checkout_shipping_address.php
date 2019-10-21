@@ -223,103 +223,68 @@
 
 <div class="contentContainer">
 
-<?php
-  if ($process == false) {
-?>
-
-  <h4><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h4>
-
   <div class="row">
-    <div class="col-sm-8">
-      <div class="alert alert-warning" role="alert"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
+    <div class="col-sm-7">
+      <h5 class="mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h5>
+      <div>
+        <table class="table border-right border-left border-bottom table-hover m-0">
+          <?php    
+          $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from address_book where customers_id = '" . (int)$customer_id . "'");
+          while ($addresses = tep_db_fetch_array($addresses_query)) {
+            $format_id = tep_get_address_format_id($addresses['country_id']);
+            ?>
+            <tr class="table-selection">
+              <td><?php echo tep_address_format($format_id, $addresses, true, ' ', ', '); ?></td>
+              <td align="text-right">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $sendto), 'id="csa_' . $addresses['address_book_id'] . '" aria-describedby="csa_' . $addresses['address_book_id'] . '" class="custom-control-input"'); ?>
+                  <label class="custom-control-label" for="csa_<?php echo $addresses['address_book_id']; ?>">&nbsp;</label>
+                </div>
+              </td>
+            </tr>
+            <?php
+          }
+          ?>
+        </table>
+      </div>
     </div>
-    <div class="col-sm-4">
-      <div class="card mb-2">
-        <div class="card-header"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
-
-        <div class="card-body">
-          <?php echo tep_address_label($customer_id, $sendto, true, ' ', '<br />'); ?>
-        </div>
+    <div class="col-sm-5">
+      <h5 class="mb-1">
+        <?php 
+        echo TABLE_HEADING_SHIPPING_ADDRESS;
+        ?>
+      </h5>
+      <div class="border">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <?php
+            echo SHIPPING_FA_ICON;            
+            echo tep_address_label($customer_id, $sendto, true, ' ', '<br />'); 
+            ?>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
-  <div class="w-100"></div>
-
-<?php
-    if ($addresses_count > 1) {
-?>
-
-  <h4><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h4>
-  
-  <div class="alert alert-info" role="alert"><?php echo TEXT_SELECT_OTHER_SHIPPING_DESTINATION; ?></div>
-
-  <div class="row">
-
-<?php
-      $radio_buttons = 0;
-
-      $addresses_query = tep_db_query("select address_book_id, entry_firstname as firstname, entry_lastname as lastname, entry_company as company, entry_street_address as street_address, entry_suburb as suburb, entry_city as city, entry_postcode as postcode, entry_state as state, entry_zone_id as zone_id, entry_country_id as country_id from address_book where customers_id = '" . (int)$customer_id . "'");
-      while ($addresses = tep_db_fetch_array($addresses_query)) {
-        $format_id = tep_get_address_format_id($addresses['country_id']);
-?>
-      <div class="col-sm-4">
-        <div class="card mb-2 <?php echo ($addresses['address_book_id'] == $sendto) ? ' text-white bg-info' : ' bg-light'; ?>">
-          <div class="card-header"><?php echo tep_output_string_protected($addresses['firstname'] . ' ' . $addresses['lastname']); ?></div>
-          <div class="card-body">
-            <?php echo tep_address_format($format_id, $addresses, true, ' ', '<br />'); ?>
-          </div>
-          <div class="card-footer text-center"><?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $sendto)); ?></div>
-        </div>
-      </div>
-
-<?php
-        $radio_buttons++;
-      }
-?>
-  </div>
-<?php
-    }
-  }
-
+  <?php
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
-?>
+    ?>
+    <hr>
 
-  <h4><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h4>
+    <h5 class="mb-1"><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h5>
 
-  <div class="alert alert-info" role="alert"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></div>
-
-  <?php require('includes/modules/checkout_new_address.php'); ?>
-
-<?php
+    <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></p>
+    <?php     
+    require('includes/modules/checkout_new_address.php');
   }
-?>
-
-  <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-  </div>
+  ?>
   
-  <div class="w-100"></div>
-
-  <div class="progressBarHook">
-    <?php
-    echo $OSCOM_Hooks->call('progress', 'progressBar', $arr = array('style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => array('position' => 1, 'min' => 0, 'max' => 100, 'now' => 33)));
-    ?>  
-  </div>
-  
-
-<?php
-  if ($process == true) {
-?>
-
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL')); ?>
-  </div>
-
-<?php
-  }
-?>
-
+    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <p class="mt-1"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL')); ?></p>
+  </div>  
+  
 </div>
 
 </form>

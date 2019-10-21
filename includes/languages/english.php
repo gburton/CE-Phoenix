@@ -231,3 +231,11 @@ define('IS_PRODUCT_BUTTON_VIEW', '<i class="fas fa-eye"></i> View');
 define('LISTING_SORT_DOWN', '<i class="fas fa-level-down-alt text-primary"></i>');
 define('LISTING_SORT_UP', '<i class="fas fa-level-up-alt text-primary"></i>');
 define('LISTING_SORT_UNSELECTED', '<i class="fas fa-level-up-alt text-black-50"></i>');
+// for new style internal pages
+define('LINK_TEXT_EDIT', '<small><a class="%s" href="' . tep_href_link('%s', '', 'SSL') . '">Edit</a></small>');
+define('SHIPPING_FA_ICON', '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>');
+define('PAYMENT_FA_ICON', '<i class="fas fa-file-invoice-dollar fa-fw fa-3x float-right text-black-50"></i>');
+
+define('ENTRY_COMMENTS', 'Anything we need to know?');
+define('ENTRY_COMMENTS_PLACEHOLDER', 'Comment here...');
+define('TABLE_HEADING_OR', '-or-');

@@ -67,7 +67,7 @@
 <div class="w-100"></div>
 
 <div class="row">
-  <div class="col-xs-12 col-sm-9">
+  <div class="col-12 col-sm-9">
 
     <h2 class="h4">Finished!</h2>
     
@@ -202,7 +202,7 @@
     </div>
   </div>
   
-  <div class="col-xs-12 col-sm-3">
+  <div class="col-12 col-sm-3">
     <h2 class="h4">Step 4</h2>
     <div class="card mb-2">
       <div class="card-body">      

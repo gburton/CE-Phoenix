@@ -1,19 +1,24 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-cs-thank-you">
-  <div class="card mb-2 text-white bg-success">
-    <div class="card-header">
-      <?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_THANKS_FOR_SHOPPING; ?>
-    </div>
-    <div class="card-body text-dark bg-white">
-      <p><?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_SUCCESS; ?></p>
-      <p><?php echo sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_SEE_ORDERS, tep_href_link('account_history.php', '', 'SSL')); ?></p>
-      <p><?php echo sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_CONTACT_STORE_OWNER, tep_href_link('contact_us.php')); ?></p>
+  <h5 class="mb-1"><?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_THANKS_FOR_SHOPPING; ?></h5>
+  
+  <div class="border">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-light"><?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_SUCCESS; ?></li>
+    </ul>
+  
+    <div class="list-group list-group-flush">      
+      <?php 
+      echo sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_SEE_ORDERS, tep_href_link('account_history.php', '', 'SSL'));
+      echo sprintf(MODULE_CONTENT_CHECKOUT_SUCCESS_TEXT_CONTACT_STORE_OWNER, tep_href_link('contact_us.php')); 
+      ?>
     </div>
   </div>
+  
 </div>
 
 <?php
 /*
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2019 osCommerce
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

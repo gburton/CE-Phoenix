@@ -95,8 +95,7 @@
                    'password_forgotten.php',
                    'password_reset.php',
                    'shopping_cart.php',
-                   'ssl_check.php',
-                   'tell_a_friend.php');
+                   'ssl_check.php');
     }
   }
 

@@ -50,7 +50,7 @@ echo $oscTemplate->getBlocks('header_tags');
     ?>
 
     <div class="row">
-      <div id="bodyContent" class="col order-xs-1 order-md-6">
+      <div id="bodyContent" class="col order-1 order-md-6">
       
         <?php
         echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentStart');

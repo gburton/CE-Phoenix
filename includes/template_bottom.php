@@ -21,7 +21,7 @@
   if ( $oscTemplate->hasBlocks('boxes_column_left') && ($oscTemplate->getGridColumnWidth() > 0) ) {
 ?>
 
-      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?> order-xs-6 order-md-1">
+      <div id="columnLeft" class="col-md-<?php echo $oscTemplate->getGridColumnWidth(); ?> order-6 order-md-1">
         <?php echo $oscTemplate->getBlocks('boxes_column_left'); ?>
       </div>
 
