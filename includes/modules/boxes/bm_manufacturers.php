@@ -75,11 +75,7 @@
     function execute() {
       global $SID, $oscTemplate;
 
-      if ((USE_CACHE == 'true') && empty($SID)) {
-        $output = tep_cache_manufacturers_box();
-      } else {
-        $output = $this->getData();
-      }
+      $output = $this->getData();
       
       ob_start();
       include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
