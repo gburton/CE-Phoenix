@@ -42,10 +42,10 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 </head>
 <body>
 
-<?php require('includes/header.php'); ?>
-
 <?php
   if (tep_session_is_registered('admin')) {
+    require('includes/header.php');
+    
     include('includes/column_left.php');
   } else {
 ?>
