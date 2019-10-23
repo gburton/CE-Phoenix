@@ -133,7 +133,7 @@
   if ($messageStack->size > 0) echo $messageStack->output();
   
 ?>
-<div class="container">
+
   <div class="col d-flex justify-content-center">
     <div class="card text-center shadow mt-5">
       <div class="card-header"><?php echo HEADING_TITLE; ?></div>
@@ -170,7 +170,6 @@
       ?>             
     </div>
   </div>
-</div>
 
 <?php
   require('includes/template_bottom.php');
