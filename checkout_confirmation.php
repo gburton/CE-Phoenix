@@ -227,8 +227,10 @@
 <?php
     }
   }
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
   ?>
-
+  
   <div class="buttonSet mt-3">
     <div class="text-right">
       <?php

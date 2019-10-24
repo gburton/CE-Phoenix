@@ -278,6 +278,8 @@
     <?php     
     require('includes/modules/checkout_new_address.php');
   }
+  
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
   ?>
   
   <div class="buttonSet">
