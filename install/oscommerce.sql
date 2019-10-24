@@ -63,35 +63,6 @@ CREATE TABLE administrators (
   PRIMARY KEY (id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-DROP TABLE IF EXISTS banners;
-CREATE TABLE banners (
-  banners_id int NOT NULL auto_increment,
-  banners_title varchar(64) NOT NULL,
-  banners_url varchar(255) NOT NULL,
-  banners_image varchar(64) NOT NULL,
-  banners_group varchar(10) NOT NULL,
-  banners_html_text text,
-  expires_impressions int(7) DEFAULT '0',
-  expires_date datetime DEFAULT NULL,
-  date_scheduled datetime DEFAULT NULL,
-  date_added datetime NOT NULL,
-  date_status_change datetime DEFAULT NULL,
-  status int(1) DEFAULT '1' NOT NULL,
-  PRIMARY KEY (banners_id),
-  KEY idx_banners_group (banners_group)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
-DROP TABLE IF EXISTS banners_history;
-CREATE TABLE banners_history (
-  banners_history_id int NOT NULL auto_increment,
-  banners_id int NOT NULL,
-  banners_shown int(5) NOT NULL DEFAULT '0',
-  banners_clicked int(5) NOT NULL DEFAULT '0',
-  banners_history_date datetime NOT NULL,
-  PRIMARY KEY (banners_history_id),
-  KEY idx_banners_history_banners_id (banners_id)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
    categories_id int NOT NULL auto_increment,
