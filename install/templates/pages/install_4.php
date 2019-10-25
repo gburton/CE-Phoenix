@@ -197,8 +197,9 @@
     <br />
 
     <div class="row">
-      <div class="col"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>
       <div class="col"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
+      <div class="col"><?php echo osc_draw_button('Online Store (Frontend)', 'cart', $http_server . $http_catalog . 'index.php', 'primary', array('newwindow' => 1), 'btn-success btn-block'); ?></div>      
+      <div class="col"><?php echo osc_draw_button('Phoenix Club', null, 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', array('newwindow' => 1), 'btn-danger btn-block'); ?></div>
     </div>
   </div>
   

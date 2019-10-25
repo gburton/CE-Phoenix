@@ -328,11 +328,6 @@
 // split-page-results
   require('includes/classes/split_page_results.php');
 
-// auto activate and expire banners
-  require('includes/functions/banner.php');
-  tep_activate_banners();
-  tep_expire_banners();
-
 // auto expire special products
   require('includes/functions/specials.php');
   tep_expire_specials();

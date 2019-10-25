@@ -291,6 +291,10 @@
     </div>
   </div>
   
+  <?php
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+  ?>
+  
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>

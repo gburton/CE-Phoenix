@@ -430,4 +430,64 @@
 
     return $button;
   }
-?>
+  
+////
+// Output a Bootstrap Button
+  function tep_draw_bootstrap_button($title = null, $icon = null, $link = null, $priority = null, $params = null, $style = null) {
+    $types = array('submit', 'button', 'reset');
+    
+    if ( !is_array($params) ) $params = array();
+
+    if ( !isset($params['type']) ) {
+      $params['type'] = 'submit';
+    }
+
+    if ( !in_array($params['type'], $types) ) {
+      $params['type'] = 'submit';
+    }
+
+    if ( ($params['type'] == 'submit') && isset($link) ) {
+      $params['type'] = 'button';
+    }
+
+    if (!isset($priority)) {
+      $priority = 'secondary';
+    }
+
+    $button = NULL;
+
+    if ( ($params['type'] == 'button') && isset($link) ) {
+      $button .= '<a href="' . $link . '"';
+
+      if ( isset($params['newwindow']) ) {
+        $button .= ' target="_blank" rel="noopener"';
+      }
+    } else {
+      $button .= '<button ';
+      $button .= ' type="' . tep_output_string($params['type']) . '"';
+    }
+
+    if ( isset($params['params']) ) {
+      $button .= ' ' . $params['params'];
+    }
+
+    $button .= ' class="btn ';
+
+    $button .= (isset($style)) ? $style : 'btn-outline-secondary';
+
+    $button .= '">';
+
+    if (isset($icon) && tep_not_null($icon)) {
+      $button .= ' <span class="' . $icon . '" aria-hidden="true"></span> ';
+    }
+
+    $button .= $title;
+
+    if ( ($params['type'] == 'button') && isset($link) ) {
+      $button .= '</a>';
+    } else {
+      $button .= '</button>';
+    }
+
+    return $button;
+  }

@@ -34,7 +34,7 @@
         </div>
 
         <div id="headerShortcuts" class="col-sm-6">
-          <ul class="nav justify-content-center">
+          <ul class="nav justify-content-end">
             <li class="nav-item"><a class="nav-link active" href="http://www.oscommerce.com" target="_blank">osCommerce Website</a></li>
             <li class="nav-item"><a class="nav-link" href="http://www.oscommerce.com/support" target="_blank">Support</a></li>
             <li class="nav-item"><a class="nav-link" href="http://www.oscommerce.info" target="_blank">Documentation</a></li>

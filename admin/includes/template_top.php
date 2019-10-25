@@ -23,6 +23,8 @@
 <script type="text/javascript" src="<?php echo tep_catalog_href_link('ext/jquery/ui/jquery-ui-1.10.4.min.js', '', 'SSL'); ?>"></script>
 
 <?php
+  echo $OSCOM_Hooks->call('siteWide', 'injectSiteStart');
+  
   if (tep_not_null(JQUERY_DATEPICKER_I18N_CODE)) {
 ?>
 <script type="text/javascript" src="<?php echo tep_catalog_href_link('ext/jquery/ui/i18n/jquery.ui.datepicker-' . JQUERY_DATEPICKER_I18N_CODE . '.js', '', 'SSL'); ?>"></script>
@@ -40,10 +42,12 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 </head>
 <body>
 
-<?php require('includes/header.php'); ?>
+<div class="container-fluid">
 
 <?php
   if (tep_session_is_registered('admin')) {
+    require('includes/header.php');
+    
     include('includes/column_left.php');
   } else {
 ?>

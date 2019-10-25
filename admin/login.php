@@ -36,7 +36,7 @@
         $actionRecorder = new actionRecorderAdmin('ar_admin_login', null, $username);
 
         if ($actionRecorder->canPerform()) {
-          $check_query = tep_db_query("select id, user_name, user_password from " . TABLE_ADMINISTRATORS . " where user_name = '" . tep_db_input($username) . "'");
+          $check_query = tep_db_query("select id, user_name, user_password from administrators where user_name = '" . tep_db_input($username) . "'");
 
           if (tep_db_num_rows($check_query) == 1) {
             $check = tep_db_fetch_array($check_query);
@@ -44,7 +44,7 @@
             if (tep_validate_password($password, $check['user_password'])) {
 // migrate old hashed password to new phpass password
               if (tep_password_type($check['user_password']) != 'phpass') {
-                tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
+                tep_db_query("update administrators set user_password = '" . tep_encrypt_password($password) . "' where id = '" . (int)$check['id'] . "'");
               }
 
               tep_session_register('admin');
@@ -95,14 +95,14 @@
         break;
 
       case 'create':
-        $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+        $check_query = tep_db_query("select id from administrators limit 1");
 
         if (tep_db_num_rows($check_query) == 0) {
           $username = tep_db_prepare_input($_POST['username']);
           $password = tep_db_prepare_input($_POST['password']);
 
           if ( !empty($username) ) {
-            tep_db_query("insert into " . TABLE_ADMINISTRATORS . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
+            tep_db_query("insert into administrators (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
           }
         }
 
@@ -123,64 +123,53 @@
     }
   }
 
-  $admins_check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
+  $admins_check_query = tep_db_query("select id from administrators limit 1");
   if (tep_db_num_rows($admins_check_query) < 1) {
     $messageStack->add(TEXT_CREATE_FIRST_ADMINISTRATOR, 'warning');
   }
 
   require('includes/template_top.php');
+  
+  if ($messageStack->size > 0) echo $messageStack->output();
+  
 ?>
 
-<table border="0" width="100%" cellspacing="2" cellpadding="2">
-  <tr>
-    <td><table border="0" width="100%" cellspacing="0" cellpadding="0" height="40">
-      <tr>
-        <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-
-<?php
-  if (sizeof($languages_array) > 1) {
-?>
-
-        <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
-
-<?php
-  }
-?>
-
-      </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td>
-
-<?php
-  $heading = array();
-  $contents = array();
-
-  if (tep_db_num_rows($admins_check_query) > 0) {
-    $heading[] = array('text' => '<strong>' . HEADING_TITLE . '</strong>');
-
-    $contents = array('form' => tep_draw_form('login', 'login.php', 'action=process'));
-    $contents[] = array('text' => TEXT_USERNAME . '<br />' . tep_draw_input_field('username'));
-    $contents[] = array('text' => '<br />' . TEXT_PASSWORD . '<br />' . tep_draw_password_field('password'));
-    $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(BUTTON_LOGIN, 'key'));
-  } else {
-    $heading[] = array('text' => '<strong>' . HEADING_TITLE . '</strong>');
-
-    $contents = array('form' => tep_draw_form('login', 'login.php', 'action=create'));
-    $contents[] = array('text' => TEXT_CREATE_FIRST_ADMINISTRATOR);
-    $contents[] = array('text' => '<br />' . TEXT_USERNAME . '<br />' . tep_draw_input_field('username'));
-    $contents[] = array('text' => '<br />' . TEXT_PASSWORD . '<br />' . tep_draw_password_field('password'));
-    $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(BUTTON_CREATE_ADMINISTRATOR, 'key'));
-  }
-
-  $box = new box;
-  echo $box->infoBox($heading, $contents);
-?>
-
-    </td>
-  </tr>
-</table>
+  <div class="col d-flex justify-content-center">
+    <div class="card text-center shadow mt-5">
+      <div class="card-header"><?php echo HEADING_TITLE; ?></div>
+      <div class="px-5 py-2">
+        <?php echo tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
+      </div>
+      <?php
+      if (tep_db_num_rows($admins_check_query) > 0) {
+        echo tep_draw_form('login', 'login.php', 'action=process');
+        $button_text = BUTTON_LOGIN;
+        $intro_text = null;
+      }
+      else {
+        echo tep_draw_form('login', 'login.php', 'action=create');
+        $button_text = BUTTON_CREATE_ADMINISTRATOR;
+        $intro_text = TEXT_CREATE_FIRST_ADMINISTRATOR;
+      }
+      ?>
+        
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item border-top"><?php echo tep_draw_input_field('username', null, 'required aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_USERNAME . '"'); ?></li>
+        <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_PASSWORD . '"'); ?></li>
+        <li class="list-group-item border-bottom-0"><?php echo tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
+      </ul>
+      <?php 
+      echo $intro_text;
+      if (sizeof($languages_array) > 1) {
+        ?>
+        <div class="card-footer">
+          <?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'class="form-control" onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?>
+        </div>
+        <?php
+        }
+      ?>             
+    </div>
+  </div>
 
 <?php
   require('includes/template_bottom.php');

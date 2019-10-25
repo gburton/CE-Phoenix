@@ -269,6 +269,8 @@
 
 <?php
   }
+
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
 ?>
 
   <div class="buttonSet">
