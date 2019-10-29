@@ -213,7 +213,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
       <tr>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_CUSTOMER; ?></legend>
+            <legend><?php echo ENTRY_CUSTOMER; ?></legend>
 
             <p><?php echo tep_address_format($order->customer['format_id'], $order->customer, 1, '', '<br />'); ?></p>
             <p><?php echo $order->customer['telephone'] . '<br />' . '<a href="mailto:' . $order->customer['email_address'] . '"><u>' . $order->customer['email_address'] . '</u></a>'; ?></p>
@@ -221,14 +221,14 @@ if ( typeof jQuery.ui == 'undefined' ) {
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_SHIPPING_ADDRESS; ?></legend>
+            <legend><?php echo ENTRY_SHIPPING_ADDRESS; ?></legend>
 
             <p><?php echo tep_address_format($order->delivery['format_id'], $order->delivery, 1, '', '<br />'); ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_BILLING_ADDRESS; ?></legend>
+            <legend><?php echo ENTRY_BILLING_ADDRESS; ?></legend>
 
             <p><?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, '', '<br />'); ?></p>
           </fieldset>
@@ -237,7 +237,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
       <tr>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_PAYMENT_METHOD; ?></legend>
+            <legend><?php echo ENTRY_PAYMENT_METHOD; ?></legend>
 
             <p><?php echo $order->info['payment_method']; ?></p>
 
@@ -271,14 +271,14 @@ if ( typeof jQuery.ui == 'undefined' ) {
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_STATUS; ?></legend>
+            <legend><?php echo ENTRY_STATUS; ?></legend>
 
             <p><?php echo $order->info['status'] . '<br />' . (empty($order->info['last_modified']) ? tep_datetime_short($order->info['date_purchased']) : tep_datetime_short($order->info['last_modified'])); ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
-            <legend style="margin-left: -20px; font-weight: bold;"><?php echo ENTRY_TOTAL; ?></legend>
+            <legend><?php echo ENTRY_TOTAL; ?></legend>
 
             <p><?php echo $order->info['total']; ?></p>
           </fieldset>
