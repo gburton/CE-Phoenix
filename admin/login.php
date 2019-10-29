@@ -155,7 +155,7 @@
         
       <ul class="list-group list-group-flush">
         <li class="list-group-item border-top"><?php echo tep_draw_input_field('username', null, 'required aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_USERNAME . '"'); ?></li>
-        <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_PASSWORD . '"'); ?></li>
+        <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_PASSWORD . '"', null, 'password'); ?></li>
         <li class="list-group-item border-bottom-0"><?php echo tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
       </ul>
       <?php 
