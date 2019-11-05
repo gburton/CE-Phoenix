@@ -46,7 +46,7 @@
                    '    <td class="dataTableContent"><a href="' . tep_href_link('reviews.php', 'rID=' . (int)$reviews['reviews_id'] . '&action=edit') . '">' . $reviews['products_name'] . '</a></td>' .
                    '    <td class="dataTableContent">' . tep_date_short($reviews['date_added']) . '</td>' .
                    '    <td class="dataTableContent">' . tep_output_string_protected($reviews['customers_name']) . '</td>' .
-                   '    <td class="dataTableContent">' . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $reviews['reviews_rating'] . '.gif') . '</td>' .
+                   '    <td class="dataTableContent">' . tep_draw_stars($reviews['reviews_rating']) . '</td>' .
                    '    <td class="dataTableContent">' . $status_icon . '</td>' .
                    '  </tr>';
       }

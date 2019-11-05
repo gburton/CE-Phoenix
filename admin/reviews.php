@@ -170,7 +170,7 @@
       </tr>
 
       <tr>
-        <td class="main"><strong><?php echo ENTRY_RATING; ?></strong>&nbsp;<?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $rInfo->reviews_rating . '.gif', sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating)); ?>&nbsp;<small>[<?php echo sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating); ?>]</small></td>
+        <td class="main"><strong><?php echo ENTRY_RATING; ?></strong>&nbsp;<?php echo tep_draw_stars($rInfo->reviews_rating); ?>&nbsp;<small>[<?php echo sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating); ?>]</small></td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
@@ -284,7 +284,7 @@
       }
 ?>
                 <td class="dataTableContent"><?php echo '<a href="' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id'] . '&action=preview') . '">' . tep_image('images/icons/preview.gif', ICON_PREVIEW) . '</a>&nbsp;' . tep_get_products_name($reviews['products_id']); ?></td>
-                <td class="dataTableContent" align="right"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $reviews['reviews_rating'] . '.gif'); ?></td>
+                <td class="dataTableContent" align="right"><?php echo tep_draw_stars($reviews['reviews_rating']); ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($reviews['date_added']); ?></td>
                 <td class="dataTableContent" align="center">
 <?php
@@ -333,7 +333,7 @@
         if (tep_not_null($rInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($rInfo->last_modified));
         $contents[] = array('text' => '<br />' . tep_info_image($rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT));
         $contents[] = array('text' => '<br />' . TEXT_INFO_REVIEW_AUTHOR . ' ' . $rInfo->customers_name);
-        $contents[] = array('text' => TEXT_INFO_REVIEW_RATING . ' ' . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . 'stars_' . $rInfo->reviews_rating . '.gif'));
+        $contents[] = array('text' => TEXT_INFO_REVIEW_RATING . ' ' . tep_draw_stars($rInfo->reviews_rating));
         $contents[] = array('text' => TEXT_INFO_REVIEW_READ . ' ' . $rInfo->reviews_read);
         $contents[] = array('text' => '<br />' . TEXT_INFO_REVIEW_SIZE . ' ' . $rInfo->reviews_text_size . ' bytes');
         $contents[] = array('text' => '<br />' . TEXT_INFO_PRODUCTS_AVERAGE_RATING . ' ' . number_format($rInfo->average_rating, 2) . '%');
