@@ -37,34 +37,34 @@
 
       $manufacturers_query = tep_db_query("select manufacturers_id, manufacturers_name from manufacturers order by manufacturers_name");
       if ($number_of_rows = tep_db_num_rows($manufacturers_query)) {
-        if ($number_of_rows <= MAX_DISPLAY_MANUFACTURERS_IN_A_LIST) {
+        if ($number_of_rows <= MODULE_BOXES_MANUFACTURERS_MAX_LIST) {
 // Display a list
-          $manufacturers_list = '';
+          $manufacturers_list = '<div class="list-group list-group-flush">';
           while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
-            $manufacturers_name = ((strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN) . '..' : $manufacturers['manufacturers_name']);
-            if (isset($_GET['manufacturers_id']) && ($_GET['manufacturers_id'] == $manufacturers['manufacturers_id'])) $manufacturers_name = '<strong>' . $manufacturers_name .'</strong>';
-            $manufacturers_list .= '<li class="list-group-item"><a href="' . tep_href_link('index.php', 'manufacturers_id=' . $manufacturers['manufacturers_id']) . '">' . $manufacturers_name . '</a></li>';
+            $manufacturers_name = $manufacturers['manufacturers_name'];
+            if (isset($_GET['manufacturers_id']) && ($_GET['manufacturers_id'] == $manufacturers['manufacturers_id'])) $manufacturers_name = '<strong>' . $manufacturers['manufacturers_name'] .'</strong>';
+            $manufacturers_list .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('index.php', 'manufacturers_id=' . $manufacturers['manufacturers_id']) . '">' . $manufacturers_name . '</a>';
           }
+          $manufacturers_list .= '</div>';
 
           $data = $manufacturers_list;
         } else {
 // Display a drop-down
           $manufacturers_array = array();
-          if (MAX_MANUFACTURERS_LIST < 2) {
-            $manufacturers_array[] = array('id' => '', 'text' => PULL_DOWN_DEFAULT);
-          }
+          $manufacturers_array[] = array('id' => '', 'text' => PULL_DOWN_DEFAULT);
 
-          while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
-            $manufacturers_name = ((strlen($manufacturers['manufacturers_name']) > MAX_DISPLAY_MANUFACTURER_NAME_LEN) ? substr($manufacturers['manufacturers_name'], 0, MAX_DISPLAY_MANUFACTURER_NAME_LEN) . '..' : $manufacturers['manufacturers_name']);
+          while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {            
             $manufacturers_array[] = array('id' => $manufacturers['manufacturers_id'],
-                                           'text' => $manufacturers_name);
+                                           'text' => $manufacturers['manufacturers_name']);
           }
 
-          $data .= '<li class="list-group-item">';
-            $data .= tep_draw_form('manufacturers', tep_href_link('index.php', '', $request_type, false), 'get');
-              $data .= tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, (isset($_GET['manufacturers_id']) ? $_GET['manufacturers_id'] : ''), 'onchange="this.form.submit();" size="' . MAX_MANUFACTURERS_LIST . '" style="width: 100%"') . tep_hide_session_id();
-            $data .= '</form>';
-          $data .= '</li>';
+          $data .= '<ul class="list-group list-group-flush">';
+            $data .= '<li class="list-group-item">';
+              $data .= tep_draw_form('manufacturers', tep_href_link('index.php', '', $request_type, false), 'get');
+                $data .= tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, (isset($_GET['manufacturers_id']) ? $_GET['manufacturers_id'] : ''), 'onchange="this.form.submit();" style="width: 100%"') . tep_hide_session_id();
+              $data .= '</form>';
+            $data .= '</li>';
+          $data .= '</ul>';
         }
 
       }
@@ -94,7 +94,8 @@
 
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Manufacturers Module', 'MODULE_BOXES_MANUFACTURERS_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', '6', '1', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', '6', '2', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
+      tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Manufacturers List', 'MODULE_BOXES_MANUFACTURERS_MAX_LIST', '9', 'When the number of manufacturers exceeds this number, a drop-down list will be displayed instead of the default list', '6', '3', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_BOXES_MANUFACTURERS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
@@ -103,7 +104,7 @@
     }
 
     function keys() {
-      return array('MODULE_BOXES_MANUFACTURERS_STATUS', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'MODULE_BOXES_MANUFACTURERS_SORT_ORDER');
+      return array('MODULE_BOXES_MANUFACTURERS_STATUS', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'MODULE_BOXES_MANUFACTURERS_MAX_LIST',  'MODULE_BOXES_MANUFACTURERS_SORT_ORDER');
     }
   }
-?>
+  
