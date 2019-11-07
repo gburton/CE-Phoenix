@@ -37,7 +37,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $languages_id, $currencies, $product_info;
+      global $oscTemplate, $languages_id, $currencies, $product_info, $cart;
       
       $content_width = (int)MODULE_CONTENT_PI_OA_CONTENT_WIDTH;
       $options_output = null;
