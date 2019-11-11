@@ -20,6 +20,7 @@
     var $description;
     var $sort_order;
     var $enabled = false;
+    var $content_width = 6;
 
     function __construct() {
       $this->_app = new OSCOM_PayPal();
@@ -32,6 +33,7 @@
       if ( defined('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER') ) {
         $this->sort_order = MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER;
         $this->enabled = true;
+        $this->content_width = (int)MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH;
       }
     }
 
@@ -323,7 +325,8 @@ EOD;
     }
 
     function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '2', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER', '1300', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
     }
 
     function remove() {
@@ -331,7 +334,7 @@ EOD;
     }
 
     function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER');
+      return array('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER');
     }
   }
-?>
+  

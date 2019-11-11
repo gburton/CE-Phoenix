@@ -16,6 +16,7 @@
     var $description;
     var $sort_order;
     var $enabled = false;
+    var $content_width = 6;
 
     function __construct() {
       $this->title = MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_TITLE;
@@ -24,16 +25,20 @@
       if ( defined('MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS') ) {
         $this->sort_order = MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER;
         $this->enabled = (MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS == 'True');
+        $this->content_width = (int)MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_CONTENT_WIDTH;
       }
     }
 
     function getOutput() {
       $days = array();
-      for($i = 0; $i < 30; $i++) {
+      
+      $chart_days = (int)MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_DAYS;
+      
+      for($i = 0; $i < $chart_days; $i++) {
         $days[date('Y-m-d', strtotime('-'. $i .' days'))] = 0;
       }
 
-      $orders_query = tep_db_query("select date_format(customers_info_date_account_created, '%Y-%m-%d') as dateday, count(*) as total from " . TABLE_CUSTOMERS_INFO . " where date_sub(curdate(), interval 30 day) <= customers_info_date_account_created group by dateday");
+      $orders_query = tep_db_query("select date_format(customers_info_date_account_created, '%Y-%m-%d') as dateday, count(*) as total from customers_info where date_sub(curdate(), interval '" . $chart_days . "' day) <= customers_info_date_account_created group by dateday");
       while ($orders = tep_db_fetch_array($orders_query)) {
         $days[$orders['dateday']] = $orders['total'];
       }
@@ -132,16 +137,18 @@ EOD;
     }
 
     function install() {
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Total Customers Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'True', 'Do you want to show the total customers chart on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Total Customers Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'True', 'Do you want to show the total customers chart on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Days', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_DAYS', '7', 'Days to display.', '6', '2', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '3', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER', '200', 'Sort order of display. Lowest is displayed first.', '6', '4', now())");
     }
 
     function remove() {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
     }
 
     function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER');
+      return array('MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_DAYS', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER');
     }
   }
-?>
+  

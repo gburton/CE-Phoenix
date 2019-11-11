@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -26,79 +26,48 @@
   require('includes/template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="2" height="40">
-          <tr>
-            <td class="pageHeading"><?php echo STORE_NAME; ?></td>
-
-<?php
-  if (sizeof($languages_array) > 1) {
-?>
-
-            <td class="pageHeading" align="right"><?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></td>
-
-<?php
-  }
-?>
-
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-<?php
-  if ( defined('MODULE_ADMIN_DASHBOARD_INSTALLED') && tep_not_null(MODULE_ADMIN_DASHBOARD_INSTALLED) ) {
-    $adm_array = explode(';', MODULE_ADMIN_DASHBOARD_INSTALLED);
-
-    $col = 0;
-
-    for ( $i=0, $n=sizeof($adm_array); $i<$n; $i++ ) {
-      $adm = $adm_array[$i];
-
-      $class = substr($adm, 0, strrpos($adm, '.'));
-
-      if ( !class_exists($class) ) {
-        include('includes/languages/' . $language . '/modules/dashboard/' . $adm);
-        include('includes/modules/dashboard/' . $class . '.php');
+  <div class="row">
+    <div class="col">
+      <h1 class="display-4"><?php echo STORE_NAME; ?></h1>
+    </div>
+    <?php
+    if (sizeof($languages_array) > 1) {
+      ?>
+      <div class="col-sm-4 text-right"><?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages_array, $languages_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?></div>
+      <?php
       }
+    ?>
+  </div>
+  
+  <div class="row">
+    <?php
+    if ( defined('MODULE_ADMIN_DASHBOARD_INSTALLED') && tep_not_null(MODULE_ADMIN_DASHBOARD_INSTALLED) ) {
+      $adm_array = explode(';', MODULE_ADMIN_DASHBOARD_INSTALLED);
 
-      $ad = new $class();
+      for ( $i=0, $n=sizeof($adm_array); $i<$n; $i++ ) {
+        $adm = $adm_array[$i];
 
-      if ( $ad->isEnabled() ) {
-        if ($col < 1) {
-          echo '          <tr>' . "\n";
+        $class = substr($adm, 0, strrpos($adm, '.'));
+
+        if ( !class_exists($class) ) {
+          include('includes/languages/' . $language . '/modules/dashboard/' . $adm);
+          include('includes/modules/dashboard/' . $class . '.php');
         }
 
-        $col++;
+        $ad = new $class();
 
-        if ($col <= 2) {
-          echo '            <td width="50%" valign="top">' . "\n";
-        }
-
-        echo $ad->getOutput();
-
-        if ($col <= 2) {
-          echo '            </td>' . "\n";
-        }
-
-        if ( !isset($adm_array[$i+1]) || ($col == 2) ) {
-          if ( !isset($adm_array[$i+1]) && ($col == 1) ) {
-            echo '            <td width="50%" valign="top">&nbsp;</td>' . "\n";
-          }
-
-          $col = 0;
-
-          echo '  </tr>' . "\n";
+        if ( $ad->isEnabled() ) {
+          $module_width = $ad->content_width ?? 6;
+          
+          echo '<div class="col-md-' . $module_width . '">';
+            echo $ad->getOutput();
+          echo '</div>' . PHP_EOL;
         }
       }
     }
-  }
-?>
-        </table></td>
-      </tr>
-    </table>
-
+    ?>
+  </div>
+  
 <?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
