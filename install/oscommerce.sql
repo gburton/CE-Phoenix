@@ -194,6 +194,20 @@ CREATE TABLE customers_info (
   PRIMARY KEY (customers_info_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS hooks;
+CREATE TABLE hooks (
+  hooks_id INT NOT NULL AUTO_INCREMENT,
+  hooks_path VARCHAR(255) NOT NULL,
+  hooks_site VARCHAR(63) NOT NULL,
+  hooks_group VARCHAR(63) NOT NULL,
+  hooks_action VARCHAR(255) NOT NULL,
+  hooks_code VARCHAR(127) NOT NULL,
+  hooks_class VARCHAR(255) NOT NULL,
+  hooks_method VARCHAR(255) NOT NULL,
+  PRIMARY KEY (hooks_id),
+  KEY idx_hooks_site_group (hooks_site, hooks_group)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci; 
+
 DROP TABLE IF EXISTS languages;
 CREATE TABLE languages (
   languages_id int NOT NULL auto_increment,
