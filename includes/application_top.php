@@ -55,6 +55,12 @@
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
 
+// hooks
+  require('includes/classes/hooks.php');
+  $OSCOM_Hooks = new hooks('shop');
+  $OSCOM_Hooks->register('siteWide');
+  $OSCOM_Hooks->call('siteWide', 'startApplication');
+
 // set the application parameters
   $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
@@ -100,10 +106,6 @@
 // define general functions used application-wide
   require('includes/functions/general.php');
   require('includes/functions/html_output.php');
-
-// hooks
-  require('includes/classes/hooks.php');
-  $OSCOM_Hooks = new hooks('shop');
 
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
@@ -408,7 +410,6 @@
     }
   }
 
-  $OSCOM_Hooks->register('siteWide');
   $OSCOM_Hooks->call('siteWide', 'injectAppTop');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
