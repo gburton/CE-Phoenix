@@ -5,12 +5,13 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
 
   class oscTemplate {
+
     var $_title;
     var $_blocks = array();
     var $_content = array();
@@ -170,5 +171,10 @@
 
       return $result;
     }
+
+    public function map_to_template($file) {
+      return dirname($file) . '/templates/tpl_' . basename($file);
+    }
+
   }
   
