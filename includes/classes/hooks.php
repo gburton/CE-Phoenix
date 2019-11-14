@@ -61,7 +61,7 @@ EOSQL
 
       while ($hook = tep_db_fetch_array($hooks_query)) {
         $file = DIR_FS_CATALOG . $hook['hooks_path'];
-        if (file_exists($file)) {
+        if (file_exists($file) && is_readable($file)) {
           include($file);
           $class = 'hook_' . $this->_site . '_' . $group . '_' . $hook['hooks_code'];
           $object = &$GLOBALS[$hook['hooks_class']];
