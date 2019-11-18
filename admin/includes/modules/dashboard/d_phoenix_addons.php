@@ -40,6 +40,7 @@
             $output .= '<tr>';
               $output .= '<th>' . tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_TITLE . '</th>';
               $output .= '<th>' . MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_OWNER . '</th>';
+              $output .= '<th>' . MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_RATING . '</th>';
               $output .= '<th class="text-right">'. MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_DATE . '</th>';
             $output .= '</tr>';
           $output .= '</thead>';
@@ -49,6 +50,7 @@
             $output .= '<tr>';
               $output .= '<td><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></td>';
               $output .= '<td>' . $item->owner . '</td>';
+              $output .= '<td>' . tep_draw_stars($item->rating) . '</td>';
               $output .= '<td class="text-right">' . date("F j, Y", strtotime($item->pubDate)) . '</td>';
             $output .= '</tr>';
           }
