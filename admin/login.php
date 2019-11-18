@@ -136,7 +136,7 @@
 
   <div class="col d-flex justify-content-center">
     <div class="card text-center shadow mt-5">
-      <div class="card-header"><?php echo HEADING_TITLE; ?></div>
+      <div class="card-header text-white bg-dark"><?php echo HEADING_TITLE; ?></div>
       <div class="px-5 py-2">
         <?php echo tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
       </div>
