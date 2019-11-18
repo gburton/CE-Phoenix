@@ -62,10 +62,10 @@ EOSQL
       while ($hook = tep_db_fetch_array($hooks_query)) {
         $file = DIR_FS_CATALOG . $hook['hooks_path'];
         if (file_exists($file) && is_readable($file)) {
-          if (!class_exists($hook['hooks_class']) {
+          if (!class_exists($hook['hooks_class'])) {
             include($file);
 
-            if (!class_exists($hook['hooks_class']) {
+            if (!class_exists($hook['hooks_class'])) {
               continue;
             }
           }
