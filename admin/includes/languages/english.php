@@ -74,7 +74,6 @@ define('BOX_HEADING_CATALOG', 'Catalog');
 
 // customers box text in includes/boxes/customers.php
 define('BOX_HEADING_CUSTOMERS', 'Customers');
-define('BOX_CUSTOMERS_CUSTOMERS', 'Customers');
 
 // orders box text in includes/boxes/orders.php
 define('BOX_HEADING_ORDERS', 'Orders');
