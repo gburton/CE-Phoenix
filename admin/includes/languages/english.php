@@ -107,9 +107,6 @@ define('BOX_TOOLS_WHOS_ONLINE', 'Who\'s Online');
 
 // localizaion box text in includes/boxes/localization.php
 define('BOX_HEADING_LOCALIZATION', 'Localization');
-define('BOX_LOCALIZATION_CURRENCIES', 'Currencies');
-define('BOX_LOCALIZATION_LANGUAGES', 'Languages');
-define('BOX_LOCALIZATION_ORDERS_STATUS', 'Orders Status');
 
 // javascript messages
 define('JS_ERROR', 'Errors have occured during the process of your form!\nPlease make the following corrections:\n\n');
