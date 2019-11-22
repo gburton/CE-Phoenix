@@ -10,9 +10,4 @@
   Released under the GNU General Public License
 */
 
-  $cl_box_groups[] = array(
-    'heading' => BOX_HEADING_LOCATION_AND_TAXES,
-    'apps' => array(
-    )
-  );
-?>
+  define('MODULES_ADMIN_MENU_TAXES_ZONES', 'Zones');
