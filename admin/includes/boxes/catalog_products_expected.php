@@ -12,7 +12,7 @@
 
   foreach ( $cl_box_groups as &$group ) {
     if ( $group['heading'] == BOX_HEADING_CATALOG ) {
-      $group['apps'][] = array('products_expected.php',
+      $group['apps'][] = array('code' => 'products_expected.php',
                                'title' => MODULES_ADMIN_MENU_CATALOG_PRODUCTS_EXPECTED,
                                'link' => tep_href_link('products_expected.php'));
 
