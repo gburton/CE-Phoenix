@@ -12,5 +12,7 @@
 
   $cl_box_groups[] = array(
     'heading' => BOX_HEADING_CATALOG,
+        'apps' => array(
+    )
   );
 ?>
