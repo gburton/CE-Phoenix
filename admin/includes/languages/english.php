@@ -83,9 +83,6 @@ define('BOX_HEADING_LOCATION_AND_TAXES', 'Locations / Taxes');
 
 // reports box text in includes/boxes/reports.php
 define('BOX_HEADING_REPORTS', 'Reports');
-define('BOX_REPORTS_PRODUCTS_VIEWED', 'Products Viewed');
-define('BOX_REPORTS_PRODUCTS_PURCHASED', 'Products Purchased');
-define('BOX_REPORTS_ORDERS_TOTAL', 'Customer Orders-Total');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Tools');

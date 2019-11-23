@@ -10,9 +10,4 @@
   Released under the GNU General Public License
 */
 
-  $cl_box_groups[] = array(
-    'heading' => BOX_HEADING_REPORTS,
-    'apps' => array(
-    )
-  );
-?>
+  define('MODULES_ADMIN_MENU_REPORTS_PRODUCTS_VIEWED', 'Products Viewed');
