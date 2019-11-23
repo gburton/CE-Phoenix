@@ -10,9 +10,4 @@
   Released under the GNU General Public License
 */
 
-  $cl_box_groups[] = array(
-    'heading' => BOX_HEADING_TOOLS,
-    'apps' => array(
-    )
-  );
-?>
+  define('MODULES_ADMIN_MENU_TOOLS_VERSION_CHECK', 'Version Checker');

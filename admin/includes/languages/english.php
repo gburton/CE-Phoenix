@@ -86,10 +86,6 @@ define('BOX_HEADING_REPORTS', 'Reports');
 
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Tools');
-define('BOX_TOOLS_SEC_DIR_PERMISSIONS', 'Security Directory Permissions');
-define('BOX_TOOLS_SERVER_INFO', 'Server Info');
-define('BOX_TOOLS_VERSION_CHECK', 'Version Checker');
-define('BOX_TOOLS_WHOS_ONLINE', 'Who\'s Online');
 
 // localizaion box text in includes/boxes/localization.php
 define('BOX_HEADING_LOCALIZATION', 'Localization');
