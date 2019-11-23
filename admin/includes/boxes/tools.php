@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -13,31 +13,6 @@
   $cl_box_groups[] = array(
     'heading' => BOX_HEADING_TOOLS,
     'apps' => array(
-      array(
-        'code' => 'action_recorder.php',
-        'title' => BOX_TOOLS_ACTION_RECORDER,
-        'link' => tep_href_link('action_recorder.php')
-      ),
-      array(
-        'code' => 'backup.php',
-        'title' => BOX_TOOLS_BACKUP,
-        'link' => tep_href_link('backup.php')
-      ),
-      array(
-        'code' => 'define_language.php',
-        'title' => BOX_TOOLS_DEFINE_LANGUAGE,
-        'link' => tep_href_link('define_language.php')
-      ),
-      array(
-        'code' => 'mail.php',
-        'title' => BOX_TOOLS_MAIL,
-        'link' => tep_href_link('mail.php')
-      ),
-      array(
-        'code' => 'newsletters.php',
-        'title' => BOX_TOOLS_NEWSLETTER_MANAGER,
-        'link' => tep_href_link('newsletters.php')
-      ),
       array(
         'code' => 'sec_dir_permissions.php',
         'title' => BOX_TOOLS_SEC_DIR_PERMISSIONS,
