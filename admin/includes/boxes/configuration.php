@@ -13,16 +13,6 @@
   $cl_box_groups[] = array(
     'heading' => BOX_HEADING_CONFIGURATION,
     'apps' => array(
-      array(
-        'code' => 'administrators.php',
-        'title' => BOX_CONFIGURATION_ADMINISTRATORS,
-        'link' => tep_href_link('administrators.php')
-      ),
-      array(
-        'code' => 'store_logo.php',
-        'title' => BOX_CONFIGURATION_STORE_LOGO,
-        'link' => tep_href_link('store_logo.php')
-      )
     )
   );
 

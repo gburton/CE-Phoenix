@@ -8,7 +8,7 @@
     $lng = new language;
   }
   ?>
-  <div class="dropdown-menu<?php echo $menu_align; ?>" aria-labelledby="navDropdownCurrencies">
+  <div class="dropdown-menu<?php echo $menu_align; ?>" aria-labelledby="navDropdownLanguages">
     <?php                
     foreach($lng->catalog_languages as $key => $value) {
       echo '<a class="dropdown-item" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('language', 'currency')) . 'language=' . $key, $request_type) . '">' . tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), null, null, null, false) . ' ' . $value['name'] . '</a>' . PHP_EOL;

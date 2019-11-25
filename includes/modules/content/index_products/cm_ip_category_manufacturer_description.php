@@ -37,15 +37,12 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $languages_id, $OSCOM_category;  
+      global $oscTemplate, $current_category_id, $languages_id, $OSCOM_category, $brand;  
 
       $content_width = MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_CONTENT_WIDTH;
 
       if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-				$manufacturer_query = tep_db_query("select manufacturers_description from manufacturers_info where manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and languages_id = '" . (int)$languages_id . "'");
-				$manufacturer = tep_db_fetch_array($manufacturer_query);
-				
-        $cm_description = $manufacturer['manufacturers_description'];
+				$cm_description = $brand->getData('manufacturers_description');
 			} else {       
         $cm_description = $OSCOM_category->getData($current_category_id, 'description');
       }        

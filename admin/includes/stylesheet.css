@@ -9,11 +9,11 @@
   Released under the GNU General Public License
 */
 
-body { font-family: Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 0.7em; }
+#contentText { color: #000 !important; font-size: 0.8em !important; }
 
 /* links */
-a { color: #000000; font-weight: normal; text-decoration: none; }
-a:hover { text-decoration: underline; }
+#contentText a { color: #000000; font-weight: normal; text-decoration: none; }
+#contentText a:hover { text-decoration: underline; }
 
 a.headerLink { color: #ffffff; font-weight: bold; text-decoration: none; }
 a.headerLink:hover { text-decoration: underline; }
@@ -32,7 +32,6 @@ a.splitPageLink:hover { text-decoration: underline; background-color: #FFFF33; }
 .menuBoxContent { color: #616060; }
 
 /* page */
-body { background-color: #ffffff; color: #000000; margin: 0px; }
 .headerBar { background-color: #B3BAC5; }
 .headerBarContent { color: #ffffff; font-weight: bold; padding: 2px; }
 .columnLeft { background-color: #F0F1F1; border-color: #999999; border-width: 1px; border-style: solid; padding: 2px; }
@@ -121,14 +120,9 @@ FORM { display: inline; }
   padding: 2px;
 }
 
-#adminAppMenu {
-  float: left;
-  width: 150px;
-  padding: 5px;
-}
+#adminAppMenu { font-size: 0.9em !important; }
 
-#adminAppMenu h3 {
-}
+#adminAppMenu h3 { font-weight: normal; }
 
 #adminAppMenu ul {
   list-style: none;
@@ -136,16 +130,5 @@ FORM { display: inline; }
   padding: 0;
 }
 
-#contentText {
-  margin-left: 160px;
-}
-
 /* Custom jQuery UI */
-.ui-widget { }
 .ui-dialog { min-width: 500px; }
-
-/* buttons */
-
-.tdbLink a { }
-
-.tdbLink button { }

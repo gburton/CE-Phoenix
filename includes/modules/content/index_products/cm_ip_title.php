@@ -37,16 +37,13 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $OSCOM_category;
+      global $oscTemplate, $current_category_id, $OSCOM_category, $brand;
       
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
      
       if (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id'])) {
-        $manufacturer_query = tep_db_query("select manufacturers_image, manufacturers_name from manufacturers where manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "'");
-        $manufacturer = tep_db_fetch_array($manufacturer_query);
-
-        $cm_name  = $manufacturer['manufacturers_name'];
-        $cm_image = $manufacturer['manufacturers_image'];
+        $cm_name  = $brand->getData('manufacturers_name');
+        $cm_image = $brand->getData('manufacturers_image');
       } else {
         $cm_name  = $OSCOM_category->getData($current_category_id, 'name');
         $cm_image = $OSCOM_category->getData($current_category_id, 'image');

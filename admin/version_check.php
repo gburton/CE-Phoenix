@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -77,77 +77,59 @@
     }
 
     if (!empty($new_versions)) {
-      $check_message = array('class' => 'secWarning',
+      $check_message = array('class' => 'alert alert-danger',
                              'message' => sprintf(VERSION_UPGRADES_AVAILABLE, $new_versions[0][0]));
     } else {
-      $check_message = array('class' => 'secSuccess',
+      $check_message = array('class' => 'alert alert-success',
                              'message' => VERSION_RUNNING_LATEST);
     }
   } else {
-    $check_message = array('class' => 'secError',
+    $check_message = array('class' => 'alert alert-warning',
                            'message' => ERROR_COULD_NOT_CONNECT);
   }
 
   require('includes/template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td width="100%"><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td class="smallText"><?php echo TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>'; ?></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-      </tr>
-      <tr>
-        <td><div class="<?php echo $check_message['class']; ?>">
-          <p class="smallText"><?php echo $check_message['message']; ?></p>
-        </div></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-      </tr>
+  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+  
+  <p class="lead"><?php echo TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>'; ?></p>
+  
+  <div class="<?php echo $check_message['class']; ?>">
+    <p class="lead"><?php echo $check_message['message']; ?></p>
+  </div>
+      
+
 <?php
   if (!empty($new_versions)) {
-?>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_VERSION; ?></td>
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_RELEASED; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>
-
-<?php
-    foreach ($new_versions as $version) {
-?>
-              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)">
-                <td class="dataTableContent"><?php echo '<a href="' . $version[2] . '" target="_blank">OSCOM CE Phoenix v' . $version[0] . '</a>'; ?></td>
-                <td class="dataTableContent"><?php echo tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)); ?></td>
-                <td class="dataTableContent" align="right"><?php echo '<a href="' . $version[2] . '" target="_blank">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; ?>&nbsp;</td>
-              </tr>
-<?php
-    }
-?>
-            </table></td>
-          </tr>
-        </table></td>
-      </tr>
-<?php
-  }
-?>
+  ?>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th><?php echo TABLE_HEADING_VERSION; ?></th>
+          <th><?php echo TABLE_HEADING_RELEASED; ?></th>
+          <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php
+      foreach ($new_versions as $version) {
+        ?>
+        <tr>
+          <td><?php echo '<a href="' . $version[2] . '" target="_blank">OSCOM CE Phoenix v' . $version[0] . '</a>'; ?></td>
+          <td><?php echo tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)); ?></td>
+          <td class="text-right"><?php echo '<a href="' . $version[2] . '" target="_blank"><i class="fas fa-info-circle text-info"></i></a>'; ?></td>
+        </tr>
+        <?php
+      }
+      ?>
+      </tbody>
     </table>
+  </div>
+  <?php
+  }
 
-<?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
 ?>

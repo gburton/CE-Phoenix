@@ -19,7 +19,7 @@
   echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
   ?>
 
-  <br />
+  </div>
 </div>
 
 </body>

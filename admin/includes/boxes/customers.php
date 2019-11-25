@@ -14,9 +14,6 @@
     'heading' => BOX_HEADING_CUSTOMERS,
     'apps' => array(
       array(
-        'code' => 'customers.php',
-        'title' => BOX_CUSTOMERS_CUSTOMERS,
-        'link' => tep_href_link('customers.php')
       )
     )
   );

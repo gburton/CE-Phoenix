@@ -29,18 +29,18 @@
     }
 
     function execute() {
-       global $PHP_SELF, $oscTemplate, $manufacturers, $languages_id;
+      global $PHP_SELF, $oscTemplate, $manufacturers, $languages_id, $brand;
 
       if (basename($PHP_SELF) == 'index.php') {
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
-          $meta_info_query = tep_db_query("select manufacturers_seo_description, manufacturers_seo_keywords from manufacturers_info where manufacturers_id = '" . (int)$_GET['manufacturers_id']  . "' and languages_id = '" . (int)$languages_id . "'");
-          $meta_info = tep_db_fetch_array($meta_info_query);
+          $brand_seo_description = $brand->getData('manufacturers_seo_description');
+          $brand_seo_keywords    = $brand->getData('manufacturers_seo_keywords');
 
-          if (tep_not_null($meta_info['manufacturers_seo_description'])) {
-            $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($meta_info['manufacturers_seo_description']) . '" />' . PHP_EOL, $this->group);
+          if (tep_not_null($brand_seo_description)) {
+            $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($brand_seo_description) . '" />' . PHP_EOL, $this->group);
           }
-          if ( (tep_not_null($meta_info['manufacturers_seo_keywords'])) && (MODULE_HEADER_TAGS_MANUFACTURERS_SEO_KEYWORDS_STATUS == 'True') ) {
-            $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($meta_info['manufacturers_seo_keywords']) . '" />' . PHP_EOL, $this->group);
+          if ( (tep_not_null($brand_seo_keywords)) && (MODULE_HEADER_TAGS_MANUFACTURERS_SEO_KEYWORDS_STATUS == 'True') ) {
+            $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($brand_seo_keywords) . '" />' . PHP_EOL, $this->group);
           }
         }
       }
