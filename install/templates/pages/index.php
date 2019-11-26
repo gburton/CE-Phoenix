@@ -100,7 +100,7 @@
 <?php
     }
 
-    if (!empty($configfile_array) || !empty($warning_array))) {
+    if (!empty($configfile_array) || !empty($warning_array)) {
 ?>
 
       <div class="alert alert-danger" role="alert">Please correct the above errors and retry the installation procedure with the changes in place.</div>
@@ -148,7 +148,7 @@ $(function() {
       </tr>
       <tr>
         <th><?php echo PHP_VERSION; ?></th>
-        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 7) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo ((version_compare(PHP_VERSION, '7', '>')) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
 <?php
   if (function_exists('ini_get')) {
