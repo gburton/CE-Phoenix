@@ -13,6 +13,11 @@
   $cl_box_groups[] = array(
     'heading' => BOX_HEADING_TOOLS,
     'apps' => array(
+      array(
+        'code' => null,
+        'title' => null,
+        'link' => null
+      )
     )
   );
 ?>

@@ -14,6 +14,9 @@
     'heading' => BOX_HEADING_CUSTOMERS,
     'apps' => array(
       array(
+        'code' => null,
+        'title' => null,
+        'link' => null
       )
     )
   );
