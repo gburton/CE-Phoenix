@@ -5,10 +5,10 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2018 osCommerce
 
   Released under the GNU General Public License
 */
 
-  define('MODULES_ADMIN_MENU_MODULES_CONTENT', 'Content');
+  define('BOX_HEADING_MODULES', 'Modules');
   
