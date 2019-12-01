@@ -34,9 +34,9 @@
       if (MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT != 'Header') {
         $this->group = 'footer_scripts';
       }
-
+      
       if ($product_check['total'] > 0) {        
-        $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_model, p.manufacturers_id, p.products_image, p.products_price, p.products_quantity, p.products_tax_class_id, p.products_date_available, p.products_gtin from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+        $product_info_query = tep_db_query("select p.*, pd.* from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
 
         if ( tep_db_num_rows($product_info_query) ) {
           $product_info = tep_db_fetch_array($product_info_query);  
@@ -87,35 +87,38 @@
           $schema_product['offers']['seller'] = array("@type" => "Organization",
                                                       "name"  => STORE_NAME);
                                                                               
-          $manufacturers_name_query = tep_db_query("select manufacturers_name from manufacturers where manufacturers_id='" . (int)$product_info['manufacturers_id'] . "'");
-          if (tep_db_num_rows($manufacturers_name_query)) {
-            $manufacturers_name = tep_db_fetch_array($manufacturers_name_query);
+          if ($product_info['manufacturers_id'] > 0) {
+            // manufacturer class
+            require_once('includes/classes/manufacturer.php');
+            $ht_brand = new manufacturer((int)$product_info['manufacturers_id']);
+
             $schema_product['manufacturer'] = array("@type" => "Organization",
-                                                    "name"  => tep_db_output($manufacturers_name['manufacturers_name']));
+                                                    "name"  => tep_db_output($ht_brand->getData('manufacturers_name')));
           }
                                         
           $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from reviews r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
           $average = tep_db_fetch_array($average_query);
           if ($average['count'] > 0) {
+            $star_rating = round($average['average'], 0, PHP_ROUND_HALF_UP);
             $schema_product['aggregateRating'] = array("@type"       => "AggregateRating",
-                                                       "ratingValue" => number_format($average['average'],2),
+                                                       "ratingValue" => number_format($star_rating, 2),
                                                        "reviewCount" => (int)$average['count']);
-          }
-          
-          $reviews_query = tep_db_query("select rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read from reviews r, reviews_description rd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = '1' order by r.reviews_rating DESC");
+                                                       
+            $reviews_query = tep_db_query("select rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read from reviews r, reviews_description rd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = '1' order by r.reviews_rating DESC");
 
-          if (tep_db_num_rows($reviews_query) > 0) {
-            $schema_product['review'] = array();
-            while($reviews = tep_db_fetch_array($reviews_query)) {
-              $schema_product['review'][] = array("@type"         => "Review",
-                                                  "author"        => tep_db_output($reviews['customers_name']),
-                                                  "datePublished" => tep_db_output($reviews['date_added']),
-                                                  "description"   => tep_db_output($reviews['reviews_text']),
-                                                  "name"          => tep_db_output($product_info['products_name']),
-                                                  "reviewRating"  => array("@type"       => "Rating",
-                                                                           "bestRating"  => "5",
-                                                                           "ratingValue" => (int)$reviews['reviews_rating'],
-                                                                           "worstRating" => "1"));
+            if (tep_db_num_rows($reviews_query) > 0) {
+              $schema_product['review'] = array();
+              while($reviews = tep_db_fetch_array($reviews_query)) {
+                $schema_product['review'][] = array("@type"         => "Review",
+                                                    "author"        => tep_db_output($reviews['customers_name']),
+                                                    "datePublished" => tep_db_output($reviews['date_added']),
+                                                    "description"   => tep_db_output($reviews['reviews_text']),
+                                                    "name"          => tep_db_output($product_info['products_name']),
+                                                    "reviewRating"  => array("@type"       => "Rating",
+                                                                             "bestRating"  => "5",
+                                                                             "ratingValue" => (int)$reviews['reviews_rating'],
+                                                                             "worstRating" => "1"));
+              }
             }
           }
           
