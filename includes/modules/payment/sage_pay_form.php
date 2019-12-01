@@ -34,12 +34,6 @@
         }
       }
 
-      if ( !function_exists('mcrypt_encrypt') ) {
-        $this->description = '<div class="secWarning">' . MODULE_PAYMENT_SAGE_PAY_FORM_ERROR_ADMIN_MCRYPT . '</div>' . $this->description;
-
-        $this->enabled = false;
-      }
-
       if ( $this->enabled === true ) {
         if ( !tep_not_null(MODULE_PAYMENT_SAGE_PAY_FORM_VENDOR_LOGIN_NAME) || !tep_not_null(MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD) ) {
           $this->description = '<div class="secWarning">' . MODULE_PAYMENT_SAGE_PAY_FORM_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
@@ -512,26 +506,21 @@
     }
 
     function encryptParams($string) {
-// pad pkcs5
-      $blocksize = 16;
 
-      $pad = $blocksize - (strlen($string) % $blocksize);
+      $result = '@' . strtoupper(bin2hex(openssl_encrypt($string, 'aes-128-cbc', MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD, OPENSSL_RAW_DATA, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD)));
 
-      $string .= str_repeat(chr($pad), $pad);
-
-// encrypt
-      return '@' . strtoupper(bin2hex(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD, $string, MCRYPT_MODE_CBC, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD)));
-	}
-
-    function decryptParams($string) {
-      if ( substr($string, 0, 1) == '@' ) {
-        $string = substr($string, 1);
-      }
-
-      $string = pack('H*', $string);
-
-      return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD, $string, MCRYPT_MODE_CBC, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD);
+      return $result;
     }
+
+   function decryptParams($string) {
+     if ( substr($string, 0, 1) == '@' ) {
+       $string = substr($string, 1);
+     }
+
+     $result = openssl_decrypt(hex2bin($string), 'aes-128-cbc', MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD, OPENSSL_RAW_DATA, MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD);
+
+     return $result;
+   }
 
     function loadErrorMessages() {
       $errors = array();
