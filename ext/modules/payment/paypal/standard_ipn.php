@@ -136,7 +136,7 @@
             if ( $stock_values['products_quantity'] != $stock_left ) {
               tep_db_query("update products set products_quantity = '" . (int)$stock_left . "' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
 
-              if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
+              if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false' && STATUS_SWITCH_OFF == 'true') ) {
                 tep_db_query("update products set products_status = '0' where products_id = '" . tep_get_prid($order->products[$i]['id']) . "'");
               }
             }
