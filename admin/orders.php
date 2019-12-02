@@ -70,7 +70,7 @@
       case 'deleteconfirm':
         $oID = tep_db_prepare_input($_GET['oID']);
 
-        tep_remove_order($oID, $_POST['restock']);
+        tep_remove_order($oID, $_POST['restock'], $_POST['restatus']);
 
         tep_redirect(tep_href_link('orders.php', tep_get_all_get_params(array('oID', 'action'))));
         break;
@@ -498,7 +498,19 @@ $(function() {
       $contents = array('form' => tep_draw_form('orders', 'orders.php', tep_get_all_get_params(array('oID', 'action')) . 'oID=' . $oInfo->orders_id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO . '<br /><br /><strong>' . $oInfo->customers_firstname . ' ' . $oInfo->customers_lastname . '</strong>');
       $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('restock') . ' ' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY);
+      $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('restatus') . ' ' . TEXT_INFO_RESTATUS_PRODUCT);
       $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders.php', tep_get_all_get_params(array('oID', 'action')) . 'oID=' . $oInfo->orders_id)));
+?>
+<script>
+$(document).ready(function () {
+  $('input[name="restatus"]').attr('disabled', true);
+
+  $('input[name="restock"]').change(function(){
+    $('input[name="restatus"]').attr('disabled', !this.checked);
+  });
+});
+</script>
+<?php
       break;
     default:
       if (isset($oInfo) && is_object($oInfo)) {
