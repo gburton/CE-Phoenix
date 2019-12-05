@@ -76,7 +76,7 @@
   if ($action == 'edit') {
     $tID = tep_db_prepare_input($_GET['tID']);
 
-    $testimonials_query = tep_db_query("select t.testimonials_id, t.customers_id, t.customers_name, t.date_added, t.last_modified, td.testimonials_text, t.testimonials_status from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
+    $testimonials_query = tep_db_query("select t.*, td.* from testimonials t, testimonials_description td where t.testimonials_id = '" . (int)$tID . "' and t.testimonials_id = td.testimonials_id");
     $testimonials = tep_db_fetch_array($testimonials_query);
 
     $tInfo = new objectInfo($testimonials);
@@ -171,7 +171,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $testimonials_query_raw = "select testimonials_id, customers_id, customers_name, date_added, last_modified, testimonials_status from testimonials order by testimonials_id DESC";
+    $testimonials_query_raw = "select * from testimonials order by testimonials_id DESC";
     $testimonials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $testimonials_query_raw, $testimonials_query_numrows);
     $testimonials_query = tep_db_query($testimonials_query_raw);
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
