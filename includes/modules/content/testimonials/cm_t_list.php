@@ -42,7 +42,7 @@
       $content_width = MODULE_CONTENT_TESTIMONIALS_LIST_CONTENT_WIDTH;
       $item_width    = MODULE_CONTENT_TESTIMONIALS_LIST_CONTENT_WIDTH_EACH;
       
-      $testimonials_query_raw = "select t.testimonials_id, td.testimonials_text, t.date_added, t.customers_name from testimonials t, testimonials_description td where t.testimonials_id = td.testimonials_id ";
+      $testimonials_query_raw = "select t.*, td.* from testimonials t, testimonials_description td where t.testimonials_id = td.testimonials_id ";
       if (MODULE_CONTENT_TESTIMONIALS_LIST_ALL == 'All') {
         $testimonials_query_raw .= "and td.languages_id = '" . (int)$languages_id . "' ";
       }
