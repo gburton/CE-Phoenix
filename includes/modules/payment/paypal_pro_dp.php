@@ -115,7 +115,8 @@
 
     function pre_confirmation_check() {
       if ( $this->templateClassExists() ) {
-        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'header_tags');
+        $GLOBALS['oscTemplate']->addBlock('<style>.date-fields .form-control {width:auto;display:inline-block}</style>', 'header_tags');
+        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
       }
     }
 
@@ -162,7 +163,7 @@
                  '  </tr>' .
                  '  <tr>' .
                  '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_expires') . '</td>' .
-                 '    <td>' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>' .
+                 '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>' .
                  '  </tr>' .
                  '  <tr>' .
                  '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_cvc') . '</td>' .
@@ -172,7 +173,7 @@
       if ( $this->isCardAccepted('MAESTRO') ) {
         $content .= '  <tr>' .
                     '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_valid_from') . '</td>' .
-                    '    <td>' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="paypal_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . $this->_app->getDef('module_dp_field_card_valid_from_info') . '</td>' .
+                    '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="paypal_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . $this->_app->getDef('module_dp_field_card_valid_from_info') . '</td>' .
                     '  </tr>' .
                     '  <tr>' .
                     '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_issue_number') . '</td>' .
