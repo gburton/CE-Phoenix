@@ -20,4 +20,4 @@
                                                                'title' => $m['title'],
                                                                'link' => tep_href_link('modules.php', 'set=' . $m['code']));
   }
-?>
+  

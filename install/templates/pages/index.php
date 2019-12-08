@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -24,7 +24,7 @@
     <h1 class="h4">New Installation</h1>
 
 <?php
-    $configfile_array = array();
+    $configfile_array = [];
 
     if (file_exists(osc_realpath(dirname(__FILE__) . '/../../../includes') . '/configure.php') && !osc_is_writable(osc_realpath(dirname(__FILE__) . '/../../../includes') . '/configure.php')) {
       @chmod(osc_realpath(dirname(__FILE__) . '/../../../includes') . '/configure.php', 0777);
@@ -42,19 +42,23 @@
       $configfile_array[] = osc_realpath(dirname(__FILE__) . '/../../../admin/includes') . '/configure.php';
     }
 
-    $warning_array = array();
+    $warning_array = [];
 
     if (!extension_loaded('mysqli')) {
       $warning_array['mysql'] = 'The MySQLi extension is required but is not installed. Please enable the extension to continue installation.';
     }
 
-    if ((sizeof($configfile_array) > 0) || (sizeof($warning_array) > 0)) {
+    if (version_compare(PHP_VERSION, '7', '<')) {
+      $warning_array['php_version'] = 'The version of PHP must be at least 7.  The version here is ' . PHP_VERSION;
+    }
+
+    if (!empty($configfile_array) || !empty($warning_array)) {
 ?>
 
       <div class="noticeBox">
 
 <?php
-      if (sizeof($warning_array) > 0) {
+      if (!empty($warning_array)) {
 ?>
 
         <table class="table table-condensed table-striped">
@@ -72,7 +76,7 @@
 <?php
       }
 
-      if (sizeof($configfile_array) > 0) {
+      if (!empty($configfile_array)) {
 ?>
 
         <div class="alert alert-danger" role="alert">
@@ -81,13 +85,7 @@
           <p>
 
 <?php
-          for ($i=0, $n=sizeof($configfile_array); $i<$n; $i++) {
-            echo $configfile_array[$i];
-
-            if (isset($configfile_array[$i+1])) {
-              echo '<br />';
-            }
-          }
+        echo implode("<br />\n", $config_file_array);
 ?>
 
           </p>
@@ -102,13 +100,13 @@
 <?php
     }
 
-    if ((sizeof($configfile_array) > 0) || (sizeof($warning_array) > 0)) {
+    if (!empty($configfile_array) || !empty($warning_array)) {
 ?>
 
       <div class="alert alert-danger" role="alert">Please correct the above errors and retry the installation procedure with the changes in place.</div>
 
 <?php
-      if (sizeof($warning_array) > 0) {
+      if (!empty($warning_array)) {
         echo '    <div class="alert alert-info" role="alert"><i>Changing webserver configuration parameters may require the webserver service to be restarted before the changes take affect.</i></div>' . "\n";
       }
 ?>
@@ -150,7 +148,7 @@ $(function() {
       </tr>
       <tr>
         <th><?php echo PHP_VERSION; ?></th>
-        <td colspan="2" align="right"><?php echo ((PHP_VERSION >= 7) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" align="right"><?php echo ((version_compare(PHP_VERSION, '7', '>')) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
 <?php
   if (function_exists('ini_get')) {
