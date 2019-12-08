@@ -75,7 +75,7 @@
   if ($action == 'edit') {
     $rID = tep_db_prepare_input($_GET['rID']);
 
-    $reviews_query = tep_db_query("select r.*, rd.reviews_text from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
+    $reviews_query = tep_db_query("select r.*, rd.* from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
     $reviews = tep_db_fetch_array($reviews_query);
 
     $products_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");
