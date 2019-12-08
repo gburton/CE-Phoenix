@@ -43,7 +43,7 @@
       $item_width    = MODULE_CONTENT_TESTIMONIALS_LIST_CONTENT_WIDTH_EACH;
       
       $testimonials_query_raw = "select t.*, td.* from testimonials t, testimonials_description td where t.testimonials_id = td.testimonials_id ";
-      if (MODULE_CONTENT_TESTIMONIALS_LIST_ALL != 'All') {
+      if (MODULE_CONTENT_TESTIMONIALS_LIST_ALL == 'All') {
         $testimonials_query_raw .= "and td.languages_id = '" . (int)$languages_id . "' ";
       }
       $testimonials_query_raw .= "and testimonials_status = 1 order by t.testimonials_id DESC";
