@@ -49,6 +49,10 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
+// autoload classes under the classes or modules directories
+  require 'includes/functions/autoloader.php';
+  spl_autoload_register('tep_autoload_catalog');
+
 // include the database functions
   require('includes/functions/database.php');
 
