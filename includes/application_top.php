@@ -49,6 +49,10 @@
     define('DIR_WS_CATALOG', DIR_WS_HTTPS_CATALOG);
   }
 
+// autoload classes under the classes or modules directories
+  require 'includes/functions/autoloader.php';
+  spl_autoload_register('tep_autoload_catalog');
+
 // include the database functions
   require('includes/functions/database.php');
 
@@ -58,8 +62,8 @@
 // hooks
   require('includes/classes/hooks.php');
   $OSCOM_Hooks = new hooks('shop');
-  $OSCOM_Hooks->register('siteWide');
-  $OSCOM_Hooks->call('siteWide', 'startApplication');
+  $OSCOM_Hooks->register('system');
+  $OSCOM_Hooks->call('system', 'startApplication');
 
 // set the application parameters
   $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
@@ -410,6 +414,7 @@
     }
   }
 
+  $OSCOM_Hooks->register('siteWide');
   $OSCOM_Hooks->call('siteWide', 'injectAppTop');
 
   $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));

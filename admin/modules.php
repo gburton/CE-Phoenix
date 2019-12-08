@@ -27,6 +27,8 @@
   define('HEADING_TITLE', $cfgModules->get($set, 'title'));
   $template_integration = $cfgModules->get($set, 'template_integration');
 
+  $OSCOM_Hooks->call('modules', 'preAction');
+
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
   if (tep_not_null($action)) {

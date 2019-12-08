@@ -14,4 +14,4 @@
 
   $cl_box_groups[] = array('heading' => MODULES_ADMIN_MENU_PAYPAL_HEADING,
                            'apps' => app_paypal_get_admin_box_links());
-?>
+                           
