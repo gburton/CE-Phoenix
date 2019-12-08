@@ -99,9 +99,8 @@
     }
 
     function pre_confirmation_check() {
-      if ( $this->templateClassExists() ) {
-        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'header_tags');
-      }
+        $GLOBALS['oscTemplate']->addBlock('<style>.date-fields .form-control {width:auto;display:inline-block}</style>', 'header_tags');
+        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
     }
 
     function confirmation() {
@@ -134,7 +133,7 @@
                  '</tr>' .
                  '<tr>' .
                  '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_EXPIRES . '</td>' .
-                 '  <td>' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>' .
+                 '  <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>' .
                  '</tr>' .
                  '<tr>' .
                  '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_CVC . '</td>' .

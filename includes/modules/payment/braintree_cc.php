@@ -131,7 +131,8 @@
 
     function pre_confirmation_check() {
       if ( $this->templateClassExists() ) {
-        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'header_tags');
+        $GLOBALS['oscTemplate']->addBlock('<style>.date-fields .form-control {width:auto;display:inline-block}</style>', 'header_tags');
+        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
       }
     }
 
@@ -198,7 +199,7 @@
                   '</tr>' .
                   '<tr>' .
                   '  <td width="30%">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_EXPIRY . '</td>' .
-                  '  <td>' . tep_draw_pull_down_menu('month', $months_array) . ' / ' . tep_draw_pull_down_menu('year', $years_array) . '</td>' .
+                  '  <td class="date-fields">' . tep_draw_pull_down_menu('month', $months_array) . ' / ' . tep_draw_pull_down_menu('year', $years_array) . '</td>' .
                   '</tr>';
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {

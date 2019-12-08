@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,7 +14,10 @@
     'heading' => BOX_HEADING_CUSTOMERS,
     'apps' => array(
       array(
+        'code' => null,
+        'title' => null,
+        'link' => null
       )
     )
   );
-?>
+  
