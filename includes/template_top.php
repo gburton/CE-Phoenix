@@ -46,7 +46,11 @@ echo $oscTemplate->getBlocks('header_tags');
     <?php
     echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperStart');
     
-    require('includes/header.php'); 
+    echo $OSCOM_Hooks->call('siteWide', 'injectBeforeHeader');
+    
+    require('includes/header.php');
+
+    echo $OSCOM_Hooks->call('siteWide', 'injectAfterHeader');    
     ?>
 
     <div class="row">
