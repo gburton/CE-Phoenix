@@ -61,35 +61,6 @@ define('FEMALE', 'Female');
 // text for date of birth example
 define('DOB_FORMAT_STRING', 'mm/dd/yyyy');
 
-// configuration box text in includes/boxes/configuration.php
-define('BOX_HEADING_CONFIGURATION', 'Configuration');
-define('BOX_CONFIGURATION_MYSTORE', 'My Store');
-define('BOX_CONFIGURATION_LOGGING', 'Logging');
-
-// modules box text in includes/boxes/modules.php
-define('BOX_HEADING_MODULES', 'Modules');
-
-// categories box text in includes/boxes/catalog.php
-define('BOX_HEADING_CATALOG', 'Catalog');
-
-// customers box text in includes/boxes/customers.php
-define('BOX_HEADING_CUSTOMERS', 'Customers');
-
-// orders box text in includes/boxes/orders.php
-define('BOX_HEADING_ORDERS', 'Orders');
-
-// taxes box text in includes/boxes/taxes.php
-define('BOX_HEADING_LOCATION_AND_TAXES', 'Locations / Taxes');
-
-// reports box text in includes/boxes/reports.php
-define('BOX_HEADING_REPORTS', 'Reports');
-
-// tools text in includes/boxes/tools.php
-define('BOX_HEADING_TOOLS', 'Tools');
-
-// localizaion box text in includes/boxes/localization.php
-define('BOX_HEADING_LOCALIZATION', 'Localization');
-
 // javascript messages
 define('JS_ERROR', 'Errors have occured during the process of your form!\nPlease make the following corrections:\n\n');
 

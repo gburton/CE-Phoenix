@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -35,91 +35,66 @@
       $chart_days = (int)MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS;
       
       for($i = 0; $i < $chart_days; $i++) {
-        $days[date('Y-m-d', strtotime('-'. $i .' days'))] = 0;
+        $days[date('M-d', strtotime('-'. $i .' days'))] = 0;
       }
 
-      $orders_query = tep_db_query("select date_format(o.date_purchased, '%Y-%m-%d') as dateday, sum(ot.value) as total from orders o, orders_total ot where date_sub(curdate(), interval '" . $chart_days . "' day) <= o.date_purchased and o.orders_id = ot.orders_id and ot.class = 'ot_total' group by dateday");
+      $orders_query = tep_db_query("select date_format(o.date_purchased, '%b-%d') as dateday, sum(ot.value) as total from orders o, orders_total ot where date_sub(curdate(), interval '" . $chart_days . "' day) <= o.date_purchased and o.orders_id = ot.orders_id and ot.class = 'ot_total' group by dateday");
       while ($orders = tep_db_fetch_array($orders_query)) {
         $days[$orders['dateday']] = $orders['total'];
       }
 
       $days = array_reverse($days, true);
-
-      $js_array = '';
-      foreach ($days as $date => $total) {
-        $js_array .= '[' . (mktime(0, 0, 0, substr($date, 5, 2), substr($date, 8, 2), substr($date, 0, 4))*1000) . ', ' . $total . '],';
+      
+      foreach ($days as $d => $r) {
+        $plot_days[] = $d;
+        $plot_revenue[] = $r;
       }
-
-      if (!empty($js_array)) {
-        $js_array = substr($js_array, 0, -1);
-      }
-
-      $chart_label = tep_output_string(MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CHART_LINK);
-      $chart_label_link = tep_href_link('orders.php');
+      
+      $plot_days = json_encode($plot_days);
+      $plot_revenue = json_encode($plot_revenue);
+      
+      $table_header = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CHART_LINK;
 
       $output = <<<EOD
-<div id="d_total_revenue" class="mb-2" style="height: 150px;"></div>
+<div class="table-responsive">
+  <table class="table mb-2">
+    <thead class="thead-dark">
+      <tr>
+        <th>{$table_header}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><canvas id="totalRevenue" width="400" height="220"></canvas></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <script>
-$(function () {
-  var plot30 = [$js_array];
-  $.plot($('#d_total_revenue'), [ {
-    label: '$chart_label',
-    data: plot30,
-    lines: { show: true, fill: true },
-    points: { show: true },
-    color: '#66CC33'
-  }], {
-    xaxis: {
-      ticks: 4,
-      mode: 'time'
-    },
-    yaxis: {
-      ticks: 3,
-      min: 0
-    },
-    grid: {
-      backgroundColor: { colors: ['#fff', '#eee'] },
-      hoverable: true
-    },
-    legend: {
-      labelFormatter: function(label, series) {
-        return '<a href="$chart_label_link">' + label + '</a>';
-      }
-    }
-  });
-});
+var ctx = document.getElementById('totalRevenue').getContext('2d');
 
-function showTooltip(x, y, contents) {
-  $('<div id="tooltip">' + contents + '</div>').css( {
-    position: 'absolute',
-    display: 'none',
-    top: y + 5,
-    left: x + 5,
-    border: '1px solid #fdd',
-    padding: '2px',
-    backgroundColor: '#fee',
-    opacity: 0.80
-  }).appendTo('body').fadeIn(200);
-}
-
-var monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-
-var previousPoint = null;
-$('#d_total_revenue').bind('plothover', function (event, pos, item) {
-  if (item) {
-    if (previousPoint != item.datapoint) {
-      previousPoint = item.datapoint;
-
-      $('#tooltip').remove();
-      var x = item.datapoint[0],
-          y = item.datapoint[1],
-          xdate = new Date(x);
-
-      showTooltip(item.pageX, item.pageY, y + ' for ' + monthNames[xdate.getMonth()] + '-' + xdate.getDate());
-    }
-  } else {
-    $('#tooltip').remove();
-    previousPoint = null;
+var totalRevenue = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {$plot_days},
+    datasets: [{
+        data: {$plot_revenue},
+        backgroundColor: '#eee',
+        borderColor: '#aaa',
+        pointRadius: 5,
+        pointHoverRadius: 5,
+        pointBackgroundColor: 'orange',
+        borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {yAxes: [{ticks: {stepSize: 10}}]},
+    responsive: true,
+    title: {display: false},
+    legend: {display: false},
+    tooltips: {mode: 'index', intersect: false},
+    hover: {mode: 'nearest', intersect: true}      
   }
 });
 </script>
@@ -127,7 +102,7 @@ EOD;
 
       return $output;
     }
-
+    
     function isEnabled() {
       return $this->enabled;
     }

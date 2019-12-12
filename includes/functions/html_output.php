@@ -406,9 +406,10 @@
 
   // review stars
   function tep_draw_stars($rating = 0) {
-    $stars = str_repeat('<i class="fas fa-star"></i>', (int)$rating);
-    $stars .= str_repeat('<i class="far fa-star"></i>', 5-(int)$rating);
+    $star_rating = round($rating, 0, PHP_ROUND_HALF_UP);
+    $stars = str_repeat('<i class="fas fa-star"></i>', $star_rating);
+    $stars .= str_repeat('<i class="far fa-star"></i>', 5-$star_rating);
 
-    return '<span class="text-warning">' . $stars . '</span>';
+    return '<span class="text-warning" title="' . $rating . '">' . $stars . '</span>';
   }
   

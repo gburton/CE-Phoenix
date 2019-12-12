@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('MODULES_ADMIN_MENU_MODULES_CONTENT', 'Content');
+  define('BOX_HEADING_LOCATION_AND_TAXES', 'Locations / Taxes');
   
