@@ -72,19 +72,21 @@
   <div class="alert alert-danger"><?php echo TEXT_FORMAT_AND_LOCATION; ?></div>
   
   <?php echo tep_draw_form('logo', 'store_logo.php', 'action=save', 'post', 'enctype="multipart/form-data"'); ?>
-    
-    <div class="form-group row">
-      <label for="inputLogo" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_LOGO_IMAGE; ?></label>
-      <div class="col-sm-9">
-        <?php echo tep_draw_input_field('store_logo', '', 'required aria-required="true" class="form-control-file mt-2" id="inputLogo"', null, 'file'); ?>
-      </div>
+
+    <div class="custom-file mb-2">
+      <?php echo tep_draw_input_field('store_logo', '', 'required aria-required="true" class="form-control-input" id="inputLogo"', null, 'file'); ?>
+      <label class="custom-file-label" for="inputLogo"><?php echo TEXT_LOGO_IMAGE; ?></label>
     </div>
     
-    <?php echo tep_draw_bootstrap_button(IMAGE_UPLOAD, 'fas fa-file-upload', null, 'primary', null, 'btn-danger btn-block btn-lg'); ?>
+    <?php echo tep_draw_bootstrap_button(IMAGE_UPLOAD, 'fas fa-file-upload', null, 'primary', null, 'btn-danger btn-block'); ?>    
 
   </form>
+
+  <script>$(document).on('change', '#inputLogo', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>  
 
 <?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
 ?>
+
+
