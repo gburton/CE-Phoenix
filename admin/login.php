@@ -134,7 +134,7 @@
   
 ?>
 
-  <div class="col d-flex justify-content-center">
+  <div class="mx-auto w-75 w-md-25">
     <div class="card text-center shadow mt-5">
       <div class="card-header text-white bg-dark"><?php echo HEADING_TITLE; ?></div>
       <div class="px-5 py-2">
