@@ -39,7 +39,11 @@ echo $oscTemplate->getBlocks('header_tags');
 </head>
 <body>
 
-  <?php echo $oscTemplate->getContent('navigation'); ?>
+  <?php 
+  echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
+  
+  echo $oscTemplate->getContent('navigation'); 
+  ?>
   
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?> pt-2">
 
