@@ -58,7 +58,7 @@
           if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
             foreach($products[$i]['attributes'] as $option => $value) {
               $products_field .= tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
-              $attributes = tep_db_query("select popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
+              $attributes = tep_db_query("select popt.*, poval.*, pa.*
                                           from products_options popt, products_options_values poval, products_attributes pa
                                           where pa.products_id = '" . (int)$products[$i]['id'] . "'
                                           and pa.options_id = '" . (int)$option . "'
