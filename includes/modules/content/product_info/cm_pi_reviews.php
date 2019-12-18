@@ -44,7 +44,7 @@
       
       $sql_order_by = MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER;
 
-      $review_query = tep_db_query("select rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read, p.products_id, p.products_price, p.products_tax_class_id, p.products_image, p.products_model, pd.products_name from reviews r, reviews_description rd, products p, products_description pd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.products_id = p.products_id and p.products_status = '1' and r.reviews_status = '1' and p.products_id = pd.products_id and pd.language_id = '". (int)$languages_id . "' order by r." .$sql_order_by . " DESC limit " . (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT);
+      $review_query = tep_db_query("select rd.*, r.*, p.*, pd.* from reviews r, reviews_description rd, products p, products_description pd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.products_id = p.products_id and p.products_status = '1' and r.reviews_status = '1' and p.products_id = pd.products_id and pd.language_id = '". (int)$languages_id . "' order by r." .$sql_order_by . " DESC limit " . (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT);
       $review_data = NULL;
 
       if (tep_db_num_rows($review_query) > 0) {

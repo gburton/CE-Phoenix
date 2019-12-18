@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  
+  $OSCOM_Hooks->call('reviews', 'reviewPreAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -33,6 +35,8 @@
 
         tep_db_query("update " . TABLE_REVIEWS . " set reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("update " . TABLE_REVIEWS_DESCRIPTION . " set reviews_text = '" . tep_db_input($reviews_text) . "' where reviews_id = '" . (int)$reviews_id . "'");
+        
+        $OSCOM_Hooks->call('reviews', 'reviewActionUpdate');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews_id));
         break;
@@ -41,6 +45,8 @@
 
         tep_db_query("delete from " . TABLE_REVIEWS . " where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("delete from " . TABLE_REVIEWS_DESCRIPTION . " where reviews_id = '" . (int)$reviews_id . "'");
+        
+        $OSCOM_Hooks->call('reviews', 'reviewActionDelete');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page']));
         break;
@@ -53,11 +59,15 @@
         tep_db_query("insert into " . TABLE_REVIEWS . " (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_customers_name($customers_id) . "', '" . (int)$rating . "', now(), 1)");
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into " . TABLE_REVIEWS_DESCRIPTION . " (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
+        
+        $OSCOM_Hooks->call('reviews', 'reviewActionSave');
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(array('action'))));
         break;   
     }
   }
+  
+  $OSCOM_Hooks->call('reviews', 'reviewPostAction');
 
   require('includes/template_top.php');
 ?>
@@ -75,7 +85,7 @@
   if ($action == 'edit') {
     $rID = tep_db_prepare_input($_GET['rID']);
 
-    $reviews_query = tep_db_query("select r.reviews_id, r.products_id, r.customers_name, r.date_added, r.last_modified, r.reviews_read, rd.reviews_text, r.reviews_rating, r.reviews_status from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
+    $reviews_query = tep_db_query("select r.*, rd.* from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
     $reviews = tep_db_fetch_array($reviews_query);
 
     $products_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");
@@ -127,6 +137,11 @@
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
+
+      <?php
+      echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
+      ?>
+ 
       <tr>
         <td align="right" class="smallText"><?php echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('customers_name', $rInfo->customers_name) . tep_draw_hidden_field('products_name', $rInfo->products_name) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added) . tep_draw_button(IMAGE_PREVIEW, 'document') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'])); ?></td>
       </form></tr>
@@ -137,7 +152,7 @@
     } else {
       $rID = tep_db_prepare_input($_GET['rID']);
 
-      $reviews_query = tep_db_query("select r.reviews_id, r.products_id, r.customers_name, r.date_added, r.last_modified, r.reviews_read, rd.reviews_text, r.reviews_rating, r.reviews_status from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
+      $reviews_query = tep_db_query("select r.*, rd.* from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
       $reviews = tep_db_fetch_array($reviews_query);
 
       $products_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");
@@ -176,6 +191,8 @@
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
 <?php
+    echo $OSCOM_Hooks->call('reviews', 'reviewFormPreview');
+    
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
       foreach($_POST as $key => $value) {
@@ -236,6 +253,11 @@
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
+      
+      <?php
+      echo $OSCOM_Hooks->call('reviews', 'reviewFormNew');
+      ?>
+      
       <tr>
         <td><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></td>
       </tr>
@@ -255,12 +277,12 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-    $reviews_query_raw = "select reviews_id, products_id, date_added, last_modified, reviews_rating, reviews_status from " . TABLE_REVIEWS . " order by date_added DESC";
+    $reviews_query_raw = "select * from " . TABLE_REVIEWS . " order by date_added DESC";
     $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $reviews_query_raw, $reviews_query_numrows);
     $reviews_query = tep_db_query($reviews_query_raw);
     while ($reviews = tep_db_fetch_array($reviews_query)) {
       if ((!isset($_GET['rID']) || (isset($_GET['rID']) && ($_GET['rID'] == $reviews['reviews_id']))) && !isset($rInfo)) {
-        $reviews_text_query = tep_db_query("select r.reviews_read, r.customers_name, length(rd.reviews_text) as reviews_text_size from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$reviews['reviews_id'] . "' and r.reviews_id = rd.reviews_id");
+        $reviews_text_query = tep_db_query("select r.*, rd.*, length(rd.reviews_text) as reviews_text_size from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.reviews_id = '" . (int)$reviews['reviews_id'] . "' and r.reviews_id = rd.reviews_id");
         $reviews_text = tep_db_fetch_array($reviews_text_query);
 
         $products_image_query = tep_db_query("select products_image from " . TABLE_PRODUCTS . " where products_id = '" . (int)$reviews['products_id'] . "'");

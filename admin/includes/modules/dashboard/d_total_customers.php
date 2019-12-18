@@ -35,91 +35,63 @@
       $chart_days = (int)MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_DAYS;
       
       for($i = 0; $i < $chart_days; $i++) {
-        $days[date('Y-m-d', strtotime('-'. $i .' days'))] = 0;
+        $days[date('M-d', strtotime('-'. $i .' days'))] = 0;
       }
 
-      $orders_query = tep_db_query("select date_format(customers_info_date_account_created, '%Y-%m-%d') as dateday, count(*) as total from customers_info where date_sub(curdate(), interval '" . $chart_days . "' day) <= customers_info_date_account_created group by dateday");
+      $orders_query = tep_db_query("select date_format(customers_info_date_account_created, '%b-%d') as dateday, count(*) as total from customers_info where date_sub(curdate(), interval '" . $chart_days . "' day) <= customers_info_date_account_created group by dateday");
       while ($orders = tep_db_fetch_array($orders_query)) {
         $days[$orders['dateday']] = $orders['total'];
       }
 
       $days = array_reverse($days, true);
-
-      $js_array = '';
-      foreach ($days as $date => $total) {
-        $js_array .= '[' . (mktime(0, 0, 0, substr($date, 5, 2), substr($date, 8, 2), substr($date, 0, 4))*1000) . ', ' . $total . '],';
+      
+      foreach ($days as $d => $r) {
+        $plot_days[] = $d;
+        $plot_customers[] = $r;
       }
-
-      if (!empty($js_array)) {
-        $js_array = substr($js_array, 0, -1);
-      }
-
-      $chart_label = tep_output_string(MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_CHART_LINK);
-      $chart_label_link = tep_href_link('customers.php');
+      
+      $plot_days = json_encode($plot_days);
+      $plot_customers = json_encode($plot_customers);
+      
+      $table_header = MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_CHART_LINK;
 
       $output = <<<EOD
-<div id="d_total_customers" style="width: 100%; height: 150px;"></div>
-<script type="text/javascript">
-$(function () {
-  var plot30 = [$js_array];
-  $.plot($('#d_total_customers'), [ {
-    label: '$chart_label',
-    data: plot30,
-    lines: { show: true, fill: true },
-    points: { show: true },
-    color: '#FF9966'
-  }], {
-    xaxis: {
-      ticks: 4,
-      mode: 'time'
-    },
-    yaxis: {
-      ticks: 3,
-      min: 0
-    },
-    grid: {
-      backgroundColor: { colors: ['#fff', '#eee'] },
-      hoverable: true
-    },
-    legend: {
-      labelFormatter: function(label, series) {
-        return '<a href="$chart_label_link">' + label + '</a>';
-      }
-    }
-  });
-});
+<div class="table-responsive">
+  <table class="table mb-2">
+    <thead class="thead-dark">
+      <tr>
+        <th>{$table_header}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><canvas id="totalCustomers" width="400" height="220"></canvas></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-function showTooltip(x, y, contents) {
-  $('<div id="tooltip">' + contents + '</div>').css( {
-    position: 'absolute',
-    display: 'none',
-    top: y + 5,
-    left: x + 5,
-    border: '1px solid #fdd',
-    padding: '2px',
-    backgroundColor: '#fee',
-    opacity: 0.80
-  }).appendTo('body').fadeIn(200);
-}
+<script>
+var ctx = document.getElementById('totalCustomers').getContext('2d');
 
-var monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-
-var previousPoint = null;
-$('#d_total_customers').bind('plothover', function (event, pos, item) {
-  if (item) {
-    if (previousPoint != item.datapoint) {
-      previousPoint = item.datapoint;
-
-      $('#tooltip').remove();
-      var x = item.datapoint[0],
-          y = item.datapoint[1],
-          xdate = new Date(x);
-
-      showTooltip(item.pageX, item.pageY, y + ' for ' + monthNames[xdate.getMonth()] + '-' + xdate.getDate());
-    }
-  } else {
-    $('#tooltip').remove();
-    previousPoint = null;
+var totalCustomers = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: {$plot_days},
+    datasets: [{
+      data: {$plot_customers},
+      backgroundColor: '#eee',
+      borderColor: '#aaa',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {yAxes: [{ticks: {stepSize: 5}}]},
+    responsive: true,
+    title: {display: false},
+    legend: {display: false},
+    tooltips: {mode: 'index', intersect: false},
+    hover: {mode: 'nearest', intersect: true}      
   }
 });
 </script>
