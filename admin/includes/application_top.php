@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -45,6 +45,12 @@
   define('LOCAL_EXE_GUNZIP', 'gunzip');
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
+
+  // autoload classes in the classes or modules directories
+  require DIR_FS_CATALOG . 'includes/functions/autoloader.php';
+  require 'includes/functions/autoloader.php';
+  spl_autoload_register('tep_autoload_admin');
+  spl_autoload_register('tep_autoload_catalog');
 
 // include the list of project database tables
   require('includes/database_tables.php');
