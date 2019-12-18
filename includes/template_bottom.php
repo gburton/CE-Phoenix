@@ -56,7 +56,9 @@
   
   echo $OSCOM_Hooks->call('siteWide', 'injectSiteEnd');
   
-  echo $oscTemplate->getBlocks('footer_scripts'); 
+  echo $oscTemplate->getBlocks('footer_scripts');
+
+  echo $OSCOM_Hooks->call('siteWide', 'injectBodyEnd');  
   ?>
 
 </body>

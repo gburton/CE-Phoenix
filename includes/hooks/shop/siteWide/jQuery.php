@@ -15,13 +15,13 @@
 */
 
 class hook_shop_siteWide_jQuery {
-  var $version = '3.4.1';
-  
-  var $afterfooter = null;
 
-  function listen_injectAfterFooter() {
-    $this->afterfooter .= '<!-- jquery hooked -->' . PHP_EOL;
-    $this->afterfooter .= '<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>' . PHP_EOL;
+  public $version = '3.4.1';
+
+  public $afterfooter = null;
+
+  public function listen_injectAfterFooter() {
+    $this->afterfooter .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>' . PHP_EOL;
 
     return $this->afterfooter;
   }

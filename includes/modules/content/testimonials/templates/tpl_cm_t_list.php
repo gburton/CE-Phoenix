@@ -13,7 +13,7 @@
   </div>
   <div class="row align-items-center">
     <div class="col-sm-6 d-none d-sm-block">
-      <?php echo $testimonials_split->display_count(TEXT_DISPLAY_NUMBER_OF_TESTIMONIALS); ?>
+      <?php echo $testimonials_split->display_count(MODULE_CONTENT_TESTIMONIALS_DISPLAY_NUMBER); ?>
     </div>
     <div class="col-sm-6">
       <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>

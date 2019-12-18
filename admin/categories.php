@@ -706,7 +706,7 @@ $('#products_date_available').datepicker({
     </form>
 <?php
   } elseif ($action == 'new_product_preview') {
-    $product_query = tep_db_query("select p.products_id, pd.language_id, pd.products_name, pd.products_description, pd.products_url, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p.manufacturers_id, pd.products_seo_title, p.products_gtin, pd.products_seo_description, pd.products_seo_keywords from products p, products_description pd where p.products_id = pd.products_id and p.products_id = '" . (int)$_GET['pID'] . "'");
+    $product_query = tep_db_query("select p.*, pd.* from products p, products_description pd where p.products_id = pd.products_id and p.products_id = '" . (int)$_GET['pID'] . "'");
     $product = tep_db_fetch_array($product_query);
 
     $pInfo = new objectInfo($product);
@@ -837,9 +837,9 @@ $('#products_date_available').datepicker({
     if (isset($_GET['search'])) {
       $search = tep_db_prepare_input($_GET['search']);
 
-      $categories_query = tep_db_query("select c.categories_id, cd.categories_name, cd.categories_description, cd.categories_seo_description, cd.categories_seo_keywords, cd.categories_seo_title, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified from categories c, categories_description cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and cd.categories_name like '%" . tep_db_input($search) . "%' order by c.sort_order, cd.categories_name");
+      $categories_query = tep_db_query("select c.*, cd.* from categories c, categories_description cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' and cd.categories_name like '%" . tep_db_input($search) . "%' order by c.sort_order, cd.categories_name");
     } else {
-      $categories_query = tep_db_query("select c.categories_id, cd.categories_name, cd.categories_description, cd.categories_seo_description, cd.categories_seo_keywords, cd.categories_seo_title, c.categories_image, c.parent_id, c.sort_order, c.date_added, c.last_modified from categories c, categories_description cd where c.parent_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' order by c.sort_order, cd.categories_name");
+      $categories_query = tep_db_query("select c.*, cd.*  from categories c, categories_description cd where c.parent_id = '" . (int)$current_category_id . "' and c.categories_id = cd.categories_id and cd.language_id = '" . (int)$languages_id . "' order by c.sort_order, cd.categories_name");
     }
     while ($categories = tep_db_fetch_array($categories_query)) {
       $categories_count++;
@@ -871,9 +871,9 @@ $('#products_date_available').datepicker({
 
     $products_count = 0;
     if (isset($_GET['search'])) {
-      $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_model, p.products_gtin, p.products_quantity, p.products_image, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status, p2c.categories_id from products p, products_description pd, products_to_categories p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and((pd.products_name like '%" . tep_db_input($search) . "%') || (p.products_model like '%" . tep_db_input($search) . "%') ||  (p.products_gtin like '%" . tep_db_input($search) . "%')) order by pd.products_name");
+      $products_query = tep_db_query("select p.*, pd.* p2c.categories_id from products p, products_description pd, products_to_categories p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and((pd.products_name like '%" . tep_db_input($search) . "%') || (p.products_model like '%" . tep_db_input($search) . "%') ||  (p.products_gtin like '%" . tep_db_input($search) . "%')) order by pd.products_name");
     } else {
-      $products_query = tep_db_query("select p.products_id, pd.products_name, p.products_quantity, p.products_image, p.products_price, p.products_date_added, p.products_last_modified, p.products_date_available, p.products_status from products p, products_description pd, products_to_categories p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by pd.products_name");
+      $products_query = tep_db_query("select p.*, pd.* from products p, products_description pd, products_to_categories p2c where p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by pd.products_name");
     }
     while ($products = tep_db_fetch_array($products_query)) {
       $products_count++;

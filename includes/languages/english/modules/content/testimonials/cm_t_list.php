@@ -20,3 +20,5 @@
   define('MODULE_CONTENT_TESTIMONIALS_LIST_NO_TESTIMONIALS', 'There are no Testimonials to show...');
   
   define('MODULE_CONTENT_TESTIMONIALS_LIST_WRITERS_NAME_DATE', 'Written by %s on %s.');
+  
+  define('MODULE_CONTENT_TESTIMONIALS_DISPLAY_NUMBER', 'Displaying <b>%s</b> to <b>%s</b> (of <b>%s</b> Testimonials)');

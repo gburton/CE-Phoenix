@@ -200,7 +200,7 @@
   }
 
   if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-    $entry_query = tep_db_query("select entry_gender, entry_company, entry_firstname, entry_lastname, entry_street_address, entry_suburb, entry_postcode, entry_city, entry_state, entry_zone_id, entry_country_id from address_book where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$_GET['edit'] . "'");
+    $entry_query = tep_db_query("select * from address_book where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$_GET['edit'] . "'");
 
     if (!tep_db_num_rows($entry_query)) {
       $messageStack->add_session('addressbook', ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);

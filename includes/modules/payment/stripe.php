@@ -108,7 +108,7 @@
       global $oscTemplate;
 
       if ( $this->templateClassExists() ) {
-        $oscTemplate->addBlock($this->getSubmitCardDetailsJavascript(), 'header_tags');
+        $oscTemplate->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
       }
     }
 
