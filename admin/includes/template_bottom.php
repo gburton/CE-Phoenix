@@ -22,5 +22,9 @@
   </div>
 </div>
 
+<?php
+echo $OSCOM_Hooks->call('siteWide', 'injectBodyEnd');
+?>
+
 </body>
 </html>
