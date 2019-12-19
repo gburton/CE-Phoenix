@@ -34,7 +34,7 @@
     const PREFIX = 'listen_';
     private $prefix_length;
 
-    function __construct($site) {
+    public function __construct($site) {
       $this->_site = basename($site);
       $this->prefix_length = strlen(self::PREFIX);
 
@@ -61,31 +61,31 @@ EOSQL
 
       while ($hook = tep_db_fetch_array($hooks_query)) {
         $file = DIR_FS_CATALOG . $hook['hooks_path'];
-        if (file_exists($file) && is_readable($file)) {
+        if (!class_exists($hook['hooks_class'])) {
+          if (file_exists($file) && is_readable($file)) {
+            include $file;
+          }
+
           if (!class_exists($hook['hooks_class'])) {
-            include($file);
-
-            if (!class_exists($hook['hooks_class'])) {
-              continue;
-            }
+            continue;
           }
+        }
 
-          $object = &$GLOBALS[$hook['hooks_class']];
-          if (!isset($object)) {
-            $object = new $hook['hooks_class']();
-          }
+        $object = &$GLOBALS[$hook['hooks_class']];
+        if (!isset($object)) {
+          $object = new $hook['hooks_class']();
+        }
 
-          if (method_exists($object, $hook['hooks_method'])) {
-            tep_guarantee_all($this->_hooks, $this->_site, $group, $hook['hooks_action'])[$hook['hooks_code']]
-              = [$object, $hook['hooks_method']];
-          }
+        if (method_exists($object, $hook['hooks_method'])) {
+          tep_guarantee_all($this->_hooks, $this->_site, $group, $hook['hooks_action'])[$hook['hooks_code']]
+            = [$object, $hook['hooks_method']];
         }
       }
 
       $this->sort_hooks();
     }
 
-    function register($group) {
+    public function register($group) {
       $group = basename($group);
 
       $directory = DIR_FS_CATALOG . 'includes/hooks/' . $this->_site . '/' . $group;
@@ -104,16 +104,15 @@ EOSQL
         }
         
         foreach ($files as $file) {
-          $period_index = strrpos($file, '.');
-          if ( substr($file, $period_index) == '.php' ) {
-            $code = substr($file, 0, $period_index);
+          $code = pathinfo($file, PATHINFO_FILENAME);
+          if ( $code !== $file ) {
             $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
 
-            include($directory . '/' . $file);
+            include $directory . '/' . $file;
             $GLOBALS[$class] = new $class();
 
             foreach ( get_class_methods($GLOBALS[$class]) as $method ) {
-              if ( substr($method, 0, $this->prefix_length) == 'listen_' ) {
+              if ( substr($method, 0, $this->prefix_length) === self::PREFIX ) {
                 $action = substr($method, $this->prefix_length);
                 tep_guarantee_all($this->_hooks, $this->_site, $group, $action)[$code]
                   = [$GLOBALS[$class], $method];
@@ -126,7 +125,7 @@ EOSQL
       $this->load($group);
     }
 
-    function call($group, $action, $parameters = []) {
+    public function call($group, $action, $parameters = []) {
       $result = '';
 
       foreach ( @(array)$this->_hooks[$this->_site][$group][$action] as $callback ) {
@@ -137,4 +136,11 @@ EOSQL
         return $result;
       }
     }
+
+    public function generate($group, $action, $parameters = []) {
+      foreach ( @(array)$this->_hooks[$this->_site][$group][$action] as $callback ) {
+        yield call_user_func($callback, $parameters);
+      }
+    }
+
   }
