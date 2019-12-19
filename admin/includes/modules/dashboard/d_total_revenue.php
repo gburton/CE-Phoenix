@@ -54,6 +54,7 @@
       $plot_revenue = json_encode($plot_revenue);
       
       $table_header = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CHART_LINK;
+      $step_size = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP;
 
       $output = <<<EOD
 <div class="table-responsive">
@@ -89,7 +90,7 @@ var totalRevenue = new Chart(ctx, {
     }]
   },
   options: {
-    scales: {yAxes: [{ticks: {stepSize: 10}}]},
+    scales: {yAxes: [{ticks: {stepSize: {$step_size}}}]},
     responsive: true,
     title: {display: false},
     legend: {display: false},
@@ -114,6 +115,7 @@ EOD;
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Total Revenue Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'True', 'Do you want to show the total revenue chart on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Days', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', '7', 'Days to display.', '6', '2', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Step Size', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP', '50', 'This is the Y Axis Step Size in Currency Units.  Make this a number that is about half or so of your average daily revenue, you can play with this to suit the Graph output.', '6', '2', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '3', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER', '100', 'Sort order of display. Lowest is displayed first.', '6', '4', now())");
     }
@@ -123,7 +125,7 @@ EOD;
     }
 
     function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER');
+      return array('MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP',  'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER');
     }
   }
   
