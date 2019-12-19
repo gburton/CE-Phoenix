@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -27,6 +27,12 @@
     include('includes/configure.php');
   }
 
+  // autoload classes in the classes or modules directories
+  require DIR_FS_CATALOG . 'includes/functions/autoloader.php';
+  require 'includes/functions/autoloader.php';
+  spl_autoload_register('tep_autoload_admin');
+  spl_autoload_register('tep_autoload_catalog');
+
 // include the list of project database tables
   require('includes/database_tables.php');
 
@@ -34,13 +40,14 @@
   date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
 
 // include the database functions
-  require('includes/functions/database.php');
+  require 'includes/functions/database.php';
 
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
 
   require DIR_FS_CATALOG . 'includes/classes/hooks.php';
   $OSCOM_Hooks = new hooks('admin');
+
   $OSCOM_Hooks->register('system');
   $OSCOM_Hooks->generate('system', 'startApplication');
 
@@ -92,7 +99,7 @@
 
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
-// lets start our session
+// let's start our session
   tep_session_start();
 
   // force register_globals

@@ -15,13 +15,12 @@
 */
 
 class hook_shop_siteWide_fontAwesome {
-
-  public $version = '5.11.2';
+  public $version = '5.12.0';
 
   public $sitestart = null;
 
   public function listen_injectSiteStart() {
-    $this->sitestart .= '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">' . PHP_EOL;
+    $this->sitestart .= '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous" />' . PHP_EOL;
 
     return $this->sitestart;
   }

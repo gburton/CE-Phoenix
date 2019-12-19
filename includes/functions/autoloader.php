@@ -11,7 +11,7 @@
 */
 
   function tep_find_all_files_under($directory, &$files) {
-    $current_entries = scandir($directory);
+    $current_entries = scandir($directory, SCANDIR_SORT_ASCENDING);
 
     foreach ($current_entries as $entry) {
       // we have no file or directory names starting with a dot
@@ -31,28 +31,37 @@
     }
   }
 
+  function tep_build_catalog_autoload_index() {
+    $class_files = [];
+
+    tep_find_all_files_under(DIR_FS_CATALOG . 'includes/hooks', $class_files);
+    tep_find_all_files_under(DIR_FS_CATALOG . 'includes/modules', $class_files);
+    tep_find_all_files_under(DIR_FS_CATALOG . 'includes/classes', $class_files);
+    tep_find_all_files_under(DIR_FS_CATALOG . 'includes/system/versioned', $class_files);
+
+    // some classes do not follow either naming standard relating the class name and file name
+    $exception_mappings = [
+      'alert_block' => 'alertbox',
+      'os_c__actions' => 'actions',
+      'm_c_a_p_i' => 'MCAPI.class',
+      'Password_hash' => 'passwordhash',
+    ];
+
+    foreach ($exception_mappings as $class_name => $filename) {
+      $class_files[$class_name] = $class_files[$filename];
+      unset($class_files[$filename]);
+    }
+
+    return $class_files;
+  }
+
   function tep_autoload_catalog($class) {
     static $class_files;
     static $modules_directory_length;
 
     if (!isset($class_files)) {
       $modules_directory_length = strlen(DIR_FS_CATALOG . 'includes/modules');
-      $class_files = [];
-
-      tep_find_all_files_under(DIR_FS_CATALOG . 'includes/hooks', $class_files);
-      tep_find_all_files_under(DIR_FS_CATALOG . 'includes/modules', $class_files);
-      tep_find_all_files_under(DIR_FS_CATALOG . 'includes/classes', $class_files);
-
-      // some classes do not follow either naming standard relating the class name and file name
-      $exception_mappings = [
-        'alert_block' => 'alertbox',
-        'os_c__actions' => 'actions',
-        'm_c_a_p_i' => 'MCAPI.class',
-      ];
-      foreach ($exception_mappings as $class_name => $filename) {
-        $class_files[$class_name] = $class_files[$filename];
-        unset($class_files[$filename]);
-      }
+      $class_files = tep_build_catalog_autoload_index();
     }
 
     // convert camelCase class names to snake_case filenames
@@ -69,3 +78,4 @@
       require $class_files[$class];
     }
   }
+
