@@ -57,8 +57,8 @@
 
       $output .= '<div class="text-right my-0 mb-2 p-1">';
         $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-        $output .= '<a href="http://addons.oscommerce.com" target="_blank">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_SITE) . '</a> ';
-        $output .= '<a href="http://feeds.feedburner.com/osCommerce_Contributions" target="_blank">' . tep_image('images/icon_rss.png', MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_RSS) . '</a> ';
+        $output .= '<a class="float-left ml-1" href="http://addons.oscommerce.com" target="_blank">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_SITE) . '</a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_RSS . '" href="http://feeds.feedburner.com/osCommerce_Contributions" target="_blank"><i class="fas fa-rss-square fa-2x text-warning"></i></a> ';
       $output .= '</div>';
 
       return $output;
