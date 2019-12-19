@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_MODULES', 'Modules');
+  define('BOX_HEADING_MODULES', '<i class="fas fa-folder-open fa-fw mr-1"></i>Modules');
   
