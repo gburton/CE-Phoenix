@@ -51,7 +51,7 @@ echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
   if (tep_session_is_registered('admin')) {
     require('includes/header.php');
     
-    include('includes/column_left.php');
+    echo $OSCOM_Hooks->call('siteWide', 'injectLeftColumn');
   } 
 ?>
 
