@@ -178,9 +178,6 @@
     include('includes/languages/' . $language . '/' . $current_page);
   }
 
-// define our localization functions
-  require('includes/functions/localization.php');
-
 // Include validation functions (right now only email address)
   require('includes/functions/validations.php');
 
