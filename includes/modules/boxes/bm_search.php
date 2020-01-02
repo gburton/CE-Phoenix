@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -43,11 +43,8 @@
         $form_output .= tep_draw_hidden_field('search_in_description', '0') . tep_hide_session_id();
       $form_output .= '</form>';
               
-      ob_start();
-      include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-      $data = ob_get_clean();
-
-      $oscTemplate->addBlock($data, $this->group);
+      $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+      include 'includes/modules/block_template.php';
     }
 
     function isEnabled() {
