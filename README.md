@@ -39,6 +39,13 @@ Minimum | Maximum
 - [ ] perform a test checkout
 - [ ] load your categories and products
 
+# Recommended Developers
+
+Name | URL | Services Offered
+------------ | ------------- | ------------- 
+Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
+
+
 ### Image Credits
 
 Images in the default installation are copyright their respective owners;
