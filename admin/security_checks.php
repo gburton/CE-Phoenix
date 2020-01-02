@@ -66,7 +66,7 @@
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
     <div class="col pt-4 text-right">
-      <?php echo tep_draw_bootstrap_button('Reload', 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info btn-sm'); ?>
+      <?php echo tep_draw_bootstrap_button('Reload', 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info xxx text-white'); ?>
     </div>
   </div>
   

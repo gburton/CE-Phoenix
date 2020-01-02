@@ -240,27 +240,18 @@ if ( !isset($_POST['dryrun']) ) {
  ?>
  
   <div class="row">
-    <div class="col text-right">
+    <div class="col">
       <?php 
-      echo '<span class="runUtf8" style="display: none;">' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>'; 
       echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu" class="form-control"'); 
+      echo tep_draw_bootstrap_button(BUTTON_ACTION_GO, 'fas fa-cogs', null, null, null, 'btn-success btn-block mt-2');
       ?>
     </div>
-    <div class="col text-right">
+    <div class="col">
       <?php 
-      echo '<span class="runUtf8" style="display: none;">&nbsp;' . tep_draw_pull_down_menu('from_charset', $mysql_charsets, null, 'class="form-control"') . '</span>';
-      echo tep_draw_button(BUTTON_ACTION_GO); 
+      echo '<span class="runUtf8" style="display: none;">' . tep_draw_pull_down_menu('from_charset', $mysql_charsets, null, 'class="form-control"') . '<br>' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>'; 
       ?>
     </div>
-  </div>
-
-  <div class="main" style="text-align: right;">
-    <?php 
-    echo '<span class="runUtf8" style="display: none;">' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>';
-    echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu" class="form-control"');
-    echo '<span class="runUtf8" style="display: none;">&nbsp;' . tep_draw_pull_down_menu('from_charset', $mysql_charsets, null, 'class="form-control"') . '</span>&nbsp;';
-    echo tep_draw_button(BUTTON_ACTION_GO); ?>
-  </div>
+  </div>  
 
   <?php
 }
