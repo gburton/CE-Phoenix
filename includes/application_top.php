@@ -115,9 +115,6 @@
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
   $cookie_path = (($request_type == 'NONSSL') ? HTTP_COOKIE_PATH : HTTPS_COOKIE_PATH);
 
-// include shopping cart class
-  require('includes/classes/shopping_cart.php');
-
 // include navigation history class
   require('includes/classes/navigation_history.php');
 
