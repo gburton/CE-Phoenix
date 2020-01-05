@@ -39,7 +39,7 @@ Minimum | Maximum
 - [ ] perform a test checkout
 - [ ] load your categories and products
 
-# Recommended Developers
+# Certified Developers
 
 Name | URL | Services Offered
 ------------ | ------------- | ------------- 
