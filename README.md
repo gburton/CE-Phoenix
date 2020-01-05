@@ -52,7 +52,7 @@ Images in the default installation are copyright their respective owners;
 
 Image | Owner | Usage
 ------------ | ------------- | -------------
-osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#legalTabContentTrademark
+osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#TrademarkPolicy
 Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
 Oranges | Eelffica from Pixabay | https://pixabay.com/service/license/
 Lemons | Eelffica from Pixabay | https://pixabay.com/service/license/
