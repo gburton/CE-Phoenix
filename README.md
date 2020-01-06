@@ -39,13 +39,20 @@ Minimum | Maximum
 - [ ] perform a test checkout
 - [ ] load your categories and products
 
+# Certified Developers
+
+Name | URL | Services Offered
+------------ | ------------- | ------------- 
+Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
+
+
 ### Image Credits
 
 Images in the default installation are copyright their respective owners;
 
 Image | Owner | Usage
 ------------ | ------------- | -------------
-osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#legalTabContentTrademark
+osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#TrademarkPolicy
 Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
 Oranges | Eelffica from Pixabay | https://pixabay.com/service/license/
 Lemons | Eelffica from Pixabay | https://pixabay.com/service/license/

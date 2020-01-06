@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_LOCATION_AND_TAXES', 'Locations / Taxes');
+  define('BOX_HEADING_LOCATION_AND_TAXES', '<i class="fas fa-comments-dollar fa-fw mr-1"></i>Locations/Taxes');
   

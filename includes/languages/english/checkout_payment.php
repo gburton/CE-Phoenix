@@ -21,4 +21,4 @@ define('TABLE_HEADING_PAYMENT_METHOD', 'Payment Method');
 
 define('TEXT_ENTER_PAYMENT_INFORMATION', 'This is currently the only payment method available to use on this order.');
 
-define('TITLE_CONTINUE_CHECKOUT_PROCEDURE', 'Continue Checkout');
+define('BUTTON_CONTINUE_CHECKOUT_PROCEDURE', 'Continue Checkout');

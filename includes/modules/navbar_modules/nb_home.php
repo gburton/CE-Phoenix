@@ -1,6 +1,6 @@
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2020, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -47,11 +47,8 @@
     function getOutput() {
       global $oscTemplate;
       
-      ob_start();
-      require('includes/modules/navbar_modules/templates/tpl_' . basename(__FILE__));
-      $data = ob_get_clean();
-
-      $oscTemplate->addBlock($data, $this->group);
+      $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+      include 'includes/modules/block_template.php';
     }
 
     function isEnabled() {

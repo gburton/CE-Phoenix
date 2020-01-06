@@ -10,4 +10,4 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_CATALOG', 'Catalog');
+  define('BOX_HEADING_CATALOG', '<i class="fas fa-cart-plus fa-fw mr-1"></i>Catalog');

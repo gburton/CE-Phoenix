@@ -121,7 +121,7 @@
               <?php
               if (sizeof($selection) > 1) {
                 echo '<div class="custom-control custom-radio custom-control-inline">';
-                  echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'id="p_' . $selection[$i]['id'] . '" required aria-required="true" aria-describedby="d_' . $quotes[$i]['methods'][$j]['id'] . '" class="custom-control-input"');
+                  echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'id="p_' . $selection[$i]['id'] . '" required aria-required="true" aria-describedby="p_' . $selection[$i]['id'] . '" class="custom-control-input"');
                   echo '<label class="custom-control-label" for="p_' . $selection[$i]['id'] . '">&nbsp;</label>';
                 echo '</div>';
               } else {
@@ -194,7 +194,7 @@
   ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(TITLE_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
 
   <div class="progressBarHook">

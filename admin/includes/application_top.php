@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -27,11 +27,32 @@
     include('includes/configure.php');
   }
 
+  // autoload classes in the classes or modules directories
+  require DIR_FS_CATALOG . 'includes/functions/autoloader.php';
+  require 'includes/functions/autoloader.php';
+  spl_autoload_register('tep_autoload_admin');
+  spl_autoload_register('tep_autoload_catalog');
+
+// include the list of project database tables
+  require('includes/database_tables.php');
+
+// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
+  date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
+
+// include the database functions
+  require 'includes/functions/database.php';
+
+// make a connection to the database... now
+  tep_db_connect() or die('Unable to connect to database server!');
+
+  require DIR_FS_CATALOG . 'includes/classes/hooks.php';
+  $OSCOM_Hooks = new hooks('admin');
+
+  $OSCOM_Hooks->register('system');
+  $OSCOM_Hooks->generate('system', 'startApplication');
+
 // Define the project version --- obsolete, now retrieved with tep_get_version()
   define('PROJECT_VERSION', 'OSCOM CE Phoenix');
-
-// some code to solve compatibility issues
-  require('includes/functions/compatibility.php');
 
 // set the type of request (secure or not)
   $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
@@ -46,17 +67,8 @@
   define('LOCAL_EXE_ZIP', 'zip');
   define('LOCAL_EXE_UNZIP', 'unzip');
 
-// include the list of project database tables
-  require('includes/database_tables.php');
-
-// include the database functions
-  require('includes/functions/database.php');
-
-// make a connection to the database... now
-  tep_db_connect() or die('Unable to connect to database server!');
-
 // set application wide parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from ' . TABLE_CONFIGURATION);
+  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
@@ -87,7 +99,7 @@
 
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
-// lets start our session
+// let's start our session
   tep_session_start();
 
   // force register_globals
@@ -166,9 +178,6 @@
     include('includes/languages/' . $language . '/' . $current_page);
   }
 
-// define our localization functions
-  require('includes/functions/localization.php');
-
 // Include validation functions (right now only email address)
   require('includes/functions/validations.php');
 
@@ -214,9 +223,6 @@
 // initialize configuration modules
   require('includes/classes/cfg_modules.php');
   $cfgModules = new cfg_modules();
-
-  require(DIR_FS_CATALOG . 'includes/classes/hooks.php');
-  $OSCOM_Hooks = new hooks('admin');
 
   $OSCOM_Hooks->register('siteWide');
 
