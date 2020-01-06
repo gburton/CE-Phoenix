@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -45,11 +45,8 @@
             $languages_string .= ' <a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('language', 'currency')) . 'language=' . $key, $request_type) . '">' .tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), NULL, NULL, NULL, false) . '</a> ';
           }
                   
-          ob_start();
-          include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-          $data = ob_get_clean();
-
-          $oscTemplate->addBlock($data, $this->group);
+          $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+          include 'includes/modules/block_template.php';
         }
       }
     }

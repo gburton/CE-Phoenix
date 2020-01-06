@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -56,11 +56,8 @@
           $box_price = sprintf(IS_PRODUCT_SHOW_PRICE, $currencies->display_price($random_product['products_price'], tep_get_tax_rate($random_product['products_tax_class_id'])));
         }
 
-        ob_start();
-        include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-        $data = ob_get_clean();
-
-        $oscTemplate->addBlock($data, $this->group);
+        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+        include 'includes/modules/block_template.php';
       }
     }
 

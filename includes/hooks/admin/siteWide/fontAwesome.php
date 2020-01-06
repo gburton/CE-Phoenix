@@ -15,13 +15,13 @@
 */
 
 class hook_admin_siteWide_fontAwesome {
-  var $version = '5.11.2';
+  var $version = '5.12.0';
 
   var $sitestart = null;
 
   function listen_injectSiteStart() {
     $this->sitestart .= '<!-- fa hooked -->' . PHP_EOL;
-    $this->sitestart .= '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" crossorigin="anonymous">' . PHP_EOL;
+    $this->sitestart .= '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous" />' . PHP_EOL;
 
     return $this->sitestart;
   }

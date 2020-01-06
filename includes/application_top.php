@@ -60,10 +60,10 @@
   tep_db_connect() or die('Unable to connect to database server!');
 
 // hooks
-  require('includes/classes/hooks.php');
+  require 'includes/classes/hooks.php';
   $OSCOM_Hooks = new hooks('shop');
   $OSCOM_Hooks->register('system');
-  $OSCOM_Hooks->call('system', 'startApplication');
+  $OSCOM_Hooks->generate('system', 'startApplication');
 
 // set the application parameters
   $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
@@ -114,9 +114,6 @@
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
   $cookie_path = (($request_type == 'NONSSL') ? HTTP_COOKIE_PATH : HTTPS_COOKIE_PATH);
-
-// include shopping cart class
-  require('includes/classes/shopping_cart.php');
 
 // include navigation history class
   require('includes/classes/navigation_history.php');

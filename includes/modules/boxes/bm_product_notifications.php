@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -51,11 +51,8 @@
           $notif_contents = '<a class="list-group-item list-group-item-action" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><i class="fas fa-envelope"></i> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($_GET['products_id'])) .'</a>';
         }
         
-        ob_start();
-        include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-        $data = ob_get_clean();
-                 
-        $oscTemplate->addBlock($data, $this->group);
+        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+        include 'includes/modules/block_template.php';
       }
     }
 

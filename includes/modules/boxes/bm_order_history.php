@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -50,11 +50,8 @@
             $customer_orders_string .= '<li class="list-group-item d-flex justify-content-between align-items-center"><a href="' . tep_href_link('product_info.php', 'products_id=' . $products['products_id']) . '">' . $products['products_name'] . '</a><span class="badge"><a class="badge badge-primary" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=cust_order&pid=' . $products['products_id']) . '"><i class="fas fa-shopping-cart fa-fw fa-2x"></i></a></span></li>';
           }
 
-          ob_start();
-          include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-          $data = ob_get_clean();
-
-          $oscTemplate->addBlock($data, $this->group);
+          $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+          include 'includes/modules/block_template.php';
         }
       }
     }

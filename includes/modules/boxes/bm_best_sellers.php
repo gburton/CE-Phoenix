@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -48,11 +48,8 @@
           $bestsellers_list .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a>' . PHP_EOL;
         }
 
-        ob_start();
-        include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-        $data = ob_get_clean();
-
-        $oscTemplate->addBlock($data, $this->group);
+        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+        include 'includes/modules/block_template.php';
       }
     }
 
