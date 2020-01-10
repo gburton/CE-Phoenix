@@ -19,7 +19,7 @@
 
   <div class="row">
     <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
-    <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="Search" id="input-filter" class="form-control"'); ?></div>
+    <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter" class="form-control"'); ?></div>
   </div>
 
   <div class="alert alert-info"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>
@@ -31,7 +31,7 @@
           <th><?php echo TABLE_CERTIFIED_ADDONS_TITLE; ?></th>
           <th><?php echo TABLE_CERTIFIED_ADDONS_OWNER; ?></th>
           <th><?php echo TABLE_CERTIFIED_ADDONS_RATING; ?></th>
-          <th class="text-right"><?php echo TABLE_CERTIFIED_ADDONS_DATE; ?></th>
+          <th class="text-right d-none d-md-table-cell"><?php echo TABLE_CERTIFIED_ADDONS_DATE; ?></th>
         </tr>
       </thead>
       <tbody>
@@ -45,7 +45,7 @@
             echo '<td class="w-50"><a href="' . $item->link . '" target="_blank"><i class="fas fa-external-link-alt mr-2"></i>' . $item->title . '</a></td>';
             echo '<td>' . $item->owner . '</td>';
             echo '<td>' . tep_draw_stars($item->rating) . '</td>';
-            echo '<td class="text-right">' . date("F j, Y", strtotime($item->pubDate)) . '</td>';
+            echo '<td class="text-right d-none d-md-table-cell">' . date("F j, Y", strtotime($item->pubDate)) . '</td>';
           echo '</tr>';
         }
         ?>

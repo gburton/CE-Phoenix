@@ -20,4 +20,6 @@ define('TABLE_CERTIFIED_ADDONS_DATE', 'Release Date');
 define('TEXT_CERTIFIED_ADDONS', 'All Addons listed here have been <b>certified</b> by a Phoenix Core Team member.');
 define('NUM_CERTIFIED_ADDONS', 'There are currently <b>%s</b> Certified Addons.');
 
+define('TEXT_CERTIFIED_SEARCH_PLACEHOLDER', 'Search Addons - start typing...');
+
 define('NUM_FILTERED_ADDONS', '<span class="filtered-result"><br>Filtered to <b>{X}</b> Addon(s).</span>');
