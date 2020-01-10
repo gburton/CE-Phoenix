@@ -22,7 +22,7 @@
     <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter" class="form-control"'); ?></div>
   </div>
 
-  <div class="alert alert-info"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>
+  <div class="alert alert-warning"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>
 
   <div class="table-responsive">
     <table class="table table-striped table-hover table-filter">
@@ -36,7 +36,6 @@
       </thead>
       <tbody>
         <?php
-        
         foreach ($feed->channel->item as $item) {
           $num++;
           $filter = implode(',', explode(' ', $item->title));
