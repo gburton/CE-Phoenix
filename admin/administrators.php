@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -16,12 +16,12 @@
   $htpasswd_array = null;
   $is_iis = stripos($_SERVER['SERVER_SOFTWARE'], 'iis');
 
-  $authuserfile_array = array('##### OSCOMMERCE ADMIN PROTECTION - BEGIN #####',
+  $authuserfile_array = array('##### OSCOM ADMIN PROTECTION - BEGIN #####',
                               'AuthType Basic',
                               'AuthName "OSCOM CE Phoenix Administration Tool"',
                               'AuthUserFile ' . DIR_FS_ADMIN . '.htpasswd_oscommerce',
                               'Require valid-user',
-                              '##### OSCOMMERCE ADMIN PROTECTION - END #####');
+                              '##### OSCOM ADMIN PROTECTION - END #####');
 
   if (!$is_iis && file_exists(DIR_FS_ADMIN . '.htpasswd_oscommerce') && tep_is_writable(DIR_FS_ADMIN . '.htpasswd_oscommerce') && file_exists(DIR_FS_ADMIN . '.htaccess') && tep_is_writable(DIR_FS_ADMIN . '.htaccess')) {
     $htaccess_array = array();
@@ -44,7 +44,7 @@
     }
   }
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -233,99 +233,100 @@
   require('includes/template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td>
-<?php
-  echo $secMessageStack->output();
-?>
-        </td>
-      </tr>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_ADMINISTRATORS; ?></td>
-                <td class="dataTableHeadingContent" align="center"><?php echo TABLE_HEADING_HTPASSWD; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php
-  $admins_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " order by user_name");
-  while ($admins = tep_db_fetch_array($admins_query)) {
-    if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $admins['id']))) && !isset($aInfo) && (substr($action, 0, 3) != 'new')) {
-      $aInfo = new objectInfo($admins);
-    }
+  <div class="row">
+    <div class="col">
+      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+    </div>
+    <div class="col text-right align-self-center">
+      <?php echo tep_draw_bootstrap_button(IMAGE_INSERT_NEW_ADMIN, 'fas fa-users', tep_href_link('administrators.php', 'action=new'), null, null, 'btn-danger xxx text-white'); ?>
+    </div>
+  </div>
 
+  <div class="row no-gutters">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th><?php echo TABLE_HEADING_ADMINISTRATORS; ?></th>
+              <th class="text-center"><?php echo TABLE_HEADING_HTPASSWD; ?></th>
+              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $admins_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " order by user_name");
+            while ($admins = tep_db_fetch_array($admins_query)) {
+              if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $admins['id']))) && !isset($aInfo) && (substr($action, 0, 3) != 'new')) {
+                $aInfo = new objectInfo($admins);
+              }
 
-    $htpasswd_secured = tep_image('images/icon_status_red.gif', 'Not Secured', 10, 10);
+              $htpasswd_secured = '<i class="fas fa-times-circle text-danger"></i>';
 
-    if ($is_iis) {
-      $htpasswd_secured = 'N/A';
-    }
+              if ($is_iis) {
+                $htpasswd_secured = 'N/A';
+              }
 
-    if (is_array($htpasswd_array)) {
-      for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
-        list($ht_username, $ht_password) = explode(':', $htpasswd_array[$i], 2);
+              if (is_array($htpasswd_array)) {
+                for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
+                  list($ht_username, $ht_password) = explode(':', $htpasswd_array[$i], 2);
 
-        if ($ht_username == $admins['user_name']) {
-          $htpasswd_secured = tep_image('images/icon_status_green.gif', 'Secured', 10, 10);
-          break;
-        }
-      }
-    }
+                  if ($ht_username == $admins['user_name']) {
+                    $htpasswd_secured = '<i class="fas fa-check-circle text-success"></i>';
+                    break;
+                  }
+                }
+              }
 
-    if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) {
-      echo '                  <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit') . '\'">' . "\n";
-    } else {
-      echo '                  <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '\'">' . "\n";
-    }
-?>
-                <td class="dataTableContent"><?php echo $admins['user_name']; ?></td>
-                <td class="dataTableContent" align="center"><?php echo $htpasswd_secured; ?></td>
-                <td class="dataTableContent" align="right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) { echo tep_image('images/icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+              if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) {
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit') . '\'">' . "\n";
+              } else {
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '\'">' . "\n";
+              }
+              ?>
+                <td><?php echo $admins['user_name']; ?></td>
+                <td class="text-center"><?php echo $htpasswd_secured; ?></td>
+                <td class="text-right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($admins['id'] == $aInfo->id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('administrators.php', 'aID=' . $admins['id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
 <?php
   }
 ?>
-              <tr>
-                <td class="smallText" colspan="3" align="right"><?php echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('administrators.php', 'action=new')); ?></td>
-              </tr>
-            </table></td>
+          </tbody>
+        </table>
+      </div>
+
+      <?php
+      echo $secMessageStack->output();
+      ?>
+
+    </div>
+
 <?php
   $heading = array();
   $contents = array();
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_ADMINISTRATOR . '</strong>');
+      $heading[] = array('text' => TEXT_INFO_HEADING_NEW_ADMINISTRATOR);
 
       $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_USERNAME . '<br />' . tep_draw_input_field('username'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_PASSWORD . '<br />' . tep_draw_password_field('password'));
+      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username'));
+      $contents[] = array('text' => TEXT_INFO_PASSWORD . tep_draw_password_field('password'));
 
       if (is_array($htpasswd_array)) {
-        $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
+        $contents[] = array('text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
       }
 
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php')));
+      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php')));
       break;
     case 'edit':
-      $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
+      $heading[] = array('text' => $aInfo->user_name);
 
       $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_USERNAME . '<br />' . tep_draw_input_field('username', $aInfo->user_name));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_NEW_PASSWORD . '<br />' . tep_draw_password_field('password'));
+      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name));
+      $contents[] = array('text' => TEXT_INFO_NEW_PASSWORD . tep_draw_password_field('password'));
 
       if (is_array($htpasswd_array)) {
         $default_flag = false;
@@ -339,41 +340,37 @@
           }
         }
 
-        $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
+        $contents[] = array('text' => tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
       }
 
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
+      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
       break;
     case 'delete':
-      $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
+      $heading[] = array('text' => $aInfo->user_name);
 
       $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=deleteconfirm'));
       $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<br /><strong>' . $aInfo->user_name . '</strong>');
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
+      $contents[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
+      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
       break;
     default:
       if (isset($aInfo) && is_object($aInfo)) {
-        $heading[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
+        $heading[] = array('text' => $aInfo->user_name );
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete')));
+        $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete')));
       }
       break;
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '            <td width="25%" valign="top">' . "\n";
-
-    $box = new box;
-    echo $box->infoBox($heading, $contents);
-
-    echo '            </td>' . "\n";
+    echo '<div class="col-12 col-sm-3">';
+      $box = new box;
+      echo $box->infoBox($heading, $contents);
+    echo '</div>';
   }
 ?>
-          </tr>
-        </table></td>
-      </tr>
-    </table>
+
+  </div>
 
 <?php
   require('includes/template_bottom.php');
