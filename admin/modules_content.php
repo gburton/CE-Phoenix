@@ -88,7 +88,7 @@
     tep_db_query("update configuration set configuration_value = '" . implode(';', $_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
   }
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {

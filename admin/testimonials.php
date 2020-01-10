@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -201,7 +201,7 @@
               ?>
                 <td><?php echo (int)$testimonials['customers_id']; ?></td>
                 <td><?php echo $testimonials['customers_name']; ?></td>
-                <td class="text-right"><?php echo tep_date_short($testimonials['date_added']); ?></td>
+                <td><?php echo tep_date_short($testimonials['date_added']); ?></td>
                 <td class="text-center"><?php
                 if ($testimonials['testimonials_status'] == '1') {
                   echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('testimonials.php', 'action=setflag&flag=0&tID=' . $testimonials['testimonials_id'] . '&page=' . $_GET['page']) . '"><i class="fas fa-times-circle text-muted"></i></a>';

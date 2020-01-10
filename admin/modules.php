@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $set = (isset($_GET['set']) ? $_GET['set'] : '');
+  $set = $_GET['set'] ?? '';
 
   $modules = $cfgModules->getAll();
 
@@ -29,7 +29,7 @@
 
   $OSCOM_Hooks->call('modules', 'preAction');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {
