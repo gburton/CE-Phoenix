@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -44,7 +44,7 @@
       'alert_block' => 'alertbox',
       'os_c__actions' => 'actions',
       'm_c_a_p_i' => 'MCAPI.class',
-      'Password_hash' => 'passwordhash',
+      'password_hash' => 'passwordhash',
     ];
 
     foreach ($exception_mappings as $class_name => $filename) {
