@@ -38,7 +38,7 @@
       $this->description = '<div align="center">' . $this->_app->drawButton($this->_app->getDef('module_login_legacy_admin_app_button'), tep_href_link('paypal.php', 'action=configure&module=LOGIN'), 'primary', null, true) . '</div>';
 
       if ( defined('OSCOM_APP_PAYPAL_LOGIN_STATUS') ) {
-        $this->sort_order = OSCOM_APP_PAYPAL_LOGIN_SORT_ORDER;
+        $this->sort_order = (defined('OSCOM_APP_PAYPAL_LOGIN_SORT_ORDER') ? OSCOM_APP_PAYPAL_LOGIN_SORT_ORDER : 0);
         $this->enabled = in_array(OSCOM_APP_PAYPAL_LOGIN_STATUS, array('1', '0'));
 
         if ( OSCOM_APP_PAYPAL_LOGIN_STATUS == '0' ) {
