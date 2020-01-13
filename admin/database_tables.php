@@ -195,18 +195,22 @@
   require('includes/template_top.php');
 ?>
 
-<?php
-  if ( isset($action) ) {
-    echo '<div style="float: right;">' . tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('database_tables.php')) . '</div>';
-  }
-?>
-
-  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+  <div class="row">
+    <div class="col">
+      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+    </div>
+    <?php
+    if ( isset($action) ) {
+      echo '<div class="col-sm-4 text-right align-self-center">';
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('database_tables.php'), null, null, 'btn-light');
+      echo '</div>';
+    }
+    ?>
+  </div>
 
 <?php
   echo tep_draw_form('sql', 'database_tables.php');
 ?>
-
 
   <div class="table-responsive">
     <table class="table table-striped table-hover">

@@ -15,7 +15,7 @@
   require('includes/application_top.php');
   require('includes/functions/password_funcs.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
 // prepare to logout an active administrator if the login page is accessed again
   if (tep_session_is_registered('admin')) {

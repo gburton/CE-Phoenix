@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $set = (isset($_GET['set']) ? $_GET['set'] : '');
+  $set = $_GET['set'] ?? '';
 
   $modules = $cfgModules->getAll();
 
@@ -29,7 +29,7 @@
 
   $OSCOM_Hooks->call('modules', 'preAction');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -115,7 +115,7 @@
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
-    <div class="col text-right mt-3">
+    <div class="col-sm-4 text-right align-self-center">
       <?php
       if (isset($_GET['list'])) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
