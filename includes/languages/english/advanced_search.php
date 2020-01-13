@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -29,8 +29,6 @@ define('ENTRY_DATE_TO', 'Date To');
 
 define('ENTRY_PRICE_FROM_TEXT', 'From');
 define('ENTRY_PRICE_TO_TEXT', 'To');
-define('ENTRY_DATE_FROM_TEXT', 'From');
-define('ENTRY_DATE_TO_TEXT', 'To');
 
 define('ENTRY_DATE', 'Date');
 define('ENTRY_PRICE', 'Price');
