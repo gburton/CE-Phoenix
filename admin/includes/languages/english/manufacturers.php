@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -20,9 +20,9 @@ define('TEXT_HEADING_EDIT_MANUFACTURER', 'Edit Manufacturer');
 define('TEXT_HEADING_DELETE_MANUFACTURER', 'Delete Manufacturer');
 
 define('TEXT_MANUFACTURERS', 'Manufacturers:');
-define('TEXT_DATE_ADDED', 'Date Added:');
-define('TEXT_LAST_MODIFIED', 'Last Modified:');
-define('TEXT_PRODUCTS', 'Products:');
+define('TEXT_DATE_ADDED', 'Date Added: %s');
+define('TEXT_LAST_MODIFIED', 'Last Modified: %s');
+define('TEXT_PRODUCTS', 'Products: %s');
 define('TEXT_IMAGE_NONEXISTENT', 'IMAGE DOES NOT EXIST');
 
 define('TEXT_NEW_INTRO', 'Please fill out the following information for the new manufacturer');
@@ -50,3 +50,5 @@ define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for S
 
 const TEXT_MANUFACTURERS_SEO_TITLE = 'Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
 const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Edit the Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
+
+define('BUTTON_INSERT_NEW_MANUFACTURER', 'New Manufacturer');
