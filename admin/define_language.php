@@ -92,10 +92,10 @@
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
-    <div class="col text-right">
+    <div class="col-sm-4 text-right align-self-center">
       <?php 
       echo tep_draw_form('lng', 'define_language.php', '', 'get'); 
-      echo tep_draw_pull_down_menu('lngdir', $languages_array, $_GET['lngdir'], 'onchange="this.form.submit();"');
+      echo tep_draw_pull_down_menu('lngdir', $languages_array, $_GET['lngdir'], 'class="form-control" onchange="this.form.submit();"');
       echo tep_hide_session_id();
       echo '</form>'; 
       ?>

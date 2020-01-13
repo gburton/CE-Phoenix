@@ -115,7 +115,7 @@
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
-    <div class="col text-right mt-3">
+    <div class="col-sm-4 text-right align-self-center">
       <?php
       if (isset($_GET['list'])) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
