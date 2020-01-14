@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -114,9 +114,6 @@
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
   $cookie_path = (($request_type == 'NONSSL') ? HTTP_COOKIE_PATH : HTTPS_COOKIE_PATH);
-
-// include navigation history class
-  require('includes/classes/navigation_history.php');
 
 // define how the session functions will be used
   require('includes/functions/sessions.php');
@@ -237,12 +234,7 @@
   }
 
 // include currencies class and create an instance
-  require('includes/classes/currencies.php');
   $currencies = new currencies();
-
-// include the mail classes
-  require('includes/classes/mime.php');
-  require('includes/classes/email.php');
 
 // set the language
   if (!tep_session_is_registered('language') || isset($_GET['language'])) {
@@ -251,7 +243,6 @@
       tep_session_register('languages_id');
     }
 
-    include('includes/classes/language.php');
     $lng = new language();
 
     if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
@@ -287,11 +278,7 @@
   }
   $navigation->add_current_page();
 
-// action recorder
-  include('includes/classes/action_recorder.php');
 // initialize the message stack for output messages
-  require('includes/classes/alertbox.php');
-  require('includes/classes/message_stack.php');
   $messageStack = new messageStack;
 
 // Shopping cart actions
@@ -313,9 +300,8 @@
       }
     }
 
-    include('includes/classes/actions.php');
-		osC_Actions::parse($_GET['action']);
-
+    include 'includes/classes/actions.php';
+    osC_Actions::parse($_GET['action']);
   }
 
 // include the who's online functions
@@ -328,21 +314,11 @@
 // include validation functions (right now only email address)
   require('includes/functions/validations.php');
 
-// split-page-results
-  require('includes/classes/split_page_results.php');
-
 // auto expire special products
   require('includes/functions/specials.php');
   tep_expire_specials();
 
-  require('includes/classes/osc_template.php');
   $oscTemplate = new oscTemplate();
-
-// include category tree class
-  require('includes/classes/category_tree.php');
-
-// manufacturer class
-  require('includes/classes/manufacturer.php');
 
 // calculate category path
   if (isset($_GET['cPath'])) {
@@ -363,9 +339,8 @@
     $current_category_id = 0;
   }
 
-// include the breadcrumb class and start the breadcrumb trail
-  require('includes/classes/breadcrumb.php');
-  $breadcrumb = new breadcrumb;
+// start the breadcrumb trail
+  $breadcrumb = new breadcrumb();
 
   $breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);
   $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link('index.php'));

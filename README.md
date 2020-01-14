@@ -10,9 +10,30 @@ CE Phoenix is packed with many first class utilities as standard but its modular
 
 CE Phoenix is the official Community Version of osCommerce.  Check out what you can do with CE Phoenix at the demo site; 
 
-# Demo Site
+Base Demo | Supporters Demo
+------------ | -------------
+https://template.me.uk/phoenix/index.php | https://template.me.uk/supporters/index.php
 
-https://template.me.uk/phoenix/index.php
+# Certified Developers
+
+Name | URL | Services Offered
+------------ | ------------- | ------------- 
+Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
+
+### Support the Project
+
+If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base. Phoenix needs you as much as you need Phoenix! I am hopeful that all shopowners, developers, consultants and businesses will support the Project ... allowing two professional developers to work on the code on an ad-hoc basis. 
+
+A Supporter's subscription includes access to the current season of Supporters code as seen at the Supporters Demo shop; https://template.me.uk/supporters/index.php 
+
+### Join the Phoenix Club
+
+If you wish to help steer the future direction of the software please join the Phoenix Club
+https://forums.oscommerce.com/clubs/1-phoenix/
+
+# Thank You
+
+To all shopowners, developers, consultants and business owners who are supporting the Project.
 
 ## External Libraries
 
@@ -28,53 +49,22 @@ Minimum | Maximum
 
 - [x] read this README document
 - [ ] download Phoenix & perform installation
-- [ ] check security page in administrative area.  admin > tools > security checks
+- [ ] check security page in administrative area;  
+      admin > tools > security checks
 - [ ] join osCommerce forum
-- [ ] consider joining Phoenix club
-- [ ] install one or more navbar modules;  admin > modules > navbar modules > {install}
-- [ ] install one or more footer modules;  admin > modules > content > {install}
-- [ ] install one or more box modules;  admin > modules > boxes > {install}
-- [ ] install shipping module(s);  admin > modules > shipping
-- [ ] install payment module(s);  admin > modules > payment
+- [ ] join Phoenix club
+- [ ] install one or more navbar modules;  
+      admin > modules > navbar modules > {install}
+- [ ] install one or more footer modules;  
+      admin > modules > content > {install}
+- [ ] install one or more box modules;  
+      admin > modules > boxes > {install}
+- [ ] install shipping module(s);  
+      admin > modules > shipping
+- [ ] install payment module(s);  
+      admin > modules > payment
 - [ ] perform a test checkout
 - [ ] load your categories and products
-
-# Certified Developers
-
-Name | URL | Services Offered
------------- | ------------- | ------------- 
-Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
-
-
-### Image Credits
-
-Images in the default installation are copyright their respective owners;
-
-Image | Owner | Usage
------------- | ------------- | -------------
-osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#TrademarkPolicy
-Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
-Oranges | Eelffica from Pixabay | https://pixabay.com/service/license/
-Lemons | Eelffica from Pixabay | https://pixabay.com/service/license/
-Pears | Eelffica from Pixabay | https://pixabay.com/service/license/
-Apples | Eelffica from Pixabay | https://pixabay.com/service/license/
-Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
-Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/
-
-### Thank You
-
-To all shopowners, developers, consultants and business owners who have supported the project over the years.
-
-### Support the Project
-
-If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base. Phoenix needs you as much as you need Phoenix!
-
-I am hopeful that all shopowners, developers, consultants and businesses ... will join the Phoenix Club to allow two professional developers to work on the code on an ad-hoc basis.  
-
-### Join the Phoenix Club
-
-If you wish to help steer the future direction of the software please join the Phoenix Club
-https://forums.oscommerce.com/clubs/1-phoenix/
 
 ### Other Languages
 
@@ -84,3 +74,15 @@ German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deuts
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
 Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.0.4_RU | @Fredi
 Dutch | https://github.com/Denkster/OSCOM-CE-Phoenix_Dutch_language_Nederlandse_taal | @Denkster
+
+### Image Credits
+
+Images in the default installation are copyright their respective owners;
+
+Image | Owner | Usage
+------------ | ------------- | -------------
+osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#TrademarkPolicy
+Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
+Oranges, Lemons, Pears, Apples | Eelffica from Pixabay | https://pixabay.com/service/license/
+Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
+Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/

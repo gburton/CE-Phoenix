@@ -88,7 +88,7 @@
     tep_db_query("update configuration set configuration_value = '" . implode(';', $_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
   }
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -167,9 +167,9 @@
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
-    <div class="col text-right mt-3">
+    <div class="col-sm-4 text-right align-self-center">
       <?php
-      if (isset($_GET['list'])) {
+      if (isset($_GET['action']) && ($_GET['action'] == 'list_new')) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules_content.php'), null, null, 'btn-light');
       } else {
         echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . count($modules['new']) . ')', 'fas fa-cogs', tep_href_link('modules_content.php', 'action=list_new'), null, null, 'btn-danger xxx text-white');
