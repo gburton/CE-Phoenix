@@ -106,9 +106,9 @@
     </tbody>
   </table>
 
-  <div class="border-left border-dark pl-2">
-    <?php echo INVOICE_THANK_YOU; ?>
-  </div>
+  <?php
+  echo $OSCOM_Hooks->call('invoice', 'extraComments');
+  ?>
 
 </body>
 </html>

@@ -32,6 +32,3 @@ define('ENTRY_TOTAL', 'Total:');
 
 define('ENTRY_INVOICE_NUMBER', 'Invoice: %s');
 define('ENTRY_INVOICE_DATE', 'Date: %s');
-
-define('INVOICE_THANK_YOU', '<h4 class="text-muted">Thank You!</h4>');
-
