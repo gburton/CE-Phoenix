@@ -32,6 +32,7 @@
           <th><?php echo TABLE_CERTIFIED_ADDONS_TITLE; ?></th>
           <th><?php echo TABLE_CERTIFIED_ADDONS_OWNER; ?></th>
           <th><?php echo TABLE_CERTIFIED_ADDONS_RATING; ?></th>
+          <th><?php echo TABLE_CERTIFIED_ADDONS_REMARKS; ?></th>
           <th class="text-right d-none d-md-table-cell"><?php echo TABLE_CERTIFIED_ADDONS_DATE; ?></th>
         </tr>
       </thead>
@@ -45,7 +46,8 @@
             echo '<td class="w-50"><a href="' . $item->link . '" target="_blank"><i class="fas fa-external-link-alt mr-2"></i>' . $item->title . '</a></td>';
             echo '<td>' . $item->owner . '</td>';
             echo '<td>' . tep_draw_stars($item->rating) . '</td>';
-            echo '<td class="text-right d-none d-md-table-cell">' . date("F j, Y", strtotime($item->pubDate)) . '</td>';
+            echo '<td>' . $item->remarks ?? '&nbsp;' . '</td>';
+            echo '<td class="text-right d-none d-md-table-cell">' . date("j M Y", strtotime($item->pubDate)) . '</td>';
           echo '</tr>';
         }
         ?>
