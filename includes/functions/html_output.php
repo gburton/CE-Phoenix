@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -74,7 +74,9 @@
 ////
 // The HTML image wrapper function
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
-    if ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
+    if (defined('DEFAULT_IMAGE') && tep_not_null(DEFAULT_IMAGE) && (!file_exists(DIR_FS_CATALOG . $src) || !is_file(DIR_FS_CATALOG . $src))) {
+      $src = DEFAULT_IMAGE;
+    } elseif ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
 
