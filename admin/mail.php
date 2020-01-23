@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   if ( ($action == 'send_email_to_user') && isset($_POST['customers_email_address']) && !isset($_POST['back_x']) ) {
     switch ($_POST['customers_email_address']) {
