@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -20,13 +20,6 @@
     }
 
     return $v;
-  }
-
-////
-// Stop from parsing any further PHP code
-// v2.3.3.1 now closes the session through a registered shutdown function
-  function tep_exit() {
-   exit;
   }
 
 ////
@@ -48,7 +41,7 @@
 
     header('Location: ' . $url);
 
-    tep_exit();
+    exit;
   }
 
 ////
@@ -144,28 +137,6 @@
   }
 
 ////
-// Break a word in a string if it is longer than a specified length ($len)
-  function tep_break_string($string, $len, $break_char = '-') {
-    $l = 0;
-    $output = '';
-    for ($i=0, $n=strlen($string); $i<$n; $i++) {
-      $char = substr($string, $i, 1);
-      if ($char != ' ') {
-        $l++;
-      } else {
-        $l = 0;
-      }
-      if ($l > $len) {
-        $l = 1;
-        $output .= $break_char;
-      }
-      $output .= $char;
-    }
-
-    return $output;
-  }
-
-////
 // Return all HTTP GET variables, except those passed as a parameter
   function tep_get_all_get_params($exclude_array = '') {
     if (!is_array($exclude_array)) $exclude_array = array();
@@ -253,12 +224,6 @@
     }
 
     return 'cPath=' . $cPath_new;
-  }
-
-////
-// Returns the clients browser
-  function tep_browser_detect($component) {
-    return stristr($_SERVER['HTTP_USER_AGENT'], $component);
   }
 
 ////
@@ -391,43 +356,6 @@
   }
 
 ////
-// Return the number of products in a category
-// TABLES: products, products_to_categories, categories
-  function tep_count_products_in_category($category_id, $include_inactive = false) {
-    $products_count = 0;
-    if ($include_inactive == true) {
-      $products_query = tep_db_query("select count(*) as total from products p, products_to_categories p2c where p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$category_id . "'");
-    } else {
-      $products_query = tep_db_query("select count(*) as total from products p, products_to_categories p2c where p.products_id = p2c.products_id and p.products_status = '1' and p2c.categories_id = '" . (int)$category_id . "'");
-    }
-    $products = tep_db_fetch_array($products_query);
-    $products_count += $products['total'];
-
-    $child_categories_query = tep_db_query("select categories_id from categories where parent_id = '" . (int)$category_id . "'");
-    if (tep_db_num_rows($child_categories_query)) {
-      while ($child_categories = tep_db_fetch_array($child_categories_query)) {
-        $products_count += tep_count_products_in_category($child_categories['categories_id'], $include_inactive);
-      }
-    }
-
-    return $products_count;
-  }
-
-////
-// Return true if the category has subcategories
-// TABLES: categories
-  function tep_has_category_subcategories($category_id) {
-    $child_category_query = tep_db_query("select count(*) as count from categories where parent_id = '" . (int)$category_id . "'");
-    $child_category = tep_db_fetch_array($child_category_query);
-
-    if ($child_category['count'] > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-////
 // Returns the address_format_id for the given country
 // TABLES: countries;
   function tep_get_address_format_id($country_id) {
@@ -525,12 +453,6 @@
     $format_id = tep_get_address_format_id($address['country_id']);
 
     return tep_address_format($format_id, $address, $html, $boln, $eoln);
-  }
-
-  function tep_row_number_format($number) {
-    if ( ($number < 10) && (substr($number, 0, 1) != '0') ) $number = '0' . $number;
-
-    return $number;
   }
 
   function tep_get_categories($categories_array = '', $parent_id = '0', $indent = '') {
@@ -763,123 +685,6 @@
   }
 
 ////
-// Check date
-  function tep_checkdate($date_to_check, $format_string, &$date_array) {
-    $separator_idx = -1;
-
-    $separators = array('-', ' ', '/', '.');
-    $month_abbr = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
-    $no_of_days = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-
-    $format_string = strtolower($format_string);
-
-    if (strlen($date_to_check) != strlen($format_string)) {
-      return false;
-    }
-
-    $size = sizeof($separators);
-    for ($i=0; $i<$size; $i++) {
-      $pos_separator = strpos($date_to_check, $separators[$i]);
-      if ($pos_separator != false) {
-        $date_separator_idx = $i;
-        break;
-      }
-    }
-
-    for ($i=0; $i<$size; $i++) {
-      $pos_separator = strpos($format_string, $separators[$i]);
-      if ($pos_separator != false) {
-        $format_separator_idx = $i;
-        break;
-      }
-    }
-
-    if ($date_separator_idx != $format_separator_idx) {
-      return false;
-    }
-
-    if ($date_separator_idx != -1) {
-      $format_string_array = explode( $separators[$date_separator_idx], $format_string );
-      if (sizeof($format_string_array) != 3) {
-        return false;
-      }
-
-      $date_to_check_array = explode( $separators[$date_separator_idx], $date_to_check );
-      if (sizeof($date_to_check_array) != 3) {
-        return false;
-      }
-
-      $size = sizeof($format_string_array);
-      for ($i=0; $i<$size; $i++) {
-        if ($format_string_array[$i] == 'mm' || $format_string_array[$i] == 'mmm') $month = $date_to_check_array[$i];
-        if ($format_string_array[$i] == 'dd') $day = $date_to_check_array[$i];
-        if ( ($format_string_array[$i] == 'yyyy') || ($format_string_array[$i] == 'aaaa') ) $year = $date_to_check_array[$i];
-      }
-    } else {
-      if (strlen($format_string) == 8 || strlen($format_string) == 9) {
-        $pos_month = strpos($format_string, 'mmm');
-        if ($pos_month != false) {
-          $month = substr( $date_to_check, $pos_month, 3 );
-          $size = sizeof($month_abbr);
-          for ($i=0; $i<$size; $i++) {
-            if ($month == $month_abbr[$i]) {
-              $month = $i;
-              break;
-            }
-          }
-        } else {
-          $month = substr($date_to_check, strpos($format_string, 'mm'), 2);
-        }
-      } else {
-        return false;
-      }
-
-      $day = substr($date_to_check, strpos($format_string, 'dd'), 2);
-      $year = substr($date_to_check, strpos($format_string, 'yyyy'), 4);
-    }
-
-    if (strlen($year) != 4) {
-      return false;
-    }
-
-    if (!settype($year, 'integer') || !settype($month, 'integer') || !settype($day, 'integer')) {
-      return false;
-    }
-
-    if ($month > 12 || $month < 1) {
-      return false;
-    }
-
-    if ($day < 1) {
-      return false;
-    }
-
-    if (tep_is_leap_year($year)) {
-      $no_of_days[1] = 29;
-    }
-
-    if ($day > $no_of_days[$month - 1]) {
-      return false;
-    }
-
-    $date_array = array($year, $month, $day);
-
-    return true;
-  }
-
-////
-// Check if year is a leap year
-  function tep_is_leap_year($year) {
-    if ($year % 100 == 0) {
-      if ($year % 400 == 0) return true;
-    } else {
-      if (($year % 4) == 0) return true;
-    }
-
-    return false;
-  }
-
-////
 // Return table heading with sorting capabilities
   function tep_create_sort_heading($sortby, $colnum, $heading) {
     global $PHP_SELF;
@@ -1046,14 +851,6 @@
     } else {
       return false;
     }
-  }
-
-////
-// Get the number of times a word/character is present in a string
-  function tep_word_count($string, $needle) {
-    $temp_array = preg_split('/' . $needle . '/', $string);
-
-    return sizeof($temp_array);
   }
 
   function tep_count_modules($modules = '') {
