@@ -5,16 +5,17 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
 define('HEADING_TITLE', 'Newsletter Manager');
 
-define('TABLE_HEADING_NEWSLETTERS', 'Newsletters');
+define('TABLE_HEADING_NEWSLETTERS', 'Name');
+define('TABLE_HEADING_DATE_ADDED', 'Date Added');
 define('TABLE_HEADING_SIZE', 'Size');
-define('TABLE_HEADING_MODULE', 'Module');
+define('TABLE_HEADING_MODULE', 'Type');
 define('TABLE_HEADING_SENT', 'Sent');
 define('TABLE_HEADING_STATUS', 'Status');
 define('TABLE_HEADING_ACTION', 'Action');
@@ -23,8 +24,8 @@ define('TEXT_NEWSLETTER_MODULE', 'Module:');
 define('TEXT_NEWSLETTER_TITLE', 'Newsletter Title:');
 define('TEXT_NEWSLETTER_CONTENT', 'Content:');
 
-define('TEXT_NEWSLETTER_DATE_ADDED', 'Date Added:');
-define('TEXT_NEWSLETTER_DATE_SENT', 'Date Sent:');
+define('TEXT_NEWSLETTER_DATE_ADDED', 'Date Added: %s');
+define('TEXT_NEWSLETTER_DATE_SENT', 'Date Sent: %s');
 
 define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this newsletter?');
 
@@ -38,3 +39,6 @@ define('ERROR_EDIT_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter befo
 define('ERROR_SEND_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before sending it.');
 
 define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: Module does not exist');
+
+define('TEXT_TITLE', 'Title:');
+define('TEXT_CONTENT', 'Content:');
