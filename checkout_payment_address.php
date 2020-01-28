@@ -222,7 +222,7 @@
             $format_id = tep_get_address_format_id($addresses['country_id']);
             ?>
             <tr class="table-selection">
-              <td><?php echo tep_address_format($format_id, $addresses, true, ' ', ', '); ?></td>
+              <td><label for="cpa_<?php echo $address['address_book_id']; ?>"><?php echo tep_address_format($format_id, $addresses, true, ' ', ', '); ?></label></td>
               <td align="text-right">
                 <div class="custom-control custom-radio custom-control-inline">
                   <?php echo tep_draw_radio_field('address', $addresses['address_book_id'], ($addresses['address_book_id'] == $billto), 'id="cpa_' . $addresses['address_book_id'] . '" aria-describedby="cpa_' . $addresses['address_book_id'] . '" class="custom-control-input"'); ?>

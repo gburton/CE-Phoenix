@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -18,7 +18,7 @@
     $page = tep_output_string($page);
 
     if (!tep_not_null($page)) {
-      die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><strong>Error!</strong></font><br /><br /><strong>Unable to determine the page link!<br /><br />');
+      die('<h5>Error!</h5><p>Unable to determine the page link!</p>');
     }
 
     if ($connection == 'NONSSL') {
@@ -30,7 +30,7 @@
         $link = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
       }
     } else {
-      die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><strong>Error!</strong></font><br /><br /><strong>Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL</strong><br /><br />');
+      die('<h5>Error!</h5><p>Unable to determine connection method on a link!</p><p>Known methods: NONSSL SSL</p>');
     }
 
     if (tep_not_null($parameters)) {
@@ -74,7 +74,9 @@
 ////
 // The HTML image wrapper function
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
-    if ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
+    if (defined('DEFAULT_IMAGE') && tep_not_null(DEFAULT_IMAGE) && (!file_exists(DIR_FS_CATALOG . $src) || !is_file(DIR_FS_CATALOG . $src))) {
+      $src = DEFAULT_IMAGE;
+    } elseif ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }
 
@@ -125,37 +127,6 @@
   }
 
 ////
-// The HTML form submit button wrapper function
-// Outputs a button in the selected language
-  function tep_image_submit($image, $alt = '', $parameters = '') {
-    global $language;
-
-    $image_submit = '<input type="image" src="' . tep_output_string('includes/languages/' . $language . '/images/buttons/' . $image) . '" alt="' . tep_output_string($alt) . '"';
-
-    if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
-
-    if (tep_not_null($parameters)) $image_submit .= ' ' . $parameters;
-
-    $image_submit .= ' />';
-
-    return $image_submit;
-  }
-
-////
-// Output a function button in the selected language
-  function tep_image_button($image, $alt = '', $parameters = '') {
-    global $language;
-
-    return tep_image('includes/languages/' . $language . '/images/buttons/' . $image, $alt, '', '', $parameters);
-  }
-
-////
-// Output a separator either through whitespace, or with an image
-  function tep_draw_separator($image = 'pixel_black.gif', $width = '100%', $height = '1') {
-    return tep_image('images/' . $image, '', $width, $height);
-  }
-
-////
 // Output a form
   function tep_draw_form($name, $action, $method = 'post', $parameters = '', $tokenize = false) {
     global $sessiontoken;
@@ -198,14 +169,6 @@
 
     return $field;
   }
-/*
-////
-// Output a form password field
-// DEPRECATED AS OF 12 June 2015
-  function tep_draw_password_field($name, $value = '', $parameters = '') {
-    return tep_draw_input_field($name, $value, $parameters, 'password', false);
-  }
-*/
 
 ////
 // Output a selection field - alias function for tep_draw_checkbox_field() and tep_draw_radio_field()

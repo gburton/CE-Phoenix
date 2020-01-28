@@ -3,7 +3,7 @@
 # osCommerce, Open Source E-Commerce Solutions
 # http://www.oscommerce.com
 #
-# Copyright (c) 2019 osCommerce
+# Copyright (c) 2020 osCommerce
 #
 # Released under the GNU General Public License
 #
@@ -66,7 +66,7 @@ CREATE TABLE administrators (
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
    categories_id int NOT NULL auto_increment,
-   categories_image varchar(64),
+   categories_image varchar(255),
    parent_id int DEFAULT '0' NOT NULL,
    sort_order int(3),
    date_added datetime,
@@ -79,11 +79,11 @@ DROP TABLE IF EXISTS categories_description;
 CREATE TABLE categories_description (
    categories_id int DEFAULT '0' NOT NULL,
    language_id int DEFAULT '1' NOT NULL,
-   categories_name varchar(32) NOT NULL,
+   categories_name varchar(255) NOT NULL,
    categories_description TEXT NULL,
    categories_seo_description TEXT NULL,
-   categories_seo_keywords VARCHAR(128) NULL,
-   categories_seo_title VARCHAR(128) NULL,
+   categories_seo_keywords VARCHAR(255) NULL,
+   categories_seo_title VARCHAR(255) NULL,
    PRIMARY KEY (categories_id, language_id),
    KEY idx_categories_name (categories_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -223,8 +223,8 @@ CREATE TABLE languages (
 DROP TABLE IF EXISTS manufacturers;
 CREATE TABLE manufacturers (
   manufacturers_id int NOT NULL auto_increment,
-  manufacturers_name varchar(32) NOT NULL,
-  manufacturers_image varchar(64),
+  manufacturers_name varchar(255) NOT NULL,
+  manufacturers_image varchar(255),
   date_added datetime NULL,
   last_modified datetime NULL,
   PRIMARY KEY (manufacturers_id),
@@ -240,8 +240,8 @@ CREATE TABLE manufacturers_info (
   date_last_click datetime NULL,
   manufacturers_description TEXT NULL,
   manufacturers_seo_description TEXT NULL,
-  manufacturers_seo_keywords VARCHAR(128) NULL,
-  manufacturers_seo_title VARCHAR(128) NULL,
+  manufacturers_seo_keywords VARCHAR(255) NULL,
+  manufacturers_seo_title VARCHAR(255) NULL,
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -311,8 +311,8 @@ CREATE TABLE orders_products (
   orders_products_id int NOT NULL auto_increment,
   orders_id int NOT NULL,
   products_id int NOT NULL,
-  products_model varchar(64),
-  products_name varchar(64) NOT NULL,
+  products_model varchar(255),
+  products_name varchar(255) NOT NULL,
   products_price decimal(15,4) NOT NULL,
   final_price decimal(15,4) NOT NULL,
   products_tax decimal(7,4) NOT NULL,
@@ -350,8 +350,8 @@ CREATE TABLE orders_products_attributes (
   orders_products_attributes_id int NOT NULL auto_increment,
   orders_id int NOT NULL,
   orders_products_id int NOT NULL,
-  products_options varchar(32) NOT NULL,
-  products_options_values varchar(32) NOT NULL,
+  products_options varchar(255) NOT NULL,
+  products_options_values varchar(255) NOT NULL,
   options_values_price decimal(15,4) NOT NULL,
   price_prefix char(1) NOT NULL,
   PRIMARY KEY (orders_products_attributes_id),
@@ -387,8 +387,8 @@ DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   products_id int NOT NULL auto_increment,
   products_quantity int(4) NOT NULL,
-  products_model varchar(64),
-  products_image varchar(64),
+  products_model varchar(255),
+  products_image varchar(255),
   products_price decimal(15,4) NOT NULL,
   products_date_added datetime NOT NULL,
   products_last_modified datetime,
@@ -429,13 +429,13 @@ DROP TABLE IF EXISTS products_description;
 CREATE TABLE products_description (
   products_id int NOT NULL auto_increment,
   language_id int NOT NULL default '1',
-  products_name varchar(64) NOT NULL default '',
+  products_name varchar(255) NOT NULL default '',
   products_description text,
   products_url varchar(255) default NULL,
   products_viewed int(5) default '0',
   products_seo_description text NULL,
-  products_seo_keywords varchar(128) NULL,
-  products_seo_title varchar(128) NULL,
+  products_seo_keywords varchar(255) NULL,
+  products_seo_title varchar(255) NULL,
   PRIMARY KEY  (products_id,language_id),
   KEY products_name (products_name)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -444,7 +444,7 @@ DROP TABLE IF EXISTS products_images;
 CREATE TABLE products_images (
   id int NOT NULL auto_increment,
   products_id int NOT NULL,
-  image varchar(64),
+  image varchar(255),
   htmlcontent text,
   sort_order int NOT NULL,
   PRIMARY KEY (id),
@@ -463,7 +463,7 @@ DROP TABLE IF EXISTS products_options;
 CREATE TABLE products_options (
   products_options_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
-  products_options_name varchar(32) NOT NULL default '',
+  products_options_name varchar(255) NOT NULL default '',
   PRIMARY KEY  (products_options_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -471,7 +471,7 @@ DROP TABLE IF EXISTS products_options_values;
 CREATE TABLE products_options_values (
   products_options_values_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
-  products_options_values_name varchar(64) NOT NULL default '',
+  products_options_values_name varchar(255) NOT NULL default '',
   PRIMARY KEY  (products_options_values_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -686,6 +686,7 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Heading Image Height', 'HEADING_IMAGE_HEIGHT', '40', 'The pixel height of heading images', '4', '4', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Calculate Image Size', 'CONFIG_CALCULATE_IMAGE_SIZE', 'true', 'Calculate the size of images?', '4', '7', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Image Required', 'IMAGE_REQUIRED', 'true', 'Enable to display broken images. Good for development.', '4', '8', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Default Image', 'DEFAULT_IMAGE', '', 'The default image to show if the image is not a valid file.  Leave blank not to show a default.', '4', '5', NOW());
 
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Gender', 'ACCOUNT_GENDER', 'true', 'Display gender in the customers account', '5', '1', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Date of Birth', 'ACCOUNT_DOB', 'true', 'Display date of birth in the customers account', '5', '2', 'tep_cfg_select_option(array(\'true\', \'false\'), ', now());

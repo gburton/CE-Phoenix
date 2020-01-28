@@ -16,6 +16,8 @@
   $currencies = new currencies();
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('specials', 'specialsPreAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -44,6 +46,8 @@
         }
 
         tep_db_query("insert into specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", '1')");
+        
+        $OSCOM_Hooks->call('specials', 'specialsActionInsert');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page']));
         break;
@@ -61,6 +65,8 @@
         }
 
         tep_db_query("update specials set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . " where specials_id = '" . (int)$specials_id . "'");
+        
+        $OSCOM_Hooks->call('specials', 'specialsActionUpdate');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page'] . '&sID=' . $specials_id));
         break;
@@ -68,11 +74,15 @@
         $specials_id = tep_db_prepare_input($_GET['sID']);
 
         tep_db_query("delete from specials where specials_id = '" . (int)$specials_id . "'");
+        
+        $OSCOM_Hooks->call('specials', 'specialsActionDelete');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . $_GET['page']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('specials', 'specialsPostAction');
 
   require('includes/template_top.php');
 ?>

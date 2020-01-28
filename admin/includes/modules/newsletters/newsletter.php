@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -24,38 +24,32 @@
     }
 
     function confirm() {
-      $mail_query = tep_db_query("select count(*) as count from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
+      $mail_query = tep_db_query("select count(*) as count from customers where customers_newsletter = '1'");
       $mail = tep_db_fetch_array($mail_query);
-
-      $confirm_string = '<table border="0" cellspacing="0" cellpadding="2">' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td class="main"><font color="#ff0000"><strong>' . sprintf(TEXT_COUNT_CUSTOMERS, $mail['count']) . '</strong></font></td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td>' . tep_draw_separator('pixel_trans.gif', '1', '10') . '</td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td class="main"><strong>' . $this->title . '</strong></td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td>' . tep_draw_separator('pixel_trans.gif', '1', '10') . '</td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td class="main"><tt>' . nl2br($this->content) . '</tt></td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td>' . tep_draw_separator('pixel_trans.gif', '1', '10') . '</td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '  <tr>' . "\n" .
-                        '    <td class="smallText" align="right">' . tep_draw_button(IMAGE_SEND, 'mail-closed', tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm_send'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'])) . '</td>' . "\n" .
-                        '  </tr>' . "\n" .
-                        '</table>';
+      
+      $confirm_string = null;
+      
+      $confirm_string .= '<table class="table table-striped">';
+        $confirm_string .= '<tr>';
+          $confirm_string .= '<th>' . TEXT_TITLE . '</th>';
+          $confirm_string .= '<td>' . $this->title . '</td>';
+        $confirm_string .= '</tr>';
+        $confirm_string .= '<tr>';
+          $confirm_string .= '<th>' . TEXT_CONTENT . '</th>';
+          $confirm_string .= '<td>' . $this->content . '</td>';
+        $confirm_string .= '</tr>';
+      $confirm_string .= '</table>';
+      
+      $confirm_string .= '<div class="buttonSet">';
+        $confirm_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . (int)$_GET['nID'] . '&action=confirm_send'), 'primary', null, 'btn-success btn-block btn-lg xxx text-white');
+        $confirm_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . (int)$_GET['nID']), null, null, 'btn-light mt-2');
+      $confirm_string .= '</div>';
 
       return $confirm_string;
     }
 
     function send($newsletter_id) {
-      $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from " . TABLE_CUSTOMERS . " where customers_newsletter = '1'");
+      $mail_query = tep_db_query("select customers_firstname, customers_lastname, customers_email_address from customers where customers_newsletter = '1'");
 
       $mimemessage = new email();
 
@@ -73,7 +67,7 @@
       }
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);
-      tep_db_query("update " . TABLE_NEWSLETTERS . " set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
+      tep_db_query("update newsletters set date_sent = now(), status = '1' where newsletters_id = '" . tep_db_input($newsletter_id) . "'");
     }
   }
-?>
+  

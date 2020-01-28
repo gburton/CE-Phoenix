@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -15,7 +15,6 @@ define('MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_DESCRIPTION', 'Show the latest Add
 
 define('MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_OWNER', 'By');
 define('MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_RATING', 'Rating');
-define('MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_DATE', 'Date');
 
 define('MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB', 'Join the Club');
 define('MODULE_ADMIN_DASHBOARD_PHOENIX_VIEW_ALL', 'View full list of Certified Addons');

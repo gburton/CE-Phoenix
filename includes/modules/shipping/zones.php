@@ -89,9 +89,6 @@
   difficult to design precise shipping tables.  If you want to, you 
   can hack the shipping.php file to get rid of the rounding.
 
-  Lastly, there is a limit of 255 characters on each of the Zone
-  Shipping Tables and Zone Countries. 
-
 */
 
   class zones {
