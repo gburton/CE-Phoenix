@@ -27,7 +27,7 @@
       $mail_query = tep_db_query("select count(*) as count from customers where customers_newsletter = '1'");
       $mail = tep_db_fetch_array($mail_query);
       
-      $confirm_string = null;
+      $confirm_string = '<div class="alert alert-danger">' . sprintf(TEXT_COUNT_CUSTOMERS, $mail['count']) . '</div>';
       
       $confirm_string .= '<table class="table table-striped">';
         $confirm_string .= '<tr>';
