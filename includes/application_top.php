@@ -386,8 +386,6 @@
     }
   }
 
-  $OSCOM_Hooks->register('siteWide');
+  $OSCOM_Hooks->register_page();
   $OSCOM_Hooks->call('siteWide', 'injectAppTop');
-
-  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
 
