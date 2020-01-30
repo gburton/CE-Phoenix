@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
   
-  $OSCOM_Hooks->register('progress');
+  $OSCOM_Hooks->register_pipeline('progress');
 
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
