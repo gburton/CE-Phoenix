@@ -244,7 +244,11 @@
 
   <div class="progressBarHook">
     <?php
-    echo $OSCOM_Hooks->call('progress', 'progressBar', $arr = array('style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => array('position' => 3, 'min' => 0, 'max' => 100, 'now' => 100)));
+    $parameters = [
+      'style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info',
+      'markers' => ['position' => 3, 'min' => 0, 'max' => 100, 'now' => 100],
+    ];
+    echo $OSCOM_Hooks->call('progress', 'progressBar', $parameters);
     ?>  
   </div>
 
