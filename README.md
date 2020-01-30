@@ -19,12 +19,11 @@ https://template.me.uk/phoenix/index.php | https://template.me.uk/supporters/ind
 Name | URL | Services Offered
 ------------ | ------------- | ------------- 
 Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
+John | https://sewebsites.net/ | C﻿ustom jobs, big or small, including adapting existing add﻿ons to CE Phoenix. Integration of stock systems and new payment methods. Addons both free and great value, soon to be added to the site.
 
 ### Support the Project
 
-If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base. Phoenix needs you as much as you need Phoenix! I am hopeful that all shopowners, developers, consultants and businesses will support the Project ... allowing two professional developers to work on the code on an ad-hoc basis. 
-
-A Supporter's subscription includes access to the current season of Supporters code as seen at the Supporters Demo shop; https://template.me.uk/supporters/index.php 
+If you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor continual forward movement in the code-base. Phoenix needs you as much as you need Phoenix! I am hopeful that all shopowners, developers, consultants and businesses will support the Project ... allowing two professional developers to work on the code on an ad-hoc basis.  A Supporters subscription includes access to the current season of Supporters code as seen at the Supporters Demo shop; https://template.me.uk/supporters/index.php 
 
 ### Join the Phoenix Club
 
@@ -72,8 +71,6 @@ Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
 German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
-Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.0.4_RU | @Fredi
-Dutch | https://github.com/Denkster/OSCOM-CE-Phoenix_Dutch_language_Nederlandse_taal | @Denkster
 
 ### Image Credits
 

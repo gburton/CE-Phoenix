@@ -7,11 +7,13 @@
     <?php 
     echo '<a class="dropdown-item" href="' . tep_href_link('shopping_cart.php') . '">' . sprintf(MODULE_NAVBAR_SHOPPING_CART_HAS_CONTENTS, $cart->count_contents(), $currencies->format($cart->show_total())) . '</a>';
     if ($cart->count_contents() > 0) {
-      echo '<div class="dropdown-divider"></div>' . PHP_EOL;    
-      $products = $cart->get_products();
-      foreach ($products as $k => $v) {
-        echo sprintf(MODULE_NAVBAR_SHOPPING_CART_PRODUCT, $v['id'], $v['quantity'], $v['name']);
-      }        
+      echo '<div class="dropdown-divider"></div>' . PHP_EOL;
+      echo '<div class="dropdown-cart-list">';      
+        $products = $cart->get_products();
+        foreach ($products as $k => $v) {
+          echo sprintf(MODULE_NAVBAR_SHOPPING_CART_PRODUCT, $v['id'], $v['quantity'], $v['name']);
+        }
+      echo '</div>' . PHP_EOL;        
       echo '<div class="dropdown-divider"></div>' . PHP_EOL;
       echo '<a class="dropdown-item" href="' . tep_href_link('checkout_shipping.php', '', 'SSL') . '">' . MODULE_NAVBAR_SHOPPING_CART_CHECKOUT . '</a>' . PHP_EOL;
     }

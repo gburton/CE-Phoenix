@@ -51,6 +51,10 @@
     if (version_compare(PHP_VERSION, '7', '<')) {
       $warning_array['php_version'] = 'The version of PHP must be at least 7.  The version here is ' . PHP_VERSION;
     }
+    
+    if ((int)ini_get('allow_url_fopen') == 0) {
+      $warning_array['allow_url_fopen'] = 'Fopen Wrappers must be turned on.  This is a <em>hosting</em> setting which you or your host may be able to change by setting allow_url_fopen to "1" or "On" in php.ini';
+    }
 
     if (!empty($configfile_array) || !empty($warning_array)) {
 ?>
@@ -177,6 +181,11 @@ $(function() {
       <tr>
         <th>MySQL<?php echo extension_loaded('mysqli') ? 'i' : ''; ?></th>
         <td colspan="2" align="right"><?php echo (extension_loaded('mysqli') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+      </tr>
+      <tr>
+        <th>allow_url_fopen</th>
+        <td align="right"><?php echo (((int)ini_get('allow_url_fopen') == 0) ? 'Off' : 'On'); ?></td>
+        <td align="right"><?php echo (((int)ini_get('allow_url_fopen') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th colspan="3">Recommended Extensions</th>

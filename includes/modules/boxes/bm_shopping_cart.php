@@ -54,10 +54,10 @@
           }
         }
       } else {
-        $cart_contents_string .= '<p class="list-group-item">' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</p>';
+        $cart_contents_string .= '<span class="list-group-item">' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</span>';
       }
       
-      $cart_totalised = $currencies->format($cart->show_total());
+      $cart_totalised = sprintf(MODULE_BOXES_SHOPPING_CART_BOX_CART_TOTAL, $currencies->format($cart->show_total()));
 
       $tpl_data = ['group' => $this->group, 'file' => __FILE__];
       include 'includes/modules/block_template.php';

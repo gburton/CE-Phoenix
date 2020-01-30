@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('testimonials', 'testimonialsPreAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -35,6 +37,8 @@
         tep_db_query("update testimonials set customers_id = '" . (int)$customers_id . "', customers_name  = '" . tep_db_input($customers_name) . "', testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("update testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
 
+        $OSCOM_Hooks->call('testimonials', 'testimonialsActionUpdate');
+        
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials_id));
         break;
       case 'deleteconfirm':
@@ -42,6 +46,8 @@
 
         tep_db_query("delete from testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("delete from testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
+        
+        $OSCOM_Hooks->call('testimonials', 'testimonialsActionDelete');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page']));
         break;
@@ -54,11 +60,15 @@
         tep_db_query("insert into testimonials (customers_id, customers_name, date_added, testimonials_status) values ('" . $customers_id . "', '" . tep_db_input($customers_name) . "', now(), 1)");
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
+        
+        $OSCOM_Hooks->call('testimonials', 'testimonialsActionSave');
 
         tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params(array('action'))));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('testimonials', 'testimonialsPostAction');
 
   require('includes/template_top.php');
 ?>

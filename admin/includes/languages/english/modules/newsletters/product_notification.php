@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -21,4 +21,3 @@ define('BUTTON_SELECT', '>>>');
 define('BUTTON_UNSELECT', '<<<');
 define('BUTTON_SUBMIT', 'Submit');
 define('BUTTON_CANCEL', 'Cancel');
-?>

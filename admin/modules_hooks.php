@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -28,7 +28,15 @@
           ?>
           <thead class="thead-dark">
             <tr>
-              <th colspan="2"><?php echo $file; ?></th>
+              <th colspan="4"><?php echo sprintf(TABLE_HEADING_LOCATION, $file); ?></th>
+            </tr>
+          </thead>
+          <thead class="thead-light">
+            <tr>
+              <th><?php echo TABLE_HEADING_GROUP; ?></th>
+              <th><?php echo TABLE_HEADING_FILE; ?></th>
+              <th><?php echo TABLE_HEADING_METHOD; ?></th>
+              <th class="text-right"><?php echo TABLE_HEADING_VERSION; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -50,11 +58,15 @@
                         $obj = new $class();
 
                         foreach ( get_class_methods($obj) as $method ) {
+                          $obj_vars = get_class_vars(get_class($obj));
+                          
                           if ( substr($method, 0, 7) == 'listen_' ) {
                           ?>
                             <tr>
-                              <td><?php echo $file2 . '/' . $file3; ?></td>
-                              <td class="text-right"><?php echo substr($method, 7); ?></td>
+                              <td><?php echo $file2; ?></td>
+                              <td><?php echo $file3; ?></td>
+                              <td><?php echo substr($method, 7); ?></td>
+                              <td class="text-right"><?php echo $obj_vars['version'] ?? 'N/A'; ?></td>
                             </tr>
                             <?php
                             }
