@@ -16,15 +16,16 @@
 */
 
   class mime {
-    var $_encoding;
-    var $_subparts;
-    var $_encoded;
-    var $_headers;
-    var $_body;
+
+    protected $_encoding;
+    protected $_subparts = [];
+    protected $_encoded = [];
+    protected $_headers = [];
+    protected $_body;
 
 /**
  * Constructor.
- * 
+ *
  * Sets up the object.
  *
  * @param $body   - The body of the mime part if any.
@@ -37,10 +38,7 @@
  *                  description  - Content description
  * @access public
  */
-
-    function __construct($body, $params = '') {
-      if ($params == '') $params = array();
-
+    function __construct($body, $params = []) {
 // Make sure we use the correct linfeed sequence
       if (EMAIL_LINEFEED == 'CRLF') {
         $this->lf = "\r\n";
@@ -84,21 +82,18 @@
       }
 
 // Default content-type
-      if (!isset($_headers['Content-Type'])) {
-        $_headers['Content-Type'] = 'text/plain';
+      if (!isset($headers['Content-Type'])) {
+        $headers['Content-Type'] = 'text/plain';
       }
 
 // Assign stuff to member variables
-      $this->_encoded = array();
-/* HPDL PHP3 */
-//      $this->_headers  =& $headers;
       $this->_headers = $headers;
       $this->_body = $body;
     }
 
 /**
  * encode()
- * 
+ *
  * Encodes and returns the email. Also stores
  * it in the encoded member variable
  *
@@ -107,10 +102,7 @@
  *         an indexed array.
  * @access public
  */
-
     function encode() {
-/* HPDL PHP3 */
-//      $encoded =& $this->_encoded;
       $encoded = $this->_encoded;
 
       if (tep_not_null($this->_subparts)) {
@@ -118,14 +110,11 @@
         $this->_headers['Content-Type'] .= ';' . $this->lf . chr(9) . 'boundary="' . $boundary . '"';
 
 // Add body parts to $subparts
-        for ($i=0; $i<count($this->_subparts); $i++) {
-          $headers = array();
-/* HPDL PHP3 */
-//          $tmp = $this->_subparts[$i]->encode();
-          $_subparts = $this->_subparts[$i];
-          $tmp = $_subparts->encode();
+        foreach ($this->_subparts as $_subpart) {
+          $tmp = $_subpart->encode();
 
-          foreach($tmp['headers'] as $key => $value) {
+          $headers = [];
+          foreach ($tmp['headers'] as $key => $value) {
             $headers[] = $key . ': ' . $value;
           }
 
@@ -138,8 +127,6 @@
       }
 
 // Add headers to $encoded
-/* HPDL PHP3 */
-//      $encoded['headers'] =& $this->_headers;
       $encoded['headers'] = $this->_headers;
 
       return $encoded;
@@ -147,22 +134,16 @@
 
 /**
  * &addSubPart()
- * 
+ *
  * Adds a subpart to current mime part and returns
  * a reference to it
  *
  * @param $body   The body of the subpart, if any.
  * @param $params The parameters for the subpart, same
  *                as the $params argument for constructor.
- * @return A reference to the part you just added. It is
- *         crucial if using multipart/* in your subparts that
- *         you use =& in your script when calling this function,
- *         otherwise you will not be able to add further subparts.
+ * @return The part you just added.
  * @access public
  */
-
-/* HPDL PHP3 */
-//    function &addSubPart($body, $params) {
     function addSubPart($body, $params) {
       $this->_subparts[] = new mime($body, $params);
 
@@ -171,7 +152,7 @@
 
 /**
  * _getEncodedData()
- * 
+ *
  * Returns encoded data based upon encoding passed to it
  *
  * @param $data     The data to encode.
@@ -179,7 +160,6 @@
  *                  or quoted-printable.
  * @access private
  */
-
     function _getEncodedData($data, $encoding) {
       switch ($encoding) {
        case '7bit':
@@ -196,23 +176,22 @@
 
 /**
  * quoteadPrintableEncode()
- * 
+ *
  * Encodes data to quoted-printable standard.
  *
  * @param $input    The data to encode
- * @param $line_max Optional max line length. Should 
+ * @param $line_max Optional max line length. Should
  *                  not be more than 76 chars
  *
  * @access private
  */
-
     function _quotedPrintableEncode($input , $line_max = 76) {
       $lines = preg_split("/\r\n|\r|\n/", $input);
       $eol = $this->lf;
       $escape = '=';
       $output = '';
 
-      foreach($lines as $line) {
+      foreach ($lines as $line) {
         $linlen = strlen($line);
         $newline = '';
 
@@ -245,4 +224,3 @@
       return $output;
     }
   }
-?>
