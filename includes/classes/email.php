@@ -18,43 +18,39 @@
 */
 
   class email {
-    var $html;
-    var $text;
-    var $output;
-    var $html_text;
-    var $html_images;
-    var $image_types;
-    var $build_params;
-    var $attachments;
-    var $headers;
 
-    function __construct($headers = '') {
-      if ($headers == '') $headers = array();
+    /**
+     * If you want the auto load functionality
+     * to find other mime-image/file types, add the
+     * extension and content type here.
+     */
+    const IMAGE_TYPES = [
+      'gif' => 'image/gif',
+      'jpg' => 'image/jpeg',
+      'jpeg' => 'image/jpeg',
+      'jpe' => 'image/jpeg',
+      'bmp' => 'image/bmp',
+      'png' => 'image/png',
+      'tif' => 'image/tiff',
+      'tiff' => 'image/tiff',
+      'swf' => 'application/x-shockwave-flash',
+    ];
 
-      $this->html_images = array();
-      $this->headers = array();
+    const LINEFEEDS = ["\r\n", "\n", "\r"];
 
-      if (EMAIL_LINEFEED == 'CRLF') {
-        $this->lf = "\r\n";
-      } else {
-        $this->lf = "\n";
-      }
+    protected $html;
+    protected $text;
+    protected $output;
+    protected $html_text;
+    protected $html_images = [];
+    protected $build_params = [];
+    protected $attachments = [];
+    protected $headers = [];
+    protected $lf;
 
-/**
- * If you want the auto load functionality
- * to find other mime-image/file types, add the
- * extension and content type here.
- */
+    public function __construct($headers = []) {
+      $this->lf = ((EMAIL_LINEFEED == 'CRLF') ? "\r\n" : "\n");
 
-      $this->image_types = array('gif' => 'image/gif',
-                                 'jpg' => 'image/jpeg',
-                                 'jpeg' => 'image/jpeg',
-                                 'jpe' => 'image/jpeg',
-                                 'bmp' => 'image/bmp',
-                                 'png' => 'image/png',
-                                 'tif' => 'image/tiff',
-                                 'tiff' => 'image/tiff',
-                                 'swf' => 'application/x-shockwave-flash');
 
       $this->build_params['html_encoding'] = 'quoted-printable';
       $this->build_params['text_encoding'] = '7bit';
@@ -65,14 +61,8 @@
 /**
  * Make sure the MIME version header is first.
  */
-
       $this->headers[] = 'MIME-Version: 1.0';
-
-      foreach($headers as $value) {
-        if (tep_not_null($value)) {
-          $this->headers[] = $value;
-        }
-      }
+      $this->headers += array_filter(array_values($headers), 'tep_not_null');
     }
 
 /**
@@ -82,20 +72,19 @@
  * argument of the the functions
  * add_html_image() or add_attachment().
  */
-
-    function get_file($filename) {
-      $return = '';
-
+    public function get_file($filename) {
       if ($fp = fopen($filename, 'rb')) {
+        $return = '';
+
         while (!feof($fp)) {
           $return .= fread($fp, 1024);
         }
         fclose($fp);
 
         return $return;
-      } else {
-        return false;
       }
+
+      return false;
     }
 
 /**
@@ -109,31 +98,29 @@
  *
  * Function contributed by Dan Allen
  */
-
-    function find_html_images($images_dir) {
+    public function find_html_images($images_dir) {
 // Build the list of image extensions
-      foreach(array_keys($this->image_types) as $key) {
-        $extensions[] = $key;
-      }
+      $extensions = array_keys(static::IMAGE_TYPES);
 
       preg_match_all('/"([^"]+\.(' . implode('|', $extensions).'))"/Ui', $this->html, $images);
 
-      for ($i=0; $i<count($images[1]); $i++) {
-        if (file_exists($images_dir . $images[1][$i])) {
-          $html_images[] = $images[1][$i];
-          $this->html = str_replace($images[1][$i], basename($images[1][$i]), $this->html);
+      $html_images = [];
+      foreach ($images[1] as $image) {
+        if (file_exists("$images_dir$image")) {
+          $html_images[] = $image;
+          $this->html = str_replace($image, basename($image), $this->html);
         }
       }
 
-      if (tep_not_null($html_images)) {
+      if ([] !== $html_images) {
 // If duplicate images are embedded, they may show up as attachments, so remove them.
         $html_images = array_unique($html_images);
         sort($html_images);
 
-        for ($i=0; $i<count($html_images); $i++) {
-          if ($image = $this->get_file($images_dir . $html_images[$i])) {
-            $content_type = $this->image_types[substr($html_images[$i], strrpos($html_images[$i], '.') + 1)];
-            $this->add_html_image($image, basename($html_images[$i]), $content_type);
+        foreach ($html_images as $html_image) {
+          if ($image = $this->get_file("$images_dir$html_image")) {
+            $content_type = static::IMAGE_TYPES[pathinfo($html_image, PATHINFO_EXTENSION)];
+            $this->add_html_image($image, basename($html_image), $content_type);
           }
         }
       }
@@ -143,9 +130,8 @@
  * Adds plain text. Use this function
  * when NOT sending html email
  */
-
-    function add_text($text = '') {
-      $this->text = tep_convert_linefeeds(array("\r\n", "\n", "\r"), $this->lf, $text);
+    public function add_text($text = '') {
+      $this->text = str_replace(static::LINEFEEDS, $this->lf, $text);
     }
 
 /**
@@ -153,146 +139,154 @@
  * Also replaces image names with
  * content-id's.
  */
+    public function add_html($html, $text = null, $images_dir = null) {
+      $this->html = str_replace(static::LINEFEEDS, '<br />', $html);
+      $this->html_text = str_replace(static::LINEFEEDS, $this->lf, $text);
 
-    function add_html($html, $text = NULL, $images_dir = NULL) {
-      $this->html = tep_convert_linefeeds(array("\r\n", "\n", "\r"), '<br />', $html);
-      $this->html_text = tep_convert_linefeeds(array("\r\n", "\n", "\r"), $this->lf, $text);
+      if (isset($images_dir)) {
+        $this->find_html_images($images_dir);
+      }
+    }
 
-      if (isset($images_dir)) $this->find_html_images($images_dir);
+    public function add_message($email_text) {
+      // Build the text version
+      $text = strip_tags($email_text);
+      if (EMAIL_USE_HTML == 'true') {
+        $this->add_html($email_text, $text);
+      } else {
+        $this->add_text($text);
+      }
     }
 
 /**
  * Adds an image to the list of embedded
  * images.
  */
-
-    function add_html_image($file, $name = '', $c_type='application/octet-stream') {
-      $this->html_images[] = array('body' => $file,
-                                   'name' => $name,
-                                   'c_type' => $c_type,
-                                   'cid' => md5(uniqid(time())));
+    public function add_html_image($file, $name = '', $c_type='application/octet-stream') {
+      $this->html_images[] = [
+        'body' => $file,
+        'name' => $name,
+        'c_type' => $c_type,
+        'cid' => md5(uniqid(time())),
+      ];
     }
 
 /**
  * Adds a file to the list of attachments.
  */
-
-    function add_attachment($file, $name = '', $c_type='application/octet-stream', $encoding = 'base64') {
-      $this->attachments[] = array('body' => $file,
-                                   'name' => $name,
-                                   'c_type' => $c_type,
-                                   'encoding' => $encoding);
+    public function add_attachment($file, $name = '', $c_type='application/octet-stream', $encoding = 'base64') {
+      $this->attachments[] = [
+        'body' => $file,
+        'name' => $name,
+        'c_type' => $c_type,
+        'encoding' => $encoding,
+      ];
     }
 
-/**
- * Adds a text subpart to a mime_part object
- */
-
-/* HPDL PHP3 */
-//    function &add_text_part(&$obj, $text) {
-    function add_text_part(&$obj, $text) {
-      $params['content_type'] = 'text/plain';
-      $params['encoding'] = $this->build_params['text_encoding'];
-      $params['charset'] = $this->build_params['text_charset'];
-
-      if (is_object($obj)) {
-        return $obj->addSubpart($text, $params);
-      } else {
-        return new mime($text, $params);
+    public function get_parameters($param_type, $value = null) {
+      $params = [];
+      switch ($param_type) {
+        case 'text':
+          $params['content_type'] = 'text/plain';
+          $params['encoding'] = $this->build_params['text_encoding'];
+          $params['charset'] = $this->build_params['text_charset'];
+          return $params;
+        case 'html':
+          $params['content_type'] = 'text/html';
+          $params['encoding'] = $this->build_params['html_encoding'];
+          $params['charset'] = $this->build_params['html_charset'];
+          return $params;
+        case 'mixed':
+        case 'alternative':
+        case 'related':
+          $params['content_type'] = "multipart/$param_type";
+          return $params;
+        case 'html_image':
+          $params['content_type'] = $value['c_type'];
+          $params['encoding'] = 'base64';
+          $params['disposition'] = 'inline';
+          $params['dfilename'] = $value['name'];
+          $params['cid'] = $value['cid'];
+          return $params;
+        case 'attachment':
+          $params['content_type'] = $value['c_type'];
+          $params['encoding'] = $value['encoding'];
+          $params['disposition'] = 'attachment';
+          $params['dfilename'] = $value['name'];
+          return $params;
       }
+
+      return false;
     }
 
-/**
- * Adds a html subpart to a mime_part object
- */
+    protected function _build_message() {
+      $attachments = tep_not_null($this->attachments);
+      $html_images = tep_not_null($this->html_images);
+      $html = tep_not_null($this->html);
+      $text = tep_not_null($this->text);
 
-/* HPDL PHP3 */
-//    function &add_html_part(&$obj) {
-    function add_html_part(&$obj) {
-      $params['content_type'] = 'text/html';
-      $params['encoding'] = $this->build_params['html_encoding'];
-      $params['charset'] = $this->build_params['html_charset'];
+      $message = null;
+      switch (true) {
+        case ($text && !$attachments):
+          return new mime($this->text, $this->get_parameters('text'));
+        case (!$text && $attachments && !$html):
+          return new mime('', ['content_type' => 'multipart/mixed']);
+        case ($text && $attachments):
+          $message = new mime('', ['content_type' => 'multipart/mixed']);
+          $message->addSubpart($this->text, $this->get_parameters('text'));
+          return $message;
+        case ($html && !$attachments && !$html_images):
+          if (tep_not_null($this->html_text)) {
+            $message = new mime('', ['content_type' => 'multipart/alternative']);
+            $message->addSubpart($this->html_text, $this->get_parameters('text'));
+            $message->addSubpart($this->html, $this->get_parameters('html'));
+          } else {
+            $message = new mime($this->html, $this->get_parameters('html'));
+          }
+          break;
+        case ($html && !$attachments && $html_images):
+          if (tep_not_null($this->html_text)) {
+            $message = new mime('', ['content_type' => 'multipart/alternative']);
+            $message->addSubpart($this->html_text, $this->get_parameters('text'));
+            $related = $message->addSubpart('', ['content_type' => 'multipart/related']);
+          } else {
+            $message = new mime('', ['content_type' => 'multipart/related']);
+            $related = $message;
+          }
+          $related->addSubpart($this->html, $this->get_parameters('html'));
+          break;
+        case ($html && $attachments && !$html_images):
+          $message = new mime('', ['content_type' => 'multipart/mixed']);
+          if (tep_not_null($this->html_text)) {
+            $alt = $message->addSubpart('', ['content_type' => 'multipart/alternative']);
+            $alt->addSubpart($this->html_text, $this->get_parameters('text'));
+            $alt->addSubpart($this->html, $this->get_parameters('html'));
+          } else {
+            $message->addSubpart($this->html, $this->get_parameters('html'));
+          }
+          break;
+        case ($html && $attachments && $html_images):
+          $message = new mime('', ['content_type' => 'multipart/mixed']);
 
-      if (is_object($obj)) {
-        return $obj->addSubpart($this->html, $params);
-      } else {
-        return new mime($this->html, $params);
+          if (tep_not_null($this->html_text)) {
+            $alt = $message->addSubpart('', ['content_type' => 'multipart/alternative']);
+            $alt->addSubpart($this->html_text, $this->get_parameters('text'));
+            $related = $alt->addSubpart('', ['content_type' => 'multipart/related']);
+          } else {
+            $related = $message->addSubpart('', ['content_type' => 'multipart/related']);
+          }
+          $related->addSubpart($this->html, $this->get_parameters('html'));
+
+          break;
       }
-    }
 
-/**
- * Starts a message with a mixed part
- */
-
-/* HPDL PHP3 */
-//    function &add_mixed_part() {
-    function add_mixed_part() {
-      $params['content_type'] = 'multipart/mixed';
-
-      return new mime('', $params);
-    }
-
-/**
- * Adds an alternative part to a mime_part object
- */
-
-/* HPDL PHP3 */
-//    function &add_alternative_part(&$obj) {
-    function add_alternative_part(&$obj) {
-      $params['content_type'] = 'multipart/alternative';
-
-      if (is_object($obj)) {
-        return $obj->addSubpart('', $params);
-      } else {
-        return new mime('', $params);
+      if ($html && $html_images) {
+        foreach ($this->html_images as $image) {
+          $related->addSubpart($image['body'], $this->get_parameters('html_image', $image));
+        }
       }
-    }
 
-/**
- * Adds a html subpart to a mime_part object
- */
-
-/* HPDL PHP3 */
-//    function &add_related_part(&$obj) {
-    function add_related_part(&$obj) {
-      $params['content_type'] = 'multipart/related';
-
-      if (is_object($obj)) {
-        return $obj->addSubpart('', $params);
-      } else {
-        return new mime('', $params);
-      }
-    }
-
-/**
- * Adds an html image subpart to a mime_part object
- */
-
-/* HPDL PHP3 */
-//    function &add_html_image_part(&$obj, $value) {
-    function add_html_image_part(&$obj, $value) {
-      $params['content_type'] = $value['c_type'];
-      $params['encoding'] = 'base64';
-      $params['disposition'] = 'inline';
-      $params['dfilename'] = $value['name'];
-      $params['cid'] = $value['cid'];
-
-      $obj->addSubpart($value['body'], $params);
-    }
-
-/**
- * Adds an attachment subpart to a mime_part object
- */
-
-/* HPDL PHP3 */
-//    function &add_attachment_part(&$obj, $value) {
-    function add_attachment_part(&$obj, $value) {
-      $params['content_type'] = $value['c_type'];
-      $params['encoding'] = $value['encoding'];
-      $params['disposition'] = 'attachment';
-      $params['dfilename'] = $value['name'];
-
-      $obj->addSubpart($value['body'], $params);
+      return $message;
     }
 
 /**
@@ -314,139 +308,24 @@
  * $params['text_charset']  - The character set to use for a text section.
  *                          - Default is iso-8859-1
  */
+    public function build_message($params = []) {
+      foreach ($params as $key => $value) {
+        $this->build_params[$key] = $value;
+      }
 
-/* HPDL PHP3 */
-//    function build_message($params = array()) {
-    function build_message($params = '') {
-      if ($params == '') $params = array();
+      foreach ($this->html_images as $value) {
+        $this->html = str_replace($value['name'], 'cid:' . $value['cid'], $this->html);
+      }
 
-      if (count($params) > 0) {
-        foreach($params as $key => $value) {
-          $this->build_params[$key] = $value;
+      $message = $this->_build_message();
+
+      if ( is_object($message) ) {
+        if (tep_not_null($this->attachments)) {
+          foreach ($this->attachments as $attachment) {
+            $message->addSubpart($attachment['body'], $this->get_parameters('attachment', $attachment));
+          }
         }
-      }
 
-      if (tep_not_null($this->html_images)) {
-        foreach($this->html_images as $value) {
-          $this->html = str_replace($value['name'], 'cid:' . $value['cid'], $this->html);
-        }
-      }
-
-      $null = NULL;
-      $attachments = ((tep_not_null($this->attachments)) ? true : false);
-      $html_images = ((tep_not_null($this->html_images)) ? true : false);
-      $html = ((tep_not_null($this->html)) ? true : false);
-      $text = ((tep_not_null($this->text)) ? true : false);
-
-      switch (true) {
-        case (($text == true) && ($attachments == false)):
-/* HPDL PHP3 */
-//          $message =& $this->add_text_part($null, $this->text);
-          $message = $this->add_text_part($null, $this->text);
-          break;
-        case (($text == false) && ($attachments == true) && ($html == false)):
-/* HPDL PHP3 */
-//          $message =& $this->add_mixed_part();
-          $message = $this->add_mixed_part();
-
-          for ($i=0; $i<count($this->attachments); $i++) {
-            $this->add_attachment_part($message, $this->attachments[$i]);
-          }
-          break;
-        case (($text == true) && ($attachments == true)):
-/* HPDL PHP3 */
-//          $message =& $this->add_mixed_part();
-          $message = $this->add_mixed_part();
-          $this->add_text_part($message, $this->text);
-
-          for ($i=0; $i<count($this->attachments); $i++) {
-            $this->add_attachment_part($message, $this->attachments[$i]);
-          }
-          break;
-        case (($html == true) && ($attachments == false) && ($html_images == false)):
-          if (tep_not_null($this->html_text)) {
-/* HPDL PHP3 */
-//            $message =& $this->add_alternative_part($null);
-            $message = $this->add_alternative_part($null);
-            $this->add_text_part($message, $this->html_text);
-            $this->add_html_part($message);
-          } else {
-/* HPDL PHP3 */
-//            $message =& $this->add_html_part($null);
-            $message = $this->add_html_part($null);
-          }
-          break;
-        case (($html == true) && ($attachments == false) && ($html_images == true)):
-          if (tep_not_null($this->html_text)) {
-/* HPDL PHP3 */
-//            $message =& $this->add_alternative_part($null);
-            $message = $this->add_alternative_part($null);
-            $this->add_text_part($message, $this->html_text);
-/* HPDL PHP3 */
-//            $related =& $this->add_related_part($message);
-            $related = $this->add_related_part($message);
-          } else {
-/* HPDL PHP3 */
-//            $message =& $this->add_related_part($null);
-//            $related =& $message;
-            $message = $this->add_related_part($null);
-            $related = $message;
-          }
-          $this->add_html_part($related);
-
-          for ($i=0; $i<count($this->html_images); $i++) {
-            $this->add_html_image_part($related, $this->html_images[$i]);
-          }
-          break;
-        case (($html == true) && ($attachments == true) && ($html_images == false)):
-/* HPDL PHP3 */
-//          $message =& $this->add_mixed_part();
-          $message = $this->add_mixed_part();
-          if (tep_not_null($this->html_text)) {
-/* HPDL PHP3 */
-//            $alt =& $this->add_alternative_part($message);
-            $alt = $this->add_alternative_part($message);
-            $this->add_text_part($alt, $this->html_text);
-            $this->add_html_part($alt);
-          } else {
-            $this->add_html_part($message);
-          }
-
-          for ($i=0; $i<count($this->attachments); $i++) {
-            $this->add_attachment_part($message, $this->attachments[$i]);
-          }
-          break;
-        case (($html == true) && ($attachments == true) && ($html_images == true)):
-/* HPDL PHP3 */
-//          $message =& $this->add_mixed_part();
-          $message = $this->add_mixed_part();
-
-          if (tep_not_null($this->html_text)) {
-/* HPDL PHP3 */
-//            $alt =& $this->add_alternative_part($message);
-            $alt = $this->add_alternative_part($message);
-            $this->add_text_part($alt, $this->html_text);
-/* HPDL PHP3 */
-//            $rel =& $this->add_related_part($alt);
-            $rel = $this->add_related_part($alt);
-          } else {
-/* HPDL PHP3 */
-//            $rel =& $this->add_related_part($message);
-            $rel = $this->add_related_part($message);
-          }
-          $this->add_html_part($rel);
-
-          for ($i=0; $i<count($this->html_images); $i++) {
-            $this->add_html_image_part($rel, $this->html_images[$i]);
-          }
-
-          for ($i=0; $i<count($this->attachments); $i++) {
-            $this->add_attachment_part($message, $this->attachments[$i]);
-          }
-          break;
-      }
-
-      if ( (isset($message)) && (is_object($message)) ) {
         $output = $message->encode();
         $this->output = $output['body'];
 
@@ -462,61 +341,46 @@
       }
     }
 
-/**
- * Sends the mail.
- */
-
-    function send($to_name, $to_addr, $from_name, $from_addr, $subject = '', $headers = '') {
-      if ((strstr($to_name, "\n") != false) || (strstr($to_name, "\r") != false)) {
-        return false;
-      }
-
-      if ((strstr($to_addr, "\n") != false) || (strstr($to_addr, "\r") != false)) {
-        return false;
-      }
-
-      if ((strstr($subject, "\n") != false) || (strstr($subject, "\r") != false)) {
-        return false;
-      }
-
-      if ((strstr($from_name, "\n") != false) || (strstr($from_name, "\r") != false)) {
-        return false;
-      }
-
-      if ((strstr($from_addr, "\n") != false) || (strstr($from_addr, "\r") != false)) {
-        return false;
-      }
-
-      $to = (($to_name != '') ? '"' . $to_name . '" <' . $to_addr . '>' : $to_addr);
-      $from = (($from_name != '') ? '"' . $from_name . '" <' . $from_addr . '>' : $from_addr);
-
+    public function normalize_headers($headers = []) {
       if (is_string($headers)) {
         $headers = explode($this->lf, trim($headers));
       }
 
-      for ($i=0; $i<count($headers); $i++) {
-        if (is_array($headers[$i])) {
-          for ($j=0; $j<count($headers[$i]); $j++) {
-            if ($headers[$i][$j] != '') {
-              $xtra_headers[] = $headers[$i][$j];
-            }
+      $xtra_headers = [];
+      foreach ($headers as $header) {
+        if (is_array($header)) {
+          $xtra_headers += array_filter($header);
+        } elseif ($header) {
+          $xtra_headers[] = $header;
+        }
+      }
+
+      return $xtra_headers;
+    }
+
+    public function format_address($address, $name = '') {
+      return (('' == $name) ? $address : '"' . $name . '" <' . $address . '>');
+    }
+
+/**
+ * Sends the mail.
+ */
+    public function send($to_name, $to_addr, $from_name, $from_addr, $subject = '', $headers = []) {
+      // No need to check for "\r\n" separately as will match the other two
+      foreach (["\n", "\r"] as $line_ending) {
+        foreach ([$to_name, $to_addr, $subject, $from_name, $from_addr] as $header_value) {
+          if (false !== strstr($header_value, $line_ending)) {
+            return false;
           }
         }
-
-        if ($headers[$i] != '') {
-          $xtra_headers[] = $headers[$i];
-        }
       }
 
-      if (!isset($xtra_headers)) {
-        $xtra_headers = array();
-      }
+      $to = $this->format_address($to_addr, $to_name);
+      $from = $this->format_address($from_addr, $from_name);
 
-      $headers = array_merge($this->headers, array('From: ' . $from), $headers, $xtra_headers);
+      $headers = array_merge($this->headers, ['From: ' . $from], $this->normalize_headers($headers));
 
-      $additional_parameters = '-f' . $from_addr;
-
-      return mail($to, $subject, $this->output, implode($this->lf, $headers), $additional_parameters);
+      return mail($to, $subject, $this->output, implode($this->lf, $headers), "-f$from_addr");
     }
 
 /**
@@ -533,42 +397,18 @@
  *       [string Subject,
  *        string Extra headers])
  */
-
-    function get_rfc822($to_name, $to_addr, $from_name, $from_addr, $subject = '', $headers = '') {
+    public function get_rfc822($to_name, $to_addr, $from_name, $from_addr, $subject = '', $headers = []) {
 // Make up the date header as according to RFC822
       $date = 'Date: ' . date('D, d M y H:i:s');
-      $to = (($to_name != '') ? 'To: "' . $to_name . '" <' . $to_addr . '>' : 'To: ' . $to_addr);
-      $from = (($from_name != '') ? 'From: "' . $from_name . '" <' . $from_addr . '>' : 'From: ' . $from_addr);
+      $to = 'To: ' . $this->format_address($to_addr, $to_name);
+      $from = 'From: ' . $this->format_address($from_addr, $from_name);
 
       if (is_string($subject)) {
         $subject = 'Subject: ' . $subject;
       }
 
-      if (is_string($headers)) {
-        $headers = explode($this->lf, trim($headers));
-      }
-
-      for ($i=0; $i<count($headers); $i++) {
-        if (is_array($headers[$i])) {
-          for ($j=0; $j<count($headers[$i]); $j++) {
-            if ($headers[$i][$j] != '') {
-              $xtra_headers[] = $headers[$i][$j];
-            }
-          }
-        }
-
-        if ($headers[$i] != '') {
-          $xtra_headers[] = $headers[$i];
-        }
-      }
-
-      if (!isset($xtra_headers)) {
-        $xtra_headers = array();
-      }
-
-      $headers = array_merge($this->headers, $xtra_headers);
+      $headers = array_merge($this->headers, $this->normalize_headers($headers));
 
       return $date . $this->lf . $from . $this->lf . $to . $this->lf . $subject . $this->lf . implode($this->lf, $headers) . $this->lf . $this->lf . $this->output;
     }
   }
-?>

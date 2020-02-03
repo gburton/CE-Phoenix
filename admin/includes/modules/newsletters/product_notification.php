@@ -195,15 +195,7 @@ function selectAll(FormName, SelectBox) {
       }
 
       $mimemessage = new email();
-
-      // Build the text version
-      $text = strip_tags($this->content);
-      if (EMAIL_USE_HTML == 'true') {
-        $mimemessage->add_html($this->content, $text);
-      } else {
-        $mimemessage->add_text($text);
-      }
-
+      $mimemessage->add_message($this->content);
       $mimemessage->build_message();
 
       foreach ($audience as $key => $value) {
