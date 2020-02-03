@@ -38,9 +38,9 @@
     $history_query = tep_db_query($history_split->sql_query);
     ?>
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table class="table table-hover table-striped">
         <caption class="sr-only"><?php echo $history_split->display_count(TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></caption>
-        <thead class="thead-light">
+        <thead class="thead-dark">
           <tr>
             <th scope="col"><?php echo TEXT_ORDER_NUMBER; ?></th>
             <th scope="col" class="d-none d-md-table-cell"><?php echo TEXT_ORDER_STATUS; ?></th>
@@ -92,8 +92,8 @@
   }
 ?>
 
-  <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?>
+  <div class="buttonSet my-2">
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL'), null, null, 'btn-light'); ?>
   </div>
 </div>
 
