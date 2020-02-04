@@ -71,6 +71,7 @@ Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
 German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
+Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.4.3_RU | @Fredi
 
 ### Image Credits
 
