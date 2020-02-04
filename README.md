@@ -14,7 +14,7 @@ CE Phoenix is the official Community Version of osCommerce.  Check out what you 
 
 https://template.me.uk/index.php
 
-# Certified Developers
+# Certified Service Providers
 
 Name | URL | Services Offered
 ------------ | ------------- | ------------- 
