@@ -5,17 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  require('includes/classes/currencies.php');
   $currencies = new currencies();
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
@@ -31,22 +30,23 @@
       </thead>
       <tbody>
 <?php
-  if (isset($_GET['page']) && ($_GET['page'] > 1)) $rows = $_GET['page'] * MAX_DISPLAY_SEARCH_RESULTS - MAX_DISPLAY_SEARCH_RESULTS;
-  $customers_query_raw = "select c.customers_firstname, c.customers_lastname, sum(op.products_quantity * op.final_price) as ordersum from customers c, orders_products op, orders o where c.customers_id = o.customers_id and o.orders_id = op.orders_id group by c.customers_firstname, c.customers_lastname order by ordersum DESC";
+  $db_tables = $customer_data->build_db_tables(['id', 'name'], 'customers');
+  $customers_query_raw = "SELECT " . customer_query::build_columns($db_tables);
+  $customers_query_raw .= "o.customers_id, sum(op.products_quantity * op.final_price) AS ordersum FROM " . customer_query::build_joins($db_tables, []);
+  $customers_query_raw .= ", orders_products op, orders o WHERE " . customer_query::TABLE_ALIASES['customers'];
+  $customers_query_raw .= ".customers_id = o.customers_id AND o.orders_id = op.orders_id GROUP BY o.customers_id ORDER BY ordersum DESC";
   $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_query_raw, $customers_query_numrows);
-// fix counted customers
-  $customers_query_numrows = tep_db_query("select customers_id from orders group by customers_id");
-  $customers_query_numrows = tep_db_num_rows($customers_query_numrows);
 
-  $rows = 0;
+  $row = 0;
   $customers_query = tep_db_query($customers_query_raw);
-  while ($customers = tep_db_fetch_array($customers_query)) {
-    $rows++;
+
+  while ($customer = tep_db_fetch_array($customers_query)) {
+    $row++;
 ?>
-        <tr onclick="document.location.href='<?php echo tep_href_link('customers.php', 'search=' . $customers['customers_lastname']); ?>'">
-          <td><?php echo str_pad($rows, 2, '0', STR_PAD_LEFT); ?>.</td>
-          <td><?php echo '<a href="' . tep_href_link('customers.php', 'search=' . $customers['customers_lastname']) . '">' . $customers['customers_firstname'] . ' ' . $customers['customers_lastname'] . '</a>'; ?></td>
-          <td class="text-right"><?php echo $currencies->format($customers['ordersum']); ?></td>
+        <tr onclick="document.location.href='<?php echo tep_href_link('customers.php', 'cID=' . $customer['customers_id']); ?>'">
+          <td><?php echo str_pad($row, 2, '0', STR_PAD_LEFT); ?>.</td>
+          <td><?php echo '<a href="' . tep_href_link('customers.php', 'cID=' . $customer['customers_id']) . '">' . $customer_data->get('name', $customer) . '</a>'; ?></td>
+          <td class="text-right"><?php echo $currencies->format($customer['ordersum']); ?>&nbsp;</td>
         </tr>
 <?php
   }
@@ -61,6 +61,6 @@
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

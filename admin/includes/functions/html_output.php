@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -18,7 +18,14 @@
     $page = tep_output_string($page);
 
     if ($page == '') {
-      die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><strong>Error!</strong></font><br /><br /><strong>Unable to determine the page link!<br /><br />Function used:<br /><br />tep_href_link(\'' . $page . '\', \'' . $parameters . '\', \'' . $connection . '\')</strong>');
+      die(<<<EOERROR
+</td></tr></table></td></tr></table><br /><br />
+<font color="#ff0000"><strong>Error!</strong></font><br /><br />
+<strong>Unable to determine the page link!<br /><br />
+Function used:<br /><br />
+tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</strong>
+EOERROR
+);
     }
 
     if ($connection == 'NONSSL') {
@@ -30,7 +37,15 @@
         $link = HTTP_SERVER . DIR_WS_ADMIN;
       }
     } else {
-      die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><strong>Error!</strong></font><br /><br /><strong>Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL<br /><br />Function used:<br /><br />tep_href_link(\'' . $page . '\', \'' . $parameters . '\', \'' . $connection . '\')</strong>');
+      die(<<<EOERROR
+</td></tr></table></td></tr></table><br /><br />
+<font color="#ff0000"><strong>Error!</strong></font><br /><br />
+<strong>Unable to determine connection method on a link!<br /><br />
+Known methods: NONSSL SSL<br /><br />
+Function used:<br /><br />
+tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</strong>
+EOERROR
+);
     }
 
     if (tep_not_null($parameters)) {
@@ -73,7 +88,15 @@
         $link = HTTP_CATALOG_SERVER . DIR_WS_CATALOG;
       }
     } else {
-      die('</td></tr></table></td></tr></table><br /><br /><font color="#ff0000"><strong>Error!</strong></font><br /><br /><strong>Unable to determine connection method on a link!<br /><br />Known methods: NONSSL SSL<br /><br />Function used:<br /><br />tep_href_link(\'' . $page . '\', \'' . $parameters . '\', \'' . $connection . '\')</strong>');
+      die(<<<EOERROR
+</td></tr></table></td></tr></table><br /><br />
+<font color="#ff0000"><strong>Error!</strong></font><br /><br />
+<strong>Unable to determine connection method on a link!<br /><br />
+Known methods: NONSSL SSL<br /><br />
+Function used:<br /><br />
+tep_href_link('$page', '$parameters', '$connection')</strong>
+EOERROR
+);
     }
     if ($parameters == '') {
       $link .= $page;
@@ -140,7 +163,7 @@
   function tep_image_button($image, $alt = '', $params = '') {
     global $language;
 
-    return tep_image('includes/languages/' . $language . '/images/buttons/' . $image, $alt, '', '', $params);
+    return tep_image("includes/languages/$language/images/buttons/$image", $alt, '', '', $params);
   }
 
 ////
@@ -194,14 +217,13 @@
 
 ////
 // Output a form input field
-  function tep_draw_input_field($name, $value = '', $parameters = '', $required = false, $type = 'text', $reinsert_value = true) {
+  function tep_draw_input_field($name, $value = '', $parameters = '', $type = 'text', $reinsert_value = true) {
     $field = '<input type="' . tep_output_string($type) . '" name="' . tep_output_string($name) . '"';
 
-    if ( ($reinsert_value == true) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
-      if (isset($_GET[$name]) && is_string($_GET[$name])) {
-        $value = stripslashes($_GET[$name]);
-      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
-        $value = stripslashes($_POST[$name]);
+    if ( $reinsert_value ) {
+      $request = $_GET[$name] ?? $_POST[$name] ?? null;
+      if (is_string($request)) {
+        $value = stripslashes($request);
       }
     }
 
@@ -212,16 +234,6 @@
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
 
     $field .= ' />';
-
-    if ($required == true) $field .= TEXT_FIELD_REQUIRED;
-
-    return $field;
-  }
-
-////
-// Output a form password field
-  function tep_draw_password_field($name, $value = '', $required = false) {
-    $field = tep_draw_input_field($name, $value, 'maxlength="40"', $required, 'password', false);
 
     return $field;
   }
@@ -241,10 +253,11 @@
 
     if (tep_not_null($value)) $selection .= ' value="' . tep_output_string($value) . '"';
 
-    if ( ($checked == true) || (isset($_GET[$name]) && is_string($_GET[$name]) && (($_GET[$name] == 'on') || (stripslashes($_GET[$name]) == $value))) || (isset($_POST[$name]) && is_string($_POST[$name]) && (($_POST[$name] == 'on') || (stripslashes($_POST[$name]) == $value))) || (tep_not_null($compare) && ($value == $compare)) ) {
+    $request = $_GET[$name] ?? $_POST[$name] ?? null;
+    if ( $checked || (is_string($request) && (('on' === $request) || (stripslashes($request) == $value))) || (tep_not_null($compare) && ($value == $compare)) ) {
       $selection .= ' checked="checked"';
     }
-    
+
     if (tep_not_null($parameters)) $selection .= ' ' . $parameters;
 
     $selection .= ' />';
@@ -276,12 +289,8 @@
 
     $field .= '>';
 
-    if ( ($reinsert_value == true) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
-      if (isset($_GET[$name]) && is_string($_GET[$name])) {
-        $field .= tep_output_string_protected(stripslashes($_GET[$name]));
-      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
-        $field .= tep_output_string_protected(stripslashes($_POST[$name]));
-      }
+    if ( $reinsert_value && is_string($requested_value = $_GET[$name] ?? $_POST[$name] ?? null) ) {
+      $field .= tep_output_string_protected(stripslashes($requested_value));
     } elseif (tep_not_null($text)) {
       $field .= tep_output_string_protected($text);
     }
@@ -298,15 +307,16 @@
 
     if (tep_not_null($value)) {
       $field .= ' value="' . tep_output_string($value) . '"';
-    } elseif ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) {
-      if ( (isset($_GET[$name]) && is_string($_GET[$name])) ) {
-        $field .= ' value="' . tep_output_string(stripslashes($_GET[$name])) . '"';
-      } elseif ( (isset($_POST[$name]) && is_string($_POST[$name])) ) {
-        $field .= ' value="' . tep_output_string(stripslashes($_POST[$name])) . '"';
+    } else {
+      $requested_value = $_GET[$name] ?? $_POST[$name] ?? null;
+      if ( is_string($requested_value) ) {
+        $field .= ' value="' . tep_output_string(stripslashes($requested_value)) . '"';
       }
     }
 
-    if (tep_not_null($parameters)) $field .= ' ' . $parameters;
+    if (tep_not_null($parameters)) {
+      $field .= " $parameters";
+    }
 
     $field .= ' />';
 
@@ -319,7 +329,7 @@
     $string = '';
 
     if (defined('SID') && tep_not_null(SID)) {
-      $string = tep_draw_hidden_field(tep_session_name(), tep_session_id());
+      $string = tep_draw_hidden_field(session_name(), session_id());
     }
 
     return $string;
@@ -327,32 +337,29 @@
 
 ////
 // Output a form pull down menu
-  function tep_draw_pull_down_menu($name, $values, $default = '', $parameters = '', $required = false) {
+  function tep_draw_pull_down_menu($name, $values, $default = '', $parameters = '') {
     $field = '<select name="' . tep_output_string($name) . '"';
 
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
 
     $field .= '>';
 
-    if (empty($default) && ( (isset($_GET[$name]) && is_string($_GET[$name])) || (isset($_POST[$name]) && is_string($_POST[$name])) ) ) {
-      if (isset($_GET[$name]) && is_string($_GET[$name])) {
-        $default = stripslashes($_GET[$name]);
-      } elseif (isset($_POST[$name]) && is_string($_POST[$name])) {
-        $default = stripslashes($_POST[$name]);
+    if ( empty($default) ) {
+      $request = $_GET[$name] ?? $_POST[$name] ?? null;
+      if (is_string($request)) {
+        $default = stripslashes($request);
       }
     }
 
-    for ($i=0, $n=sizeof($values); $i<$n; $i++) {
-      $field .= '<option value="' . tep_output_string($values[$i]['id']) . '"';
-      if ($default == $values[$i]['id']) {
+    foreach ($values as $value) {
+      $field .= '<option value="' . tep_output_string($value['id']) . '"';
+      if ($default == $value['id']) {
         $field .= ' selected="selected"';
       }
 
-      $field .= '>' . tep_output_string($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+      $field .= '>' . tep_output_string($value['text'], ['"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;']) . '</option>';
     }
     $field .= '</select>';
-
-    if ($required == true) $field .= TEXT_FIELD_REQUIRED;
 
     return $field;
   }
@@ -362,7 +369,7 @@
   function tep_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null) {
     static $button_counter = 1;
 
-    $types = array('submit', 'button', 'reset');
+    $types = ['submit', 'button', 'reset'];
 
     if ( !isset($params['type']) ) {
       $params['type'] = 'submit';
@@ -406,7 +413,7 @@
 
     $button .= '</span><script type="text/javascript">$("#tdb' . $button_counter . '").button(';
 
-    $args = array();
+    $args = [];
 
     if ( isset($icon) ) {
       if ( !isset($params['iconpos']) ) {
@@ -434,19 +441,11 @@
 
     return $button;
   }
-  
+
 ////
 // Output a Bootstrap Button
-  function tep_draw_bootstrap_button($title = null, $icon = null, $link = null, $priority = null, $params = null, $style = null) {
-    $types = array('submit', 'button', 'reset');
-    
-    if ( !is_array($params) ) $params = array();
-
-    if ( !isset($params['type']) ) {
-      $params['type'] = 'submit';
-    }
-
-    if ( !in_array($params['type'], $types) ) {
+  function tep_draw_bootstrap_button($title = null, $icon = null, $link = null, $priority = 'secondary', $params = [], $style = null) {
+    if ( !isset($params['type']) || !in_array($params['type'], ['submit', 'button', 'reset']) ) {
       $params['type'] = 'submit';
     }
 
@@ -454,21 +453,16 @@
       $params['type'] = 'button';
     }
 
-    if (!isset($priority)) {
-      $priority = 'secondary';
-    }
-
-    $button = NULL;
-
     if ( ($params['type'] == 'button') && isset($link) ) {
-      $button .= '<a href="' . $link . '"';
+      $button = '<a href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
         $button .= ' target="_blank" rel="noopener"';
       }
+      $closing_tag = '</a>';
     } else {
-      $button .= '<button ';
-      $button .= ' type="' . tep_output_string($params['type']) . '"';
+      $button = '<button type="' . tep_output_string($params['type']) . '"';
+      $closing_tag = '</button>';
     }
 
     if ( isset($params['params']) ) {
@@ -476,9 +470,7 @@
     }
 
     $button .= ' class="btn ';
-
     $button .= (isset($style)) ? $style : 'btn-outline-secondary';
-
     $button .= '">';
 
     if (isset($icon) && tep_not_null($icon)) {
@@ -486,16 +478,11 @@
     }
 
     $button .= $title;
-
-    if ( ($params['type'] == 'button') && isset($link) ) {
-      $button .= '</a>';
-    } else {
-      $button .= '</button>';
-    }
+    $button .= $closing_tag;
 
     return $button;
   }
-  
+
   // review stars
   function tep_draw_stars($rating = 0) {
     $star_rating = round($rating, 0, PHP_ROUND_HALF_UP);
@@ -504,4 +491,4 @@
 
     return '<span class="text-warning" title="' . $rating . '">' . $stars . '</span>';
   }
-  
+

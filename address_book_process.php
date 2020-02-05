@@ -5,193 +5,64 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  if (!tep_session_is_registered('customer_id')) {
+  if (!isset($_SESSION['customer_id'])) {
     $navigation->set_snapshot();
     tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
-// needs to be included earlier to set the success message in the messageStack
-  require('includes/languages/' . $language . '/address_book_process.php');
+  $message_stack_area = 'addressbook';
 
-  if (isset($_GET['action']) && ($_GET['action'] == 'deleteconfirm') && isset($_GET['delete']) && is_numeric($_GET['delete']) && isset($_GET['formid']) && ($_GET['formid'] == md5($sessiontoken))) {
-    if ((int)$_GET['delete'] == $customer_default_address_id) {
+// needs to be included earlier to set the success message in the messageStack
+  require "includes/languages/$language/address_book_process.php";
+
+  if (is_numeric($_GET['delete'] ?? null) && tep_validate_form_action_is('deleteconfirm', 2)) {
+    if ((int)$_GET['delete'] == $customer->get_default_address_id()) {
       $messageStack->add_session('addressbook', WARNING_PRIMARY_ADDRESS_DELETION, 'warning');
     } else {
-      tep_db_query("delete from address_book where address_book_id = '" . (int)$_GET['delete'] . "' and customers_id = '" . (int)$customer_id . "'");
+      tep_db_query("DELETE FROM address_book WHERE address_book_id = " . (int)$_GET['delete'] . " and customers_id = " . (int)$_SESSION['customer_id']);
 
-      $messageStack->add_session('addressbook', SUCCESS_ADDRESS_BOOK_ENTRY_DELETED, 'success');
+      $messageStack->add_session($message_stack_area, SUCCESS_ADDRESS_BOOK_ENTRY_DELETED, 'success');
     }
 
     tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
   }
 
 // error checking when updating or adding an entry
-  $process = false;
-  if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['action'] == 'update')) && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
-    $process = true;
-    $error = false;
-
-    if (ACCOUNT_GENDER == 'true') $gender = tep_db_prepare_input($_POST['gender']);
-    if (ACCOUNT_COMPANY == 'true') $company = tep_db_prepare_input($_POST['company']);
-    $firstname = tep_db_prepare_input($_POST['firstname']);
-    $lastname = tep_db_prepare_input($_POST['lastname']);
-    $street_address = tep_db_prepare_input($_POST['street_address']);
-    if (ACCOUNT_SUBURB == 'true') $suburb = tep_db_prepare_input($_POST['suburb']);
-    $postcode = tep_db_prepare_input($_POST['postcode']);
-    $city = tep_db_prepare_input($_POST['city']);
-    $country = tep_db_prepare_input($_POST['country']);
-    if (ACCOUNT_STATE == 'true') {
-      if (isset($_POST['zone_id'])) {
-        $zone_id = tep_db_prepare_input($_POST['zone_id']);
-      } else {
-        $zone_id = false;
-      }
-      $state = tep_db_prepare_input($_POST['state']);
-    }
-
-    if (ACCOUNT_GENDER == 'true') {
-      if ( ($gender != 'm') && ($gender != 'f') ) {
-        $error = true;
-
-        $messageStack->add('addressbook', ENTRY_GENDER_ERROR);
-      }
-    }
-
-    if (strlen($firstname) < ENTRY_FIRST_NAME_MIN_LENGTH) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_FIRST_NAME_ERROR);
-    }
-
-    if (strlen($lastname) < ENTRY_LAST_NAME_MIN_LENGTH) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_LAST_NAME_ERROR);
-    }
-
-    if (strlen($street_address) < ENTRY_STREET_ADDRESS_MIN_LENGTH) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_STREET_ADDRESS_ERROR);
-    }
-
-    if (strlen($postcode) < ENTRY_POSTCODE_MIN_LENGTH) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_POST_CODE_ERROR);
-    }
-
-    if (strlen($city) < ENTRY_CITY_MIN_LENGTH) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_CITY_ERROR);
-    }
-
-    if (!is_numeric($country)) {
-      $error = true;
-
-      $messageStack->add('addressbook', ENTRY_COUNTRY_ERROR);
-    }
-
-    if (ACCOUNT_STATE == 'true') {
-      $zone_id = 0;
-      $check_query = tep_db_query("select count(*) as total from zones where zone_country_id = '" . (int)$country . "'");
-      $check = tep_db_fetch_array($check_query);
-      $entry_state_has_zones = ($check['total'] > 0);
-      if ($entry_state_has_zones == true) {
-        $zone_query = tep_db_query("select distinct zone_id from zones where zone_country_id = '" . (int)$country . "' and (zone_name = '" . tep_db_input($state) . "' or zone_code = '" . tep_db_input($state) . "')");
-        if (tep_db_num_rows($zone_query) == 1) {
-          $zone = tep_db_fetch_array($zone_query);
-          $zone_id = $zone['zone_id'];
-        } else {
-          $error = true;
-
-          $messageStack->add('addressbook', ENTRY_STATE_ERROR_SELECT);
-        }
-      } else {
-        if (strlen($state) < ENTRY_STATE_MIN_LENGTH) {
-          $error = true;
-
-          $messageStack->add('addressbook', ENTRY_STATE_ERROR);
-        }
-      }
-    }
-
-    if ($error == false) {
-      $sql_data_array = array('entry_firstname' => $firstname,
-                              'entry_lastname' => $lastname,
-                              'entry_street_address' => $street_address,
-                              'entry_postcode' => $postcode,
-                              'entry_city' => $city,
-                              'entry_country_id' => (int)$country);
-
-      if (ACCOUNT_GENDER == 'true') $sql_data_array['entry_gender'] = $gender;
-      if (ACCOUNT_COMPANY == 'true') $sql_data_array['entry_company'] = $company;
-      if (ACCOUNT_SUBURB == 'true') $sql_data_array['entry_suburb'] = $suburb;
-      if (ACCOUNT_STATE == 'true') {
-        if ($zone_id > 0) {
-          $sql_data_array['entry_zone_id'] = (int)$zone_id;
-          $sql_data_array['entry_state'] = '';
-        } else {
-          $sql_data_array['entry_zone_id'] = '0';
-          $sql_data_array['entry_state'] = $state;
-        }
-      }
-
+  if (tep_validate_form_action_is(['process', 'update'])) {
+    $customer_details = $customer_data->process($customer_data->get_fields_for_page('address_book'));
+    if ($customer_details) {
       if ($_POST['action'] == 'update') {
-        $check_query = tep_db_query("select address_book_id from address_book where address_book_id = '" . (int)$_GET['edit'] . "' and customers_id = '" . (int)$customer_id . "' limit 1");
-        if (tep_db_num_rows($check_query) == 1) {
-          tep_db_perform('address_book', $sql_data_array, 'update', "address_book_id = '" . (int)$_GET['edit'] . "' and customers_id ='" . (int)$customer_id . "'");
-
-// reregister session variables
-          if ( (isset($_POST['primary']) && ($_POST['primary'] == 'on')) || ($_GET['edit'] == $customer_default_address_id) ) {
-            $customer_first_name = $firstname;
-            $customer_country_id = $country;
-            $customer_zone_id = (($zone_id > 0) ? (int)$zone_id : '0');
-            $customer_default_address_id = (int)$_GET['edit'];
-
-            $sql_data_array = array('customers_firstname' => $firstname,
-                                    'customers_lastname' => $lastname,
-                                    'customers_default_address_id' => (int)$_GET['edit']);
-
-            if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
-
-            tep_db_perform('customers', $sql_data_array, 'update', "customers_id = '" . (int)$customer_id . "'");
+        $check_query = tep_db_query("SELECT * FROM address_book WHERE address_book_id = '" . (int)$_GET['edit'] . "' AND customers_id = " . (int)$_SESSION['customer_id'] . " LIMIT 1");
+        if (tep_db_num_rows($check_query) === 1) {
+          if ( 'on' === ($_POST['primary'] ?? null) ) {
+            $table = 'both';
+            $customer_details['default_address_id'] = (int)$_GET['edit'];
+          } else {
+            $table = 'address_book';
           }
+          $customer_data->update($customer_details, ['address_book_id' => (int)$_GET['edit'], 'id' => (int)$_SESSION['customer_id']], $table);
 
-          $messageStack->add_session('addressbook', SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED, 'success');
+          $messageStack->add_session($message_stack_area, SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED, 'success');
         }
       } else {
-        if (tep_count_customer_address_book_entries() < MAX_ADDRESS_BOOK_ENTRIES) {
-          $sql_data_array['customers_id'] = (int)$customer_id;
-          tep_db_perform('address_book', $sql_data_array);
-
-          $new_address_book_id = tep_db_insert_id();
-
-// reregister session variables
-          if (isset($_POST['primary']) && ($_POST['primary'] == 'on')) {
-            $customer_first_name = $firstname;
-            $customer_country_id = $country;
-            $customer_zone_id = (($zone_id > 0) ? (int)$zone_id : '0');
-            if (isset($_POST['primary']) && ($_POST['primary'] == 'on')) $customer_default_address_id = $new_address_book_id;
-
-            $sql_data_array = array('customers_firstname' => $firstname,
-                                    'customers_lastname' => $lastname);
-
-            if (ACCOUNT_GENDER == 'true') $sql_data_array['customers_gender'] = $gender;
-            if (isset($_POST['primary']) && ($_POST['primary'] == 'on')) $sql_data_array['customers_default_address_id'] = $new_address_book_id;
-
-            tep_db_perform('customers', $sql_data_array, 'update', "customers_id = '" . (int)$customer_id . "'");
-
-            $messageStack->add_session('addressbook', SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED, 'success');
+        if ($customer->count_addresses() < MAX_ADDRESS_BOOK_ENTRIES) {
+          if (!isset($customer_details['id'])) {
+            $customer_details['id'] = (int)$_SESSION['customer_id'];
           }
+          $customer_data->add_address($customer_details);
+
+          if ( 'on' === ($_POST['primary'] ?? null) ) {
+            $customer_data->update(['default_address_id' => $customer_details['address_book_id']], ['id' => (int)$_SESSION['customer_id']], 'customers');
+          }
+
+          $messageStack->add_session($message_stack_area, SUCCESS_ADDRESS_BOOK_ENTRY_UPDATED, 'success');
         }
       }
 
@@ -199,66 +70,69 @@
     }
   }
 
-  if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-    $entry_query = tep_db_query("select * from address_book where customers_id = '" . (int)$customer_id . "' and address_book_id = '" . (int)$_GET['edit'] . "'");
-
-    if (!tep_db_num_rows($entry_query)) {
-      $messageStack->add_session('addressbook', ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
+  if (is_numeric($_GET['edit'] ?? null)) {
+    if (is_null($customer->fetch_to_address((int)$_GET['edit']))) {
+      $messageStack->add_session($message_stack_area, ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
 
       tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     }
 
-    $entry = tep_db_fetch_array($entry_query);
-  } elseif (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-    if ($_GET['delete'] == $customer_default_address_id) {
-      $messageStack->add_session('addressbook', WARNING_PRIMARY_ADDRESS_DELETION, 'warning');
+    $page_heading = HEADING_TITLE_MODIFY_ENTRY;
+    $navbar_title_3 = NAVBAR_TITLE_MODIFY_ENTRY;
+    $navbar_link_3 = tep_href_link('address_book_process.php', 'edit=' . $_GET['edit'], 'SSL');
+    $back_link = tep_href_link('address_book.php', '', 'SSL');
+  } elseif (is_numeric($_GET['delete'] ?? null)) {
+    if ($_GET['delete'] == $customer->get_default_address_id()) {
+      $messageStack->add_session($message_stack_area, WARNING_PRIMARY_ADDRESS_DELETION, 'warning');
 
       tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
     } else {
-      $check_query = tep_db_query("select count(*) as total from address_book where address_book_id = '" . (int)$_GET['delete'] . "' and customers_id = '" . (int)$customer_id . "'");
+      $check_query = tep_db_query("SELECT COUNT(*) AS total FROM address_book WHERE address_book_id = " . (int)$_GET['delete'] . " AND customers_id = " . (int)$_SESSION['customer_id']);
       $check = tep_db_fetch_array($check_query);
 
       if ($check['total'] < 1) {
-        $messageStack->add_session('addressbook', ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
+        $messageStack->add_session($message_stack_area, ERROR_NONEXISTING_ADDRESS_BOOK_ENTRY);
 
         tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
       }
     }
-  } else {
-    $entry = array();
-  }
 
-  if (!isset($_GET['delete']) && !isset($_GET['edit'])) {
-    if (tep_count_customer_address_book_entries() >= MAX_ADDRESS_BOOK_ENTRIES) {
-      $messageStack->add_session('addressbook', ERROR_ADDRESS_BOOK_FULL);
+    $page_heading = HEADING_TITLE_DELETE_ENTRY;
+    $navbar_title_3 = NAVBAR_TITLE_DELETE_ENTRY;
+    $navbar_link_3 = tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'], 'SSL');
+  } else {
+    if ($customer->count_addresses() >= MAX_ADDRESS_BOOK_ENTRIES) {
+      $messageStack->add_session($message_stack_area, ERROR_ADDRESS_BOOK_FULL);
 
       tep_redirect(tep_href_link('address_book.php', '', 'SSL'));
+    }
+
+    $entry = [];
+    $page_heading = HEADING_TITLE_ADD_ENTRY;
+    $navbar_title_3 = NAVBAR_TITLE_ADD_ENTRY;
+    $navbar_link_3 = tep_href_link('address_book_process.php', '', 'SSL');
+
+    if (count($navigation->snapshot) > 0) {
+      $back_link = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], [session_name()]), $navigation->snapshot['mode']);
+    } else {
+      $back_link = tep_href_link('address_book.php', '', 'SSL');
     }
   }
 
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('address_book.php', '', 'SSL'));
+  $breadcrumb->add($navbar_title_3, $navbar_link_3);
 
-  if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-    $breadcrumb->add(NAVBAR_TITLE_MODIFY_ENTRY, tep_href_link('address_book_process.php', 'edit=' . $_GET['edit'], 'SSL'));
-  } elseif (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-    $breadcrumb->add(NAVBAR_TITLE_DELETE_ENTRY, tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'], 'SSL'));
-  } else {
-    $breadcrumb->add(NAVBAR_TITLE_ADD_ENTRY, tep_href_link('address_book_process.php', '', 'SSL'));
-  }
-
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
-<h1 class="display-4"><?php if (isset($_GET['edit'])) { echo HEADING_TITLE_MODIFY_ENTRY; } elseif (isset($_GET['delete'])) { echo HEADING_TITLE_DELETE_ENTRY; } else { echo HEADING_TITLE_ADD_ENTRY; } ?></h1>
+<h1 class="display-4"><?php echo $page_heading; ?></h1>
 
 <?php
-  if ($messageStack->size('addressbook') > 0) {
-    echo $messageStack->output('addressbook');
+  if ($messageStack->size($message_stack_area) > 0) {
+    echo $messageStack->output($message_stack_area);
   }
-?>
 
-<?php
   if (isset($_GET['delete'])) {
 ?>
 
@@ -273,14 +147,14 @@
         <div class="card-header"><?php echo DELETE_ADDRESS_TITLE; ?></div>
 
         <div class="card-body">
-          <?php echo tep_address_label($customer_id, (int)$_GET['delete'], true, ' ', '<br />'); ?>
+          <?php echo $customer->make_address_label((int)$_GET['delete'], true, ' ', '<br />'); ?>
         </div>
       </div>
     </div>
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'fas fa-trash-alt', tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'] . '&action=deleteconfirm&formid=' . md5($sessiontoken), 'SSL'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_DELETE, 'fas fa-trash-alt', tep_href_link('address_book_process.php', 'delete=' . $_GET['delete'] . '&action=deleteconfirm&formid=' . md5($_SESSION['sessiontoken']), 'SSL'), 'primary', NULL, 'btn-danger btn-lg btn-block'); ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
@@ -288,40 +162,26 @@
 
 <?php
   } else {
+    echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($_GET['edit']) ? 'edit=' . $_GET['edit'] : ''), 'SSL'), 'post', '', true);
+    if (is_numeric($_GET['edit'] ?? null)) {
+      echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $_GET['edit']);
+      $action_button = tep_draw_button(IMAGE_BUTTON_UPDATE, 'fas fa-sync', null, 'primary', null, 'btn-success btn-lg btn-block');
+    } else {
+      echo tep_draw_hidden_field('action', 'process');
+      $action_button = tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block');
+    }
 ?>
-
-<?php echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($_GET['edit']) ? 'edit=' . $_GET['edit'] : ''), 'SSL'), 'post', '', true); ?>
 
 <div class="contentContainer">
 
-<?php include('includes/modules/address_book_details.php'); ?>
-
 <?php
-    if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+    include 'includes/modules/address_book_details.php';
 ?>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'update') . tep_draw_hidden_field('edit', $_GET['edit']) . tep_draw_button(IMAGE_BUTTON_UPDATE, 'fas fa-sync', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
-  </div>
-
-<?php
-    } else {
-      if (sizeof($navigation->snapshot) > 0) {
-        $back_link = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], array(tep_session_name())), $navigation->snapshot['mode']);
-      } else {
-        $back_link = tep_href_link('address_book.php', '', 'SSL');
-      }
-?>
-
-  <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'process') . tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+    <div class="text-right"><?php echo $action_button; ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', $back_link); ?></p>
   </div>
-
-<?php
-    }
-?>
 
 </div>
 
@@ -332,6 +192,6 @@
 ?>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

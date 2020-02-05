@@ -1,28 +1,29 @@
-<li class="nav-item dropdown nb-account"> 
+<li class="nav-item dropdown nb-account">
   <a class="nav-link dropdown-toggle" href="#" id="navDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <?php echo (tep_session_is_registered('customer_id')) ? sprintf(MODULE_NAVBAR_ACCOUNT_LOGGED_IN, $customer_first_name) : MODULE_NAVBAR_ACCOUNT_LOGGED_OUT; ?>
+    <?php echo $navbarAccountText; ?>
   </a>
-  <div class="dropdown-menu<?php echo $menu_align; ?>" aria-labelledby="navDropdownAccount">
-    <?php
-    if (tep_session_is_registered('customer_id')) {
-      echo '<a class="dropdown-item" href="' . tep_href_link('logoff.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGOFF . '</a>';
-    }
-    else {
-      echo '<a class="dropdown-item" href="' . tep_href_link('login.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGIN . '</a>';
-      echo '<a class="dropdown-item" href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_REGISTER . '</a>';
-    }
-    ?>
+  <div class="dropdown-menu<?php echo (('Right' === MODULE_NAVBAR_ACCOUNT_CONTENT_PLACEMENT) ? ' dropdown-menu-right' : ''); ?>" aria-labelledby="navDropdownAccount">
+<?php
+  if (isset($_SESSION['customer_id'])) {
+    echo '    <a class="dropdown-item" href="' . tep_href_link('logoff.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGOFF . '</a>' . PHP_EOL;
+  } else {
+    echo '    <a class="dropdown-item" href="' . tep_href_link('login.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_LOGIN . '</a>' . PHP_EOL;
+    echo '    <a class="dropdown-item" href="' . tep_href_link('create_account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_REGISTER . '</a>' . PHP_EOL;
+  }
+?>
     <div class="dropdown-divider"></div>
-    <?php echo '<a class="dropdown-item" href="' . tep_href_link('account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT . '</a>'; ?>
-    <?php echo '<a class="dropdown-item" href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_HISTORY . '</a>'; ?>
-    <?php echo '<a class="dropdown-item" href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_ADDRESS_BOOK . '</a>'; ?>
-    <?php echo '<a class="dropdown-item" href="' . tep_href_link('account_password.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_PASSWORD . '</a>'; ?>
+<?php
+  echo '    <a class="dropdown-item" href="' . tep_href_link('account.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT . '</a>' . PHP_EOL;
+  echo '    <a class="dropdown-item" href="' . tep_href_link('account_history.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_HISTORY . '</a>' . PHP_EOL;
+  echo '    <a class="dropdown-item" href="' . tep_href_link('address_book.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_ADDRESS_BOOK . '</a>' . PHP_EOL;
+  echo '    <a class="dropdown-item" href="' . tep_href_link('account_password.php', '', 'SSL') . '">' . MODULE_NAVBAR_ACCOUNT_PASSWORD . '</a>' . PHP_EOL;
+ ?>
   </div>
 </li>
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2020, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

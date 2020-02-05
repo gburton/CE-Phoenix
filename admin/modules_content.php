@@ -215,7 +215,7 @@
               }
               ?>
                 <td><?php echo $module->title; ?></td>
-                <td><?php echo $module->group; ?></td>
+                <td><?php if (is_callable([$module, 'get_group'])) { echo $module->get_group(); } elseif (isset($module->group)) { echo $module->group; } ?></td>
                 <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('modules_content.php', 'action=list_new&module=' . $module->code) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
               <?php
@@ -277,7 +277,7 @@
               }
               ?>
                 <td><?php echo $module->title; ?></td>
-                <td><?php echo $module->group; ?></td>
+                <td><?php if (is_callable([$module, 'get_group'])) { echo $module->get_group(); } elseif (isset($module->group)) { echo $module->group; } ?></td>
                 <td class="text-right"><?php echo $module->sort_order; ?></td>
                 <td class="text-right">
                   <?php echo ($module->enabled == 1) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; ?>
@@ -360,10 +360,9 @@
                   ${$class_method[0]} = new $class_method[0]();
                 }
 
-                $keys .= tep_call_function($class_method[1], $value['value'], ${$class_method[0]});
-              } else {
-                $keys .= tep_call_function($use_function, $value['value']);
+                $use_function = [${$class_method[0]}, $class_method[1]];
               }
+              $keys .= call_user_func($use_function, $value['value']);
             } else {
               $keys .= $value['value'];
             }
