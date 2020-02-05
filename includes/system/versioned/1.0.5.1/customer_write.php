@@ -69,7 +69,7 @@ EOSQL;
     public static function update($db_tables, $criteria = []) {
       $foreign_keys = self::FOREIGN_KEYS;
 
-      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountUpdateTables', [
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountUpdateTables', $parameters = [
         'db' => $db_tables,
         'criteria' => $criteria,
         'keys' => $foreign_keys,
