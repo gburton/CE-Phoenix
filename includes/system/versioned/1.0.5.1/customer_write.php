@@ -40,7 +40,7 @@ EOSQL;
       $foreign_keys = self::FOREIGN_KEYS;
 
       unset($db_tables['customers_info']);
-      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', [
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', $parameters = [
         'data' => &$customer_details,
         'db' => &$db_tables,
         'keys' => &$foreign_keys,
