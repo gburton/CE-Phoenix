@@ -10,11 +10,11 @@ CE Phoenix is packed with many first class utilities as standard but its modular
 
 CE Phoenix is the official Community Version of osCommerce.  Check out what you can do with CE Phoenix at the demo site; 
 
-Base Demo | Supporters Demo
------------- | -------------
-https://template.me.uk/phoenix/index.php | https://template.me.uk/supporters/index.php
+# Demo Sites
 
-# Certified Developers
+https://template.me.uk/index.php
+
+# Certified Service Providers
 
 Name | URL | Services Offered
 ------------ | ------------- | ------------- 
@@ -71,6 +71,7 @@ Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
 German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
+Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.4.3_RU | @Fredi
 
 ### Image Credits
 

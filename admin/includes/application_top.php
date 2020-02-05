@@ -195,10 +195,6 @@
 // entry/item info classes
   require('includes/classes/object_info.php');
 
-// email classes
-  require('includes/classes/mime.php');
-  require('includes/classes/email.php');
-
 // file uploading class
   require('includes/classes/upload.php');
 
@@ -224,6 +220,4 @@
   require('includes/classes/cfg_modules.php');
   $cfgModules = new cfg_modules();
 
-  $OSCOM_Hooks->register('siteWide');
-
-  $OSCOM_Hooks->register(basename($PHP_SELF, '.php'));
+  $OSCOM_Hooks->register_page();

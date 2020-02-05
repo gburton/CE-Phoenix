@@ -212,7 +212,7 @@
 
 // attributes price
         if (isset($this->contents[$products_id]['attributes'])) {
-          foreach (array_keys($this->contents[$products_id]['attributes']) as $option => $value) {
+          foreach ($this->contents[$products_id]['attributes'] as $option => $value) {
             $attribute_price_query = tep_db_query("select options_values_price, price_prefix from " . TABLE_PRODUCTS_ATTRIBUTES . " where products_id = '" . (int)$prid . "' and options_id = '" . (int)$option . "' and options_values_id = '" . (int)$value . "'");
             $attribute_price = tep_db_fetch_array($attribute_price_query);
             if ($attribute_price['price_prefix'] == '+') {
