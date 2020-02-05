@@ -100,7 +100,7 @@
     public function process(&$customer_details, $entry_base = 'ENTRY_PASSWORD') {
       $customer_details['password'] = tep_db_prepare_input($_POST['password']);
 
-      if (strlen($customer_details['password']) < ENTRY_PASSWORD_MIN_LENGTH
+      if (strlen($customer_details['password']) < MODULE_CUSTOMER_DATA_PASSWORD_MIN_LENGTH
         && ('True' === MODULE_CUSTOMER_DATA_PASSWORD_REQUIRED
           || !empty($customer_details['password'])
           )
@@ -108,7 +108,7 @@
       {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
-          sprintf(constant($entry_base . '_ERROR'), ENTRY_PASSWORD_MIN_LENGTH));
+          sprintf(constant($entry_base . '_ERROR'), MODULE_CUSTOMER_DATA_PASSWORD_MIN_LENGTH));
 
         return false;
       }
