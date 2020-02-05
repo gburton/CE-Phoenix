@@ -5,25 +5,20 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   chdir('../../../../../');
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  if (!tep_session_is_registered('customer_id')) {
+  if (!isset($_SESSION['customer_id'])) {
     $navigation->set_snapshot();
     tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
   if ( defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED) && in_array('stripe.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
-    if ( !class_exists('stripe') ) {
-      include('includes/languages/' . $language . '/modules/payment/stripe.php');
-      include('includes/modules/payment/stripe.php');
-    }
-
     $stripe = new stripe();
 
     if ( !$stripe->enabled ) {
@@ -33,8 +28,6 @@
     tep_redirect(tep_href_link('account.php', '', 'SSL'));
   }
 
-  require('includes/languages/' . $language . '/modules/content/account/cm_account_stripe_cards.php');
-  require('includes/modules/content/account/cm_account_stripe_cards.php');
   $stripe_cards = new cm_account_stripe_cards();
 
   if ( !$stripe_cards->isEnabled() ) {
@@ -42,7 +35,7 @@
   }
 
   if ( isset($_GET['action']) ) {
-    if ( ($_GET['action'] == 'delete') && isset($_GET['id']) && is_numeric($_GET['id']) && isset($_GET['formid']) && ($_GET['formid'] == md5($sessiontoken))) {
+    if (tep_validate_form_action_is('delete', 2) && is_numeric($_GET['id'] ?? '')) {
       $token_query = tep_db_query("select id, stripe_token from customers_stripe_tokens where id = '" . (int)$_GET['id'] . "' and customers_id = '" . (int)$customer_id . "'");
 
       if ( tep_db_num_rows($token_query) ) {
@@ -62,7 +55,7 @@
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/stripe/cards.php', '', 'SSL'));
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
 <h1 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_HEADING_TITLE; ?></h1>
@@ -88,7 +81,7 @@
 ?>
 
     <div>
-      <span style="float: right;"><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'trash', tep_href_link('ext/modules/content/account/stripe/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($sessiontoken), 'SSL')); ?></span>
+      <span style="float: right;"><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'trash', tep_href_link('ext/modules/content/account/stripe/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($_SESSION['sessiontoken']), 'SSL')); ?></span>
       <p><strong><?php echo tep_output_string_protected($tokens['card_type']); ?></strong>&nbsp;&nbsp;****<?php echo tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)); ?></p>
     </div>
 
@@ -113,6 +106,6 @@
 </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

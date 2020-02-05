@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -16,225 +16,153 @@
 // 'en_US.UTF-8', 'en_US.UTF8', 'enu_usa'
 // 'en_GB.UTF-8', 'en_GB.UTF8', 'eng_gb'
 // 'en_AU.UTF-8', 'en_AU.UTF8', 'ena_au'
-@setlocale(LC_ALL, array('en_US.UTF-8', 'en_US.UTF8', 'enu_usa'));
+@setlocale(LC_ALL, ['en_US.UTF-8', 'en_US.UTF8', 'enu_usa']);
 
-define('DATE_FORMAT_SHORT', '%m/%d/%Y');  // this is used for strftime()
-define('DATE_FORMAT_LONG', '%A %d %B, %Y'); // this is used for strftime()
-define('DATE_FORMAT', 'm/d/Y'); // this is used for date()
-define('DATE_TIME_FORMAT', DATE_FORMAT_SHORT . ' %H:%M:%S');
-define('JQUERY_DATEPICKER_FORMAT', 'mm/dd/yy'); // see http://docs.jquery.com/UI/Datepicker/formatDate
+const DATE_FORMAT_SHORT = '%m/%d/%Y';  // this is used for strftime()
+const DATE_FORMAT_LONG = '%A %d %B, %Y'; // this is used for strftime()
+const DATE_FORMAT = 'm/d/Y'; // this is used for date()
+const DATE_TIME_FORMAT = DATE_FORMAT_SHORT . ' %H:%M:%S';
+const JQUERY_DATEPICKER_FORMAT = 'mm/dd/yy'; // see http://docs.jquery.com/UI/Datepicker/formatDate
 
-////
-// Return date in raw format
-// $date should be in format mm/dd/yyyy
-// raw date is in format YYYYMMDD, or DDMMYYYY
-function tep_date_raw($date, $reverse = false) {
-  if ($reverse) {
-    return substr($date, 3, 2) . substr($date, 0, 2) . substr($date, 6, 4);
-  } else {
-    return substr($date, 6, 4) . substr($date, 0, 2) . substr($date, 3, 2);
-  }
-}
-
-// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency, instead of the applications default currency (used when changing language)
-define('LANGUAGE_CURRENCY', 'USD');
+// if USE_DEFAULT_LANGUAGE_CURRENCY is true, use the following currency, instead of the application's default currency (used when changing language)
+const LANGUAGE_CURRENCY = 'USD';
 
 // Global entries for the <html> tag
-define('HTML_PARAMS', '');
+const HTML_PARAMS = '';
 
 // charset for web pages and emails
-define('CHARSET', 'utf-8');
+const CHARSET = 'utf-8';
 
 // page title
-define('TITLE', STORE_NAME);
+const TITLE = STORE_NAME;
 
 // text in includes/modules/downloads.php
-define('HEADER_TITLE_MY_ACCOUNT', 'My Account');
+const HEADER_TITLE_MY_ACCOUNT = 'My Account';
 
 // text in includes/application_top.php
-define('HEADER_TITLE_TOP', '<i class="fas fa-home"></i><span class="sr-only"> Home</span>');
-define('HEADER_TITLE_CATALOG', 'Catalog');
-
-// text for gender
-define('MALE', 'Male');
-define('FEMALE', 'Female');
+const HEADER_TITLE_TOP = '<i class="fas fa-home"></i><span class="sr-only"> Home</span>';
+const HEADER_TITLE_CATALOG = 'Catalog';
 
 // checkout procedure text
-define('CHECKOUT_BAR_DELIVERY', 'Delivery Information');
-define('CHECKOUT_BAR_PAYMENT', 'Payment Information');
-define('CHECKOUT_BAR_CONFIRMATION', 'Confirmation');
+const CHECKOUT_BAR_DELIVERY = 'Delivery Information';
+const CHECKOUT_BAR_PAYMENT = 'Payment Information';
+const CHECKOUT_BAR_CONFIRMATION = 'Confirmation';
 
 // pull down default text
-define('PULL_DOWN_DEFAULT', 'Please Select');
+const PULL_DOWN_DEFAULT = 'Please Select';
 
 // javascript messages
-define('JS_ERROR', 'Errors have occured during the process of your form.\n\nPlease make the following corrections:\n\n');
+const JS_ERROR = 'Errors have occured during the process of your form.\n\nPlease make the following corrections:\n\n';
 
-define('JS_ERROR_NO_PAYMENT_MODULE_SELECTED', '* Please select a payment method for your order.\n');
+const JS_ERROR_NO_PAYMENT_MODULE_SELECTED = '* Please select a payment method for your order.\n';
 
-define('ERROR_NO_PAYMENT_MODULE_SELECTED', 'Please select a payment method for your order.');
-
-define('ENTRY_COMPANY', 'Company Name');
-define('ENTRY_COMPANY_TEXT', '');
-define('ENTRY_GENDER', 'Gender');
-define('ENTRY_GENDER_ERROR', 'Please select your Gender.');
-define('ENTRY_GENDER_TEXT', '');
-define('ENTRY_FIRST_NAME', 'First Name');
-define('ENTRY_FIRST_NAME_ERROR', 'Your First Name must contain a minimum of ' . ENTRY_FIRST_NAME_MIN_LENGTH . ' characters.');
-define('ENTRY_FIRST_NAME_TEXT', '');
-define('ENTRY_LAST_NAME', 'Last Name');
-define('ENTRY_LAST_NAME_ERROR', 'Your Last Name must contain a minimum of ' . ENTRY_LAST_NAME_MIN_LENGTH . ' characters.');
-define('ENTRY_LAST_NAME_TEXT', '');
-define('ENTRY_DATE_OF_BIRTH', 'Date of Birth');
-define('ENTRY_DATE_OF_BIRTH_ERROR', 'Your Date of Birth must be in this format: MM/DD/YYYY (eg 05/21/1970)');
-define('ENTRY_DATE_OF_BIRTH_TEXT', 'eg. 05/21/1970');
-define('ENTRY_EMAIL_ADDRESS', 'E-Mail Address');
-define('ENTRY_EMAIL_ADDRESS_ERROR', 'Your E-Mail Address must contain a minimum of ' . ENTRY_EMAIL_ADDRESS_MIN_LENGTH . ' characters.');
-define('ENTRY_EMAIL_ADDRESS_CHECK_ERROR', 'Your E-Mail Address does not appear to be valid - please make any necessary corrections.');
-define('ENTRY_EMAIL_ADDRESS_ERROR_EXISTS', 'Your E-Mail Address already exists in our records - please log in with the e-mail address or create an account with a different address.');
-define('ENTRY_EMAIL_ADDRESS_TEXT', '');
-define('ENTRY_STREET_ADDRESS', 'Street Address');
-define('ENTRY_STREET_ADDRESS_ERROR', 'Your Street Address must contain a minimum of ' . ENTRY_STREET_ADDRESS_MIN_LENGTH . ' characters.');
-define('ENTRY_STREET_ADDRESS_TEXT', '');
-define('ENTRY_SUBURB', 'Suburb');
-define('ENTRY_SUBURB_TEXT', '');
-define('ENTRY_POST_CODE', 'Post Code');
-define('ENTRY_POST_CODE_ERROR', 'Your Post Code must contain a minimum of ' . ENTRY_POSTCODE_MIN_LENGTH . ' characters.');
-define('ENTRY_POST_CODE_TEXT', '');
-define('ENTRY_CITY', 'City');
-define('ENTRY_CITY_ERROR', 'Your City must contain a minimum of ' . ENTRY_CITY_MIN_LENGTH . ' characters.');
-define('ENTRY_CITY_TEXT', '');
-define('ENTRY_STATE', 'State/Province');
-define('ENTRY_STATE_ERROR', 'Your State must contain a minimum of ' . ENTRY_STATE_MIN_LENGTH . ' characters.');
-define('ENTRY_STATE_ERROR_SELECT', 'Please select a state from the States pull down menu.');
-define('ENTRY_STATE_TEXT', '');
-define('ENTRY_COUNTRY', 'Country');
-define('ENTRY_COUNTRY_ERROR', 'You must select a country from the Countries pull down menu.');
-define('ENTRY_COUNTRY_TEXT', '');
-define('ENTRY_TELEPHONE_NUMBER', 'Telephone Number');
-define('ENTRY_TELEPHONE_NUMBER_ERROR', 'Your Telephone Number must contain a minimum of ' . ENTRY_TELEPHONE_MIN_LENGTH . ' characters.');
-define('ENTRY_TELEPHONE_NUMBER_TEXT', '');
-define('ENTRY_FAX_NUMBER', 'Fax Number');
-define('ENTRY_FAX_NUMBER_TEXT', '');
-define('ENTRY_NEWSLETTER', 'Newsletter');
-define('ENTRY_NEWSLETTER_TEXT', '');
-define('ENTRY_NEWSLETTER_YES', 'Subscribed');
-define('ENTRY_NEWSLETTER_NO', 'Unsubscribed');
-define('ENTRY_PASSWORD', 'Password');
-define('ENTRY_PASSWORD_ERROR', 'Your Password must contain a minimum of ' . ENTRY_PASSWORD_MIN_LENGTH . ' characters.');
-define('ENTRY_PASSWORD_ERROR_NOT_MATCHING', 'The Password Confirmation must match your Password.');
-define('ENTRY_PASSWORD_TEXT', '');
-define('ENTRY_PASSWORD_CONFIRMATION', 'Password Confirmation');
-define('ENTRY_PASSWORD_CONFIRMATION_TEXT', '');
-define('ENTRY_PASSWORD_CURRENT', 'Current Password');
-define('ENTRY_PASSWORD_CURRENT_TEXT', '');
-define('ENTRY_PASSWORD_CURRENT_ERROR', 'Your Password must contain a minimum of ' . ENTRY_PASSWORD_MIN_LENGTH . ' characters.');
-define('ENTRY_PASSWORD_NEW', 'New Password');
-define('ENTRY_PASSWORD_NEW_TEXT', '');
-define('ENTRY_PASSWORD_NEW_ERROR', 'Your new Password must contain a minimum of ' . ENTRY_PASSWORD_MIN_LENGTH . ' characters.');
-define('ENTRY_PASSWORD_NEW_ERROR_NOT_MATCHING', 'The Password Confirmation must match your new Password.');
+const ERROR_NO_PAYMENT_MODULE_SELECTED = 'Please select a payment method for your order.';
 
 // constants for use in tep_prev_next_display function
-define('TEXT_RESULT_PAGE', 'Result Pages:');
-define('TEXT_DISPLAY_NUMBER_OF_PRODUCTS', 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products)');
+const TEXT_RESULT_PAGE = 'Result Pages:';
+const TEXT_DISPLAY_NUMBER_OF_PRODUCTS = 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> products)';
 
-define('PREVNEXT_TITLE_FIRST_PAGE', 'First Page');
-define('PREVNEXT_TITLE_PREVIOUS_PAGE', 'Previous Page');
-define('PREVNEXT_TITLE_NEXT_PAGE', 'Next Page');
-define('PREVNEXT_TITLE_LAST_PAGE', 'Last Page');
-define('PREVNEXT_TITLE_PAGE_NO', 'Page %d');
-define('PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE', 'Previous Set of %d Pages');
-define('PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE', 'Next Set of %d Pages');
-define('PREVNEXT_BUTTON_FIRST', '&lt;&lt;FIRST');
-define('PREVNEXT_BUTTON_PREV', '[&lt;&lt;&nbsp;Prev]');
-define('PREVNEXT_BUTTON_NEXT', '[Next&nbsp;&gt;&gt;]');
-define('PREVNEXT_BUTTON_LAST', 'LAST&gt;&gt;');
+const PREVNEXT_TITLE_FIRST_PAGE = 'First Page';
+const PREVNEXT_TITLE_PREVIOUS_PAGE = 'Previous Page';
+const PREVNEXT_TITLE_NEXT_PAGE = 'Next Page';
+const PREVNEXT_TITLE_LAST_PAGE = 'Last Page';
+const PREVNEXT_TITLE_PAGE_NO = 'Page %d';
+const PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE = 'Previous Set of %d Pages';
+const PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE = 'Next Set of %d Pages';
+const PREVNEXT_BUTTON_FIRST = '&lt;&lt;FIRST';
+const PREVNEXT_BUTTON_PREV = '[&lt;&lt;&nbsp;Prev]';
+const PREVNEXT_BUTTON_NEXT = '[Next&nbsp;&gt;&gt;]';
+const PREVNEXT_BUTTON_LAST = 'LAST&gt;&gt;';
 
-define('IMAGE_BUTTON_ADD_ADDRESS', 'Add Address');
-define('IMAGE_BUTTON_BACK', 'Back');
-define('IMAGE_BUTTON_BUY_NOW', 'Buy Now');
-define('IMAGE_BUTTON_CHANGE_ADDRESS', 'Change Address');
-define('IMAGE_BUTTON_CHECKOUT', 'Checkout');
-define('IMAGE_BUTTON_CONFIRM_ORDER', 'Confirm Order');
-define('IMAGE_BUTTON_CONTINUE', 'Continue');
-define('IMAGE_BUTTON_DELETE', 'Delete');
-define('IMAGE_BUTTON_LOGIN', 'Sign In');
-define('IMAGE_BUTTON_IN_CART', 'Add to Cart');
-define('IMAGE_BUTTON_SEARCH', 'Search');
-define('IMAGE_BUTTON_UPDATE', 'Update');
-define('IMAGE_BUTTON_UPDATE_PREFERENCES', 'Update Preferences');
+const IMAGE_BUTTON_ADD_ADDRESS = 'Add Address';
+const IMAGE_BUTTON_BACK = 'Back';
+const IMAGE_BUTTON_BUY_NOW = 'Buy Now';
+const IMAGE_BUTTON_CHANGE_ADDRESS = 'Change Address';
+const IMAGE_BUTTON_CHECKOUT = 'Checkout';
+const IMAGE_BUTTON_CONFIRM_ORDER = 'Confirm Order';
+const IMAGE_BUTTON_CONTINUE = 'Continue';
+const IMAGE_BUTTON_DELETE = 'Delete';
+const IMAGE_BUTTON_LOGIN = 'Sign In';
+const IMAGE_BUTTON_IN_CART = 'Add to Cart';
+const IMAGE_BUTTON_SEARCH = 'Search';
+const IMAGE_BUTTON_UPDATE = 'Update';
+const IMAGE_BUTTON_UPDATE_PREFERENCES = 'Update Preferences';
 
-define('SMALL_IMAGE_BUTTON_DELETE', 'Delete');
-define('SMALL_IMAGE_BUTTON_EDIT', 'Edit');
-define('SMALL_IMAGE_BUTTON_VIEW', 'View');
-define('SMALL_IMAGE_BUTTON_BUY', 'Buy');
+const SMALL_IMAGE_BUTTON_DELETE = 'Delete';
+const SMALL_IMAGE_BUTTON_EDIT = 'Edit';
+const SMALL_IMAGE_BUTTON_VIEW = 'View';
+const SMALL_IMAGE_BUTTON_BUY = 'Buy';
 
-define('ICON_ARROW_RIGHT', 'more');
+const ICON_ARROW_RIGHT = 'more';
 
-define('TEXT_SORT_PRODUCTS', 'Sort products ');
-define('TEXT_DESCENDINGLY', 'descendingly');
-define('TEXT_ASCENDINGLY', 'ascendingly');
-define('TEXT_BY', ' by ');
+const TEXT_SORT_PRODUCTS = 'Sort products ';
+const TEXT_DESCENDINGLY = 'descendingly';
+const TEXT_ASCENDINGLY = 'ascendingly';
+const TEXT_BY = ' by ';
 
-define('TEXT_UNKNOWN_TAX_RATE', 'Unknown tax rate');
+const TEXT_UNKNOWN_TAX_RATE = 'Unknown tax rate';
 
-define('TEXT_CCVAL_ERROR_INVALID_DATE', 'The expiry date entered for the credit card is invalid. Please check the date and try again.');
-define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'The credit card number entered is invalid. Please check the number and try again.');
-define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'The first four digits of the number entered are: %s. If that number is correct, we do not accept that type of credit card. If it is wrong, please try again.');
+const TEXT_CCVAL_ERROR_INVALID_DATE = 'The expiry date entered for the credit card is invalid. Please check the date and try again.';
+const TEXT_CCVAL_ERROR_INVALID_NUMBER = 'The credit card number entered is invalid. Please check the number and try again.';
+const TEXT_CCVAL_ERROR_UNKNOWN_CARD = 'The first four digits of the number entered are: %s. If that number is correct, we do not accept that type of credit card. If it is wrong, please try again.';
 
 // category views
-define('TEXT_VIEW', 'View: ');
-define('TEXT_VIEW_LIST', ' List');
-define('TEXT_VIEW_GRID', ' Grid');
+const TEXT_VIEW = 'View: ';
+const TEXT_VIEW_LIST = ' List';
+const TEXT_VIEW_GRID = ' Grid';
 
 // search placeholder
-define('TEXT_SEARCH_PLACEHOLDER','Search');
+const TEXT_SEARCH_PLACEHOLDER = 'Search';
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<i class="fas fa-asterisk text-danger"></i> Required information');
-define('FORM_REQUIRED_INPUT', '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>');
+const FORM_REQUIRED_INFORMATION = '<i class="fas fa-asterisk text-danger"></i> Required information';
+const FORM_REQUIRED_INPUT = '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>';
 
 // grid/list
-define('TEXT_SORT_BY', 'Sort By ');
+const TEXT_SORT_BY = 'Sort By ';
 // moved from index
-define('TABLE_HEADING_IMAGE', '');
-define('TABLE_HEADING_MODEL', 'Model');
-define('TABLE_HEADING_PRODUCTS', 'Product Name');
-define('TABLE_HEADING_MANUFACTURER', 'Manufacturer');
-define('TABLE_HEADING_QUANTITY', 'Stock');
-define('TABLE_HEADING_PRICE', 'Price');
-define('TABLE_HEADING_WEIGHT', 'Weight');
-define('TABLE_HEADING_BUY_NOW', 'Buy Now');
-define('TABLE_HEADING_LATEST_ADDED', 'Date Added');
-define('TABLE_HEADING_ORDERED', 'Most Popular');
+const TABLE_HEADING_IMAGE = '';
+const TABLE_HEADING_MODEL = 'Model';
+const TABLE_HEADING_PRODUCTS = 'Product Name';
+const TABLE_HEADING_MANUFACTURER = 'Manufacturer';
+const TABLE_HEADING_QUANTITY = 'Stock';
+const TABLE_HEADING_PRICE = 'Price';
+const TABLE_HEADING_WEIGHT = 'Weight';
+const TABLE_HEADING_BUY_NOW = 'Buy Now';
+const TABLE_HEADING_LATEST_ADDED = 'Date Added';
+const TABLE_HEADING_ORDERED = 'Most Popular';
 
 // product notifications
-define('PRODUCT_SUBSCRIBED', '%s has been added to your Notification List');
-define('PRODUCT_UNSUBSCRIBED', '%s has been removed from your Notification List');
-define('PRODUCT_ADDED', '%s has been added to your Cart');
-define('PRODUCT_REMOVED', '%s has been removed from your Cart');
+const PRODUCT_SUBSCRIBED = '%s has been added to your Notification List';
+const PRODUCT_UNSUBSCRIBED = '%s has been removed from your Notification List';
+const PRODUCT_ADDED = '%s has been added to your Cart';
+const PRODUCT_REMOVED = '%s has been removed from your Cart';
 
 // bootstrap helper
-define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
+const MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION = '';
 
 // noscript helper
-define('TEXT_NOSCRIPT', '<p><strong>JavaScript seems to be disabled in your browser.</strong></p><p>You must have JavaScript enabled in your browser to utilize the functionality of this website.<br><a class="alert-link" href="https://www.enable-javascript.com/" target="_blank" rel="nofollow">Click here for instructions on enabling javascript in your browser</a>.</p>');
+const TEXT_NOSCRIPT = <<<'EOT'
+<p><strong>JavaScript seems to be disabled in your browser.</strong></p>
+<p>You must have JavaScript enabled in your browser to utilize the functionality of this website.<br />
+<a class="alert-link" href="https://www.enable-javascript.com/" target="_blank" rel="nofollow">Click here for instructions on enabling javascript in your browser</a>.</p>
+EOT;
 
-// sitewide is-product 
-define('IS_PRODUCT_SHOW_PRICE', '%s');
-define('IS_PRODUCT_SHOW_PRICE_SPECIAL', '<del>%s</del> <span class="text-danger">now %s</span>');
-define('IS_PRODUCT_BUTTON_BUY', '<i class="fas fa-shopping-cart"></i>');
-define('IS_PRODUCT_BUTTON_VIEW', '<i class="fas fa-eye"></i> View');
+// sitewide is-product
+const IS_PRODUCT_SHOW_PRICE = '%s';
+const IS_PRODUCT_SHOW_PRICE_SPECIAL = '<del>%s</del> <span class="text-danger">now %s</span>';
+const IS_PRODUCT_BUTTON_BUY = '<i class="fas fa-shopping-cart"></i>';
+const IS_PRODUCT_BUTTON_VIEW = '<i class="fas fa-eye"></i> View';
 
 // sitewide product listing
-define('LISTING_SORT_DOWN', '<i class="fas fa-level-down-alt text-primary"></i>');
-define('LISTING_SORT_UP', '<i class="fas fa-level-up-alt text-primary"></i>');
-define('LISTING_SORT_UNSELECTED', '<i class="fas fa-level-up-alt text-black-50"></i>');
+const LISTING_SORT_DOWN = '<i class="fas fa-level-down-alt text-primary"></i>';
+const LISTING_SORT_UP = '<i class="fas fa-level-up-alt text-primary"></i>';
+const LISTING_SORT_UNSELECTED = '<i class="fas fa-level-up-alt text-black-50"></i>';
 // for new style internal pages
-define('LINK_TEXT_EDIT', '<small><a class="%s" href="' . tep_href_link('%s', '', 'SSL') . '">Edit</a></small>');
-define('SHIPPING_FA_ICON', '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>');
-define('PAYMENT_FA_ICON', '<i class="fas fa-file-invoice-dollar fa-fw fa-3x float-right text-black-50"></i>');
+const LINK_TEXT_EDIT = '<small><a class="%s" href="%s">Edit</a></small>';
+const SHIPPING_FA_ICON = '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>';
+const PAYMENT_FA_ICON = '<i class="fas fa-file-invoice-dollar fa-fw fa-3x float-right text-black-50"></i>';
 
-define('ENTRY_COMMENTS', 'Anything we need to know?');
-define('ENTRY_COMMENTS_PLACEHOLDER', 'Comment here...');
-define('TABLE_HEADING_OR', '-or-');
+const ENTRY_COMMENTS = 'Anything we need to know?';
+const ENTRY_COMMENTS_PLACEHOLDER = 'Comment here...';
+const TABLE_HEADING_OR = '-or-';

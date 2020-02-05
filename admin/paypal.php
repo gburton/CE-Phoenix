@@ -341,7 +341,7 @@ var OSCOM = {
       versionCheckResult: <?php echo (defined('OSCOM_APP_PAYPAL_VERSION_CHECK')) ? '"' . OSCOM_APP_PAYPAL_VERSION_CHECK . '"' : 'undefined'; ?>,
       action: '<?php echo $action; ?>',
       doOnlineVersionCheck: false,
-      canApplyOnlineUpdates: <?php echo class_exists('ZipArchive') && function_exists('json_encode') && function_exists('openssl_verify') ? 'true' : 'false'; ?>,
+      canApplyOnlineUpdates: false,
       accountTypes: {
         live: <?php echo ($OSCOM_PayPal->hasApiCredentials('live') === true) ? 'true' : 'false'; ?>,
         sandbox: <?php echo ($OSCOM_PayPal->hasApiCredentials('sandbox') === true) ? 'true' : 'false'; ?>
@@ -387,7 +387,6 @@ var OSCOM = {
       versionCheckNotify: function() {
         if ( (typeof this.versionCheckResult[0] != 'undefined') && (typeof this.versionCheckResult[1] != 'undefined') ) {
           if ( this.versionCheckResult[1] > this.version ) {
-            $('#ppAppUpdateNotice').show();
           }
         }
       }

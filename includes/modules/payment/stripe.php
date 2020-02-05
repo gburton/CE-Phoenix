@@ -5,26 +5,24 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class stripe {
-    var $code, $title, $description, $enabled;
+  class stripe extends abstract_payment_module {
 
-    function __construct() {
+    const CONFIG_KEY_BASE = 'MODULE_PAYMENT_STRIPE_';
+
+    public function __construct() {
       global $PHP_SELF, $order, $payment;
 
       $this->signature = 'stripe|stripe|1.0|2.3';
       $this->api_version = '2014-05-19';
 
-      $this->code = 'stripe';
-      $this->title = MODULE_PAYMENT_STRIPE_TEXT_TITLE;
+      parent::__construct();
       $this->public_title = MODULE_PAYMENT_STRIPE_TEXT_PUBLIC_TITLE;
-      $this->description = MODULE_PAYMENT_STRIPE_TEXT_DESCRIPTION;
-      $this->sort_order = defined('MODULE_PAYMENT_STRIPE_SORT_ORDER') ? MODULE_PAYMENT_STRIPE_SORT_ORDER : 0;
-      $this->enabled = defined('MODULE_PAYMENT_STRIPE_STATUS') && (MODULE_PAYMENT_STRIPE_STATUS == 'True') ? true : false;
+      $this->sort_order = $this->sort_order ?? 0;
       $this->order_status = defined('MODULE_PAYMENT_STRIPE_ORDER_STATUS_ID') && ((int)MODULE_PAYMENT_STRIPE_ORDER_STATUS_ID > 0) ? (int)MODULE_PAYMENT_STRIPE_ORDER_STATUS_ID : 0;
 
       if ( defined('MODULE_PAYMENT_STRIPE_STATUS') ) {
@@ -36,63 +34,33 @@
         $this->description .= $this->getTestLinkInfo();
       }
 
+      if ( ('modules.php' === $PHP_SELF) && ('install' === ($_GET['action'] ?? null)) && ('conntest' === ($_GET['subaction'] ?? null)) ) {
+        echo $this->getTestConnectionResult();
+        exit;
+      }
+
+      if ($this->enabled !== true) {
+        return;
+      }
+
       if ( !function_exists('curl_init') ) {
         $this->description = '<div class="secWarning">' . MODULE_PAYMENT_STRIPE_ERROR_ADMIN_CURL . '</div>' . $this->description;
 
         $this->enabled = false;
       }
 
-      if ( $this->enabled === true ) {
-        if ( !tep_not_null(MODULE_PAYMENT_STRIPE_PUBLISHABLE_KEY) || !tep_not_null(MODULE_PAYMENT_STRIPE_SECRET_KEY) ) {
-          $this->description = '<div class="secWarning">' . MODULE_PAYMENT_STRIPE_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
+      if ( !tep_not_null(MODULE_PAYMENT_STRIPE_PUBLISHABLE_KEY) || !tep_not_null(MODULE_PAYMENT_STRIPE_SECRET_KEY) ) {
+        $this->description = '<div class="secWarning">' . MODULE_PAYMENT_STRIPE_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
 
-          $this->enabled = false;
-        }
-      }
-
-      if ( $this->enabled === true ) {
-        if ( isset($order) && is_object($order) ) {
-          $this->update_status();
-        }
-      }
-
-      if ( ($PHP_SELF == 'modules.php') && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
-        echo $this->getTestConnectionResult();
-        exit;
+        $this->enabled = false;
       }
     }
 
-    function update_status() {
-      global $order;
+    public function selection() {
+      if ( (MODULE_PAYMENT_STRIPE_TOKENS == 'True') && !isset($_SESSION['payment']) ) {
+        global $customer_id, $payment;
 
-      if ( ($this->enabled == true) && ((int)MODULE_PAYMENT_STRIPE_ZONE > 0) ) {
-        $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_PAYMENT_STRIPE_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
-          if ($check['zone_id'] < 1) {
-            $check_flag = true;
-            break;
-          } elseif ($check['zone_id'] == $order->delivery['zone_id']) {
-            $check_flag = true;
-            break;
-          }
-        }
-
-        if ($check_flag == false) {
-          $this->enabled = false;
-        }
-      }
-    }
-
-    function javascript_validation() {
-      return false;
-    }
-
-    function selection() {
-      global $customer_id, $payment;
-
-      if ( (MODULE_PAYMENT_STRIPE_TOKENS == 'True') && !tep_session_is_registered('payment') ) {
-        $tokens_query = tep_db_query("select 1 from customers_stripe_tokens where customers_id = '" . (int)$customer_id . "' limit 1");
+        $tokens_query = tep_db_query("SELECT 1 FROM customers_stripe_tokens WHERE customers_id = '" . (int)$customer_id . "' LIMIT 1");
 
         if ( tep_db_num_rows($tokens_query) ) {
           $payment = $this->code;
@@ -100,34 +68,35 @@
         }
       }
 
-      return array('id' => $this->code,
-                   'module' => $this->public_title);
+      return parent::selection();
     }
 
-    function pre_confirmation_check() {
-      global $oscTemplate;
-
+    public function pre_confirmation_check() {
       if ( $this->templateClassExists() ) {
-        $oscTemplate->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
+        $GLOBALS['oscTemplate']->addBlock($this->getSubmitCardDetailsJavascript(), 'footer_scripts');
       }
     }
 
-    function confirmation() {
+    public function confirmation() {
       global $customer_id, $order, $currencies, $currency;
 
-      $months_array = array();
+      $months_array = [];
 
-      for ($i=1; $i<13; $i++) {
-        $months_array[] = array('id' => tep_output_string(sprintf('%02d', $i)),
-                                'text' => tep_output_string_protected(sprintf('%02d', $i)));
+      for ($i = 1; $i <= 12; $i++) {
+        $months_array[] = [
+          'id' => tep_output_string(sprintf('%02d', $i)),
+          'text' => tep_output_string_protected(sprintf('%02d', $i)),
+        ];
       }
 
-      $today = getdate(); 
-      $years_array = array();
+      $today = getdate();
+      $years_array = [];
 
       for ($i=$today['year']; $i < $today['year']+10; $i++) {
-        $years_array[] = array('id' => tep_output_string(strftime('%Y',mktime(0,0,0,1,1,$i))),
-                               'text' => tep_output_string_protected(strftime('%Y',mktime(0,0,0,1,1,$i))));
+        $years_array[] = [
+          'id' => tep_output_string(strftime('%Y', mktime(0, 0, 0, 1, 1, $i))),
+          'text' => tep_output_string_protected(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
+        ];
       }
 
       $months_string = '<select data-stripe="exp_month">';
@@ -145,7 +114,7 @@
       $content = '';
 
       if ( MODULE_PAYMENT_STRIPE_TOKENS == 'True' ) {
-        $tokens_query = tep_db_query("select id, card_type, number_filtered, expiry_date from customers_stripe_tokens where customers_id = '" . (int)$customer_id . "' order by date_added");
+        $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_stripe_tokens WHERE customers_id = '" . (int)$customer_id . "' ORDER BY date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
           $content .= '<table id="stripe_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
@@ -169,7 +138,7 @@
                   '<table id="stripe_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">' .
                   '<tr>' .
                   '  <td width="30%">' . MODULE_PAYMENT_STRIPE_CREDITCARD_OWNER . '</td>' .
-                  '  <td><input type="text" data-stripe="name" value="' . tep_output_string($order->billing['firstname'] . ' ' . $order->billing['lastname']) . '" /></td>' .
+                  '  <td><input type="text" data-stripe="name" value="' . tep_output_string($order->billing['name']) . '" /></td>' .
                   '</tr>' .
                   '<tr>' .
                   '  <td width="30%">' . MODULE_PAYMENT_STRIPE_CREDITCARD_NUMBER . '</td>' .
@@ -196,11 +165,13 @@
 
       $content .= '</table>';
 
-      $address = array('address_line1' => $order->billing['street_address'],
-                       'address_city' => $order->billing['city'],
-                       'address_zip' => $order->billing['postcode'],
-                       'address_state' => tep_get_zone_name($order->billing['country_id'], $order->billing['zone_id'], $order->billing['state']),
-                       'address_country' => $order->billing['country']['iso_code_2']);
+      $address = [
+        'address_line1' => $order->billing['street_address'],
+        'address_city' => $order->billing['city'],
+        'address_zip' => $order->billing['postcode'],
+        'address_state' => tep_get_zone_name($order->billing['country_id'], $order->billing['zone_id'], $order->billing['state']),
+        'address_country' => $order->billing['country']['iso_code_2']
+      ];
 
       foreach ( $address as $k => $v ) {
         $content .= '<input type="hidden" data-stripe="' . tep_output_string($k) . '" value="' . tep_output_string($v) . '" />';
@@ -210,25 +181,21 @@
         $content .= $this->getSubmitCardDetailsJavascript();
       }
 
-      $confirmation = array('title' => $content);
+      $confirmation = ['title' => $content];
 
       return $confirmation;
     }
 
-    function process_button() {
-      return false;
-    }
-
-    function before_process() {
+    public function before_process() {
       global $customer_id, $order, $currency, $stripe_result, $stripe_error;
 
       $stripe_result = null;
 
-      $params = array();
+      $params = [];
 
       if ( MODULE_PAYMENT_STRIPE_TOKENS == 'True' ) {
         if ( isset($_POST['stripe_card']) && is_numeric($_POST['stripe_card']) && ($_POST['stripe_card'] > 0) ) {
-          $token_query = tep_db_query("select stripe_token from customers_stripe_tokens where id = '" . (int)$_POST['stripe_card'] . "' and customers_id = '" . (int)$customer_id . "'");
+          $token_query = tep_db_query("SELECT stripe_token FROM customers_stripe_tokens WHERE id = " . (int)$_POST['stripe_card'] . " AND customers_id = " . (int)$customer_id);
 
           if ( tep_db_num_rows($token_query) === 1 ) {
             $token = tep_db_fetch_array($token_query);
@@ -243,7 +210,7 @@
         }
       }
 
-      if ( empty($params) && isset($_POST['stripeToken']) && !empty($_POST['stripeToken']) ) {
+      if ( empty($params) && !empty($_POST['stripeToken']) ) {
         if ( (MODULE_PAYMENT_STRIPE_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') ) {
           $stripe_customer_id = $this->getCustomerID();
           $stripe_card_id = false;
@@ -275,17 +242,13 @@
 
         $stripe_result = json_decode($this->sendTransactionToGateway('https://api.stripe.com/v1/charges', $params), true);
 
-        if ( is_array($stripe_result) && !empty($stripe_result) ) {
-          if ( isset($stripe_result['object']) && ($stripe_result['object'] == 'charge') ) {
-            return true;
-          }
+        if ( !empty($stripe_result) && is_array($stripe_result) && ( 'charge' === ($stripe_result['object'] ?? null) ) ) {
+          return true;
         }
       }
 
       if ( isset($stripe_result['error']['message']) ) {
-        tep_session_register('stripe_error');
-
-        $stripe_error = $stripe_result['error']['message'];
+        $_SESSION['stripe_error'] = $stripe_result['error']['message'];
       }
 
       $this->sendDebugEmail($stripe_result);
@@ -293,11 +256,13 @@
       tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL'));
     }
 
-    function after_process() {
-      global $insert_id, $customer_id, $stripe_result;
+    public function after_process() {
+      global $order_id, $customer_id, $stripe_result;
 
-      $status_comment = array('Transaction ID: ' . $stripe_result['id'],
-                              'CVC: ' . $stripe_result['card']['cvc_check']);
+      $status_comment = [
+        'Transaction ID: ' . $stripe_result['id'],
+        'CVC: ' . $stripe_result['card']['cvc_check'],
+      ];
 
       if ( !empty($stripe_result['card']['address_line1_check']) ) {
         $status_comment[] = 'Address Check: ' . $stripe_result['card']['address_line1_check'];
@@ -315,31 +280,29 @@
         }
       }
 
-      $sql_data_array = array('orders_id' => $insert_id,
-                              'orders_status_id' => MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID,
-                              'date_added' => 'now()',
-                              'customer_notified' => '0',
-                              'comments' => implode("\n", $status_comment));
+      $sql_data = [
+        'orders_id' => $order_id,
+        'orders_status_id' => MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID,
+        'date_added' => 'now()',
+        'customer_notified' => '0',
+        'comments' => implode("\n", $status_comment),
+      ];
 
-      tep_db_perform('orders_status_history', $sql_data_array);
+      tep_db_perform('orders_status_history', $sql_data);
 
-      if ( tep_session_is_registered('stripe_error') ) {
-        tep_session_unregister('stripe_error');
-      }
+      unset($_SESSION['stripe_error']);
     }
 
-    function get_error() {
-      global $stripe_error;
-
+    public function get_error() {
       $message = MODULE_PAYMENT_STRIPE_ERROR_GENERAL;
 
-      if ( tep_session_is_registered('stripe_error') ) {
-        $message = $stripe_error . ' ' . $message;
+      if ( isset($_SESSION['stripe_error']) ) {
+        $message = $_SESSION['stripe_error'] . ' ' . $message;
 
-        tep_session_unregister('stripe_error');
+        unset($_SESSION['stripe_error']);
       }
 
-      if ( isset($_GET['error']) && !empty($_GET['error']) ) {
+      if ( !empty($_GET['error']) ) {
         switch ($_GET['error']) {
           case 'cardstored':
             $message = MODULE_PAYMENT_STRIPE_ERROR_CARDSTORED;
@@ -347,72 +310,16 @@
         }
       }
 
-      $error = array('title' => MODULE_PAYMENT_STRIPE_ERROR_TITLE,
-                     'error' => $message);
+      $error = [
+        'title' => MODULE_PAYMENT_STRIPE_ERROR_TITLE,
+        'error' => $message,
+      ];
 
       return $error;
     }
 
-    function check() {
-      if (!isset($this->_check)) {
-        $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_PAYMENT_STRIPE_STATUS'");
-        $this->_check = tep_db_num_rows($check_query);
-      }
-      return $this->_check;
-    }
-
-    function install($parameter = null) {
-      $params = $this->getParams();
-
-      if (isset($parameter)) {
-        if (isset($params[$parameter])) {
-          $params = array($parameter => $params[$parameter]);
-        } else {
-          $params = array();
-        }
-      }
-
-      foreach ($params as $key => $data) {
-        $sql_data_array = array('configuration_title' => $data['title'],
-                                'configuration_key' => $key,
-                                'configuration_value' => (isset($data['value']) ? $data['value'] : ''),
-                                'configuration_description' => $data['desc'],
-                                'configuration_group_id' => '6',
-                                'sort_order' => '0',
-                                'date_added' => 'now()');
-
-        if (isset($data['set_func'])) {
-          $sql_data_array['set_function'] = $data['set_func'];
-        }
-
-        if (isset($data['use_func'])) {
-          $sql_data_array['use_function'] = $data['use_func'];
-        }
-
-        tep_db_perform('configuration', $sql_data_array);
-      }
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      $keys = array_keys($this->getParams());
-
-      if ($this->check()) {
-        foreach ($keys as $key) {
-          if (!defined($key)) {
-            $this->install($key);
-          }
-        }
-      }
-
-      return $keys;
-    }
-
-    function getParams() {
-      if ( tep_db_num_rows(tep_db_query("show tables like 'customers_stripe_tokens'")) != 1 ) {
+    public function get_parameters() {
+      if ( tep_db_num_rows(tep_db_query("SHOW TABLES LIKE 'customers_stripe_tokens'")) < 1 ) {
         $sql = <<<EOD
 CREATE TABLE customers_stripe_tokens (
   id int NOT NULL auto_increment,
@@ -431,91 +338,93 @@ EOD;
         tep_db_query($sql);
       }
 
-      if (!defined('MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID')) {
-        $check_query = tep_db_query("select orders_status_id from orders_status where orders_status_name = 'Stripe [Transactions]' limit 1");
-
-        if (tep_db_num_rows($check_query) < 1) {
-          $status_query = tep_db_query("select max(orders_status_id) as status_id from orders_status");
-          $status = tep_db_fetch_array($status_query);
-
-          $status_id = $status['status_id']+1;
-
-          $languages = tep_get_languages();
-
-          foreach ($languages as $lang) {
-            tep_db_query("insert into orders_status (orders_status_id, language_id, orders_status_name) values ('" . $status_id . "', '" . $lang['id'] . "', 'Stripe [Transactions]')");
-          }
-
-          $flags_query = tep_db_query("describe orders_status public_flag");
-          if (tep_db_num_rows($flags_query) == 1) {
-            tep_db_query("update orders_status set public_flag = 0 and downloads_flag = 0 where orders_status_id = '" . $status_id . "'");
-          }
-        } else {
-          $check = tep_db_fetch_array($check_query);
-
-          $status_id = $check['orders_status_id'];
-        }
-      } else {
-        $status_id = MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID;
-      }
-
-      $params = array('MODULE_PAYMENT_STRIPE_STATUS' => array('title' => 'Enable Stripe Module',
-                                                              'desc' => 'Do you want to accept Stripe payments?',
-                                                              'value' => 'True',
-                                                              'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_PAYMENT_STRIPE_PUBLISHABLE_KEY' => array('title' => 'Publishable API Key',
-                                                                       'desc' => 'The Stripe account publishable API key to use.',
-                                                                       'value' => ''),
-                      'MODULE_PAYMENT_STRIPE_SECRET_KEY' => array('title' => 'Secret API Key',
-                                                                  'desc' => 'The Stripe account secret API key to use with the publishable key.',
-                                                                  'value' => ''),
-                      'MODULE_PAYMENT_STRIPE_TOKENS' => array('title' => 'Create Tokens',
-                                                              'desc' => 'Create and store tokens for card payments customers can use on their next purchase?',
-                                                              'value' => 'False',
-                                                              'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_PAYMENT_STRIPE_VERIFY_WITH_CVC' => array('title' => 'Verify With CVC',
-                                                                       'desc' => 'Verify the credit card billing address with the Card Verification Code (CVC)?',
-                                                                       'value' => 'True',
-                                                                       'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_PAYMENT_STRIPE_TRANSACTION_METHOD' => array('title' => 'Transaction Method',
-                                                                          'desc' => 'The processing method to use for each transaction.',
-                                                                          'value' => 'Authorize',
-                                                                          'set_func' => 'tep_cfg_select_option(array(\'Authorize\', \'Capture\'), '),
-                      'MODULE_PAYMENT_STRIPE_ORDER_STATUS_ID' => array('title' => 'Set Order Status',
-                                                                       'desc' => 'Set the status of orders made with this payment module to this value',
-                                                                       'value' => '0',
-                                                                       'use_func' => 'tep_get_order_status_name',
-                                                                       'set_func' => 'tep_cfg_pull_down_order_statuses('),
-                      'MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID' => array('title' => 'Transaction Order Status',
-                                                                                   'desc' => 'Include transaction information in this order status level',
-                                                                                   'value' => $status_id,
-                                                                                   'set_func' => 'tep_cfg_pull_down_order_statuses(',
-                                                                                   'use_func' => 'tep_get_order_status_name'),
-                      'MODULE_PAYMENT_STRIPE_ZONE' => array('title' => 'Payment Zone',
-                                                            'desc' => 'If a zone is selected, only enable this payment method for that zone.',
-                                                            'value' => '0',
-                                                            'use_func' => 'tep_get_zone_class_title',
-                                                            'set_func' => 'tep_cfg_pull_down_zone_classes('),
-                      'MODULE_PAYMENT_STRIPE_TRANSACTION_SERVER' => array('title' => 'Transaction Server',
-                                                                          'desc' => 'Perform transactions on the production server or on the testing server.',
-                                                                          'value' => 'Live',
-                                                                          'set_func' => 'tep_cfg_select_option(array(\'Live\', \'Test\'), '),
-                      'MODULE_PAYMENT_STRIPE_VERIFY_SSL' => array('title' => 'Verify SSL Certificate',
-                                                                  'desc' => 'Verify gateway server SSL certificate on connection?',
-                                                                  'value' => 'True',
-                                                                  'set_func' => 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-                      'MODULE_PAYMENT_STRIPE_PROXY' => array('title' => 'Proxy Server',
-                                                             'desc' => 'Send API requests through this proxy server. (host:port, eg: 123.45.67.89:8080 or proxy.example.com:8080)'),
-                      'MODULE_PAYMENT_STRIPE_DEBUG_EMAIL' => array('title' => 'Debug E-Mail Address',
-                                                                   'desc' => 'All parameters of an invalid transaction will be sent to this email address.'),
-                      'MODULE_PAYMENT_STRIPE_SORT_ORDER' => array('title' => 'Sort order of display.',
-                                                                  'desc' => 'Sort order of display. Lowest is displayed first.',
-                                                                  'value' => '0'));
+      $params = [
+        'MODULE_PAYMENT_STRIPE_STATUS' => [
+          'title' => 'Enable Stripe Module',
+          'desc' => 'Do you want to accept Stripe payments?',
+          'value' => 'True',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_PUBLISHABLE_KEY' => [
+          'title' => 'Publishable API Key',
+          'desc' => 'The Stripe account publishable API key to use.',
+          'value' => '',
+        ],
+        'MODULE_PAYMENT_STRIPE_SECRET_KEY' => [
+          'title' => 'Secret API Key',
+          'desc' => 'The Stripe account secret API key to use with the publishable key.',
+          'value' => '',
+        ],
+        'MODULE_PAYMENT_STRIPE_TOKENS' => [
+          'title' => 'Create Tokens',
+          'desc' => 'Create and store tokens for card payments customers can use on their next purchase?',
+          'value' => 'False',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_VERIFY_WITH_CVC' => [
+          'title' => 'Verify With CVC',
+          'desc' => 'Verify the credit card billing address with the Card Verification Code (CVC)?',
+          'value' => 'True',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_TRANSACTION_METHOD' => [
+          'title' => 'Transaction Method',
+          'desc' => 'The processing method to use for each transaction.',
+          'value' => 'Authorize',
+          'set_func' => "tep_cfg_select_option(['Authorize', 'Capture'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_ORDER_STATUS_ID' => [
+          'title' => 'Set Order Status',
+          'desc' => 'Set the status of orders made with this payment module to this value',
+          'value' => '0',
+          'use_func' => 'tep_get_order_status_name',
+          'set_func' => 'tep_cfg_pull_down_order_statuses(',
+        ],
+        'MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID' => [
+          'title' => 'Transaction Order Status',
+          'desc' => 'Include transaction information in this order status level',
+          'value' => abstract_payment_module::ensure_order_status(MODULE_PAYMENT_STRIPE_TRANSACTION_ORDER_STATUS_ID, 'Stripe [Transactions]'),
+          'set_func' => 'tep_cfg_pull_down_order_statuses(',
+          'use_func' => 'tep_get_order_status_name',
+        ],
+        'MODULE_PAYMENT_STRIPE_ZONE' => [
+          'title' => 'Payment Zone',
+          'desc' => 'If a zone is selected, only enable this payment method for that zone.',
+          'value' => '0',
+          'use_func' => 'tep_get_zone_class_title',
+          'set_func' => 'tep_cfg_pull_down_zone_classes(',
+        ],
+        'MODULE_PAYMENT_STRIPE_TRANSACTION_SERVER' => [
+          'title' => 'Transaction Server',
+          'desc' => 'Perform transactions on the production server or on the testing server.',
+          'value' => 'Live',
+          'set_func' => "tep_cfg_select_option(['Live', 'Test'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_VERIFY_SSL' => [
+          'title' => 'Verify SSL Certificate',
+          'desc' => 'Verify gateway server SSL certificate on connection?',
+          'value' => 'True',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_PAYMENT_STRIPE_PROXY' => [
+          'title' => 'Proxy Server',
+          'desc' => 'Send API requests through this proxy server. (host:port, eg: 123.45.67.89:8080 or proxy.example.com:8080)',
+        ],
+        'MODULE_PAYMENT_STRIPE_DEBUG_EMAIL' => [
+          'title' => 'Debug E-Mail Address',
+          'desc' => 'All parameters of an invalid transaction will be sent to this email address.',
+        ],
+        'MODULE_PAYMENT_STRIPE_SORT_ORDER' => [
+          'title' => 'Sort order of display.',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+          'value' => '0',
+        ],
+      ];
 
       return $params;
     }
 
-    function sendTransactionToGateway($url, $parameters = null, $curl_opts = array()) {
+    public function sendTransactionToGateway($url, $parameters = null, $curl_opts = []) {
       $server = parse_url($url);
 
       if (isset($server['port']) === false) {
@@ -526,10 +435,12 @@ EOD;
         $server['path'] = '/';
       }
 
-      $header = array('Stripe-Version: ' . $this->api_version,
-                      'User-Agent: OSCOM ' . tep_get_version());
+      $header = [
+        'Stripe-Version: ' . $this->api_version,
+        'User-Agent: OSCOM ' . tep_get_version(),
+      ];
 
-      if ( is_array($parameters) && !empty($parameters) ) {
+      if ( !empty($parameters) && is_array($parameters) ) {
         $post_string = '';
 
         foreach ($parameters as $key => $value) {
@@ -580,13 +491,16 @@ EOD;
       }
 
       $result = curl_exec($curl);
+      if (false === $result) {
+        error_log(curl_error($curl));
+      }
 
       curl_close($curl);
 
       return $result;
     }
 
-    function getTestLinkInfo() {
+    public function getTestLinkInfo() {
       $dialog_title = MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_TITLE;
       $dialog_button_close = MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_BUTTON_CLOSE;
       $dialog_success = MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_SUCCESS;
@@ -644,7 +558,7 @@ EOD;
       return $info;
     }
 
-    function getTestConnectionResult() {
+    public function getTestConnectionResult() {
       $stripe_result = json_decode($this->sendTransactionToGateway('https://api.stripe.com/v1/charges/oscommerce_connection_test'), true);
 
       if ( is_array($stripe_result) && !empty($stripe_result) && isset($stripe_result['error']) ) {
@@ -654,7 +568,7 @@ EOD;
       return -1;
     }
 
-    function format_raw($number, $currency_code = '', $currency_value = '') {
+    public function format_raw($number, $currency_code = '', $currency_value = '') {
       global $currencies, $currency;
 
       if (empty($currency_code) || !$currencies->is_set($currency_code)) {
@@ -668,11 +582,11 @@ EOD;
       return number_format(tep_round($number * $currency_value, $currencies->currencies[$currency_code]['decimal_places']), $currencies->currencies[$currency_code]['decimal_places'], '', '');
     }
 
-    function templateClassExists() {
-      return class_exists('oscTemplate') && isset($GLOBALS['oscTemplate']) && is_object($GLOBALS['oscTemplate']) && (get_class($GLOBALS['oscTemplate']) == 'oscTemplate');
+    public function templateClassExists() {
+      return $GLOBALS['oscTemplate'] instanceof oscTemplate;
     }
 
-    function getSubmitCardDetailsJavascript() {
+    public function getSubmitCardDetailsJavascript() {
       $stripe_publishable_key = MODULE_PAYMENT_STRIPE_PUBLISHABLE_KEY;
 
       $js = <<<EOD
@@ -773,7 +687,7 @@ EOD;
       return $js;
     }
 
-    function sendDebugEmail($response = array()) {
+    public function sendDebugEmail($response = []) {
       if (tep_not_null(MODULE_PAYMENT_STRIPE_DEBUG_EMAIL)) {
         $email_body = '';
 
@@ -795,10 +709,10 @@ EOD;
       }
     }
 
-    function getCustomerID() {
+    public function getCustomerID() {
       global $customer_id;
 
-      $token_check_query = tep_db_query("select stripe_token from customers_stripe_tokens where customers_id = '" . (int)$customer_id . "' limit 1");
+      $token_check_query = tep_db_query("SELECT stripe_token FROM customers_stripe_tokens WHERE customers_id = '" . (int)$customer_id . "' LIMIT 1");
 
       if ( tep_db_num_rows($token_check_query) === 1 ) {
         $token_check = tep_db_fetch_array($token_check_query);
@@ -811,10 +725,10 @@ EOD;
       return false;
     }
 
-    function createCustomer($token) {
+    public function createCustomer($token) {
       global $customer_id;
 
-      $params = array('card' => $token);
+      $params = ['card' => $token];
 
       $result = json_decode($this->sendTransactionToGateway('https://api.stripe.com/v1/customers', $params), true);
 
@@ -824,17 +738,21 @@ EOD;
         $number = tep_db_prepare_input($result['cards']['data'][0]['last4']);
         $expiry = tep_db_prepare_input(str_pad($result['cards']['data'][0]['exp_month'], 2, '0', STR_PAD_LEFT) . $result['cards']['data'][0]['exp_year']);
 
-        $sql_data_array = array('customers_id' => (int)$customer_id,
-                                'stripe_token' => $token,
-                                'card_type' => $type,
-                                'number_filtered' => $number,
-                                'expiry_date' => $expiry,
-                                'date_added' => 'now()');
+        $sql_data = [
+          'customers_id' => (int)$customer_id,
+          'stripe_token' => $token,
+          'card_type' => $type,
+          'number_filtered' => $number,
+          'expiry_date' => $expiry,
+          'date_added' => 'NOW()',
+        ];
 
-        tep_db_perform('customers_stripe_tokens', $sql_data_array);
+        tep_db_perform('customers_stripe_tokens', $sql_data);
 
-        return array('id' => $result['id'],
-                     'card_id' => $result['cards']['data'][0]['id']);
+        return [
+          'id' => $result['id'],
+          'card_id' => $result['cards']['data'][0]['id'],
+        ];
       }
 
       $this->sendDebugEmail($result);
@@ -842,12 +760,12 @@ EOD;
       return false;
     }
 
-    function addCard($token, $customer) {
+    public function addCard($token, $customer) {
       global $customer_id;
 
-      $params = array('card' => $token);
+      $params = ['card' => $token];
 
-      $result = json_decode($this->sendTransactionToGateway('https://api.stripe.com/v1/customers/' . $customer . '/cards', $params), true);
+      $result = json_decode($this->sendTransactionToGateway("https://api.stripe.com/v1/customers/$customer/cards", $params), true);
 
       if ( is_array($result) && !empty($result) && isset($result['object']) && ($result['object'] == 'card') ) {
         $token = tep_db_prepare_input($customer . ':|:' . $result['id']);
@@ -855,14 +773,16 @@ EOD;
         $number = tep_db_prepare_input($result['last4']);
         $expiry = tep_db_prepare_input(str_pad($result['exp_month'], 2, '0', STR_PAD_LEFT) . $result['exp_year']);
 
-        $sql_data_array = array('customers_id' => (int)$customer_id,
-                                'stripe_token' => $token,
-                                'card_type' => $type,
-                                'number_filtered' => $number,
-                                'expiry_date' => $expiry,
-                                'date_added' => 'now()');
+        $sql_data = [
+          'customers_id' => (int)$customer_id,
+          'stripe_token' => $token,
+          'card_type' => $type,
+          'number_filtered' => $number,
+          'expiry_date' => $expiry,
+          'date_added' => 'NOW()',
+        ];
 
-        tep_db_perform('customers_stripe_tokens', $sql_data_array);
+        tep_db_perform('customers_stripe_tokens', $sql_data);
 
         return $result['id'];
       }
@@ -872,18 +792,17 @@ EOD;
       return false;
     }
 
-    function deleteCard($card, $customer, $token_id) {
+    public function deleteCard($card, $customer, $token_id) {
       global $customer_id;
 
-      $result = $this->sendTransactionToGateway('https://api.stripe.com/v1/customers/' . $customer . '/cards/' . $card, null, array(CURLOPT_CUSTOMREQUEST => 'DELETE'));
+      $result = $this->sendTransactionToGateway("https://api.stripe.com/v1/customers/$customer/cards/$card", null, [CURLOPT_CUSTOMREQUEST => 'DELETE']);
 
       if ( !is_array($result) || !isset($result['object']) || ($result['object'] != 'card') ) {
         $this->sendDebugEmail($result);
       }
 
-      tep_db_query("delete from customers_stripe_tokens where id = '" . (int)$token_id . "' and customers_id = '" . (int)$customer_id . "' and stripe_token = '" . tep_db_prepare_input(tep_db_input($customer . ':|:' . $card)) . "'");
+      tep_db_query("DELETE FROM customers_stripe_tokens WHERE id = '" . (int)$token_id . "' AND customers_id = '" . (int)$customer_id . "' AND stripe_token = '" . tep_db_input(tep_db_prepare_input($customer . ':|:' . $card)) . "'");
 
       return (tep_db_affected_rows() === 1);
     }
   }
-?>
