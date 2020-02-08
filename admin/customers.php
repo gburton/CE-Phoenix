@@ -227,7 +227,7 @@ EOSQL
             'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=edit'))
                     . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=confirm'))
                     . tep_draw_button(IMAGE_ORDERS, 'cart', tep_href_link('orders.php', 'cID=' . $cInfo->id))
-                    . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link('mail.php', 'customer=' . $cInfo->email_address)),
+                    . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link('mail.php', 'customer=' . urlencode($cInfo->email_address))),
           ];
           $contents[] = ['text' => '<br />' . TEXT_DATE_ACCOUNT_CREATED . ' ' . tep_date_short($cInfo->date_account_created)];
           $contents[] = ['text' => '<br />' . TEXT_DATE_ACCOUNT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->date_account_last_modified)];
