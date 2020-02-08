@@ -219,7 +219,7 @@ EOSQL
         ];
         break;
       default:
-        if ($cInfo instanceof objectInfo) {
+        if (($cInfo ?? null) instanceof objectInfo) {
           $heading[] = ['text' => '<strong>' . $cInfo->name . '</strong>'];
 
           $contents[] = [
