@@ -240,8 +240,8 @@ EOERROR
 
 ////
 // Output a form filefield
-  function tep_draw_file_field($name, $required = false) {
-    $field = tep_draw_input_field($name, '', '', $required, 'file');
+  function tep_draw_file_field($name) {
+    $field = tep_draw_input_field($name, '', '', 'file');
 
     return $field;
   }
