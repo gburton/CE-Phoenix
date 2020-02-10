@@ -22,7 +22,7 @@ define('ENTRY_PRODUCT', 'Product:');
 define('ENTRY_FROM', 'From:');
 define('ENTRY_DATE', 'Date:');
 define('ENTRY_REVIEW', 'Review:');
-define('ENTRY_REVIEW_TEXT', '<small><font color="#ff0000"><strong>NOTE:</strong></font></small>&nbsp;HTML is not translated!&nbsp;');
+define('ENTRY_REVIEW_TEXT', '<span class="font-weight-bold text-danger">NOTE:</span>&nbsp;HTML is not translated!');
 define('ENTRY_RATING', 'Rating:');
 
 define('TEXT_INFO_DELETE_REVIEW_INTRO', 'Are you sure you want to delete this review?');
