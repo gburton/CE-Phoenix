@@ -91,12 +91,12 @@
 	  $rInfo = new objectInfo($rInfo_array);
     } else {
       $rInfo = new objectInfo(array());
-	}
+    }
 ?>
   <form name="review" <?php echo 'action="' . tep_href_link('reviews.php', tep_get_all_get_params(array('action', 'page', 'rID')) . 'action=' . $form_action) . '"'; ?> method="post">
-	<?php 
+<?php 
 	if ($form_action == 'update') echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('date_added', $rInfo->date_added); 
-	?>
+?>
 
     <div class="form-group row">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PRODUCT; ?></label>
@@ -122,12 +122,12 @@
       </div>
     </div>
 
-    <?php 
+<?php 
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2'); 
 
-	echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
-    ?>
+    echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
+?>
  
   </form>
 <?php
