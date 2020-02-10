@@ -112,7 +112,7 @@
 
     <div class="form-group row">
       <label for="reviewRating" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_RATING; ?></label>
-      <div class="col-sm-9"><div class="form-check form-check-inline"><label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label><?php for ($i=1; $i<=5; $i++) { echo tep_draw_selection_field('reviews_rating', 'radio', $i, '', $rInfo->reviews_rating, 'class="form-check-input" id="rating_' . $i . '"'); } ?><label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
+      <div class="col-sm-9 mt-2"><div class="form-check form-check-inline"><label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label><?php for ($i=1; $i<=5; $i++) { echo tep_draw_selection_field('reviews_rating', 'radio', $i, '', $rInfo->reviews_rating, 'class="form-check-input" id="rating_' . $i . '"'); } ?><label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
       </div>
     </div>
 
