@@ -41,8 +41,8 @@ define('TEXT_REVIEW_PUBLISHED', 'Published');
 define('TEXT_REVIEW_NOT_PUBLISHED', 'Not Published');
 
 define('TEXT_OF_5_STARS', '%s of 5 Stars!');
-define('TEXT_GOOD', '<small><font color="#ff0000"><strong>GOOD</strong></font></small>');
-define('TEXT_BAD', '<small><font color="#ff0000"><strong>BAD</strong></font></small>');
+define('TEXT_GOOD', 'GOOD');
+define('TEXT_BAD', 'BAD');
 define('TEXT_INFO_HEADING_DELETE_REVIEW', 'Delete Review');
 
 const IMAGE_BUTTON_ADD_REVIEW = 'Add A Review';
