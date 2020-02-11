@@ -50,8 +50,9 @@
         $address_query = tep_db_query($customer_data->build_read($customer_data->list_all_capabilities(), 'both', ['id' => (int)$this->id]));
       }
 
-      $this->data[$to] = tep_db_fetch_array($address_query);
+      $this->data[$to] = array_filter(tep_db_fetch_array($address_query), function ($v) { return tep_not_null($v); });
       if (!is_null($this->data[$to])) {
+        $customer_data->get('state', $this->data[$to]);
         $customer_data->get('country', $this->data[$to]);
         $customer_data->get('name', $this->data[$to]);
       }
