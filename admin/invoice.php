@@ -75,7 +75,7 @@
     echo '      <tr>' . PHP_EOL;
     echo '        <td>' . $product['qty'] . '</td>' . PHP_EOL;
     echo '        <th>' . $product['name'];
-    foreach ((array)$product['attributes'] as $attribute) {
+    foreach (($product['attributes'] ?? []) as $attribute) {
       echo '<br /><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'];
       if ($attribute['price'] != '0') {
         echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';

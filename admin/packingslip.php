@@ -72,7 +72,7 @@
     echo '      <tr>' . PHP_EOL;
     echo '        <td>' . $product['qty'] . '</td>' . PHP_EOL;
     echo '        <th>' . $product['name'];
-    foreach ((array)$product['attributes'] as $attribute) {
+    foreach (($product['attributes'] ?? []) as $attribute) {
       echo '<br /><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'] . '</i></small>';
     }
     echo '</th>' . PHP_EOL;
