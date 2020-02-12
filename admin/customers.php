@@ -185,10 +185,10 @@ EOSQL
               $cInfo = new objectInfo($cInfo_array);
 
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id . '&action=edit');
-              $icon = tep_image('images/icon_arrow_right.gif', '');
+              $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
             } else {
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID']) . 'cID=' . $customer_data->get('id', $customers));
-              $icon = '<a href="' . $href . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>';
+              $icon = '<a href="' . $href . '"><i class="fas fa-info-circle text-muted"></i></a>';
             }
             ?>
               <tr onclick="document.location.href='<?php echo $href; ?>'">
