@@ -1487,7 +1487,8 @@ EOSQL
       'checkout_new_address',
     ];
 
-    $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountEditPages', ['pages' => &$pages]);
+    $parameters = ['pages' => &$pages];
+    $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountEditPages', $parameters);
 
     return tep_cfg_multiple_select_option($pages, $key_values, $key_name);
   }
