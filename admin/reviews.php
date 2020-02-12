@@ -1,19 +1,16 @@
 <?php
 /*
   $Id$
-
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
-
   Copyright (c) 2020 osCommerce
-
   Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('reviews', 'reviewPreAction');
 
   if (tep_not_null($action)) {
@@ -32,11 +29,11 @@
         tep_db_query("insert into reviews (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_customers_name($customers_id) . "', '" . (int)$rating . "', now(), 1)");
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
-        
+
         $OSCOM_Hooks->call('reviews', 'reviewActionSave');
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(array('action'))));
-        break;   
+        break;
       case 'update':
         $reviews_id = tep_db_prepare_input($_POST['reviews_id']);
         $reviews_rating = tep_db_prepare_input($_POST['reviews_rating']);
@@ -45,7 +42,7 @@
 
         tep_db_query("update reviews set reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("update reviews_description set reviews_text = '" . tep_db_input($reviews_text) . "' where reviews_id = '" . (int)$reviews_id . "'");
-        
+
         $OSCOM_Hooks->call('reviews', 'reviewActionUpdate');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews_id));
@@ -55,14 +52,14 @@
 
         tep_db_query("delete from reviews where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("delete from reviews_description where reviews_id = '" . (int)$reviews_id . "'");
-        
+
         $OSCOM_Hooks->call('reviews', 'reviewActionDelete');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page']));
         break;
     }
   }
-  
+
   $OSCOM_Hooks->call('reviews', 'reviewPostAction');
 
   require('includes/template_top.php');
@@ -76,59 +73,59 @@
     if ( ($action == 'edit') && isset($_GET['rID']) ) {
       $form_action = 'update';
 
-	  $rID = tep_db_prepare_input($_GET['rID']);
+      $rID = tep_db_prepare_input($_GET['rID']);
 
-	  $reviews_query = tep_db_query("select r.*, rd.* from reviews r, reviews_description rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
-	  $reviews = tep_db_fetch_array($reviews_query);
+      $reviews_query = tep_db_query("select r.*, rd.* from reviews r, reviews_description rd where r.reviews_id = '" . (int)$rID . "' and r.reviews_id = rd.reviews_id");
+      $reviews = tep_db_fetch_array($reviews_query);
 
-	  $products_query = tep_db_query("select products_image from products where products_id = '" . (int)$reviews['products_id'] . "'");
-	  $products = tep_db_fetch_array($products_query);
+      $products_query = tep_db_query("select products_image from products where products_id = '" . (int)$reviews['products_id'] . "'");
+      $products = tep_db_fetch_array($products_query);
 
-	  $products_name_query = tep_db_query("select products_name from products_description where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
-	  $products_name = tep_db_fetch_array($products_name_query);
+      $products_name_query = tep_db_query("select products_name from products_description where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
+      $products_name = tep_db_fetch_array($products_name_query);
 
-	  $rInfo_array = array_merge($reviews, $products, $products_name);
-	  $rInfo = new objectInfo($rInfo_array);
+      $rInfo_array = array_merge($reviews, $products, $products_name);
+      $rInfo = new objectInfo($rInfo_array);
     } else {
       $rInfo = new objectInfo(array());
     }
 ?>
   <form name="review" <?php echo 'action="' . tep_href_link('reviews.php', tep_get_all_get_params(array('action', 'page', 'rID')) . 'action=' . $form_action) . '"'; ?> method="post">
-<?php 
-	if ($form_action == 'update') echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('date_added', $rInfo->date_added); 
+<?php
+    if ($form_action == 'update') echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('date_added', $rInfo->date_added);
 ?>
 
     <div class="form-group row">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PRODUCT; ?></label>
-      <div class="col-sm-9"><?php if (isset($rInfo->products_name)) { echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"'); } ?>     
+      <div class="col-sm-9"><?php if (isset($rInfo->products_name)) { echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"'); } ?>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM; ?></label>
-      <div class="col-sm-9"><?php if (isset($rInfo->customers_name)) { echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"'); } ?>     
+      <div class="col-sm-9"><?php if (isset($rInfo->customers_name)) { echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"'); } ?>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewRating" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_RATING; ?></label>
-      <div class="col-sm-9 mt-2"><div class="form-check form-check-inline"><label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label><?php for ($i=1; $i<=5; $i++) { echo tep_draw_selection_field('reviews_rating', 'radio', $i, '', $rInfo->reviews_rating, 'class="form-check-input" id="rating_' . $i . '"'); } ?><label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
+      <div class="col-sm-9 mt-2"><div class="form-check form-check-inline"><label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label><?php for ($i=1; $i<=5; $i++) { echo tep_draw_selection_field('reviews_rating', 'radio', $i, '', $rInfo->reviews_rating, 'class="form-check-input" id="rating_' . $i . '"'); } ?><label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewReview" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_REVIEW; ?></label>
-      <div class="col-sm-9"><?php echo tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text, 'class="form-control"'); ?>     
+      <div class="col-sm-9"><?php echo tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text, 'class="form-control"'); ?>
       </div>
     </div>
 
-<?php 
+<?php
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
-    echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2'); 
+    echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2');
 
     echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
 ?>
- 
+
   </form>
 <?php
   } else {
@@ -189,7 +186,7 @@
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?php echo $reviews_split->display_count($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></div>
         <div class="col text-right mr-2"><?php echo $reviews_split->display_links($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
@@ -202,7 +199,7 @@
         echo '</div>';
       }
 ?>
-      
+
     </div>
 
 <?php
@@ -236,12 +233,12 @@
     }
 
     if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-	  echo '<div class="col-12 col-sm-3">';
-		$box = new box;
-		echo $box->infoBox($heading, $contents);
-	  echo '</div>';
+      echo '<div class="col-12 col-sm-3">';
+        $box = new box;
+        echo $box->infoBox($heading, $contents);
+      echo '</div>';
     }
-  echo '</div>';  
+  echo '</div>';
 }
 
   require('includes/template_bottom.php');
