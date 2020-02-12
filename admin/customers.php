@@ -223,11 +223,11 @@ EOSQL
 
     switch ($action) {
       case 'confirm':
-        $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_CUSTOMER . '</strong>'];
+        $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CUSTOMER];
 
         $contents = ['form' => tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=deleteconfirm')];
         $contents[] = ['text' => TEXT_DELETE_INTRO . '<br /><br /><strong>' . $cInfo->name . '</strong>'];
-        if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = ['text' => '<br />' . tep_draw_checkbox_field('delete_reviews', 'on', true) . ' ' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews)];
+        if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = ['text' => tep_draw_checkbox_field('delete_reviews', 'on', true) . ' ' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews)];
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id)),
         ];
         break;
@@ -237,19 +237,19 @@ EOSQL
 
           $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=confirm')) . tep_draw_button(IMAGE_ORDERS, 'cart', tep_href_link('orders.php', 'cID=' . $cInfo->id)) . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link('mail.php', 'customer=' . urlencode($cInfo->email_address))),
           ];
-          $contents[] = ['text' => TEXT_DATE_ACCOUNT_CREATED . ' ' . tep_date_short($cInfo->date_account_created)];
-          $contents[] = ['text' => TEXT_DATE_ACCOUNT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->date_account_last_modified)];
-          $contents[] = ['text' => TEXT_INFO_DATE_LAST_LOGON . ' '  . tep_date_short($cInfo->date_last_logon)];
-          $contents[] = ['text' => TEXT_INFO_NUMBER_OF_LOGONS . ' ' . $cInfo->number_of_logons];
+          $contents[] = ['text' => sprintf(TEXT_DATE_ACCOUNT_CREATED, tep_date_short($cInfo->date_account_created))];
+          $contents[] = ['text' => sprintf(TEXT_DATE_ACCOUNT_LAST_MODIFIED, tep_date_short($cInfo->date_account_last_modified))];
+          $contents[] = ['text' => sprintf(TEXT_INFO_DATE_LAST_LOGON, tep_date_short($cInfo->date_last_logon))];
+          $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_OF_LOGONS, $cInfo->number_of_logons)];
 
           if ($customer_data->has('country_name') && isset($cInfo->country_id)) {
             $country_query = tep_db_query("SELECT * FROM countries WHERE countries_id = " . (int)$cInfo->country_id);
             $country = (array)tep_db_fetch_array($country_query);
 
-            $contents[] = ['text' => TEXT_INFO_COUNTRY . ' ' . $country['countries_name']];
+            $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY, $country['countries_name'])];
           }
 
-          $contents[] = ['text' => TEXT_INFO_NUMBER_OF_REVIEWS . ' ' . $cInfo->number_of_reviews];
+          $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_OF_REVIEWS, $cInfo->number_of_reviews)];
         }
         break;
     }
