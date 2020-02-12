@@ -132,28 +132,28 @@
       <div class="form-group row">
         <label for="Customer" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_CUSTOMER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_pull_down_menu('customers_email_address', $customers, (isset($_GET['customer']) ? $_GET['customer'] : ''), 'id="Customer" class="form-control" required aria-required="true"'); ?>
+          <?php echo tep_draw_pull_down_menu('customers_email_address', $customers, (isset($_GET['customer']) ? $_GET['customer'] : ''), 'id="Customer" required aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="From" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_FROM; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('from', EMAIL_FROM, 'class="form-control" id="From" required aria-required="true"'); ?>
+          <?php echo tep_draw_input_field('from', EMAIL_FROM, 'id="From" required aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="Subject" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_SUBJECT; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('subject', null, 'class="form-control" id="Subject" required aria-required="true"'); ?>
+          <?php echo tep_draw_input_field('subject', null, 'id="Subject" required aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="Message" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_MESSAGE; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_textarea_field('message', 'soft', '60', '15', null, 'class="form-control" id="Message" required aria-required="true"'); ?>
+          <?php echo tep_draw_textarea_field('message', 'soft', '60', '15', null, 'id="Message" required aria-required="true"'); ?>
         </div>
       </div>
 

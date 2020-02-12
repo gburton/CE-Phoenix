@@ -311,8 +311,8 @@
 
       $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username'));
-      $contents[] = array('text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true" class="form-control"', 'password'));
+      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', null, 'required="required" aria-required="true"'));
+      $contents[] = array('text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password'));
 
       if (is_array($htpasswd_array)) {
         $contents[] = array('text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
@@ -325,8 +325,8 @@
 
       $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"'));
       $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name));
-      $contents[] = array('text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true" class="form-control"', 'password'));
+      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name, 'required="required" aria-required="true"'));
+      $contents[] = array('text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password'));
 
       if (is_array($htpasswd_array)) {
         $default_flag = false;

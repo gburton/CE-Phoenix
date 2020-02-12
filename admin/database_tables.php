@@ -246,13 +246,13 @@ if ( !isset($_POST['dryrun']) ) {
   <div class="row">
     <div class="col">
       <?php 
-      echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu" class="form-control"'); 
+      echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu"'); 
       echo tep_draw_bootstrap_button(BUTTON_ACTION_GO, 'fas fa-cogs', null, null, null, 'btn-success btn-block mt-2');
       ?>
     </div>
     <div class="col">
       <?php 
-      echo '<span class="runUtf8" style="display: none;">' . tep_draw_pull_down_menu('from_charset', $mysql_charsets, null, 'class="form-control"') . '<br>' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>'; 
+      echo '<span class="runUtf8" style="display: none;">' . tep_draw_pull_down_menu('from_charset', $mysql_charsets) . '<br>' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>'; 
       ?>
     </div>
   </div>  

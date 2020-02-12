@@ -20,7 +20,7 @@
 
   <div class="row">
     <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
-    <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter" class="form-control"'); ?></div>
+    <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter"'); ?></div>
   </div>
 
   <div class="alert alert-warning"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>

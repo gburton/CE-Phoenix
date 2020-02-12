@@ -74,7 +74,7 @@
   <?php echo tep_draw_form('logo', 'store_logo.php', 'action=save', 'post', 'enctype="multipart/form-data"'); ?>
 
     <div class="custom-file mb-2">
-      <?php echo tep_draw_input_field('store_logo', '', 'required="required" aria-required="true" class="form-control-input" id="inputLogo"', 'file'); ?>
+      <?php echo tep_draw_input_field('store_logo', '', 'required="required" aria-required="true" id="inputLogo"', 'file', null, 'class="form-control-input"'); ?>
       <label class="custom-file-label" for="inputLogo"><?php echo TEXT_LOGO_IMAGE; ?></label>
     </div>
     

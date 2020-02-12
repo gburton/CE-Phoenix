@@ -19,11 +19,10 @@
 
     if ($page == '') {
       die(<<<EOERROR
-</td></tr></table></td></tr></table><br /><br />
-<font color="#ff0000"><strong>Error!</strong></font><br /><br />
-<strong>Unable to determine the page link!<br /><br />
-Function used:<br /><br />
-tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</strong>
+<h5>Error!</h5>
+<p>Unable to determine the page link!</p>
+<p>Function used:</p>
+<p>tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</p>
 EOERROR
 );
     }
@@ -38,12 +37,11 @@ EOERROR
       }
     } else {
       die(<<<EOERROR
-</td></tr></table></td></tr></table><br /><br />
-<font color="#ff0000"><strong>Error!</strong></font><br /><br />
-<strong>Unable to determine connection method on a link!<br /><br />
-Known methods: NONSSL SSL<br /><br />
-Function used:<br /><br />
-tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</strong>
+<h5>Error!</h5>
+<p>Unable to determine connection method on a link!/p>
+<p>Known methods: NONSSL SSL</p>
+<p>Function used:</p>
+<p>tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</p>
 EOERROR
 );
     }
@@ -89,12 +87,11 @@ EOERROR
       }
     } else {
       die(<<<EOERROR
-</td></tr></table></td></tr></table><br /><br />
-<font color="#ff0000"><strong>Error!</strong></font><br /><br />
-<strong>Unable to determine connection method on a link!<br /><br />
-Known methods: NONSSL SSL<br /><br />
-Function used:<br /><br />
-tep_href_link('$page', '$parameters', '$connection')</strong>
+<h5>Error!</h5>
+<p>Unable to determine connection method on a link!/p>
+<p>Known methods: NONSSL SSL/p>
+<p>Function used:</p>
+<p>tep_href_link('$page', '$parameters', '$connection')</p>
 EOERROR
 );
     }
@@ -111,7 +108,7 @@ EOERROR
 
 ////
 // The HTML image wrapper function
-  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '') {
+  function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
     $image = '<img src="' . tep_output_string($src) . '" border="0" alt="' . tep_output_string($alt) . '"';
 
     if (tep_not_null($alt)) {
@@ -122,7 +119,21 @@ EOERROR
       $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
     }
 
-    if (tep_not_null($parameters)) $image .= ' ' . $parameters;
+    $image .= ' class="';
+
+    if ($responsive === true) {
+      $image .= 'img-fluid';
+    }
+
+    if (tep_not_null($bootstrap_css)) {
+      $image .= ' ' . $bootstrap_css;
+    }
+
+    $image .= '"';
+
+    if (tep_not_null($parameters)) {
+      $image .= ' ' . $parameters;
+    }
 
     $image .= ' />';
 
@@ -130,40 +141,17 @@ EOERROR
   }
 
 ////
-// The HTML form submit button wrapper function
-// Outputs a button in the selected language
-  function tep_image_submit($image, $alt = '', $parameters = '') {
-    global $language;
-
-    $image_submit = '<input type="image" src="' . tep_output_string('includes/languages/' . $language . '/images/buttons/' . $image) . '" border="0" alt="' . tep_output_string($alt) . '"';
-
-    if (tep_not_null($alt)) $image_submit .= ' title=" ' . tep_output_string($alt) . ' "';
-
-    if (tep_not_null($parameters)) $image_submit .= ' ' . $parameters;
-
-    $image_submit .= ' />';
-
-    return $image_submit;
-  }
-
-////
 // Draw a 1 pixel black line
+// DEPRECATE THIS ASAP
   function tep_black_line() {
     return tep_image('images/pixel_black.gif', '', '100%', '1');
   }
 
 ////
 // Output a separator either through whitespace, or with an image
+// DEPRECATE THIS ASAP
   function tep_draw_separator($image = 'pixel_black.gif', $width = '100%', $height = '1') {
     return tep_image('images/' . $image, '', $width, $height);
-  }
-
-////
-// Output a function button in the selected language
-  function tep_image_button($image, $alt = '', $params = '') {
-    global $language;
-
-    return tep_image("includes/languages/$language/images/buttons/$image", $alt, '', '', $params);
   }
 
 ////
@@ -217,7 +205,7 @@ EOERROR
 
 ////
 // Output a form input field
-  function tep_draw_input_field($name, $value = '', $parameters = '', $type = 'text', $reinsert_value = true) {
+  function tep_draw_input_field($name, $value = '', $parameters = '', $type = 'text', $reinsert_value = true, $class = 'class="form-control"') {
     $field = '<input type="' . tep_output_string($type) . '" name="' . tep_output_string($name) . '"';
 
     if ( $reinsert_value ) {
@@ -231,7 +219,8 @@ EOERROR
       $field .= ' value="' . tep_output_string($value) . '"';
     }
 
-    if (tep_not_null($parameters)) $field .= ' ' . $parameters;
+    if (tep_not_null($parameters)) $field .= " $parameters";
+    if (tep_not_null($class)) $field .= " $class";
 
     $field .= ' />';
 
@@ -283,7 +272,7 @@ EOERROR
 // Output a form textarea field
 // The $wrap parameter is no longer used in the core xhtml template
   function tep_draw_textarea_field($name, $wrap, $width, $height, $text = '', $parameters = '', $reinsert_value = true) {
-    $field = '<textarea name="' . tep_output_string($name) . '" cols="' . tep_output_string($width) . '" rows="' . tep_output_string($height) . '"';
+    $field = '<textarea class="form-control" name="' . tep_output_string($name) . '" cols="' . tep_output_string($width) . '" rows="' . tep_output_string($height) . '"';
 
     if (tep_not_null($parameters)) $field .= ' ' . $parameters;
 
@@ -337,10 +326,11 @@ EOERROR
 
 ////
 // Output a form pull down menu
-  function tep_draw_pull_down_menu($name, $values, $default = '', $parameters = '') {
+  function tep_draw_pull_down_menu($name, $values, $default = '', $parameters = '', $class = 'class="form-control"') {
     $field = '<select name="' . tep_output_string($name) . '"';
 
-    if (tep_not_null($parameters)) $field .= ' ' . $parameters;
+    if (tep_not_null($parameters)) $field .= " $parameters";
+    if (tep_not_null($class)) $field .= " $class";
 
     $field .= '>';
 

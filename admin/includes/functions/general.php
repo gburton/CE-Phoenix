@@ -193,7 +193,7 @@
     return $category_tree_array;
   }
 
-  function tep_draw_products_pull_down($name, $parameters = '', $exclude = []) {
+  function tep_draw_products_pull_down($name, $parameters = '', $exclude = [], $class = 'class="form-control"') {
     global $currencies, $languages_id;
 
     if ($exclude == '') {
@@ -201,10 +201,9 @@
     }
 
     $select_string = '<select name="' . $name . '"';
-
-    if ($parameters) {
-      $select_string .= ' ' . $parameters;
-    }
+    
+    if (tep_not_null($parameters)) $select_string .= " $parameters";
+    if (tep_not_null($class)) $select_string .= " $class";
 
     $select_string .= '>';
 
@@ -1454,11 +1453,12 @@ EOSQL
     }
   }
 
-  function tep_draw_customers($name, $parameters = '', $selected = '') {
+  function tep_draw_customers($name, $parameters = '', $selected = '', $class = 'class="form-control"') {
     $select_string = '<select name="' . $name . '"';
-    if ($parameters) {
-      $select_string .= ' ' . $parameters;
-    }
+    
+    if (tep_not_null($parameters)) $select_string .= " $parameters";
+    if (tep_not_null($class)) $select_string .= " $class";
+    
     $select_string .= '>';
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
 

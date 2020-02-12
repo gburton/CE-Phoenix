@@ -154,8 +154,8 @@
 ?>
 
         <ul class="list-group list-group-flush">
-          <li class="list-group-item border-top"><?php echo tep_draw_input_field('username', null, 'required="required" aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_USERNAME . '"'); ?></li>
-          <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required="required" aria-required="true" class="form-control text-muted border-0 text-muted" placeholder="' . TEXT_PASSWORD . '"', 'password'); ?></li>
+          <li class="list-group-item border-top"><?php echo tep_draw_input_field('username', null, 'required="required" aria-required="true" placeholder="' . TEXT_USERNAME . '"', 'text', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
+          <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required="required" aria-required="true" placeholder="' . TEXT_PASSWORD . '"', 'password', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
           <li class="list-group-item border-bottom-0"><?php echo tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
         </ul>
       </form>
@@ -164,7 +164,7 @@
   if (count($languages) > 1) {
 ?>
       <div class="card-footer">
-        <?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages, $language_selected, 'class="form-control" onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?>
+        <?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages, $language_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?>
       </div>
 <?php
   }

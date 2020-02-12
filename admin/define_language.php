@@ -95,7 +95,7 @@
     <div class="col-sm-4 text-right align-self-center">
       <?php 
       echo tep_draw_form('lng', 'define_language.php', '', 'get'); 
-      echo tep_draw_pull_down_menu('lngdir', $languages_array, $_GET['lngdir'], 'class="form-control" onchange="this.form.submit();"');
+      echo tep_draw_pull_down_menu('lngdir', $languages_array, $_GET['lngdir'], 'onchange="this.form.submit();"');
       echo tep_hide_session_id();
       echo '</form>'; 
       ?>
@@ -128,7 +128,7 @@
         <div class="form-group row">
           <div class="col">
             <?php
-            echo tep_draw_textarea_field('file_contents', 'soft', '80', '25', $contents, (($file_writeable) ? '' : 'readonly') . ' class="form-control" id="inputFile"');
+            echo tep_draw_textarea_field('file_contents', 'soft', '80', '25', $contents, (($file_writeable) ? '' : 'readonly') . ' id="inputFile"');
             ?>
           </div>
         </div>
