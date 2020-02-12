@@ -26,7 +26,7 @@
     protected function guarantee_customer_data() {
       global $customer_data;
 
-      if ($customer_data instanceof customer_data) {
+      if (!($customer_data instanceof customer_data)) {
         $customer_data = new customer_data();
       }
 
