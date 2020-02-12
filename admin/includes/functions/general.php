@@ -825,10 +825,12 @@ EOSQL
 
     $key_name = isset($key_name) ? 'configuration[' . $key_name . ']' : 'configuration_value';
 
+    $string = '';
     foreach ($selections as $key => $value) {
       if (is_int($key)) {
         $key = $value;
       }
+
       $string .= '<br /><label><input type="checkbox" name="' . $key_name . '[]" value="' . $key . '"';
       if (array_key_exists($key, $key_values)) {
         $string .= ' checked="checked"';
