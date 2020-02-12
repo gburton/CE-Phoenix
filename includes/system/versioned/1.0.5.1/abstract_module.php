@@ -114,7 +114,7 @@
 
     abstract protected function get_parameters();
 
-    public function list_exploded($value) {
+    public static function list_exploded($value) {
       return nl2br(implode("\n", explode(';', $value)));
     }
 
