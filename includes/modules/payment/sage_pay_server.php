@@ -534,9 +534,9 @@ EOD;
               '<div id="testConnectionDialog" style="display: none;"><p>';
 
       if ( MODULE_PAYMENT_SAGE_PAY_SERVER_TRANSACTION_SERVER == 'Live' ) {
-        $info .= 'Live Server:<br />https://live.sagepay.com/gateway/service/vspserver-register.vsp';
+        $info .= 'Live Server:<br>https://live.sagepay.com/gateway/service/vspserver-register.vsp';
       } else {
-        $info .= 'Test Server:<br />https://test.sagepay.com/gateway/service/vspserver-register.vsp';
+        $info .= 'Test Server:<br>https://test.sagepay.com/gateway/service/vspserver-register.vsp';
       }
 
       $info .= '</p><div id="testConnectionDialogProgress"><p>' . MODULE_PAYMENT_SAGE_PAY_SERVER_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>' .

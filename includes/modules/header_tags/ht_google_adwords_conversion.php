@@ -136,7 +136,7 @@ EOD;
     $string = '';
 
     foreach ( $format as $key => $value ) {
-      $string .= '<br /><input type="radio" name="configuration[' . $field_key . ']" value="' . $key . '"';
+      $string .= '<br><input type="radio" name="configuration[' . $field_key . ']" value="' . $key . '"';
 
       if ($key_value == $key) $string .= ' checked="checked"';
 

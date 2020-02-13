@@ -246,7 +246,7 @@
       </h5>
       <div class="border">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><?php echo SHIPPING_FA_ICON . $customer->make_address_label($_SESSION['sendto'], true, ' ', '<br />'); ?></li>
+          <li class="list-group-item"><?php echo SHIPPING_FA_ICON . $customer->make_address_label($_SESSION['sendto'], true, ' ', '<br>'); ?></li>
         </ul>
       </div>
     </div>

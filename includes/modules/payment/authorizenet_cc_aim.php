@@ -616,9 +616,9 @@ EOD;
               '<div id="testConnectionDialog" style="display: none;"><p>';
 
       if ( MODULE_PAYMENT_AUTHORIZENET_CC_AIM_TRANSACTION_SERVER == 'Live' ) {
-        $info .= 'Live Server:<br />https://secure.authorize.net/gateway/transact.dll';
+        $info .= 'Live Server:<br>https://secure.authorize.net/gateway/transact.dll';
       } else {
-        $info .= 'Test Server:<br />https://test.authorize.net/gateway/transact.dll';
+        $info .= 'Test Server:<br>https://test.authorize.net/gateway/transact.dll';
       }
 
       $info .= '</p><div id="testConnectionDialogProgress"><p>' . MODULE_PAYMENT_AUTHORIZENET_CC_AIM_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>' .

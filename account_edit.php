@@ -53,9 +53,9 @@
 <div class="contentContainer">
   <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
-<?php
+  <?php
   $customer_data->display_input($customer_data->get_fields_for_page('account_edit'), $customer->fetch_to_address());
-?>
+  ?>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>

@@ -194,7 +194,7 @@
 
     <div class="alert alert-success" role="alert">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
 
-    <br />
+    <br>
 
     <div class="row">
       <div class="col"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>

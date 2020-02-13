@@ -115,23 +115,23 @@
       <h5 class="mb-1"><?php echo LIST_PRODUCTS; ?><small><a class="font-weight-lighter ml-2" href="<?php echo tep_href_link('shopping_cart.php', '', 'SSL'); ?>"><?php echo TEXT_EDIT; ?></a></small></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
-<?php
-  foreach ($order->products as $product) {
-    echo '<li class="list-group-item">';
-      echo '<span class="float-right">' . $currencies->display_price($product['final_price'], $product['tax'], $product['qty']) . '</span>';
-      echo '<h5 class="mb-1">' . $product['name'] . '<small> x ' . $product['qty'] . '</small></h5>';
+          <?php
+          foreach ($order->products as $product) {
+            echo '<li class="list-group-item">';
+              echo '<span class="float-right">' . $currencies->display_price($product['final_price'], $product['tax'], $product['qty']) . '</span>';
+              echo '<h5 class="mb-1">' . $product['name'] . '<small> x ' . $product['qty'] . '</small></h5>';
 
-      if ( (isset($product['attributes'])) && (count($product['attributes']) > 0) ) {
-        echo '<p class="w-100 mb-1">';
-        foreach ($product['attributes'] as $attribute) {
-          echo '- ' . $attribute['option'] . ': ' . $attribute['value'] . '<br>';
-        }
-        echo '</p>';
-      }
+              if ( (isset($product['attributes'])) && (count($product['attributes']) > 0) ) {
+                echo '<p class="w-100 mb-1">';
+                foreach ($product['attributes'] as $attribute) {
+                  echo '- ' . $attribute['option'] . ': ' . $attribute['value'] . '<br>';
+                }
+                echo '</p>';
+              }
 
-    echo '</li>';
-  }
-?>
+            echo '</li>';
+          }
+          ?>
         </ul>
         <table class="table mb-0">
           <?php
@@ -152,14 +152,14 @@
             echo '<li class="list-group-item">';
               echo '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>';
               echo '<h5 class="mb-0">' . HEADING_DELIVERY_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping_address.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
-              echo '<p class="w-100 mb-1">' . $address->format($order->delivery, 1, ' ', '<br />') . '</p>';
+              echo '<p class="w-100 mb-1">' . $address->format($order->delivery, 1, ' ', '<br>') . '</p>';
             echo '</li>';
           }
 
           echo '<li class="list-group-item">';
             echo '<i class="fas fa-file-invoice-dollar fa-fw fa-3x float-right text-black-50"></i>';
             echo '<h5 class="mb-0">' . HEADING_BILLING_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment_address.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
-            echo '<p class="w-100 mb-1">' . $address->format($order->billing, 1, ' ', '<br />') . '</p>';
+            echo '<p class="w-100 mb-1">' . $address->format($order->billing, 1, ' ', '<br>') . '</p>';
           echo '</li>';
 
           if ($order->info['shipping_method']) {
@@ -240,13 +240,13 @@
 
   <div class="buttonSet mt-3">
     <div class="text-right">
-<?php
-  if (is_array($payment_modules->modules)) {
-    echo $payment_modules->process_button();
-  }
+      <?php
+      if (is_array($payment_modules->modules)) {
+        echo $payment_modules->process_button();
+      }
 
-  echo tep_draw_button(IMAGE_BUTTON_FINALISE_ORDER, 'fas fa-check-circle', null, 'primary', null, 'btn-success btn-block btn-lg');
-?>
+      echo tep_draw_button(IMAGE_BUTTON_FINALISE_ORDER, 'fas fa-check-circle', null, 'primary', null, 'btn-success btn-block btn-lg');
+      ?>
     </div>
   </div>
 

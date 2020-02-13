@@ -147,7 +147,7 @@
         <div class="card-header"><?php echo DELETE_ADDRESS_TITLE; ?></div>
 
         <div class="card-body">
-          <?php echo $customer->make_address_label((int)$_GET['delete'], true, ' ', '<br />'); ?>
+          <?php echo $customer->make_address_label((int)$_GET['delete'], true, ' ', '<br>'); ?>
         </div>
       </div>
     </div>

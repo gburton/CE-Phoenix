@@ -505,9 +505,9 @@ EOD;
             . '<div id="testConnectionDialog" style="display: none;"><p>';
 
       if ( MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TRANSACTION_SERVER == 'Live' ) {
-        $info .= 'Live Server:<br />https://payflowpro.paypal.com';
+        $info .= 'Live Server:<br>https://payflowpro.paypal.com';
       } else {
-        $info .= 'Sandbox Server:<br />https://pilot-payflowpro.paypal.com';
+        $info .= 'Sandbox Server:<br>https://pilot-payflowpro.paypal.com';
       }
 
       $info .= '</p><div id="testConnectionDialogProgress"><p>' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>'

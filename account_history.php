@@ -55,22 +55,22 @@ EOSQL
           </tr>
         </thead>
         <tbody>
-<?php
-    while ($history = tep_db_fetch_array($history_query)) {
-      $products_query = tep_db_query("select sum(products_quantity) as count from orders_products where orders_id = '" . (int)$history['orders_id'] . "'");
-      $products = tep_db_fetch_array($products_query);
-?>
-          <tr>
-            <th scope="row"><?php echo $history['orders_id']; ?></th>
-            <td class="d-none d-md-table-cell"><?php echo $history['orders_status_name']; ?></td>
-            <td><?php echo tep_date_short($history['date_purchased']); ?></td>
-            <td class="d-none d-md-table-cell"><?php echo $products['count']; ?></td>
-            <td><?php echo strip_tags($history['order_total']); ?></td>
-            <td class="text-right"><?php echo tep_draw_button(BUTTON_VIEW_ORDER, null, tep_href_link('account_history_info.php', tep_get_all_get_params(['order_id']) . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm'); ?></td>
-          </tr>
-<?php
-    }
-?>
+          <?php
+          while ($history = tep_db_fetch_array($history_query)) {
+            $products_query = tep_db_query("select sum(products_quantity) as count from orders_products where orders_id = '" . (int)$history['orders_id'] . "'");
+            $products = tep_db_fetch_array($products_query);
+            ?>
+            <tr>
+              <th scope="row"><?php echo $history['orders_id']; ?></th>
+              <td class="d-none d-md-table-cell"><?php echo $history['orders_status_name']; ?></td>
+              <td><?php echo tep_date_short($history['date_purchased']); ?></td>
+              <td class="d-none d-md-table-cell"><?php echo $products['count']; ?></td>
+              <td><?php echo strip_tags($history['order_total']); ?></td>
+              <td class="text-right"><?php echo tep_draw_button(BUTTON_VIEW_ORDER, null, tep_href_link('account_history_info.php', tep_get_all_get_params(['order_id']) . 'order_id=' . (int)$history['orders_id'], 'SSL'), 'primary', NULL, 'btn-primary btn-sm'); ?></td>
+            </tr>
+            <?php
+          }
+          ?>
         </tbody>
       </table>
     </div>

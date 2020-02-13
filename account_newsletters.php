@@ -60,10 +60,10 @@
   <div class="form-group row align-items-center">
     <div class="col-form-label col-sm-4 text-left text-sm-right"><?php echo MY_NEWSLETTERS_GENERAL_NEWSLETTER; ?></div>
     <div class="col-sm-8 pl-5 custom-control custom-switch">
-<?php
-  echo tep_draw_checkbox_field('newsletter_general', '1', ($customer_data->get('newsletter', $newsletter) == '1'), 'class="custom-control-input" id="inputNewsletter"');
-  echo '<label for="inputNewsletter" class="custom-control-label text-muted"><small>' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '&nbsp;</small></label>';
-?>
+      <?php
+      echo tep_draw_checkbox_field('newsletter_general', '1', ($customer_data->get('newsletter', $newsletter) == '1'), 'class="custom-control-input" id="inputNewsletter"');
+      echo '<label for="inputNewsletter" class="custom-control-label text-muted"><small>' . MY_NEWSLETTERS_GENERAL_NEWSLETTER_DESCRIPTION . '&nbsp;</small></label>';
+      ?>
     </div>
   </div>
 

@@ -72,76 +72,76 @@
     public function display_links($max_page_links, $parameters = '') {
       global $PHP_SELF, $request_type;
 
-      $display_links_string = '<nav aria-label="...">' . PHP_EOL;
-      $display_links_string .= '  <ul class="pagination pagination-lg justify-content-end">' . PHP_EOL;
+      $display_links_string = '<nav aria-label="...">';
+        $display_links_string .= '<ul class="pagination pagination-lg justify-content-end">';
 
-      if (tep_not_null($parameters) && (substr($parameters, -1) != '&')) {
-        $parameters .= '&';
-      }
+        if (tep_not_null($parameters) && (substr($parameters, -1) != '&')) {
+          $parameters .= '&';
+        }
 
 // previous button - not displayed on first page
-      if ($this->current_page_number > 1) {
-        $display_links_string .= '    <li class="page-item">';
-        $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . ($this->current_page_number - 1), $request_type) . '" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' "><i class="fas fa-angle-left"></i></a>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      } else {
-        $display_links_string .= '    <li class="page-item disabled">';
-        $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      }
+        if ($this->current_page_number > 1) {
+          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . ($this->current_page_number - 1), $request_type) . '" title=" ' . PREVNEXT_TITLE_PREVIOUS_PAGE . ' "><i class="fas fa-angle-left"></i></a>';
+          $display_links_string .= '</li>';
+        } else {
+          $display_links_string .= '<li class="page-item disabled">';
+            $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a>';
+          $display_links_string .= '</li>';
+        }
 
 // check if number_of_pages > $max_page_links
-      $cur_window_num = (int)($this->current_page_number / $max_page_links);
-      if ($this->current_page_number % $max_page_links) {
-        $cur_window_num++;
-      }
+        $cur_window_num = (int)($this->current_page_number / $max_page_links);
+        if ($this->current_page_number % $max_page_links) {
+          $cur_window_num++;
+        }
 
-      $max_window_num = (int)($this->number_of_pages / $max_page_links);
-      if ($this->number_of_pages % $max_page_links) {
-        $max_window_num++;
-      }
+        $max_window_num = (int)($this->number_of_pages / $max_page_links);
+        if ($this->number_of_pages % $max_page_links) {
+          $max_window_num++;
+        }
 
 // previous window of pages
-      if ($cur_window_num > 1) {
-        $display_links_string .= '    <li class="page-item">';
-        $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . (($cur_window_num - 1) * $max_page_links), $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      }
+        if ($cur_window_num > 1) {
+          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . (($cur_window_num - 1) * $max_page_links), $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PREV_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
+          $display_links_string .= '</li>';
+        }
 
 // page nn button
-      for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++) {
-        if ($jump_to_page == $this->current_page_number) {
-          $display_links_string .= '    <li class="page-item active">';
-          $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . $jump_to_page, $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '<span class="sr-only">(current)</span></a>';
-          $display_links_string .= '</li>' . PHP_EOL;
-        } else {
-          $display_links_string .= '    <li class="page-item">';
-          $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . $jump_to_page, $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>';
-          $display_links_string .= '</li>' . PHP_EOL;
+        for ($jump_to_page = 1 + (($cur_window_num - 1) * $max_page_links); ($jump_to_page <= ($cur_window_num * $max_page_links)) && ($jump_to_page <= $this->number_of_pages); $jump_to_page++) {
+          if ($jump_to_page == $this->current_page_number) {
+            $display_links_string .= '<li class="page-item active">';
+              $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . $jump_to_page, $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '<span class="sr-only">(current)</span></a>';
+            $display_links_string .= '</li>';
+          } else {
+            $display_links_string .= '<li class="page-item">';
+              $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . $jump_to_page, $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_PAGE_NO, $jump_to_page) . ' ">' . $jump_to_page . '</a>';
+            $display_links_string .= '</li>';
+          }
         }
-      }
 
 // next window of pages
-      if ($cur_window_num < $max_window_num) {
-        $display_links_string .= '    <li class="page-item">';
-        $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . (($cur_window_num) * $max_page_links + 1), $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      }
+        if ($cur_window_num < $max_window_num) {
+          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . $this->page_name . '=' . (($cur_window_num) * $max_page_links + 1), $request_type) . '" title=" ' . sprintf(PREVNEXT_TITLE_NEXT_SET_OF_NO_PAGE, $max_page_links) . ' ">...</a>';
+          $display_links_string .= '</li>';
+        }
 
 // next button
-      if (($this->current_page_number < $this->number_of_pages) && ($this->number_of_pages != 1)) {
-        $display_links_string .= '    <li class="page-item">';
-        $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . 'page=' . ($this->current_page_number + 1), $request_type) . '" aria-label=" ' . PREVNEXT_TITLE_NEXT_PAGE . ' "><span aria-hidden="true"><i class="fas fa-angle-right"></i></span></a>';
-        $display_links_string .= '<span class="sr-only">' . PREVNEXT_TITLE_NEXT_PAGE . '</span>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      } else {
-        $display_links_string .= '    <li class="page-item disabled">';
-        $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-right"></i></a>';
-        $display_links_string .= '</li>' . PHP_EOL;
-      }
+        if (($this->current_page_number < $this->number_of_pages) && ($this->number_of_pages != 1)) {
+          $display_links_string .= '<li class="page-item">';
+            $display_links_string .= '<a class="page-link" href="' . tep_href_link($PHP_SELF, $parameters . 'page=' . ($this->current_page_number + 1), $request_type) . '" aria-label=" ' . PREVNEXT_TITLE_NEXT_PAGE . ' "><span aria-hidden="true"><i class="fas fa-angle-right"></i></span></a>';
+            $display_links_string .= '<span class="sr-only">' . PREVNEXT_TITLE_NEXT_PAGE . '</span>';
+          $display_links_string .= '</li>';
+        } else {
+          $display_links_string .= '<li class="page-item disabled">';
+            $display_links_string .= '<a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-right"></i></a>';
+          $display_links_string .= '</li>';
+        }
 
-      $display_links_string .= '  </ul>' . PHP_EOL;
-      $display_links_string .= '</nav>' . PHP_EOL;
+        $display_links_string .= '</ul>';
+      $display_links_string .= '</nav>';
 
       return $display_links_string;
     }

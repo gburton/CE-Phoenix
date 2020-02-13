@@ -107,22 +107,22 @@
       <div>
         <table class="table border-right border-left border-bottom table-hover m-0">
           <tbody>
-<?php
-  $address_query = $customer->get_all_addresses_query();
-  while ($address = tep_db_fetch_array($address_query)) {
-?>
-            <tr class="table-selection">
-              <td><label for="csa_<?php echo $address['address_book_id']; ?>"><?php echo $customer_data->get_module('address')->format($address, true, ' ', ', '); ?></label></td>
-              <td align="text-right">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <?php echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $_SESSION['sendto']), 'id="csa_' . $address['address_book_id'] . '" aria-describedby="csa_' . $address['address_book_id'] . '" class="custom-control-input"'); ?>
-                  <label class="custom-control-label" for="csa_<?php echo $address['address_book_id']; ?>">&nbsp;</label>
-                </div>
-              </td>
-            </tr>
-<?php
-  }
-?>
+            <?php
+            $address_query = $customer->get_all_addresses_query();
+            while ($address = tep_db_fetch_array($address_query)) {
+              ?>
+              <tr class="table-selection">
+                <td><label for="csa_<?php echo $address['address_book_id']; ?>"><?php echo $customer_data->get_module('address')->format($address, true, ' ', ', '); ?></label></td>
+                <td align="text-right">
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <?php echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $_SESSION['sendto']), 'id="csa_' . $address['address_book_id'] . '" aria-describedby="csa_' . $address['address_book_id'] . '" class="custom-control-input"'); ?>
+                    <label class="custom-control-label" for="csa_<?php echo $address['address_book_id']; ?>">&nbsp;</label>
+                  </div>
+                </td>
+              </tr>
+              <?php
+              }
+            ?>
           </tbody>
         </table>
       </div>
@@ -131,7 +131,7 @@
       <h5 class="mb-1"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><?php echo SHIPPING_FA_ICON . $customer->make_address_label($_SESSION['sendto'], true, ' ', '<br />'); ?></li>
+          <li class="list-group-item"><?php echo SHIPPING_FA_ICON . $customer->make_address_label($_SESSION['sendto'], true, ' ', '<br>'); ?></li>
         </ul>
       </div>
     </div>

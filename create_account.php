@@ -76,16 +76,16 @@ EOSQL
 <?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
 <div class="contentContainer">
-<?php
+  <?php
   while ($customer_data_group = tep_db_fetch_array($customer_data_group_query)) {
     if (empty($grouped_modules[$customer_data_group['customer_data_groups_id']])) {
       continue;
     }
-?>
+    ?>
 
-  <h4><?php echo $customer_data_group['customer_data_groups_name']; ?></h4>
+    <h4><?php echo $customer_data_group['customer_data_groups_name']; ?></h4>
   
-<?php
+    <?php
     foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
       $module->display_input();
     }

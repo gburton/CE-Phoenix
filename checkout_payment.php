@@ -164,7 +164,7 @@
       </h5>
       <div class="border">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><?php echo PAYMENT_FA_ICON . $customer->make_address_label($_SESSION['billto'], true, ' ', '<br />'); ?>
+          <li class="list-group-item"><?php echo PAYMENT_FA_ICON . $customer->make_address_label($_SESSION['billto'], true, ' ', '<br>'); ?>
           </li>
         </ul>
       </div>

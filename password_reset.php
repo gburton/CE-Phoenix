@@ -89,9 +89,11 @@
 ?>
 <div class="contentContainer">
   <div class="alert alert-info" role="alert"><?php echo TEXT_MAIN; ?></div>
-<?php
+  
+  <?php
   $customer_data->display_input($page_fields);
-?>
+  ?>
+  
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>

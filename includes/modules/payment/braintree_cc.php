@@ -42,7 +42,7 @@
 
       $braintree_error = null;
       if ( !empty($exts) ) {
-        $braintree_error = sprintf(MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP_EXTENSIONS, implode('<br />', $exts));
+        $braintree_error = sprintf(MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP_EXTENSIONS, implode('<br>', $exts));
       }
 
       if ( !isset($braintree_error) && defined('MODULE_PAYMENT_BRAINTREE_CC_STATUS') ) {
@@ -736,7 +736,7 @@ EOD;
         $result .= '</strong>';
       }
 
-      $result .= '&nbsp;' . tep_draw_input_field('braintree_ma[' . $c . ']', ($data[$c] ?? '')) . '<br />';
+      $result .= '&nbsp;' . tep_draw_input_field('braintree_ma[' . $c . ']', ($data[$c] ?? '')) . '<br>';
     }
 
     if ( !empty($result) ) {
@@ -801,7 +801,7 @@ EOD;
         $result .= '</strong>';
       }
 
-      $result .= '&nbsp;' . ($data[$c] ?? '') . '<br />';
+      $result .= '&nbsp;' . ($data[$c] ?? '') . '<br>';
     }
 
     if ( !empty($result) ) {

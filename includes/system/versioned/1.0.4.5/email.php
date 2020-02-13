@@ -140,7 +140,7 @@
  * content-id's.
  */
     public function add_html($html, $text = null, $images_dir = null) {
-      $this->html = str_replace(static::LINEFEEDS, '<br />', $html);
+      $this->html = str_replace(static::LINEFEEDS, '<br>', $html);
       $this->html_text = str_replace(static::LINEFEEDS, $this->lf, $text);
 
       if (isset($images_dir)) {

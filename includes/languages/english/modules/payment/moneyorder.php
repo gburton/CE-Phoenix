@@ -12,7 +12,7 @@
 
 const MODULE_PAYMENT_MONEYORDER_TEXT_TITLE = 'Check/Money Order';
 const MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION = 'Require an offline payment before shipping order.';
-const MODULE_PAYMENT_MONEYORDER_TEXT_CONFIRMATION = 'Make Payable To:&nbsp;%1$s<br /><br />Send To:<br />%2$s<br />%3$s<br /><br />Your order will not ship until we receive payment.';
+const MODULE_PAYMENT_MONEYORDER_TEXT_CONFIRMATION = 'Make Payable To:&nbsp;%1$s<br><br>Send To:<br>%2$s<br>%3$s<br><br>Your order will not ship until we receive payment.';
 const MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER = <<<'EOT'
 Make Payable To: %1$s
 

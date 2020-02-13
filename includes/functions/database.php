@@ -33,7 +33,7 @@
       error_log("ERROR: [$errno] $error\n" . "\n", 3, STORE_PAGE_PARSE_TIME_LOG);
     }
 
-    die('<font color="#000000"><strong>' . $errno . ' - ' . $error . '<br /><br />' . $query . '<br /><br /><small><font color="#ff0000">[TEP STOP]</font></small><br /><br /></strong></font>');
+    die('<font color="#000000"><strong>' . $errno . ' - ' . $error . '<br><br>' . $query . '<br><br><small><font color="#ff0000">[TEP STOP]</font></small><br><br></strong></font>');
   }
 
   function tep_db_query($query, $link = 'db_link') {

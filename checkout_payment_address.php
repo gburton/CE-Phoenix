@@ -124,7 +124,7 @@
       <h5 class="mb-1"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><?php echo PAYMENT_FA_ICON . $customer->make_address_label($billto, true, ' ', '<br />'); ?>
+          <li class="list-group-item"><?php echo PAYMENT_FA_ICON . $customer->make_address_label($billto, true, ' ', '<br>'); ?>
           </li>
         </ul>
       </div>
