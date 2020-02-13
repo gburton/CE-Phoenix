@@ -103,7 +103,7 @@
 
   <div class="row">
     <div class="col-sm-7">
-      <h2 class="h5 mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+      <h5 class="mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h5>
       <div>
         <table class="table border-right border-left border-bottom table-hover m-0">
           <tbody>
@@ -128,7 +128,7 @@
       </div>
     </div>
     <div class="col-sm-5">
-      <h2 class="h5 mb-1"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
+      <h5 class="mb-1"><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><?php echo SHIPPING_FA_ICON . $customer->make_address_label($_SESSION['sendto'], true, ' ', '<br />'); ?></li>
@@ -142,7 +142,7 @@
 ?>
     <hr>
 
-    <h2 class="h5 mb-1"><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h2>
+    <h5 class="mb-1"><?php echo TABLE_HEADING_NEW_SHIPPING_ADDRESS; ?></h5>
 
     <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></p>
 <?php

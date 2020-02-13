@@ -69,7 +69,7 @@
 <div class="row">
   <div class="col-12 col-sm-9">
 
-    <h2 class="h4">Finished!</h2>
+    <h4>Finished!</h4>
     
     <?php
     $dir_fs_document_root = $_POST['DIR_FS_DOCUMENT_ROOT'];
@@ -204,7 +204,7 @@
   </div>
   
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 4</h2>
+    <h4>Step 4</h4>
     <div class="card mb-2">
       <div class="card-body">      
         <p>Congratulations on installing and configuring OSCOM CE Phoenix as your online store solution!</p>

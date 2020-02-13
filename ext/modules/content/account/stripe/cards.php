@@ -58,7 +58,7 @@
   require 'includes/template_top.php';
 ?>
 
-<h1 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_HEADING_TITLE; ?></h1>
+<h1 class="display-4"><?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_HEADING_TITLE; ?></h1>
 
 <?php
   if ($messageStack->size('cards') > 0) {
@@ -69,7 +69,7 @@
 <div class="contentContainer">
   <?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_TEXT_DESCRIPTION; ?>
 
-  <h2 class="h3"><?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_SAVED_CARDS_TITLE; ?></h2>
+  <h4><?php echo MODULE_CONTENT_ACCOUNT_STRIPE_CARDS_SAVED_CARDS_TITLE; ?></h4>
 
   <div class="contentText">
 

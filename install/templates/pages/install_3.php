@@ -52,7 +52,7 @@
 
 <div class="row">
   <div class="col-12 col-sm-9">
-    <h2 class="h4">Online Store Settings</h2>
+    <h4>Online Store Settings</h4>
     <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=4" method="post" role="form">
@@ -140,7 +140,7 @@
     </form>
   </div>
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 3</h2>
+    <h4>Step 3</h4>
     <div class="card mb-2 card-body">      
       <p>Here you can define the name of your online store and the contact information for the store owner.</p>
       <p>The administrator username and password are used to log into the protected administration tool section.</p>

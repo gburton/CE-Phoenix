@@ -25,11 +25,11 @@
   <div class="row align-items-center mx-1">
     <div class="col"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . STORE_LOGO, STORE_NAME); ?></div>
     <div class="col text-right">
-<?php
-  echo '      <h1 class="display-4">' . STORE_NAME . '</h1>' . PHP_EOL;
-  echo '      <p>' . nl2br(STORE_ADDRESS) . '</p>' . PHP_EOL;
-  echo '      <p>' . STORE_PHONE . '</p>' . PHP_EOL;
-?>
+      <?php
+      echo '<h1 class="display-4">' . STORE_NAME . '</h1>';
+      echo '<p>' . nl2br(STORE_ADDRESS) . '</p>';
+      echo '<p>' . STORE_PHONE . '</p>';
+      ?>
     </div>
   </div>
 
@@ -67,28 +67,27 @@
       </tr>
     </thead>
     <tbody>
-<?php
-  foreach ($order->products as $product) {
-    echo '      <tr>' . PHP_EOL;
-    echo '        <td>' . $product['qty'] . '</td>' . PHP_EOL;
-    echo '        <th>' . $product['name'];
-    foreach (($product['attributes'] ?? []) as $attribute) {
-      echo '<br /><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'] . '</i></small>';
-    }
-    echo '</th>' . PHP_EOL;
-    echo '        <td>' . $product['model'] . '</td>' . PHP_EOL;
-    echo '      </tr>' . PHP_EOL;
-  }
-?>
+      <?php
+        foreach ($order->products as $product) {
+          echo '<tr>';
+            echo '<td>' . $product['qty'] . '</td>';
+            echo '<th>' . $product['name'];
+            foreach (($product['attributes'] ?? []) as $attribute) {
+              echo '<br><small><i> - ' . $attribute['option'] . ': ' . $attribute['value'] . '</i></small>';
+            }
+            echo '</th>';
+            echo '<td>' . $product['model'] . '</td>';
+          echo '</tr>';
+        }
+      ?>
     </tbody>
   </table>
   
-<?php
+  <?php
   echo $OSCOM_Hooks->call('packingslip', 'extraComments');
-?>
+  ?>
 
 </body>
 </html>
 
 <?php require 'includes/application_bottom.php'; ?>
-

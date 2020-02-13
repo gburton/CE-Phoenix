@@ -131,7 +131,7 @@
       <div class="mBoxContents"></div>
     </div>
     
-    <h2 class="h4">Database Server</h2>
+    <h4>Database Server</h4>
     <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=2" method="post" role="form">
@@ -190,7 +190,7 @@
     </form>    
   </div>
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 1</h2>
+    <h4>Step 1</h4>
     <div class="card card-body">      
       <p>The database server stores the content of the online store such as product information, customer information, and the orders that have been made.</p>
       <p>Please consult your server administrator if your database server parameters are not yet known.</p>

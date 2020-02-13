@@ -82,7 +82,9 @@ EOSQL
       continue;
     }
 ?>
-  <h2 class="h4"><?php echo $customer_data_group['customer_data_groups_name']; ?></h2>
+
+  <h4><?php echo $customer_data_group['customer_data_groups_name']; ?></h4>
+  
 <?php
     foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
       $module->display_input();

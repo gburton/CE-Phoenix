@@ -90,7 +90,7 @@
       $output = '<div class="col-sm-12">';
 
       foreach ( $oscTemplate->_data[$this->group] as $group ) {
-        $output .= '<h2 class="h4">' . $group['title'] . '</h2>';
+        $output .= '<h4>' . $group['title'] . '</h4>';
         $output .= '<div class="list-group list-group-horizontal-sm">';
 
         foreach ( $group['links'] as $entry ) {

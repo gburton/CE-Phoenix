@@ -96,33 +96,32 @@
 
   <div class="row">
     <div class="col-sm-7">
-      <h2 class="h5 mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h2>
+      <h5 class="mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h5>
       <div>
         <table class="table border-right border-left border-bottom table-hover m-0">
-<?php
-  $addresses_query = $customer->get_all_addresses_query();
-  while ($address = tep_db_fetch_array($addresses_query)) {
-?>
+          <?php
+          $addresses_query = $customer->get_all_addresses_query();
+          while ($address = tep_db_fetch_array($addresses_query)) {
+            ?>
             <tr class="table-selection">
               <td><label for="cpa_<?php echo $address['address_book_id']; ?>"><?php echo $customer_data->get_module('address')->format($address, true, ' ', ', '); ?></label></td>
               <td align="text-right">
                 <div class="custom-control custom-radio custom-control-inline">
-<?php
-    echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $billto),
-      'id="cpa_' . $address['address_book_id'] . '" aria-describedby="cpa_' . $address['address_book_id'] . '" class="custom-control-input"');
-?>
+                  <?php
+                  echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $billto), 'id="cpa_' . $address['address_book_id'] . '" aria-describedby="cpa_' . $address['address_book_id'] . '" class="custom-control-input"');
+                  ?>
                   <label class="custom-control-label" for="cpa_<?php echo $address['address_book_id']; ?>">&nbsp;</label>
                 </div>
               </td>
             </tr>
-<?php
-  }
-?>
+            <?php
+            }
+          ?>
         </table>
       </div>
     </div>
     <div class="col-sm-5">
-      <h2 class="h5 mb-1"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h2>
+      <h5 class="mb-1"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><?php echo PAYMENT_FA_ICON . $customer->make_address_label($billto, true, ' ', '<br />'); ?>
@@ -132,17 +131,17 @@
     </div>
   </div>
 
-<?php
+  <?php
   if ($addresses_count < MAX_ADDRESS_BOOK_ENTRIES) {
-?>
+    ?>
 
-  <hr>
+    <hr>
 
-  <h2 class="h5 mb-1"><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h2>
+    <h5 class="mb-1"><?php echo TABLE_HEADING_NEW_PAYMENT_ADDRESS; ?></h5>
 
-  <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></p>
+    <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></p>
 
-<?php
+    <?php
     require 'includes/modules/checkout_new_address.php';
   }
 
