@@ -119,7 +119,7 @@
     $customers[] = ['id' => '***', 'text' => TEXT_ALL_CUSTOMERS];
     $customers[] = ['id' => '**D', 'text' => TEXT_NEWSLETTER_CUSTOMERS];
 
-    $sql = $customer_data->add_order_by($customer_data->build_read(['sortable_name', 'email_address'], 'customers'), 'sortable_name');
+    $sql = $customer_data->add_order_by($customer_data->build_read(['sortable_name', 'email_address'], 'customers'), ['sortable_name']);
     $mail_query = tep_db_query($sql);
     while ($customers_values = tep_db_fetch_array($mail_query)) {
       $customers[] = [
