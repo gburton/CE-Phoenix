@@ -27,11 +27,11 @@
   }
 ?>
       <div class="custom-control custom-radio custom-control-inline">
-        <?php echo tep_draw_radio_field('gender', 'm', ('m' === $gender), 'id="genderM"' . $attribute); ?>
+        <?php echo tep_draw_selection_field('gender', 'radio', 'm', ('m' === $gender), 'id="genderM"' . $attribute); ?>
         <label class="custom-control-label" for="genderM"><?php echo MALE; ?></label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <?php echo tep_draw_radio_field('gender', 'f', ('f' === $gender), 'id="genderF"' . $attribute); ?>
+        <?php echo tep_draw_selection_field('gender', 'radio', 'f', ('f' === $gender), 'id="genderF"' . $attribute); ?>
         <label class="custom-control-label" for="genderF"><?php echo FEMALE; ?></label>
       </div>
 <?php
