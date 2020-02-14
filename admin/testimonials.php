@@ -100,11 +100,11 @@
           <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></label>
           <div class="col-sm-9">
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '1', $in_status, null, 'id="inStatus" class="custom-control-input"'); ?>
+              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '1', $in_status, 'id="inStatus" class="custom-control-input"'); ?>
               <label class="custom-control-label" for="inStatus"><?php echo TEXT_TESTIMONIAL_PUBLISHED; ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '0', $out_status, null, 'id="outStatus" class="custom-control-input"'); ?>
+              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '0', $out_status, 'id="outStatus" class="custom-control-input"'); ?>
               <label class="custom-control-label" for="outStatus"><?php echo TEXT_TESTIMONIAL_NOT_PUBLISHED; ?></label>
             </div>    
           </div>

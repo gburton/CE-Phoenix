@@ -237,13 +237,13 @@ EOERROR
 
 ////
 // Output a selection field - alias function for tep_draw_checkbox_field() and tep_draw_radio_field()
-  function tep_draw_selection_field($name, $type, $value = '', $checked = false, $compare = '', $parameters = null) {
+  function tep_draw_selection_field($name, $type, $value = '', $checked = false, $parameters = null) {
     $selection = '<input type="' . tep_output_string($type) . '" name="' . tep_output_string($name) . '"';
 
     if (tep_not_null($value)) $selection .= ' value="' . tep_output_string($value) . '"';
 
     $request = $_GET[$name] ?? $_POST[$name] ?? null;
-    if ( $checked || (is_string($request) && (('on' === $request) || (stripslashes($request) == $value))) || (tep_not_null($compare) && ($value == $compare)) ) {
+    if ( $checked || (is_string($request) && (('on' === $request) || (stripslashes($request) == $value))) ) {
       $selection .= ' checked="checked"';
     }
 
@@ -258,14 +258,14 @@ EOERROR
 // Output a form checkbox field
 // DEPRECATE this from Phoenix over time.
   function tep_draw_checkbox_field($name, $value = '', $checked = false, $compare = '') {
-    return tep_draw_selection_field($name, 'checkbox', $value, $checked, $compare);
+    return tep_draw_selection_field($name, 'checkbox', $value, ($checked || (tep_not_null($compare) && ($value == $compare))));
   }
 
 ////
 // Output a form radio field
 // DEPRECATE this from Phoenix over time.
   function tep_draw_radio_field($name, $value = '', $checked = false, $compare = '') {
-    return tep_draw_selection_field($name, 'radio', $value, $checked, $compare);
+    return tep_draw_selection_field($name, 'radio', $value, ($checked || (tep_not_null($compare) && ($value == $compare))));
   }
 
 ////
