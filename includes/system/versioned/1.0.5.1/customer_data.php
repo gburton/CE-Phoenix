@@ -27,6 +27,11 @@
           if (!isset($GLOBALS[$class])) {
             $GLOBALS[$class] = new $class();
           }
+
+          if (!$GLOBALS[$class]->isEnabled()) {
+            continue;
+          }
+
           $this->objects[] = &$GLOBALS[$class];
 
           if (method_exists($GLOBALS[$class], 'get_group')) {
