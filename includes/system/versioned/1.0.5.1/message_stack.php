@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 
@@ -19,63 +19,83 @@
   class messageStack extends alertBlock {
 
 // class constructor
-    function __construct() {
-      $this->messages = array();
+    public function __construct() {
+      $this->messages = [];
 
       if (isset($_SESSION['messageToStack'])) {
-        for ($i=0, $n=sizeof($_SESSION['messageToStack']); $i<$n; $i++) {
-          $this->add($_SESSION['messageToStack'][$i]['class'], $_SESSION['messageToStack'][$i]['text'], $_SESSION['messageToStack'][$i]['type']);
+        foreach ($_SESSION['messageToStack'] as $message) {
+          $this->add($message['class'], $message['text'], $message['type']);
         }
         unset($_SESSION['messageToStack']);
       }
     }
 
 // class methods
-    function add($class, $message, $type = 'error') {
+    public function add($class, $message, $type = 'error') {
       if ($type == 'error') {
-        $this->messages[] = array('params' => 'class="alert alert-danger alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
+        $this->messages[] = [
+          'params' => 'class="alert alert-danger alert-dismissible fade show" role="alert"',
+          'class' => $class,
+          'text' => $message,
+        ];
       } elseif ($type == 'warning') {
-        $this->messages[] = array('params' => 'class="alert alert-warning alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
+        $this->messages[] = [
+          'params' => 'class="alert alert-warning alert-dismissible fade show" role="alert"',
+          'class' => $class,
+          'text' => $message,
+        ];
       } elseif ($type == 'success') {
-        $this->messages[] = array('params' => 'class="alert alert-success alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
+        $this->messages[] = [
+          'params' => 'class="alert alert-success alert-dismissible fade show" role="alert"',
+          'class' => $class,
+          'text' => $message,
+        ];
       } else {
-        $this->messages[] = array('params' => 'class="alert alert-info alert-dismissible fade show" role="alert"', 'class' => $class, 'text' => $message);
+        $this->messages[] = [
+          'params' => 'class="alert alert-info alert-dismissible fade show" role="alert"',
+          'class' => $class,
+          'text' => $message,
+        ];
       }
     }
 
-    function add_session($class, $message, $type = 'error') {
+    public function add_classed($class, $message, $type = 'error') {
+      $this->add($class, $message, $type);
+    }
+
+    public function add_session($class, $message, $type = 'error') {
       if (!isset($_SESSION['messageToStack'])) {
-        $_SESSION['messageToStack'] = array();
+        $_SESSION['messageToStack'] = [];
       }
 
-      $_SESSION['messageToStack'][] = array('class' => $class, 'text' => $message, 'type' => $type);
+      $_SESSION['messageToStack'][] = ['class' => $class, 'text' => $message, 'type' => $type];
     }
 
-    function reset() {
-      $this->messages = array();
+    public function reset() {
+      $this->messages = [];
     }
 
-    function output($class) {
-      $output = array();
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
-          $output[] = $this->messages[$i];
+    public function output($class) {
+      $output = [];
+      foreach ($this->messages as $message) {
+        if ($message['class'] == $class) {
+          $output[] = $message;
         }
       }
 
       return $this->alertBlock($output);
     }
 
-    function size($class) {
+    public function size($class) {
       $count = 0;
 
-      for ($i=0, $n=sizeof($this->messages); $i<$n; $i++) {
-        if ($this->messages[$i]['class'] == $class) {
+      foreach ($this->messages as $message) {
+        if ($message['class'] == $class) {
           $count++;
         }
       }
 
       return $count;
     }
+
   }
-?>
