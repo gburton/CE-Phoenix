@@ -80,7 +80,7 @@
       $input_id = 'inputEmail';
       $attribute = 'id="' . $input_id . '" autocomplete="username email" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"';
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_EMAIL_ADDRESS_REQUIRED == 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -99,7 +99,10 @@
     public function process(&$customer_details) {
       $customer_details['email_address'] = tep_db_prepare_input($_POST['email_address']);
 
-      if (strlen($customer_details['email_address']) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) {
+      if (($this->is_required() || !empty($customer_details['email_address']))
+        && (strlen($customer_details['email_address']) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH)
+        )
+      {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_EMAIL_ADDRESS_ERROR, ENTRY_EMAIL_ADDRESS_MIN_LENGTH));

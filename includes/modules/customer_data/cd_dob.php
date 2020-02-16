@@ -78,7 +78,7 @@
       $input_id = 'dob';
       $attribute = 'id="' . $input_id . '" autocomplete="bday" placeholder="' . ENTRY_DOB_TEXT . '"';
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_DOB_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -96,7 +96,7 @@
 
     public function is_valid($date) {
       if (empty($date)) {
-        return ('True' !== MODULE_CUSTOMER_DATA_DOB_REQUIRED);
+        return $this->is_required();
       }
 
       $raw = tep_cd_dob_date_raw($date);

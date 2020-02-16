@@ -89,7 +89,7 @@
                  . '" placeholder="' . ENTRY_SUBURB_TEXT . '"';
 
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_SUBURB_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -109,7 +109,7 @@
       $customer_details['suburb'] = tep_db_prepare_input($_POST['suburb']);
 
       if (strlen($customer_details['suburb']) < MODULE_CUSTOMER_DATA_SUBURB_MIN_LENGTH
-        && ('True' === MODULE_CUSTOMER_DATA_SUBURB_REQUIRED
+        && ($this->is_required()
           || !empty($customer_details['suburb'])
           )
         )

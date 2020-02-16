@@ -21,9 +21,11 @@
     <span id="atGenderLabel" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></span>
     <div class="col-sm-9">
 <?php
-  if ('True' === MODULE_CUSTOMER_DATA_GENDER_REQUIRED) {
+  $fieldset_close = null;
+  if ($this->is_required()) {
     echo '    <fieldset aria-required="true">' . "\n";
     $attribute .= ' required="required"';
+    $fieldset_close = "    </fieldset>\n";
   }
 ?>
       <div class="custom-control custom-radio custom-control-inline">
@@ -35,8 +37,8 @@
         <label class="custom-control-label" for="genderF"><?php echo FEMALE; ?></label>
       </div>
 <?php
-  if ('True' === MODULE_CUSTOMER_DATA_GENDER_REQUIRED) {
-    echo "    </fieldset>\n";
+  if (isset($fieldset_close)) {
+    echo $fieldset_close;
   }
 
   if (tep_not_null(ENTRY_GENDER_TEXT)) {
@@ -45,7 +47,7 @@
 <?php
   }
 
-  if (('True' === MODULE_CUSTOMER_DATA_GENDER_REQUIRED) && tep_not_null(FORM_REQUIRED_INPUT)) {
+  if ($this->is_required() && tep_not_null(FORM_REQUIRED_INPUT)) {
 ?>
       <div class="float-right"><?php echo FORM_REQUIRED_INPUT; ?></div>
 <?php

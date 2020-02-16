@@ -93,7 +93,7 @@
       $attribute = 'id="' . $input_id . '" autocomplete="address-level1"';
 
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_STATE_REQUIRED == 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -166,7 +166,7 @@
 
           return false;
         }
-      } elseif (strlen($customer_details['state']) < ENTRY_STATE_MIN_LENGTH) {
+      } elseif ($this->is_required() && (strlen($customer_details['state']) < ENTRY_STATE_MIN_LENGTH)) {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_STATE_ERROR, ENTRY_STATE_MIN_LENGTH));

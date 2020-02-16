@@ -80,7 +80,7 @@
       $input_id = 'inputStreetAddress';
       $attribute = 'id="' . $input_id . '" autocomplete="address-line1" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"';
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_STREET_ADDRESS_REQUIRED == 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -99,7 +99,10 @@
     public function process(&$customer_details) {
       $customer_details['street_address'] = tep_db_prepare_input($_POST['street_address']);
 
-      if (strlen($customer_details['street_address']) < MODULE_CUSTOMER_DATA_STREET_ADDRESS_MIN_LENGTH) {
+      if ((strlen($customer_details['street_address']) < MODULE_CUSTOMER_DATA_STREET_ADDRESS_MIN_LENGTH)
+        && $this->is_required()
+        )
+      {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_STREET_ADDRESS_ERROR, MODULE_CUSTOMER_DATA_STREET_ADDRESS_MIN_LENGTH));

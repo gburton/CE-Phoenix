@@ -80,7 +80,7 @@
       $input_id = 'inputPostCode';
       $attribute = 'id="' . $input_id . '" autocomplete="postal-code" placeholder="' . ENTRY_POST_CODE_TEXT . '"';
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_POST_CODE_REQUIRED == 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -99,7 +99,7 @@
     public function process(&$customer_details) {
       $customer_details['postcode'] = tep_db_prepare_input($_POST['postcode']);
 
-      if (strlen($customer_details['postcode']) < MODULE_CUSTOMER_DATA_POST_CODE_MIN_LENGTH) {
+      if ($this->is_required() && (strlen($customer_details['postcode']) < MODULE_CUSTOMER_DATA_POST_CODE_MIN_LENGTH)) {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_POST_CODE_ERROR, MODULE_CUSTOMER_DATA_POST_CODE_MIN_LENGTH));

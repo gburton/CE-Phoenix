@@ -81,7 +81,7 @@
       $input_id = 'inputFirstName';
       $attribute = 'id="' . $input_id . '" autocomplete="given-name" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"';
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_FIRSTNAME_REQUIRED == 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -100,7 +100,7 @@
     public function process(&$customer_details) {
       $customer_details['firstname'] = tep_db_prepare_input($_POST['firstname']);
 
-      if (strlen($customer_details['firstname']) < ENTRY_FIRST_NAME_MIN_LENGTH) {
+      if ($this->is_required() && (strlen($customer_details['firstname']) < ENTRY_FIRST_NAME_MIN_LENGTH)) {
         $GLOBALS['messageStack']->add(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_FIRST_NAME_ERROR, ENTRY_FIRST_NAME_MIN_LENGTH));

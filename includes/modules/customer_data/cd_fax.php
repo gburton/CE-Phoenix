@@ -80,7 +80,7 @@
       $input_id = 'inputFax';
       $attribute = 'id="' . $input_id . '" placeholder="' . ENTRY_FAX_TEXT . '"';
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_FAX_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -100,7 +100,7 @@
       $customer_details['fax'] = tep_db_prepare_input($_POST['fax']);
 
       if (strlen($customer_details['fax']) < MODULE_CUSTOMER_DATA_FAX_MIN_LENGTH
-        && ('True' === MODULE_CUSTOMER_DATA_FAX_REQUIRED
+        && ($this->is_required()
           || !empty($customer_details['fax'])
           )
         )

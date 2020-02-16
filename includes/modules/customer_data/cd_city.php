@@ -80,7 +80,7 @@
       $input_id = 'inputCity';
       $attribute = 'id="' . $input_id . '" autocomplete="address-level2" placeholder="' . ENTRY_CITY_TEXT . '"';
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_CITY_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -100,7 +100,7 @@
       $customer_details['city'] = tep_db_prepare_input($_POST['city']);
 
       if (strlen($customer_details['city']) < MODULE_CUSTOMER_DATA_CITY_MIN_LENGTH
-        && ('True' === MODULE_CUSTOMER_DATA_CITY_REQUIRED
+        && ($this->is_required()
           || !empty($customer_details['city'])
           )
         )

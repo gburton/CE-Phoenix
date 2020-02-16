@@ -67,7 +67,7 @@
 
     public function display_input(&$customer_details = null) {
       $attribute = '';
-      if ('True' === MODULE_CUSTOMER_DATA_NEWSLETTER_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE;
       }
 
@@ -83,7 +83,7 @@
       $customer_details['newsletter'] = isset($_POST['newsletter']) ? tep_db_prepare_input($_POST['newsletter']) : false;
 
       if ( ( ('1' !== $customer_details['newsletter']) )
-        && (!empty($customer_details['newsletter']) || ('True' === MODULE_CUSTOMER_DATA_NEWSLETTER_REQUIRED))
+        && (!empty($customer_details['newsletter']) || $this->is_required())
          )
       {
         $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_NEWSLETTER_ERROR);

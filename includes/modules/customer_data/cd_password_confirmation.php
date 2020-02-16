@@ -56,11 +56,17 @@
       $label_text = ENTRY_PASSWORD_CONFIRMATION;
 
       $input_id = 'inputPassword';
-      $attribute = self::REQUIRED_ATTRIBUTE . 'id="' . $input_id
-                 . '" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"';
+      if ('customers.php' === $GLOBALS['PHP_SELF']) {
+        $attribute = 'id="' . $input_id . '"';
+        $post_input = '';
+      } else {
+        $attribute = self::REQUIRED_ATTRIBUTE . 'id="' . $input_id
+                   . '" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"';
+        $post_input = FORM_REQUIRED_INPUT;
+      }
 
       $input = tep_draw_input_field('password_confirmation', null, $attribute, 'password')
-             . FORM_REQUIRED_INPUT;
+             . $post_input;
 
       include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_PASSWORD_CONFIRMATION_TEMPLATE);
     }

@@ -80,7 +80,7 @@
       $input_id = 'inputCompany';
       $attribute = 'id="' . $input_id . '" autocomplete="organization" placeholder="' . ENTRY_COMPANY_TEXT . '"';
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_COMPANY_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -100,7 +100,7 @@
       $customer_details['company'] = tep_db_prepare_input($_POST['company']);
 
       if (strlen($customer_details['company']) < MODULE_CUSTOMER_DATA_COMPANY_MIN_LENGTH
-        && ('True' === MODULE_CUSTOMER_DATA_COMPANY_REQUIRED
+        && ($this->is_required()
           || !empty($customer_details['company'])
           )
         )

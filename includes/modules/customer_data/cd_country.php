@@ -121,7 +121,7 @@
       $input_id = 'inputCountry';
       $attribute = 'id="' . $input_id . '"';
       $postInput = '';
-      if (MODULE_CUSTOMER_DATA_COUNTRY_REQUIRED === 'True') {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -145,7 +145,10 @@
     public function process(&$customer_details) {
       $customer_details['country_id'] = tep_db_prepare_input($_POST['country_id']);
 
-      if (false === is_numeric($customer_details['country_id'])) {
+      if (($this->is_required() || '' !== $customer_details['country_id'])
+        && (false === is_numeric($customer_details['country_id']))
+        )
+      {
         $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_COUNTRY_ERROR);
 
         return false;

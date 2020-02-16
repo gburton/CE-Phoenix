@@ -79,7 +79,7 @@
       $customer_details['gender'] = isset($_POST['gender']) ? tep_db_prepare_input($_POST['gender']) : false;
 
       if ( ( ('m' !== $customer_details['gender']) && ('f' !== $customer_details['gender']) )
-        && (!empty($customer_details['gender']) || ('True' === MODULE_CUSTOMER_DATA_GENDER_REQUIRED))
+        && (!empty($customer_details['gender']) || $this->is_required())
          )
       {
         $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_GENDER_ERROR);

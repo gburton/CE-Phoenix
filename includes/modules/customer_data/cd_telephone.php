@@ -80,7 +80,7 @@
       $input_id = 'inputTelephone';
       $attribute = 'id="' . $input_id . '" autocomplete="tel" placeholder="' . ENTRY_TELEPHONE_TEXT . '"';
       $postInput = '';
-      if ('True' === MODULE_CUSTOMER_DATA_TELEPHONE_REQUIRED) {
+      if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
         $postInput = FORM_REQUIRED_INPUT;
       }
@@ -100,7 +100,7 @@
       $customer_details['telephone'] = tep_db_prepare_input($_POST['telephone']);
 
       if (strlen($customer_details['telephone']) < MODULE_CUSTOMER_DATA_TELEPHONE_MIN_LENGTH
-        && ('True' === MODULE_CUSTOMER_DATA_TELEPHONE_REQUIRED
+        && ($this->is_required()
           || !empty($customer_details['telephone'])
           )
         )
