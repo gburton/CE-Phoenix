@@ -149,7 +149,7 @@
         && (false === is_numeric($customer_details['country_id']))
         )
       {
-        $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_COUNTRY_ERROR);
+        $GLOBALS['messageStack']->add_classed($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_COUNTRY_ERROR);
 
         return false;
       }

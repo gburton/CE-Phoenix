@@ -105,7 +105,7 @@
           )
         )
       {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_TELEPHONE_ERROR, MODULE_CUSTOMER_DATA_TELEPHONE_MIN_LENGTH));
 

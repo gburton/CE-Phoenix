@@ -75,7 +75,7 @@
       $customer_details['password_confirmation'] = tep_db_prepare_input($_POST['password_confirmation']);
 
       if ($customer_details['password_confirmation'] !== $GLOBALS['customer_data']->get('password', $customer_details)) {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(constant($entry_base . '_ERROR'), constant($entry_base . '_ERROR_NOT_MATCHING')));
 

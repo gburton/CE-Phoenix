@@ -100,7 +100,7 @@
       $customer_details['postcode'] = tep_db_prepare_input($_POST['postcode']);
 
       if ($this->is_required() && (strlen($customer_details['postcode']) < MODULE_CUSTOMER_DATA_POST_CODE_MIN_LENGTH)) {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_POST_CODE_ERROR, MODULE_CUSTOMER_DATA_POST_CODE_MIN_LENGTH));
 

@@ -162,12 +162,12 @@
           $customer_details['zone_id'] = (int)$zone['zone_id'];
           $customer_details['entry_state'] = '';
         } else {
-          $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_STATE_ERROR_SELECT);
+          $GLOBALS['messageStack']->add_classed($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_STATE_ERROR_SELECT);
 
           return false;
         }
       } elseif ($this->is_required() && (strlen($customer_details['state']) < ENTRY_STATE_MIN_LENGTH)) {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_STATE_ERROR, ENTRY_STATE_MIN_LENGTH));
 

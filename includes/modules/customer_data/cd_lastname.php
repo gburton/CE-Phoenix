@@ -102,7 +102,7 @@
         && (strlen($customer_details['lastname']) < ENTRY_LAST_NAME_MIN_LENGTH)
         )
       {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_LAST_NAME_ERROR, ENTRY_LAST_NAME_MIN_LENGTH));
 

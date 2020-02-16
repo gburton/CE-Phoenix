@@ -109,7 +109,7 @@
       $dob = tep_db_prepare_input($_POST['dob']);
 
       if (!$this->is_valid($dob)) {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_DOB_ERROR, MODULE_CUSTOMER_DATA_DOB_MIN_LENGTH) . tep_cd_dob_date_raw($customer_details['dob']));
 

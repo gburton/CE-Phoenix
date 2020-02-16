@@ -101,7 +101,7 @@
       $customer_details['firstname'] = tep_db_prepare_input($_POST['firstname']);
 
       if ($this->is_required() && (strlen($customer_details['firstname']) < ENTRY_FIRST_NAME_MIN_LENGTH)) {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_FIRST_NAME_ERROR, ENTRY_FIRST_NAME_MIN_LENGTH));
 

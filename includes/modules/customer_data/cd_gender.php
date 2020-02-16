@@ -82,7 +82,7 @@
         && (!empty($customer_details['gender']) || $this->is_required())
          )
       {
-        $GLOBALS['messageStack']->add($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_GENDER_ERROR);
+        $GLOBALS['messageStack']->add_classed($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_GENDER_ERROR);
 
         return false;
       }

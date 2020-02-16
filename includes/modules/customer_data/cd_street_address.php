@@ -103,7 +103,7 @@
         && $this->is_required()
         )
       {
-        $GLOBALS['messageStack']->add(
+        $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
           sprintf(ENTRY_STREET_ADDRESS_ERROR, MODULE_CUSTOMER_DATA_STREET_ADDRESS_MIN_LENGTH));
 
