@@ -31,4 +31,3 @@ const PLEASE_SELECT = 'Select One';
 
 const PULL_DOWN_DEFAULT = PLEASE_SELECT;
 
-const FORM_REQUIRED_INPUT = '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>';
