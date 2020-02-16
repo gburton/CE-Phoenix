@@ -1414,13 +1414,14 @@ EOSQL
     return $product['products_seo_title'];
   }
 
-  function tep_draw_products($name, $parameters = '', $exclude = []) {
+  function tep_draw_products($name, $parameters = '', $exclude = [], $class = 'class="form-control"') {
     global $languages_id;
 
     $select_string = '<select name="' . $name . '"';
-    if ($parameters) {
-      $select_string .= ' ' . $parameters;
-    }
+    
+    if (tep_not_null($parameters)) $select_string .= " $parameters";
+    if (tep_not_null($class)) $select_string .= " $class";
+    
     $select_string .= '>';
 
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
