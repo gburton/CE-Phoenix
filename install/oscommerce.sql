@@ -189,7 +189,7 @@ CREATE TABLE customers_data (
   customers_data_value varchar(255) DEFAULT NULL,
   PRIMARY KEY (customers_data_id),
   UNIQUE KEY customers_id_data_key (customers_id, customers_data_key)
-) CHARACTER SET=utf8 COLLATE=utf8_unicode_ci;
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS customer_data_groups;
 CREATE TABLE customer_data_groups (
@@ -200,7 +200,7 @@ CREATE TABLE customer_data_groups (
   cdg_horizontal_sort_order int(11) NOT NULL,
   customer_data_groups_width int(11) NOT NULL,
   PRIMARY KEY (language_id, customer_data_groups_id) 
-) CHARACTER SET=utf8 COLLATE=utf8_unicode_ci;
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS customers_info;
 CREATE TABLE customers_info (
