@@ -418,7 +418,7 @@ $(function() {
       $contents[] = ['align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id))];
       break;
     default:
-      if ($oInfo instanceof objectInfo) {
+      if (($oInfo ?? null) instanceof objectInfo) {
         $heading[] = ['text' => '<strong>[' . $oInfo->orders_id . ']&nbsp;&nbsp;' . tep_datetime_short($oInfo->date_purchased) . '</strong>'];
 
         $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=delete'))];
