@@ -40,11 +40,12 @@ EOSQL;
       $foreign_keys = self::FOREIGN_KEYS;
 
       unset($db_tables['customers_info']);
-      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', $parameters = [
+      $parameters = [
         'data' => &$customer_details,
         'db' => &$db_tables,
         'keys' => &$foreign_keys,
-      ]);
+      ];
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', $parameters);
 
       if (!empty($db_tables['customers_data'])) {
         if (isset($criteria['id'])) {
@@ -68,12 +69,13 @@ EOSQL;
 
     public static function update($db_tables, $criteria = []) {
       $foreign_keys = self::FOREIGN_KEYS;
+      $parameters = [
+        'db' => &$db_tables,
+        'criteria' => &$criteria,
+        'keys' => &$foreign_keys,
+      ];
 
-      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountUpdateTables', $parameters = [
-        'db' => $db_tables,
-        'criteria' => $criteria,
-        'keys' => $foreign_keys,
-      ]);
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountUpdateTables', $parameters);
 
       // do not update columns that are null
       $db_tables = array_map(function ($value) {
