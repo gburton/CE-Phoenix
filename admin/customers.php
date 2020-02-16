@@ -19,18 +19,23 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'update':
-        $customer_details = $this->process();
+        $_SESSION['customer_id'] = (int)tep_db_prepare_input($_GET['cID']);
+        $customer_details = $customer_data->process();
+        unset($_SESSION['customer_id']);
 
         if (!empty($customer_details)) {
+          $customer_details['id'] = (int)tep_db_prepare_input($_GET['cID']);
           if (empty($customer_details['password'])) {
             unset($customer_details['password']);
+          } else {
+            require 'includes/functions/password_funcs.php';
           }
-          $this->save($customer_details);
-          tep_db_query("UPDATE customers_info SET customers_info_date_account_last_modified = NOW() WHERE customers_info_id = " . (int)$customer_details['customers_id']);
+          $customer_data->update($customer_details, ['id' => $customer_details['id']]);
+          tep_db_query("UPDATE customers_info SET customers_info_date_account_last_modified = NOW() WHERE customers_info_id = " . (int)$customer_details['id']);
 
           $OSCOM_Hooks->call('customers', 'afterUpdate');
 
-          tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $customers_id));
+          tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $customer_details['id']));
         }
 
         // if we reach here, we did not redirect, so there was some kind of error
