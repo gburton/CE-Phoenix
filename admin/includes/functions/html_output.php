@@ -144,14 +144,14 @@ EOERROR
 // Draw a 1 pixel black line
 // DEPRECATE THIS ASAP
   function tep_black_line() {
-    return tep_image('images/pixel_black.gif', '', '100%', '1');
+    return tep_image('images/pixel_black.gif', '', '100%', '1', null, false);
   }
 
 ////
 // Output a separator either through whitespace, or with an image
 // DEPRECATE THIS ASAP
   function tep_draw_separator($image = 'pixel_black.gif', $width = '100%', $height = '1') {
-    return tep_image('images/' . $image, '', $width, $height);
+    return tep_image('images/' . $image, '', $width, $height, null, false);
   }
 
 ////
