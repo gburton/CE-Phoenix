@@ -37,7 +37,7 @@
           'value' => 'account_newsletters',
           'desc' => 'On what pages should this appear?',
           'set_func' => 'tep_draw_account_edit_pages(',
-          'use_func' => 'cd_newsletter->list_exploded',
+          'use_func' => 'abstract_module::list_exploded',
         ],
         static::CONFIG_KEY_BASE . 'REQUIRED' => [
           'title' => 'Require Newsletter (if enabled)',

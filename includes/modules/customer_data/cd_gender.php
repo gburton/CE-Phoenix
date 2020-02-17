@@ -43,7 +43,7 @@
           'value' => 'account_edit;address_book;checkout_new_address',
           'desc' => 'On what pages should this appear?',
           'set_func' => 'tep_draw_account_edit_pages(',
-          'use_func' => 'abstract_module->list_exploded',
+          'use_func' => 'abstract_module::list_exploded',
         ],
         static::CONFIG_KEY_BASE . 'SORT_ORDER' => [
           'title' => 'Sort Order',
