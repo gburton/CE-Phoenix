@@ -612,7 +612,7 @@ function openTestConnectionDialog() {
 </script>
 EOD;
 
-      $info = '<p><img src="images/icons/locked.gif" border="0">&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_PAYMENT_AUTHORIZENET_CC_AIM_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
+      $info = '<p><i class="fas fa-lock"></i>&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_PAYMENT_AUTHORIZENET_CC_AIM_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
               '<div id="testConnectionDialog" style="display: none;"><p>';
 
       if ( MODULE_PAYMENT_AUTHORIZENET_CC_AIM_TRANSACTION_SERVER == 'Live' ) {

@@ -551,7 +551,7 @@ function openTestConnectionDialog() {
 </script>
 EOD;
 
-      $info = '<p><img src="images/icons/locked.gif" border="0">&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
+      $info = '<p><i class="fas fa-lock"></i>&nbsp;<a href="javascript:openTestConnectionDialog();" style="text-decoration: underline; font-weight: bold;">' . MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_LINK_TITLE . '</a></p>' .
               '<div id="testConnectionDialog" style="display: none;"><p>Server:<br>https://api.stripe.com/v1/</p><div id="testConnectionDialogProgress"><p>' . MODULE_PAYMENT_STRIPE_DIALOG_CONNECTION_GENERAL_TEXT . '</p><div id="tcdprogressbar"></div></div></div>' .
                $js;
 
