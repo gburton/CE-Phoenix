@@ -202,6 +202,12 @@ CREATE TABLE customer_data_groups (
   PRIMARY KEY (language_id, customer_data_groups_id) 
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS customer_data_groups_sequence;
+CREATE TABLE customer_data_groups_sequence (
+  customer_data_groups_id int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY(customer_data_groups_id)
+)  CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 DROP TABLE IF EXISTS customers_info;
 CREATE TABLE customers_info (
   customers_info_id int NOT NULL,
@@ -1062,6 +1068,8 @@ INSERT INTO countries VALUES (249, 'Timor-Leste', 'TL', 'TLS', '1');
 
 INSERT INTO currencies VALUES (1,'U.S. Dollar','USD','$','','.',',','2','1.0000', now());
 INSERT INTO currencies VALUES (2,'Euro','EUR','','€','.',',','2','1.0000', now());
+
+INSERT INTO customer_data_groups_sequence (customer_data_groups_id) VALUES (1), (2), (3), (4), (5), (6);
 
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (1, 1, 'Your Personal Information', 10, 10, 12);
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (2, 1, 'Your Address', 20, 10, 12);
