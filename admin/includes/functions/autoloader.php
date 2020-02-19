@@ -19,6 +19,7 @@
     // some classes do not follow either naming standard relating the class name and file name
     $exception_mappings = [
       'password_hash' => 'passwordhash',
+      'action_recorder_admin' => 'action_recorder',
     ];
 
     foreach ($exception_mappings as $class_name => $filename) {
@@ -42,8 +43,9 @@
     $class = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $class));
 
     if (isset($class_files[$class])) {
-      if (isset($GLOBALS['language']) && DIR_FS_ADMIN . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
-        $language_file = DIR_FS_ADMIN . 'includes/languages/'. $GLOBALS['language'] . '/modules' . substr($class_files[$class], $modules_directory_length);
+      global $language;
+      if (isset($language) && DIR_FS_ADMIN . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
+        $language_file = DIR_FS_ADMIN . "includes/languages/$language/modules" . substr($class_files[$class], $modules_directory_length);
         if (file_exists($language_file)) {
           include $language_file;
         }

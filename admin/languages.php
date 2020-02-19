@@ -5,108 +5,83 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = ($_GET['action'] ?? '');
 
   if (tep_not_null($action)) {
+    if ('insert' == $action || 'save' == $action) {
+      $sql_data = [
+        'name' => tep_db_prepare_input($_POST['name']),
+        'code' => tep_db_prepare_input(substr($_POST['code'], 0, 2)),
+        'image' => tep_db_prepare_input($_POST['image']),
+        'directory' => tep_db_prepare_input($_POST['directory']),
+        'sort_order' => (int)tep_db_prepare_input($_POST['sort_order']),
+      ];
+    }
+
     switch ($action) {
       case 'insert':
-        $name = tep_db_prepare_input($_POST['name']);
-        $code = tep_db_prepare_input(substr($_POST['code'], 0, 2));
-        $image = tep_db_prepare_input($_POST['image']);
-        $directory = tep_db_prepare_input($_POST['directory']);
-        $sort_order = (int)tep_db_prepare_input($_POST['sort_order']);
+        tep_db_perform('languages', $sql_data);
+        $lID = tep_db_insert_id();
 
-        tep_db_query("insert into " . TABLE_LANGUAGES . " (name, code, image, directory, sort_order) values ('" . tep_db_input($name) . "', '" . tep_db_input($code) . "', '" . tep_db_input($image) . "', '" . tep_db_input($directory) . "', '" . tep_db_input($sort_order) . "')");
-        $insert_id = tep_db_insert_id();
-
-// create additional categories_description records
-        $categories_query = tep_db_query("select c.categories_id, cd.categories_name from " . TABLE_CATEGORIES . " c left join " . TABLE_CATEGORIES_DESCRIPTION . " cd on c.categories_id = cd.categories_id where cd.language_id = '" . (int)$languages_id . "'");
-        while ($categories = tep_db_fetch_array($categories_query)) {
-          tep_db_query("insert into " . TABLE_CATEGORIES_DESCRIPTION . " (categories_id, language_id, categories_name) values ('" . (int)$categories['categories_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($categories['categories_name']) . "')");
-        }
-
-// create additional products_description records
-        $products_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, pd.products_url from " . TABLE_PRODUCTS . " p left join " . TABLE_PRODUCTS_DESCRIPTION . " pd on p.products_id = pd.products_id where pd.language_id = '" . (int)$languages_id . "'");
-        while ($products = tep_db_fetch_array($products_query)) {
-          tep_db_query("insert into " . TABLE_PRODUCTS_DESCRIPTION . " (products_id, language_id, products_name, products_description, products_url) values ('" . (int)$products['products_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($products['products_name']) . "', '" . tep_db_input($products['products_description']) . "', '" . tep_db_input($products['products_url']) . "')");
-        }
-
-// create additional products_options records
-        $products_options_query = tep_db_query("select products_options_id, products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$languages_id . "'");
-        while ($products_options = tep_db_fetch_array($products_options_query)) {
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, language_id, products_options_name) values ('" . (int)$products_options['products_options_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($products_options['products_options_name']) . "')");
-        }
-
-// create additional products_options_values records
-        $products_options_values_query = tep_db_query("select products_options_values_id, products_options_values_name from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id = '" . (int)$languages_id . "'");
-        while ($products_options_values = tep_db_fetch_array($products_options_values_query)) {
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS_VALUES . " (products_options_values_id, language_id, products_options_values_name) values ('" . (int)$products_options_values['products_options_values_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($products_options_values['products_options_values_name']) . "')");
-        }
-
-// create additional manufacturers_info records
-        $manufacturers_query = tep_db_query("select m.manufacturers_id, mi.manufacturers_url from " . TABLE_MANUFACTURERS . " m left join " . TABLE_MANUFACTURERS_INFO . " mi on m.manufacturers_id = mi.manufacturers_id where mi.languages_id = '" . (int)$languages_id . "'");
-        while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
-          tep_db_query("insert into " . TABLE_MANUFACTURERS_INFO . " (manufacturers_id, languages_id, manufacturers_url) values ('" . $manufacturers['manufacturers_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($manufacturers['manufacturers_url']) . "')");
-        }
-
-// create additional orders_status records
-        $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "'");
-        while ($orders_status = tep_db_fetch_array($orders_status_query)) {
-          tep_db_query("insert into " . TABLE_ORDERS_STATUS . " (orders_status_id, language_id, orders_status_name) values ('" . (int)$orders_status['orders_status_id'] . "', '" . (int)$insert_id . "', '" . tep_db_input($orders_status['orders_status_name']) . "')");
-        }
+// create additional language-specific records
+        tep_db_query("INSERT INTO categories_description (categories_id, language_id, categories_name) SELECT categories_id, " . (int)$lID . ", categories_name FROM categories_description WHERE language_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO products_description (products_id, language_id, products_name, products_description, products_url) SELECT products_id, " . (int)$lID . ", products_name, products_description, products_url FROM products_description WHERE language_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO products_options (products_options_id, language_id, products_options_name) SELECT products_options_id, " . (int)$lID . ", products_options_name FROM products_options WHERE language_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO products_options_values (products_options_values_id, language_id, products_options_values_name) SELECT products_options_values_id, " . (int)$lID . ", products_options_values_name FROM products_options_values WHERE language_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO manufacturers_info (manufacturers_id, languages_id, manufacturers_url) SELECT manufacturers_id, " . (int)$lID . ", manufacturers_url FROM manufacturers_info WHERE languages_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO orders_status (orders_status_id, language_id, orders_status_name) SELECT orders_status_id, " . (int)$lID . ", orders_status_name FROM orders_status WHERE language_id = " . (int)$languages_id);
+        tep_db_query("INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) SELECT customer_data_groups_id, " . (int)$lID . ", customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width FROM customer_data_groups WHERE language_id = " . (int)$languages_id);
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_LANGUAGE'");
+          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
 
-        tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'lID=' . $insert_id));
+        tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'save':
         $lID = tep_db_prepare_input($_GET['lID']);
-        $name = tep_db_prepare_input($_POST['name']);
-        $code = tep_db_prepare_input(substr($_POST['code'], 0, 2));
-        $image = tep_db_prepare_input($_POST['image']);
-        $directory = tep_db_prepare_input($_POST['directory']);
-        $sort_order = (int)tep_db_prepare_input($_POST['sort_order']);
+        tep_db_perform('languages', $sql_data, 'update', "languages_id = " . (int)$lID);
 
-        tep_db_query("update " . TABLE_LANGUAGES . " set name = '" . tep_db_input($name) . "', code = '" . tep_db_input($code) . "', image = '" . tep_db_input($image) . "', directory = '" . tep_db_input($directory) . "', sort_order = '" . tep_db_input($sort_order) . "' where languages_id = '" . (int)$lID . "'");
-
-        if ($_POST['default'] == 'on') {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_LANGUAGE'");
+        if (isset($_POST['default']) && $_POST['default'] == 'on') {
+          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
 
-        tep_redirect(tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $_GET['lID']));
+        tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'deleteconfirm':
         $lID = tep_db_prepare_input($_GET['lID']);
 
-        $lng_query = tep_db_query("select languages_id from " . TABLE_LANGUAGES . " where code = '" . DEFAULT_CURRENCY . "'");
+        $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_CURRENCY . "'");
         $lng = tep_db_fetch_array($lng_query);
         if ($lng['languages_id'] == $lID) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '' where configuration_key = 'DEFAULT_CURRENCY'");
+          $remove_language = false;
+          $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
+          $action = 'delete';
+          break;
         }
 
-        tep_db_query("delete from " . TABLE_CATEGORIES_DESCRIPTION . " where language_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_PRODUCTS_DESCRIPTION . " where language_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS . " where language_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_PRODUCTS_OPTIONS_VALUES . " where language_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_MANUFACTURERS_INFO . " where languages_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$lID . "'");
-        tep_db_query("delete from " . TABLE_LANGUAGES . " where languages_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM categories_description WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM products_description WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM products_options WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM products_options_values WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM manufacturers_info WHERE languages_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM orders_status WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
 
-        tep_redirect(tep_href_link('languages.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] : '')));
         break;
       case 'delete':
         $lID = tep_db_prepare_input($_GET['lID']);
 
-        $lng_query = tep_db_query("select code from " . TABLE_LANGUAGES . " where languages_id = '" . (int)$lID . "'");
+        $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = '" . (int)$lID . "'");
         $lng = tep_db_fetch_array($lng_query);
 
         $remove_language = true;
@@ -118,7 +93,7 @@
     }
   }
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -140,7 +115,7 @@
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
 <?php
-  $languages_query_raw = "select languages_id, name, code, image, directory, sort_order from " . TABLE_LANGUAGES . " order by sort_order";
+  $languages_query_raw = "select languages_id, name, code, image, directory, sort_order from languages order by sort_order";
   $languages_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $languages_query_raw, $languages_query_numrows);
   $languages_query = tep_db_query($languages_query_raw);
 
@@ -186,53 +161,53 @@
               </tr>
             </table></td>
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_LANGUAGE . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_NEW_LANGUAGE . '</strong>'];
 
-      $contents = array('form' => tep_draw_form('languages', 'languages.php', 'action=insert'));
-      $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . '<br />' . tep_draw_input_field('name'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_CODE . '<br />' . tep_draw_input_field('code'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_IMAGE . '<br />' . tep_draw_input_field('image', 'icon.gif'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . tep_draw_input_field('directory'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . '<br />' . tep_draw_input_field('sort_order'));
-      $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT);
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $_GET['lID'])));
+      $contents = ['form' => tep_draw_form('languages', 'languages.php', 'action=insert')];
+      $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . '<br />' . tep_draw_input_field('name')];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_CODE . '<br />' . tep_draw_input_field('code')];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_IMAGE . '<br />' . tep_draw_input_field('image', 'icon.gif')];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . tep_draw_input_field('directory')];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . '<br />' . tep_draw_input_field('sort_order')];
+      $contents[] = ['text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $_GET['lID']))];
       break;
     case 'edit':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_EDIT_LANGUAGE . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_EDIT_LANGUAGE . '</strong>'];
 
-      $contents = array('form' => tep_draw_form('languages', 'languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=save'));
-      $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . '<br />' . tep_draw_input_field('name', $lInfo->name));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_CODE . '<br />' . tep_draw_input_field('code', $lInfo->code));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_IMAGE . '<br />' . tep_draw_input_field('image', $lInfo->image));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . tep_draw_input_field('directory', $lInfo->directory));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . '<br />' . tep_draw_input_field('sort_order', $lInfo->sort_order));
-      if (DEFAULT_LANGUAGE != $lInfo->code) $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT);
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id)));
+      $contents = ['form' => tep_draw_form('languages', 'languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=save')];
+      $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . '<br />' . tep_draw_input_field('name', $lInfo->name)];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_CODE . '<br />' . tep_draw_input_field('code', $lInfo->code)];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_IMAGE . '<br />' . tep_draw_input_field('image', $lInfo->image)];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . tep_draw_input_field('directory', $lInfo->directory)];
+      $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . '<br />' . tep_draw_input_field('sort_order', $lInfo->sort_order)];
+      if (DEFAULT_LANGUAGE != $lInfo->code) $contents[] = ['text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id))];
       break;
     case 'delete':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_LANGUAGE . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_LANGUAGE . '</strong>'];
 
-      $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<br /><strong>' . $lInfo->name . '</strong>');
-      $contents[] = array('align' => 'center', 'text' => '<br />' . (($remove_language) ? tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=deleteconfirm'), 'primary') : '') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id)));
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
+      $contents[] = ['text' => '<br /><strong>' . $lInfo->name . '</strong>'];
+      $contents[] = ['align' => 'center', 'text' => '<br />' . (($remove_language) ? tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=deleteconfirm'), 'primary') : '') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id))];
       break;
     default:
       if (is_object($lInfo)) {
-        $heading[] = array('text' => '<strong>' . $lInfo->name . '</strong>');
+        $heading[] = ['text' => '<strong>' . $lInfo->name . '</strong>'];
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete')) . tep_draw_button(IMAGE_DETAILS, 'info', tep_href_link('define_language.php', 'lngdir=' . $lInfo->directory)));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . ' ' . $lInfo->name);
-        $contents[] = array('text' => TEXT_INFO_LANGUAGE_CODE . ' ' . $lInfo->code);
-        $contents[] = array('text' => '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $lInfo->directory . '/images/' . $lInfo->image, '', 'SSL'), $lInfo->name));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . DIR_WS_CATALOG_LANGUAGES . '<strong>' . $lInfo->directory . '</strong>');
-        $contents[] = array('text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . ' ' . $lInfo->sort_order);
+        $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete')) . tep_draw_button(IMAGE_DETAILS, 'info', tep_href_link('define_language.php', 'lngdir=' . $lInfo->directory))];
+        $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_NAME . ' ' . $lInfo->name];
+        $contents[] = ['text' => TEXT_INFO_LANGUAGE_CODE . ' ' . $lInfo->code];
+        $contents[] = ['text' => '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $lInfo->directory . '/images/' . $lInfo->image, '', 'SSL'), $lInfo->name)];
+        $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_DIRECTORY . '<br />' . DIR_WS_CATALOG_LANGUAGES . '<strong>' . $lInfo->directory . '</strong>'];
+        $contents[] = ['text' => '<br />' . TEXT_INFO_LANGUAGE_SORT_ORDER . ' ' . $lInfo->sort_order];
       }
       break;
   }
@@ -252,6 +227,6 @@
     </table>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

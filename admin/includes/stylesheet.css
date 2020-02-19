@@ -4,10 +4,13 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
+
+* {min-height: 0.01px;}
+.form-control-feedback { position: absolute; width: auto; top: 7px; right: 45px; margin-top: 0; }
 
 #contentText { color: #000 !important; font-size: 0.8em !important; }
 

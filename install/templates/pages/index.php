@@ -21,7 +21,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-9 order-last">
 
-    <h1 class="h4">New Installation</h1>
+    <h1 class="dislay-4">New Installation</h1>
 
 <?php
     $configfile_array = [];
@@ -89,7 +89,7 @@
           <p>
 
 <?php
-        echo implode("<br />\n", $config_file_array);
+        echo implode("<br>\n", $config_file_array);
 ?>
 
           </p>
@@ -144,7 +144,7 @@ $(function() {
 ?>
   </div>
   <div class="col-sm-12 col-md-3 order-first">
-    <h2 class="h4">Server Capabilities</h2>
+    <h4>Server Capabilities</h4>
 
     <table class="table table-condensed table-striped">
       <tr>

@@ -33,7 +33,9 @@
       if ( defined('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER') ) {
         $this->sort_order = MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER;
         $this->enabled = true;
-        $this->content_width = (int)MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH;
+        if (defined('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH')) {
+          $this->content_width = (int)MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH;
+        }
       }
     }
 
@@ -337,4 +339,3 @@ EOD;
       return array('MODULE_ADMIN_DASHBOARD_PAYPAL_APP_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_PAYPAL_APP_SORT_ORDER');
     }
   }
-  

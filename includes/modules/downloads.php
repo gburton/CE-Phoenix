@@ -24,7 +24,7 @@
   if (tep_db_num_rows($downloads_query) > 0) {
 ?>
 
-  <h2 class="h3"><?php echo HEADING_DOWNLOAD; ?></h2>
+  <h3><?php echo HEADING_DOWNLOAD; ?></h3>
 
   <div class="contentText">
     <table class="table table-striped">
@@ -36,22 +36,22 @@
       $download_timestamp = mktime(23, 59, 59, $dt_month, $dt_day + $downloads['download_maxdays'], $dt_year);
       $download_expiry = date('Y-m-d H:i:s', $download_timestamp);
 
-      echo '      <tr>' . "\n";
+      echo '<tr>';
 
 // The link will appear only if:
 // - Download remaining count is > 0, AND
 // - The file is present in the DOWNLOAD directory, AND EITHER
 // - No expiry date is enforced (maxdays == 0), OR
 // - The expiry date is not reached
-      if ( ($downloads['download_count'] > 0) && (file_exists(DIR_FS_DOWNLOAD . $downloads['orders_products_filename'])) && ( ($downloads['download_maxdays'] == 0) || ($download_timestamp > time())) ) {
-        echo '        <td><a href="' . tep_href_link('download.php', 'order=' . $last_order . '&id=' . $downloads['orders_products_download_id']) . '">' . $downloads['products_name'] . '</a></td>' . "\n";
-      } else {
-        echo '        <td>' . $downloads['products_name'] . '</td>' . "\n";
-      }
+        if ( ($downloads['download_count'] > 0) && (file_exists(DIR_FS_DOWNLOAD . $downloads['orders_products_filename'])) && ( ($downloads['download_maxdays'] == 0) || ($download_timestamp > time())) ) {
+          echo '<td><a href="' . tep_href_link('download.php', 'order=' . $last_order . '&id=' . $downloads['orders_products_download_id']) . '">' . $downloads['products_name'] . '</a></td>' . "\n";
+        } else {
+          echo '<td>' . $downloads['products_name'] . '</td>' . "\n";
+        }
 
-      echo '        <td>' . TABLE_HEADING_DOWNLOAD_DATE . tep_date_long($download_expiry) . '</td>' . "\n" .
-           '        <td class="text-right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>' . "\n" .
-           '      </tr>' . "\n";
+        echo '<td>' . TABLE_HEADING_DOWNLOAD_DATE . tep_date_long($download_expiry) . '</td>';
+        echo '<td class="text-right">' . $downloads['download_count'] . TABLE_HEADING_DOWNLOAD_COUNT . '</td>';
+      echo '</tr>';
     }
 ?>
 

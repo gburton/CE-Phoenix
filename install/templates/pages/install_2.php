@@ -56,7 +56,7 @@
 
 <div class="row">
   <div class="col-12 col-sm-9">
-    <h2 class="h4">Web Server</h2>
+    <h4>Web Server</h4>
     <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=3" method="post" role="form">
@@ -92,7 +92,7 @@
     </form>
   </div>
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 2</h2>
+    <h4>Step 2</h4>
     <div class="card mb-2 card-body">      
       <p>The web server takes care of serving the pages of your online store to your guests and customers. The web server parameters make sure the links to the pages point to the correct location.</p>
     </div>

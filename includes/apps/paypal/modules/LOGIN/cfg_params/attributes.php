@@ -72,7 +72,7 @@
       $input = '';
 
       foreach ( $this->attributes as $group => $attributes ) {
-        $input .= '<strong>' . $OSCOM_PayPal->getDef('cfg_login_attributes_group_' . $group) . '</strong><br />';
+        $input .= '<strong>' . $OSCOM_PayPal->getDef('cfg_login_attributes_group_' . $group) . '</strong><br>';
 
         foreach ( $attributes as $attribute => $scope ) {
           if ( in_array($attribute, $this->required) ) {
@@ -81,12 +81,12 @@
             $input .= '<input type="checkbox" id="ppLogInAttributesSelection' . ucfirst($attribute) . '" name="ppLogInAttributes[]" value="' . $attribute . '"' . (in_array($attribute, $values_array) ? ' checked="checked"' : '') . ' />';
           }
 
-          $input .= '&nbsp;<label for="ppLogInAttributesSelection' . ucfirst($attribute) . '">' . $OSCOM_PayPal->getDef('cfg_login_attributes_attribute_' . $attribute) . '</label><br />';
+          $input .= '&nbsp;<label for="ppLogInAttributesSelection' . ucfirst($attribute) . '">' . $OSCOM_PayPal->getDef('cfg_login_attributes_attribute_' . $attribute) . '</label><br>';
         }
       }
 
       if ( !empty($input) ) {
-        $input = '<br />' . substr($input, 0, -6);
+        $input = '<br>' . substr($input, 0, -6);
       }
 
       $input .= '<input type="hidden" name="attributes" value="" />';

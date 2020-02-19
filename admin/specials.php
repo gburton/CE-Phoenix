@@ -87,7 +87,21 @@
   require('includes/template_top.php');
 ?>
 
-  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+  <div class="row">
+    <div class="col">
+      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+    </div>
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2');
+      }
+      ?>
+    </div>
+  </div>
 
 <?php
   if ( ($action == 'new') || ($action == 'edit') ) {
@@ -119,7 +133,7 @@
   
     <div class="form-group row">
       <label for="specialProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_SPECIALS_PRODUCT; ?></label>
-      <div class="col-sm-9"><?php if (isset($sInfo->products_name)) { echo tep_draw_input_field('n', $sInfo->products_name . ' (' . $currencies->format($sInfo->products_price) . ')', 'readonly class="form-control-plaintext"'); } else { echo tep_draw_products_pull_down('products_id', 'id="specialProduct" class="form-control" required aria-required="true"', $specials_array); } echo tep_draw_hidden_field('products_price', (isset($sInfo->products_price) ? $sInfo->products_price : '')); ?>     
+      <div class="col-sm-9"><?php if (isset($sInfo->products_name)) { echo tep_draw_input_field('n', $sInfo->products_name . ' (' . $currencies->format($sInfo->products_price) . ')', 'readonly class="form-control-plaintext"'); } else { echo tep_draw_products_pull_down('products_id', 'id="specialProduct" required aria-required="true"', $specials_array); } echo tep_draw_hidden_field('products_price', (isset($sInfo->products_price) ? $sInfo->products_price : '')); ?>     
       </div>
     </div>
     
@@ -136,7 +150,7 @@
       <label for="expdate" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_SPECIALS_EXPIRES_DATE; ?></label>
       <div class="col-sm-9">
         <?php 
-        echo tep_draw_input_field('expdate', (tep_not_null($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="expdate"'); 
+        echo tep_draw_input_field('expdate', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="expdate"'); 
         ?>    
       </div>
     </div>
@@ -147,7 +161,6 @@
     
     <?php 
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
-    echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2'); 
     ?>
 
   </form>
@@ -207,14 +220,6 @@
         <div class="col"><?php echo $specials_split->display_count($specials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_SPECIALS); ?></div>
         <div class="col text-right mr-2"><?php echo $specials_split->display_links($specials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
-      
-      <?php
-      if (empty($action)) {
-        echo '<div class="buttonSet mr-2 mt-2">';
-          echo tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'page=' . $_GET['page'] . '&action=new'), null, null, 'btn-success btn-block btn-lg xxx text-white');
-        echo '</div>';
-      }
-      ?>
       
     </div>
 

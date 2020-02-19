@@ -69,7 +69,7 @@
 <div class="row">
   <div class="col-12 col-sm-9">
 
-    <h2 class="h4">Finished!</h2>
+    <h4>Finished!</h4>
     
     <?php
     $dir_fs_document_root = $_POST['DIR_FS_DOCUMENT_ROOT'];
@@ -194,7 +194,7 @@
 
     <div class="alert alert-success" role="alert">The installation of your online store was successful! Click on either button to start your online selling experience:</div>
 
-    <br />
+    <br>
 
     <div class="row">
       <div class="col"><?php echo osc_draw_button('Administration Tool (Backend)', 'locked', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', array('newwindow' => 1), 'btn-info btn-block'); ?></div>
@@ -204,7 +204,7 @@
   </div>
   
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 4</h2>
+    <h4>Step 4</h4>
     <div class="card mb-2">
       <div class="card-body">      
         <p>Congratulations on installing and configuring OSCOM CE Phoenix as your online store solution!</p>
