@@ -67,7 +67,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_COUNTRY, 'fas fa-map-marker-alt', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_COUNTRY, 'fas fa-map-marker-alt', tep_href_link('countries.php', 'action=new'), null, null, 'btn-danger xxx text-white');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('countries.php'), null, null, 'btn-light');
