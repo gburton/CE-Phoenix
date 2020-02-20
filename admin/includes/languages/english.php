@@ -37,7 +37,7 @@ const TITLE = 'OSCOM CE Phoenix Administration Tool';
 // header text in includes/header.php
 const HEADER_TITLE_ONLINE_CATALOG = '<i class="fas fa-shopping-cart text-primary"></i> <span class="border-bottom border-primary">Your Shop</span>';
 const HEADER_TITLE_PHOENIX_CLUB = '<span class="border-bottom border-primary">Phoenix Club</span>';
-const HEADER_TITLE_CERTIFIED_ADDONS = '<span class="border-bottom border-primary">Certified Addons</span>';
+const HEADER_TITLE_CERTIFIED_ADDONS = '<span class="border-bottom border-primary">Certified Addons & Services</span>';
 const HEADER_TITLE_LOGOFF = '<i class="fas fa-lock"></i> <span class="border-bottom border-danger"> %s, securely logoff</span>';
 
 // javascript messages
