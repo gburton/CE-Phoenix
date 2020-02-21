@@ -422,7 +422,7 @@
     $fmt = $address_format['format'];
     eval("\$address = \"$fmt\";");
 
-    if ( (ACCOUNT_COMPANY == 'true') && (tep_not_null($company)) ) {
+    if ( $GLOBALS['customer_data']->has('company') && (tep_not_null($company)) ) {
       $address = $company . $cr . $address;
     }
 
@@ -931,7 +931,7 @@ EOSQL
       }
       $calculated_category_path_string = substr($calculated_category_path_string, 0, -16) . '<br />';
     }
-    $calculated_category_path_string = substr($calculated_category_path_string, 0, -6);
+    $calculated_category_path_string = substr($calculated_category_path_string, 0, -strlen('<br />'));
 
     if (strlen($calculated_category_path_string) < 1) $calculated_category_path_string = TEXT_TOP;
 
@@ -946,7 +946,7 @@ EOSQL
       }
       $calculated_category_path_string = substr($calculated_category_path_string, 0, -1) . '<br />';
     }
-    $calculated_category_path_string = substr($calculated_category_path_string, 0, -6);
+    $calculated_category_path_string = substr($calculated_category_path_string, 0, -strlen('<br />'));
 
     if (strlen($calculated_category_path_string) < 1) $calculated_category_path_string = TEXT_TOP;
 
