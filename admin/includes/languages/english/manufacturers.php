@@ -52,3 +52,5 @@ const TEXT_MANUFACTURERS_SEO_TITLE = 'Manufacturer Title for SEO:<br><small>Opti
 const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Edit the Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
 
 define('BUTTON_INSERT_NEW_MANUFACTURER', 'New Manufacturer');
+
+define('TEXT_MANUFACTURERS_IMAGE_LABEL', 'Select Manufacturer');

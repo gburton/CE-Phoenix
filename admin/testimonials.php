@@ -100,11 +100,11 @@
           <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></label>
           <div class="col-sm-9">
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '1', $in_status, null, 'id="inStatus" class="custom-control-input"'); ?>
+              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '1', $in_status, 'id="inStatus" class="custom-control-input"'); ?>
               <label class="custom-control-label" for="inStatus"><?php echo TEXT_TESTIMONIAL_PUBLISHED; ?></label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '0', $out_status, null, 'id="outStatus" class="custom-control-input"'); ?>
+              <?php echo tep_draw_selection_field('testimonials_status', 'radio', '0', $out_status, 'id="outStatus" class="custom-control-input"'); ?>
               <label class="custom-control-label" for="outStatus"><?php echo TEXT_TESTIMONIAL_NOT_PUBLISHED; ?></label>
             </div>    
           </div>
@@ -113,14 +113,14 @@
         <div class="form-group row">
           <label for="inputFrom" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_customers('customers_id', 'id="inputFrom" class="form-control"', $tInfo->customers_id); ?>
+            <?php echo tep_draw_customers('customers_id', 'id="inputFrom"', $tInfo->customers_id); ?>
           </div>
         </div>
         
         <div class="form-group row">
           <label for="inputNick" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM_NICKNAME; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_input_field('customer_name', $tInfo->customers_name, 'required aria-required="true" id="inputNick" class="form-control"'); 
+            <?php echo tep_draw_input_field('customer_name', $tInfo->customers_name, 'required aria-required="true" id="inputNick"'); 
             ?>
           </div>
         </div>
@@ -128,7 +128,7 @@
         <div class="form-group row">
           <label for="inputText" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TESTIMONIAL; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text, 'required aria-required="true" id="inputText" class="form-control"'); ?>
+            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text, 'required aria-required="true" id="inputText"'); ?>
           </div>
         </div>
         
@@ -150,14 +150,14 @@
         <div class="form-group row">
           <label for="inputFrom" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_customers('customers_id', 'id="inputFrom" class="form-control"'); ?>
+            <?php echo tep_draw_customers('customers_id', 'id="inputFrom"'); ?>
           </div>
         </div>
         
         <div class="form-group row">
           <label for="inputNick" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM_NICKNAME; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_input_field('customer_name', '', 'required aria-required="true" id="inputNick" class="form-control"'); 
+            <?php echo tep_draw_input_field('customer_name', '', 'required aria-required="true" id="inputNick"'); 
             ?>
           </div>
         </div>
@@ -165,7 +165,7 @@
         <div class="form-group row">
           <label for="inputText" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TESTIMONIAL; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', '', 'required aria-required="true" id="inputText" class="form-control"'); ?>
+            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', '', 'required aria-required="true" id="inputText"'); ?>
           </div>
         </div>
         

@@ -12,10 +12,10 @@
 
   define('MODULE_PAYMENT_BRAINTREE_CC_TEXT_TITLE', 'Braintree Payment Solutions');
   define('MODULE_PAYMENT_BRAINTREE_CC_TEXT_PUBLIC_TITLE', 'Credit Card');
-  define('MODULE_PAYMENT_BRAINTREE_CC_TEXT_DESCRIPTION', '<img src="images/icon_info.gif" border="0" />&nbsp;<a href="http://library.oscommerce.com/Package&en&braintree&oscom23&braintree_js" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br /><br /><img src="images/icon_popup.gif" border="0">&nbsp;<a href="https://www.braintreepayments.com" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">Visit Braintree Payments Website</a>');
+  define('MODULE_PAYMENT_BRAINTREE_CC_TEXT_DESCRIPTION', '<i class="fas fa-info-circle"></i>&nbsp;<a href="http://library.oscommerce.com/Package&en&braintree&oscom23&braintree_js" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br><br><i class="fas fa-external-link-alt"></i>&nbsp;<a href="https://www.braintreepayments.com" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">Visit Braintree Payments Website</a>');
 
   define('MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP', 'The minimum PHP version this module supports is %s and will not load until the webserver has been installed with a newer version.');
-  define('MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP_EXTENSIONS', 'This module requires the following PHP extensions and will and will not load until PHP has been updated:<br /><br />%s');
+  define('MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_PHP_EXTENSIONS', 'This module requires the following PHP extensions and will and will not load until PHP has been updated:<br><br>%s');
   define('MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_MERCHANT_ACCOUNTS', 'This module will not load until a merchant account has been defined for the %s currency.');
   define('MODULE_PAYMENT_BRAINTREE_CC_ERROR_ADMIN_CONFIGURATION', 'This module will not load until the Merchant ID, Public Key, Private Key, and Client Side Encryption Key parameters have been configured. Please edit and configure the settings of this module.');
 

@@ -10,10 +10,19 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  require('includes/classes/currencies.php');
   $currencies = new currencies();
+
+  // calculate category path
+  $cPath = $_GET['cPath'] ?? '';
+  if (tep_not_null($cPath)) {
+    $cPath_array = tep_parse_category_path($cPath);
+    $cPath = implode('_', $cPath_array);
+    $current_category_id = end($cPath_array);
+  } else {
+    $current_category_id = 0;
+  }
 
   $action = (isset($_GET['action']) ? $_GET['action'] : '');
 
@@ -153,7 +162,7 @@
         }
 
         $OSCOM_Hooks->call('categories', 'productActionDelete');
-        
+
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath));
         break;
       case 'move_category_confirm':
@@ -182,7 +191,7 @@
         $duplicate_check_query = tep_db_query("select count(*) as total from products_to_categories where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$new_parent_id . "'");
         $duplicate_check = tep_db_fetch_array($duplicate_check_query);
         if ($duplicate_check['total'] < 1) tep_db_query("update products_to_categories set categories_id = '" . (int)$new_parent_id . "' where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$current_category_id . "'");
-        
+
         $OSCOM_Hooks->call('categories', 'productActionMove');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $new_parent_id . '&pID=' . $products_id));
@@ -203,7 +212,7 @@
                                 'products_tax_class_id' => tep_db_prepare_input($_POST['products_tax_class_id']),
                                 'manufacturers_id' => (int)tep_db_prepare_input($_POST['manufacturers_id']));
         $sql_data_array['products_gtin'] = (tep_not_null($_POST['products_gtin'])) ? str_pad(tep_db_prepare_input($_POST['products_gtin']), 14, '0', STR_PAD_LEFT) : 'null';
-        
+
         $products_image = new upload('products_image');
         $products_image->set_destination(DIR_FS_CATALOG_IMAGES);
         if ($products_image->parse() && $products_image->save()) {
@@ -307,7 +316,7 @@
         }
 
         $OSCOM_Hooks->call('categories', 'productActionSave');
-        
+
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products_id));
         break;
       case 'copy_to_confirm':
@@ -489,11 +498,11 @@ function updateNet() {
     <li><?php echo '<a href="' . substr(tep_href_link('categories.php', tep_get_all_get_params()), strlen($base_url)) . '#section_data_content">' . SECTION_HEADING_DATA . '</a>'; ?></li>
     <li><?php echo '<a href="' . substr(tep_href_link('categories.php', tep_get_all_get_params()), strlen($base_url)) . '#section_images_content">' . SECTION_HEADING_IMAGES . '</a>'; ?></li>
   </ul>
-  
+
   <div id="section_general_content" style="padding: 10px;">
     <div id="productLanguageTabs">
       <ul>
-      
+
 <?php
 for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
   echo '<li><a href="' . substr(tep_href_link('categories.php', tep_get_all_get_params()), strlen($base_url)) . '#section_general_content_' . $languages[$i]['directory'] . '">' . $languages[$i]['name'] . '</a></li>';
@@ -532,7 +541,7 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
           <tr bgcolor="#eeeeee">
             <td class="main"><?php echo TEXT_PRODUCTS_SEO_TITLE; ?></td>
             <td class="main"><?php echo tep_draw_input_field('products_seo_title[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $languages[$i]['id'])), 'style="width: 500px;"'); ?></td>
-          </tr>          
+          </tr>
           <tr bgcolor="#eeeeee">
             <td class="main" valign="top"><?php echo TEXT_PRODUCTS_SEO_DESCRIPTION; ?></td>
             <td class="main"><?php echo tep_draw_textarea_field('products_seo_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $languages[$i]['id']))); ?></td>
@@ -548,7 +557,7 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
 ?>
     </div>
   </div>
-  
+
   <div id="section_data_content" style="padding: 10px;">
     <table border="0" cellspacing="0" cellpadding="2">
       <tr>
@@ -629,7 +638,7 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
     }
 ?>
     </ul>
-   
+
     <br>
     <span class="tdbLink"><a href="#" id="add_image" onclick="addNewPiForm();return false;"><?php echo TEXT_PRODUCTS_ADD_LARGE_IMAGE; ?></a></span>
     <script>$("#add_image").button({icons:{primary:"ui-icon-plus"}}).addClass("ui-priority-secondary").parent().removeClass("tdbLink");</script>
@@ -701,7 +710,7 @@ $('#products_date_available').datepicker({
 
 <div style="padding-top: 15px; text-align: right;">
   <?php echo tep_draw_hidden_field('products_date_added', (tep_not_null($pInfo->products_date_added) ? $pInfo->products_date_added : date('Y-m-d'))) . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('categories.php', 'cPath=' . $cPath . (isset($_GET['pID']) ? '&pID=' . $_GET['pID'] : ''))); ?>
-</div> 
+</div>
 
     </form>
 <?php

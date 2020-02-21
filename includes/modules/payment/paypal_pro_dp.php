@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2017 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -15,7 +15,20 @@
   }
 
   class paypal_pro_dp {
-    var $code, $title, $description, $enabled, $_app;
+
+    const REQUIRES = [
+      'firstname',
+      'lastname',
+      'street_address',
+      'city',
+      'postcode',
+      'country',
+      'telephone',
+      'email_address',
+    ];
+
+    public $code = 'paypal_pro_dp';
+    public $title, $description, $enable, $_app;
 
     function __construct() {
       global $order;
@@ -26,15 +39,15 @@
       $this->signature = 'paypal|paypal_pro_dp|' . $this->_app->getVersion() . '|2.3';
       $this->api_version = $this->_app->getApiVersion();
 
-      $this->code = 'paypal_pro_dp';
+      $this->code;
       $this->title = $this->_app->getDef('module_dp_title');
       $this->public_title = $this->_app->getDef('module_dp_public_title');
       $this->description = '<div align="center">' . $this->_app->drawButton($this->_app->getDef('module_dp_legacy_admin_app_button'), tep_href_link('paypal.php', 'action=configure&module=DP'), 'primary', null, true) . '</div>';
       $this->sort_order = defined('OSCOM_APP_PAYPAL_DP_SORT_ORDER') ? OSCOM_APP_PAYPAL_DP_SORT_ORDER : 0;
-      $this->enabled = defined('OSCOM_APP_PAYPAL_DP_STATUS') && in_array(OSCOM_APP_PAYPAL_DP_STATUS, array('1', '0')) ? true : false;
+      $this->enabled = defined('OSCOM_APP_PAYPAL_DP_STATUS') && in_array(OSCOM_APP_PAYPAL_DP_STATUS, ['1', '0']);
       $this->order_status = defined('OSCOM_APP_PAYPAL_DP_ORDER_STATUS_ID') && ((int)OSCOM_APP_PAYPAL_DP_ORDER_STATUS_ID > 0) ? (int)OSCOM_APP_PAYPAL_DP_ORDER_STATUS_ID : 0;
 
-      if ( !defined('MODULE_PAYMENT_INSTALLED') || !tep_not_null(MODULE_PAYMENT_INSTALLED) || !in_array('paypal_express.php', explode(';', MODULE_PAYMENT_INSTALLED)) || !defined('OSCOM_APP_PAYPAL_EC_STATUS') || !in_array(OSCOM_APP_PAYPAL_EC_STATUS, array('1', '0')) ) {
+      if ( !defined('MODULE_PAYMENT_INSTALLED') || !tep_not_null(MODULE_PAYMENT_INSTALLED) || !in_array('paypal_express.php', explode(';', MODULE_PAYMENT_INSTALLED)) || !defined('OSCOM_APP_PAYPAL_EC_STATUS') || !in_array(OSCOM_APP_PAYPAL_EC_STATUS, ['1', '0']) ) {
         $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_dp_error_express_module') . '</div>';
 
         $this->enabled = false;
@@ -75,32 +88,27 @@
         }
       }
 
-      $this->cc_types = array('VISA' => 'Visa',
-                              'MASTERCARD' => 'MasterCard',
-                              'DISCOVER' => 'Discover Card',
-                              'AMEX' => 'American Express',
-                              'MAESTRO' => 'Maestro');
+      $this->cc_types = [
+        'VISA' => 'Visa',
+        'MASTERCARD' => 'MasterCard',
+        'DISCOVER' => 'Discover Card',
+        'AMEX' => 'American Express',
+        'MAESTRO' => 'Maestro',
+      ];
     }
 
     function update_status() {
       global $order;
 
       if ( ($this->enabled == true) && ((int)OSCOM_APP_PAYPAL_DP_ZONE > 0) ) {
-        $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . OSCOM_APP_PAYPAL_DP_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
+        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = '" . OSCOM_APP_PAYPAL_DP_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
-          if ($check['zone_id'] < 1) {
-            $check_flag = true;
-            break;
-          } elseif ($check['zone_id'] == $order->delivery['zone_id']) {
-            $check_flag = true;
-            break;
+          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->delivery['zone_id'])) {
+            return;
           }
         }
 
-        if ($check_flag == false) {
-          $this->enabled = false;
-        }
+        $this->enabled = false;
       }
     }
 
@@ -109,8 +117,10 @@
     }
 
     function selection() {
-      return array('id' => $this->code,
-                   'module' => $this->public_title);
+      return [
+        'id' => $this->code,
+        'module' => $this->public_title,
+      ];
     }
 
     function pre_confirmation_check() {
@@ -123,62 +133,64 @@
     function confirmation() {
       global $order;
 
-      $types_array = array();
+      $types_array = [];
       foreach ( $this->cc_types as $key => $value ) {
         if ($this->isCardAccepted($key)) {
-          $types_array[] = array('id' => $key,
-                                 'text' => $value);
+          $types_array[] = [
+            'id' => $key,
+            'text' => $value,
+          ];
         }
       }
 
       $today = getdate();
 
-      $months_array = array();
-      for ($i=1; $i<13; $i++) {
-        $months_array[] = array('id' => sprintf('%02d', $i), 'text' => sprintf('%02d', $i));
+      $months_array = [];
+      for ($i = 1; $i <= 12; $i++) {
+        $months_array[] = ['id' => sprintf('%02d', $i), 'text' => sprintf('%02d', $i)];
       }
 
-      $year_valid_from_array = array();
-      for ($i=$today['year']-10; $i < $today['year']+1; $i++) {
-        $year_valid_from_array[] = array('id' => strftime('%Y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
+      $year_valid_from_array = [];
+      for ($i = $today['year'] - 10; $i <= $today['year']; $i++) {
+        $year_valid_from_array[] = ['id' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i)), 'text' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i))];
       }
 
-      $year_expires_array = array();
-      for ($i=$today['year']; $i < $today['year']+10; $i++) {
-        $year_expires_array[] = array('id' => strftime('%Y',mktime(0,0,0,1,1,$i)), 'text' => strftime('%Y',mktime(0,0,0,1,1,$i)));
+      $year_expires_array = [];
+      for ($i = $today['year']; $i < $today['year']+10; $i++) {
+        $year_expires_array[] = ['id' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i)), 'text' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i))];
       }
 
-      $content = '<table id="paypal_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">' .
-                 '  <tr>' .
-                 '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_type') . '</td>' .
-                 '    <td>' . tep_draw_pull_down_menu('cc_type', $types_array, '', 'id="paypal_card_type"') . '</td>' .
-                 '  </tr>' .
-                 '  <tr>' .
-                 '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>' .
-                 '    <td>' . tep_draw_input_field('cc_owner', $order->billing['firstname'] . ' ' . $order->billing['lastname']) . '</td>' .
-                 '  </tr>' .
-                 '  <tr>' .
-                 '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_number') . '</td>' .
-                 '    <td>' . tep_draw_input_field('cc_number_nh-dns', '', 'id="paypal_card_num"') . '</td>' .
-                 '  </tr>' .
-                 '  <tr>' .
-                 '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_expires') . '</td>' .
-                 '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>' .
-                 '  </tr>' .
-                 '  <tr>' .
-                 '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_cvc') . '</td>' .
-                 '    <td>' . tep_draw_input_field('cc_cvc_nh-dns', '', 'size="5" maxlength="4"') . ' <span id="cardSecurityCodeInfo" title="' . tep_output_string($this->_app->getDef('module_dp_field_card_cvc_info')) . '" style="color: #084482; text-decoration: none; border-bottom: 1px dashed #084482; cursor: pointer;">' . $this->_app->getDef('module_dp_field_card_cvc_info_link') . '</span></td>' .
-                 '  </tr>';
+      $content = '<table id="paypal_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">'
+               . '  <tr>'
+               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_type') . '</td>'
+               . '    <td>' . tep_draw_pull_down_menu('cc_type', $types_array, '', 'id="paypal_card_type"') . '</td>'
+               . '  </tr>'
+               . '  <tr>'
+               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>'
+               . '    <td>' . tep_draw_input_field('cc_owner', $order->billing['name']) . '</td>'
+               . '  </tr>'
+               . '  <tr>'
+               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_number') . '</td>'
+               . '    <td>' . tep_draw_input_field('cc_number_nh-dns', '', 'id="paypal_card_num"') . '</td>'
+               . '  </tr>'
+               . '  <tr>'
+               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_expires') . '</td>'
+               . '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>'
+               . '  </tr>'
+               . '  <tr>'
+               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_cvc') . '</td>'
+               . '    <td>' . tep_draw_input_field('cc_cvc_nh-dns', '', 'size="5" maxlength="4"') . ' <span id="cardSecurityCodeInfo" title="' . tep_output_string($this->_app->getDef('module_dp_field_card_cvc_info')) . '" style="color: #084482; text-decoration: none; border-bottom: 1px dashed #084482; cursor: pointer;">' . $this->_app->getDef('module_dp_field_card_cvc_info_link') . '</span></td>'
+               . '  </tr>';
 
       if ( $this->isCardAccepted('MAESTRO') ) {
-        $content .= '  <tr>' .
-                    '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_valid_from') . '</td>' .
-                    '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="paypal_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . $this->_app->getDef('module_dp_field_card_valid_from_info') . '</td>' .
-                    '  </tr>' .
-                    '  <tr>' .
-                    '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_issue_number') . '</td>' .
-                    '    <td>' . tep_draw_input_field('cc_issue_nh-dns', '', 'id="paypal_card_issue" size="3" maxlength="2"') . '&nbsp;' . $this->_app->getDef('module_dp_field_card_issue_number_info') . '</td>' .
-                    '  </tr>';
+        $content .= '  <tr>'
+                  . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_valid_from') . '</td>'
+                  . '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="paypal_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . $this->_app->getDef('module_dp_field_card_valid_from_info') . '</td>'
+                  . '  </tr>'
+                  . '  <tr>'
+                  . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_issue_number') . '</td>'
+                  . '    <td>' . tep_draw_input_field('cc_issue_nh-dns', '', 'id="paypal_card_issue" size="3" maxlength="2"') . '&nbsp;' . $this->_app->getDef('module_dp_field_card_issue_number_info') . '</td>'
+                  . '  </tr>';
       }
 
       $content .= '</table>';
@@ -187,7 +199,7 @@
         $content .= $this->getSubmitCardDetailsJavascript();
       }
 
-      $confirmation = array('title' => $content);
+      $confirmation = ['title' => $content];
 
       return $confirmation;
     }
@@ -208,22 +220,24 @@
       global $order, $order_totals, $sendto, $response_array;
 
       if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
-        $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
-                        'CREDITCARDTYPE' => $_POST['cc_type'],
-                        'ACCT' => $_POST['cc_number_nh-dns'],
-                        'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
-                        'CVV2' => $_POST['cc_cvc_nh-dns'],
-                        'FIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
-                        'LASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
-                        'STREET' => $order->billing['street_address'],
-                        'STREET2' => $order->billing['suburb'],
-                        'CITY' => $order->billing['city'],
-                        'STATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
-                        'COUNTRYCODE' => $order->billing['country']['iso_code_2'],
-                        'ZIP' => $order->billing['postcode'],
-                        'EMAIL' => $order->customer['email_address'],
-                        'SHIPTOPHONENUM' => $order->customer['telephone'],
-                        'CURRENCYCODE' => $order->info['currency']);
+        $params = [
+          'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
+          'CREDITCARDTYPE' => $_POST['cc_type'],
+          'ACCT' => $_POST['cc_number_nh-dns'],
+          'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
+          'CVV2' => $_POST['cc_cvc_nh-dns'],
+          'FIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
+          'LASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
+          'STREET' => $order->billing['street_address'],
+          'STREET2' => $order->billing['suburb'],
+          'CITY' => $order->billing['city'],
+          'STATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
+          'COUNTRYCODE' => $order->billing['country']['iso_code_2'],
+          'ZIP' => $order->billing['postcode'],
+          'EMAIL' => $order->customer['email_address'],
+          'SHIPTOPHONENUM' => $order->customer['telephone'],
+          'CURRENCYCODE' => $order->info['currency'],
+        ];
 
         if ( $_POST['cc_type'] == 'MAESTRO' ) {
           $params['STARTDATE'] = $_POST['cc_starts_month'] . $_POST['cc_starts_year'];
@@ -231,7 +245,7 @@
         }
 
         if ( is_numeric($sendto) && ($sendto > 0) ) {
-          $params['SHIPTONAME'] = $order->delivery['firstname'] . ' ' . $order->delivery['lastname'];
+          $params['SHIPTONAME'] = $order->delivery['name'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
           $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
           $params['SHIPTOCITY'] = $order->delivery['city'];
@@ -240,7 +254,7 @@
           $params['SHIPTOZIP'] = $order->delivery['postcode'];
         }
 
-        $item_params = array();
+        $item_params = [];
 
         $line_item_no = 0;
 
@@ -256,7 +270,7 @@
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
         foreach ( $order_totals as $ot ) {
-          if ( !in_array($ot['code'], array('ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total')) ) {
+          if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_AMT' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);
 
@@ -276,11 +290,11 @@
 
         $response_array = $this->_app->getApiResult('DP', 'DoDirectPayment', $params);
 
-        if ( !in_array($response_array['ACK'], array('Success', 'SuccessWithWarning')) ) {
-          tep_redirect(tep_href_link(FILENAME_SHOPPING_CART, 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+        if ( !in_array($response_array['ACK'], ['Success', 'SuccessWithWarning']) ) {
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
         }
       } else {
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
       }
     }
 
@@ -288,20 +302,22 @@
       global $cartID, $order, $order_totals, $sendto, $response_array;
 
       if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
-        $params = array('AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
-                        'CURRENCY' => $order->info['currency'],
-                        'BILLTOFIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
-                        'BILLTOLASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
-                        'BILLTOSTREET' => $order->billing['street_address'],
-                        'BILLTOSTREET2' => $order->billing['suburb'],
-                        'BILLTOCITY' => $order->billing['city'],
-                        'BILLTOSTATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
-                        'BILLTOCOUNTRY' => $order->billing['country']['iso_code_2'],
-                        'BILLTOZIP' => $order->billing['postcode'],
-                        'EMAIL' => $order->customer['email_address'],
-                        'ACCT' => $_POST['cc_number_nh-dns'],
-                        'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
-                        'CVV2' => $_POST['cc_cvc_nh-dns']);
+        $params = [
+          'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
+          'CURRENCY' => $order->info['currency'],
+          'BILLTOFIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
+          'BILLTOLASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
+          'BILLTOSTREET' => $order->billing['street_address'],
+          'BILLTOSTREET2' => $order->billing['suburb'],
+          'BILLTOCITY' => $order->billing['city'],
+          'BILLTOSTATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
+          'BILLTOCOUNTRY' => $order->billing['country']['iso_code_2'],
+          'BILLTOZIP' => $order->billing['postcode'],
+          'EMAIL' => $order->customer['email_address'],
+          'ACCT' => $_POST['cc_number_nh-dns'],
+          'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
+          'CVV2' => $_POST['cc_cvc_nh-dns'],
+        ];
 
         if ( is_numeric($sendto) && ($sendto > 0) ) {
           $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
@@ -314,7 +330,7 @@
           $params['SHIPTOZIP'] = $order->delivery['postcode'];
         }
 
-        $item_params = array();
+        $item_params = [];
 
         $line_item_no = 0;
 
@@ -329,7 +345,7 @@
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
         foreach ($order_totals as $ot) {
-          if ( !in_array($ot['code'], array('ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total')) ) {
+          if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_COST' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);
             $item_params['L_QTY' . $line_item_no] = 1;
@@ -348,10 +364,12 @@
           $params = array_merge($params, $item_params);
         }
 
-        $params['_headers'] = array('X-VPS-REQUEST-ID: ' . md5($cartID . tep_session_id() . $this->_app->formatCurrencyRaw($order->info['total'])),
-                                    'X-VPS-CLIENT-TIMEOUT: 45',
-                                    'X-VPS-VIT-INTEGRATION-PRODUCT: OSCOM',
-                                    'X-VPS-VIT-INTEGRATION-VERSION: 2.3');
+        $params['_headers'] = [
+          'X-VPS-REQUEST-ID: ' . md5($cartID . tep_session_id() . $this->_app->formatCurrencyRaw($order->info['total'])),
+          'X-VPS-CLIENT-TIMEOUT: 45',
+          'X-VPS-VIT-INTEGRATION-PRODUCT: OSCOM',
+          'X-VPS-VIT-INTEGRATION-VERSION: 2.3',
+        ];
 
         $response_array = $this->_app->getApiResult('DP', 'PayflowPayment', $params);
 
@@ -380,10 +398,10 @@
               break;
           }
 
-          tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $error_message, 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message, 'SSL'));
         }
       } else {
-        tep_redirect(tep_href_link(FILENAME_CHECKOUT_CONFIRMATION, 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
       }
     }
 
@@ -396,41 +414,43 @@
     }
 
     function after_process_paypal() {
-      global $response_array, $insert_id;
+      global $response_array, $order_id;
 
-      $details = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $response_array['TRANSACTIONID']), (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
+      $details = $this->_app->getApiResult('APP', 'GetTransactionDetails', ['TRANSACTIONID' => $response_array['TRANSACTIONID']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
       $result = 'Transaction ID: ' . tep_output_string_protected($response_array['TRANSACTIONID']) . "\n";
 
-      if ( in_array($details['ACK'], array('Success', 'SuccessWithWarning')) ) {
-        $result .= 'Payer Status: ' . tep_output_string_protected($details['PAYERSTATUS']) . "\n" .
-                   'Address Status: ' . tep_output_string_protected($details['ADDRESSSTATUS']) . "\n" .
-                   'Payment Status: ' . tep_output_string_protected($details['PAYMENTSTATUS']) . "\n" .
-                   'Payment Type: ' . tep_output_string_protected($details['PAYMENTTYPE']) . "\n" .
-                   'Pending Reason: ' . tep_output_string_protected($details['PENDINGREASON']) . "\n";
+      if ( in_array($details['ACK'], ['Success', 'SuccessWithWarning']) ) {
+        $result .= 'Payer Status: ' . tep_output_string_protected($details['PAYERSTATUS']) . "\n"
+                 . 'Address Status: ' . tep_output_string_protected($details['ADDRESSSTATUS']) . "\n"
+                 . 'Payment Status: ' . tep_output_string_protected($details['PAYMENTSTATUS']) . "\n"
+                 . 'Payment Type: ' . tep_output_string_protected($details['PAYMENTTYPE']) . "\n"
+                 . 'Pending Reason: ' . tep_output_string_protected($details['PENDINGREASON']) . "\n";
       }
 
-      $result .= 'AVS Code: ' . tep_output_string_protected($response_array['AVSCODE']) . "\n" .
-                 'CVV2 Match: ' . tep_output_string_protected($response_array['CVV2MATCH']);
+      $result .= 'AVS Code: ' . tep_output_string_protected($response_array['AVSCODE']) . "\n"
+ . 'CVV2 Match: ' . tep_output_string_protected($response_array['CVV2MATCH']);
 
-      $sql_data_array = array('orders_id' => $insert_id,
-                              'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                              'date_added' => 'now()',
-                              'customer_notified' => '0',
-                              'comments' => $result);
+      $sql_data = [
+        'orders_id' => $order_id,
+        'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+        'date_added' => 'NOW()',
+        'customer_notified' => '0',
+        'comments' => $result,
+      ];
 
-      tep_db_perform('orders_status_history', $sql_data_array);
+      tep_db_perform('orders_status_history', $sql_data);
     }
 
     function after_process_payflow() {
-      global $insert_id, $response_array;
+      global $order_id, $response_array;
 
-      $details = $this->_app->getApiResult('APP', 'PayflowInquiry', array('ORIGID' => $response_array['PNREF']), (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
+      $details = $this->_app->getApiResult('APP', 'PayflowInquiry', ['ORIGID' => $response_array['PNREF']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
-      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n" .
-                'Gateway: Payflow' . "\n" .
-                'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n" .
-                'Response: ' . tep_output_string_protected($response_array['RESPMSG']) . "\n";
+      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n"
+              . 'Gateway: Payflow' . "\n"
+              . 'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n"
+              . 'Response: ' . tep_output_string_protected($response_array['RESPMSG']) . "\n";
 
       if ( isset($details['RESULT']) && ($details['RESULT'] == '0') ) {
         $pending_reason = $details['TRANSSTATE'];
@@ -506,13 +526,15 @@
           break;
       }
 
-      $sql_data_array = array('orders_id' => $insert_id,
-                              'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                              'date_added' => 'now()',
-                              'customer_notified' => '0',
-                              'comments' => $result);
+      $sql_data = [
+        'orders_id' => $order_id,
+        'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+        'date_added' => 'NOW()',
+        'customer_notified' => '0',
+        'comments' => $result,
+      ];
 
-      tep_db_perform('orders_status_history', $sql_data_array);
+      tep_db_perform('orders_status_history', $sql_data);
     }
 
     function get_error() {
@@ -520,7 +542,7 @@
     }
 
     function check() {
-      $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'OSCOM_APP_PAYPAL_DP_STATUS'");
+      $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = 'OSCOM_APP_PAYPAL_DP_STATUS'");
       if ( tep_db_num_rows($check_query) ) {
         $check = tep_db_fetch_array($check_query);
 
@@ -539,7 +561,7 @@
     }
 
     function keys() {
-      return array('OSCOM_APP_PAYPAL_DP_SORT_ORDER');
+      return ['OSCOM_APP_PAYPAL_DP_SORT_ORDER'];
     }
 
     function isCardAccepted($card) {
@@ -616,4 +638,3 @@ EOD;
       return $js;
     }
   }
-?>

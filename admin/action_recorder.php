@@ -92,11 +92,11 @@
     <div class="col-8 col-sm-4">
       <?php
       echo tep_draw_form('search', 'action_recorder.php', '', 'get');
-        echo tep_draw_input_field('search', null, 'placeholder="' . TEXT_FILTER_SEARCH . '" class="form-control form-control-sm mb-1"');
+        echo tep_draw_input_field('search', null, 'placeholder="' . TEXT_FILTER_SEARCH . '"', null, null, 'class="form-control form-control-sm mb-1"');
         echo tep_draw_hidden_field('module') . tep_hide_session_id();
       echo '</form>';
       echo tep_draw_form('filter', 'action_recorder.php', '', 'get');
-        echo tep_draw_pull_down_menu('module', $modules_list_array, null, 'class="form-control form-control-sm" onchange="this.form.submit();"');
+        echo tep_draw_pull_down_menu('module', $modules_list_array, null, 'onchange="this.form.submit();"', 'class="form-control form-control-sm"');
         echo tep_draw_hidden_field('search') . tep_hide_session_id();
       echo '</form>';
       ?>

@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,17 +14,13 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // Set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE);
-
-  if (defined('E_DEPRECATED')) {
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-  }
+  error_reporting(E_ALL);
 
 // load server configuration parameters
   if (file_exists('includes/local/configure.php')) { // for developers
-    include('includes/local/configure.php');
+    include 'includes/local/configure.php';
   } else {
-    include('includes/configure.php');
+    include 'includes/configure.php';
   }
 
   // autoload classes in the classes or modules directories
@@ -34,9 +30,9 @@
   spl_autoload_register('tep_autoload_catalog');
 
 // include the list of project database tables
-  require('includes/database_tables.php');
+  require 'includes/database_tables.php';
 
-// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
+  // set default timezone if none exists (PHP 5.3 throws an E_WARNING)
   date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
 
 // include the database functions
@@ -45,46 +41,32 @@
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
 
-  require DIR_FS_CATALOG . 'includes/classes/hooks.php';
   $OSCOM_Hooks = new hooks('admin');
-
   $OSCOM_Hooks->register('system');
   $OSCOM_Hooks->generate('system', 'startApplication');
 
-// Define the project version --- obsolete, now retrieved with tep_get_version()
+  // Define the project version --- obsolete, now retrieved with tep_get_version()
   define('PROJECT_VERSION', 'OSCOM CE Phoenix');
 
-// set the type of request (secure or not)
-  $request_type = (getenv('HTTPS') == 'on') ? 'SSL' : 'NONSSL';
+  // set the type of request (secure or not)
+  $request_type = (getenv('HTTPS') === 'on') ? 'SSL' : 'NONSSL';
 
-// set php_self in the local scope
+  // set php_self in the local scope
   $req = parse_url($_SERVER['SCRIPT_NAME']);
-  $PHP_SELF = substr($req['path'], ($request_type == 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
-
-// Used in the "Backup Manager" to compress backups
-  define('LOCAL_EXE_GZIP', 'gzip');
-  define('LOCAL_EXE_GUNZIP', 'gunzip');
-  define('LOCAL_EXE_ZIP', 'zip');
-  define('LOCAL_EXE_UNZIP', 'unzip');
+  $PHP_SELF = substr($req['path'], ($request_type === 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
 
 // set application wide parameters
-  $configuration_query = tep_db_query('select configuration_key as cfgKey, configuration_value as cfgValue from configuration');
+  $configuration_query = tep_db_query('SELECT configuration_key AS cfgKey, configuration_value AS cfgValue FROM configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
     define($configuration['cfgKey'], $configuration['cfgValue']);
   }
 
 // define our general functions used application-wide
-  require('includes/functions/general.php');
-  require('includes/functions/html_output.php');
-
-// initialize the logger class
-  require('includes/classes/logger.php');
-
-// include shopping cart class
-  require('includes/classes/shopping_cart.php');
+  require 'includes/functions/general.php';
+  require 'includes/functions/html_output.php';
 
 // define how the session functions will be used
-  require('includes/functions/sessions.php');
+  require 'includes/functions/sessions.php';
 
 // set the cookie domain
   $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
@@ -102,53 +84,48 @@
 // let's start our session
   tep_session_start();
 
-  // force register_globals
-  extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
-
 // set the language
-  if (!tep_session_is_registered('language') || isset($_GET['language'])) {
-    if (!tep_session_is_registered('language')) {
-      tep_session_register('language');
-      tep_session_register('languages_id');
-    }
-
-    include('includes/classes/language.php');
+  if (!isset($_SESSION['language']) || isset($_GET['language'])) {
     $lng = new language();
 
-    if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
+    if (tep_not_null($_GET['language'] ?? '')) {
       $lng->set_language($_GET['language']);
     } else {
       $lng->get_browser_language();
     }
 
-    $language = $lng->language['directory'];
-    $languages_id = $lng->language['id'];
+    $_SESSION['language'] = $lng->language['directory'];
+    $_SESSION['languages_id'] = $lng->language['id'];
   }
 
-// redirect to login page if administrator is not yet logged in
-  if (!tep_session_is_registered('admin')) {
-    $redirect = false;
+// register session variables globally
+  extract($_SESSION, EXTR_OVERWRITE+EXTR_REFS);
 
+// redirect to login page if administrator is not yet logged in
+  if (!isset($_SESSION['admin'])) {
     $current_page = $PHP_SELF;
 
 // if the first page request is to the login page, set the current page to the index page
 // so the redirection on a successful login is not made to the login page again
-    if ( ($current_page == 'login.php') && !tep_session_is_registered('redirect_origin') ) {
+    if ( ('login.php' === $current_page) && !isset($_SESSION['redirect_origin']) ) {
       $current_page = 'index.php';
-      $_GET = array();
+      $_GET = [];
     }
 
-    if ($current_page != 'login.php') {
-      if (!tep_session_is_registered('redirect_origin')) {
-        tep_session_register('redirect_origin');
+    $redirect = false;
+    if ('login.php' !== $current_page) {
+      if (!isset($_SESSION['redirect_origin'])) {
+        $_SESSION['redirect_origin'] = [
+          'page' => $current_page,
+          'get' => $_GET,
+        ];
 
-        $redirect_origin = array('page' => $current_page,
-                                 'get' => $_GET);
+        $redirect_origin =& $_SESSION['redirect_origin'];
       }
 
-// try to automatically login with the HTTP Authentication values if it exists
-      if (!tep_session_is_registered('auth_ignore')) {
-        if (isset($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+// try to automatically log in with the HTTP Authentication values if it exists
+      if (!isset($_SESSION['auth_ignore'])) {
+        if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
           $redirect_origin['auth_user'] = $_SERVER['PHP_AUTH_USER'];
           $redirect_origin['auth_pw'] = $_SERVER['PHP_AUTH_PW'];
         }
@@ -157,11 +134,7 @@
       $redirect = true;
     }
 
-    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($_SESSION['login_request']) || isset($_FILES['login_request']) || isset($_SERVER['login_request'])) {
-      $redirect = true;
-    }
-
-    if ($redirect == true) {
+    if ($redirect || !isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($_SESSION['login_request']) || isset($_FILES['login_request']) || isset($_SERVER['login_request'])) {
       tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
 
@@ -170,54 +143,28 @@
 
 // include the language translations
   $_system_locale_numeric = setlocale(LC_NUMERIC, 0);
-  require('includes/languages/' . $language . '.php');
+  if (!file_exists("includes/languages/$language.php")) {
+    $language = 'english';
+  }
+  require "includes/languages/$language.php";
   setlocale(LC_NUMERIC, $_system_locale_numeric); // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
 
   $current_page = basename($PHP_SELF);
-  if (file_exists('includes/languages/' . $language . '/' . $current_page)) {
-    include('includes/languages/' . $language . '/' . $current_page);
+  $current_page_language_file = "includes/languages/$language/$current_page";
+  if (file_exists($current_page_language_file)) {
+    include $current_page_language_file;
   }
 
 // Include validation functions (right now only email address)
-  require('includes/functions/validations.php');
-
-// setup our boxes
-  require('includes/classes/table_block.php');
-  require('includes/classes/box.php');
+  require 'includes/functions/validations.php';
 
 // initialize the message stack for output messages
-  require('includes/classes/message_stack.php');
-  $messageStack = new messageStack;
+  $messageStack = new messageStack();
 
-// split-page-results
-  require('includes/classes/split_page_results.php');
-
-// entry/item info classes
-  require('includes/classes/object_info.php');
-
-// file uploading class
-  require('includes/classes/upload.php');
-
-// action recorder
-  require('includes/classes/action_recorder.php');
-
-// calculate category path
-  if (isset($_GET['cPath'])) {
-    $cPath = $_GET['cPath'];
-  } else {
-    $cPath = '';
-  }
-
-  if (tep_not_null($cPath)) {
-    $cPath_array = tep_parse_category_path($cPath);
-    $cPath = implode('_', $cPath_array);
-    $current_category_id = end($cPath_array);
-  } else {
-    $current_category_id = 0;
-  }
+  $customer_data = new customer_data();
 
 // initialize configuration modules
-  require('includes/classes/cfg_modules.php');
   $cfgModules = new cfg_modules();
+
 
   $OSCOM_Hooks->register_page();
