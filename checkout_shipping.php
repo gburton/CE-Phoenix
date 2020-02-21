@@ -175,7 +175,7 @@
           $n = count($quotes);
           foreach ($quotes as $quote) {
             $n2 = count($quote['methods']);
-            foreach ($quote['methods'] as $method) {
+            foreach (($quote['methods'] ?? []) as $method) {
               // set the radio button to be checked if it is the method chosen
               // $checked = (($quote['id'] . '_' . $method['id'] == $shipping['id']) ? true : false);
               ?>
