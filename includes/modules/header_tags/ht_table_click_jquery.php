@@ -32,7 +32,7 @@
       global $PHP_SELF, $oscTemplate;
 
       if (tep_not_null(MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_PAGES)) {
-        $pages_array = array();
+        $pages_array = [];
 
         foreach (explode(';', MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_PAGES) as $page) {
           $page = trim($page);
@@ -67,12 +67,11 @@
     }
 
     function keys() {
-      return array('MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_STATUS', 'MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_PAGES', 'MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_SORT_ORDER');
+      return ['MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_STATUS', 'MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_PAGES', 'MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_SORT_ORDER'];
     }
 
     function get_default_pages() {
-      return array('checkout_shipping.php',
-                   'checkout_payment.php');
+      return ['checkout_shipping.php', 'checkout_payment.php'];
     }
   }
 
@@ -81,14 +80,12 @@
   }
 
   function ht_table_click_jquery_edit_pages($values, $key) {
-    global $PHP_SELF;
-
-    $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
-    $files_array = array();
-	  if ($dir = @dir(DIR_FS_CATALOG)) {
-	    while ($file = $dir->read()) {
-	      if (!is_dir(DIR_FS_CATALOG . $file)) {
-	        if (substr($file, strrpos($file, '.')) == $file_extension) {
+    $file_extension = pathinfo($GLOBALS['PHP_SELF'], PATHINFO_EXTENSION);
+    $files_array = [];
+    if ($dir = @dir(DIR_FS_CATALOG)) {
+      while ($file = $dir->read()) {
+        if (!is_dir(DIR_FS_CATALOG . $file)) {
+          if (pathinfo($file, PATHINFO_EXTENSION) == $file_extension) {
             $files_array[] = $file;
           }
         }
@@ -101,22 +98,19 @@
 
     $output = '';
     foreach ($files_array as $file) {
-      $output .= tep_draw_checkbox_field('ht_table_click_jquery_file[]', $file, in_array($file, $values_array)) . '&nbsp;' . tep_output_string($file) . '<br>';
-    }
-
-    if (!empty($output)) {
-      $output = '<br>' . substr($output, 0, -6);
+      $output .= '<br>' . tep_draw_checkbox_field('ht_table_click_jquery_file[]', $file, in_array($file, $values_array)) . '&nbsp;' . tep_output_string($file);
     }
 
     $output .= tep_draw_hidden_field('configuration[' . $key . ']', '', 'id="htrn_files"');
 
-    $output .= '<script>
+    $output .= <<<'EOSCRIPT'
+                <script>
                 function htrn_update_cfg_value() {
-                  var htrn_selected_files = \'\';
+                  var htrn_selected_files = '';
 
-                  if ($(\'input[name="ht_table_click_jquery_file[]"]\').length > 0) {
-                    $(\'input[name="ht_table_click_jquery_file[]"]:checked\').each(function() {
-                      htrn_selected_files += $(this).attr(\'value\') + \';\';
+                  if ($('input[name="ht_table_click_jquery_file[]"]').length > 0) {
+                    $('input[name="ht_table_click_jquery_file[]"]:checked').each(function() {
+                      htrn_selected_files += $(this).attr('value') + ';';
                     });
 
                     if (htrn_selected_files.length > 0) {
@@ -124,20 +118,20 @@
                     }
                   }
 
-                  $(\'#htrn_files\').val(htrn_selected_files);
+                  $('#htrn_files').val(htrn_selected_files);
                 }
 
                 $(function() {
                   htrn_update_cfg_value();
 
-                  if ($(\'input[name="ht_table_click_jquery_file[]"]\').length > 0) {
-                    $(\'input[name="ht_table_click_jquery_file[]"]\').change(function() {
+                  if ($('input[name="ht_table_click_jquery_file[]"]').length > 0) {
+                    $('input[name="ht_table_click_jquery_file[]"]').change(function() {
                       htrn_update_cfg_value();
                     });
                   }
                 });
-                </script>';
+                </script>
+                EOSCRIPT;
 
     return $output;
   }
-?>
