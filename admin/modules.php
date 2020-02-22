@@ -162,10 +162,6 @@
   $installed_modules = [];
   foreach ($module_files as $file) {
     $class = pathinfo($file, PATHINFO_FILENAME);
-    if (!file_exists("$module_language_directory$file")) {
-      continue;
-    }
-
     if (class_exists($class)) {
       $module = new $class();
       if ($module->check() > 0) {
@@ -190,6 +186,10 @@
         foreach ($module->keys() as $key) {
           $key_value_query = tep_db_query("SELECT configuration_title, configuration_value, configuration_description, use_function, set_function FROM configuration WHERE configuration_key = '" . $key . "'");
           $key_value = tep_db_fetch_array($key_value_query);
+
+          if (!isset($keys_extra[$key])) {
+            $keys_extra[$key] = [];
+          }
 
           $keys_extra[$key]['title'] = $key_value['configuration_title'];
           $keys_extra[$key]['value'] = $key_value['configuration_value'];
