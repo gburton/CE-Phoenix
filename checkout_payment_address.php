@@ -88,8 +88,6 @@
   if ($messageStack->size($message_stack_area) > 0) {
     echo $messageStack->output($message_stack_area);
   }
-
-  echo tep_draw_form('checkout_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', '', true);
 ?>
 
 <div class="contentContainer">
@@ -97,7 +95,7 @@
   <div class="row">
     <div class="col-sm-7">
       <h5 class="mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h5>
-      <div>
+      <div><?php echo tep_draw_form('select_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', '', true); ?>
         <table class="table border-right border-left border-bottom table-hover m-0">
           <?php
           $addresses_query = $customer->get_all_addresses_query();
@@ -118,7 +116,11 @@
             }
           ?>
         </table>
-      </div>
+        <div class="buttonSet">
+          <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
+          <p class="mt-1"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment.php', '', 'SSL')); ?></p>
+        </div>
+      </form></div>
     </div>
     <div class="col-sm-5">
       <h5 class="mb-1"><?php echo TABLE_HEADING_PAYMENT_ADDRESS; ?></h5>
@@ -142,20 +144,19 @@
     <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_PAYMENT_ADDRESS; ?></p>
 
     <?php
+    echo tep_draw_form('checkout_new_address', tep_href_link('checkout_payment_address.php', '', 'SSL'), 'post', '', true) . PHP_EOL;
     require 'includes/modules/checkout_new_address.php';
-  }
+    echo '    </form>' . PHP_EOL;
 
-  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+    echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+  }
 ?>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p class="mt-1"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment.php', '', 'SSL')); ?></p>
   </div>
-
 </div>
-
-</form>
 
 <?php
   require 'includes/template_bottom.php';
