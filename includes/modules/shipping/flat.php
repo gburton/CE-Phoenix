@@ -30,12 +30,16 @@
 
       if ( ($this->enabled == true) && ((int)MODULE_SHIPPING_FLAT_ZONE > 0) ) {
         $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_SHIPPING_FLAT_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
+        
+        $delivery_country_id = $order->delivery['country']['id'] ?? STORE_COUNTRY ?? 0;
+        $delivery_zone_id = $order->delivery['zone_id'] ?? STORE_ZONE ?? 0;
+        
+        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_SHIPPING_FLAT_ZONE . "' and zone_country_id = '" . $delivery_country_id . "' order by zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
           if ($check['zone_id'] < 1) {
             $check_flag = true;
             break;
-          } elseif ($check['zone_id'] == $order->delivery['zone_id']) {
+          } elseif ($check['zone_id'] == $delivery_zone_id) {
             $check_flag = true;
             break;
           }
