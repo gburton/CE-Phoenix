@@ -131,7 +131,7 @@
                   }
                 });
                 </script>
-                EOSCRIPT;
+EOSCRIPT;
 
     return $output;
   }
