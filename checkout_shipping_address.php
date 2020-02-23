@@ -123,9 +123,8 @@
             ?>
           </tbody>
         </table>
-        <div class="buttonSet">
-          <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-          <p class="mt-1"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL')); ?></p>
+        <div class="buttonSet mt-1">
+          <?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_SELECT_ADDRESS, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?>
         </div>
       </form></div>
     </div>
@@ -148,22 +147,18 @@
 
     <p class="font-weight-lighter"><?php echo TEXT_CREATE_NEW_SHIPPING_ADDRESS; ?></p>
 <?php
-    echo '    ' . tep_draw_form('checkout_new_address', tep_href_link('checkout_shipping_address.php', '', 'SSL'), 'post', '', true) . PHP_EOL;
-    require 'includes/modules/checkout_new_address.php';
-    echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
-?>
-
-  <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_CONTINUE_CHECKOUT_PROCEDURE, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p class="mt-1"><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL')); ?></p>
-  </div>
-
-<?php
-    echo '    </form>' . PHP_EOL;
+    echo tep_draw_form('checkout_new_address', tep_href_link('checkout_shipping_address.php', '', 'SSL'), 'post', '', true) . PHP_EOL;
+      require 'includes/modules/checkout_new_address.php';
+      echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
+      echo tep_draw_hidden_field('action', 'submit');
+      echo tep_draw_button(BUTTON_ADD_NEW_ADDRESS, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block');
+    echo '</form>' . PHP_EOL;
   }
 ?>
 
-
+  <div class="buttonSet">
+    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_shipping.php', '', 'SSL'), null, null, 'btn-light mt-1'); ?>
+  </div>
 </div>
 
 <?php
