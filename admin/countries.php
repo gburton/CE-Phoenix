@@ -98,7 +98,7 @@
               }
 
               if (isset($cInfo) && is_object($cInfo) && ($countries['countries_id'] == $cInfo->countries_id)) {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . (int)$cInfo->countries_id . '&action=edit') . '\'">';
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . (int)$cInfo->countries_id . '&action=edit') . '\'">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . (int)$countries['countries_id']) . '\'">';
               }

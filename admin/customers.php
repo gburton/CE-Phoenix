@@ -191,12 +191,14 @@ EOSQL
 
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id . '&action=edit');
               $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
+              $css = 'class="table-active" ';
             } else {
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID']) . 'cID=' . $customer_data->get('id', $customers));
               $icon = '<a href="' . $href . '"><i class="fas fa-info-circle text-muted"></i></a>';
+              $css = null;
             }
             ?>
-              <tr onclick="document.location.href='<?php echo $href; ?>'">
+              <tr <?php echo $css; ?>onclick="document.location.href='<?php echo $href; ?>'">
                 <td class="dataTableContent"><?php echo $customer_data->get('sortable_name', $customers); ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($info['date_account_created']); ?></td>
                 <td class="dataTableContent" align="right"><?php echo $icon; ?></td>
