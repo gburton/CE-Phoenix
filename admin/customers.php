@@ -72,7 +72,7 @@
 
   require 'includes/template_top.php';
   ?>
-  
+
   <div class="row">
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
@@ -96,11 +96,11 @@
       ?>
     </div>
   </div>
-  
+
   <?php
   if ($action == 'edit' || $action == 'update') {
     ?>
-   
+
   <div class="contentContainer">
     <?php
     $oscTemplate = new oscTemplate();
@@ -109,7 +109,7 @@
 
     $cwd = getcwd();
     chdir(DIR_FS_CATALOG);
-    
+
     $grouped_modules = $customer_data->get_grouped_modules();
     $customer_data_group_query = tep_db_query(<<<'EOSQL'
 SELECT customer_data_groups_id, customer_data_groups_name
@@ -123,7 +123,7 @@ EOSQL
         continue;
       }
       ?>
-      
+
      <h5><?php echo $customer_data_group['customer_data_groups_name']; ?></h5>
 
       <?php
@@ -131,9 +131,9 @@ EOSQL
         $module->display_input($customer_details);
       }
     }
-    
+
     chdir($cwd);
-    
+
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>
 
@@ -160,7 +160,7 @@ EOSQL
             $keywords = null;
             if (tep_not_null($_GET['search'] ?? '')) {
               $keywords = tep_db_prepare_input($_GET['search']);
-              $customer_data->add_search_criteria($customers_query_raw, $keywords);
+              $customers_query_raw = $customer_data->add_search_criteria($customers_query_raw, $keywords);
             }
             $customers_query_raw = $customer_data->add_order_by($customers_query_raw, ['sortable_name']);
 
@@ -209,19 +209,19 @@ EOSQL
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?php echo $customers_split->display_count($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CUSTOMERS); ?></div>
         <div class="col text-right mr-2"><?php echo $customers_split->display_links($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'info', 'x', 'y', 'cID'])); ?></div>
       </div>
-      
+
       <?php
       if (isset($keywords)) {
         echo tep_draw_bootstrap_button(IMAGE_RESET, 'fas fa-angle-left', tep_href_link('customers.php'), null, null, 'btn-light');
       }
       ?>
 
-      
+
     </div>
 
 <?php
@@ -268,9 +268,9 @@ EOSQL
     echo '</div>';
   }
 ?>
-  
+
   </div>
-  
+
 <?php
   }
 
