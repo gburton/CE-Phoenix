@@ -205,9 +205,9 @@
 
       if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) {
         if ($module->check() > 0) {
-          echo '          <tr class="table-active" onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">';
+          echo '          <tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">';
         } else {
-          echo '          <tr class="table-active">';
+          echo '          <tr>';
         }
 
         $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
