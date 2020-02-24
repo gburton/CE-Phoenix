@@ -114,6 +114,19 @@
       return [] === $this->missing_abilities;
     }
 
+    public function find_providers($requirement, $exclude = '') {
+      foreach ($this->objects as $object) {
+        if (!empty($exclude) && $object instanceof $exclude) {
+          continue;
+        }
+
+        if (in_array($requirement, $object::PROVIDES)) {
+          unset($this->matched_requirers[$requirement]);
+          return;
+        }
+      }
+    }
+
     public function find_requirers($requirement, $exclude = '') {
       foreach ($this->objects as $object) {
         if (!empty($exclude) && $object instanceof $exclude) {
@@ -130,7 +143,8 @@
     public function has_requirements($requirements, $exclude = null) {
       $this->matched_requirers = [];
       foreach ($requirements as $requirement) {
-        $this->find_requirers($requirement, $exclude);
+        $this->find_requirers($requirement);
+        $this->find_providers($requirement, $exclude);
       }
 
       return [] === $this->matched_requirers ? false : $this->matched_requirers;
