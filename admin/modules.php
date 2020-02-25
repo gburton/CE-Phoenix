@@ -205,20 +205,20 @@
 
                 if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) {
                   if ($module->check() > 0) {
-                    echo '<tr class="table-active onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">';
+                    echo '<tr class="table-active onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">' . PHP_EOL;
                   } else {
-                    echo '<tr class="table-active>';
+                    echo '<tr class="table-active">' . PHP_EOL;
                   }
 
                   $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
                 } else {
-                  echo '<tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '\'">';
+                  echo '<tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '\'">' . PHP_EOL;
                   $icon = '<a href="' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '"><i class="fas fa-info-circle text-muted"></i></a>';
                 }
                 ?>
                 <td><?php echo $module->title; ?></td>
                 <td class="text-right"><?php if (in_array($module->code . ".$file_extension", $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
-                <td class="text-right"><?php if ( array_key_exists('enabled', $module) ) { echo ($module->enabled == 1) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
+                <td class="text-right"><?php if ( array_key_exists('enabled', $module) && (1 != $module->enabled) ) { echo '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
                 <td class="text-right"><?php echo $icon; ?></td>
               </tr>
               <?php
