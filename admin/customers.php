@@ -11,6 +11,9 @@
 */
 
   require 'includes/application_top.php';
+  if (!$customer_data->has([ 'sortable_name', 'name', 'email_address', 'country_id', 'id' ])) {
+    tep_redirect(tep_href_link('modules.php', 'set=customer_data'));
+  }
 
   $action = ($_GET['action'] ?? '');
 

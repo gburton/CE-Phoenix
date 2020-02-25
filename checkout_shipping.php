@@ -131,12 +131,12 @@
 // a javascript force-selection method, also automatically select the cheapest shipping
 // method if more than one module is now enabled
   if ( !isset($_SESSION['shipping']) || (!$_SESSION['shipping'] && (tep_count_shipping_modules() > 1)) ) {
-    $shipping = $shipping_modules->cheapest();
+    $_SESSION['shipping'] = $shipping_modules->cheapest();
   }
 
   require "includes/languages/$language/checkout_shipping.php";
 
-  if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') && !isset($_SESSION['shipping']) && !$shipping ) {
+  if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') && !isset($_SESSION['shipping']) && !$_SESSION['shipping'] ) {
     $messageStack->add_session('checkout_address', ERROR_NO_SHIPPING_AVAILABLE_TO_SHIPPING_ADDRESS);
     tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
   }
