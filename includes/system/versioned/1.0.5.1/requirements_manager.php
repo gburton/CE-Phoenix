@@ -42,13 +42,27 @@
 
     public function process($requirements = []) {
       if ([] === $requirements) {
-        $requirements = $this->objects;
+        $purveyors = $this->objects;
+      } else {
+        $purveyors = array_map([$this, 'get_module'], $requirements);
       }
+
+      usort($purveyors, function ($a, $b) {
+        if (count(array_intersect($a->PROVIDES, $b->REQUIRES)) > 0) {
+          return -1;
+        }
+
+        if (count(array_intersect($b->PROVIDES, $a->REQUIRES)) > 0) {
+          return 1;
+        }
+
+        return strcmp($a->code, $b->code);
+      });
 
       $successful = true;
       $details = [];
-      foreach ($requirements as $requirement) {
-        $successful = $successful && $this->act_on($requirement, 'process', $details);
+      foreach ($purveyors as $purveyor) {
+        $successful = $successful && $this->act_on($purveyor, 'process', $details);
       }
 
       return $successful ? $details : null;

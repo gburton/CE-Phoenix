@@ -96,24 +96,10 @@
     }
 
     public function get_fields_for_page($page) {
-      $purveyors = array_filter($this->providers,
+      return array_keys(array_unique(array_filter($this->providers,
         function ($p) use ($page) {
           return method_exists($p, 'has_page') && $p->has_page($page);
-        });
-
-      uksort($purveyors, function ($a, $b) use ($purveyors) {
-        if (count(array_intersect($purveyors[$a]::PROVIDES, $purveyors[$b]::REQUIRES)) > 0) {
-          return -1;
-        }
-
-        if (count(array_intersect($purveyors[$b]::PROVIDES, $purveyors[$a]::REQUIRES)) > 0) {
-          return 1;
-        }
-
-        return strcmp($a, $b);
-      });
-
-      return array_keys(array_unique($purveyors, SORT_REGULAR));
+        }), SORT_REGULAR));
     }
 
     /**
