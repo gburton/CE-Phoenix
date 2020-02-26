@@ -12,6 +12,11 @@
 
   require 'includes/application_top.php';
   if (!$customer_data->has([ 'sortable_name', 'name', 'email_address', 'country_id', 'id' ])) {
+    $messageStack->add_session(ERROR_PAGE_HAS_UNMET_REQUIREMENT, 'error');
+    foreach ($customer_data->get_last_missing_abilities() as $missing_ability) {
+      $messageStack->add_session($missing_ability);
+    }
+
     tep_redirect(tep_href_link('modules.php', 'set=customer_data'));
   }
 
