@@ -48,11 +48,11 @@
       }
 
       usort($purveyors, function ($a, $b) {
-        if (count(array_intersect($a->PROVIDES, $b->REQUIRES)) > 0) {
+        if (count(array_intersect(get_class($a)::PROVIDES, get_class($b)::REQUIRES)) > 0) {
           return -1;
         }
 
-        if (count(array_intersect($b->PROVIDES, $a->REQUIRES)) > 0) {
+        if (count(array_intersect(get_class($b)::PROVIDES, get_class($a)::REQUIRES)) > 0) {
           return 1;
         }
 
