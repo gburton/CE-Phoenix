@@ -209,7 +209,7 @@
               }
 
               if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) {
-                echo '<tr>';
+                echo '<tr class="table-active">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('modules_content.php', 'action=list_new&module=' . $module->code) . '\'">';
               }
@@ -271,7 +271,7 @@
               }
 
               if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) {
-                echo '<tr>';
+                echo '<tr class="table-active">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('modules_content.php', 'module=' . $module->code) . '\'">';
               }
