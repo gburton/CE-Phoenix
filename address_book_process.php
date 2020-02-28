@@ -37,6 +37,7 @@
 // error checking when updating or adding an entry
   if (tep_validate_form_action_is(['process', 'update'])) {
     $customer_details = $customer_data->process($customer_data->get_fields_for_page('address_book'));
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
     if ($customer_details) {
       if ($_POST['action'] == 'update') {
         $check_query = tep_db_query("SELECT * FROM address_book WHERE address_book_id = '" . (int)$_GET['edit'] . "' AND customers_id = " . (int)$_SESSION['customer_id'] . " LIMIT 1");
