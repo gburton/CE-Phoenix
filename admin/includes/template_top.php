@@ -49,9 +49,9 @@ echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 
 <?php
   if (tep_session_is_registered('admin')) {
-    $bad_pages = ['invoice.php', 'packingslip.php'];
+    $OSCOM_Hooks->call('siteWide', 'injectPrintablePage');
     
-    if (!in_array($PHP_SELF, $bad_pages)) {
+    if (!in_array($PHP_SELF, $printable_pages)) {
       require('includes/header.php');
     
       echo $OSCOM_Hooks->call('siteWide', 'injectLeftColumn');
