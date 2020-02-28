@@ -135,13 +135,13 @@
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
     <div class="col-sm-4 text-right align-self-center">
-<?php
-  if (isset($_GET['list'])) {
-    echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
-  } else {
-    echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-cogs', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger xxx text-white');
-  }
-?>
+      <?php
+      if (isset($_GET['list'])) {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
+      } else {
+        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-cogs', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger xxx text-white');
+      }
+      ?>
     </div>
   </div>
 
@@ -158,99 +158,99 @@
             </tr>
           </thead>
           <tbody>
-<?php
-  $installed_modules = [];
-  foreach ($module_files as $file) {
-    $class = pathinfo($file, PATHINFO_FILENAME);
-    if (!file_exists("$module_language_directory$file")) {
-      continue;
-    }
+            <?php
+            $installed_modules = [];
+            foreach ($module_files as $file) {
+              $class = pathinfo($file, PATHINFO_FILENAME);
+              if (class_exists($class)) {
+                $module = new $class();
+                if ($module->check() > 0) {
+                  if (($module->sort_order > 0) && !isset($installed_modules[$module->sort_order])) {
+                    $installed_modules[$module->sort_order] = $file;
+                  } else {
+                    $installed_modules[] = $file;
+                  }
+                }
 
-    if (class_exists($class)) {
-      $module = new $class();
-      if ($module->check() > 0) {
-        if (($module->sort_order > 0) && !isset($installed_modules[$module->sort_order])) {
-          $installed_modules[$module->sort_order] = $file;
-        } else {
-          $installed_modules[] = $file;
-        }
-      }
+                if (!isset($mInfo) && (!isset($_GET['module']) || ($_GET['module'] == $class))) {
+                  $module_info = [
+                    'code' => $module->code,
+                    'title' => $module->title,
+                    'description' => $module->description,
+                    'status' => $module->check(),
+                    'signature' => ($module->signature ?? null),
+                    'api_version' => ($module->api_version ?? null),
+                  ];
 
-      if (!isset($mInfo) && (!isset($_GET['module']) || ($_GET['module'] == $class))) {
-        $module_info = [
-          'code' => $module->code,
-          'title' => $module->title,
-          'description' => $module->description,
-          'status' => $module->check(),
-          'signature' => ($module->signature ?? null),
-          'api_version' => ($module->api_version ?? null),
-        ];
+                  $keys_extra = [];
+                  foreach ($module->keys() as $key) {
+                    $key_value_query = tep_db_query("SELECT configuration_title, configuration_value, configuration_description, use_function, set_function FROM configuration WHERE configuration_key = '" . $key . "'");
+                    $key_value = tep_db_fetch_array($key_value_query);
 
-        $keys_extra = [];
-        foreach ($module->keys() as $key) {
-          $key_value_query = tep_db_query("SELECT configuration_title, configuration_value, configuration_description, use_function, set_function FROM configuration WHERE configuration_key = '" . $key . "'");
-          $key_value = tep_db_fetch_array($key_value_query);
+                    if (!isset($keys_extra[$key])) {
+                      $keys_extra[$key] = [];
+                    }
 
-          $keys_extra[$key]['title'] = $key_value['configuration_title'];
-          $keys_extra[$key]['value'] = $key_value['configuration_value'];
-          $keys_extra[$key]['description'] = $key_value['configuration_description'];
-          $keys_extra[$key]['use_function'] = $key_value['use_function'];
-          $keys_extra[$key]['set_function'] = $key_value['set_function'];
-        }
+                    $keys_extra[$key]['title'] = $key_value['configuration_title'];
+                    $keys_extra[$key]['value'] = $key_value['configuration_value'];
+                    $keys_extra[$key]['description'] = $key_value['configuration_description'];
+                    $keys_extra[$key]['use_function'] = $key_value['use_function'];
+                    $keys_extra[$key]['set_function'] = $key_value['set_function'];
+                  }
 
-        $module_info['keys'] = $keys_extra;
+                  $module_info['keys'] = $keys_extra;
 
-        $mInfo = new objectInfo($module_info);
-      }
+                  $mInfo = new objectInfo($module_info);
+                }
 
-      if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) {
-        if ($module->check() > 0) {
-          echo '          <tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">';
-        } else {
-          echo '          <tr>';
-        }
+                if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) {
+                  if ($module->check() > 0) {
+                    echo '<tr class="table-active onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">' . PHP_EOL;
+                  } else {
+                    echo '<tr class="table-active">' . PHP_EOL;
+                  }
 
-        $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
-      } else {
-        echo '          <tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '\'">';
-        $icon = '<a href="' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '"><i class="fas fa-info-circle text-muted"></i></a>';
-      }
-?>
-            <td><?php echo $module->title; ?></td>
-            <td class="text-right"><?php if (in_array($module->code . ".$file_extension", $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
-            <td class="text-right"><?php echo (($module->enabled ?? 1) == 1) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; ?></td>
-            <td class="text-right"><?php echo $icon; ?></td>
-          </tr>
-<?php
-    }
-  }
+                  $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
+                } else {
+                  echo '<tr onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '\'">' . PHP_EOL;
+                  $icon = '<a href="' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+                }
+                ?>
+                <td><?php echo $module->title; ?></td>
+                <td class="text-right"><?php if (in_array($module->code . ".$file_extension", $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
+                <td class="text-right"><?php if ( array_key_exists('enabled', $module) && (1 != $module->enabled) ) { echo '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
+                <td class="text-right"><?php echo $icon; ?></td>
+              </tr>
+              <?php
+              }
+            }
 
-  if (!isset($_GET['list'])) {
-    ksort($installed_modules);
-    $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = '" . $module_key . "'");
-    if ($check = tep_db_fetch_array($check_query)) {
-      if ($check['configuration_value'] != implode(';', $installed_modules)) {
-        tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $installed_modules) . "', last_modified = NOW() WHERE configuration_key = '" . $module_key . "'");
-      }
-    } else {
-      tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Installed Modules', '" . $module_key . "', '" . implode(';', $installed_modules) . "', 'This is automatically updated. No need to edit.', '6', '0', NOW())");
-    }
+            if (!isset($_GET['list'])) {
+              ksort($installed_modules);
+              $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = '" . $module_key . "'");
+              if ($check = tep_db_fetch_array($check_query)) {
+                if ($check['configuration_value'] != implode(';', $installed_modules)) {
+                  tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $installed_modules) . "', last_modified = NOW() WHERE configuration_key = '" . $module_key . "'");
+                }
+              } else {
+                tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Installed Modules', '" . $module_key . "', '" . implode(';', $installed_modules) . "', 'This is automatically updated. No need to edit.', '6', '0', NOW())");
+              }
 
-    if ($template_integration) {
-      $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = 'TEMPLATE_BLOCK_GROUPS'");
-      if ($check = tep_db_fetch_array($check_query)) {
-        $tbgroups = explode(';', $check['configuration_value']);
-        if (!in_array($module_type, $tbgroups)) {
-          $tbgroups[] = $module_type;
-          sort($tbgroups);
-          tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $tbgroups) . "', last_modified = NOW() WHERE configuration_key = 'TEMPLATE_BLOCK_GROUPS'");
-        }
-      } else {
-        tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Installed Template Block Groups', 'TEMPLATE_BLOCK_GROUPS', '" . $module_type . "', 'This is automatically updated. No need to edit.', '6', '0', NOW())");
-      }
-    }
-  }
-?>
+              if ($template_integration) {
+                $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = 'TEMPLATE_BLOCK_GROUPS'");
+                if ($check = tep_db_fetch_array($check_query)) {
+                  $tbgroups = explode(';', $check['configuration_value']);
+                  if (!in_array($module_type, $tbgroups)) {
+                    $tbgroups[] = $module_type;
+                    sort($tbgroups);
+                    tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $tbgroups) . "', last_modified = NOW() WHERE configuration_key = 'TEMPLATE_BLOCK_GROUPS'");
+                  }
+                } else {
+                  tep_db_query("INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Installed Template Block Groups', 'TEMPLATE_BLOCK_GROUPS', '" . $module_type . "', 'This is automatically updated. No need to edit.', '6', '0', NOW())");
+                }
+              }
+            }
+            ?>
           </tbody>
         </table>
       </div>
@@ -265,16 +265,16 @@
     case 'edit':
       $keys = '';
       foreach ($mInfo->keys as $key => $value) {
-        $keys .= '<strong>' . $value['title'] . '</strong><br />' . $value['description'] . '<br />';
+        $keys .= '<strong>' . $value['title'] . '</strong><br>' . $value['description'] . '<br>';
 
         if ($value['set_function']) {
           eval('$keys .= ' . $value['set_function'] . "'" . $value['value'] . "', '" . $key . "');");
         } else {
           $keys .= tep_draw_input_field('configuration[' . $key . ']', $value['value']);
         }
-        $keys .= '<br /><br />';
+        $keys .= '<br><br>';
       }
-      $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
+      $keys = substr($keys, 0, strrpos($keys, '<br><br>'));
 
       $heading[] = ['text' => $mInfo->title];
 
@@ -289,7 +289,7 @@
         if (in_array($mInfo->code . ".$file_extension", $modules_installed) && ($mInfo->status > 0)) {
           $keys = '';
           foreach ($mInfo->keys as $value) {
-            $keys .= '<strong>' . $value['title'] . '</strong><br />';
+            $keys .= '<strong>' . $value['title'] . '</strong><br>';
             if ($value['use_function']) {
               $use_function = $value['use_function'];
               if (preg_match('/->/', $use_function)) {
@@ -304,9 +304,9 @@
             } else {
               $keys .= $value['value'];
             }
-            $keys .= '<br /><br />';
+            $keys .= '<br><br>';
           }
-          $keys = substr($keys, 0, strrpos($keys, '<br /><br />'));
+          $keys = substr($keys, 0, strrpos($keys, '<br><br>'));
 
           $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove'))];
 

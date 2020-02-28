@@ -42,13 +42,27 @@
 
     public function process($requirements = []) {
       if ([] === $requirements) {
-        $requirements = $this->objects;
+        $purveyors = $this->objects;
+      } else {
+        $purveyors = array_map([$this, 'get_module'], $requirements);
       }
+
+      usort($purveyors, function ($a, $b) {
+        if (count(array_intersect(get_class($a)::PROVIDES, get_class($b)::REQUIRES)) > 0) {
+          return -1;
+        }
+
+        if (count(array_intersect(get_class($b)::PROVIDES, get_class($a)::REQUIRES)) > 0) {
+          return 1;
+        }
+
+        return strcmp($a->code, $b->code);
+      });
 
       $successful = true;
       $details = [];
-      foreach ($requirements as $requirement) {
-        $successful = $successful && $this->act_on($requirement, 'process', $details);
+      foreach ($purveyors as $purveyor) {
+        $successful = $successful && $this->act_on($purveyor, 'process', $details);
       }
 
       return $successful ? $details : null;
@@ -114,6 +128,19 @@
       return [] === $this->missing_abilities;
     }
 
+    public function find_providers($requirement, $exclude = '') {
+      foreach ($this->objects as $object) {
+        if (!empty($exclude) && $object instanceof $exclude) {
+          continue;
+        }
+
+        if (in_array($requirement, $object::PROVIDES)) {
+          unset($this->matched_requirers[$requirement]);
+          return;
+        }
+      }
+    }
+
     public function find_requirers($requirement, $exclude = '') {
       foreach ($this->objects as $object) {
         if (!empty($exclude) && $object instanceof $exclude) {
@@ -130,7 +157,8 @@
     public function has_requirements($requirements, $exclude = null) {
       $this->matched_requirers = [];
       foreach ($requirements as $requirement) {
-        $this->find_requirers($requirement, $exclude);
+        $this->find_requirers($requirement);
+        $this->find_providers($requirement, $exclude);
       }
 
       return [] === $this->matched_requirers ? false : $this->matched_requirers;

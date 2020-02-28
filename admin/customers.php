@@ -11,6 +11,14 @@
 */
 
   require 'includes/application_top.php';
+  if (!$customer_data->has([ 'sortable_name', 'name', 'email_address', 'country_id', 'id' ])) {
+    $messageStack->add_session(ERROR_PAGE_HAS_UNMET_REQUIREMENT, 'error');
+    foreach ($customer_data->get_last_missing_abilities() as $missing_ability) {
+      $messageStack->add_session($missing_ability);
+    }
+
+    tep_redirect(tep_href_link('modules.php', 'set=customer_data'));
+  }
 
   $action = ($_GET['action'] ?? '');
 
@@ -52,7 +60,7 @@
 
         tep_db_query("DELETE FROM address_book WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers WHERE customers_id = " . (int)$customers_id);
-        tep_db_query("DELETE FROM customer_data WHERE customers_id = " . (int)$customers_id);
+        tep_db_query("DELETE FROM customers_data WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_info WHERE customers_info_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_basket WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customers_id);
@@ -72,7 +80,7 @@
 
   require 'includes/template_top.php';
   ?>
-  
+
   <div class="row">
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
@@ -96,11 +104,11 @@
       ?>
     </div>
   </div>
-  
+
   <?php
   if ($action == 'edit' || $action == 'update') {
     ?>
-   
+
   <div class="contentContainer">
     <?php
     $oscTemplate = new oscTemplate();
@@ -109,7 +117,7 @@
 
     $cwd = getcwd();
     chdir(DIR_FS_CATALOG);
-    
+
     $grouped_modules = $customer_data->get_grouped_modules();
     $customer_data_group_query = tep_db_query(<<<'EOSQL'
 SELECT customer_data_groups_id, customer_data_groups_name
@@ -123,7 +131,7 @@ EOSQL
         continue;
       }
       ?>
-      
+
      <h5><?php echo $customer_data_group['customer_data_groups_name']; ?></h5>
 
       <?php
@@ -131,9 +139,9 @@ EOSQL
         $module->display_input($customer_details);
       }
     }
-    
+
     chdir($cwd);
-    
+
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>
 
@@ -160,7 +168,7 @@ EOSQL
             $keywords = null;
             if (tep_not_null($_GET['search'] ?? '')) {
               $keywords = tep_db_prepare_input($_GET['search']);
-              $customer_data->add_search_criteria($customers_query_raw, $keywords);
+              $customers_query_raw = $customer_data->add_search_criteria($customers_query_raw, $keywords);
             }
             $customers_query_raw = $customer_data->add_order_by($customers_query_raw, ['sortable_name']);
 
@@ -191,12 +199,14 @@ EOSQL
 
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id . '&action=edit');
               $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
+              $css = 'class="table-active" ';
             } else {
               $href = tep_href_link('customers.php', tep_get_all_get_params(['cID']) . 'cID=' . $customer_data->get('id', $customers));
               $icon = '<a href="' . $href . '"><i class="fas fa-info-circle text-muted"></i></a>';
+              $css = null;
             }
             ?>
-              <tr onclick="document.location.href='<?php echo $href; ?>'">
+              <tr <?php echo $css; ?>onclick="document.location.href='<?php echo $href; ?>'">
                 <td class="dataTableContent"><?php echo $customer_data->get('sortable_name', $customers); ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($info['date_account_created']); ?></td>
                 <td class="dataTableContent" align="right"><?php echo $icon; ?></td>
@@ -207,19 +217,19 @@ EOSQL
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?php echo $customers_split->display_count($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CUSTOMERS); ?></div>
         <div class="col text-right mr-2"><?php echo $customers_split->display_links($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'info', 'x', 'y', 'cID'])); ?></div>
       </div>
-      
+
       <?php
       if (isset($keywords)) {
         echo tep_draw_bootstrap_button(IMAGE_RESET, 'fas fa-angle-left', tep_href_link('customers.php'), null, null, 'btn-light');
       }
       ?>
 
-      
+
     </div>
 
 <?php
@@ -266,9 +276,9 @@ EOSQL
     echo '</div>';
   }
 ?>
-  
+
   </div>
-  
+
 <?php
   }
 

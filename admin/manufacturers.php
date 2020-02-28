@@ -152,7 +152,7 @@
               }
 
               if (isset($mInfo) && is_object($mInfo) && ($manufacturers['manufacturers_id'] == $mInfo->manufacturers_id)) {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$manufacturers['manufacturers_id'] . '&action=edit') . '\'">';
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$manufacturers['manufacturers_id'] . '&action=edit') . '\'">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$manufacturers['manufacturers_id']) . '\'">';
               }

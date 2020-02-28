@@ -38,12 +38,14 @@ EOSQL;
 
     public static function create($db_tables, &$customer_details = []) {
       $foreign_keys = self::FOREIGN_KEYS;
+      $tables = array_reverse(array_keys(static::TABLE_ALIASES));
 
       unset($db_tables['customers_info']);
       $parameters = [
         'data' => &$customer_details,
         'db' => &$db_tables,
         'keys' => &$foreign_keys,
+        'tables' => &$tables,
       ];
       $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', $parameters);
 
@@ -55,7 +57,11 @@ EOSQL;
         unset($db_tables['customers_data']);
       }
 
-      foreach ($db_tables as $db_table => $columns) {
+      foreach ($tables as $db_table) {
+        if (!isset($db_tables[$db_table])) {
+          continue;
+        }
+
         tep_db_perform($db_table, $db_tables[$db_table]);
         $key = $db_table . self::IDENTIFIER_SUFFIX;
         $customer_details[$key] = tep_db_insert_id();

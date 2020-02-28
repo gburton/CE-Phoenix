@@ -42,7 +42,7 @@
         return $sql;
       }
 
-      $where_position = strrpos(self::WHERE);
+      $where_position = strrpos($sql, self::WHERE);
       if (false === $where_position) {
         $sql .= self::WHERE;
       } elseif ($where_position + strlen(self::WHERE) + 1 < strlen($sql)) {

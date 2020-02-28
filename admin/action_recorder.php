@@ -153,7 +153,7 @@
               }
 
               if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) {
-                echo '<tr>';
+                echo '<tr class="table-active">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('action_recorder.php', tep_get_all_get_params(array('aID')) . 'aID=' . (int)$actions['id']) . '\'">';
               }

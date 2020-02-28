@@ -136,4 +136,8 @@
       }
     }
 
+    public function is_searchable() {
+      return true;
+    }
+
   }

@@ -26,11 +26,20 @@
     protected function guarantee_customer_data() {
       global $customer_data;
 
-      if (!($customer_data instanceof customer_data)) {
+      if (!isset($customer_data) || !($customer_data instanceof customer_data)) {
         $customer_data = new customer_data();
       }
 
       return $customer_data;
+    }
+
+    public function preload_columns(&$to) {
+      $customer_data = $this->guarantee_customer_data();
+
+      $customer_data->get('state', $to);
+      $customer_data->get('zone_id', $to);
+      $customer_data->get('country', $to);
+      $customer_data->get('name', $to);
     }
 
     /**
@@ -52,9 +61,7 @@
 
       $this->data[$to] = array_filter(tep_db_fetch_array($address_query), function ($v) { return tep_not_null($v); });
       if (!is_null($this->data[$to])) {
-        $customer_data->get('state', $this->data[$to]);
-        $customer_data->get('country', $this->data[$to]);
-        $customer_data->get('name', $this->data[$to]);
+        $this->preload_columns($this->data[$to]);
       }
     }
 
@@ -76,6 +83,7 @@
           $to['id'] = $this->id;
         }
 
+        $this->preload_columns($to);
         return $to;
       } elseif (is_numeric($to ?? null)) {
         $this->fetch_address($to);

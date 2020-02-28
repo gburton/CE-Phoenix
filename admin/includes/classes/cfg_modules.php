@@ -74,7 +74,6 @@
           return $GLOBALS['customer_data']->has($requirements);
         case 'remove':
           $provides = get_class($module) . '::PROVIDES';
-          echo "$provides<br />\n";
           if (!defined($provides)) {
             return true;
           }
