@@ -20,7 +20,7 @@
     protected function get_parameters() {
       return [
         static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Password module',
+          'title' => 'Enable Password Confirmation module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your shop?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
