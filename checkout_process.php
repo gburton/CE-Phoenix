@@ -92,7 +92,7 @@
   ];
   tep_db_perform('orders_status_history', $sql_data);
 
-  tep_notify('checkout', $order);
+  include 'includes/modules/checkout/after.php';
 
 // load the after_process function from the payment modules
   $payment_modules->after_process();
