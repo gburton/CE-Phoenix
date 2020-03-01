@@ -111,7 +111,7 @@ EOSQL
               }
 
               if (isset($cdgInfo) && is_object($cdgInfo) && ($customer_data_groups['customer_data_groups_id'] == $cdgInfo->customer_data_groups_id)) {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit') . '\'">';
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit') . '\'">';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $customer_data_groups['customer_data_groups_id']) . '\'">';
               }

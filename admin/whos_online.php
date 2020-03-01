@@ -50,7 +50,7 @@
             }
 
             if (isset($info) && ($whos_online['session_id'] == $info->session_id)) {
-              echo '<tr>';
+              echo '<tr class="table-active">';
             } else {
               echo '<tr onclick="document.location.href=\'' . tep_href_link('whos_online.php', tep_get_all_get_params(array('info', 'action')) . 'info=' . $whos_online['session_id']) . '\'">';
             }

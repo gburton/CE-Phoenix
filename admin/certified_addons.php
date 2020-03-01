@@ -20,7 +20,14 @@
 
   <div class="row">
     <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
-    <div class="col-sm-4 text-right align-self-center"><?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter"'); ?></div>
+    <div class="col-sm-4 text-right align-self-center">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><?php echo TEXT_CERTIFIED_SEARCH_LABEL; ?></span>
+        </div>
+        <?php echo tep_draw_input_field('filter', null, 'placeholder="' . TEXT_CERTIFIED_SEARCH_PLACEHOLDER . '" id="input-filter"'); ?>
+      </div>
+    </div>
   </div>
 
   <div class="alert alert-warning"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>
@@ -47,7 +54,7 @@
             echo '<td>' . $item->owner . '</td>';
             echo '<td>' . tep_draw_stars($item->rating) . '</td>';
             echo '<td>' . $item->remarks ?? '&nbsp;' . '</td>';
-            echo '<td class="text-right d-none d-md-table-cell">' . date("j M Y", strtotime($item->pubDate)) . '</td>';
+            echo '<td class="text-right d-none d-md-table-cell">' . date("j/m/Y", strtotime($item->pubDate)) . '</td>';
           echo '</tr>';
         }
         ?>

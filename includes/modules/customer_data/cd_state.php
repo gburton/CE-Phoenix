@@ -15,7 +15,7 @@
     const CONFIG_KEY_BASE = 'MODULE_CUSTOMER_DATA_STATE_';
 
     const PROVIDES = [ 'state', 'entry_state', 'zone_id' ];
-    const REQUIRES = [  ];
+    const REQUIRES = [ 'country_id' ];
 
     protected function get_parameters() {
       return [

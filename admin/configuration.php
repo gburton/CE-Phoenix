@@ -80,7 +80,7 @@
               }
 
               if ( (isset($cInfo) && is_object($cInfo)) && ($configuration['configuration_id'] == $cInfo->configuration_id) ) {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('configuration.php', 'gID=' . (int)$_GET['gID'] . '&cID=' . (int)$cInfo->configuration_id . '&action=edit') . '\'">' . "\n";
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('configuration.php', 'gID=' . (int)$_GET['gID'] . '&cID=' . (int)$cInfo->configuration_id . '&action=edit') . '\'">' . "\n";
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('configuration.php', 'gID=' . (int)$_GET['gID'] . '&cID=' . (int)$configuration['configuration_id']) . '\'">' . "\n";
               }

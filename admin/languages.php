@@ -13,6 +13,8 @@
   require 'includes/application_top.php';
 
   $action = ($_GET['action'] ?? '');
+  
+  $OSCOM_Hooks->call('languages', 'languagesPreAction');
 
   if (tep_not_null($action)) {
     if ('insert' == $action || 'save' == $action) {
@@ -42,6 +44,8 @@
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
+        
+        $OSCOM_Hooks->call('languages', 'languagesActionInsert');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
@@ -52,6 +56,8 @@
         if (isset($_POST['default']) && $_POST['default'] == 'on') {
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
+        
+        $OSCOM_Hooks->call('languages', 'languagesActionSave');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
@@ -75,6 +81,8 @@
         tep_db_query("DELETE FROM orders_status WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
+        
+        $OSCOM_Hooks->call('languages', 'languagesActionDeleteConfirm');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] : '')));
         break;
@@ -89,9 +97,13 @@
           $remove_language = false;
           $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
         }
+        
+        $OSCOM_Hooks->call('languages', 'languagesActionDelete');
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('languages', 'languagesPostAction');
 
   require 'includes/template_top.php';
 ?>

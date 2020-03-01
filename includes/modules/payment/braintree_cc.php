@@ -709,38 +709,52 @@ EOD;
     return $string;
   }
 
-  function tep_cfg_braintree_cc_set_merchant_accounts($value, $key) {
-    $data = [];
+  function tep_cfg_braintree_cc_get_data($value) {
+    if (empty($value)) {
+      return [];
+    }
 
+    $data = [];
     foreach ( explode(';', $value) as $ma ) {
       list($a, $currency) = explode(':', $ma);
 
       $data[$currency] = $a;
     }
 
+    return $data;
+  }
+
+  function tep_cfg_braintree_cc_get_currencies() {
     $currencies = new currencies();
 
     $c_array = array_keys($currencies->currencies);
     sort($c_array);
 
-    $result = '';
+    return $c_array;
+  }
 
-    foreach ( $c_array as $c ) {
+  function tep_cfg_braintree_cc_set_merchant_accounts($value, $key) {
+    $data = tep_cfg_braintree_cc_get_data($value);
+
+    $result = '';
+    foreach ( tep_cfg_braintree_cc_get_currencies() as $c ) {
+      $close = null;
       if ( $c == DEFAULT_CURRENCY ) {
         $result .= '<strong>';
+        $close = '</strong>';
       }
 
       $result .= $c . ':';
 
-      if ( $c == DEFAULT_CURRENCY ) {
-        $result .= '</strong>';
+      if ( isset($close) ) {
+        $result .= $close;
       }
 
       $result .= '&nbsp;' . tep_draw_input_field('braintree_ma[' . $c . ']', ($data[$c] ?? '')) . '<br>';
     }
 
     if ( !empty($result) ) {
-      $result = substr($result, 0, -6);
+      $result = substr($result, 0, -strlen('<br>'));
     }
 
     $result .= tep_draw_hidden_field('configuration[' . $key . ']', $value);
@@ -771,41 +785,27 @@ EOD;
   }
 
   function tep_cfg_braintree_cc_show_merchant_accounts($value) {
-    if ( !class_exists('currencies') ) {
-      include 'includes/classes/currencies.php';
-    }
-
-    $data = [];
-
-    foreach ( explode(';', $value) as $ma ) {
-      list($a, $currency) = explode(':', $ma);
-
-      $data[$currency] = $a;
-    }
-
-    $currencies = new currencies();
-
-    $c_array = array_keys($currencies->currencies);
-    sort($c_array);
+    $data = tep_cfg_braintree_cc_get_data($value);
 
     $result = '';
-
-    foreach ( $c_array as $c ) {
+    foreach ( tep_cfg_braintree_cc_get_currencies() as $c ) {
+      $close = null;
       if ( $c == DEFAULT_CURRENCY ) {
         $result .= '<strong>';
+        $close = '</strong>';
       }
 
       $result .= $c . ':';
 
-      if ( $c == DEFAULT_CURRENCY ) {
-        $result .= '</strong>';
+      if ( isset($close) ) {
+        $result .= $close;
       }
 
       $result .= '&nbsp;' . ($data[$c] ?? '') . '<br>';
     }
 
     if ( !empty($result) ) {
-      $result = substr($result, 0, -6);
+      $result = substr($result, 0, -strlen('<br>'));
     }
 
     return $result;
