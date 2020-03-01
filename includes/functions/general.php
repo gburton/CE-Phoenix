@@ -737,79 +737,11 @@
         $products_ordered = '';
 
         foreach ($subject->products as $product) {
-          // Stock Update - Joao Correia
-          if (STOCK_LIMITED == 'true') {
-            if (DOWNLOAD_ENABLED == 'true') {
-              $stock_query_raw = <<<'EOSQL'
-SELECT products_quantity, pad.products_attributes_filename
- FROM products p
-   LEFT JOIN products_attributes pa ON p.products_id=pa.products_id
-   LEFT JOIN products_attributes_download pad ON pa.products_attributes_id=pad.products_attributes_id
- WHERE p.products_id = '
-EOSQL
-. tep_get_prid($product['id']) . "'";
-
-              // Will work with only one option for downloadable products
-              // otherwise, we have to build the query dynamically with a loop
-              $products_attributes = $product['attributes'] ?? '';
-              if (is_array($products_attributes)) {
-                $stock_query_raw .= " AND pa.options_id = " . (int)$products_attributes[0]['option_id'] . " AND pa.options_values_id = " . (int)$products_attributes[0]['value_id'];
-              }
-              $stock_query = tep_db_query($stock_query_raw);
-            } else {
-              $stock_query = tep_db_query("SELECT products_quantity FROM products WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-            }
-
-            if ($stock_values = tep_db_fetch_array($stock_query)) {
-              // do not decrement quantities if products_attributes_filename exists
-              if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
-                $stock_left = $stock_values['products_quantity'] - $product['qty'];
-                tep_db_query("UPDATE products SET products_quantity = " . (int)$stock_left . " WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-                if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-                  tep_db_query("UPDATE products SET products_status = '0' WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-                }
-              }
-            }
-          }
-
-          // Update products_ordered (for bestsellers list)
-          tep_db_query("UPDATE products SET products_ordered = products_ordered + " . sprintf('%d', $product['qty']) . " WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-
           //------insert customer chosen option to order--------
           $products_ordered_attributes = '';
           if (isset($product['attributes'])) {
             foreach ($product['attributes'] as $attribute) {
-              if (DOWNLOAD_ENABLED == 'true') {
-                $attributes_sql = <<<'EOSQL'
-SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix,
-       pad.products_attributes_maxdays, pad.products_attributes_maxcount , pad.products_attributes_filename
-  FROM products_options popt, products_options_values poval, products_attributes pa
-    LEFT JOIN products_attributes_download pad ON pa.products_attributes_id=pad.products_attributes_id
-  WHERE pa.products_id = %d
-    AND pa.options_id = %d
-    AND pa.options_id = popt.products_options_id
-    AND pa.options_values_id = %d
-    AND pa.options_values_id = poval.products_options_values_id
-    AND popt.language_id = %d
-    AND poval.language_id = %d
-EOSQL;
-              } else {
-                $attributes_sql = <<<'EOSQL'
-SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
-  FROM products_options popt, products_options_values poval, products_attributes pa
-  WHERE pa.products_id = %d
-    AND pa.options_id = %d
-    AND pa.options_id = popt.products_options_id
-    AND pa.options_values_id = %d
-    AND pa.options_values_id = poval.products_options_values_id
-    AND popt.language_id = %d
-    AND poval.language_id = %d
-EOSQL;
-              }
-              $attributes_query = tep_db_query(sprintf($attributes_sql,
-                (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$GLOBALS['languages_id'], (int)$GLOBALS['languages_id']));
-              $attributes_values = tep_db_fetch_array($attributes_query);
-              $products_ordered_attributes .= "\n\t" . $attributes_values['products_options_name'] . ' ' . $attributes_values['products_options_values_name'];
+              $products_ordered_attributes .= "\n\t" . $attribute['option'] . ' ' . $attribute['value'];
             }
           }
           //------insert customer chosen option eof ----
