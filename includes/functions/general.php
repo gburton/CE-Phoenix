@@ -1033,3 +1033,25 @@
 
     return ($matched && ($formid == $sessiontoken));
   }
+
+  /**
+   * For use by injectFormVerify hooks and Apps that need to block form processing.
+   */
+  function tep_block_form_processing() {
+    switch ($GLOBALS['PHP_SELF']) {
+      case 'account_edit.php':
+      case 'customer_account.php':
+      case 'password_reset.php':
+        unset($GLOBALS['customer_details']);
+        break;
+      case 'address_book_process.php':
+      case 'checkout_shipping_address.php':
+      case 'checkout_payment_address.php':
+        $GLOBALS['customer_details'] = false;
+        break;
+      case 'advanced_search_result.php':
+      case 'contact_us.php':
+      default:
+        $GLOBALS['error'] = true;
+    }
+  }

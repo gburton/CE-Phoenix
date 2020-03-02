@@ -56,6 +56,7 @@
 
   <?php
   $customer_data->display_input($customer_data->get_fields_for_page('account_edit'), $customer->fetch_to_address());
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
   ?>
 
   <div class="buttonSet">
