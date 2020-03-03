@@ -1,6 +1,6 @@
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2020, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,8 @@
           $custom_css = null;
       }
 
-      $oscTemplate->addBlock($custom_css, 'header_tags');
+      // workaround; padding needs to be set last
+      $oscTemplate->addBlock($custom_css, 'footer_scripts');
 
       if ( defined('MODULE_CONTENT_NAVBAR_INSTALLED') && tep_not_null(MODULE_CONTENT_NAVBAR_INSTALLED) ) {
         $nav_array = explode(';', MODULE_CONTENT_NAVBAR_INSTALLED);
