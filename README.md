@@ -53,7 +53,7 @@ Minimum | Maximum
 - [ ] join osCommerce forum
 - [ ] join Phoenix club
 - [ ] install one or more navbar modules;  
-      admin > modules > navbar modules > {install}
+      admin > modules > navbar > {install}
 - [ ] install one or more footer modules;  
       admin > modules > content > {install}
 - [ ] install one or more box modules;  
