@@ -12,7 +12,7 @@
 
   class order {
 
-    public $info, $totals, $products, $customer, $delivery, $content_type;
+    public $info, $totals, $products, $customer, $delivery, $content_type, $id;
 
     public function __construct($order_id = '') {
       $this->info = [];
@@ -28,27 +28,21 @@
       }
     }
 
+    public function get_id() {
+      return $this->id;
+    }
+
+    public function set_id($order_id) {
+      $this->id = tep_db_prepare_input($order_id);
+    }
+
     public function query($order_id) {
       global $languages_id;
 
-      $order_id = tep_db_prepare_input($order_id);
+      $this->id = tep_db_prepare_input($order_id);
 
-      $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$order_id);
+      $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$this->id);
       $order = tep_db_fetch_array($order_query);
-
-      $totals_query = tep_db_query("SELECT title, text FROM orders_total WHERE orders_id = " . (int)$order_id . " ORDER BY sort_order");
-      while ($totals = tep_db_fetch_array($totals_query)) {
-        $this->totals[] =  [
-          'title' => $totals['title'],
-          'text' => $totals['text'],
-        ];
-      }
-
-      $order_total_query = tep_db_query("SELECT text FROM orders_total WHERE orders_id = " . (int)$order_id . " AND class = 'ot_total'");
-      $order_total = tep_db_fetch_array($order_total_query);
-
-      $shipping_method_query = tep_db_query("SELECT title FROM orders_total WHERE orders_id = " . (int)$order_id . " AND class = 'ot_shipping'");
-      $shipping_method = tep_db_fetch_array($shipping_method_query);
 
       $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . $order['orders_status'] . " AND language_id = " . (int)$languages_id);
       $order_status = tep_db_fetch_array($order_status_query);
@@ -60,9 +54,24 @@
         'date_purchased' => $order['date_purchased'],
         'orders_status' => $order_status['orders_status_name'],
         'last_modified' => $order['last_modified'],
-        'total' => strip_tags($order_total['text']),
-        'shipping_method' => ((substr($shipping_method['title'], -1) == ':') ? substr(strip_tags($shipping_method['title']), 0, -1) : strip_tags($shipping_method['title'])),
       ];
+
+      $totals_query = tep_db_query("SELECT title, text, class FROM orders_total WHERE orders_id = " . (int)$this->id . " ORDER BY sort_order");
+      while ($total = tep_db_fetch_array($totals_query)) {
+        $this->totals[] =  [
+          'title' => $total['title'],
+          'text' => $total['text'],
+        ];
+
+        switch ($total['class']) {
+          case 'ot_total':
+            $this->info['total'] = strip_tags($total['text']);
+            break;
+          case 'ot_shipping':
+            $this->info['shipping_method'] = trim(rtrim(strip_tags($total['title']), ': '));
+            break;
+        }
+      }
 
       $this->customer = [
         'id' => $order['customers_id'],
@@ -106,7 +115,7 @@
         'format_id' => $order['billing_address_format_id'],
       ];
 
-      $orders_products_query = tep_db_query("SELECT orders_products_id, products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price FROM orders_products WHERE orders_id = " . (int)$order_id);
+      $orders_products_query = tep_db_query("SELECT orders_products_id, products_id, products_name, products_model, products_price, products_tax, products_quantity, final_price FROM orders_products WHERE orders_id = " . (int)$this->id);
       while ($orders_products = tep_db_fetch_array($orders_products_query)) {
         $current = [
           'qty' => $orders_products['products_quantity'],
@@ -118,7 +127,7 @@
           'final_price' => $orders_products['final_price'],
         ];
 
-        $attributes_query = tep_db_query("SELECT products_options, products_options_values, options_values_price, price_prefix FROM orders_products_attributes WHERE orders_id = " . (int)$order_id . " AND orders_products_id = " . (int)$orders_products['orders_products_id']);
+        $attributes_query = tep_db_query("SELECT products_options, products_options_values, options_values_price, price_prefix FROM orders_products_attributes WHERE orders_id = " . (int)$this->id . " AND orders_products_id = " . (int)$orders_products['orders_products_id']);
         if (tep_db_num_rows($attributes_query)) {
           while ($attributes = tep_db_fetch_array($attributes_query)) {
             $current['attributes'][] = [
