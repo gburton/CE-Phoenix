@@ -39,8 +39,6 @@
     }
   }
 
-  include "includes/languages/$language/checkout_process.php";
-
 // load selected payment module
   $payment_modules = new payment($payment);
 
@@ -97,7 +95,7 @@
 // load the after_process function from the payment modules
   $payment_modules->after_process();
 
-  require 'includes/modules/checkout/reset.php';
+  include 'includes/modules/checkout/reset.php';
 
   tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
 

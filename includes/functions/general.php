@@ -711,7 +711,6 @@
 // $from_email_name   The name of the sender, e.g. Shop Administration
 // $from_email_adress The eMail address of the sender,
 //                    e.g. info@mytepshop.com
-
   function tep_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address) {
     if (SEND_EMAILS != 'true') {
       return false;
@@ -724,78 +723,23 @@
     $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
   }
 
-  function tep_notify($area, $subject) {
-    switch ($area) {
-      case 'create_account':
-        echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationNotification');
+  function tep_notify($trigger, $subject) {
+    if (defined('MODULE_NOTIFICATIONS_INSTALLED') && tep_not_null(MODULE_NOTIFICATIONS_INSTALLED)) {
+      foreach ((array)explode(';', MODULE_NOTIFICATIONS_INSTALLED) as $basename) {
+        $class = pathinfo($basename, PATHINFO_FILENAME);
 
-        $email_text = $subject->get('greeting') . EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
-        tep_mail($subject->get('name'), $subject->get('email_address'), EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-        break;
-      case 'checkout':
-        // initialized for the email confirmation
-        $products_ordered = '';
-
-        foreach ($subject->products as $product) {
-          //------insert customer chosen option to order--------
-          $products_ordered_attributes = '';
-          if (isset($product['attributes'])) {
-            foreach ($product['attributes'] as $attribute) {
-              $products_ordered_attributes .= "\n\t" . $attribute['option'] . ' ' . $attribute['value'];
-            }
-          }
-          //------insert customer chosen option eof ----
-          $products_ordered .= $product['qty'] . ' x ' . $product['name'] . (empty($product['model']) ? '' : ' (' . $product['model'] . ')') . ' = ' . $GLOBALS['currencies']->display_price($product['final_price'], $product['tax'], $product['qty']) . $products_ordered_attributes . "\n";
+        if (!isset($GLOBALS[$class])) {
+          $GLOBALS[$class] = new $class();
         }
 
-        // let's start with the email confirmation
-        global $order_id, $customer, $billto, $sendto;
-        $email_order = STORE_NAME . "\n"
-          . EMAIL_SEPARATOR . "\n"
-          . EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n"
-          . EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n"
-          . EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
-        if ($subject->info['comments']) {
-          $email_order .= tep_db_output($subject->info['comments']) . "\n\n";
-        }
-        $email_order .= EMAIL_TEXT_PRODUCTS . "\n"
-            . EMAIL_SEPARATOR . "\n"
-            . $products_ordered
-            . EMAIL_SEPARATOR . "\n";
-
-        foreach ($GLOBALS['order_totals'] as $order_total) {
-          $email_order .= strip_tags($order_total['title']) . ' ' . strip_tags($order_total['text']) . "\n";
+        if (!$GLOBALS[$class]->isEnabled()) {
+          continue;
         }
 
-        if ($subject->content_type != 'virtual') {
-          $email_order .= "\n" . EMAIL_TEXT_DELIVERY_ADDRESS . "\n"
-                . EMAIL_SEPARATOR . "\n"
-                . $customer->make_address_label($sendto, 0, '', "\n") . "\n";
+        if (in_array($trigger, $class::TRIGGERS)) {
+          $GLOBALS[$class]->notify($subject);
         }
-
-        $email_order .= "\n" . EMAIL_TEXT_BILLING_ADDRESS . "\n"
-                . EMAIL_SEPARATOR . "\n"
-                . $customer->make_address_label($billto, 0, '', "\n") . "\n\n";
-        $payment_class = $GLOBALS[$GLOBALS['payment']];
-        if (is_object($payment_class)) {
-          $email_order .= EMAIL_TEXT_PAYMENT_METHOD . "\n"
-              . EMAIL_SEPARATOR . "\n";
-          $email_order .= $subject->info['payment_method'] . "\n\n";
-          if (isset($payment_class->email_footer)) {
-            $email_order .= $payment_class->email_footer . "\n\n";
-          }
-        }
-
-        $parameters = ['order' => $subject, 'email' => &$email_order];
-        $GLOBALS['OSCOM_Hooks']->call('siteWide', 'orderMail', $parameters);
-
-        tep_mail($subject->customer['name'], $subject->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-
-        // send emails to other people
-        if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-          tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-        }
-        break;
+      }
     }
   }
 
