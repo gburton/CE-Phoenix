@@ -89,19 +89,11 @@
             }
             $products_name .=   '</th>';
 
-            if (STOCK_CHECK == 'true') {
-              $stock_check = tep_check_stock($products[$i]['id'], $products[$i]['quantity']);
-              if (tep_not_null($stock_check)) {
-                $any_out_of_stock = 1;
+            if (STOCK_CHECK == 'true' && tep_check_stock($products[$i]['id'], $products[$i]['quantity'])) {
+              $any_out_of_stock = 1;
 
-                $products_name .= '<td>' . $stock_check . '</td>';
-              }
-              else {
-                goto in_stock;
-              }
-            }
-            else {
-              in_stock:
+              $products_name .= '<td><span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span></td>';
+            } else {
               $products_name .= '<td>' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
             }
 

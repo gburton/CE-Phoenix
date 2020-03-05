@@ -51,6 +51,7 @@
   tep_db_perform('orders', $sql_data);
 
   $order_id = tep_db_insert_id();
+  $order->set_id($order_id);
 
   foreach ($order_totals as $order_total) {
     $sql_data = [

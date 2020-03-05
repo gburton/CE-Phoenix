@@ -59,14 +59,8 @@
     }
 
     while (strpos($link, '&&') !== false) $link = str_replace('&&', '&', $link);
-
-    if ( (SEARCH_ENGINE_FRIENDLY_URLS == 'true') && ($search_engine_safe == true) ) {
-      $link = str_replace('?', '/', $link);
-      $link = str_replace('&', '/', $link);
-      $link = str_replace('=', '/', $link);
-    } else {
-      $link = str_replace('&', '&amp;', $link);
-    }
+    
+    $link = str_replace('&', '&amp;', $link);
 
     return $link;
   }

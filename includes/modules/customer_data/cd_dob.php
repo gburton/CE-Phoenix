@@ -20,7 +20,7 @@
     protected function get_parameters() {
       return [
         static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Last Name module',
+          'title' => 'Enable Date of Birth module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your shop?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
@@ -33,7 +33,7 @@
           'set_func' => 'tep_cfg_pull_down_customer_data_groups(',
         ],
         static::CONFIG_KEY_BASE . 'REQUIRED' => [
-          'title' => 'Require Last Name module (if enabled)',
+          'title' => 'Require Date of Birth module (if enabled)',
           'value' => 'True',
           'desc' => 'Do you want the date of birth to be required in customer registration?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",

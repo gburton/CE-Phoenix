@@ -108,8 +108,7 @@
           $order->content_type = 'physical';
         }
 
-// let's start with the email confirmation
-        tep_notify('checkout', $order);
+        include 'includes/modules/checkout/after.php';
 
         tep_db_query("DELETE FROM customers_basket WHERE customers_id = " . (int)$customer_id);
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customer_id);
