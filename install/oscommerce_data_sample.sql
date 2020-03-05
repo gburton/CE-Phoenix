@@ -43,12 +43,6 @@ INSERT INTO products_attributes VALUES (4, 2, 1, 2, '4.5000', '+');
 INSERT INTO products_attributes VALUES (8, 5, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (9, 5, 1, 2, '4.9900', '+');
 
-INSERT INTO products_images VALUES (1, 1, 'orange-1.jpg', null, 1);
-INSERT INTO products_images VALUES (2, 2, 'lemon-1.jpg', null, 1);
-INSERT INTO products_images VALUES (3, 3, 'pear-1.jpg', null, 1);
-INSERT INTO products_images VALUES (4, 4, 'apple-1.jpg', null, 1);
-INSERT INTO products_images VALUES (5, 5, 'tomatoes-1.jpg', null, 1);
-
 INSERT INTO products_options VALUES (1, 1, 'Box Size');
 
 INSERT INTO products_options_values VALUES (1, 1, '12');
