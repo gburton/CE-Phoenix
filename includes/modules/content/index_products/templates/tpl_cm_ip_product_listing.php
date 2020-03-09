@@ -14,7 +14,7 @@
 <?php
   }
 ?>
-<div class="col-sm-' . $content_width . ' cm-ip-product-listing">
+<div class="col-sm-<?php echo $content_width; ?> cm-ip-product-listing">
   <?php include 'includes/modules/product_listing.php'; ?>
 </div>
 
