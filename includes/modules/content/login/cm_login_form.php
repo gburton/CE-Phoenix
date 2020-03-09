@@ -12,7 +12,7 @@
 
   class cm_login_form extends abstract_executable_module {
 
-    const REQUIRES = [ 'password', 'email_address' ];
+    const REQUIRES = [ 'password', 'id', 'email_address' ];
 
     const CONFIG_KEY_BASE = 'MODULE_CONTENT_LOGIN_FORM_';
 

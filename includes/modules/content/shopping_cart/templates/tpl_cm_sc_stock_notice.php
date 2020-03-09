@@ -1,21 +1,27 @@
 <style>.cm-sc-stock-notice {margin-top: 10px;}</style>
 
 <div class="col-sm-<?php echo $content_width ?> cm-sc-stock-notice">
-	<?php echo $sc_stock_notice; ?>
+	<?php
+	if (STOCK_ALLOW_CHECKOUT == 'true') {
+      echo '<div class="alert alert-warning" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CAN_CHECKOUT, '</div>';
+    } else {
+      echo '<div class="alert alert-danger" role="alert">', MODULE_CONTENT_SC_STOCK_NOTICE_CANT_CHECKOUT, '</div>';
+    }
+?>
 </div>
 
 <?php
 /*
   $Id$
 
-  Copyright (c) 2016:
+  Copyright (c) 2020:
     Dan Cole - @Dan Cole
     James Keebaugh - @kymation
     Lambros - @Tsimi
     Rainer Schmied - @raiwa
 
   All rights reserved.
-  
+
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
