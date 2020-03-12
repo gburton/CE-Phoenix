@@ -154,40 +154,13 @@ if ( typeof jQuery.ui == 'undefined' ) {
             <legend><?php echo ENTRY_PAYMENT_METHOD; ?></legend>
 
             <p><?php echo $order->info['payment_method']; ?></p>
-
-<?php
-    if (tep_not_null($order->info['cc_type']) || tep_not_null($order->info['cc_owner']) || tep_not_null($order->info['cc_number'])) {
-?>
-
-            <table border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td><?php echo ENTRY_CREDIT_CARD_TYPE; ?></td>
-                <td><?php echo $order->info['cc_type']; ?></td>
-              </tr>
-              <tr>
-                <td><?php echo ENTRY_CREDIT_CARD_OWNER; ?></td>
-                <td><?php echo $order->info['cc_owner']; ?></td>
-              </tr>
-              <tr>
-                <td><?php echo ENTRY_CREDIT_CARD_NUMBER; ?></td>
-                <td><?php echo $order->info['cc_number']; ?></td>
-              </tr>
-              <tr>
-                <td><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
-                <td><?php echo $order->info['cc_expires']; ?></td>
-              </tr>
-            </table>
-
-<?php
-    }
-?>
           </fieldset>
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
             <legend><?php echo ENTRY_STATUS; ?></legend>
 
-            <p><?php echo $order->info['status'] . '<br />' . (empty($order->info['last_modified']) ? tep_datetime_short($order->info['date_purchased']) : tep_datetime_short($order->info['last_modified'])); ?></p>
+            <p><?php echo $order->info['orders_status'] . '<br />' . tep_datetime_short($order->info['last_modified'] ?? $order->info['date_purchased']); ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
