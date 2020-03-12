@@ -378,7 +378,14 @@
       $to = $this->format_address($to_addr, $to_name);
       $from = $this->format_address($from_addr, $from_name);
 
-      $headers = array_merge($this->headers, ['From: ' . $from], $this->normalize_headers($headers));
+      if (defined('EMAIL_FROM')) {
+        $sender_headers = ['From: ' . EMAIL_FROM, 'Reply-to: ' . $from];
+        $from_addr = EMAIL_FROM;
+      } else {
+        $sender_headers = ['From: ' . $from];
+      }
+
+      $headers = array_merge($this->headers, $sender_headers, $this->normalize_headers($headers));
 
       return mail($to, $subject, $this->output, implode($this->lf, $headers), "-f$from_addr");
     }
