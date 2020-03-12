@@ -89,6 +89,8 @@
   }
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('modules_content', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -107,6 +109,8 @@
             break;
           }
         }
+        
+        $OSCOM_Hooks->call('modules_content', 'saveModuleConfiguration');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
 
@@ -128,6 +132,8 @@
             tep_redirect(tep_href_link('modules_content.php', 'module=' . $class . '&action=edit'));
           }
         }
+        
+        $OSCOM_Hooks->call('modules_content', 'installModule');
 
         tep_redirect(tep_href_link('modules_content.php', 'action=list_new&module=' . $class));
 
@@ -153,12 +159,16 @@
             tep_redirect(tep_href_link('modules_content.php'));
           }
         }
+        
+        $OSCOM_Hooks->call('modules_content', 'removeModule');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
 
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('modules_content', 'postAction');
 
   require('includes/template_top.php');
 ?>

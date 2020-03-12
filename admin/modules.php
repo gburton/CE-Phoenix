@@ -30,9 +30,10 @@
 
   $modules_installed = (defined($module_key) && !empty(constant($module_key)) ? explode(';', constant($module_key)) : []);
 
-  $OSCOM_Hooks->call('modules', 'preAction');
-
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('modules', 'preAction');
+  
   if (tep_not_null($action)) {
     switch ($action) {
       case 'save':
@@ -45,7 +46,9 @@
           $value = tep_db_prepare_input($value);
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($value) . "' WHERE configuration_key = '" . tep_db_input($key) . "'");
         }
+        
         $OSCOM_Hooks->call('modules', 'saveModuleConfiguration');
+        
         tep_redirect(tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']));
         break;
       case 'remove':
@@ -85,7 +88,9 @@
             }
 
             tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = '" . $module_key . "'");
+            
             $OSCOM_Hooks->call('modules', 'installModule');
+            
           } elseif ('remove' == $action) {
             $module->remove();
 
@@ -94,7 +99,9 @@
             }
 
             tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = '" . $module_key . "'");
+            
             $OSCOM_Hooks->call('modules', 'removeModule');
+            
             tep_redirect(tep_href_link('modules.php', 'set=' . $set));
           }
         }
@@ -102,6 +109,8 @@
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('modules', 'postAction');
 
   $new_modules_counter = 0;
 
