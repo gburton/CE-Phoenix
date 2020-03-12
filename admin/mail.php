@@ -32,7 +32,8 @@
         break;
     }
 
-    $from = tep_db_prepare_input($_POST['from']);
+    $from_name = tep_db_prepare_input($_POST['from_name']);
+    $from_address = tep_db_prepare_input($_POST['from_address']);
     $subject = tep_db_prepare_input($_POST['subject']);
     $message = tep_db_prepare_input($_POST['message']);
 
@@ -41,7 +42,7 @@
     $mimemessage->add_message($message);
     $mimemessage->build_message();
     while ($mail = tep_db_fetch_array($mail_query)) {
-      $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), '', $from, $subject);
+      $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), $from_name, $from_address, $subject);
     }
 
     tep_redirect(tep_href_link('mail.php', 'mail_sent_to=' . urlencode($mail_sent_to)));
@@ -84,7 +85,11 @@
         </tr>
         <tr>
           <th><?php echo TEXT_FROM; ?></th>
-          <td><?php echo htmlspecialchars(stripslashes($_POST['from'])); ?></td>
+          <td><?php echo htmlspecialchars(stripslashes($_POST['from_name'])); ?></td>
+        </tr>
+        <tr>
+          <th><?php echo TEXT_FROM_ADDRESS; ?></th>
+          <td><?php echo htmlspecialchars(stripslashes($_POST['from_address'])); ?></td>
         </tr>
         <tr>
           <th><?php echo TEXT_SUBJECT; ?></th>
@@ -132,28 +137,35 @@
       <div class="form-group row">
         <label for="Customer" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_CUSTOMER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_pull_down_menu('customers_email_address', $customers, (isset($_GET['customer']) ? $_GET['customer'] : ''), 'id="Customer" required aria-required="true"'); ?>
+          <?php echo tep_draw_pull_down_menu('customers_email_address', $customers, ($_GET['customer'] ?? ''), 'id="Customer" required="required" aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="From" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_FROM; ?></label>
+        <label for="FromName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_FROM; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('from', EMAIL_FROM, 'id="From" required aria-required="true"'); ?>
+          <?php echo tep_draw_input_field('from_name', STORE_OWNER, 'id="FromName" required="required" aria-required="true"'); ?>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="FromAddress" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_FROM_ADDRESS; ?></label>
+        <div class="col-sm-9">
+          <?php echo tep_draw_input_field('from_address', STORE_OWNER_EMAIL_ADDRESS, 'id="FromAddress" required="required" aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="Subject" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_SUBJECT; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('subject', null, 'id="Subject" required aria-required="true"'); ?>
+          <?php echo tep_draw_input_field('subject', null, 'id="Subject" required="required" aria-required="true"'); ?>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="Message" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_MESSAGE; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_textarea_field('message', 'soft', '60', '15', null, 'id="Message" required aria-required="true"'); ?>
+          <?php echo tep_draw_textarea_field('message', 'soft', '60', '15', null, 'id="Message" required="required" aria-required="true"'); ?>
         </div>
       </div>
 
