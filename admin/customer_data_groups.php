@@ -207,7 +207,7 @@ EOSQL
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id))];
       break;
     default:
-      if (is_object($cdgInfo)) {
+      if (is_object($cdgInfo ?? null)) {
         $heading[] = ['text' => $cdgInfo->customer_data_groups_name];
 
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=delete'))];
