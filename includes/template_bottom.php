@@ -58,6 +58,7 @@
   
   echo $oscTemplate->getBlocks('footer_scripts');
 
+  echo $OSCOM_Hooks->call(__FILE__, 'injectBodyEnd');
   echo $OSCOM_Hooks->call('siteWide', 'injectBodyEnd');  
   ?>
 

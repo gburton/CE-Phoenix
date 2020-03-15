@@ -24,6 +24,7 @@
 
 <?php
   echo $OSCOM_Hooks->call('siteWide', 'injectSiteStart');
+  echo $OSCOM_Hooks->call(__FILE__, 'injectSiteStart');
   
   if (tep_not_null(JQUERY_DATEPICKER_I18N_CODE)) {
 ?>
@@ -42,6 +43,7 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 
 <?php
 echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
+echo $OSCOM_Hooks->call(__FILE__, 'injectBodyStart');
 ?>
 
 <div class="container-fluid">
