@@ -173,7 +173,7 @@
       $orders_status_inputs_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $orders_status_inputs_string .= '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']');
+        $orders_status_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']') . '</div>';
       }
 
       $contents[] = ['text' => '<br>' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
@@ -191,7 +191,7 @@
       $orders_status_inputs_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $orders_status_inputs_string .= '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']', tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id']));
+        $orders_status_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']', tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id'])) . '</div>';
       }
 
       $contents[] = ['text' => '<br>' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
