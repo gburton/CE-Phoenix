@@ -8,7 +8,7 @@
   Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
-  
+
   Example usage:
   $heading = [];
   $heading[] = ['text'  => BOX_HEADING_TOOLS];
