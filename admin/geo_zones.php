@@ -251,7 +251,7 @@ function update_zone(theForm) {
 
         $contents = ['form' => tep_draw_form('zones', 'geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=deleteconfirm_sub')];
         $contents[] = ['text' => TEXT_INFO_DELETE_SUB_ZONE_INTRO];
-        $contents[] = ['text' => '<br><strong>' . $sInfo->countries_name . '</strong>'];
+        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $sInfo->countries_name];
         $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id), null, null, 'btn-light')];
         break;
       default:
@@ -289,7 +289,7 @@ function update_zone(theForm) {
 
         $contents = ['form' => tep_draw_form('zones', 'geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=deleteconfirm_zone')];
         $contents[] = ['text' => TEXT_INFO_DELETE_ZONE_INTRO];
-        $contents[] = ['text' => '<br><strong>' . $zInfo->geo_zone_name . '</strong>'];
+        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $zInfo->geo_zone_name];
         $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id), null, null, 'btn-light')];
         break;
       default:

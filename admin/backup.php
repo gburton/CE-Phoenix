@@ -461,7 +461,7 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('delete', 'backup.php', 'file=' . $buInfo->file . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
-      $contents[] = ['text' => '<strong>' . $buInfo->file . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $buInfo->file];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:

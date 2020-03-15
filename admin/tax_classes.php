@@ -130,7 +130,7 @@
 
       $contents = ['form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
-      $contents[] = ['text' => '<br><strong>' . $tcInfo->tax_class_title . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $tcInfo->tax_class_title];
       $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
       break;
     default:

@@ -153,7 +153,7 @@
 
       $contents = ['form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
-      $contents[] = ['text' => '<strong>' . $cInfo->countries_name . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->countries_name];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
       break;
     default:

@@ -1013,7 +1013,7 @@ $('#products_date_available').datepicker({
 
         $contents = ['form' => tep_draw_form('products', 'categories.php', 'action=delete_product_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $pInfo->products_id)];
         $contents[] = ['text' => TEXT_DELETE_PRODUCT_INTRO];
-        $contents[] = ['text' => '<br><strong>' . $pInfo->products_name . '</strong>'];
+        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $pInfo->products_name];
 
         $product_categories_string = '';
         $product_categories = tep_generate_category_path($pInfo->products_id, 'product');

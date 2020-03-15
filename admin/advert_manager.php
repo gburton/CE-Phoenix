@@ -377,7 +377,7 @@
 
       $contents = ['form' => tep_draw_form('advert', 'advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$cInfo->advert_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
-      $contents[] = ['text' => '<strong>' . $cInfo->advert_title . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->advert_title];
       if ($cInfo->advert_image) $contents[] = ['text' => tep_draw_checkbox_field('delete_image', 'on') . ' ' . TEXT_INFO_DELETE_IMAGE];
       $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']), null, null, 'btn-light')];
       break;

@@ -207,7 +207,7 @@
       $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_LANGUAGE . '</strong>'];
 
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
-      $contents[] = ['text' => '<br><strong>' . $lInfo->name . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $lInfo->name];
       $contents[] = ['align' => 'center', 'text' => '<br>' . (($remove_language) ? tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=deleteconfirm'), null, null, 'btn-danger xxx text-white mr-2') : '') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . $_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
       break;
     default:
