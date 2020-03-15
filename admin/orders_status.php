@@ -25,9 +25,9 @@
           $orders_status_name_array = $_POST['orders_status_name'];
           $language_id = $languages[$i]['id'];
 
-          $sql_data_array = array('orders_status_name' => tep_db_prepare_input($orders_status_name_array[$language_id]),
-                                  'public_flag' => ((isset($_POST['public_flag']) && ($_POST['public_flag'] == '1')) ? '1' : '0'),
-                                  'downloads_flag' => ((isset($_POST['downloads_flag']) && ($_POST['downloads_flag'] == '1')) ? '1' : '0'));
+          $sql_data_array = ['orders_status_name' => tep_db_prepare_input($orders_status_name_array[$language_id]),
+                             'public_flag' => ((isset($_POST['public_flag']) && ($_POST['public_flag'] == '1')) ? '1' : '0'),
+                             'downloads_flag' => ((isset($_POST['downloads_flag']) && ($_POST['downloads_flag'] == '1')) ? '1' : '0')];
 
           if ($action == 'insert') {
             if (empty($orders_status_id)) {
@@ -36,8 +36,7 @@
               $orders_status_id = $next_id['orders_status_id'] + 1;
             }
 
-            $insert_sql_data = array('orders_status_id' => $orders_status_id,
-                                     'language_id' => $language_id);
+            $insert_sql_data = ['orders_status_id' => $orders_status_id, 'language_id' => $language_id];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
@@ -152,7 +151,7 @@
   if (empty($action)) {
 ?>
                   <tr>
-                    <td class="smallText" colspan="2" align="right"><?php echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&action=new')); ?></td>
+                    <td class="smallText" colspan="2" align="right"><?php echo tep_draw_bootstrap_button(IMAGE_INSERT, 'fas fa-cogs', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&action=new'), null, null, 'btn-danger xxx text-white'); ?></td>
                   </tr>
 <?php
   }
@@ -161,67 +160,67 @@
               </tr>
             </table></td>
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_ORDERS_STATUS . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_NEW_ORDERS_STATUS . '</strong>'];
 
-      $contents = array('form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&action=insert'));
-      $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
+      $contents = ['form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&action=insert')];
+      $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
 
       $orders_status_inputs_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $orders_status_inputs_string .= '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']');
+        $orders_status_inputs_string .= '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']');
       }
 
-      $contents[] = array('text' => '<br />' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string);
-      $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('public_flag', '1') . ' ' . TEXT_SET_PUBLIC_STATUS);
-      $contents[] = array('text' => tep_draw_checkbox_field('downloads_flag', '1') . ' ' . TEXT_SET_DOWNLOADS_STATUS);
-      $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT);
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders_status.php', 'page=' . $_GET['page'])));
+      $contents[] = ['text' => '<br>' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
+      $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('public_flag', '1') . ' ' . TEXT_SET_PUBLIC_STATUS];
+      $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1') . ' ' . TEXT_SET_DOWNLOADS_STATUS];
+      $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . $_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_EDIT_ORDERS_STATUS . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_EDIT_ORDERS_STATUS . '</strong>'];
 
-      $contents = array('form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id  . '&action=save'));
-      $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
+      $contents = ['form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id  . '&action=save')];
+      $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
 
       $orders_status_inputs_string = '';
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $orders_status_inputs_string .= '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']', tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id']));
+        $orders_status_inputs_string .= '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_draw_input_field('orders_status_name[' . $languages[$i]['id'] . ']', tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id']));
       }
 
-      $contents[] = array('text' => '<br />' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string);
-      $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('public_flag', '1', $oInfo->public_flag) . ' ' . TEXT_SET_PUBLIC_STATUS);
-      $contents[] = array('text' => tep_draw_checkbox_field('downloads_flag', '1', $oInfo->downloads_flag) . ' ' . TEXT_SET_DOWNLOADS_STATUS);
-      if (DEFAULT_ORDERS_STATUS_ID != $oInfo->orders_status_id) $contents[] = array('text' => '<br />' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT);
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id)));
+      $contents[] = ['text' => '<br>' . TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
+      $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('public_flag', '1', $oInfo->public_flag) . ' ' . TEXT_SET_PUBLIC_STATUS];
+      $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1', $oInfo->downloads_flag) . ' ' . TEXT_SET_DOWNLOADS_STATUS];
+      if (DEFAULT_ORDERS_STATUS_ID != $oInfo->orders_status_id) $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
       break;
     case 'delete':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_ORDERS_STATUS . '</strong>');
+      $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_ORDERS_STATUS . '</strong>'];
 
-      $contents = array('form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id  . '&action=deleteconfirm'));
-      $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<br /><strong>' . $oInfo->orders_status_name . '</strong>');
-      if ($remove_status) $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id)));
+      $contents = ['form' => tep_draw_form('status', 'orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id  . '&action=deleteconfirm')];
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
+      $contents[] = ['text' => '<br><strong>' . $oInfo->orders_status_name . '</strong>'];
+      if ($remove_status) $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, null, null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
       break;
     default:
       if (isset($oInfo) && is_object($oInfo)) {
-        $heading[] = array('text' => '<strong>' . $oInfo->orders_status_name . '</strong>');
+        $heading[] = ['text' => '<strong>' . $oInfo->orders_status_name . '</strong>'];
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=delete')));
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs',  tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders_status.php', 'page=' . $_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
 
         $orders_status_inputs_string = '';
         $languages = tep_get_languages();
         for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
-          $orders_status_inputs_string .= '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id']);
+          $orders_status_inputs_string .= '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . tep_get_orders_status_name($oInfo->orders_status_id, $languages[$i]['id']);
         }
 
-        $contents[] = array('text' => $orders_status_inputs_string);
+        $contents[] = ['text' => $orders_status_inputs_string];
       }
       break;
   }

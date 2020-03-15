@@ -75,11 +75,11 @@
     </div>
 
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   if (isset($info)) {
-    $heading[] = array('text' => TABLE_HEADING_SHOPPING_CART);
+    $heading[] = ['text' => TABLE_HEADING_SHOPPING_CART];
 
     if ( $info->customer_id > 0 ) {
       $products_query = tep_db_query("select cb.*, pd.* from customers_basket cb, products_description pd where cb.customers_id = '" . (int)$info->customer_id . "' and cb.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
@@ -88,16 +88,16 @@
         $shoppingCart = new shoppingCart();
 
         while ( $products = tep_db_fetch_array($products_query) ) {
-          $contents[] = array('text' => sprintf(TEXT_SHOPPING_CART_ITEM, $products['customers_basket_quantity'], $products['products_name']));
+          $contents[] = ['text' => sprintf(TEXT_SHOPPING_CART_ITEM, $products['customers_basket_quantity'], $products['products_name'])];
 
-          $attributes = array();
+          $attributes = [];
 
           if ( strpos($products['products_id'], '{') !== false ) {
-            $combos = array();
+            $combos = [];
             preg_match_all('/(\{[0-9]+\}[0-9]+){1}/', $products['products_id'], $combos);
 
             foreach ( $combos[0] as $combo ) {
-              $att = array();
+              $att = [];
               preg_match('/\{([0-9]+)\}([0-9]+)/', $combo, $att);
 
               $attributes[$att[1]] = $att[2];
@@ -107,12 +107,12 @@
           $shoppingCart->add_cart(tep_get_prid($products['products_id']), $products['customers_basket_quantity'], $attributes);
         }
         
-        $contents[] = array('class' => 'table-dark text-right', 'text'  => sprintf(TEXT_SHOPPING_CART_SUBTOTAL, $currencies->format($shoppingCart->show_total())));
+        $contents[] = ['class' => 'table-dark text-right', 'text'  => sprintf(TEXT_SHOPPING_CART_SUBTOTAL, $currencies->format($shoppingCart->show_total()))];
       } else {
-        $contents[] = array('text' => '&nbsp;');
+        $contents[] = ['text' => '&nbsp;'];
       }
     } else {
-      $contents[] = array('text' => TEXT_SHOPPING_CART_NA);
+      $contents[] = ['text' => TEXT_SHOPPING_CART_NA];
     }
   }
 

@@ -13,7 +13,7 @@
   require('includes/application_top.php');
 
   function tep_dt_get_tables() {
-    $result = array();
+    $result = [];
 
     $tables_query = tep_db_query('show table status');
     while ( $tables = tep_db_fetch_array($tables_query) ) {
@@ -23,27 +23,27 @@
     return $result;
   }
 
-  $mysql_charsets = array(array('id' => 'auto', 'text' => ACTION_UTF8_CONVERSION_FROM_AUTODETECT));
+  $mysql_charsets = [['id' => 'auto', 'text' => ACTION_UTF8_CONVERSION_FROM_AUTODETECT]];
 
   $charsets_query = tep_db_query("show character set");
   while ( $charsets = tep_db_fetch_array($charsets_query) ) {
-    $mysql_charsets[] = array('id' => $charsets['Charset'], 'text' => sprintf(ACTION_UTF8_CONVERSION_FROM, $charsets['Charset']));
+    $mysql_charsets[] = ['id' => $charsets['Charset'], 'text' => sprintf(ACTION_UTF8_CONVERSION_FROM, $charsets['Charset'])];
   }
 
   $action = null;
-  $actions = array(array('id' => 'check',
-                         'text' => ACTION_CHECK_TABLES),
-                   array('id' => 'analyze',
-                         'text' => ACTION_ANALYZE_TABLES),
-                   array('id' => 'optimize',
-                         'text' => ACTION_OPTIMIZE_TABLES),
-                   array('id' => 'repair',
-                         'text' => ACTION_REPAIR_TABLES),
-                   array('id' => 'utf8',
-                         'text' => ACTION_UTF8_CONVERSION));
+  $actions = [['id' => 'check',
+                       'text' => ACTION_CHECK_TABLES],
+              ['id' => 'analyze',
+                       'text' => ACTION_ANALYZE_TABLES],
+              ['id' => 'optimize',
+                       'text' => ACTION_OPTIMIZE_TABLES],
+              ['id' => 'repair',
+                       'text' => ACTION_REPAIR_TABLES],
+              ['id' => 'utf8',
+                       'text' => ACTION_UTF8_CONVERSION]];
 
   if ( isset($_POST['action']) ) {
-    if ( in_array($_POST['action'], array('check', 'analyze', 'optimize', 'repair', 'utf8')) ) {
+    if ( in_array($_POST['action'], ['check', 'analyze', 'optimize', 'repair', 'utf8')] ) {
       if ( isset($_POST['id']) && is_array($_POST['id']) && !empty($_POST['id']) ) {
         $tables = tep_dt_get_tables();
 
@@ -67,22 +67,19 @@
     case 'repair':
       tep_set_time_limit(0);
 
-      $table_headers = array(TABLE_HEADING_TABLE,
-                             TABLE_HEADING_MSG_TYPE,
-                             TABLE_HEADING_MSG,
-                             tep_draw_checkbox_field('masterblaster'));
+      $table_headers = [TABLE_HEADING_TABLE,
+                        TABLE_HEADING_MSG_TYPE,
+                        TABLE_HEADING_MSG,
+                        tep_draw_checkbox_field('masterblaster')];
 
-      $table_data = array();
+      $table_data = [];
 
       foreach ( $_POST['id'] as $table ) {
         $current_table = null;
 
         $sql_query = tep_db_query($action . " table " . $table);
         while ( $sql = tep_db_fetch_array($sql_query) ) {
-          $table_data[] = array(($table != $current_table) ? tep_output_string_protected($table) : '',
-                                tep_output_string_protected($sql['Msg_type']),
-                                tep_output_string_protected($sql['Msg_text']),
-                                ($table != $current_table) ? tep_draw_checkbox_field('id[]', $table, isset($_POST['id']) && in_array($table, $_POST['id'])) : '');
+          $table_data[] = [($table != $current_table) ? tep_output_string_protected($table) : '', tep_output_string_protected($sql['Msg_type']), tep_output_string_protected($sql['Msg_text']), ($table != $current_table) ? tep_draw_checkbox_field('id[]', $table, isset($_POST['id']) && in_array($table, $_POST['id'])) : ''];
 
           $current_table = $table;
         }
@@ -113,19 +110,17 @@
       tep_set_time_limit(0);
 
       if ( isset($_POST['dryrun']) ) {
-        $table_headers = array(TABLE_HEADING_QUERIES);
+        $table_headers = [TABLE_HEADING_QUERIES];
       } else {
-        $table_headers = array(TABLE_HEADING_TABLE,
-                               TABLE_HEADING_MSG,
-                               tep_draw_checkbox_field('masterblaster'));
+        $table_headers = [TABLE_HEADING_TABLE, TABLE_HEADING_MSG, tep_draw_checkbox_field('masterblaster')];
       }
 
-      $table_data = array();
+      $table_data = [];
 
       foreach ( $_POST['id'] as $table ) {
         $result = 'OK';
 
-        $queries = array();
+        $queries = [];
 
         $cols_query = tep_db_query("show full columns from " . $table);
         while ( $cols = tep_db_fetch_array($cols_query) ) {
@@ -143,10 +138,10 @@
         $query = "alter table " . $table . " convert to character set utf8 collate utf8_unicode_ci";
 
         if ( isset($_POST['dryrun']) ) {
-          $table_data[] = array($query);
+          $table_data[] = [$query];
 
           foreach ( $queries as $q ) {
-            $table_data[] = array($q);
+            $table_data[] = [$q];
           }
         } else {
 // mysqli_query() is directly called as tep_db_query() dies when an error occurs
@@ -163,32 +158,32 @@
         }
 
         if ( !isset($_POST['dryrun']) ) {
-          $table_data[] = array(tep_output_string_protected($table),
-                                tep_output_string_protected($result),
-                                tep_draw_checkbox_field('id[]', $table, true));
+          $table_data[] = [tep_output_string_protected($table),
+                           tep_output_string_protected($result),
+                           tep_draw_checkbox_field('id[]', $table, true)];
         }
       }
 
       break;
 
     default:
-      $table_headers = array(TABLE_HEADING_TABLE,
-                             TABLE_HEADING_ROWS,
-                             TABLE_HEADING_SIZE,
-                             TABLE_HEADING_ENGINE,
-                             TABLE_HEADING_COLLATION,
-                             tep_draw_checkbox_field('masterblaster'));
+      $table_headers = [TABLE_HEADING_TABLE,
+                        TABLE_HEADING_ROWS,
+                        TABLE_HEADING_SIZE,
+                        TABLE_HEADING_ENGINE,
+                        TABLE_HEADING_COLLATION,
+                        tep_draw_checkbox_field('masterblaster')];
 
-      $table_data = array();
+      $table_data = [];
 
       $sql_query = tep_db_query('show table status');
       while ( $sql = tep_db_fetch_array($sql_query) ) {
-        $table_data[] = array(tep_output_string_protected($sql['Name']),
-                              tep_output_string_protected($sql['Rows']),
-                              round(($sql['Data_length'] + $sql['Index_length']) / 1024 / 1024, 2) . 'M',
-                              tep_output_string_protected($sql['Engine']),
-                              tep_output_string_protected($sql['Collation']),
-                              tep_draw_checkbox_field('id[]', $sql['Name']));
+        $table_data[] = [tep_output_string_protected($sql['Name']),
+                         tep_output_string_protected($sql['Rows']),
+                         round(($sql['Data_length'] + $sql['Index_length']) / 1024 / 1024, 2) . 'M',
+                         tep_output_string_protected($sql['Engine']),
+                         tep_output_string_protected($sql['Collation']),
+                         tep_draw_checkbox_field('id[]', $sql['Name'])];
       }
   }
 

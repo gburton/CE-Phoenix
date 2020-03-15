@@ -15,16 +15,16 @@
   function tep_opendir($path) {
     $path = rtrim($path, '/') . '/';
 
-    $exclude_array = array('.', '..', '.DS_Store', 'Thumbs.db', '.github');
+    $exclude_array = ['.', '..', '.DS_Store', 'Thumbs.db', '.github'];
 
-    $result = array();
+    $result = [];
 
     if ($handle = opendir($path)) {
       while (false !== ($filename = readdir($handle))) {
         if (!in_array($filename, $exclude_array)) {
-          $file = array('name' => $path . $filename,
-                        'is_dir' => is_dir($path . $filename),
-                        'writable' => tep_is_writable($path . $filename));
+          $file = ['name' => $path . $filename,
+                   'is_dir' => is_dir($path . $filename),
+                   'writable' => tep_is_writable($path . $filename)];
 
           $result[] = $file;
 
@@ -40,7 +40,7 @@
     return $result;
   }
 
-  $whitelist_array = array();
+  $whitelist_array = [];
 
   $whitelist_query = tep_db_query("select directory from sec_directory_whitelist");
   while ($whitelist = tep_db_fetch_array($whitelist_query)) {

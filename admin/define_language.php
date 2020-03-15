@@ -15,18 +15,18 @@
   function tep_opendir($path) {
     $path = rtrim($path, '/') . '/';
 
-    $exclude_array = array('.', '..', '.DS_Store', 'Thumbs.db');
+    $exclude_array = ['.', '..', '.DS_Store', 'Thumbs.db'];
 
-    $result = array();
+    $result = [];
 
     if ($handle = opendir($path)) {
       while (false !== ($filename = readdir($handle))) {
         if (!in_array($filename, $exclude_array)) {
-          $file = array('name' => $path . $filename,
-                        'is_dir' => is_dir($path . $filename),
-                        'writable' => tep_is_writable($path . $filename),
-                        'size' => filesize($path . $filename),
-                        'last_modified' => strftime(DATE_TIME_FORMAT, filemtime($path . $filename)));
+          $file = ['name' => $path . $filename,
+                   'is_dir' => is_dir($path . $filename),
+                   'writable' => tep_is_writable($path . $filename),
+                   'size' => filesize($path . $filename),
+                   'last_modified' => strftime(DATE_TIME_FORMAT, filemtime($path . $filename))];
 
           $result[] = $file;
 
@@ -44,14 +44,13 @@
 
   if (!isset($_GET['lngdir'])) $_GET['lngdir'] = $language;
 
-  $languages_array = array();
+  $languages_array = [];
   $languages = tep_get_languages();
   $lng_exists = false;
   for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
     if ($languages[$i]['directory'] == $_GET['lngdir']) $lng_exists = true;
 
-    $languages_array[] = array('id' => $languages[$i]['directory'],
-                               'text' => $languages[$i]['name']);
+    $languages_array[] = ['id' => $languages[$i]['directory'], 'text' => $languages[$i]['name']];
   }
 
   if (!$lng_exists) $_GET['lngdir'] = $language;
@@ -135,7 +134,7 @@
         
         <?php 
         if ($file_writeable == true) { 
-          echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-pen-alt', null, 'primary', null, 'btn-success btn-lg btn-block');
+          echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-pen-alt', null, 'primary', null, 'btn-success btn-lg btn-block mr-2');
           echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('define_language.php', 'lngdir=' . $_GET['lngdir']), null, null, 'btn-light mt-2'); 
         } 
         else { 

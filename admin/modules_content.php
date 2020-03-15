@@ -18,8 +18,8 @@
     define('MODULE_CONTENT_INSTALLED', '');
   }
 
-  $modules_installed = (tep_not_null(MODULE_CONTENT_INSTALLED) ? explode(';', MODULE_CONTENT_INSTALLED) : array());
-  $modules = array('installed' => array(), 'new' => array());
+  $modules_installed = (tep_not_null(MODULE_CONTENT_INSTALLED) ? explode(';', MODULE_CONTENT_INSTALLED) : []);
+  $modules = ['installed' => [], 'new' => []];
 
   $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
 
@@ -44,14 +44,14 @@
                   $module = new $class();
 
                   if (in_array($group . '/' . $class, $modules_installed)) {
-                    $modules['installed'][] = array('code' => $class,
-                                                    'title' => $module->title,
-                                                    'group' => $group,
-                                                    'sort_order' => (int)$module->sort_order);
+                    $modules['installed'][] = ['code' => $class,
+                                               'title' => $module->title,
+                                               'group' => $group,
+                                               'sort_order' => (int)$module->sort_order];
                   } else {
-                    $modules['new'][] = array('code' => $class,
-                                              'title' => $module->title,
-                                              'group' => $group);
+                    $modules['new'][] = ['code' => $class,
+                                         'title' => $module->title,
+                                         'group' => $group];
                   }
                 }
               }
@@ -78,7 +78,7 @@
   }
 
 // Update sort order in MODULE_CONTENT_INSTALLED
-  $_installed = array();
+  $_installed = [];
 
   foreach ( $modules['installed'] as $m ) {
     $_installed[] = $m['group'] . '/' . $m['code'];
@@ -209,11 +209,11 @@
               $module = new $m['code']();
 
               if ((!isset($_GET['module']) || (isset($_GET['module']) && ($_GET['module'] == $module->code))) && !isset($mInfo)) {
-                $module_info = array('code' => $module->code,
-                                     'title' => $module->title,
-                                     'description' => $module->description,
-                                     'signature' => (isset($module->signature) ? $module->signature : null),
-                                     'api_version' => (isset($module->api_version) ? $module->api_version : null));
+                $module_info = ['code' => $module->code,
+                                'title' => $module->title,
+                                'description' => $module->description,
+                                'signature' => (isset($module->signature) ? $module->signature : null),
+                                'api_version' => (isset($module->api_version) ? $module->api_version : null)];
 
                 $mInfo = new objectInfo($module_info);
               }
@@ -256,13 +256,13 @@
               $module = new $m['code']();
 
               if ((!isset($_GET['module']) || (isset($_GET['module']) && ($_GET['module'] == $module->code))) && !isset($mInfo)) {
-                $module_info = array('code' => $module->code,
-                                     'title' => $module->title,
-                                     'description' => $module->description,
-                                     'signature' => (isset($module->signature) ? $module->signature : null),
-                                     'api_version' => (isset($module->api_version) ? $module->api_version : null),
-                                     'sort_order' => (int)$module->sort_order,
-                                     'keys' => array());
+                $module_info = ['code' => $module->code,
+                                'title' => $module->title,
+                                'description' => $module->description,
+                                'signature' => (isset($module->signature) ? $module->signature : null),
+                                'api_version' => (isset($module->api_version) ? $module->api_version : null),
+                                'sort_order' => (int)$module->sort_order,
+                                'keys' => []];
 
                 foreach ($module->keys() as $key) {
                   $key = tep_db_prepare_input($key);
@@ -270,11 +270,11 @@
                   $key_value_query = tep_db_query("select configuration_title, configuration_value, configuration_description, use_function, set_function from configuration where configuration_key = '" . tep_db_input($key) . "'");
                   $key_value = tep_db_fetch_array($key_value_query);
 
-                  $module_info['keys'][$key] = array('title' => $key_value['configuration_title'],
-                                                     'value' => $key_value['configuration_value'],
-                                                     'description' => $key_value['configuration_description'],
-                                                     'use_function' => $key_value['use_function'],
-                                                     'set_function' => $key_value['set_function']);
+                  $module_info['keys'][$key] = ['title' => $key_value['configuration_title'],
+                                                'value' => $key_value['configuration_value'],
+                                                'description' => $key_value['configuration_description'],
+                                                'use_function' => $key_value['use_function'],
+                                                'set_function' => $key_value['set_function']];
                 }
 
                 $mInfo = new objectInfo($module_info);
@@ -308,15 +308,15 @@
     </div>
 
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'edit':
       $keys = '';
 
       foreach ($mInfo->keys as $key => $value) {
-        $keys .= '<strong>' . $value['title'] . '</strong><br />' . $value['description'] . '<br />';
+        $keys .= '<strong>' . $value['title'] . '</strong><br>' . $value['description'] . '<br>';
 
         if ($value['set_function']) {
           eval('$keys .= ' . $value['set_function'] . "'" . tep_db_input($value['value']) . "', '" . $key . "');");
@@ -324,40 +324,40 @@
           $keys .= tep_draw_input_field('configuration[' . $key . ']', $value['value']);
         }
 
-        $keys .= '<br /><br />';
+        $keys .= '<br><br>';
       }
 
-      $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br /><br />'))));
+      $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br><br>'))));
 
-      $heading[] = array('text' => $mInfo->title);
+      $heading[] = ['text' => $mInfo->title];
 
-      $contents = array('form' => tep_draw_form('modules', 'modules_content.php', 'module=' . $mInfo->code . '&action=save'));
-      $contents[] = array('text' => $keys);
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('modules_content.php', 'module=' . $mInfo->code)));
+      $contents = ['form' => tep_draw_form('modules', 'modules_content.php', 'module=' . $mInfo->code . '&action=save')];
+      $contents[] = ['text' => $keys];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules_content.php', 'module=' . $mInfo->code), null, null, 'btn-light')];
 
       break;
 
     default:
       if ( isset($mInfo) ) {
-        $heading[] = array('text' => $mInfo->title);
+        $heading[] = ['text' => $mInfo->title];
 
         if ($action == 'list_new') {
-          $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_MODULE_INSTALL, 'plus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=install')));
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL, 'fas fa-plus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=install'), null, null, 'btn-warning')];
 
           if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
-            $contents[] = array('text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)');
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
           }
 
           if (isset($mInfo->api_version)) {
-            $contents[] = array('text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version);
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
           }
 
-          $contents[] = array('text' => $mInfo->description);
+          $contents[] = ['text' => $mInfo->description];
         } else {
           $keys = '';
 
           foreach ($mInfo->keys as $value) {
-            $keys .= '<strong>' . $value['title'] . '</strong><br />';
+            $keys .= '<strong>' . $value['title'] . '</strong><br>';
 
             if ($value['use_function']) {
               $use_function = $value['use_function'];
@@ -377,23 +377,23 @@
               $keys .= $value['value'];
             }
 
-            $keys .= '<br /><br />';
+            $keys .= '<br><br>';
           }
 
-          $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br /><br />'))));
+          $keys = html_entity_decode(stripslashes(substr($keys, 0, strrpos($keys, '<br><br>'))));
 
-          $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=remove')));
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-plus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_MODULE_REMOVE, 'fas fa-minus', tep_href_link('modules_content.php', 'module=' . $mInfo->code . '&action=remove'), null, null, 'btn-warning')];
 
           if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
-            $contents[] = array('text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)');
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
           }
 
           if (isset($mInfo->api_version)) {
-            $contents[] = array('text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version);
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-muted"></i> <strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
           }
 
-          $contents[] = array('text' => $mInfo->description);
-          $contents[] = array('text' => $keys);
+          $contents[] = ['text' => $mInfo->description];
+          $contents[] = ['text' => $keys];
         }
       }
 

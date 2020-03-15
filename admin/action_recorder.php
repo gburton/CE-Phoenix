@@ -13,7 +13,7 @@
   require('includes/application_top.php');
 
   $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
-  $directory_array = array();
+  $directory_array = [];
   if ($dir = @dir(DIR_FS_CATALOG_MODULES . 'action_recorder/')) {
     while ($file = $dir->read()) {
       if (!is_dir(DIR_FS_CATALOG_MODULES . 'action_recorder/' . $file)) {
@@ -41,15 +41,15 @@
     }
   }
 
-  $modules_array = array();
-  $modules_list_array = array(array('id' => '', 'text' => TEXT_ALL_MODULES));
+  $modules_array = [];
+  $modules_list_array = [['id' => '', 'text' => TEXT_ALL_MODULES]];
 
   $modules_query = tep_db_query("select distinct module from " . TABLE_ACTION_RECORDER . " order by module");
   while ($modules = tep_db_fetch_array($modules_query)) {
     $modules_array[] = $modules['module'];
 
-    $modules_list_array[] = array('id' => $modules['module'],
-                                  'text' => (is_object(${$modules['module']}) ? ${$modules['module']}->title : $modules['module']));
+    $modules_list_array[] = ['id' => $modules['module'],
+                             'text' => (is_object(${$modules['module']}) ? ${$modules['module']}->title : $modules['module'])];
   }
 
   $action = $_GET['action'] ?? '';
@@ -123,7 +123,7 @@
           </thead>
           <tbody>
             <?php
-            $filter = array();
+            $filter = [];
 
             if (isset($_GET['module']) && in_array($_GET['module'], $modules_array)) {
               $filter[] = " module = '" . tep_db_input($_GET['module']) . "' ";
@@ -148,21 +148,21 @@
                 $actions_extra_query = tep_db_query("select identifier from " . TABLE_ACTION_RECORDER . " where id = '" . (int)$actions['id'] . "'");
                 $actions_extra = tep_db_fetch_array($actions_extra_query);
 
-                $aInfo_array = array_merge($actions, $actions_extra, array('module' => $module_title));
+                $aInfo_array = array_merge($actions, $actions_extra, ['module' => $module_title]);
                 $aInfo = new objectInfo($aInfo_array);
               }
 
               if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) {
                 echo '<tr class="table-active">';
               } else {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('action_recorder.php', tep_get_all_get_params(array('aID')) . 'aID=' . (int)$actions['id']) . '\'">';
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('action_recorder.php', tep_get_all_get_params(['aID']) . 'aID=' . (int)$actions['id']) . '\'">';
               }
               ?>
                 <td><?php echo $module_title; ?></td>
                 <td><?php echo tep_output_string_protected($actions['user_name']) . ' [' . (int)$actions['user_id'] . ']'; ?></td>
                 <td><?php echo ($actions['success'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; ?></td>
                 <td class="text-right"><?php echo tep_datetime_short($actions['date_added']); ?></td>
-                <td class="text-right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('action_recorder.php', tep_get_all_get_params(array('aID')) . 'aID=' . (int)$actions['id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('action_recorder.php', tep_get_all_get_params(['aID']) . 'aID=' . (int)$actions['id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
 <?php
   }
@@ -171,23 +171,23 @@
         </table>
       </div>
 
-      <div class="row">
+      <div class="row my-1">
         <div class="col"><?php echo $actions_split->display_count($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ENTRIES); ?></div>
-        <div class="col text-right"><?php echo $actions_split->display_links($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], (isset($_GET['module']) && in_array($_GET['module'], $modules_array) && is_object(${$_GET['module']}) ? 'module=' . $_GET['module'] : null) . '&' . (isset($_GET['search']) && !empty($_GET['search']) ? 'search=' . $_GET['search'] : null)); ?></div>
+        <div class="col text-right mr-2"><?php echo $actions_split->display_links($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], (isset($_GET['module']) && in_array($_GET['module'], $modules_array) && is_object(${$_GET['module']}) ? 'module=' . $_GET['module'] : null) . '&' . (isset($_GET['search']) && !empty($_GET['search']) ? 'search=' . $_GET['search'] : null)); ?></div>
       </div>
     </div>
 
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     default:
       if (isset($aInfo) && is_object($aInfo)) {
-        $heading[] = array('text' => $aInfo->module);
+        $heading[] = ['text' => $aInfo->module];
 
-        $contents[] = array('text' => TEXT_INFO_IDENTIFIER . ' ' . (!empty($aInfo->identifier) ? '<a href="' . tep_href_link('action_recorder.php', 'search=' . $aInfo->identifier) . '"><u>' . tep_output_string_protected($aInfo->identifier) . '</u></a>': '(empty)'));
-        $contents[] = array('text' => sprintf(TEXT_INFO_DATE_ADDED, tep_datetime_short($aInfo->date_added)));
+        $contents[] =['text' => TEXT_INFO_IDENTIFIER . ' ' . (!empty($aInfo->identifier) ? '<a href="' . tep_href_link('action_recorder.php', 'search=' . $aInfo->identifier) . '"><u>' . tep_output_string_protected($aInfo->identifier) . '</u></a>': '(empty)')];
+        $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_datetime_short($aInfo->date_added))];
       }
       break;
   }

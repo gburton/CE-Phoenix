@@ -113,7 +113,9 @@ if ( typeof jQuery.ui == 'undefined' ) {
 
 <h1 class="pageHeading"><?php echo HEADING_TITLE . ': #' . (int)$oID . ' (' . $order->info['total'] . ')'; ?></h1>
 
-<div style="text-align: right; padding-bottom: 15px;"><?php echo tep_draw_button(IMAGE_ORDERS_INVOICE, 'document', tep_href_link('invoice.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true]) . tep_draw_button(IMAGE_ORDERS_PACKINGSLIP, 'document', tep_href_link('packingslip.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true]) . tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('orders.php', tep_get_all_get_params(['action']))); ?></div>
+<div style="text-align: right; padding-bottom: 15px;"><?php echo tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info xxx text-white mr-2') . 
+tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info xxx text-white mr-2') . 
+tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('orders.php', tep_get_all_get_params(['action'])), null, null, 'btn-light'); ?></div>
 
 <div id="orderTabs" style="overflow: auto;">
   <ul>
@@ -129,22 +131,22 @@ if ( typeof jQuery.ui == 'undefined' ) {
           <fieldset style="border: 0; height: 100%;">
             <legend><?php echo ENTRY_CUSTOMER; ?></legend>
 
-            <p><?php echo $address->format($order->customer, 1, '', '<br />'); ?></p>
-            <p><?php echo $order->customer['telephone'] . '<br />' . '<a href="mailto:' . $order->customer['email_address'] . '"><u>' . $order->customer['email_address'] . '</u></a>'; ?></p>
+            <p><?php echo $address->format($order->customer, 1, '', '<br>'); ?></p>
+            <p><?php echo $order->customer['telephone'] . '<br>' . '<a href="mailto:' . $order->customer['email_address'] . '"><u>' . $order->customer['email_address'] . '</u></a>'; ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
             <legend><?php echo ENTRY_SHIPPING_ADDRESS; ?></legend>
 
-            <p><?php echo $address->format($order->delivery, 1, '', '<br />'); ?></p>
+            <p><?php echo $address->format($order->delivery, 1, '', '<br>'); ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
           <fieldset style="border: 0; height: 100%;">
             <legend><?php echo ENTRY_BILLING_ADDRESS; ?></legend>
 
-            <p><?php echo $address->format($order->billing, 1, '', '<br />'); ?></p>
+            <p><?php echo $address->format($order->billing, 1, '', '<br>'); ?></p>
           </fieldset>
         </td>
       </tr>
@@ -160,7 +162,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
           <fieldset style="border: 0; height: 100%;">
             <legend><?php echo ENTRY_STATUS; ?></legend>
 
-            <p><?php echo $order->info['orders_status'] . '<br />' . tep_datetime_short($order->info['last_modified'] ?? $order->info['date_purchased']); ?></p>
+            <p><?php echo $order->info['orders_status'] . '<br>' . tep_datetime_short($order->info['last_modified'] ?? $order->info['date_purchased']); ?></p>
           </fieldset>
         </td>
         <td width="33%" valign="top">
@@ -193,7 +195,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
 
       if (!empty($product['attributes'])) {
         foreach ($product['attributes'] as $attribute) {
-          echo '<br /><nobr><small>&nbsp;<i> - ' . $attribute['option'] . ': ' . $attribute['value'];
+          echo '<br><nobr><small>&nbsp;<i> - ' . $attribute['option'] . ': ' . $attribute['value'];
           if ($attribute['price'] != '0') echo ' (' . $attribute['prefix'] . $currencies->format($attribute['price'] * $product['qty'], true, $order->info['currency'], $order->info['currency_value']) . ')';
           echo '</i></small></nobr>';
         }
@@ -245,13 +247,13 @@ if ( typeof jQuery.ui == 'undefined' ) {
         <td><?php echo tep_draw_checkbox_field('notify_comments', '', true); ?></td>
       </tr>
       <tr>
-        <td colspan="2" align="right"><?php echo tep_draw_button(IMAGE_UPDATE, 'disk', null, 'primary'); ?></td>
+        <td colspan="2" align="right"><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white'); ?></td>
       </tr>
     </table>
 
     </form>
 
-    <br />
+    <br>
 
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr class="dataTableHeadingRow">
@@ -386,19 +388,19 @@ $(function() {
       $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_ORDER . '</strong>'];
 
       $contents = ['form' => tep_draw_form('orders', 'orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=deleteconfirm')];
-      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO . '<br /><br /><strong>' . $oInfo->customers_name . '</strong>'];
-      $contents[] = ['text' => '<br />' . tep_draw_checkbox_field('restock') . ' ' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY];
-      $contents[] = ['align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id))];
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO . '<br><br><strong>' . $oInfo->customers_name . '</strong>'];
+      $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('restock') . ' ' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY];
+      $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id), null, null, 'btn-light')];
       break;
     default:
       if (($oInfo ?? null) instanceof objectInfo) {
         $heading[] = ['text' => '<strong>[' . $oInfo->orders_id . ']&nbsp;&nbsp;' . tep_datetime_short($oInfo->date_purchased) . '</strong>'];
 
-        $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=delete'))];
-        $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_ORDERS_INVOICE, 'document', tep_href_link('invoice.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true]) . tep_draw_button(IMAGE_ORDERS_PACKINGSLIP, 'document', tep_href_link('packingslip.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true])];
-        $contents[] = ['text' => '<br />' . TEXT_DATE_ORDER_CREATED . ' ' . tep_date_short($oInfo->date_purchased)];
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info xxx text-white')];
+        $contents[] = ['text' => '<br>' . TEXT_DATE_ORDER_CREATED . ' ' . tep_date_short($oInfo->date_purchased)];
         if (tep_not_null($oInfo->last_modified)) $contents[] = ['text' => TEXT_DATE_ORDER_LAST_MODIFIED . ' ' . tep_date_short($oInfo->last_modified)];
-        $contents[] = ['text' => '<br />' . TEXT_INFO_PAYMENT_METHOD . ' '  . $oInfo->payment_method];
+        $contents[] = ['text' => '<br>' . TEXT_INFO_PAYMENT_METHOD . ' '  . $oInfo->payment_method];
       }
       break;
   }

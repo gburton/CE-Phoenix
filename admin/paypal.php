@@ -334,7 +334,7 @@ var OSCOM = {
     return $('<span />').text(string).html();
   },
   nl2br: function(string) {
-    return string.replace(/\n/g, '<br />');
+    return string.replace(/\n/g, '<br>');
   },
   APP: {
     PAYPAL: {
@@ -411,7 +411,7 @@ if ( typeof OSCOM.APP.PAYPAL.versionCheckResult != 'undefined' ) {
 
   <div id="ppAppUpdateNotice" style="padding: 0 12px 0 12px; display: none;">
     <div class="pp-panel pp-panel-success">
-      <?php echo $OSCOM_PayPal->getDef('update_available_body', array('button_view_update' => $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view_update'), tep_href_link('paypal.php', 'action=update'), 'success'))); ?>
+      <?php echo $OSCOM_PayPal->getDef('update_available_body', ['button_view_update' => $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view_update'), tep_href_link('paypal.php', 'action=update'), 'success')]); ?>
     </div>
   </div>
 

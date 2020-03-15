@@ -149,19 +149,19 @@ EOSQL
       $contents[] = ['text' => tep_draw_checkbox_field('use_first', '1', true) . TEXT_INFO_USE_FIRST_FOR_ALL];
 
       foreach (tep_get_languages() as $lang) {
-        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $lang['directory'] . '/images/' . $lang['image'], '', 'SSL'), $lang['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $lang['id'] . ']')];
-        $contents[] = ['text' => TEXT_INFO_VERTICAL_SORT_ORDER . '<br />' . tep_draw_input_field('cdg_vertical_sort_order[' . $lang['id'] . ']')];
-        $contents[] = ['text' => TEXT_INFO_HORIZONTAL_SORT_ORDER . '<br />' . tep_draw_input_field('cdg_horizontal_sort_order[' . $lang['id'] . ']')];
-        $contents[] = ['text' => TEXT_INFO_WIDTH . '<br />' . tep_draw_input_field('customer_data_groups_width[' . $lang['id'] . ']', 12)];
+        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $lang['directory'] . '/images/' . $lang['image'], '', 'SSL'), $lang['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $lang['id'] . ']')];
+        $contents[] = ['text' => TEXT_INFO_VERTICAL_SORT_ORDER . '<br>' . tep_draw_input_field('cdg_vertical_sort_order[' . $lang['id'] . ']')];
+        $contents[] = ['text' => TEXT_INFO_HORIZONTAL_SORT_ORDER . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $lang['id'] . ']')];
+        $contents[] = ['text' => TEXT_INFO_WIDTH . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $lang['id'] . ']', 12)];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page']))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_CUSTOMER_DATA_GROUP];
 
       $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=save')];
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-      $contents[] = ['text' => TEXT_INFO_USE_FIRST_FOR_ALL . '<br />' . tep_draw_checkbox_field('use_first', '1', true)];
+      $contents[] = ['text' => TEXT_INFO_USE_FIRST_FOR_ALL . '<br>' . tep_draw_checkbox_field('use_first', '1', true)];
 
       $cdg_query = tep_db_query(<<<'EOSQL'
 SELECT
@@ -178,12 +178,12 @@ SELECT
 EOSQL
         . (int)$cdgInfo->customer_data_groups_id);
       while ($cdg = tep_db_fetch_array($cdg_query)) {
-        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $cdg['id'] . ']', $cdg['customer_data_groups_name'])];
-        $contents[] = ['text' => sprintf(TEXT_INFO_VERTICAL_SORT_ORDER, null) . '<br />' . tep_draw_input_field('cdg_vertical_sort_order[' . $cdg['id'] . ']', $cdg['cdg_vertical_sort_order'])];
-        $contents[] = ['text' => sprintf(TEXT_INFO_HORIZONTAL_SORT_ORDER, null) . '<br />' . tep_draw_input_field('cdg_horizontal_sort_order[' . $cdg['id'] . ']', $cdg['cdg_horizontal_sort_order'])];
-        $contents[] = ['text' => sprintf(TEXT_INFO_WIDTH, null) . '<br />' . tep_draw_input_field('customer_data_groups_width[' . $cdg['id'] . ']', $cdg['customer_data_groups_width'])];
+        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $cdg['id'] . ']', $cdg['customer_data_groups_name'])];
+        $contents[] = ['text' => sprintf(TEXT_INFO_VERTICAL_SORT_ORDER, null) . '<br>' . tep_draw_input_field('cdg_vertical_sort_order[' . $cdg['id'] . ']', $cdg['cdg_vertical_sort_order'])];
+        $contents[] = ['text' => sprintf(TEXT_INFO_HORIZONTAL_SORT_ORDER, null) . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $cdg['id'] . ']', $cdg['cdg_horizontal_sort_order'])];
+        $contents[] = ['text' => sprintf(TEXT_INFO_WIDTH, null) . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $cdg['id'] . ']', $cdg['customer_data_groups_width'])];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CUSTOMER_DATA_GROUP];
@@ -204,13 +204,13 @@ EOSQL
       while ($cdg = tep_db_fetch_array($cdg_query)) {
         $contents[] = ['text' => tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;<strong>' . $cdg['customer_data_groups_name'] . '</strong>'];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($cdgInfo ?? null)) {
         $heading[] = ['text' => $cdgInfo->customer_data_groups_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=delete'))];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
 
         $cdg_query = tep_db_query(<<<'EOSQL'
 SELECT
@@ -226,7 +226,7 @@ SELECT
 EOSQL
           . (int)$cdgInfo->customer_data_groups_id);
         while ($cdg = tep_db_fetch_array($cdg_query)) {
-          $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br />' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;' . $cdg['customer_data_groups_name']];
+          $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;' . $cdg['customer_data_groups_name']];
           $contents[] = ['text' => sprintf(TEXT_INFO_VERTICAL_SORT_ORDER, $cdg['cdg_vertical_sort_order'])];
           $contents[] = ['text' => sprintf(TEXT_INFO_HORIZONTAL_SORT_ORDER, $cdg['cdg_horizontal_sort_order'])];
           $contents[] = ['text' => sprintf(TEXT_INFO_WIDTH, $cdg['customer_data_groups_width'])];
