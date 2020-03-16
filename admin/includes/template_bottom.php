@@ -23,7 +23,6 @@
 </div>
 
 <?php
-echo $OSCOM_Hooks->call(__FILE__, 'injectBodyEnd');
 echo $OSCOM_Hooks->call('siteWide', 'injectBodyEnd');
 ?>
 

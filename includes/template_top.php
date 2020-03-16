@@ -33,7 +33,6 @@
 
 <?php 
 echo $OSCOM_Hooks->call('siteWide', 'injectSiteStart');
-echo $OSCOM_Hooks->call(__FILE__, 'injectSiteStart');
 
 echo $oscTemplate->getBlocks('header_tags'); 
 ?>
@@ -63,5 +62,4 @@ echo $oscTemplate->getBlocks('header_tags');
       
         <?php
         echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentStart');
-        echo $OSCOM_Hooks->call(__FILE__, 'injectBodyContentStart');
         ?>
