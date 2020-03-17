@@ -143,7 +143,7 @@
   require('includes/template_top.php');
 ?>
 
-<script type="text/javascript">
+<script>
 var currency_select = new Array();
 <?php
   foreach ($currency_select_array as $cs) {

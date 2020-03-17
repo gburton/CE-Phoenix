@@ -641,12 +641,12 @@ for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php echo TEXT_PRODUCTS_LARGE_IMAGE_CONFIRM_DELETE; ?></p>
 </div>
 
-<style type="text/css">
+<style>
 #piList { list-style-type: none; margin: 0; padding: 0; }
 #piList li { margin: 5px 0; padding: 2px; }
 </style>
 
-<script type="text/javascript">
+<script>
 $('#piList').sortable({
   containment: 'parent'
 });

@@ -258,7 +258,7 @@ if ( !isset($_POST['dryrun']) ) {
 
 </form>
 
-<script type="text/javascript">
+<script>
 $(function() {
   if ( $('form[name="sql"] input[type="checkbox"][name="masterblaster"]').length > 0 ) {
     $('form[name="sql"] input[type="checkbox"][name="masterblaster"]').click(function() {

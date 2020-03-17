@@ -401,7 +401,7 @@ EOERROR
       $button .= '</button>';
     }
 
-    $button .= '</span><script type="text/javascript">$("#tdb' . $button_counter . '").button(';
+    $button .= '</span><script>$("#tdb' . $button_counter . '").button(';
 
     $args = [];
 
