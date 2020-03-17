@@ -986,6 +986,7 @@
       case 'account_edit.php':
       case 'customer_account.php':
       case 'password_reset.php':
+      case 'create_account.php':
         unset($GLOBALS['customer_details']);
         break;
       case 'address_book_process.php':
