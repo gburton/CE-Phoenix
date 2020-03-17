@@ -984,9 +984,8 @@
   function tep_block_form_processing() {
     switch ($GLOBALS['PHP_SELF']) {
       case 'account_edit.php':
-      case 'customer_account.php':
-      case 'password_reset.php':
       case 'create_account.php':
+      case 'password_reset.php':
         unset($GLOBALS['customer_details']);
         break;
       case 'address_book_process.php':
