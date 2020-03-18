@@ -59,7 +59,7 @@
       $mimemessage->add_message($this->content);
       $mimemessage->build_message();
       while ($mail = tep_db_fetch_array($mail_query)) {
-        $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), '', EMAIL_FROM, $this->title);
+        $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $this->title);
       }
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);

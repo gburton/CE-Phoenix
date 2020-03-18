@@ -115,56 +115,56 @@
         </table>
       </div>
 
-      <div class="row">
+      <div class="row my-1">
         <div class="col"><?php echo $countries_split->display_count($countries_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_COUNTRIES); ?></div>
-        <div class="col text-right"><?php echo $countries_split->display_links($countries_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col text-right mr-2"><?php echo $countries_split->display_links($countries_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
     </div>
 
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => TEXT_INFO_HEADING_NEW_COUNTRY);
+      $heading[] = ['text' => TEXT_INFO_HEADING_NEW_COUNTRY];
 
-      $contents = array('form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&action=insert'));
-      $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_NAME . '<br />' . tep_draw_input_field('countries_name'));
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_CODE_2 . '<br />' . tep_draw_input_field('countries_iso_code_2'));
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_CODE_3 . '<br />' . tep_draw_input_field('countries_iso_code_3'));
-      $contents[] = array('text' => TEXT_INFO_ADDRESS_FORMAT . '<br />' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats()));
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('countries.php', 'page=' . $_GET['page'])));
+      $contents = ['form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&action=insert')];
+      $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . '<br>' . tep_draw_input_field('countries_name')];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_2 . '<br>' . tep_draw_input_field('countries_iso_code_2')];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_3 . '<br>' . tep_draw_input_field('countries_iso_code_3')];
+      $contents[] = ['text' => TEXT_INFO_ADDRESS_FORMAT . '<br>' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats())];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . $_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
-      $heading[] = array('text' => TEXT_INFO_HEADING_EDIT_COUNTRY);
+      $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_COUNTRY];
 
-      $contents = array('form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=save'));
-      $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_NAME . '<br />' . tep_draw_input_field('countries_name', $cInfo->countries_name));
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_CODE_2 . '<br />' . tep_draw_input_field('countries_iso_code_2', $cInfo->countries_iso_code_2));
-      $contents[] = array('text' => TEXT_INFO_COUNTRY_CODE_3 . '<br />' . tep_draw_input_field('countries_iso_code_3', $cInfo->countries_iso_code_3));
-      $contents[] = array('text' => TEXT_INFO_ADDRESS_FORMAT . '<br />' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats(), $cInfo->address_format_id));
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id)));
+      $contents = ['form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=save')];
+      $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . '<br>' . tep_draw_input_field('countries_name', $cInfo->countries_name)];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_2 . '<br>' . tep_draw_input_field('countries_iso_code_2', $cInfo->countries_iso_code_2)];
+      $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_3 . '<br>' . tep_draw_input_field('countries_iso_code_3', $cInfo->countries_iso_code_3)];
+      $contents[] = ['text' => TEXT_INFO_ADDRESS_FORMAT . '<br>' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats(), $cInfo->address_format_id)];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
       break;
     case 'delete':
-      $heading[] = array('text' => TEXT_INFO_HEADING_DELETE_COUNTRY);
+      $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_COUNTRY];
 
-      $contents = array('form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=deleteconfirm'));
-      $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<strong>' . $cInfo->countries_name . '</strong>');
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id)));
+      $contents = ['form' => tep_draw_form('countries', 'countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=deleteconfirm')];
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->countries_name];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($cInfo)) {
-        $heading[] = array('text' => $cInfo->countries_name);
+        $heading[] = ['text' => $cInfo->countries_name];
 
-        $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=delete')));
-        $contents[] = array('text' => sprintf(TEXT_INFO_COUNTRY_NAME, $cInfo->countries_name));
-        $contents[] = array('text' => sprintf(TEXT_INFO_COUNTRY_CODE_2, $cInfo->countries_iso_code_2));
-        $contents[] = array('text' => sprintf(TEXT_INFO_COUNTRY_CODE_3, $cInfo->countries_iso_code_3));
-        $contents[] = array('text' => sprintf(TEXT_INFO_ADDRESS_FORMAT, $cInfo->address_format_id));
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('countries.php', 'page=' . $_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_NAME, $cInfo->countries_name)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_2, $cInfo->countries_iso_code_2)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_3, $cInfo->countries_iso_code_3)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_ADDRESS_FORMAT, $cInfo->address_format_id)];
       }
       break;
   }

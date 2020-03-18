@@ -59,18 +59,18 @@
       
       <div class="row my-1">
         <div class="col"><?php echo $products_split->display_count($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS_EXPECTED); ?></div>
-        <div class="col text-right"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col text-right mr-2"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
     </div>
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   if (isset($pInfo) && is_object($pInfo)) {
-    $heading[] = array('text' => $pInfo->products_name);
+    $heading[] = ['text' => $pInfo->products_name];
 
-    $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('categories.php', 'pID=' . (int)$pInfo->products_id . '&action=new_product')));
-    $contents[] = array('text' => sprintf(TEXT_INFO_DATE_EXPECTED, tep_date_short($pInfo->products_date_available)));
+    $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('categories.php', 'pID=' . (int)$pInfo->products_id . '&action=new_product'), null, null, 'btn-warning')];
+    $contents[] = ['text' => sprintf(TEXT_INFO_DATE_EXPECTED, tep_date_short($pInfo->products_date_available))];
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {

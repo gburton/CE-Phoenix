@@ -105,6 +105,10 @@
   <?php
   echo $OSCOM_Hooks->call('invoice', 'extraComments');
   ?>
+  
+    </div>
+  </div>  
+</div>
 
 </body>
 </html>

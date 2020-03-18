@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         <?php
-        $files = array_diff(scandir($directory), array('.', '..'));
+        $files = array_diff(scandir($directory), ['.', '..']);
         
         foreach ($files as $file) {
           $code = substr($file, 0, strrpos($file, '.'));

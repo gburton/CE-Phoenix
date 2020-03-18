@@ -16,9 +16,9 @@
     return strcasecmp($a['title'], $b['title']);
   }
 
-  $types = array('info', 'warning', 'error');
+  $types = ['info', 'warning', 'error'];
 
-  $modules = array();
+  $modules = [];
 
   if ($secdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/')) {
     while ($file = $secdir->read()) {
@@ -29,9 +29,9 @@
           include(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file);
           $$class = new $class();
 
-          $modules[] = array('title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                             'class' => $class,
-                             'code' => substr($file, 0, strrpos($file, '.')));
+          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
+                        'class' => $class,
+                        'code' => substr($file, 0, strrpos($file, '.'))];
         }
       }
     }
@@ -47,9 +47,9 @@
           include(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file);
           $$class = new $class();
 
-          $modules[] = array('title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                             'class' => $class,
-                             'code' => substr($file, 0, strrpos($file, '.')));
+          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
+                        'class' => $class,
+                        'code' => substr($file, 0, strrpos($file, '.'))];
         }
       }
     }

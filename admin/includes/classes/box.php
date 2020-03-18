@@ -10,41 +10,32 @@
   Released under the GNU General Public License
 
   Example usage:
-
   $heading = [];
-  $heading[] = [
-    'params' => 'class="menuBoxHeading"',
-    'text'  => BOX_HEADING_TOOLS,
-    'link'  => tep_href_link(basename($PHP_SELF),
-  ];
-
+  $heading[] = ['text'  => BOX_HEADING_TOOLS];
   $contents = [];
   $contents[] = ['text'  => SOME_TEXT];
-
   $box = new box();
   echo $box->infoBox($heading, $contents);
 */
 
   class box extends tableBlock {
 
-    function __construct() {
-      $this->heading = [];
-      $this->contents = [];
-    }
+    //private $this->heading = [];
+    //private $this->contents = [];
 
     function infoBox($heading, $contents) {
-      $parameters = ['heading' => &$heading, 'contents' => &$contents];
-      echo $GLOBALS['OSCOM_Hooks']->call(pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME), 'infoBox', $parameters);
+      if (is_array($heading)) {
+        $heading = $heading[0]['text'];
+      }
 
-      $this->table_row_parameters = 'class="infoBoxHeading"';
-      $this->table_data_parameters = 'class="infoBoxHeading"';
-      $this->heading = $this->tableBlock($heading);
+      //$this->table_row_parameters = '';
+      //$this->table_data_parameters = 'class="infoBoxContent"';
+      $contents = $this->tableBlock($contents);
 
-      $this->table_row_parameters = '';
-      $this->table_data_parameters = 'class="infoBoxContent"';
-      $this->contents = $this->tableBlock($contents);
+      ob_start();
+      include dirname(__FILE__) . '/templates/tpl_box.php';
 
-      return $this->heading . $this->contents;
+      return ob_get_clean();
     }
 
   }

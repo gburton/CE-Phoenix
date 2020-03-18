@@ -62,7 +62,7 @@
         
         $OSCOM_Hooks->call('reviews', 'reviewActionSave');
 
-        tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(array('action'))));
+        tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(['action'])));
         break;   
     }
   }
@@ -107,7 +107,7 @@
       <tr><?php echo tep_draw_form('review', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'] . '&action=preview'); ?>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="main" valign="top"><strong><?php echo ENTRY_PRODUCT; ?></strong> <?php echo $rInfo->products_name; ?><br /><strong><?php echo ENTRY_FROM; ?></strong> <?php echo $rInfo->customers_name; ?><br /><br /><strong><?php echo ENTRY_DATE; ?></strong> <?php echo tep_date_short($rInfo->date_added); ?></td>
+            <td class="main" valign="top"><strong><?php echo ENTRY_PRODUCT; ?></strong> <?php echo $rInfo->products_name; ?><br><strong><?php echo ENTRY_FROM; ?></strong> <?php echo $rInfo->customers_name; ?><br><br><strong><?php echo ENTRY_DATE; ?></strong> <?php echo tep_date_short($rInfo->date_added); ?></td>
             <td class="main" align="right" valign="top"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"'); ?></td>
           </tr>
           <tr>
@@ -121,7 +121,7 @@
       <tr>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="main" valign="top"><strong><?php echo ENTRY_REVIEW; ?></strong><br /><br /><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', $rInfo->reviews_text); ?></td>
+            <td class="main" valign="top"><strong><?php echo ENTRY_REVIEW; ?></strong><br><br><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', $rInfo->reviews_text); ?></td>
           </tr>
           <tr>
             <td class="smallText" align="right"><?php echo ENTRY_REVIEW_TEXT; ?></td>
@@ -143,7 +143,7 @@
       ?>
  
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('customers_name', $rInfo->customers_name) . tep_draw_hidden_field('products_name', $rInfo->products_name) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added) . tep_draw_button(IMAGE_PREVIEW, 'document') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'])); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('customers_name', $rInfo->customers_name) . tep_draw_hidden_field('products_name', $rInfo->products_name) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added) . tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light'); ?></td>
       </form></tr>
 <?php
   } elseif ($action == 'preview') {
@@ -168,7 +168,7 @@
       <tr><?php echo tep_draw_form('update', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'] . '&action=update', 'post', 'enctype="multipart/form-data"'); ?>
         <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="main" valign="top"><strong><?php echo ENTRY_PRODUCT; ?></strong> <?php echo $rInfo->products_name; ?><br /><strong><?php echo ENTRY_FROM; ?></strong> <?php echo $rInfo->customers_name; ?><br /><br /><strong><?php echo ENTRY_DATE; ?></strong> <?php echo tep_date_short($rInfo->date_added); ?></td>
+            <td class="main" valign="top"><strong><?php echo ENTRY_PRODUCT; ?></strong> <?php echo $rInfo->products_name; ?><br><strong><?php echo ENTRY_FROM; ?></strong> <?php echo $rInfo->customers_name; ?><br><br><strong><?php echo ENTRY_DATE; ?></strong> <?php echo tep_date_short($rInfo->date_added); ?></td>
             <td class="main" align="right" valign="top"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'hspace="5" vspace="5"'); ?></td>
           </tr>
         </table>
@@ -176,7 +176,7 @@
       <tr>
         <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td valign="top" class="main"><strong><?php echo ENTRY_REVIEW; ?></strong><br /><br /><?php echo nl2br(tep_db_output(tep_break_string($rInfo->reviews_text, 15))); ?></td>
+            <td valign="top" class="main"><strong><?php echo ENTRY_REVIEW; ?></strong><br><br><?php echo nl2br(tep_db_output(tep_break_string($rInfo->reviews_text, 15))); ?></td>
           </tr>
         </table></td>
       </tr>
@@ -200,7 +200,7 @@
       }
 ?>
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id)); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light'); ?></td>
       </form></tr>
 <?php
     } else {
@@ -213,7 +213,7 @@
       }
 ?>
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link($back_url, $back_url_params)); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-keft', tep_href_link($back_url, $back_url_params), null, null, 'btn-light'); ?></td>
       </tr>
 <?php
     }
@@ -248,7 +248,7 @@
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
       <tr>
-        <td class="main" valign="top"><strong><?php echo ENTRY_REVIEW; ?></strong><br /><br /><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', '', 'required aria-required="true"'); ?></td>
+        <td class="main" valign="top"><strong><?php echo ENTRY_REVIEW; ?></strong><br><br><?php echo tep_draw_textarea_field('reviews_text', 'soft', '60', '15', '', 'required aria-required="true"'); ?></td>
       </tr>
       <tr>
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
@@ -259,7 +259,7 @@
       ?>
       
       <tr>
-        <td><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></td>
+        <td><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2'); ?></td>
       </tr>
       </form>
        <?php
@@ -327,38 +327,38 @@
                     <td class="smallText" valign="top"><?php echo $reviews_split->display_count($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></td>
                     <td class="smallText" align="right"><?php echo $reviews_split->display_links($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
                   <tr>
-                    <td colspan="2" class="smallText" align="right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_REVIEW, 'triangle-1-e', tep_href_link('reviews.php', 'action=new')); ?></td>
+                    <td colspan="2" class="smallText" align="right"><?php echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-cogs', tep_href_link('reviews.php', 'action=new'), null, null, 'btn-success xxx text-white'); ?></td>
                   </tr>
                   </tr>
                 </table></td>
               </tr>
             </table></td>
 <?php
-    $heading = array();
-    $contents = array();
+    $heading = [];
+    $contents = [];
 
     switch ($action) {
       case 'delete':
-        $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_REVIEW . '</strong>');
+        $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_REVIEW . '</strong>'];
 
-        $contents = array('form' => tep_draw_form('reviews', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=deleteconfirm'));
-        $contents[] = array('text' => TEXT_INFO_DELETE_REVIEW_INTRO);
-        $contents[] = array('text' => '<br /><strong>' . $rInfo->products_name . '</strong>');
-        $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id)));
+        $contents = ['form' => tep_draw_form('reviews', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=deleteconfirm')];
+        $contents[] = ['text' => TEXT_INFO_DELETE_REVIEW_INTRO];
+        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $rInfo->products_name];
+        $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light')];
         break;
       default:
       if (isset($rInfo) && is_object($rInfo)) {
-        $heading[] = array('text' => '<strong>' . $rInfo->products_name . '</strong>');
+        $heading[] = ['text' => '<strong>' . $rInfo->products_name . '</strong>'];
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=delete')));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($rInfo->date_added));
-        if (tep_not_null($rInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($rInfo->last_modified));
-        $contents[] = array('text' => '<br />' . tep_info_image($rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_REVIEW_AUTHOR . ' ' . $rInfo->customers_name);
-        $contents[] = array('text' => TEXT_INFO_REVIEW_RATING . ' ' . tep_draw_stars($rInfo->reviews_rating));
-        $contents[] = array('text' => TEXT_INFO_REVIEW_READ . ' ' . $rInfo->reviews_read);
-        $contents[] = array('text' => '<br />' . TEXT_INFO_REVIEW_SIZE . ' ' . $rInfo->reviews_text_size . ' bytes');
-        $contents[] = array('text' => '<br />' . TEXT_INFO_PRODUCTS_AVERAGE_RATING . ' ' . number_format($rInfo->average_rating, 2) . '%');
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['text' => '<br>' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($rInfo->date_added)];
+        if (tep_not_null($rInfo->last_modified)) $contents[] = ['text' => TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($rInfo->last_modified)];
+        $contents[] = ['text' => '<br>' . tep_info_image($rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT)];
+        $contents[] = ['text' => '<br>' . TEXT_INFO_REVIEW_AUTHOR . ' ' . $rInfo->customers_name];
+        $contents[] = ['text' => TEXT_INFO_REVIEW_RATING . ' ' . tep_draw_stars($rInfo->reviews_rating)];
+        $contents[] = ['text' => TEXT_INFO_REVIEW_READ . ' ' . $rInfo->reviews_read];
+        $contents[] = ['text' => '<br>' . TEXT_INFO_REVIEW_SIZE . ' ' . $rInfo->reviews_text_size . ' bytes'];
+        $contents[] = ['text' => '<br>' . TEXT_INFO_PRODUCTS_AVERAGE_RATING . ' ' . number_format($rInfo->average_rating, 2) . '%'];
       }
         break;
     }

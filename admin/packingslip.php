@@ -86,6 +86,10 @@
   <?php
   echo $OSCOM_Hooks->call('packingslip', 'extraComments');
   ?>
+  
+    </div>
+  </div>  
+</div>
 
 </body>
 </html>

@@ -377,15 +377,15 @@
 
       $contents = ['form' => tep_draw_form('advert', 'advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$cInfo->advert_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
-      $contents[] = ['text' => '<strong>' . $cInfo->advert_title . '</strong>'];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->advert_title];
       if ($cInfo->advert_image) $contents[] = ['text' => tep_draw_checkbox_field('delete_image', 'on') . ' ' . TEXT_INFO_DELETE_IMAGE];
-      $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']))];
+      $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']), null, null, 'btn-light')];
       break;
     default:
      if (isset($cInfo) && is_object($cInfo)) {
         $heading[] = ['text' => $cInfo->advert_title];
 
-        $contents[] = ['align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=new')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=delete'))];
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=new'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
         $contents[] = ['text' => sprintf(TEXT_ADVERT_DATE_ADDED, tep_date_short($cInfo->date_added))];
 
         if (tep_not_null($cInfo->advert_url)) {

@@ -16,16 +16,16 @@
   $htpasswd_array = null;
   $is_iis = stripos($_SERVER['SERVER_SOFTWARE'], 'iis');
 
-  $authuserfile_array = array('##### OSCOM ADMIN PROTECTION - BEGIN #####',
-                              'AuthType Basic',
-                              'AuthName "OSCOM CE Phoenix Administration Tool"',
-                              'AuthUserFile ' . DIR_FS_ADMIN . '.htpasswd_oscommerce',
-                              'Require valid-user',
-                              '##### OSCOM ADMIN PROTECTION - END #####');
+  $authuserfile_array = ['##### OSCOM ADMIN PROTECTION - BEGIN #####',
+                         'AuthType Basic',
+                         'AuthName "OSCOM CE Phoenix Administration Tool"',
+                         'AuthUserFile ' . DIR_FS_ADMIN . '.htpasswd_oscommerce',
+                         'Require valid-user',
+                         '##### OSCOM ADMIN PROTECTION - END #####'];
 
   if (!$is_iis && file_exists(DIR_FS_ADMIN . '.htpasswd_oscommerce') && tep_is_writable(DIR_FS_ADMIN . '.htpasswd_oscommerce') && file_exists(DIR_FS_ADMIN . '.htaccess') && tep_is_writable(DIR_FS_ADMIN . '.htaccess')) {
-    $htaccess_array = array();
-    $htpasswd_array = array();
+    $htaccess_array = [];
+    $htpasswd_array = [];
 
     if (filesize(DIR_FS_ADMIN . '.htaccess') > 0) {
       $fg = fopen(DIR_FS_ADMIN . '.htaccess', 'rb');
@@ -222,7 +222,7 @@
 
   if (is_array($htpasswd_array)) {
     if (empty($htpasswd_array)) {
-      $secMessageStack->add(sprintf(HTPASSWD_INFO, implode('<br />', $authuserfile_array)), 'error');
+      $secMessageStack->add(sprintf(HTPASSWD_INFO, implode('<br>', $authuserfile_array)), 'error');
     } else {
       $secMessageStack->add(HTPASSWD_SECURED, 'success');
     }
@@ -302,31 +302,31 @@
     </div>
 
 <?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => TEXT_INFO_HEADING_NEW_ADMINISTRATOR);
+      $heading[] = ['text' => TEXT_INFO_HEADING_NEW_ADMINISTRATOR];
 
-      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"'));
-      $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', null, 'required="required" aria-required="true"'));
-      $contents[] = array('text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password'));
+      $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"')];
+      $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', null, 'required="required" aria-required="true"')];
+      $contents[] = ['text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password')];
 
       if (is_array($htpasswd_array)) {
-        $contents[] = array('text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
+        $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
       }
 
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php')));
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('administrators.php'), null, null, 'btn-light')];
       break;
     case 'edit':
-      $heading[] = array('text' => $aInfo->user_name);
+      $heading[] = ['text' => $aInfo->user_name];
 
-      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"'));
-      $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name, 'required="required" aria-required="true"'));
-      $contents[] = array('text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password'));
+      $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"')];
+      $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name, 'required="required" aria-required="true"')];
+      $contents[] = ['text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required="required" aria-required="true"', 'password')];
 
       if (is_array($htpasswd_array)) {
         $default_flag = false;
@@ -340,24 +340,24 @@
           }
         }
 
-        $contents[] = array('text' => tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD);
+        $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
       }
 
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
       break;
     case 'delete':
-      $heading[] = array('text' => $aInfo->user_name);
+      $heading[] = ['text' => $aInfo->user_name];
 
-      $contents = array('form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=deleteconfirm'));
-      $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<strong>' . $aInfo->user_name . '</strong>');
-      $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('administrators.php', 'aID=' . $aInfo->id)));
+      $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=deleteconfirm')];
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $aInfo->user_name];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
       break;
     default:
       if (isset($aInfo) && is_object($aInfo)) {
-        $heading[] = array('text' => $aInfo->user_name );
+        $heading[] = ['text' => $aInfo->user_name];
 
-        $contents[] = array('class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete')));
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
       }
       break;
   }

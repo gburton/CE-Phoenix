@@ -28,7 +28,7 @@
       $response = false;
 
       if (function_exists('curl_init')) {
-        $data = array('info' => $encoded);
+        $data = ['info' => $encoded];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://' . $target_host . $target_path);

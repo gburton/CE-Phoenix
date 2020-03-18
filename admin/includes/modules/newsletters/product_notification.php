@@ -193,7 +193,7 @@ function selectAll(FormName, SelectBox) {
       $mimemessage->build_message();
 
       foreach ($audience as $value) {
-        $mimemessage->send($value['name'], $value['email_address'], '', EMAIL_FROM, $this->title);
+        $mimemessage->send($value['name'], $value['email_address'], STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, $this->title);
       }
 
       $newsletter_id = tep_db_prepare_input($newsletter_id);

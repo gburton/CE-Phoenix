@@ -24,7 +24,7 @@
       <?php
       if ( $dir = @dir($directory) ) {
         while ( $file = $dir->read() ) {
-          if ( is_dir($directory . '/' . $file) && !in_array($file, array('.', '..')) ) {
+          if ( is_dir($directory . '/' . $file) && !in_array($file, ['.', '..']) ) {
           ?>
           <thead class="thead-dark">
             <tr>
@@ -43,7 +43,7 @@
           <?php
           if ( $dir2 = @dir($directory . '/' . $file) ) {
             while ( $file2 = $dir2->read() ) {
-              if ( is_dir($directory . '/' . $file . '/' . $file2) && !in_array($file2, array('.', '..')) ) {
+              if ( is_dir($directory . '/' . $file . '/' . $file2) && !in_array($file2, ['.', '..']) ) {
                 if ( $dir3 = @dir($directory . '/' . $file . '/' . $file2) ) {
                   while ( $file3 = $dir3->read() ) {
                     if ( !is_dir($directory . '/' . $file . '/' . $file2 . '/' . $file3) ) {
