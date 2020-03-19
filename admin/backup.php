@@ -439,7 +439,7 @@ EOSQL
         $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
       }
 
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', null), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;
     case 'restore':
       $heading[] = ['text' => $buInfo->date];
