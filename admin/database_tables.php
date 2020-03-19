@@ -43,7 +43,7 @@
                        'text' => ACTION_UTF8_CONVERSION]];
 
   if ( isset($_POST['action']) ) {
-    if ( in_array($_POST['action'], ['check', 'analyze', 'optimize', 'repair', 'utf8')] ) {
+    if ( in_array($_POST['action'], ['check', 'analyze', 'optimize', 'repair', 'utf8']) ) {
       if ( isset($_POST['id']) && is_array($_POST['id']) && !empty($_POST['id']) ) {
         $tables = tep_dt_get_tables();
 
