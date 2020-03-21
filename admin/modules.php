@@ -30,9 +30,10 @@
 
   $modules_installed = (defined($module_key) && !empty(constant($module_key)) ? explode(';', constant($module_key)) : []);
 
-  $OSCOM_Hooks->call('modules', 'preAction');
-
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('modules', 'preAction');
+  
   if (tep_not_null($action)) {
     switch ($action) {
       case 'save':
@@ -45,7 +46,9 @@
           $value = tep_db_prepare_input($value);
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($value) . "' WHERE configuration_key = '" . tep_db_input($key) . "'");
         }
+        
         $OSCOM_Hooks->call('modules', 'saveModuleConfiguration');
+        
         tep_redirect(tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']));
         break;
       case 'remove':
@@ -85,7 +88,9 @@
             }
 
             tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = '" . $module_key . "'");
+            
             $OSCOM_Hooks->call('modules', 'installModule');
+            
           } elseif ('remove' == $action) {
             $module->remove();
 
@@ -94,7 +99,9 @@
             }
 
             tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = '" . $module_key . "'");
+            
             $OSCOM_Hooks->call('modules', 'removeModule');
+            
             tep_redirect(tep_href_link('modules.php', 'set=' . $set));
           }
         }
@@ -102,6 +109,8 @@
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('modules', 'postAction');
 
   $new_modules_counter = 0;
 
@@ -280,7 +289,7 @@
 
       $contents = ['form' => tep_draw_form('modules', 'modules.php', 'set=' . $set . '&module=' . $_GET['module'] . '&action=save')];
       $contents[] = ['text' => $keys];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
       break;
     default:
       if (isset($mInfo)) {
@@ -308,7 +317,7 @@
           }
           $keys = substr($keys, 0, strrpos($keys, '<br><br>'));
 
-          $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit')) . tep_draw_button(IMAGE_MODULE_REMOVE, 'minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove'))];
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_MODULE_REMOVE, 'fas fa-minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove'), null, null, 'btn-warning')];
 
           if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
             $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
@@ -322,7 +331,7 @@
           $contents[] = ['text' => $keys];
         } elseif (isset($_GET['list']) && ($_GET['list'] == 'new')) {
           if (isset($mInfo)) {
-            $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_MODULE_INSTALL, 'plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=install'))];
+            $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL, 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=install'), null, null, 'btn-warning')];
 
             if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
               $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];

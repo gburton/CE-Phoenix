@@ -241,16 +241,15 @@ EOSQL
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CUSTOMER];
 
         $contents = ['form' => tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=deleteconfirm')];
-        $contents[] = ['text' => TEXT_DELETE_INTRO . '<br /><br /><strong>' . $cInfo->name . '</strong>'];
+        $contents[] = ['text' => TEXT_DELETE_INTRO . '<br><br><strong>' . $cInfo->name . '</strong>'];
         if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = ['text' => tep_draw_checkbox_field('delete_reviews', 'on', true) . ' ' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews)];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id)),
-        ];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id), null, null, 'btn-light')];
         break;
       default:
         if (($cInfo ?? null) instanceof objectInfo) {
           $heading[] = ['text' => $cInfo->name];
 
-          $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=confirm')) . tep_draw_button(IMAGE_ORDERS, 'cart', tep_href_link('orders.php', 'cID=' . $cInfo->id)) . tep_draw_button(IMAGE_EMAIL, 'mail-closed', tep_href_link('mail.php', 'customer=' . urlencode($cInfo->email_address))),
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=confirm'), null, null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_ORDERS, 'fas fa-shopping-cart', tep_href_link('orders.php', 'cID=' . $cInfo->id), null, null, 'btn-info xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_EMAIL, 'fas fa-at', tep_href_link('mail.php', 'customer=' . urlencode($cInfo->email_address)), null, null, 'btn-info xxx text-white'),
           ];
           $contents[] = ['text' => sprintf(TEXT_DATE_ACCOUNT_CREATED, tep_date_short($cInfo->date_account_created))];
           $contents[] = ['text' => sprintf(TEXT_DATE_ACCOUNT_LAST_MODIFIED, tep_date_short($cInfo->date_account_last_modified))];

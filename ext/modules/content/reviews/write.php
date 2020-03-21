@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -116,35 +116,23 @@
     </div>
   </div>
 
-  <div class="form-group row">
+  <div class="form-group row align-items-center">
     <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_RATING; ?></label>
     <div class="col-sm-9">
-      <div class="custom-control custom-radio">
-        <input type="radio" id="Rating5" name="rating" class="custom-control-input" value="5">
-        <label class="custom-control-label" for="Rating5"><?php echo sprintf(TEXT_GOOD, tep_draw_stars(5)); ?></label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" id="Rating4" name="rating" class="custom-control-input" value="4" required aria-required="true">
-        <label class="custom-control-label" for="Rating4"><?php echo tep_draw_stars(4); ?></label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" id="Rating3" name="rating" class="custom-control-input" value="3">
-        <label class="custom-control-label" for="Rating3"><?php echo tep_draw_stars(3); ?></label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" id="Rating2" name="rating" class="custom-control-input" value="2">
-        <label class="custom-control-label" for="Rating2"><?php echo tep_draw_stars(2); ?></label>
-      </div>
-      <div class="custom-control custom-radio">
-        <input type="radio" id="Rating1" name="rating" class="custom-control-input" value="1">
-        <label class="custom-control-label" for="Rating1"><?php echo sprintf(TEXT_BAD, tep_draw_stars(1)); ?></label>
+      <div class="rating d-flex justify-content-end flex-row-reverse align-items-baseline">
+        <?php echo sprintf(TEXT_GOOD, 5); ?>
+        <input type="radio" id="r5" name="rating" required aria-required="true" value="5"><label title="<?php echo sprintf(TEXT_RATED, sprintf(TEXT_GOOD, 5)); ?>" for="r5">&nbsp;</label>
+        <input type="radio" id="r4" name="rating" value="4"><label title="<?php echo sprintf(TEXT_RATED, 4); ?>" for="r4">&nbsp;</label>
+        <input type="radio" id="r3" name="rating" value="3"><label title="<?php echo sprintf(TEXT_RATED, 3); ?>" for="r3">&nbsp;</label>
+        <input type="radio" id="r2" name="rating" value="2"><label title="<?php echo sprintf(TEXT_RATED, 2); ?>" for="r2">&nbsp;</label>
+        <input type="radio" id="r1" name="rating" checked value="1"><label title="<?php echo sprintf(TEXT_RATED, sprintf(TEXT_BAD, 1)); ?>" for="r1">&nbsp;</label>
       </div>
     </div>
   </div>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-pen', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
-    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id'])); ?></p>
+    <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id']), null, null, 'btn-light mt-2'); ?></p>
   </div>
 
   <hr>

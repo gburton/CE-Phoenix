@@ -1,20 +1,97 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-pi-gallery">
-  <?php echo $pi_output; ?>
+  <?php
+  $pi_image .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="0">';
+  $pi_image .= tep_image('images/' . $active_image['image'], tep_db_output( $active_image['htmlcontent']));
+  $pi_image .= '</a>';
+
+  $first_img_indicator = '<li data-target="#carousel" data-slide-to="0" class="pointer active"></li>';
+  $first_img = '<div class="carousel-item text-center active">';
+  $first_img .= tep_image('images/' . $active_image['image'], tep_db_output($active_image['htmlcontent']), null, null, 'loading="lazy"');
+  $first_img .= '</div>';
+
+  // now create the thumbs
+  if (count($other_images) > 0) {
+    $pi_thumb .= '<div class="row">';
+    foreach ($other_images as $k => $v) {
+      $n = $k+1;
+      $pi_thumb .= '<div class="' . $thumbnail_width . '">';
+      $pi_thumb .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="' . $n . '">';
+      $pi_thumb .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
+      $pi_thumb .= '</a>';
+      $pi_thumb .= '</div>';
+    }
+    $pi_thumb .= '</div>';
+
+    $other_img_indicator = $other_img = null;
+    foreach ($other_images as $k => $v) {
+      $n = $k+1;
+      $other_img_indicator .= '<li data-target="#carousel" data-slide-to="' . $n . '" class="pointer"></li>';
+      $other_img .= '<div class="carousel-item text-center">';
+      $other_img .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
+      if (tep_not_null($v['htmlcontent'])) {
+        $other_img .= '<div class="carousel-caption d-none d-md-block">';
+        $other_img .= $v['htmlcontent'];
+        $other_img .= '</div>';
+      }
+      $other_img .= '</div>';
+    }
+  }
+
+  echo $pi_image;
+  echo $pi_thumb;
+  ?>
 </div>
 
 <?php
+  $swipe_arrows = '';
+  if (MODULE_CONTENT_PI_GALLERY_SWIPE_ARROWS == 'True') {
+    $swipe_arrows = '<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a><a class="carousel-control-next" href="#carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>';
+  }
+
+  $indicators = '';
+  if (MODULE_CONTENT_PI_GALLERY_INDICATORS == 'True') {
+    $indicators .= '<ol class="carousel-indicators">';
+    $indicators .= $first_img_indicator;
+    $indicators .= $other_img_indicator;
+    $indicators .= '</ol>';
+  }
+  $modal_gallery_footer = <<<mgf
+<div id="lightbox" class="modal fade" role="dialog">
+  <div class="modal-dialog {$modal_size}" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="carousel slide" data-ride="carousel" tabindex="-1" id="carousel">
+          {$indicators}
+          <div class="carousel-inner">
+            {$first_img}{$other_img}
+          </div>
+          {$swipe_arrows}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <h5 class="text-uppercase mr-auto">{$album_name}</h5>
+        <a href="#" role="button" data-dismiss="modal" class="btn btn-primary px-3">{$album_exit}</a>
+      </div>
+    </div>
+  </div>
+</div>
+mgf;
+
+  $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
+
+  $modal_clicker = <<<mc
+<script>$(document).ready(function() { $('a.lb').click(function(e) { var s = $(this).data('slide'); $('#lightbox').carousel(s); }); });</script>
+mc;
+  $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
+
 /*
-  Copyright (c) 2018, G Burton
-  All rights reserved.
+  $Id$
 
-  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
 
-  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+  Copyright (c) 2020 osCommerce
 
-  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  Released under the GNU General Public License
 */
 ?>

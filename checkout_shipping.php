@@ -126,6 +126,10 @@
 // get all available shipping quotes
   $quotes = $shipping_modules->quote();
 
+  if (!($_SESSION['shipping']->enabled ?? false)) {
+    unset($_SESSION['shipping']);
+  }
+
 // if no shipping method has been selected, automatically select the cheapest method.
 // if the module's status was changed when none were available, to save on implementing
 // a javascript force-selection method, also automatically select the cheapest shipping

@@ -61,6 +61,7 @@
 
   if (tep_validate_form_action_is('process')) {
     $customer_details = $customer_data->process($page_fields);
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     if (!empty($customer_details)) {
       $customer_data->update(['password' => $customer_data->get('password', $customer_details)], ['id' => (int)$customer_data->get('id', $check_customer)]);
@@ -92,6 +93,7 @@
   
   <?php
   $customer_data->display_input($page_fields);
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
   ?>
   
   <div class="buttonSet">

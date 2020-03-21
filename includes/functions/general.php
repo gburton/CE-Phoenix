@@ -711,7 +711,6 @@
 // $from_email_name   The name of the sender, e.g. Shop Administration
 // $from_email_adress The eMail address of the sender,
 //                    e.g. info@mytepshop.com
-
   function tep_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address) {
     if (SEND_EMAILS != 'true') {
       return false;
@@ -724,146 +723,23 @@
     $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
   }
 
-  function tep_notify($area, $subject) {
-    switch ($area) {
-      case 'create_account':
-        echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationNotification');
+  function tep_notify($trigger, $subject) {
+    if (defined('MODULE_NOTIFICATIONS_INSTALLED') && tep_not_null(MODULE_NOTIFICATIONS_INSTALLED)) {
+      foreach ((array)explode(';', MODULE_NOTIFICATIONS_INSTALLED) as $basename) {
+        $class = pathinfo($basename, PATHINFO_FILENAME);
 
-        $email_text = $subject->get('greeting') . EMAIL_WELCOME . EMAIL_TEXT . EMAIL_CONTACT . EMAIL_WARNING;
-        tep_mail($subject->get('name'), $subject->get('email_address'), EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-        break;
-      case 'checkout':
-        // initialized for the email confirmation
-        $products_ordered = '';
-
-        foreach ($subject->products as $product) {
-          // Stock Update - Joao Correia
-          if (STOCK_LIMITED == 'true') {
-            if (DOWNLOAD_ENABLED == 'true') {
-              $stock_query_raw = <<<'EOSQL'
-SELECT products_quantity, pad.products_attributes_filename
- FROM products p
-   LEFT JOIN products_attributes pa ON p.products_id=pa.products_id
-   LEFT JOIN products_attributes_download pad ON pa.products_attributes_id=pad.products_attributes_id
- WHERE p.products_id = '
-EOSQL
-. tep_get_prid($product['id']) . "'";
-
-              // Will work with only one option for downloadable products
-              // otherwise, we have to build the query dynamically with a loop
-              $products_attributes = $product['attributes'] ?? '';
-              if (is_array($products_attributes)) {
-                $stock_query_raw .= " AND pa.options_id = " . (int)$products_attributes[0]['option_id'] . " AND pa.options_values_id = " . (int)$products_attributes[0]['value_id'];
-              }
-              $stock_query = tep_db_query($stock_query_raw);
-            } else {
-              $stock_query = tep_db_query("SELECT products_quantity FROM products WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-            }
-
-            if ($stock_values = tep_db_fetch_array($stock_query)) {
-              // do not decrement quantities if products_attributes_filename exists
-              if ((DOWNLOAD_ENABLED != 'true') || (!$stock_values['products_attributes_filename'])) {
-                $stock_left = $stock_values['products_quantity'] - $product['qty'];
-                tep_db_query("UPDATE products SET products_quantity = " . (int)$stock_left . " WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-                if ( ($stock_left < 1) && (STOCK_ALLOW_CHECKOUT == 'false') ) {
-                  tep_db_query("UPDATE products SET products_status = '0' WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-                }
-              }
-            }
-          }
-
-          // Update products_ordered (for bestsellers list)
-          tep_db_query("UPDATE products SET products_ordered = products_ordered + " . sprintf('%d', $product['qty']) . " WHERE products_id = '" . tep_get_prid($product['id']) . "'");
-
-          //------insert customer chosen option to order--------
-          $products_ordered_attributes = '';
-          if (isset($product['attributes'])) {
-            foreach ($product['attributes'] as $attribute) {
-              if (DOWNLOAD_ENABLED == 'true') {
-                $attributes_sql = <<<'EOSQL'
-SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix,
-       pad.products_attributes_maxdays, pad.products_attributes_maxcount , pad.products_attributes_filename
-  FROM products_options popt, products_options_values poval, products_attributes pa
-    LEFT JOIN products_attributes_download pad ON pa.products_attributes_id=pad.products_attributes_id
-  WHERE pa.products_id = %d
-    AND pa.options_id = %d
-    AND pa.options_id = popt.products_options_id
-    AND pa.options_values_id = %d
-    AND pa.options_values_id = poval.products_options_values_id
-    AND popt.language_id = %d
-    AND poval.language_id = %d
-EOSQL;
-              } else {
-                $attributes_sql = <<<'EOSQL'
-SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
-  FROM products_options popt, products_options_values poval, products_attributes pa
-  WHERE pa.products_id = %d
-    AND pa.options_id = %d
-    AND pa.options_id = popt.products_options_id
-    AND pa.options_values_id = %d
-    AND pa.options_values_id = poval.products_options_values_id
-    AND popt.language_id = %d
-    AND poval.language_id = %d
-EOSQL;
-              }
-              $attributes_query = tep_db_query(sprintf($attributes_sql,
-                (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$GLOBALS['languages_id'], (int)$GLOBALS['languages_id']));
-              $attributes_values = tep_db_fetch_array($attributes_query);
-              $products_ordered_attributes .= "\n\t" . $attributes_values['products_options_name'] . ' ' . $attributes_values['products_options_values_name'];
-            }
-          }
-          //------insert customer chosen option eof ----
-          $products_ordered .= $product['qty'] . ' x ' . $product['name'] . (empty($product['model']) ? '' : ' (' . $product['model'] . ')') . ' = ' . $GLOBALS['currencies']->display_price($product['final_price'], $product['tax'], $product['qty']) . $products_ordered_attributes . "\n";
+        if (!isset($GLOBALS[$class])) {
+          $GLOBALS[$class] = new $class();
         }
 
-        // let's start with the email confirmation
-        global $order_id, $customer, $billto, $sendto;
-        $email_order = STORE_NAME . "\n"
-          . EMAIL_SEPARATOR . "\n"
-          . EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n"
-          . EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n"
-          . EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
-        if ($subject->info['comments']) {
-          $email_order .= tep_db_output($subject->info['comments']) . "\n\n";
-        }
-        $email_order .= EMAIL_TEXT_PRODUCTS . "\n"
-            . EMAIL_SEPARATOR . "\n"
-            . $products_ordered
-            . EMAIL_SEPARATOR . "\n";
-
-        foreach ($GLOBALS['order_totals'] as $order_total) {
-          $email_order .= strip_tags($order_total['title']) . ' ' . strip_tags($order_total['text']) . "\n";
+        if (!$GLOBALS[$class]->isEnabled()) {
+          continue;
         }
 
-        if ($subject->content_type != 'virtual') {
-          $email_order .= "\n" . EMAIL_TEXT_DELIVERY_ADDRESS . "\n"
-                . EMAIL_SEPARATOR . "\n"
-                . $customer->make_address_label($sendto, 0, '', "\n") . "\n";
+        if (in_array($trigger, $class::TRIGGERS)) {
+          $GLOBALS[$class]->notify($subject);
         }
-
-        $email_order .= "\n" . EMAIL_TEXT_BILLING_ADDRESS . "\n"
-                . EMAIL_SEPARATOR . "\n"
-                . $customer->make_address_label($billto, 0, '', "\n") . "\n\n";
-        $payment_class = $GLOBALS[$GLOBALS['payment']];
-        if (is_object($payment_class)) {
-          $email_order .= EMAIL_TEXT_PAYMENT_METHOD . "\n"
-              . EMAIL_SEPARATOR . "\n";
-          $email_order .= $subject->info['payment_method'] . "\n\n";
-          if (isset($payment_class->email_footer)) {
-            $email_order .= $payment_class->email_footer . "\n\n";
-          }
-        }
-
-        $parameters = ['order' => $subject, 'email' => &$email_order];
-        $GLOBALS['OSCOM_Hooks']->call('siteWide', 'orderMail', $parameters);
-
-        tep_mail($subject->customer['name'], $subject->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-
-        // send emails to other people
-        if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
-          tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-        }
-        break;
+      }
     }
   }
 
@@ -1100,4 +976,26 @@ EOSQL;
                                  : ($requested_action === $action);
 
     return ($matched && ($formid == $sessiontoken));
+  }
+
+  /**
+   * For use by injectFormVerify hooks and Apps that need to block form processing.
+   */
+  function tep_block_form_processing() {
+    switch ($GLOBALS['PHP_SELF']) {
+      case 'account_edit.php':
+      case 'create_account.php':
+      case 'password_reset.php':
+        unset($GLOBALS['customer_details']);
+        break;
+      case 'address_book_process.php':
+      case 'checkout_shipping_address.php':
+      case 'checkout_payment_address.php':
+        $GLOBALS['customer_details'] = false;
+        break;
+      case 'advanced_search_result.php':
+      case 'contact_us.php':
+      default:
+        $GLOBALS['error'] = true;
+    }
   }

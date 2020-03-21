@@ -98,28 +98,6 @@
     }
   }
 
-// set the HTTP GET parameters manually if search_engine_friendly_urls is enabled
-  if (SEARCH_ENGINE_FRIENDLY_URLS == 'true') {
-    if (strlen(getenv('PATH_INFO')) > 1) {
-      $GET_array = [];
-      $PHP_SELF = str_replace(getenv('PATH_INFO'), '', $PHP_SELF);
-      $vars = explode('/', substr(getenv('PATH_INFO'), 1));
-      do_magic_quotes_gpc($vars);
-
-      for ($i = 0, $n = count($vars); $i < $n; $i += 2) {
-        if (strpos($vars[$i], '[]')) {
-          $GET_array[substr($vars[$i], 0, -2)][] = $vars[$i+1];
-        } else {
-          $_GET[$vars[$i]] = $vars[$i+1];
-        }
-      }
-
-      foreach ($GET_array as $key => $value) {
-        $_GET[$key] = $value;
-      }
-    }
-  }
-
 // define general functions used application-wide
   require 'includes/functions/general.php';
   require 'includes/functions/html_output.php';

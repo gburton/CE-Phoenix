@@ -45,6 +45,7 @@
   if (tep_validate_form_action_is('submit')) {
 // process a new shipping address
     $customer_details = $customer_data->process($customer_data->get_fields_for_page('address_book'));
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
     if ($customer_details) {
       $customer_details['id'] = $customer->get_id();
       $customer_data->add_address($customer_details);

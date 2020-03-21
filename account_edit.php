@@ -23,6 +23,7 @@
 
   if (tep_validate_form_action_is('process')) {
     $customer_details = $customer_data->process($customer_data->get_fields_for_page('account_edit'));
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     if (!empty($customer_details) && is_array($customer_details)) {
       $customer_data->update($customer_details, ['id' => $customer->get_id()], 'customers');
@@ -55,6 +56,7 @@
 
   <?php
   $customer_data->display_input($customer_data->get_fields_for_page('account_edit'), $customer->fetch_to_address());
+  echo $OSCOM_Hooks->call('siteWide', 'injectFormDisplay');
   ?>
 
   <div class="buttonSet">

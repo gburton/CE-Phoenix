@@ -14,7 +14,7 @@
 
     const CONFIG_KEY_BASE = 'MODULE_PAYMENT_MONEYORDER_';
 
-    private $email_footer;
+    public $email_footer;
 
     public function __construct() {
       parent::__construct();

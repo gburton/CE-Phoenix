@@ -434,41 +434,41 @@ EOSQL
       if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'zip') . ' ' . TEXT_INFO_USE_ZIP];
 
       if ($dir_ok) {
-        $contents[] = ['text' => tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br /><br />*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
       } else {
-        $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br /><br />*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
       }
 
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_BACKUP, 'copy', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('backup.php'))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', null), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;
     case 'restore':
       $heading[] = ['text' => $buInfo->date];
 
       $contents[] = ['text' => tep_break_string(sprintf(TEXT_INFO_RESTORE, DIR_FS_BACKUP . (($buInfo->compression != TEXT_NO_EXTENSION) ? pathinfo($buInfo->file, PATHINFO_FILENAME) : $buInfo->file), ($buInfo->compression != TEXT_NO_EXTENSION) ? TEXT_INFO_UNPACK : ''), 35, ' ')];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restorenow'), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('backup.php', 'file=' . $buInfo->file))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restorenow'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     case 'restorelocal':
       $heading[] = ['text' => TEXT_INFO_HEADING_RESTORE_LOCAL];
 
       $contents = ['form' => tep_draw_form('restore', 'backup.php', 'action=restorelocalnow', 'post', 'enctype="multipart/form-data"')];
-      $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL . '<br /><br />' . TEXT_INFO_BEST_THROUGH_HTTPS];
+      $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL . '<br><br>' . TEXT_INFO_BEST_THROUGH_HTTPS];
       $contents[] = ['text' => tep_draw_file_field('sql_file')];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL_RAW_FILE];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('backup.php'))];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => $buInfo->date];
 
       $contents = ['form' => tep_draw_form('delete', 'backup.php', 'file=' . $buInfo->file . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
-      $contents[] = ['text' => '<strong>' . $buInfo->file . '</strong>'];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('backup.php', 'file=' . $buInfo->file))];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $buInfo->file];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:
       if (isset($buInfo) && is_object($buInfo)) {
         $heading[] = ['text' => $buInfo->date];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_button(IMAGE_RESTORE, 'arrowrefresh-1-w', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'))];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger xxx text-white')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE, $buInfo->date)];
         $contents[] = ['text' => sprintf(TEXT_INFO_SIZE, $buInfo->size)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COMPRESSION, $buInfo->compression)];

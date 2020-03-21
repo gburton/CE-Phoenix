@@ -1,3 +1,7 @@
+<?php
+  if (isset($testimonials_query)) {
+?>
+
 <div class="col-sm-<?php echo $content_width; ?> cm-t-list">
   <div class="row">
     <?php
@@ -16,25 +20,32 @@
       <?php echo $testimonials_split->display_count(MODULE_CONTENT_TESTIMONIALS_DISPLAY_NUMBER); ?>
     </div>
     <div class="col-sm-6">
-      <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info'))); ?>
+      <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(['page', 'info'])); ?>
     </div>
   </div>
 </div>
 
 <?php
+  } else {
+?>
+
+<div class="col">
+  <div class="alert alert-info" role="alert">
+    <?php echo MODULE_CONTENT_TESTIMONIALS_LIST_NO_TESTIMONIALS; ?>
+  </div>
+</div>
+
+<?php
+  }
+
 /*
-  Copyright (c) 2019, G Burton
-  All rights reserved.
+  $Id$
 
-  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
 
-  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+  Copyright (c) 2020 osCommerce
 
-  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  Released under the GNU General Public License
 */
 ?>
-   

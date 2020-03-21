@@ -20,7 +20,7 @@
     protected function get_parameters() {
       return [
         static::CONFIG_KEY_BASE . 'STATUS' => [
-          'title' => 'Enable Password module',
+          'title' => 'Enable Password Confirmation module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your shop?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
@@ -77,7 +77,7 @@
       if ($customer_details['password_confirmation'] !== $GLOBALS['customer_data']->get('password', $customer_details)) {
         $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
-          sprintf(constant($entry_base . '_ERROR'), constant($entry_base . '_ERROR_NOT_MATCHING')));
+          constant($entry_base . '_ERROR_NOT_MATCHING'));
 
         return false;
       }
