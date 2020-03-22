@@ -198,16 +198,6 @@ CREATE TABLE customers_basket_attributes (
   KEY idx_customers_basket_att_customers_id (customers_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-DROP TABLE IF EXISTS customers_data;
-CREATE TABLE customers_data (
-  customers_data_id int(11) NOT NULL AUTO_INCREMENT,
-  customers_id int(11) NOT NULL,
-  customers_data_key varchar(80) NOT NULL,
-  customers_data_value varchar(255) DEFAULT NULL,
-  PRIMARY KEY (customers_data_id),
-  UNIQUE KEY customers_id_data_key (customers_id, customers_data_key)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 DROP TABLE IF EXISTS customer_data_groups;
 CREATE TABLE customer_data_groups (
   customer_data_groups_id int(11) NOT NULL,
