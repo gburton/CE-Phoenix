@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -62,8 +62,7 @@ define('TEXT_INFO_HEADING_COPY_TO', 'Copy To');
 define('TEXT_DELETE_CATEGORY_INTRO', 'Are you sure you want to delete this category?');
 define('TEXT_DELETE_PRODUCT_INTRO', 'Are you sure you want to permanently delete this product?');
 
-define('TEXT_DELETE_WARNING_CHILDS', '<strong>WARNING:</strong> There are %s (child-)categories still linked to this category!');
-define('TEXT_DELETE_WARNING_PRODUCTS', '<strong>WARNING:</strong> There are %s products still linked to this category!');
+define('TEXT_DELETE_WARNING', '<strong>WARNING:</strong> There may be (child-)categories and/or products still linked to this category!');
 
 define('TEXT_MOVE_PRODUCTS_INTRO', 'Please select which category you wish <strong>%s</strong> to reside in');
 define('TEXT_MOVE_CATEGORIES_INTRO', 'Please select which category you wish <strong>%s</strong> to reside in');

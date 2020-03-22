@@ -558,47 +558,6 @@
   }
 
 ////
-// Count how many products exist in a category
-// TABLES: products, products_to_categories, categories
-  function tep_products_in_category_count($categories_id, $include_deactivated = false) {
-    $products_count = 0;
-
-    if ($include_deactivated) {
-      $products_query = tep_db_query("SELECT COUNT(*) AS total FROM products p, products_to_categories p2c WHERE p.products_id = p2c.products_id AND p2c.categories_id = " . (int)$categories_id);
-    } else {
-      $products_query = tep_db_query("SELECT COUNT(*) AS total FROM products p, products_to_categories p2c WHERE p.products_id = p2c.products_id AND p.products_status = '1' AND p2c.categories_id = " . (int)$categories_id);
-    }
-
-    $products = tep_db_fetch_array($products_query);
-
-    $products_count += $products['total'];
-
-    $childs_query = tep_db_query("SELECT categories_id FROM categories WHERE parent_id = " . (int)$categories_id);
-    if (tep_db_num_rows($childs_query)) {
-      while ($childs = tep_db_fetch_array($childs_query)) {
-        $products_count += tep_products_in_category_count($childs['categories_id'], $include_deactivated);
-      }
-    }
-
-    return $products_count;
-  }
-
-////
-// Count how many subcategories exist in a category
-// TABLES: categories
-  function tep_childs_in_category_count($categories_id) {
-    $categories_count = 0;
-
-    $categories_query = tep_db_query("SELECT categories_id FROM categories WHERE parent_id = " . (int)$categories_id);
-    while ($categories = tep_db_fetch_array($categories_query)) {
-      $categories_count++;
-      $categories_count += tep_childs_in_category_count($categories['categories_id']);
-    }
-
-    return $categories_count;
-  }
-
-////
 // Returns an array with countries
 // TABLES: countries
   function tep_get_countries($default = '') {
