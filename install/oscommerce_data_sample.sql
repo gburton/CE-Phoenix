@@ -83,7 +83,7 @@ INSERT INTO products_to_categories VALUES (7, 3);
 INSERT INTO products_to_categories VALUES (8, 4);
 INSERT INTO products_to_categories VALUES (9, 4);
 
-INSERT INTO reviews VALUES (1, 4, 1, 'John Doe', 5, now(), null, 1, 0);
+INSERT INTO reviews VALUES (1, 4, 0, 'John Doe', 5, NOW(), NULL, 1, 0);
 INSERT INTO reviews_description VALUES (1, 1, 'Lovely box of crunchy apples and delivered very quickly.  Thank You!');
 
 INSERT INTO specials VALUES (1, 1, '2.9900', now(), null, null, null, '1');
