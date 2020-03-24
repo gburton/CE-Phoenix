@@ -12,6 +12,11 @@
 
   require('includes/application_top.php');
   
+  $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_CONTENT_PI_INSTALLED' limit 1");
+  if (tep_db_num_rows($check_query) < 1) {
+    tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_PI_INSTALLED', '', 'This is automatically updated. No need to edit.', '6', '0', now())");
+  }
+  
   $modules_installed = (tep_not_null(MODULE_CONTENT_PI_INSTALLED) ? explode(';', MODULE_CONTENT_PI_INSTALLED) : []);
   $modules = ['installed' => [], 'new' => []];
 
