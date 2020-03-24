@@ -852,8 +852,7 @@ $('#products_date_available').datepicker({
       if (isset($_GET['search'])) $cPath= $categories['parent_id'];
 
       if ((!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['cID']) && ($_GET['cID'] == $categories['categories_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
-        $cInfo_array = array_merge($categories);
-        $cInfo = new objectInfo($cInfo_array);
+        $cInfo = new objectInfo($categories);
       }
 
       if (isset($cInfo) && is_object($cInfo) && ($categories['categories_id'] == $cInfo->categories_id) ) {
