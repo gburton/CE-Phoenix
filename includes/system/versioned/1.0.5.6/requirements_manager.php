@@ -65,7 +65,11 @@
         $successful = $successful && $this->act_on($purveyor, 'process', $details);
       }
 
-      return $successful ? $details : null;
+      if (!$successful) {
+        tep_block_form_processing();
+      }
+
+      return $details;
     }
 
     public function build_write($customer_details = [], $table = null) {

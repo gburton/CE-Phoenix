@@ -63,7 +63,7 @@
     $customer_details = $customer_data->process($page_fields);
     $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
-    if (!empty($customer_details)) {
+    if (tep_form_processing_is_valid()) {
       $customer_data->update(['password' => $customer_data->get('password', $customer_details)], ['id' => (int)$customer_data->get('id', $check_customer)]);
 
       tep_db_query("UPDATE customers_info SET customers_info_date_account_last_modified = NOW(), password_reset_key = NULL, password_reset_date = NULL WHERE customers_info_id = " . (int)$check_customer['customers_id']);

@@ -22,7 +22,7 @@
 
     $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
-    if (isset($customer_details) && tep_not_null($customer_details)) {
+    if (tep_form_processing_is_valid()) {
       $customer_data->create($customer_details);
 
       $OSCOM_Hooks->call('siteWide', 'postAccountCreation');
@@ -87,7 +87,7 @@ EOSQL
   
     <?php
     foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
-      $module->display_input();
+      $module->display_input($customer_details);
     }
   }
 
