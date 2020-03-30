@@ -852,11 +852,7 @@ $('#products_date_available').datepicker({
       if (isset($_GET['search'])) $cPath= $categories['parent_id'];
 
       if ((!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['cID']) && ($_GET['cID'] == $categories['categories_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
-        $category_childs = ['childs_count' => tep_childs_in_category_count($categories['categories_id'])];
-        $category_products = ['products_count' => tep_products_in_category_count($categories['categories_id'])];
-
-        $cInfo_array = array_merge($categories, $category_childs, $category_products);
-        $cInfo = new objectInfo($cInfo_array);
+        $cInfo = new objectInfo($categories);
       }
 
       if (isset($cInfo) && is_object($cInfo) && ($categories['categories_id'] == $cInfo->categories_id) ) {
@@ -991,13 +987,14 @@ $('#products_date_available').datepicker({
         $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
         break;
       case 'delete_category':
+        $subcategory_products_check = tep_db_fetch_array(tep_db_query("SELECT COUNT(*) AS total FROM (SELECT categories_id AS id FROM categories WHERE parent_id = '" . (int)$_GET['cID'] . "'UNION SELECT p2c.products_id AS id FROM products_to_categories p2c LEFT JOIN products_to_categories self ON p2c.products_id = self.products_id AND p2c.categories_id != self.categories_id WHERE p2c.categories_id = '" . (int)$_GET['cID'] . "' AND self.categories_id IS NULL ) combined"));
+
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CATEGORY];
 
         $contents = ['form' => tep_draw_form('categories', 'categories.php', 'action=delete_category_confirm&cPath=' . $cPath) . tep_draw_hidden_field('categories_id', $cInfo->categories_id)];
         $contents[] = ['text' => TEXT_DELETE_CATEGORY_INTRO];
         $contents[] = ['text' => '<br><strong>' . $cInfo->categories_name . '</strong>'];
-        if ($cInfo->childs_count > 0) $contents[] = ['text' => '<br>' . sprintf(TEXT_DELETE_WARNING_CHILDS, $cInfo->childs_count)];
-        if ($cInfo->products_count > 0) $contents[] = ['text' => '<br>' . sprintf(TEXT_DELETE_WARNING_PRODUCTS, $cInfo->products_count)];
+        if ($subcategory_products_check['total'] > 0) $contents[] = ['text' => '<br>' . TEXT_DELETE_WARNING];
         $contents[] = ['align' => 'center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
         break;
       case 'move_category':
@@ -1065,7 +1062,6 @@ $('#products_date_available').datepicker({
             $contents[] = ['text' => '<br>' . TEXT_DATE_ADDED . ' ' . tep_date_short($cInfo->date_added)];
             if (tep_not_null($cInfo->last_modified)) $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->last_modified)];
             $contents[] = ['text' => '<br>' . tep_info_image($cInfo->categories_image, $cInfo->categories_name, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT) . '<br>' . $cInfo->categories_image];
-            $contents[] = ['text' => '<br>' . TEXT_SUBCATEGORIES . ' ' . $cInfo->childs_count . '<br>' . TEXT_PRODUCTS . ' ' . $cInfo->products_count];
           } elseif (isset($pInfo) && is_object($pInfo)) { // product info box contents
             $heading[] = ['text' => '<strong>' . tep_get_products_name($pInfo->products_id, $languages_id) . '</strong>'];
 

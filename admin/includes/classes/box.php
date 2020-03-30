@@ -10,8 +10,7 @@
   Released under the GNU General Public License
 
   Example usage:
-  $heading = [];
-  $heading[] = ['text'  => BOX_HEADING_TOOLS];
+  $heading = BOX_HEADING_TOOLS;
   $contents = [];
   $contents[] = ['text'  => SOME_TEXT];
   $box = new box();
@@ -27,13 +26,15 @@
       if (is_array($heading)) {
         $heading = $heading[0]['text'];
       }
+      $parameters = ['heading' => &$heading, 'contents' => &$contents];
+      $GLOBALS['OSCOM_Hooks']->call(pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME), 'infoBox', $parameters);
 
       //$this->table_row_parameters = '';
       //$this->table_data_parameters = 'class="infoBoxContent"';
       $contents = $this->tableBlock($contents);
 
       ob_start();
-      include dirname(__FILE__) . '/templates/tpl_box.php';
+      include __DIR__ . '/templates/tpl_box.php';
 
       return ob_get_clean();
     }
