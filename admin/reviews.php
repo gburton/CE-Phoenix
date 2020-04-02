@@ -1,9 +1,12 @@
 <?php
 /*
   $Id$
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
+
   Copyright (c) 2020 osCommerce
+
   Released under the GNU General Public License
 */
 
@@ -17,6 +20,8 @@
     switch ($action) {
       case 'setflag':
         tep_set_review_status($_GET['rID'], $_GET['flag']);
+        
+        $OSCOM_Hooks->call('reviews', 'reviewActionStatus');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']));
         break;
@@ -81,7 +86,7 @@
     </div>
   </div>
 
-<?php
+  <?php
   if ( ($action == 'new') || ($action == 'edit') ) {
     $form_action = 'addnew';
     if ( ($action == 'edit') && isset($_GET['rID']) ) {
@@ -120,19 +125,42 @@
 ?>
     <div class="form-group row">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_PRODUCT; ?></label>
-      <div class="col-sm-9"><?php if (isset($rInfo->products_name)) { echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"'); } ?>     
+      <div class="col-sm-9">
+        <?php 
+        if (isset($rInfo->products_name)) { 
+          echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"'); 
+        } 
+        else { 
+          echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"'); 
+        } 
+        ?>     
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM; ?></label>
-      <div class="col-sm-9"><?php if (isset($rInfo->customers_name)) { echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"'); } else { echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"'); } ?>     
+      <div class="col-sm-9">
+        <?php 
+        if (isset($rInfo->customers_name)) { 
+          echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"'); 
+        } 
+        else { 
+          echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"'); 
+        } 
+        ?>     
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?php echo ENTRY_RATING; ?></label>
-      <div class="col-sm-9"><div class="form-check form-check-inline"><label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label><?php for ($i=1; $i<=5; $i++) { echo tep_draw_selection_field('reviews_rating', 'radio', $i, (isset($rInfo->reviews_rating)?(($i == $rInfo->reviews_rating) ? true : false) : ($i == 5) ? true : false), 'class="form-check-input" id="rating_' . $i . '"'); } ?><label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
+      <div class="col-sm-9"><div class="form-check form-check-inline">
+        <label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label>
+        <?php 
+        for ($i=1; $i<=5; $i++) { 
+          echo tep_draw_selection_field('reviews_rating', 'radio', $i, (isset($rInfo->reviews_rating)?(($i == $rInfo->reviews_rating) ? true : false) : ($i == 5) ? true : false), 'class="form-check-input" id="rating_' . $i . '"'); 
+        } 
+        ?>
+        <label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
       </div>
     </div>
 
@@ -142,20 +170,21 @@
       </div>
     </div>
 
-<?php
-  echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
-  echo $OSCOM_Hooks->call('reviews', 'reviewFormNew');
-?>
+    <?php
+    echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
+    echo $OSCOM_Hooks->call('reviews', 'reviewFormNew');
+    ?>
  
-    <div class="col text-right align-self-center">
-<?php 
-  if ($action != 'new') {
-    echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
-  } else {
-    echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2');
-  }
-?>
+    <div class="text-right">
+      <?php 
+      if ($action != 'new') {
+        echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
+      } else {
+        echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2');
+      }
+      ?>
     </div>
+    
   </form>
 <?php
   } elseif ($action == 'preview') {
@@ -197,7 +226,7 @@
 
         <div class="form-group row">
           <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?php echo ENTRY_RATING; ?></label>
-          <div class="col-sm-9"><?php echo tep_draw_stars($rInfo->reviews_rating); ?>&nbsp;<small>[<?php echo sprintf(TEXT_OF_5_STARS, $rInfo->reviews_rating); ?>]</small></div>   
+          <div class="col-sm-9"><?php echo tep_draw_stars($rInfo->reviews_rating); ?></div>   
         </div>
 
         <div class="form-group row">
@@ -217,7 +246,7 @@
         echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
       }
 ?>
-    <div class="col text-right align-self-center">
+    <div class="text-right">
         <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light'); ?>
     </div>
   </form>
@@ -231,7 +260,7 @@
         $back_url_params = 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id;
       }
 ?>
-    <div class="col text-right align-self-center">
+    <div class="text-right">
       <?php echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link($back_url, $back_url_params), null, null, 'btn-light'); ?>
     </div>
 <?php
@@ -306,26 +335,26 @@
 
     switch ($action) {
       case 'delete':
-        $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_DELETE_REVIEW . '</strong>'];
+        $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_REVIEW];
 
         $contents = ['form' => tep_draw_form('reviews', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=deleteconfirm')];
         $contents[] = ['text' => TEXT_INFO_DELETE_REVIEW_INTRO];
         $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $rInfo->products_name];
-        $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light')];
         break;
       default:
       if (isset($rInfo) && is_object($rInfo)) {
-        $heading[] = ['text' => '<strong>' . $rInfo->products_name . '</strong>'];
+        $heading[] = ['text' => $rInfo->products_name];
 
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
-        $contents[] = ['text' => TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($rInfo->date_added)];
-        if (tep_not_null($rInfo->last_modified)) $contents[] = ['text' => TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($rInfo->last_modified)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($rInfo->date_added))];
+        if (tep_not_null($rInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($rInfo->last_modified))];
         $contents[] = ['text' => tep_info_image($rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT)];
-        $contents[] = ['text' => TEXT_INFO_REVIEW_AUTHOR . ' ' . $rInfo->customers_name];
-        $contents[] = ['text' => TEXT_INFO_REVIEW_RATING . ' ' . tep_draw_stars($rInfo->reviews_rating)];
-        $contents[] = ['text' => TEXT_INFO_REVIEW_READ . ' ' . $rInfo->reviews_read];
-        $contents[] = ['text' => TEXT_INFO_REVIEW_SIZE . ' ' . $rInfo->reviews_text_size . ' bytes'];
-        $contents[] = ['text' => TEXT_INFO_PRODUCTS_AVERAGE_RATING . ' ' . number_format($rInfo->average_rating, 2) . '%'];
+        $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_AUTHOR, $rInfo->customers_name)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_RATING, tep_draw_stars($rInfo->reviews_rating))];
+        $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_READ, $rInfo->reviews_read)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_REVIEW_SIZE, $rInfo->reviews_text_size)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_PRODUCTS_AVERAGE_RATING, number_format($rInfo->average_rating, 2))];
       }
         break;
     }
