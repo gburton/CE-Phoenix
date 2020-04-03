@@ -60,7 +60,6 @@
 
         tep_db_query("DELETE FROM address_book WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers WHERE customers_id = " . (int)$customers_id);
-        tep_db_query("DELETE FROM customers_data WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_info WHERE customers_info_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_basket WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customers_id);

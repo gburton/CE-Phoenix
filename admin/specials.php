@@ -114,7 +114,7 @@
 
       $sInfo = new objectInfo($product);
     } else {
-      $sInfo = new objectInfo([]));
+      $sInfo = new objectInfo([]);
 
 // create an array of products on special, which will be excluded from the pull down menu of products
 // (when creating a new product on special)

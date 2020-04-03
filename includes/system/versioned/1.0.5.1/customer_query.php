@@ -76,9 +76,6 @@
     }
 
     public static function build_read($db_tables, $criteria) {
-      $data = $db_tables['customers_data'] ?? [];
-      unset($db_tables['customers_data']);
-
       foreach ($db_tables as $db_table => &$columns) {
         $primary_key = $db_table . '_id';
         if (!array_key_exists($primary_key, $columns)) {

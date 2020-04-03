@@ -213,7 +213,7 @@
       }
 ?>
       <tr>
-        <td align="right" class="smallText"><?php echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-keft', tep_href_link($back_url, $back_url_params), null, null, 'btn-light'); ?></td>
+        <td align="right" class="smallText"><?php echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link($back_url, $back_url_params), null, null, 'btn-light'); ?></td>
       </tr>
 <?php
     }

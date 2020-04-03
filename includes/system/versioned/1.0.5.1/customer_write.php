@@ -18,24 +18,6 @@
 
     const IDENTIFIER_SUFFIX = '_id';
 
-    public static function upsert_customer_data($data, $id) {
-      $sql = <<<'EOSQL'
-INSERT INTO customers_data (customers_id, customers_data_key, customers_data_value)
-  VALUES
-EOSQL;
-
-      foreach ($data as $key => $value) {
-        $sql .= '(' . (int)$id . ", '"
-          . tep_db_input($key) . "', '"
-            . tep_db_input($value) . "')" . self::COLUMN_SEPARATOR;
-      }
-
-      $sql = self::rtrim_string_once($sql, self::COLUMN_SEPARATOR);
-      $sql .= ' ON DUPLICATE KEY UPDATE customers_data_value = VALUES(customers_data_value)';
-
-      tep_db_query($sql);
-    }
-
     public static function create($db_tables, &$customer_details = []) {
       $foreign_keys = self::FOREIGN_KEYS;
       $tables = array_reverse(array_keys(static::TABLE_ALIASES));
@@ -48,14 +30,6 @@ EOSQL;
         'tables' => &$tables,
       ];
       $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationTables', $parameters);
-
-      if (!empty($db_tables['customers_data'])) {
-        if (isset($criteria['id'])) {
-          self::upsert_customer_data($db_tables['customers_data'], $criteria['id']);
-        }
-
-        unset($db_tables['customers_data']);
-      }
 
       foreach ($tables as $db_table) {
         if (!isset($db_tables[$db_table])) {
@@ -90,14 +64,6 @@ EOSQL;
         });
       }, $db_tables);
       $db_tables = array_filter($db_tables);
-
-      if (isset($db_tables['customers_data'])) {
-        if (isset($criteria['id'])) {
-          self::upsert_customer_data($db_tables['customers_data'], $criteria['id']);
-        }
-
-        unset($db_tables['customers_data']);
-      }
 
       foreach ($foreign_keys as $foreign_key => $tables) {
         foreach ($tables as $db_table) {

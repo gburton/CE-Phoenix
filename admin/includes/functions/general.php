@@ -201,7 +201,7 @@
     }
 
     $select_string = '<select name="' . $name . '"';
-    
+
     if (tep_not_null($parameters)) $select_string .= " $parameters";
     if (tep_not_null($class)) $select_string .= " $class";
 
@@ -555,47 +555,6 @@
     $manufacturer = tep_db_fetch_array($manufacturer_query);
 
     return $manufacturer['manufacturers_url'];
-  }
-
-////
-// Count how many products exist in a category
-// TABLES: products, products_to_categories, categories
-  function tep_products_in_category_count($categories_id, $include_deactivated = false) {
-    $products_count = 0;
-
-    if ($include_deactivated) {
-      $products_query = tep_db_query("SELECT COUNT(*) AS total FROM products p, products_to_categories p2c WHERE p.products_id = p2c.products_id AND p2c.categories_id = " . (int)$categories_id);
-    } else {
-      $products_query = tep_db_query("SELECT COUNT(*) AS total FROM products p, products_to_categories p2c WHERE p.products_id = p2c.products_id AND p.products_status = '1' AND p2c.categories_id = " . (int)$categories_id);
-    }
-
-    $products = tep_db_fetch_array($products_query);
-
-    $products_count += $products['total'];
-
-    $childs_query = tep_db_query("SELECT categories_id FROM categories WHERE parent_id = " . (int)$categories_id);
-    if (tep_db_num_rows($childs_query)) {
-      while ($childs = tep_db_fetch_array($childs_query)) {
-        $products_count += tep_products_in_category_count($childs['categories_id'], $include_deactivated);
-      }
-    }
-
-    return $products_count;
-  }
-
-////
-// Count how many subcategories exist in a category
-// TABLES: categories
-  function tep_childs_in_category_count($categories_id) {
-    $categories_count = 0;
-
-    $categories_query = tep_db_query("SELECT categories_id FROM categories WHERE parent_id = " . (int)$categories_id);
-    while ($categories = tep_db_fetch_array($categories_query)) {
-      $categories_count++;
-      $categories_count += tep_childs_in_category_count($categories['categories_id']);
-    }
-
-    return $categories_count;
   }
 
 ////
@@ -1155,7 +1114,7 @@ EOSQL
     $tax_query = tep_db_query(<<<'EOSQL'
 SELECT SUM(tax_rate) as tax_rate
  FROM tax_rates tr left join zones_to_geo_zones za ON tr.tax_zone_id = za.geo_zone_id left join geo_zones tz ON tz.geo_zone_id = tr.tax_zone_id
- WHERE (za.zone_country_id IS NULL OR za.zone_country_id = '0' OR za.zone_country_id = 
+ WHERE (za.zone_country_id IS NULL OR za.zone_country_id = '0' OR za.zone_country_id =
 EOSQL
       . (int)$country_id . ") AND (za.zone_id IS NULL OR za.zone_id = '0' OR za.zone_id = " . (int)$zone_id
       . ") AND tr.tax_class_id = " . (int)$class_id . " GROUP BY tr.tax_priority");
@@ -1418,10 +1377,10 @@ EOSQL
     global $languages_id;
 
     $select_string = '<select name="' . $name . '"';
-    
+
     if (tep_not_null($parameters)) $select_string .= " $parameters";
     if (tep_not_null($class)) $select_string .= " $class";
-    
+
     $select_string .= '>';
 
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
@@ -1429,7 +1388,7 @@ EOSQL
     $products_query = tep_db_query(<<<'EOSQL'
 SELECT p.products_id, pd.products_name
  FROM products p, products_description pd
- WHERE p.products_id = pd.products_id AND pd.language_id = 
+ WHERE p.products_id = pd.products_id AND pd.language_id =
 EOSQL
       . (int)$languages_id . " ORDER BY products_name");
     while ($products = tep_db_fetch_array($products_query)) {
@@ -1456,10 +1415,10 @@ EOSQL
 
   function tep_draw_customers($name, $parameters = '', $selected = '', $class = 'class="form-control"') {
     $select_string = '<select name="' . $name . '"';
-    
+
     if (tep_not_null($parameters)) $select_string .= " $parameters";
     if (tep_not_null($class)) $select_string .= " $class";
-    
+
     $select_string .= '>';
     $select_string .= '<option value="">--- ' . IMAGE_SELECT . ' ---</option>';
 

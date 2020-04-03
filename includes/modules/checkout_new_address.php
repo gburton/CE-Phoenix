@@ -14,7 +14,7 @@
   <div class="contentText">
 
 <?php
-  $customer_data->display_input($customer_data->get_fields_for_page('checkout_new_address'));
+  $customer_data->display_input($customer_data->get_fields_for_page('checkout_new_address'), ($customer_details ?? null));
 ?>
 
 </div>
