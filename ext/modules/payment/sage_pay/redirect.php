@@ -5,17 +5,17 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2009 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   chdir('../../../../');
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
 // if the customer is not logged on, redirect them to the login page
-  if (!tep_session_is_registered('customer_id')) {
-    $navigation->set_snapshot(array('mode' => 'SSL', 'page' => 'checkout_payment.php'));
+  if (!isset($_SESSION['customer_id'])) {
+    $_SESSION['navigation']->set_snapshot(['mode' => 'SSL', 'page' => 'checkout_payment.php']);
     tep_redirect(tep_href_link('login.php', '', 'SSL'));
   }
 
@@ -24,7 +24,7 @@
   } else {
     $hidden_params = '';
 
-    if ($payment == 'sage_pay_direct') {
+    if ('sage_pay_direct' === $_SESSION['payment']) {
       $redirect_url = tep_href_link('checkout_process.php', 'check=3D', 'SSL');
       $hidden_params = tep_draw_hidden_field('MD', $_POST['MD']) . tep_draw_hidden_field('PaRes', $_POST['PaRes']);
     } else {
@@ -32,7 +32,7 @@
     }
   }
 
-  require('includes/languages/' . $language . '/checkout_confirmation.php');
+  require "includes/languages/$language/checkout_confirmation.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html <?php echo HTML_PARAMS; ?>>
@@ -54,4 +54,4 @@ document.redirect.submit();
 </script>
 </body>
 </html>
-<?php require('includes/application_bottom.php'); ?>
+<?php require 'includes/application_bottom.php'; ?>

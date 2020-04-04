@@ -18,7 +18,7 @@
     public $form_action_url = 'https://www.secpay.com/java-bin/ValCard';
 
     public function process_button() {
-      global $order, $currencies, $currency;
+      global $order, $currencies;
 
       switch (MODULE_PAYMENT_PAYPOINT_SECPAY_CURRENCY) {
         case 'Default Currency':
@@ -26,7 +26,7 @@
           break;
         case 'Any Currency':
         default:
-          $sec_currency = $currency;
+          $sec_currency = $_SESSION['currency'];
           break;
       }
 
