@@ -95,12 +95,10 @@
 ////
 // Return a product's name
 // TABLES: products
-  function tep_get_products_name($product_id, $language = '') {
-    global $languages_id;
+  function tep_get_products_name($product_id, $language_id = null) {
+    if (empty($language_id)) $language_id = $_SESSION['languages_id'];
 
-    if (empty($language)) $language = $languages_id;
-
-    $product_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language);
+    $product_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
     $product = tep_db_fetch_array($product_query);
 
     return $product['products_name'];
@@ -348,11 +346,9 @@
   }
 
   function tep_get_categories($categories_array = '', $parent_id = '0', $indent = '') {
-    global $languages_id;
-
     if (!is_array($categories_array)) $categories_array = [];
 
-    $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name FROM categories c, categories_description cd WHERE parent_id = " . (int)$parent_id . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$languages_id . " ORDER BY sort_order, cd.categories_name");
+    $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name FROM categories c, categories_description cd WHERE parent_id = " . (int)$parent_id . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY sort_order, cd.categories_name");
     while ($categories = tep_db_fetch_array($categories_query)) {
       $categories_array[] = [
         'id' => $categories['categories_id'],
@@ -930,8 +926,6 @@
   }
 
   function tep_count_customer_orders($id = '', $check_session = true) {
-    global $languages_id;
-
     if (!is_numeric($id)) {
       $id = $_SESSION['customer_id'] ?? 0;
     }
@@ -940,7 +934,7 @@
       return 0;
     }
 
-    $orders_check_query = tep_db_query("SELECT COUNT(*) AS total FROM orders o, orders_status s WHERE o.customers_id = " . (int)$id . " AND o.orders_status = s.orders_status_id AND s.language_id = " . (int)$languages_id . " AND s.public_flag = 1");
+    $orders_check_query = tep_db_query("SELECT COUNT(*) AS total FROM orders o, orders_status s WHERE o.customers_id = " . (int)$id . " AND o.orders_status = s.orders_status_id AND s.language_id = " . (int)$_SESSION['languages_id'] . " AND s.public_flag = 1");
     $orders_check = tep_db_fetch_array($orders_check_query);
 
     return $orders_check['total'];

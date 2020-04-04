@@ -5,37 +5,39 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class shipping {
-    var $modules;
+
+    public $modules;
 
 // class constructor
     function __construct($module = '') {
-      global $language, $PHP_SELF;
+      global $PHP_SELF;
 
       if (defined('MODULE_SHIPPING_INSTALLED') && tep_not_null(MODULE_SHIPPING_INSTALLED)) {
         $this->modules = explode(';', MODULE_SHIPPING_INSTALLED);
 
-        $include_modules = array();
+        $include_modules = [];
 
-        if ( (tep_not_null($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)), $this->modules)) ) {
-          $include_modules[] = array('class' => substr($module['id'], 0, strpos($module['id'], '_')), 'file' => substr($module['id'], 0, strpos($module['id'], '_')) . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)));
+        $extension = '.' . pathinfo($PHP_SELF, PATHINFO_EXTENSION);
+        if ( (tep_not_null($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . $extension, $this->modules)) ) {
+          $include_modules[] = [
+            'class' => substr($module['id'], 0, strpos($module['id'], '_')),
+            'file' => substr($module['id'], 0, strpos($module['id'], '_')) . $extension,
+          ];
         } else {
           foreach($this->modules as $value) {
-            $class = substr($value, 0, strrpos($value, '.'));
-            $include_modules[] = array('class' => $class, 'file' => $value);
+            $class = pathinfo($value, PATHINFO_FILENAME);
+            $include_modules[] = ['class' => $class, 'file' => $value];
           }
         }
 
-        for ($i=0, $n=sizeof($include_modules); $i<$n; $i++) {
-          include('includes/languages/' . $language . '/modules/shipping/' . $include_modules[$i]['file']);
-          include('includes/modules/shipping/' . $include_modules[$i]['file']);
-
-          $GLOBALS[$include_modules[$i]['class']] = new $include_modules[$i]['class'];
+        foreach ($include_modules as $m) {
+          $GLOBALS[$m['class']] = new $m['class']();
         }
       }
     }
@@ -43,7 +45,7 @@
     function quote($method = '', $module = '') {
       global $total_weight, $shipping_weight, $shipping_quoted, $shipping_num_boxes;
 
-      $quotes_array = array();
+      $quotes_array = [];
 
       if (is_array($this->modules)) {
         $shipping_quoted = '';
@@ -61,10 +63,10 @@
           $shipping_weight = $shipping_weight/$shipping_num_boxes;
         }
 
-        $include_quotes = array();
+        $include_quotes = [];
 
-        foreach($this->modules as $value) {
-          $class = substr($value, 0, strrpos($value, '.'));
+        foreach ($this->modules as $value) {
+          $class = pathinfo($value, PATHINFO_FILENAME);
           if (tep_not_null($module)) {
             if ( ($module == $class) && ($GLOBALS[$class]->enabled) ) {
               $include_quotes[] = $class;
@@ -74,10 +76,11 @@
           }
         }
 
-        $size = sizeof($include_quotes);
-        for ($i=0; $i<$size; $i++) {
-          $quotes = $GLOBALS[$include_quotes[$i]]->quote($method);
-          if (is_array($quotes)) $quotes_array[] = $quotes;
+        foreach ($include_quotes as $q) {
+          $quotes = $GLOBALS[$q]->quote($method);
+          if (is_array($quotes)) {
+            $quotes_array[] = $quotes;
+          }
         }
       }
 
@@ -86,35 +89,33 @@
 
     function cheapest() {
       if (is_array($this->modules)) {
-        $rates = array();
+        $rates = [];
 
-        foreach($this->modules as $value) {
-          $class = substr($value, 0, strrpos($value, '.'));
+        foreach ($this->modules as $value) {
+          $class = pathinfo($value, PATHINFO_FILENAME);
           if ($GLOBALS[$class]->enabled) {
             $quotes = $GLOBALS[$class]->quotes;
-            for ($i=0, $n=sizeof($quotes['methods']); $i<$n; $i++) {
-              if (isset($quotes['methods'][$i]['cost']) && tep_not_null($quotes['methods'][$i]['cost'])) {
-                $rates[] = array('id' => $quotes['id'] . '_' . $quotes['methods'][$i]['id'],
-                                 'title' => $quotes['module'] . ' (' . $quotes['methods'][$i]['title'] . ')',
-                                 'cost' => $quotes['methods'][$i]['cost']);
+            foreach ($quotes['methods'] as $method) {
+              if (isset($method['cost']) && tep_not_null($method['cost'])) {
+                $rates[] = [
+                  'id' => $quotes['id'] . '_' . $method['id'],
+                  'title' => $quotes['module'] . ' (' . $method['title'] . ')',
+                  'cost' => $method['cost'],
+                ];
               }
             }
           }
         }
 
-        $cheapest = false;
-        for ($i=0, $n=sizeof($rates); $i<$n; $i++) {
-          if (is_array($cheapest)) {
-            if ($rates[$i]['cost'] < $cheapest['cost']) {
-              $cheapest = $rates[$i];
-            }
-          } else {
-            $cheapest = $rates[$i];
+        $cheapest = $rates[0] ?? false;
+        foreach ($rates as $rate) {
+          if ($rate['cost'] < $cheapest['cost']) {
+            $cheapest = $rate;
           }
         }
 
         return $cheapest;
       }
     }
+
   }
-?>

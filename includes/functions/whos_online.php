@@ -27,7 +27,7 @@ INSERT INTO whos_online (customer_id, full_name, session_id, ip_address, time_en
 EOSQL
         . (int)$wo_customer_id
         . ", '" . tep_db_input($wo_full_name)
-        . "', '" . tep_db_input(tep_session_id())
+        . "', '" . tep_db_input(session_id())
         . "', '" . tep_db_input(tep_get_ip_address())
         . "', '" . tep_db_input($current_time)
         . "', '" . tep_db_input($current_time)

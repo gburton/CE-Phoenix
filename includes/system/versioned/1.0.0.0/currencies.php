@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,28 +14,29 @@
 // Class to handle currencies
 // TABLES: currencies
   class currencies {
-    var $currencies;
+
+    public $currencies;
 
 // class constructor
     function __construct() {
       $this->currencies = array();
-      $currencies_query = tep_db_query("select code, title, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, value from currencies");
+      $currencies_query = tep_db_query("SELECT code, title, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, value FROM currencies");
       while ($currencies = tep_db_fetch_array($currencies_query)) {
-        $this->currencies[$currencies['code']] = array('title' => $currencies['title'],
-                                                       'symbol_left' => $currencies['symbol_left'],
-                                                       'symbol_right' => $currencies['symbol_right'],
-                                                       'decimal_point' => $currencies['decimal_point'],
-                                                       'thousands_point' => $currencies['thousands_point'],
-                                                       'decimal_places' => (int)$currencies['decimal_places'],
-                                                       'value' => $currencies['value']);
+        $this->currencies[$currencies['code']] = [
+          'title' => $currencies['title'],
+          'symbol_left' => $currencies['symbol_left'],
+          'symbol_right' => $currencies['symbol_right'],
+          'decimal_point' => $currencies['decimal_point'],
+          'thousands_point' => $currencies['thousands_point'],
+          'decimal_places' => (int)$currencies['decimal_places'],
+          'value' => $currencies['value'],
+        ];
       }
     }
 
 // class methods
     function format($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
-      global $currency;
-
-      if (empty($currency_type)) $currency_type = $currency;
+      if (empty($currency_type)) $currency_type = $_SESSION['currency'];
 
       if ($calculate_currency_value == true) {
         $rate = (tep_not_null($currency_value)) ? $currency_value : $this->currencies[$currency_type]['value'];
@@ -48,17 +49,11 @@
     }
 
     function calculate_price($products_price, $products_tax, $quantity = 1) {
-      global $currency;
-
-      return tep_round(tep_add_tax($products_price, $products_tax), $this->currencies[$currency]['decimal_places']) * $quantity;
+      return tep_round(tep_add_tax($products_price, $products_tax), $this->currencies[$_SESSION['currency']]['decimal_places']) * $quantity;
     }
 
     function is_set($code) {
-      if (isset($this->currencies[$code]) && tep_not_null($this->currencies[$code])) {
-        return true;
-      } else {
-        return false;
-      }
+      return isset($this->currencies[$code]) && tep_not_null($this->currencies[$code]);
     }
 
     function get_value($code) {
@@ -74,9 +69,7 @@
     }
     
     function format_raw($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
-      global $currency;
-
-      if (empty($currency_type)) $currency_type = $currency;
+      if (empty($currency_type)) $currency_type = $_SESSION['currency'];
 
       if ($calculate_currency_value == true) {
         $rate = (tep_not_null($currency_value)) ? $currency_value : $this->currencies[$currency_type]['value'];
@@ -92,4 +85,3 @@
       return $this->format_raw($this->calculate_price($products_price, $products_tax, $quantity));
     }    
   }
-?>

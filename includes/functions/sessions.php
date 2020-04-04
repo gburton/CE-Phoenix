@@ -67,7 +67,7 @@
         $session_data = session_get_cookie_params();
 
         setcookie(session_name(), '', time()-42000, $session_data['path'], $session_data['domain']);
-        unset($_COOKIE[tep_session_name()]);
+        unset($_COOKIE[session_name()]);
 
         $sane_session_id = false;
       }

@@ -303,13 +303,13 @@
     }
 
     function get_products() {
-      global $languages_id;
-
-      if (!is_array($this->contents)) return false;
+      if (!is_array($this->contents)) {
+        return false;
+      }
 
       $products_array = [];
       foreach (array_keys($this->contents) as $products_id) {
-        $products_query = tep_db_query("SELECT p.products_id, pd.products_name, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_tax_class_id FROM products p, products_description pd WHERE p.products_id = " . (int)$products_id . " AND pd.products_id = p.products_id AND pd.language_id = " . (int)$languages_id);
+        $products_query = tep_db_query("SELECT p.products_id, pd.products_name, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_tax_class_id FROM products p, products_description pd WHERE p.products_id = " . (int)$products_id . " AND pd.products_id = p.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
         if ($products = tep_db_fetch_array($products_query)) {
           $prid = $products['products_id'];
           $products_price = $products['products_price'];
