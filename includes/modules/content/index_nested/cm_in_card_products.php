@@ -19,7 +19,7 @@
     }
 
     public function execute() {
-      global $current_category_id, $languages_id, $currencies, $PHP_SELF, $currency;
+      global $current_category_id, $currencies, $PHP_SELF;
 
       $content_width = MODULE_CONTENT_IN_CARD_PRODUCTS_CONTENT_WIDTH;
       $card_layout = IS_PRODUCT_PRODUCTS_LAYOUT;
@@ -37,7 +37,7 @@ SELECT DISTINCT p.*, pd.*,
   INNER JOIN categories c ON p2c.categories_id = c.categories_id
  WHERE p.products_status = 1 AND c.parent_id = 
 EOSQL
-        . (int)$current_category_id . " AND pd.language_id = " . (int)$languages_id
+        . (int)$current_category_id . " AND pd.language_id = " . (int)$_SESSION['languages_id']
         . " ORDER BY p.products_id DESC LIMIT " . (int)MODULE_CONTENT_IN_CARD_PRODUCTS_MAX_DISPLAY);
 
       $num_card_products = tep_db_num_rows($card_products_query);

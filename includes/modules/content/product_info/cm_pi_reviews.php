@@ -19,8 +19,6 @@
     }
 
     function execute() {
-      global $languages_id;
-
       $content_width = (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH;
       $item_width = (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_WIDTH_EACH;
 
@@ -32,7 +30,7 @@ SELECT rd.*, r.*, p.*, pd.*
    INNER JOIN products_description pd ON p.products_id = pd.products_id AND rd.languages_id = pd.language_id
  WHERE p.products_status = 1 AND r.reviews_status = 1 AND r.products_id = 
 EOSQL
-        . (int)$_GET['products_id'] . " AND rd.languages_id = " . (int)$languages_id
+        . (int)$_GET['products_id'] . " AND rd.languages_id = " . (int)$_SESSION['languages_id']
         . " ORDER BY r." . MODULE_CONTENT_PRODUCT_INFO_REVIEWS_ORDER . " DESC LIMIT "
         . (int)MODULE_CONTENT_PRODUCT_INFO_REVIEWS_CONTENT_LIMIT);
 

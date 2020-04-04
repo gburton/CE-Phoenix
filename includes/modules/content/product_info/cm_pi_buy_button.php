@@ -19,14 +19,14 @@
     }
 
     function execute() {
-      global $product_info, $languages_id;
+      global $product_info;
 
       $products_attributes_query = tep_db_query(<<<'EOSQL'
 SELECT COUNT(*) AS total
  FROM products_options popt INNER JOIN products_attributes patrib ON patrib.options_id = popt.products_options_id
  WHERE patrib.products_id=
 EOSQL
-        . (int)$_GET['products_id'] . " AND popt.language_id = " . (int)$languages_id);
+        . (int)$_GET['products_id'] . " AND popt.language_id = " . (int)$_SESSION['languages_id']);
       $products_attributes = tep_db_fetch_array($products_attributes_query);
 
       $content_width = (int)MODULE_CONTENT_PI_BUY_CONTENT_WIDTH;

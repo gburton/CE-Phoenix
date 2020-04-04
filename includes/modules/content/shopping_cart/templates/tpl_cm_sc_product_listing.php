@@ -20,15 +20,13 @@
     echo '<tr>';
     echo '<td class="d-none d-md-table-cell"><a href="' . tep_href_link('product_info.php', 'products_id=' . $product['id']) . '">' . tep_image('images/' . $product['image'], htmlspecialchars($product['name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
     echo   '<th><a href="' . tep_href_link('product_info.php', 'products_id=' . $product['id']) . '">' . $product['name'] . '</a>';
-    if (isset($product['attributes']) && is_array($product['attributes'])) {
-      foreach($product['attributes'] as $option => $value) {
-        echo '<small><br><i> - ' . $product[$option]['products_options_name'] . ' ' . $product[$option]['products_options_values_name'] . '</i></small>';
-      }
+    foreach (($product['attributes'] ?? []) as $option => $value) {
+      echo '<small><br><i> - ' . $product[$option]['products_options_name'] . ' ' . $product[$option]['products_options_values_name'] . '</i></small>';
     }
     echo   '</th>';
 
     if (STOCK_CHECK == 'true' && tep_check_stock($product['id'], $product['quantity'])) {
-      $any_out_of_stock = true;
+      $GLOBALS['any_out_of_stock'] = true;
 
       echo '<td><span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span></td>';
     } else {
@@ -43,7 +41,7 @@
     echo '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $product['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger') . '</div>';
     echo '</div>';
     echo '</td>';
-    echo '<td class="text-right">' . $currencies->display_price($product['final_price'], tep_get_tax_rate($product['tax_class_id']), $product['quantity']) . '</td>';
+    echo '<td class="text-right">' . $GLOBALS['currencies']->display_price($product['final_price'], tep_get_tax_rate($product['tax_class_id']), $product['quantity']) . '</td>';
     echo '</tr>';
   }
 ?>

@@ -112,7 +112,7 @@
       $return_url = tep_href_link('login.php', '', 'SSL');
 
       if ( isset($_GET['code']) ) {
-        $GLOBALS['paypal_login_customer_id'] = false;
+        $_SESSION['paypal_login_customer_id'] = false;
 
         $params = [
           'code' => $_GET['code'],
@@ -212,13 +212,11 @@
     }
 
     function postLogin() {
-      if ( isset($_SESSION['paypal_login_customer_id']) ) {
-        if ( false !== $_SESSION['paypal_login_customer_id'] ) {
-          $GLOBALS['login_customer_id'] = $_SESSION['paypal_login_customer_id'];
-        }
-
-        unset($_SESSION['paypal_login_customer_id']);
+      if ( false !== ($_SESSION['paypal_login_customer_id'] ?? false) ) {
+        $GLOBALS['login_customer_id'] = $_SESSION['paypal_login_customer_id'];
       }
+
+      unset($_SESSION['paypal_login_customer_id']);
 
 // Register PayPal Express Checkout as the default payment method
       if ( 'paypal_express' !== ($_SESSION['payment'] ?? null) ) {
