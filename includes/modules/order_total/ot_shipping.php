@@ -32,7 +32,7 @@
     public static function is_eligible_free_shipping($country_id, $amount) {
       return defined('MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING')
         && (MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING == 'True')
-        && self::can_ship_free_to($order->delivery['country_id'])
+        && self::can_ship_free_to($country_id)
         && ($amount >= MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER);
     }
 
