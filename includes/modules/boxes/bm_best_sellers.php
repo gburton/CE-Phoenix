@@ -17,7 +17,7 @@
     protected $group = 'boxes';
 
     function execute() {
-      global $current_category_id, $languages_id;
+      global $current_category_id;
 
       $sql = 'SELECT DISTINCT p.products_id, pd.products_name FROM products p, products_description pd';
       if (isset($current_category_id) && ($current_category_id > 0)) {
@@ -26,7 +26,7 @@
       } else {
         $sql .= ' WHERE';
       }
-      $sql .= " p.products_status = 1 AND p.products_ordered > 0 AND p.products_id = pd.products_id AND pd.language_id = " . (int)$languages_id . " ORDER BY p.products_ordered DESC, pd.products_name LIMIT " . MODULE_BOXES_BEST_SELLERS_MAX_DISPLAY;
+      $sql .= " p.products_status = 1 AND p.products_ordered > 0 AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY p.products_ordered DESC, pd.products_name LIMIT " . MODULE_BOXES_BEST_SELLERS_MAX_DISPLAY;
 
       $best_sellers_query = tep_db_query($sql);
       if (tep_db_num_rows($best_sellers_query) >= MODULE_BOXES_BEST_SELLERS_MIN_DISPLAY) {

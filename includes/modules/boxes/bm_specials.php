@@ -31,9 +31,9 @@
     }
 
     function execute() {
-      global $languages_id, $currencies, $oscTemplate;
+      global $currencies, $oscTemplate;
 
-      if ($random_product = tep_random_select("select p.*, pd.*, s.*, p.products_quantity as in_stock, s.specials_new_products_price as final_price from products p, products_description pd, specials s where p.products_status = '1' and p.products_id = s.products_id and pd.products_id = s.products_id and pd.language_id = '" . (int)$languages_id . "' and s.status = '1' order by s.specials_date_added desc limit " . MODULE_BOXES_SPECIALS_MAX_RANDOM_SELECT_SPECIALS)) {
+      if ($random_product = tep_random_select("select p.*, pd.*, s.*, p.products_quantity as in_stock, s.specials_new_products_price as final_price from products p, products_description pd, specials s where p.products_status = '1' and p.products_id = s.products_id and pd.products_id = s.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and s.status = '1' order by s.specials_date_added desc limit " . MODULE_BOXES_SPECIALS_MAX_RANDOM_SELECT_SPECIALS)) {
         $data['data-is-special'] = 1;
         $data['data-product-price'] = $currencies->display_raw($random_product['final_price'], tep_get_tax_rate($random_product['products_tax_class_id']));
         $data['data-product-manufacturer'] = max(0, (int)$random_product['manufacturers_id']);

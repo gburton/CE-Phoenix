@@ -31,11 +31,11 @@
     }
 
     function execute() {
-      global $currencies, $oscTemplate, $languages_id;
+      global $currencies, $oscTemplate;
 
       $data = array();
 
-      if ($random_product = tep_random_select("select p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join specials s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by products_date_added desc limit " . MODULE_BOXES_WHATS_NEW_MAX_RANDOM_SELECT_NEW)) {
+      if ($random_product = tep_random_select("select p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join specials s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' order by products_date_added desc limit " . MODULE_BOXES_WHATS_NEW_MAX_RANDOM_SELECT_NEW)) {
         $data['data-is-special'] = (int)$random_product['is_special'];
         $data['data-product-price'] = $currencies->display_raw($random_product['final_price'], tep_get_tax_rate($random_product['products_tax_class_id']));
         $data['data-product-manufacturer'] = max(0, (int)$random_product['manufacturers_id']);
