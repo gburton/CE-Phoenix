@@ -18,7 +18,7 @@
     const REQUIRES = [ 'address', 'greeting', 'name', 'email_address' ];
 
     public function notify($order) {
-      global $order_id, $customer, $billto, $sendto;
+      global $order_id, $customer;
 
       if (DOWNLOAD_ENABLED == 'true') {
         $attributes_sql = <<<'EOSQL'

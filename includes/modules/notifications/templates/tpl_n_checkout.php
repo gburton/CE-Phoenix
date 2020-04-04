@@ -1,12 +1,12 @@
 <?php
 /*
  $Id$
- 
+
  osCommerce, Open Source E-Commerce Solutions
  http://www.oscommerce.com
- 
+
  Copyright (c) 2020 osCommerce
- 
+
  Released under the GNU General Public License
  */
 
@@ -29,7 +29,7 @@
        . ' x ' . $product['name']
        . (empty($product['model']) ? '' : ' (' . $product['model'] . ')')
        . ' = ' . $GLOBALS['currencies']->display_price($product['final_price'], $product['tax'], $product['qty']);
-       
+
 //------insert customer chosen option to order--------
     foreach (($product['attributes'] ?? []) as $attribute) {
       echo "\n\t" . $attributes_values['option'] . ' ' . $attributes_values['value'];
@@ -45,13 +45,14 @@
   if ($order->content_type != 'virtual') {
     echo "\n" . MODULE_NOTIFICATIONS_CHECKOUT_TEXT_DELIVERY_ADDRESS . "\n"
        . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n"
-       . $customer->make_address_label($sendto, 0, '', "\n") . "\n";
+       . $customer->make_address_label($_SESSION['sendto'], 0, '', "\n") . "\n";
   }
 
   echo "\n" . MODULE_NOTIFICATIONS_CHECKOUT_TEXT_BILLING_ADDRESS . "\n"
      . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n"
-     . $customer->make_address_label($billto, 0, '', "\n") . "\n\n";
-  $payment = $GLOBALS[$GLOBALS['payment']];
+     . $customer->make_address_label($_SESSION['billto'], 0, '', "\n") . "\n\n";
+
+  $payment = $GLOBALS[$_SESSION['payment']];
   if (is_object($payment)) {
     echo MODULE_NOTIFICATIONS_CHECKOUT_TEXT_PAYMENT_METHOD . "\n"
        . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n";
