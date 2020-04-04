@@ -10,8 +10,9 @@
  Released under the GNU General Public License
  */
 
+  $order =& $GLOBALS['order'];
   $sql_data = [
-    'customers_id' => $customer_id,
+    'customers_id' => $_SESSION['customer_id'],
     'customers_name' => $order->customer['name'],
     'customers_company' => $order->customer['company'],
     'customers_street_address' => $order->customer['street_address'],
@@ -50,12 +51,13 @@
 
   tep_db_perform('orders', $sql_data);
 
-  $order_id = tep_db_insert_id();
-  $order->set_id($order_id);
+  $GLOBALS['order_id'] = tep_db_insert_id();
+  $order->set_id($GLOBALS['order_id']);
+  $order_id =& $GLOBALS['order_id'];
 
-  foreach ($order_totals as $order_total) {
+  foreach ($GLOBALS['order_totals'] as $order_total) {
     $sql_data = [
-      'orders_id' => $order_id,
+      'orders_id' => $order->get_id(),
       'title' => $order_total['title'],
       'text' => $order_total['text'],
       'value' => $order_total['value'],
@@ -68,7 +70,7 @@
 
   foreach ($order->products as $product) {
     $sql_data = [
-      'orders_id' => $order_id,
+      'orders_id' => $order->get_id(),
       'products_id' => tep_get_prid($product['id']),
       'products_model' => $product['model'],
       'products_name' => $product['name'],
@@ -108,11 +110,11 @@ SELECT popt.products_options_name, poval.products_options_values_name, pa.option
     AND popt.language_id = %d
 EOSQL;
         }
-        $attributes_query = tep_db_query(sprintf($attributes_sql, (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$languages_id));
+        $attributes_query = tep_db_query(sprintf($attributes_sql, (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$_SESSION['languages_id']));
         $attributes_values = tep_db_fetch_array($attributes_query);
 
         $sql_data = [
-          'orders_id' => $order_id,
+          'orders_id' => $order->get_id(),
           'orders_products_id' => $order_products_id,
           'products_options' => $attributes_values['products_options_name'],
           'products_options_values' => $attributes_values['products_options_values_name'],
@@ -124,7 +126,7 @@ EOSQL;
 
         if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
           $sql_data = [
-            'orders_id' => $order_id,
+            'orders_id' => $order->get_id(),
             'orders_products_id' => $order_products_id,
             'orders_products_filename' => $attributes_values['products_attributes_filename'],
             'download_maxdays' => $attributes_values['products_attributes_maxdays'],
