@@ -5,22 +5,41 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  if (!strstr($PHP_SELF, 'account_history_info.php')) {
+  if (strstr($PHP_SELF, 'account_history_info.php')) {
+    $last_order = $_GET['order_id'];
+  } else {
 // Get last order id for checkout_success
-    $orders_query = tep_db_query("select orders_id from orders where customers_id = '" . (int)$customer_id . "' order by orders_id desc limit 1");
+    $orders_query = tep_db_query("SELECT orders_id FROM orders WHERE customers_id = " . (int)$_SESSION['customer_id'] . " ORDER BY orders_id DESC LIMIT 1");
     $orders = tep_db_fetch_array($orders_query);
     $last_order = $orders['orders_id'];
-  } else {
-    $last_order = $_GET['order_id'];
   }
 
 // Now get all downloadable products in that order
-  $downloads_query = tep_db_query("select date_format(o.date_purchased, '%Y-%m-%d') as date_purchased_day, opd.download_maxdays, op.products_name, opd.orders_products_download_id, opd.orders_products_filename, opd.download_count, opd.download_maxdays from orders o, orders_products op, orders_products_download opd, orders_status os where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = '" . (int)$last_order . "' and o.orders_id = op.orders_id and op.orders_products_id = opd.orders_products_id and opd.orders_products_filename != '' and o.orders_status = os.orders_status_id and os.downloads_flag = '1' and os.language_id = '" . (int)$languages_id . "'");
+  $downloads_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT
+    date_format(o.date_purchased, '%Y-%m-%d') AS date_purchased_day,
+    opd.download_maxdays,
+    op.products_name,
+    opd.orders_products_download_id,
+    opd.orders_products_filename,
+    opd.download_count,
+    opd.download_maxdays
+ FROM orders o
+   INNER JOIN orders_products op ON o.orders_id = op.orders_id
+   INNER JOIN orders_products_download opd ON op.orders_products_id = opd.orders_products_id
+   INNER JOIN orders_status os ON o.orders_status = os.orders_status_id
+ WHERE opd.orders_products_filename != ''
+   AND os.downloads_flag = '1'
+   AND o.customers_id = %d
+   AND o.orders_id = %d
+   AND os.language_id = %d
+EOSQL
+    , (int)$_SESSION['customer_id'], (int)$last_order, (int)$_SESSION['languages_id']));
   if (tep_db_num_rows($downloads_query) > 0) {
 ?>
 

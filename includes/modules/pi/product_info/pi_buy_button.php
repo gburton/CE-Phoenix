@@ -37,9 +37,9 @@
     }
 
     function getOutput() {
-      global $oscTemplate, $product_info, $languages_id;
+      global $product_info;
       
-      $products_attributes_query = tep_db_query("select count(*) as total from products_options popt, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
+      $products_attributes_query = tep_db_query("select count(*) as total from products_options popt, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$_SESSION['languages_id'] . "'");
       $products_attributes = tep_db_fetch_array($products_attributes_query);
       
       $content_width = $this->content_width;
