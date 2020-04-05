@@ -15,6 +15,7 @@
     const CONFIG_KEY_BASE = 'PI_OA_';
 
     public $group = 'pi_modules_c';
+    public $content_width;
 
     function __construct() {
       parent::__construct();
@@ -26,6 +27,7 @@
 
       if ( $this->enabled ) {
         $this->group = 'pi_modules_' . strtolower(PI_OA_GROUP);
+        $this->content_width = (int)PI_OA_CONTENT_WIDTH;
       }
     }
 
