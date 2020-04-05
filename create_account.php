@@ -37,7 +37,7 @@
       $customer_id =& $_SESSION['customers_id'];
 
       tep_reset_session_token();
-      $cart->restore_contents();
+      $_SESSION['cart']->restore_contents();
 
       tep_notify('create_account', $customer);
 

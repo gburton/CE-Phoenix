@@ -12,10 +12,7 @@
 
   require 'includes/application_top.php';
 
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
   require "includes/languages/$language/account.php";
 

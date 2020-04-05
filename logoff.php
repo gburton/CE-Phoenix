@@ -24,7 +24,7 @@
   unset($_SESSION['payment']);
   unset($_SESSION['comments']);
 
-  $cart->reset();
+  $_SESSION['cart']->reset();
 
   require 'includes/template_top.php';
 ?>
