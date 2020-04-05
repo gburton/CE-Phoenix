@@ -241,7 +241,6 @@ CREATE TABLE geo_zones (
 DROP TABLE IF EXISTS hooks;
 CREATE TABLE hooks (
   hooks_id INT NOT NULL AUTO_INCREMENT,
-  hooks_path VARCHAR(255) NOT NULL,
   hooks_site VARCHAR(63) NOT NULL,
   hooks_group VARCHAR(63) NOT NULL,
   hooks_action VARCHAR(255) NOT NULL,
@@ -1081,6 +1080,8 @@ INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (4, 1, 'Company Details', 15, 10, 12);
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (5, 1, 'Options', 50, 10, 12);
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (6, 1, 'Your Password', 60, 10, 12);
+
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'loginRequired', 'loginRequiredStart', 'redirect', '', 'tep_require_login');
 
 INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
 

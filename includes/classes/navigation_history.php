@@ -71,8 +71,8 @@
       }
     }
 
-    public function set_snapshot($page = '') {
-      if (is_array($page)) {
+    public function set_snapshot($page = null) {
+      if (isset($page['page'])) {
         $this->snapshot = [
           'page' => $page['page'],
           'mode' => $page['mode'],

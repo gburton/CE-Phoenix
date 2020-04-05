@@ -982,3 +982,10 @@
   function tep_form_processing_is_valid() {
     return !($GLOBALS['error'] ?? false);
   }
+
+  function tep_require_login($parameters = null) {
+    if (!isset($_SESSION['customer_id'])) {
+      $_SESSION['navigation']->set_snapshot($parameters);
+      tep_redirect(tep_href_link('login.php', '', 'SSL'));
+    }
+  }
