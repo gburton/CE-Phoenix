@@ -5,9 +5,10 @@
   <div class="dropdown-menu<?php echo (('Right' === MODULE_NAVBAR_CURRENCIES_CONTENT_PLACEMENT) ? ' dropdown-menu-right' : ''); ?>" aria-labelledby="navDropdownCurrencies">
     <?php
     foreach ($GLOBALS['currencies']->currencies as $key => $value) {
-      echo '<a class="dropdown-item" href="'
-         . tep_href_link($PHP_SELF, tep_get_all_get_params(['language', 'currency']) . 'currency=' . $key, $GLOBALS['request_type'])
-         . '">' . $value['title'] . '</a>' . PHP_EOL;
+      echo '<a class="dropdown-item" href="' 
+      . tep_href_link($GLOBALS['PHP_SELF'], tep_get_all_get_params(['language', 'currency']) . 'currency=' . $key, $GLOBALS['request_type']) . '">' 
+      . $value['title'] 
+      . '</a>' . PHP_EOL;
     }
     ?>
   </div>
