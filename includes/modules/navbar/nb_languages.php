@@ -18,6 +18,12 @@
 
     function getOutput() {
       if (substr(basename($GLOBALS['PHP_SELF']), 0, strlen('checkout')) !== 'checkout') {
+        if (($GLOBALS['lng'] ?? null) instanceof language) {
+          $lng =& $GLOBALS['lng'];
+        } else {
+          $lng = new language();
+        }
+
         $tpl_data = ['group' => $this->group, 'file' => __FILE__];
         include 'includes/modules/block_template.php';
       }
