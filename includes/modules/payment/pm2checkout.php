@@ -36,11 +36,11 @@
     }
 
     public function process_button() {
-      global $customer_id, $order, $languages_id, $cartID;
+      global $order;
 
       $process_button_string = tep_draw_hidden_field('sid', MODULE_PAYMENT_2CHECKOUT_LOGIN)
                              . tep_draw_hidden_field('total', $this->format_raw($order->info['total'], MODULE_PAYMENT_2CHECKOUT_CURRENCY))
-                             . tep_draw_hidden_field('cart_order_id', date('YmdHis') . '-' . $customer_id . '-' . $cartID)
+                             . tep_draw_hidden_field('cart_order_id', date('YmdHis') . '-' . $_SESSION['customer_id'] . '-' . $_SESSION['cartID'])
                              . tep_draw_hidden_field('fixed', 'Y')
                              . tep_draw_hidden_field('first_name', $order->billing['firstname'])
                              . tep_draw_hidden_field('last_name', $order->billing['lastname'])
@@ -74,7 +74,7 @@
 
       $process_button_string .= tep_draw_hidden_field('return_url', tep_href_link('shopping_cart.php'));
 
-      $lang_query = tep_db_query("SELECT code FROM languages WHERE languages_id = '" . (int)$languages_id . "'");
+      $lang_query = tep_db_query("SELECT code FROM languages WHERE languages_id = '" . (int)$_SESSION['languages_id'] . "'");
       $lang = tep_db_fetch_array($lang_query);
 
       switch (strtolower($lang['code'])) {
@@ -96,11 +96,11 @@
     }
 
     public function after_process() {
-      global $order, $order_id;
+      global $order;
 
       if (MODULE_PAYMENT_2CHECKOUT_TESTMODE == 'Test') {
         $sql_data = [
-          'orders_id' => (int)$order_id,
+          'orders_id' => (int)$order->get_id(),
           'orders_status_id' => (int)$order->info['order_status'],
           'date_added' => 'NOW()',
           'customer_notified' => '0',
@@ -112,7 +112,7 @@
 // The KEY value returned from the gateway is intentionally broken for Test transactions so it is only checked in Production mode
         if (strtoupper(md5(MODULE_PAYMENT_2CHECKOUT_SECRET_WORD . MODULE_PAYMENT_2CHECKOUT_LOGIN . $_POST['order_number'] . $this->order_format($order->info['total'], MODULE_PAYMENT_2CHECKOUT_CURRENCY))) != strtoupper($_POST['key'])) {
           $sql_data = [
-            'orders_id' => (int)$order_id,
+            'orders_id' => (int)$order->get_id(),
             'orders_status_id' => (int)$order->info['order_status'],
             'date_added' => 'NOW()',
             'customer_notified' => '0',
@@ -191,10 +191,10 @@
 
 // format prices without currency formatting
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$currencies->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {

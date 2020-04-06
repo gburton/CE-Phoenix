@@ -217,7 +217,7 @@
     }
 
     function before_process_paypal() {
-      global $order, $order_totals, $sendto, $response_array;
+      global $order, $response_array;
 
       if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
         $params = [
@@ -244,7 +244,7 @@
           $params['ISSUENUMBER'] = $_POST['cc_issue_nh-dns'];
         }
 
-        if ( is_numeric($sendto) && ($sendto > 0) ) {
+        if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
           $params['SHIPTONAME'] = $order->delivery['name'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
           $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
@@ -269,7 +269,7 @@
 
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
-        foreach ( $order_totals as $ot ) {
+        foreach ( $GLOBALS['order_totals'] as $ot ) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_AMT' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);
@@ -299,9 +299,9 @@
     }
 
     function before_process_payflow() {
-      global $cartID, $order, $order_totals, $sendto, $response_array;
+      global $order, $response_array;
 
-      if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
+      if ( !empty($_POST['cc_owner']) && !empty($_POST['cc_number_nh-dns']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) ) {
         $params = [
           'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
           'CURRENCY' => $order->info['currency'],
@@ -319,7 +319,7 @@
           'CVV2' => $_POST['cc_cvc_nh-dns'],
         ];
 
-        if ( is_numeric($sendto) && ($sendto > 0) ) {
+        if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
           $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
           $params['SHIPTOLASTNAME'] = $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
@@ -344,7 +344,7 @@
 
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
-        foreach ($order_totals as $ot) {
+        foreach ($GLOBALS['order_totals'] as $ot) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_COST' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);
@@ -365,7 +365,7 @@
         }
 
         $params['_headers'] = [
-          'X-VPS-REQUEST-ID: ' . md5($cartID . tep_session_id() . $this->_app->formatCurrencyRaw($order->info['total'])),
+          'X-VPS-REQUEST-ID: ' . md5($_SESSION['cartID'] . session_id() . $this->_app->formatCurrencyRaw($order->info['total'])),
           'X-VPS-CLIENT-TIMEOUT: 45',
           'X-VPS-VIT-INTEGRATION-PRODUCT: OSCOM',
           'X-VPS-VIT-INTEGRATION-VERSION: 2.3',

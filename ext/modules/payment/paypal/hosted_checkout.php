@@ -11,9 +11,9 @@
 */
 
   chdir('../../../../');
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  include(DIR_FS_CATALOG . 'includes/apps/paypal/functions/compatibility.php');
+  include DIR_FS_CATALOG . 'includes/apps/paypal/functions/compatibility.php';
 
   $error = false;
 
@@ -22,17 +22,16 @@
   }
 
   if ( $error === false ) {
-    if ( !isset($_GET['key']) || !tep_session_is_registered('pphs_key') || ($_GET['key'] != $pphs_key) || !tep_session_is_registered('pphs_result') ) {
+    if ( !isset($_GET['key']) || !isset($_SESSION['pphs_key']) || ($_GET['key'] != $_SESSION['pphs_key']) || !isset($_SESSION['pphs_result']) ) {
       $error = true;
     }
   }
 
   if ( $error === false ) {
-    if (($pphs_result['ACK'] != 'Success') && ($pphs_result['ACK'] != 'SuccessWithWarning')) {
+    if (($_SESSION['pphs_result']['ACK'] != 'Success') && ($_SESSION['pphs_result']['ACK'] != 'SuccessWithWarning')) {
       $error = true;
 
-      tep_session_register('pphs_error_msg');
-      $pphs_error_msg = $pphs_result['L_LONGMESSAGE0'];
+      $_SESSION['pphs_error_msg'] = $_SESSION['pphs_result']['L_LONGMESSAGE0'];
     }
   }
 
@@ -43,7 +42,7 @@
       $form_url = 'https://securepayments.sandbox.paypal.com/webapps/HostedSoleSolutionApp/webflow/sparta/hostedSoleSolutionProcess';
     }
   } else {
-    $form_url = tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=paypal_pro_hs', 'SSL');
+    $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
   }
 ?>
 <!DOCTYPE html>
@@ -60,7 +59,7 @@
 </div>
 
 <form name="pphs" action="<?php echo $form_url; ?>" method="post" <?php echo ($error == true ? 'target="_top"' : ''); ?>>
-  <input type="hidden" name="hosted_button_id" value="<?php echo (isset($pphs_result['HOSTEDBUTTONID']) ? tep_output_string_protected($pphs_result['HOSTEDBUTTONID']) : ''); ?>" />
+  <input type="hidden" name="hosted_button_id" value="<?php echo (isset($_SESSION['pphs_result']['HOSTEDBUTTONID']) ? tep_output_string_protected($_SESSION['pphs_result']['HOSTEDBUTTONID']) : ''); ?>" />
 </form>
 
 <script>

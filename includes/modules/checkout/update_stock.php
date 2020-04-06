@@ -11,7 +11,7 @@
  */
 
   if (STOCK_LIMITED == 'true') {
-    foreach ($order->products as $product) {
+    foreach ($GLOBALS['order']->products as $product) {
 // Stock Update - Joao Correia
       if (DOWNLOAD_ENABLED == 'true') {
         $stock_query_raw = <<<'EOSQL'

@@ -14,9 +14,7 @@ class manufacturer {
   }
 
   function buildManufacturer($mID) {
-    global $languages_id;
-
-    $manufacturer_query = tep_db_query("select m.*, mi.* from manufacturers m, manufacturers_info mi where m.manufacturers_id = '" . (int)$mID . "' and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = '" . (int)$languages_id . "'");
+    $manufacturer_query = tep_db_query("select m.*, mi.* from manufacturers m, manufacturers_info mi where m.manufacturers_id = " . (int)$mID . " and m.manufacturers_id = mi.manufacturers_id and mi.languages_id = " . (int)$_SESSION['languages_id']);
 
     if ( tep_db_num_rows($manufacturer_query) === 1 ) {
       $manufacturer = tep_db_fetch_array($manufacturer_query);

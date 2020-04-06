@@ -19,15 +19,40 @@
     }
 
     public function execute() {
-      global $new_products_category_id, $languages_id, $currencies, $PHP_SELF, $currency;
+      global $new_products_category_id, $currencies, $PHP_SELF;
 
       $content_width = MODULE_CONTENT_CARD_PRODUCTS_CONTENT_WIDTH;
       $card_layout = IS_PRODUCT_PRODUCTS_LAYOUT;
 
-      if ( (!isset($new_products_category_id)) || ($new_products_category_id == '0') ) {
-        $card_products_query = tep_db_query("select p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, if(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_id desc limit " . (int)MODULE_CONTENT_CARD_PRODUCTS_MAX_DISPLAY);
+      if ( empty($new_products_category_id) ) {
+        $card_products_query = tep_db_query(<<<'EOSQL'
+SELECT p.*, pd.*,
+   IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
+   IF(s.status, s.specials_new_products_price, p.products_price) AS final_price,
+   p.products_quantity AS in_stock,
+   IF(s.status, 1, 0) AS is_special
+ FROM products p LEFT JOIN specials s ON p.products_id = s.products_id, products_description pd
+ WHERE p.products_status = 1 AND p.products_id = pd.products_id AND pd.language_id = 
+EOSQL
+          . (int)$_SESSION['languages_id']
+          . " ORDER BY p.products_id DESC LIMIT " . (int)MODULE_CONTENT_CARD_PRODUCTS_MAX_DISPLAY);
       } else {
-        $card_products_query = tep_db_query("select distinct p.*, pd.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, if(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd, products_to_categories p2c, categories c where p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and c.parent_id = '" . (int)$new_products_category_id . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_id desc limit " . (int)MODULE_CONTENT_CARD_PRODUCTS_MAX_DISPLAY);
+        $card_products_query = tep_db_query(<<<'EOSQL'
+SELECT DISTINCT p.*, pd.*,
+   IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
+   if(s.status, s.specials_new_products_price,
+   p.products_price) AS final_price,
+   p.products_quantity AS in_stock,
+   if(s.status, 1, 0) AS is_special
+ FROM products p LEFT JOIN specials s ON p.products_id = s.products_id
+   INNER JOIN products_description pd ON p.products_id = pd.products_id
+   INNER JOIN products_to_categories p2c ON p.products_id = p2c.products_id
+   INNER JOIN categories c ON p2c.categories_id = c.categories_id
+ WHERE p.products_status = 1 AND c.parent_id = 
+EOSQL
+          . (int)$new_products_category_id
+          . " AND pd.language_id = ". (int)$_SESSION['languages_id']
+          . " ORDER BY p.products_id DESC LIMIT " . (int)MODULE_CONTENT_CARD_PRODUCTS_MAX_DISPLAY);
       }
 
       $num_card_products = tep_db_num_rows($card_products_query);

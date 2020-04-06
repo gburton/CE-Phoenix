@@ -11,19 +11,16 @@
 */
 
   require 'includes/application_top.php';
-  
-  $OSCOM_Hooks->register_pipeline('progress');
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
+
+  $OSCOM_Hooks->register_pipeline('progress');
 
   if (isset($_SESSION['sendto'])) {
     if ( (is_numeric($_SESSION['sendto']) && empty($customer->fetch_to_address($_SESSION['sendto']))) || ([] === $_SESSION['sendto']) ) {
@@ -39,11 +36,11 @@
 
 // register a random ID in the session to check throughout the checkout procedure
 // against alterations in the shopping cart contents
-  if (isset($_SESSION['cartID']) && ($cartID != $cart->cartID)) {
+  if (isset($_SESSION['cartID']) && ($_SESSION['cartID'] != $_SESSION['cart']->cartID)) {
     unset($_SESSION['shipping']);
   }
 
-  $_SESSION['cartID'] = $cart->cartID = $cart->generate_cart_id();
+  $_SESSION['cartID'] = $_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
 
 // if the order contains only virtual products, forward the customer to the billing page as
 // a shipping address is not needed
@@ -53,8 +50,8 @@
     tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
   }
 
-  $total_weight = $cart->show_weight();
-  $total_count = $cart->count_contents();
+  $total_weight = $_SESSION['cart']->show_weight();
+  $total_count = $_SESSION['cart']->count_contents();
 
 // load all enabled shipping modules
   $shipping_modules = new shipping();
@@ -240,7 +237,7 @@
       ?>
       </div>
     </div>
-    
+
     <div class="col-sm-5">
       <h5 class="mb-1">
         <?php

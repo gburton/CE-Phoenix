@@ -19,8 +19,6 @@
     }
 
     public function execute() {
-      global $cart;
-
       $content_width = (int)MODULE_CONTENT_HEADER_BUTTONS_CONTENT_WIDTH;
 
       $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];

@@ -19,8 +19,6 @@
     }
 
     public function execute() {
-      global $languages_id;
-
       $content_width = MODULE_CONTENT_UPCOMING_PRODUCTS_CONTENT_WIDTH;
 
       $expected_query = tep_db_query(<<<'EOSQL'
@@ -28,7 +26,7 @@ SELECT p.products_id, pd.products_name, products_date_available AS date_expected
  FROM products p, products_description pd
  WHERE TO_DAYS(products_date_available) >= TO_DAYS(NOW()) AND p.products_id = pd.products_id AND pd.language_id = 
 EOSQL
- . (int)$languages_id
+ . (int)$_SESSION['languages_id']
  . " ORDER BY " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_FIELD . " " . MODULE_CONTENT_UPCOMING_PRODUCTS_EXPECTED_SORT
  . " LIMIT " . (int)MODULE_CONTENT_UPCOMING_PRODUCTS_MAX_DISPLAY);
 

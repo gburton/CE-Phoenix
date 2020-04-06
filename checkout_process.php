@@ -13,18 +13,19 @@
   include 'includes/application_top.php';
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot(['mode' => 'SSL', 'page' => 'checkout_payment.php']);
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $parameters = [
+    'page' => 'checkout_payment.php',
+    'mode' => 'SSL',
+  ];
+  $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
 // if no shipping method has been selected, redirect the customer to the shipping method selection page
-  if (!isset($_SESSION['shipping']) || !isset($_SESSION['sendto'])) {
+  if (!isset($_SESSION['shipping'], $_SESSION['sendto'])) {
     tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
   }
 
@@ -33,14 +34,14 @@
  }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
-  if (isset($cart->cartID) && isset($_SESSION['cartID'])) {
-    if ($cart->cartID != $cartID) {
+  if (isset($_SESSION['cart']->cartID, $_SESSION['cartID'])) {
+    if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
       tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
     }
   }
 
 // load selected payment module
-  $payment_modules = new payment($payment);
+  $payment_modules = new payment($_SESSION['payment']);
 
 // load the selected shipping module
   $shipping_modules = new shipping($shipping);
@@ -64,9 +65,9 @@
 
   $payment_modules->update_status();
 
-  if ( ($payment_modules->selected_module != $payment)
-    || ( is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object($$payment) )
-    || (is_object($$payment) && (!$$payment->enabled)) )
+  if ( ($payment_modules->selected_module != $_SESSION['payment'])
+    || ( is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object(${$_SESSION['payment']}) )
+    || (is_object(${$_SESSION['payment']}) && (!${$_SESSION['payment']}->enabled)) )
   {
     tep_redirect(tep_href_link('checkout_payment.php', 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED), 'SSL'));
   }

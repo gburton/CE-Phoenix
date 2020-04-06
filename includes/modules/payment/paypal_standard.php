@@ -174,12 +174,11 @@
           $insert_order = true;
         }
 
-        if ($insert_order == true) {
-          global $customer_id, $languages_id, $order, $order_total_modules;
+        if ($insert_order) {
           require 'includes/modules/checkout/build_order_totals.php';
           require 'includes/modules/checkout/insert_order.php';
 
-          $_SESSION['cart_PayPal_Standard_ID'] = $_SESSION['cartID'] . '-' . $order_id;
+          $_SESSION['cart_PayPal_Standard_ID'] = $_SESSION['cartID'] . '-' . $GLOBALS['order']->get_id();
         }
       }
 
@@ -187,13 +186,13 @@
     }
 
     function process_button() {
-      global $language, $customer_id, $order, $sendto, $currency, $shipping, $order_total_modules;
+      global $order;
 
       $total_tax = $order->info['tax'];
 
 // remove shipping tax in total tax value
-      if ( isset($shipping['cost']) ) {
-        $total_tax -= ($order->info['shipping_cost'] - $shipping['cost']);
+      if ( isset($_SESSION['shipping']['cost']) ) {
+        $total_tax -= ($order->info['shipping_cost'] - $_SESSION['shipping']['cost']);
       }
 
       $ipn_language = null;
@@ -202,7 +201,7 @@
 
       if ( count($lng->catalog_languages) > 1 ) {
         foreach ( $lng->catalog_languages as $key => $value ) {
-          if ( $value['directory'] == $language ) {
+          if ( $value['directory'] == $_SESSION['language'] ) {
             $ipn_language = $key;
             break;
           }
@@ -217,9 +216,9 @@
         'shipping_1' => $this->_app->formatCurrencyRaw($order->info['shipping_cost']),
         'business' => $this->_app->getCredentials('PS', 'email'),
         'amount_1' => $this->_app->formatCurrencyRaw($order->info['total'] - $order->info['shipping_cost'] - $total_tax),
-        'currency_code' => $currency,
+        'currency_code' => $_SESSION['currency'],
         'invoice' => $this->extract_order_id(),
-        'custom' => $customer_id,
+        'custom' => $_SESSION['customer_id'],
         'notify_url' => tep_href_link('ext/modules/payment/paypal/standard_ipn.php', (isset($ipn_language) ? 'language=' . $ipn_language : ''), 'SSL', false, false),
         'rm' => '2',
         'return' => tep_href_link('checkout_process.php', '', 'SSL'),
@@ -234,7 +233,7 @@
         $parameters['cbt'] = $return_link_title;
       }
 
-      if (is_numeric($sendto) && ($sendto > 0)) {
+      if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $parameters['address_override'] = '1';
         $parameters['first_name'] = $order->delivery['firstname'];
         $parameters['last_name'] = $order->delivery['lastname'];
@@ -279,25 +278,23 @@
       $has_negative_price = false;
 
 // order totals are processed on checkout confirmation but not captured into a variable
-      if (is_array($order_total_modules->modules)) {
-        foreach ($order_total_modules->modules as $value) {
-          $class = pathinfo($value, PATHINFO_FILENAME);
+      foreach (($GLOBALS['order_total_modules']->modules ?? []) as $value) {
+        $class = pathinfo($value, PATHINFO_FILENAME);
 
-          if ($GLOBALS[$class]->enabled) {
-            foreach ($GLOBALS[$class]->output as $order_total) {
-              if (tep_not_null($order_total['title']) && tep_not_null($order_total['text'])) {
-                if ( !in_array($GLOBALS[$class]->code, ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
-                  $item_params['item_name_' . $line_item_no] = $order_total['title'];
-                  $item_params['amount_' . $line_item_no] = $this->_app->formatCurrencyRaw($order_total['value']);
+        if ($GLOBALS[$class]->enabled) {
+          foreach ($GLOBALS[$class]->output as $order_total) {
+            if (tep_not_null($order_total['title']) && tep_not_null($order_total['text'])) {
+              if ( !in_array($GLOBALS[$class]->code, ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
+                $item_params['item_name_' . $line_item_no] = $order_total['title'];
+                $item_params['amount_' . $line_item_no] = $this->_app->formatCurrencyRaw($order_total['value']);
 
-                  $items_total += $item_params['amount_' . $line_item_no];
+                $items_total += $item_params['amount_' . $line_item_no];
 
-                  if ( $item_params['amount_' . $line_item_no] < 0 ) {
-                    $has_negative_price = true;
-                  }
-
-                  $line_item_no++;
+                if ( $item_params['amount_' . $line_item_no] < 0 ) {
+                  $has_negative_price = true;
                 }
+
+                $line_item_no++;
               }
             }
           }
@@ -321,7 +318,7 @@
       if ( OSCOM_APP_PAYPAL_PS_EWP_STATUS == '1' ) {
         $parameters['cert_id'] = OSCOM_APP_PAYPAL_PS_EWP_PUBLIC_CERT_ID;
 
-        $random_string = rand(100000, 999999) . '-' . $customer_id . '-';
+        $random_string = rand(100000, 999999) . '-' . $_SESSION['customer_id'] . '-';
 
         $data = '';
         foreach ($parameters as $key => $value) {
@@ -388,7 +385,7 @@
     }
 
     function pre_before_check() {
-      global $messageStack, $order_id, $customer_id, $comments;
+      global $order_id;
 
       $result = false;
 
@@ -493,7 +490,7 @@
       }
 
       if ( $result != 'VERIFIED' ) {
-        $messageStack->add_session('header', $this->_app->getDef('module_ps_error_invalid_transaction'));
+        $GLOBALS['messageStack']->add_session('header', $this->_app->getDef('module_ps_error_invalid_transaction'));
 
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
@@ -502,9 +499,9 @@
 
       $order_id = $this->extract_order_id();
 
-      $check_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = " . (int)$order_id . " AND customers_id = " . (int)$customer_id);
+      $check_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = " . (int)$order_id . " AND customers_id = " . (int)$_SESSION['customer_id']);
 
-      if (!tep_db_num_rows($check_query) || ($order_id != $pptx_params['invoice']) || ($customer_id != $pptx_params['custom'])) {
+      if (!tep_db_num_rows($check_query) || ($order_id != $pptx_params['invoice']) || ($_SESSION['customer_id'] != $pptx_params['custom'])) {
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
@@ -530,7 +527,7 @@
     }
 
     function before_process() {
-      global $order_id, $order;
+      global $order;
 
       $new_order_status = DEFAULT_ORDERS_STATUS_ID;
 
@@ -538,10 +535,10 @@
         $new_order_status = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
       }
 
-      tep_db_query("UPDATE orders SET orders_status = " . (int)$new_order_status . ", last_modified = NOW() WHERE orders_id = " . (int)$order_id);
+      tep_db_query("UPDATE orders SET orders_status = " . (int)$new_order_status . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
 
       $sql_data = [
-        'orders_id' => $order_id,
+        'orders_id' => $order->get_id(),
         'orders_status_id' => (int)$new_order_status,
         'date_added' => 'NOW()',
         'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
@@ -590,8 +587,6 @@
     }
 
     function verifyTransaction($pptx_params, $is_ipn = false) {
-      global $currencies;
-
       if ( isset($pptx_params['invoice']) && is_numeric($pptx_params['invoice']) && ($pptx_params['invoice'] > 0) && isset($pptx_params['custom']) && is_numeric($pptx_params['custom']) && ($pptx_params['custom'] > 0) ) {
         $order_query = tep_db_query("SELECT orders_id, currency, currency_value FROM orders WHERE orders_id = " . (int)$pptx_params['invoice'] . " AND customers_id = " . (int)$pptx_params['custom']);
 

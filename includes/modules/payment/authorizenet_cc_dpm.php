@@ -112,7 +112,7 @@ EOD;
     }
 
     public function process_button() {
-      global $customer_id, $order, $sendto, $currency;
+      global $order;
 
       $tstamp = time();
       $sequence = rand(1, 1000);
@@ -131,23 +131,23 @@ EOD;
         'x_zip' => substr($order->billing['postcode'], 0, 20),
         'x_country' => substr($order->billing['country']['title'], 0, 60),
         'x_phone' => substr(preg_replace('/[^0-9]/', '', $order->customer['telephone']), 0, 25),
-        'x_cust_id' => substr($customer_id, 0, 20),
+        'x_cust_id' => substr($_SESSION['customer_id'], 0, 20),
         'x_customer_ip' => tep_get_ip_address(),
         'x_email' => substr($order->customer['email_address'], 0, 255),
         'x_description' => substr(STORE_NAME, 0, 255),
         'x_amount' => $this->format_raw($order->info['total']),
-        'x_currency_code' => substr($currency, 0, 3),
+        'x_currency_code' => substr($_SESSION['currency'], 0, 3),
         'x_method' => 'CC',
         'x_type' => MODULE_PAYMENT_AUTHORIZENET_CC_DPM_TRANSACTION_METHOD == 'Capture' ? 'AUTH_CAPTURE' : 'AUTH_ONLY',
         'x_freight' => $this->format_raw($order->info['shipping_cost']),
         'x_fp_sequence' => $sequence,
         'x_fp_timestamp' => $tstamp,
-        'x_fp_hash' => $this->_hmac(MODULE_PAYMENT_AUTHORIZENET_CC_DPM_TRANSACTION_KEY, MODULE_PAYMENT_AUTHORIZENET_CC_DPM_LOGIN_ID . '^' . $sequence . '^' . $tstamp . '^' . $this->format_raw($order->info['total']) . '^' . $currency),
+        'x_fp_hash' => $this->_hmac(MODULE_PAYMENT_AUTHORIZENET_CC_DPM_TRANSACTION_KEY, MODULE_PAYMENT_AUTHORIZENET_CC_DPM_LOGIN_ID . '^' . $sequence . '^' . $tstamp . '^' . $this->format_raw($order->info['total']) . '^' . $_SESSION['currency']),
         'x_cancel_url' => tep_href_link('shopping_cart.php', '', 'SSL'),
         'x_cancel_url_text' => MODULE_PAYMENT_AUTHORIZENET_CC_DPM_TEXT_RETURN_BUTTON,
       ];
 
-      if (is_numeric($sendto) && ($sendto > 0)) {
+      if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $params['x_ship_to_first_name'] = substr($order->delivery['firstname'], 0, 50);
         $params['x_ship_to_last_name'] = substr($order->delivery['lastname'], 0, 50);
         $params['x_ship_to_company'] = substr($order->delivery['company'], 0, 50);
@@ -184,16 +184,16 @@ EOD;
         $process_button_string .= tep_draw_hidden_field('x_line_item', ($i+1) . '<|>' . substr($order->products[$i]['name'], 0, 31) . '<|><|>' . $order->products[$i]['qty'] . '<|>' . $this->format_raw($order->products[$i]['final_price']) . '<|>' . ($order->products[$i]['tax'] > 0 ? 'YES' : 'NO'));
       }
 
-      $process_button_string .= tep_draw_hidden_field(tep_session_name(), tep_session_id());
+      $process_button_string .= tep_draw_hidden_field(session_name(), session_id());
 
       return $process_button_string;
     }
 
     public function before_process() {
-      global $order, $authorizenet_cc_dpm_error;
+      global $order;
 
       $error = false;
-      $authorizenet_cc_dpm_error = false;
+      $_SESSION['authorizenet_cc_dpm_error'] = false;
 
       $check_array = [
         'x_response_code',
@@ -310,8 +310,6 @@ EOD;
     }
 
     public function get_error() {
-      global $authorizenet_cc_dpm_error;
-
       $error_message = MODULE_PAYMENT_AUTHORIZENET_CC_DPM_ERROR_GENERAL;
 
       switch ($_GET['error']) {
@@ -328,10 +326,10 @@ EOD;
           break;
       }
 
-      if ( ($_GET['error'] != 'verification') && tep_session_is_registered('authorizenet_cc_dpm_error') ) {
+      if ( ($_GET['error'] != 'verification') && isset($_SESSION['authorizenet_cc_dpm_error']) ) {
         $error_message = $authorizenet_cc_dpm_error;
 
-        tep_session_unregister('authorizenet_cc_dpm_error');
+        unset($_SESSION['authorizenet_cc_dpm_error']);
       }
 
       $error = [
@@ -450,10 +448,10 @@ EOD;
 
 // format prices without currency formatting
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$this->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {

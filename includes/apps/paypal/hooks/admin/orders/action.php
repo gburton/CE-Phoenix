@@ -5,20 +5,21 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   if ( !class_exists('OSCOM_PayPal') ) {
-    include(DIR_FS_CATALOG . 'includes/apps/paypal/OSCOM_PayPal.php');
+    include DIR_FS_CATALOG . 'includes/apps/paypal/OSCOM_PayPal.php';
   }
 
   class paypal_hook_admin_orders_action {
+
     function __construct() {
       global $OSCOM_PayPal;
 
-      if ( !isset($OSCOM_PayPal) || !is_object($OSCOM_PayPal) || (get_class($OSCOM_PayPal) != 'OSCOM_PayPal') ) {
+      if ( !(($OSCOM_PayPal ?? null) instanceof OSCOM_PayPal) ) {
         $OSCOM_PayPal = new OSCOM_PayPal();
       }
 
@@ -364,4 +365,3 @@
       }
     }
   }
-?>

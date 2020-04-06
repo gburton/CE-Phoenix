@@ -11,23 +11,22 @@
 */
 
   require 'includes/application_top.php';
-  
-  $OSCOM_Hooks->register_pipeline('progress');
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot(['mode' => 'SSL', 'page' => 'checkout_payment.php']);
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $parameters = [
+    'page' => 'checkout_payment.php',
+    'mode' => 'SSL',
+  ];
+  $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
-  if (isset($cart->cartID) && isset($_SESSION['cartID'])) {
-    if ($cart->cartID != $cartID) {
+  if (isset($_SESSION['cart']->cartID, $_SESSION['cartID'])) {
+    if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
       tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
     }
   }
@@ -37,30 +36,29 @@
     tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
   }
 
+  $OSCOM_Hooks->register_pipeline('progress');
+
   if (isset($_POST['payment'])) {
-    $payment = $_POST['payment'];
+    $_SESSION['payment'] = $_POST['payment'];
+  } elseif (!array_key_exists('payment', $_SESSION)) {
+    $_SESSION['payment'] = null;
   }
 
-  if (!isset($_SESSION['payment'])) {
-    tep_session_register('payment');
-  }
-
-  if (!isset($_SESSION['comments'])) {
-    tep_session_register('comments');
-  }
 
   if (isset($_POST['comments']) && tep_not_null($_POST['comments'])) {
-    $comments = tep_db_prepare_input($_POST['comments']);
+    $_SESSION['comments'] = tep_db_prepare_input($_POST['comments']);
+  } elseif (!array_key_exists('comments', $_SESSION)) {
+    $_SESSION['comments'] = null;
   }
 
 // load the selected payment module
-  $payment_modules = new payment($payment);
+  $payment_modules = new payment($_SESSION['payment']);
 
   $order = new order();
 
   $payment_modules->update_status();
 
-  if ( ($payment_modules->selected_module != $payment) || ( is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object($$payment) ) || ($$payment->enabled == false) ) {
+  if ( ($payment_modules->selected_module != $_SESSION['payment']) || ( is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object(${$_SESSION['payment']}) ) || !${$_SESSION['payment']}->enabled ) {
     tep_redirect(tep_href_link('checkout_payment.php', 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED), 'SSL'));
   }
 
@@ -84,7 +82,7 @@
     }
 
     // Out of Stock
-    if ( (STOCK_ALLOW_CHECKOUT != 'true') && ($any_out_of_stock == true) ) {
+    if ( (STOCK_ALLOW_CHECKOUT != 'true') && $any_out_of_stock ) {
       tep_redirect(tep_href_link('shopping_cart.php'));
     }
   }
@@ -104,7 +102,7 @@
     echo $messageStack->output('checkout_confirmation');
   }
 
-  $form_action_url = $$payment->form_action_url ?? tep_href_link('checkout_process.php', '', 'SSL');
+  $form_action_url = ${$_SESSION['payment']}->form_action_url ?? tep_href_link('checkout_process.php', '', 'SSL');
 
   echo tep_draw_form('checkout_confirmation', $form_action_url, 'post');
 ?>
@@ -148,7 +146,7 @@
         <ul class="list-group list-group-flush">
           <?php
           $address = $customer_data->get_module('address');
-          if ($sendto != false) {
+          if ($_SESSION['sendto']) {
             echo '<li class="list-group-item">';
               echo '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>';
               echo '<h5 class="mb-0">' . HEADING_DELIVERY_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping_address.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
@@ -229,7 +227,7 @@
         }
         ?>
       </div>
-  
+
       <div class="w-100"></div>
       <?php
     }

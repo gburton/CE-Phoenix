@@ -12,10 +12,7 @@
 
   require 'includes/application_top.php';
 
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
   require "includes/languages/$language/account_history.php";
 
@@ -37,7 +34,7 @@ SELECT o.*, ot.text as order_total, s.orders_status_name
  WHERE ot.class = 'ot_total' AND s.public_flag = 1 AND s.language_id = %d AND o.customers_id = %d
  ORDER BY orders_id DESC
 EOSQL
-      , (int)$languages_id, (int)$customer_id);
+      , (int)$_SESSION['languages_id'], (int)$_SESSION['customer_id']);
     $history_split = new splitPageResults($history_query_raw, MAX_DISPLAY_ORDER_HISTORY);
     $history_query = tep_db_query($history_split->sql_query);
 ?>

@@ -31,8 +31,6 @@
     }
 
     function execute() {
-      global $languages_id, $oscTemplate;
-      
       if (isset($_GET['products_id'])) {
         $manufacturer_query = tep_db_query("select manufacturers_id from products where products_id = '" . (int)$_GET['products_id'] . "' and manufacturers_id is not null");
         $manufacturer = tep_db_fetch_array($manufacturer_query);

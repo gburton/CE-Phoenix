@@ -12,10 +12,7 @@
 
   require 'includes/application_top.php';
 
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
   if (!$customer_data->has(['newsletter'])) {
     tep_redirect(tep_href_link('account.php', '', 'SSL'));
@@ -24,8 +21,8 @@
 // needs to be included earlier to set the success message in the messageStack
   require "includes/languages/$language/account_newsletters.php";
 
-  $customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$customer_id]);
-  $newsletter_query = tep_db_query($customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$customer_id]));
+  $customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$_SESSION['customer_id']]);
+  $newsletter_query = tep_db_query($customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$_SESSION['customer_id']]));
   $newsletter = tep_db_fetch_array($newsletter_query);
 
   if (tep_validate_form_action_is('process')) {
@@ -37,7 +34,7 @@
 
     $saved_newsletter = $customer_data->get('newsletter', $newsletter);
     if ($newsletter_general != $saved_newsletter) {
-      $customer_data->update(['newsletter' => (int)(('1' == $saved_newsletter) ? 0 : 1)], ['id' => (int)$customer_id]);
+      $customer_data->update(['newsletter' => (int)(('1' == $saved_newsletter) ? 0 : 1)], ['id' => (int)$_SESSION['customer_id']]);
     }
 
     $messageStack->add_session('account', SUCCESS_NEWSLETTER_UPDATED, 'success');

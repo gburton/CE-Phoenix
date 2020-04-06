@@ -13,4 +13,4 @@
   include __DIR__ . '/update_stock.php';
   include __DIR__ . '/update_products_ordered.php';
 
-  tep_notify('checkout', $order);
+  tep_notify('checkout', $GLOBALS['order']);

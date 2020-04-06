@@ -57,7 +57,7 @@
     }
 
     public function process_button() {
-      global $customer_id, $order, $currency, $cartID;
+      global $order;
 
       $process_button_string = '';
 
@@ -76,9 +76,9 @@
 
       $crypt = [
         'ReferrerID' => 'C74D7B82-E9EB-4FBD-93DB-76F0F551C802',
-        'VendorTxCode' => substr(date('YmdHis') . '-' . $customer_id . '-' . $cartID, 0, 40),
+        'VendorTxCode' => substr(date('YmdHis') . '-' . $_SESSION['customer_id'] . '-' . $_SESSION['cartID'], 0, 40),
         'Amount' => $this->format_raw($order->info['total']),
-        'Currency' => $currency,
+        'Currency' => $_SESSION['currency'],
         'Description' => substr(STORE_NAME, 0, 100),
         'SuccessURL' => tep_href_link('checkout_process.php', '', 'SSL'),
         'FailureURL' => tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL'),
@@ -376,10 +376,10 @@
 
 // format prices without currency formatting
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$currencies->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {
@@ -390,24 +390,19 @@
     }
 
     function getOrderTotalsSummary() {
-      global $order_total_modules;
-
       $order_totals = [];
-
-      if (is_array($order_total_modules->modules)) {
-        foreach ($order_total_modules->modules as $value) {
-          $class = pathinfo($value, PATHINFO_FILENAME);
-          if ($GLOBALS[$class]->enabled) {
-            foreach ($GLOBALS[$class]->output as $module) {
-              if (tep_not_null($module['title']) && tep_not_null($module['text'])) {
-                $order_total_array[] = [
-                  'code' => $GLOBALS[$class]->code,
-                  'title' => $module['title'],
-                  'text' => $module['text'],
-                  'value' => $module['value'],
-                  'sort_order' => $GLOBALS[$class]->sort_order,
-                ];
-              }
+      foreach (($GLOBALS['order_total_modules']->modules ?? []) as $value) {
+        $class = pathinfo($value, PATHINFO_FILENAME);
+        if ($GLOBALS[$class]->enabled) {
+          foreach ($GLOBALS[$class]->output as $module) {
+            if (tep_not_null($module['title']) && tep_not_null($module['text'])) {
+              $order_totals[] = [
+                'code' => $GLOBALS[$class]->code,
+                'title' => $module['title'],
+                'text' => $module['text'],
+                'value' => $module['value'],
+                'sort_order' => $GLOBALS[$class]->sort_order,
+              ];
             }
           }
         }

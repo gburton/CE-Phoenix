@@ -19,7 +19,7 @@
     }
 
     function execute() {
-      global $languages_id, $currencies, $PHP_SELF;
+      global $currencies, $PHP_SELF;
 
       $content_width = (int)MODULE_CONTENT_PRODUCT_INFO_ALSO_PURCHASED_CONTENT_WIDTH;
       $card_layout = IS_PRODUCT_PRODUCTS_LAYOUT;
@@ -40,7 +40,7 @@ SELECT
  WHERE p.products_status = 1 AND opa.products_id != opb.products_id AND opa.products_id = 
 EOSQL
         . (int)$_GET['products_id']
-        . " AND pd.language_id = " . (int)$languages_id
+        . " AND pd.language_id = " . (int)$_SESSION['languages_id']
         . " GROUP BY p.products_id ORDER BY o.date_purchased DESC LIMIT " . (int)MODULE_CONTENT_PRODUCT_INFO_ALSO_PURCHASED_CONTENT_LIMIT);
       $num_products_ordered = tep_db_num_rows($orders_query);
 

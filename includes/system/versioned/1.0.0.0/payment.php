@@ -11,16 +11,16 @@
 */
 
   class payment {
-    var $modules, $selected_module;
+    public $modules, $selected_module;
 
 // class constructor
     function __construct($module = '') {
-      global $payment, $language, $PHP_SELF;
+      global $PHP_SELF;
 
       if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
         $this->modules = explode(';', MODULE_PAYMENT_INSTALLED);
 
-        $include_modules = array();
+        $include_modules = [];
 
         if ( (tep_not_null($module)) && (in_array($module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)), $this->modules)) ) {
           $this->selected_module = $module;
@@ -33,8 +33,8 @@
           }
         }
 
-        for ($i=0, $n=sizeof($include_modules); $i<$n; $i++) {
-          include('includes/languages/' . $language . '/modules/payment/' . $include_modules[$i]['file']);
+        for ($i=0, $n=count($include_modules); $i<$n; $i++) {
+          include('includes/languages/' . $_SESSION['language'] . '/modules/payment/' . $include_modules[$i]['file']);
           include('includes/modules/payment/' . $include_modules[$i]['file']);
 
           $GLOBALS[$include_modules[$i]['class']] = new $include_modules[$i]['class'];
@@ -43,8 +43,8 @@
 // if there is only one payment method, select it as default because in
 // checkout_confirmation.php the $payment variable is being assigned the
 // $_POST['payment'] value which will be empty (no radio button selection possible)
-        if ( (tep_count_payment_modules() == 1) && (!isset($GLOBALS[$payment]) || (isset($GLOBALS[$payment]) && !is_object($GLOBALS[$payment]))) ) {
-          $payment = $include_modules[0]['class'];
+        if ( (tep_count_payment_modules() == 1) && (!isset($GLOBALS[$_SESSION['payment']]) || !is_object($GLOBALS[$_SESSION['payment']])) ) {
+          $_SESSION['payment'] = $include_modules[0]['class'];
         }
 
         if ( (tep_not_null($module)) && (in_array($module, $this->modules)) && (isset($GLOBALS[$module]->form_action_url)) ) {

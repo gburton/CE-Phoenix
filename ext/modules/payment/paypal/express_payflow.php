@@ -14,7 +14,7 @@
   require 'includes/application_top.php';
 
 // if there is nothing in the customer's cart, redirect them to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
@@ -64,7 +64,7 @@
 
 // register a random ID in the session to check throughout the checkout procedure
 // against alterations in the shopping cart contents
-  $_SESSION['cartID'] = $cart->cartID;
+  $_SESSION['cartID'] = $_SESSION['cart']->cartID;
 
   switch ($_GET['osC_Action']) {
     case 'retrieve':
@@ -94,7 +94,7 @@
             if ( ($response_array['PAYERSTATUS'] == 'unverified') && !empty($check['customers_password']) ) {
               $messageStack->add_session('login', MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_WARNING_LOCAL_LOGIN_REQUIRED, 'warning');
 
-              $navigation->set_snapshot();
+              $_SESSION['navigation']->set_snapshot();
 
               $login_url = tep_href_link('login.php', '', 'SSL');
               $login_email_address = tep_output_string($response_array['EMAIL']);
@@ -222,18 +222,18 @@ EOD;
           }
         }
 
-        $_SESSION['billto'] = $sendto;
+        $_SESSION['billto'] = $_SESSION['sendto'];
         $billto =& $_SESSION['billto'];
         $sendto =& $_SESSION['sendto'];
 
         $order = new order();
 
-        if ($cart->get_content_type() === 'virtual') {
+        if ($_SESSION['cart']->get_content_type() === 'virtual') {
           $_SESSION['shipping'] = false;
-          $sendto = false;
+          $_SESSION['sendto'] = false;
         } else {
-          $total_weight = $cart->show_weight();
-          $total_count = $cart->count_contents();
+          $total_weight = $_SESSION['cart']->show_weight();
+          $total_count = $_SESSION['cart']->count_contents();
 
 // load all enabled shipping modules
           $shipping_modules = new shipping();
@@ -350,9 +350,9 @@ EOD;
         $params['SHIPTOZIP'] = $order->delivery['postcode'];
       }
 
-      if ($cart->get_content_type() !== 'virtual') {
-        $total_weight = $cart->show_weight();
-        $total_count = $cart->count_contents();
+      if ($_SESSION['cart']->get_content_type() !== 'virtual') {
+        $total_weight = $_SESSION['cart']->show_weight();
+        $total_count = $_SESSION['cart']->count_contents();
 
 // load all enabled shipping modules
         $shipping_modules = new shipping();
@@ -385,7 +385,7 @@ EOD;
           }
         } else {
           if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') ) {
-            tep_session_unregister('shipping');
+            unset($_SESSION['shipping']);
 
             $messageStack->add_session('checkout_address', MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_ERROR_NO_SHIPPING_AVAILABLE_TO_SHIPPING_ADDRESS);
 

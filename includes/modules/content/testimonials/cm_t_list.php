@@ -24,7 +24,7 @@
 
       $testimonials_query_raw = "SELECT t.*, td.* FROM testimonials t, testimonials_description td WHERE t.testimonials_id = td.testimonials_id";
       if (MODULE_CONTENT_TESTIMONIALS_LIST_ALL != 'All') {
-        $testimonials_query_raw .= " AND td.languages_id = " . (int)$GLOBALS['languages_id'];
+        $testimonials_query_raw .= " AND td.languages_id = " . (int)$_SESSION['languages_id'];
       }
       $testimonials_query_raw .= " AND t.testimonials_status = 1 order by t.testimonials_id DESC";
 

@@ -47,9 +47,7 @@
     }
 
     private function extract_order_id() {
-      global $cart_RBS_Worldpay_Hosted_ID;
-
-      return substr($cart_RBS_Worldpay_Hosted_ID, strpos($cart_RBS_Worldpay_Hosted_ID, '-')+1);
+      return substr($_SESSION['cart_RBS_Worldpay_Hosted_ID'], strpos($_SESSION['cart_RBS_Worldpay_Hosted_ID'], '-')+1);
     }
 
     public function selection() {
@@ -68,29 +66,22 @@
     }
 
     public function pre_confirmation_check() {
-      global $cartID, $cart;
-
-      if (empty($cart->cartID)) {
-        $cartID = $cart->cartID = $cart->generate_cart_id();
-      }
-
-      if (!tep_session_is_registered('cartID')) {
-        tep_session_register('cartID');
+      if (empty($_SESSION['cart']->cartID)) {
+        $_SESSION['cartID'] = $_SESSION['cart']->cartID = $_SESSION['cart']->generate_cart_id();
       }
     }
 
     public function confirmation() {
+      global $order;
+
       $insert_order = false;
-
-      if (tep_session_is_registered('cart_RBS_Worldpay_Hosted_ID')) {
-        global $cartID, $customer_id, $languages_id, $order, $order_total_modules;
-
+      if (isset($_SESSION['cart_RBS_Worldpay_Hosted_ID'])) {
         $order_id = $this->extract_order_id();
 
         $curr_check = tep_db_query("SELECT currency FROM orders WHERE orders_id = " . (int)$order_id);
         $curr = tep_db_fetch_array($curr_check);
 
-        if ( ($curr['currency'] != $order->info['currency']) || ($cartID != substr($GLOBALS['cart_RBS_Worldpay_Hosted_ID'], 0, strlen($cartID))) ) {
+        if ( ($curr['currency'] != $order->info['currency']) || ($_SESSION['cartID'] != substr($GLOBALS['cart_RBS_Worldpay_Hosted_ID'], 0, strlen($_SESSION['cartID']))) ) {
           $check_query = tep_db_query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int)$order_id . ' LIMIT 1');
 
           if (tep_db_num_rows($check_query) < 1) {
@@ -107,30 +98,29 @@
         require 'includes/modules/checkout/build_order_totals.php';
         require 'includes/modules/checkout/insert_order.php';
 
-        $cart_RBS_Worldpay_Hosted_ID = $cartID . '-' . $order_id;
-        tep_session_register('cart_RBS_Worldpay_Hosted_ID');
+        $_SESSION['cart_RBS_Worldpay_Hosted_ID'] = $_SESSION['cartID'] . '-' . $order->get_id();
       }
 
       return false;
     }
 
     public function build_hash($order_id) {
-      global $customer_id, $language, $order;
-      return md5(tep_session_id() . $customer_id . $order_id . $language . number_format($order->info['total'], 2) . MODULE_PAYMENT_RBSWORLDPAY_HOSTED_MD5_PASSWORD);
+      global $order;
+      return md5(session_id() . $_SESSION['customer_id'] . $order_id . $_SESSION['language'] . number_format($order->info['total'], 2) . MODULE_PAYMENT_RBSWORLDPAY_HOSTED_MD5_PASSWORD);
     }
 
     public function process_button() {
-      global $order, $currency, $languages_id, $language, $customer_id;
+      global $order;
 
       $order_id = $this->extract_order_id();
 
-      $lang_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$languages_id);
+      $lang_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$_SESSION['languages_id']);
       $lang = tep_db_fetch_array($lang_query);
 
       $process_button_string = tep_draw_hidden_field('instId', MODULE_PAYMENT_RBSWORLDPAY_HOSTED_INSTALLATION_ID)
                              . tep_draw_hidden_field('cartId', $order_id)
                              . tep_draw_hidden_field('amount', $this->format_raw($order->info['total']))
-                             . tep_draw_hidden_field('currency', $currency)
+                             . tep_draw_hidden_field('currency', $_SESSION['currency'])
                              . tep_draw_hidden_field('desc', STORE_NAME)
                              . tep_draw_hidden_field('name', $order->billing['name'])
                              . tep_draw_hidden_field('address1', $order->billing['street_address'])
@@ -144,11 +134,11 @@
                              . tep_draw_hidden_field('hideCurrency', 'true')
                              . tep_draw_hidden_field('lang', strtoupper($lang['code']))
                              . tep_draw_hidden_field('signatureFields', 'amount:currency:cartId')
-                             . tep_draw_hidden_field('signature', md5(MODULE_PAYMENT_RBSWORLDPAY_HOSTED_MD5_PASSWORD . ':' . $this->format_raw($order->info['total']) . ':' . $currency . ':' . $order_id))
+                             . tep_draw_hidden_field('signature', md5(MODULE_PAYMENT_RBSWORLDPAY_HOSTED_MD5_PASSWORD . ':' . $this->format_raw($order->info['total']) . ':' . $_SESSION['currency'] . ':' . $order_id))
                              . tep_draw_hidden_field('MC_callback', tep_href_link('ext/modules/payment/rbsworldpay/hosted_callback.php', '', 'SSL', false))
-                             . tep_draw_hidden_field('M_sid', tep_session_id())
-                             . tep_draw_hidden_field('M_cid', $customer_id)
-                             . tep_draw_hidden_field('M_lang', $language)
+                             . tep_draw_hidden_field('M_sid', session_id())
+                             . tep_draw_hidden_field('M_cid', $_SESSION['customer_id'])
+                             . tep_draw_hidden_field('M_lang', $_SESSION['language'])
                              . tep_draw_hidden_field('M_hash', build_hash($order_id));
 
       if (MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TRANSACTION_METHOD == 'Pre-Authorization') {
@@ -163,7 +153,7 @@
     }
 
     public function before_process() {
-      global $customer_id, $order, $cart;
+      global $order;
 
       $order_id = $this->extract_order_id();
 
@@ -181,7 +171,7 @@
       $module_status_id = MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID;
       $order_status_id = (MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID > 0 ? MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ORDER_STATUS_ID : DEFAULT_ORDERS_STATUS_ID);
 
-      $order_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = " . (int)$order_id . " AND customers_id = " . (int)$customer_id);
+      $order_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = " . (int)$order_id . " AND customers_id = " . (int)$_SESSION['customer_id']);
 
       if (!tep_db_num_rows($order_query)) {
         $this->sendDebugEmail();
@@ -234,7 +224,7 @@
 
       require 'includes/modules/checkout/reset.php';
 
-      tep_session_unregister('cart_RBS_Worldpay_Hosted_ID');
+      unset($_SESSION['cart_RBS_Worldpay_Hosted_ID']);
 
       tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
@@ -315,10 +305,10 @@
 
 // format prices without currency formatting
     public function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$this->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {

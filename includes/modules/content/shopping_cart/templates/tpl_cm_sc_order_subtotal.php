@@ -2,7 +2,7 @@
 
 <div class="col-sm-<?php echo $content_width ?> cm-sc-order-subtotal">
   <h4 class="text-right">
-    <?php echo sprintf(MODULE_CONTENT_SC_ORDER_SUBTOTAL_SUB_TOTAL, $currencies->format($cart->show_total())); ?>
+    <?php echo $cart_total; ?>
   </h4>
 </div>
 
@@ -10,7 +10,7 @@
 /*
   $Id$
 
-  Copyright (c) 2016:
+  Copyright (c) 2020:
     Dan Cole - @Dan Cole
     James Keebaugh - @kymation
     Lambros - @Tsimi

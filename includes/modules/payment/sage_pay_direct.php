@@ -62,14 +62,11 @@
     }
 
     public function selection() {
-      global $customer_id, $payment;
-
-      if ( (MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True') && !tep_session_is_registered('payment') ) {
-        $tokens_query = tep_db_query("SELECT 1 FROM customers_sagepay_tokens WHERE customers_id = '" . (int)$customer_id . "' LIMIT 1");
+      if ( (MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True') && !isset($_SESSION['payment']) ) {
+        $tokens_query = tep_db_query("SELECT 1 FROM customers_sagepay_tokens WHERE customers_id = " . (int)$_SESSION['customer_id'] . " LIMIT 1");
 
         if ( tep_db_num_rows($tokens_query) ) {
-          $payment = $this->code;
-          tep_session_register('payment');
+          $_SESSION['payment'] = $this->code;
         }
       }
 
@@ -84,7 +81,7 @@
     }
 
     public function confirmation() {
-      global $order, $customer_id;
+      global $order;
 
       $card_types = [];
       foreach ($this->getCardTypes() as $key => $value) {
@@ -114,7 +111,7 @@
       $content = '';
 
       if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True' ) {
-        $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_sagepay_tokens WHERE customers_id = '" . (int)$customer_id . "' ORDER BY date_added");
+        $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_sagepay_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
           $content .= '<table id="sagepay_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
@@ -198,7 +195,7 @@
     }
 
     public function before_process() {
-      global $customer_id, $order, $currency, $order_totals, $cartID, $sage_pay_response;
+      global $order, $order_totals, $sage_pay_response;
 
       $transaction_response = null;
       $sage_pay_response = null;
@@ -244,7 +241,7 @@
 
         if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True' ) {
           if ( isset($_POST['sagepay_card']) && is_numeric($_POST['sagepay_card']) && ($_POST['sagepay_card'] > 0) ) {
-            $token_query = tep_db_query("SELECT sagepay_token FROM customers_sagepay_tokens WHERE id = '" . (int)$_POST['sagepay_card'] . "' AND customers_id = '" . (int)$customer_id . "'");
+            $token_query = tep_db_query("SELECT sagepay_token FROM customers_sagepay_tokens WHERE id = '" . (int)$_POST['sagepay_card'] . "' AND customers_id = '" . (int)$_SESSION['customer_id'] . "'");
 
             if ( tep_db_num_rows($token_query) == 1 ) {
               $token = tep_db_fetch_array($token_query);
@@ -342,9 +339,9 @@
           'VPSProtocol' => $this->api_version,
           'ReferrerID' => 'C74D7B82-E9EB-4FBD-93DB-76F0F551C802',
           'Vendor' => substr(MODULE_PAYMENT_SAGE_PAY_DIRECT_VENDOR_LOGIN_NAME, 0, 15),
-          'VendorTxCode' => substr(date('YmdHis') . '-' . $customer_id . '-' . $cartID, 0, 40),
+          'VendorTxCode' => substr(date('YmdHis') . '-' . $_SESSION['customer_id'] . '-' . $_SESSION['cartID'], 0, 40),
           'Amount' => $this->format_raw($order->info['total']),
-          'Currency' => $currency,
+          'Currency' => $_SESSION['currency'],
           'Description' => substr(STORE_NAME, 0, 100),
           'BillingSurname' => substr($order->billing['lastname'], 0, 20),
           'BillingFirstnames' => substr($order->billing['firstname'], 0, 20),
@@ -362,7 +359,7 @@
           'DeliveryPhone' => substr($order->customer['telephone'], 0, 20),
           'CustomerEMail' => substr($order->customer['email_address'], 0, 255),
           'Apply3DSecure' => '0',
-          'VendorData' => 'Customer ID ' . $customer_id,
+          'VendorData' => 'Customer ID ' . $_SESSION['customer_id'],
         ];
 
         if ( isset($sagepay_token) ) {
@@ -459,29 +456,15 @@
       }
 
       if ( isset($params['CreateToken']) && ($params['CreateToken'] == '1') ) {
-        global $sagepay_token_cc_type, $sagepay_token_cc_number, $sagepay_token_cc_expiry_date;
-
-        tep_session_register('sagepay_token_cc_type');
-        $sagepay_token_cc_type = $params['CardType'];
-
-        tep_session_register('sagepay_token_cc_number');
-        $sagepay_token_cc_number = str_repeat('X', strlen($params['CardNumber']) - 4) . substr($params['CardNumber'], -4);
-
-        tep_session_register('sagepay_token_cc_expiry_date');
-        $sagepay_token_cc_expiry_date = $params['ExpiryDate'];
+        $_SESSION['sagepay_token_cc_type'] = $params['CardType'];
+        $_SESSION['sagepay_token_cc_number'] = str_repeat('X', strlen($params['CardNumber']) - 4) . substr($params['CardNumber'], -4);
+        $_SESSION['sagepay_token_cc_expiry_date'] = $params['ExpiryDate'];
       }
 
       if ($sage_pay_response['Status'] == '3DAUTH') {
-        global $sage_pay_direct_acsurl, $sage_pay_direct_pareq, $sage_pay_direct_md;
-
-        tep_session_register('sage_pay_direct_acsurl');
-        $sage_pay_direct_acsurl = $sage_pay_response['ACSURL'];
-
-        tep_session_register('sage_pay_direct_pareq');
-        $sage_pay_direct_pareq = $sage_pay_response['PAReq'];
-
-        tep_session_register('sage_pay_direct_md');
-        $sage_pay_direct_md = $sage_pay_response['MD'];
+        $_SESSION['sage_pay_direct_acsurl'] = $sage_pay_response['ACSURL'];
+        $_SESSION['sage_pay_direct_pareq'] = $sage_pay_response['PAReq'];
+        $_SESSION['sage_pay_direct_md'] = $sage_pay_response['MD'];
 
         tep_redirect(tep_href_link('ext/modules/payment/sage_pay/checkout.php', '', 'SSL'));
       }
@@ -500,7 +483,7 @@
     }
 
     public function after_process() {
-      global $customer_id, $order_id, $sage_pay_response;
+      global $order_id, $sage_pay_response;
 
       $result = [];
 
@@ -532,17 +515,15 @@
         $result['3D Secure'] = $sage_pay_response['3DSecureStatus'];
       }
 
-      if ( isset($sage_pay_response['Token']) && tep_session_is_registered('sagepay_token_cc_number') ) {
-        global $sagepay_token_cc_type, $sagepay_token_cc_number, $sagepay_token_cc_expiry_date;
-
-        $check_query = tep_db_query("SELECT id FROM customers_sagepay_tokens WHERE customers_id = '" . (int)$customer_id . "' AND sagepay_token = '" . tep_db_input($sage_pay_response['Token']) . "' LIMIT 1");
+      if ( isset($sage_pay_response['Token'], $_SESSION['sagepay_token_cc_number']) ) {
+        $check_query = tep_db_query("SELECT id FROM customers_sagepay_tokens WHERE customers_id = " . (int)$_SESSION['customer_id'] . " AND sagepay_token = '" . tep_db_input($sage_pay_response['Token']) . "' LIMIT 1");
         if ( tep_db_num_rows($check_query) < 1 ) {
           $sql_data = [
-            'customers_id' => $customer_id,
+            'customers_id' => $_SESSION['customer_id'],
             'sagepay_token' => $sage_pay_response['Token'],
-            'card_type' => $sagepay_token_cc_type,
-            'number_filtered' => $sagepay_token_cc_number,
-            'expiry_date' => $sagepay_token_cc_expiry_date,
+            'card_type' => $_SESSION['sagepay_token_cc_type'],
+            'number_filtered' => $_SESSION['sagepay_token_cc_number'],
+            'expiry_date' => $_SESSION['sagepay_token_cc_expiry_date'],
             'date_added' => 'NOW()',
           ];
 
@@ -551,9 +532,9 @@
 
         $result['Token Created'] = 'Yes';
 
-        tep_session_unregister('sagepay_token_cc_type');
-        tep_session_unregister('sagepay_token_cc_number');
-        tep_session_unregister('sagepay_token_cc_expiry_date');
+        unset($_SESSION['sagepay_token_cc_type']);
+        unset($_SESSION['sagepay_token_cc_number']);
+        unset($_SESSION['sagepay_token_cc_expiry_date']);
       }
 
       if ( isset($_GET['check']) && ($_GET['check'] == 'PAYPAL') && isset($_POST['Status']) && ($_POST['Status'] == 'PAYPALOK') && isset($_POST['VPSTxId']) && isset($sage_pay_response['VPSTxId']) && ($_POST['VPSTxId'] == $sage_pay_response['VPSTxId']) ) {
@@ -579,10 +560,10 @@
 
       tep_db_perform('orders_status_history', $sql_data);
 
-      if (tep_session_is_registered('sage_pay_direct_acsurl')) {
-        tep_session_unregister('sage_pay_direct_acsurl');
-        tep_session_unregister('sage_pay_direct_pareq');
-        tep_session_unregister('sage_pay_direct_md');
+      if (isset($_SESSION['sage_pay_direct_acsurl'])) {
+        unset($_SESSION['sage_pay_direct_acsurl']);
+        unset($_SESSION['sage_pay_direct_pareq']);
+        unset($_SESSION['sage_pay_direct_md']);
       }
 
       $sage_pay_response = null;
@@ -847,10 +828,10 @@ EOD;
 
 // format prices without currency formatting
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$currencies->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {
@@ -927,8 +908,6 @@ EOD;
     }
 
     function deleteCard($token, $token_id) {
-      global $customer_id;
-
       if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TRANSACTION_SERVER == 'Live' ) {
         $gateway_url = 'https://live.sagepay.com/gateway/service/removetoken.vsp';
       } else {
@@ -960,7 +939,7 @@ EOD;
         }
       }
 
-      tep_db_query("DELETE FROM customers_sagepay_tokens WHERE id = '" . (int)$token_id . "' AND customers_id = '" . (int)$customer_id . "' AND sagepay_token = '" . tep_db_input(tep_db_prepare_input($token)) . "'");
+      tep_db_query("DELETE FROM customers_sagepay_tokens WHERE id = '" . (int)$token_id . "' AND customers_id = '" . (int)$_SESSION['customer_id'] . "' AND sagepay_token = '" . tep_db_input(tep_db_prepare_input($token)) . "'");
 
       return (tep_db_affected_rows() === 1);
     }
