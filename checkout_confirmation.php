@@ -13,7 +13,11 @@
   require 'includes/application_top.php';
 
 // if the customer is not logged on, redirect them to the login page
-  $OSCOM_Hooks->register_pipeline('loginRequired');
+  $parameters = [
+    'page' => 'checkout_payment.php',
+    'mode' => 'SSL',
+  ];
+  $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
   if ($_SESSION['cart']->count_contents() < 1) {

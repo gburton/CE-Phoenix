@@ -127,10 +127,10 @@ EOSQL
       $this->register($this->page);
     }
 
-    public function register_pipeline($pipeline) {
+    public function register_pipeline($pipeline, &$parameters = null) {
       $this->pipelines[] = $pipeline;
       $this->register($pipeline, $this->page);
-      $this->call($this->page, "{$pipeline}Start");
+      $this->call($this->page, "{$pipeline}Start", $parameters);
     }
 
     public function call($group, $action, &$parameters = []) {
