@@ -151,7 +151,7 @@ $(function() {
         <th colspan="3">PHP Version</th>
       </tr>
       <tr>
-        <th><?php echo PHP_VERSION; ?></th>
+        <th><?php echo PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.'  .  PHP_RELEASE_VERSION; ?></th>
         <td colspan="2" align="right"><?php echo ((version_compare(PHP_VERSION, '7', '>')) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
 <?php
