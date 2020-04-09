@@ -356,8 +356,9 @@
     default:
       if (isset($aInfo) && is_object($aInfo)) {
         $heading[] = ['text' => $aInfo->user_name];
-
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2'). 
+                                                           tep_draw_bootstrap_button(IMAGE_ACCESS, 'fas fa-cogs', tep_href_link('admin_acl.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2').
+                                                           tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
       }
       break;
   }
