@@ -3,7 +3,7 @@
  * admin_acl.php
  * April 9, 2020
  * Author: G. Miaoudakis
- * author: Kristen G. Thorson
+ * Based on : admin_acl.php by Kristen G. Thorson
  * Admin access control list version 1.0
  *
  *
