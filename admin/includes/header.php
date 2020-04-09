@@ -13,6 +13,20 @@
   if ($messageStack->size > 0) {
     echo $messageStack->output();
   }
+  
+  $sql_selected = 'SELECT * FROM administrators_acl WHERE aID="'.$admin['id'].'" group by menu_heading,page_name ';
+  $result = tep_db_query( $sql_selected );
+  if( tep_db_num_rows( $result ) > 0 )
+  {
+      while( $row = tep_db_fetch_array( $result ) )
+      {
+          $path = explode('&',$row['blocked_url']);
+          $blocked_file = substr($path[0],strrpos($path[0],"/")+1);
+          if ($PHP_SELF == $blocked_file) {
+              die("<div style='width: 100%;'><center class='messageStackError'>You are not authorized to view this page.\n\n</center></div>");
+          }
+      }
+  }
 ?>
 
 
