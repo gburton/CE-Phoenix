@@ -157,3 +157,4 @@ const PLACEHOLDER_COMMA_SEPARATION = 'Must, Be, Comma, Separated';
 // message for required inputs
 const FORM_REQUIRED_INPUT = '<span class="form-control-feedback text-danger"><i class="fas fa-asterisk"></i></span>';
 
+define('IMAGE_ACCESS','Access');
