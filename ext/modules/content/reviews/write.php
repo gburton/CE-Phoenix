@@ -64,13 +64,20 @@
   if (tep_validate_form_action_is('process')) {
     $rating = tep_db_prepare_input($_POST['rating']);
     $review = tep_db_prepare_input($_POST['review']);
+    $nickname = tep_db_prepare_input($_POST['nickname']);
+    
+    if (ALLOW_ALL_REVIEWS == 'false') {
+      if ($_POST['nickname'] != $customer->get_short_name()) {
+        $nickname = sprintf(VERIFIED_BUYER, $nickname);
+      }
+    }
 
-    tep_db_query("INSERT INTO reviews (products_id, customers_id, customers_name, reviews_rating, date_added) VALUES ('" . (int)$_GET['products_id'] . "', '" . (int)$_SESSION['customer_id'] . "', '" . tep_db_input($customer->get('short_name')) . "', '" . tep_db_input($rating) . "', NOW())");
+    tep_db_query("INSERT INTO reviews (products_id, customers_id, customers_name, reviews_rating, date_added) VALUES ('" . (int)$_GET['products_id'] . "', '" . (int)$_SESSION['customer_id'] . "', '" . tep_db_input($nickname) . "', '" . tep_db_input($rating) . "', NOW())");
     $insert_id = tep_db_insert_id();
 
     tep_db_query("INSERT INTO reviews_description (reviews_id, languages_id, reviews_text) VALUES ('" . (int)$insert_id . "', '" . (int)$_SESSION['languages_id'] . "', '" . tep_db_input($review) . "')");
 
-    $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $customer->get_short_name()), 'success');
+    $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $nickname), 'success');
 
     tep_redirect(tep_href_link('product_info.php', tep_get_all_get_params(['action'])));
   }
@@ -102,10 +109,16 @@
     <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer->get_short_name()), $product_info['products_name']); ?>
   </div>
 
-  <div class="row">
-    <p class="col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_FROM; ?></p>
-    <p class="col-sm-9"><?php echo tep_output_string_protected($customer->get_short_name()); ?></p>
+  <div class="form-group row">
+    <label for="inputNickName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_FROM; ?></label>
+    <div class="col-sm-9">
+      <?php
+      echo tep_draw_input_field('nickname', tep_output_string_protected($customer->get_short_name()), 'required aria-required="true" id="inputNickName" placeholder="' . SUB_TITLE_REVIEW_NICKNAME . '"');
+      echo FORM_REQUIRED_INPUT;
+      ?>
+    </div>
   </div>
+  
   <div class="form-group row">
     <label for="inputReview" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SUB_TITLE_REVIEW; ?></label>
     <div class="col-sm-9">
