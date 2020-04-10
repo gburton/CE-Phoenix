@@ -58,11 +58,6 @@
       } else {
         unset($_SESSION['billto']);
       }
-    } else {
-      // no addresses to select from - customer decided to keep the current assigned address
-      $_SESSION['billto'] = $customer->get_default_address_id();
-
-      tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
     }
   }
 

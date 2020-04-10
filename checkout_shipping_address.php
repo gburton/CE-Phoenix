@@ -52,24 +52,20 @@
       unset($_SESSION['shipping']);
 
       tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-    } elseif (isset($_POST['address'])) {
-// change to the selected shipping destination
-      $reset_shipping = (isset($_SESSION['sendto']) && ($_SESSION['sendto'] != $_POST['address']) && isset($_SESSION['shipping']));
-      $_SESSION['sendto'] = $_POST['address'];
+    }
+  } elseif (isset($_POST['address']) && tep_validate_form_action_is('select')) {
+    // change to the selected shipping destination
+    $reset_shipping = (isset($_SESSION['sendto']) && ($_SESSION['sendto'] != $_POST['address']) && isset($_SESSION['shipping']));
+    $_SESSION['sendto'] = $_POST['address'];
 
-      if ($customer->fetch_to_address((int)$_SESSION['sendto'])) {
-        if ($reset_shipping) {
-          unset($_SESSION['shipping']);
-        }
-
-        tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-      } else {
-        unset($_SESSION['sendto']);
+    if ($customer->fetch_to_address((int)$_SESSION['sendto'])) {
+      if ($reset_shipping) {
+        unset($_SESSION['shipping']);
       }
-    } else {
-      $_SESSION['sendto'] = $customer->get_default_address_id();
 
       tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+    } else {
+      unset($_SESSION['sendto']);
     }
   }
 
@@ -104,25 +100,25 @@
         <table class="table border-right border-left border-bottom table-hover m-0">
           <tbody>
             <?php
-            $address_query = $customer->get_all_addresses_query();
-            while ($address = tep_db_fetch_array($address_query)) {
-              ?>
-              <tr class="table-selection">
-                <td><label for="csa_<?php echo $address['address_book_id']; ?>"><?php echo $customer_data->get_module('address')->format($address, true, ' ', ', '); ?></label></td>
-                <td align="text-right">
-                  <div class="custom-control custom-radio custom-control-inline">
-                    <?php echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $_SESSION['sendto']), 'id="csa_' . $address['address_book_id'] . '" aria-describedby="csa_' . $address['address_book_id'] . '" class="custom-control-input"'); ?>
-                    <label class="custom-control-label" for="csa_<?php echo $address['address_book_id']; ?>">&nbsp;</label>
-                  </div>
-                </td>
-              </tr>
-              <?php
-              }
-            ?>
+  $address_query = $customer->get_all_addresses_query();
+  while ($address = tep_db_fetch_array($address_query)) {
+?>
+            <tr class="table-selection">
+              <td><label for="csa_<?php echo $address['address_book_id']; ?>"><?php echo $customer_data->get_module('address')->format($address, true, ' ', ', '); ?></label></td>
+              <td align="text-right">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <?php echo tep_draw_radio_field('address', $address['address_book_id'], ($address['address_book_id'] == $_SESSION['sendto']), 'id="csa_' . $address['address_book_id'] . '" aria-describedby="csa_' . $address['address_book_id'] . '" class="custom-control-input"'); ?>
+                  <label class="custom-control-label" for="csa_<?php echo $address['address_book_id']; ?>">&nbsp;</label>
+                </div>
+              </td>
+            </tr>
+            <?php
+  }
+?>
           </tbody>
         </table>
         <div class="buttonSet mt-1">
-          <?php echo tep_draw_hidden_field('action', 'submit') . tep_draw_button(BUTTON_SELECT_ADDRESS, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?>
+          <?php echo tep_draw_hidden_field('action', 'select') . tep_draw_button(BUTTON_SELECT_ADDRESS, 'fas fa-user-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?>
         </div>
       </form></div>
     </div>
