@@ -6,12 +6,13 @@
 
 <?php
 /*
-  Copyright (c) 2019, G Burton
+  $Id$
 
-  This work is licensed under a
-  Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
 
-  You should have received a copy of the license along with this work.
-  If not, see <http://creativecommons.org/licenses/by-nc-nd/4.0/>.
+  Copyright (c) 2020 osCommerce
+
+  Released under the GNU General Public License
 */
 ?>

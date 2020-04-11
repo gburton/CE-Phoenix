@@ -71,7 +71,6 @@ Language | URL | Credit & Thanks
 ------------ | ------------- | -------------
 German | https://github.com/cupidare/OsCommerce-CE-Phoenix-German-language-Deutsches-Sprachpaket | @cupidare
 Spanish | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | @raiwa
-Russian | https://github.com/Agrosheriff/CE-Phoenix-1.0.4.3_RU | @Fredi
 
 ### Image Credits
 
@@ -84,3 +83,5 @@ Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written per
 Oranges, Lemons, Pears, Apples | Eelffica from Pixabay | https://pixabay.com/service/license/
 Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
 Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/
+
+Other fruit images are based on modified images from Eelffica, Rocky_H and Gerhard Gellinger

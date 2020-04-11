@@ -12,18 +12,15 @@
 
   require 'includes/application_top.php';
 
-  $OSCOM_Hooks->register('progress');
-
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
 // if there is nothing in the customer's cart, redirect to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
+
+  $OSCOM_Hooks->register_pipeline('progress');
 
   // needs to be included earlier to set the success message in the messageStack
   require "includes/languages/$language/checkout_shipping_address.php";

@@ -19,7 +19,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $languages_id, $OSCOM_category, $brand;
+      global $current_category_id, $OSCOM_category, $brand;
 
       if (($brand ?? null) instanceof manufacturer) {
         $cm_description = $brand->getData('manufacturers_description');

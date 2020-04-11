@@ -5,19 +5,19 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
 // if the customer is not logged on, redirect them to the shopping cart page
-  if (!tep_session_is_registered('customer_id')) {
+  if (!isset($_SESSION['customer_id'])) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
-  $orders_query = tep_db_query("select orders_id from orders where customers_id = '" . (int)$customer_id . "' order by date_purchased desc limit 1");
+  $orders_query = tep_db_query("SELECT orders_id FROM orders WHERE customers_id = " . (int)$_SESSION['customer_id'] . " ORDER BY date_purchased DESC LIMIT 1");
 
 // redirect to shopping cart page if no orders exist
   if ( !tep_db_num_rows($orders_query) ) {
@@ -34,7 +34,7 @@
     tep_redirect(tep_href_link('index.php'));
   }
 
-  require('includes/languages/' . $language . '/checkout_success.php');
+  require "includes/languages/$language/checkout_success.php";
 
   $breadcrumb->add(NAVBAR_TITLE_1);
   $breadcrumb->add(NAVBAR_TITLE_2);
@@ -53,6 +53,6 @@
 </form>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

@@ -27,6 +27,8 @@
 
     private $signature = 'braintree|braintree_cc|1.1|2.3';
     private $api_version = '1';
+    private $token;
+    private $result;
 
     public function __construct() {
       parent::__construct();
@@ -95,7 +97,7 @@
     }
 
     public function confirmation() {
-      global $customer_id, $order, $currencies, $currency;
+      global $order, $currencies;
 
       $months = [];
 
@@ -118,12 +120,12 @@
 
       $content = '';
 
-      if ( !$this->isValidCurrency($currency) ) {
-        $content .= sprintf(MODULE_PAYMENT_BRAINTREE_CC_CURRENCY_CHARGE, $currencies->format($order->info['total'], true, DEFAULT_CURRENCY), DEFAULT_CURRENCY, $currency);
+      if ( !$this->isValidCurrency($_SESSION['currency']) ) {
+        $content .= sprintf(MODULE_PAYMENT_BRAINTREE_CC_CURRENCY_CHARGE, $currencies->format($order->info['total'], true, DEFAULT_CURRENCY), DEFAULT_CURRENCY, $_SESSION['currency']);
       }
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
-        $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_braintree_tokens WHERE customers_id = '" . (int)$customer_id . "' ORDER BY date_added");
+        $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_braintree_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
           $content .= '<table id="braintree_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
@@ -190,27 +192,27 @@
     }
 
     public function before_process() {
-      global $customer_id, $order, $braintree_result, $braintree_token;
+      global $order;
 
-      $braintree_token = null;
+      $this->token = null;
       $braintree_token_cvv = null;
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
         if ( isset($_POST['braintree_card']) && is_numeric($_POST['braintree_card']) && ($_POST['braintree_card'] > 0) ) {
-          $token_query = tep_db_query("SELECT braintree_token FROM customers_braintree_tokens WHERE id = '" . (int)$_POST['braintree_card'] . "' AND customers_id = '" . (int)$customer_id . "'");
+          $token_query = tep_db_query("SELECT braintree_token FROM customers_braintree_tokens WHERE id = '" . (int)$_POST['braintree_card'] . "' AND customers_id = '" . (int)$_SESSION['customer_id'] . "'");
 
           if ( tep_db_num_rows($token_query) === 1 ) {
             $token = tep_db_fetch_array($token_query);
 
-            $braintree_token = $token['braintree_token'];
+            $this->token = $token['braintree_token'];
 
             if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
 
-              if ( isset($_POST['token_cvv']) && is_array($_POST['token_cvv']) && isset($_POST['token_cvv'][$_POST['braintree_card']]) ) {
+              if ( isset($_POST['token_cvv'][$_POST['braintree_card']]) ) {
                 $braintree_token_cvv = $_POST['token_cvv'][$_POST['braintree_card']];
               }
 
-              if ( !isset($braintree_token_cvv) || empty($braintree_token_cvv) ) {
+              if ( empty($braintree_token_cvv) ) {
                 tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv', 'SSL'));
               }
             }
@@ -218,7 +220,7 @@
         }
       }
 
-      if ( !isset($braintree_token) ) {
+      if ( !isset($this->token) ) {
         $cc_owner = $_POST['name'] ?? null;
         $cc_number = $_POST['number'] ?? null;
         $cc_expires_month = $_POST['month'] ?? null;
@@ -268,18 +270,18 @@
         }
       }
 
-      $braintree_result = null;
+      $this->result = null;
 
       Braintree_Configuration::environment(MODULE_PAYMENT_BRAINTREE_CC_TRANSACTION_SERVER == 'Live' ? 'production' : 'sandbox');
       Braintree_Configuration::merchantId(MODULE_PAYMENT_BRAINTREE_CC_MERCHANT_ID);
       Braintree_Configuration::publicKey(MODULE_PAYMENT_BRAINTREE_CC_PUBLIC_KEY);
       Braintree_Configuration::privateKey(MODULE_PAYMENT_BRAINTREE_CC_PRIVATE_KEY);
 
-      $currency = $this->getTransactionCurrency();
+      $_SESSION['currency'] = $this->getTransactionCurrency();
 
       $data = [
-        'amount' => $this->format_raw($order->info['total'], $currency),
-        'merchantAccountId' => $this->getMerchantAccountId($currency),
+        'amount' => $this->format_raw($order->info['total'], $_SESSION['currency']),
+        'merchantAccountId' => $this->getMerchantAccountId($_SESSION['currency']),
         'creditCard' => ['cardholderName' => $cc_owner],
         'customer' => [
           'firstName' => $order->customer['firstname'],
@@ -320,7 +322,7 @@
         ];
       }
 
-      if ( !isset($braintree_token) ) {
+      if ( !isset($this->token) ) {
         $data['creditCard']['number'] = $cc_number;
         $data['creditCard']['expirationMonth'] = $cc_expires_month;
         $data['creditCard']['expirationYear'] = $cc_expires_year;
@@ -333,7 +335,7 @@
           $data['options']['storeInVaultOnSuccess'] = true;
         }
       } else {
-        $data['paymentMethodToken'] = $braintree_token;
+        $data['paymentMethodToken'] = $this->token;
 
         if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
           $data['creditCard']['cvv'] = $braintree_token_cvv;
@@ -343,24 +345,24 @@
       $error = false;
 
       try {
-        $braintree_result = Braintree_Transaction::sale($data);
+        $this->result = Braintree_Transaction::sale($data);
       } catch ( Exception $e ) {
         $error = true;
       }
 
-      if ( ($error === false) && ($braintree_result->success) ) {
+      if ( ($error === false) && ($this->result->success) ) {
         return true;
       }
 
-      if ( $braintree_result->transaction) {
-        if ( !empty($braintree_result->message) ) {
-          $_SESSION['braintree_error'] = $braintree_result->message;
+      if ( $this->result->transaction) {
+        if ( !empty($this->result->message) ) {
+          $_SESSION['braintree_error'] = $this->result->message;
         }
       } else {
         $braintree_error = '';
 
-        if ( isset($braintree_result->errors) ) {
-          foreach ( $braintree_result->errors->deepAll() as $error ) {
+        if ( isset($this->result->errors) ) {
+          foreach ( $this->result->errors->deepAll() as $error ) {
             $braintree_error .= $error->message . ' ';
           }
 
@@ -378,20 +380,20 @@
     }
 
     public function after_process() {
-      global $customer_id, $order_id, $braintree_result, $braintree_token;
+      global $order_id;
 
-      $status_comment = ['Transaction ID: ' . $braintree_result->transaction->id];
+      $status_comment = ['Transaction ID: ' . $this->result->transaction->id];
 
-      if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') && !isset($braintree_token) && isset($braintree_result->transaction->creditCard['token']) ) {
-        $token = tep_db_prepare_input($braintree_result->transaction->creditCard['token']);
-        $type = tep_db_prepare_input($braintree_result->transaction->creditCard['cardType']);
-        $number = tep_db_prepare_input($braintree_result->transaction->creditCard['last4']);
-        $expiry = tep_db_prepare_input($braintree_result->transaction->creditCard['expirationMonth'] . $braintree_result->transaction->creditCard['expirationYear']);
+      if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') && !isset($this->token) && isset($this->result->transaction->creditCard['token']) ) {
+        $token = tep_db_prepare_input($this->result->transaction->creditCard['token']);
+        $type = tep_db_prepare_input($this->result->transaction->creditCard['cardType']);
+        $number = tep_db_prepare_input($this->result->transaction->creditCard['last4']);
+        $expiry = tep_db_prepare_input($this->result->transaction->creditCard['expirationMonth'] . $this->result->transaction->creditCard['expirationYear']);
 
-        $check_query = tep_db_query("SELECT id FROM customers_braintree_tokens WHERE customers_id = '" . (int)$customer_id . "' AND braintree_token = '" . tep_db_input($token) . "' limit 1");
+        $check_query = tep_db_query("SELECT id FROM customers_braintree_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' AND braintree_token = '" . tep_db_input($token) . "' limit 1");
         if ( tep_db_num_rows($check_query) < 1 ) {
           $sql_data = [
-            'customers_id' => (int)$customer_id,
+            'customers_id' => (int)$_SESSION['customer_id'],
             'braintree_token' => $token,
             'card_type' => $type,
             'number_filtered' => $number,
@@ -403,7 +405,7 @@
         }
 
         $status_comment[] = 'Token Created: Yes';
-      } elseif ( isset($braintree_token) ) {
+      } elseif ( isset($this->token) ) {
         $status_comment[] = 'Token Used: Yes';
       }
 
@@ -558,10 +560,10 @@ EOSQL;
     }
 
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$currencies->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {
@@ -572,9 +574,7 @@ EOSQL;
     }
 
     function getTransactionCurrency() {
-      global $currency;
-
-      return $this->isValidCurrency($currency) ? $currency : DEFAULT_CURRENCY;
+      return $this->isValidCurrency($_SESSION['currency']) ? $_SESSION['currency'] : DEFAULT_CURRENCY;
     }
 
     function getMerchantAccountId($currency) {
@@ -604,8 +604,6 @@ EOSQL;
     }
 
     function deleteCard($token, $token_id) {
-      global $customer_id;
-
       Braintree_Configuration::environment(MODULE_PAYMENT_BRAINTREE_CC_TRANSACTION_SERVER == 'Live' ? 'production' : 'sandbox');
       Braintree_Configuration::merchantId(MODULE_PAYMENT_BRAINTREE_CC_MERCHANT_ID);
       Braintree_Configuration::publicKey(MODULE_PAYMENT_BRAINTREE_CC_PUBLIC_KEY);
@@ -616,7 +614,7 @@ EOSQL;
       } catch ( Exception $e ) {
       }
 
-      tep_db_query("DELETE FROM customers_braintree_tokens WHERE id = '" . (int)$token_id . "' AND customers_id = '" . (int)$customer_id . "' AND braintree_token = '" . tep_db_input(tep_db_prepare_input($token)) . "'");
+      tep_db_query("DELETE FROM customers_braintree_tokens WHERE id = '" . (int)$token_id . "' AND customers_id = '" . (int)$_SESSION['customer_id'] . "' AND braintree_token = '" . tep_db_input(tep_db_prepare_input($token)) . "'");
 
       return (tep_db_affected_rows() === 1);
     }

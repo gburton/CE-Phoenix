@@ -30,38 +30,37 @@
     }
 
     function execute() {
-      global $cart, $currencies, $languages_id, $any_out_of_stock;
-
-      $content_width = (int)MODULE_CONTENT_SC_PRODUCT_LISTING_CONTENT_WIDTH;
-
-      if ($cart->count_contents() > 0) {
-        $any_out_of_stock = false;
-        $products = $cart->get_products();
-        $products_name = '';
+      if ($_SESSION['cart']->count_contents() > 0) {
+        $content_width = (int)MODULE_CONTENT_SC_PRODUCT_LISTING_CONTENT_WIDTH;
+        
+        $GLOBALS['any_out_of_stock'] = false;
+        $products = $_SESSION['cart']->get_products();
         $products_field = '';
 
         for ($i=0, $n=count($products); $i<$n; $i++) {
           // Push all attributes information in an array
-          if (isset($products[$i]['attributes']) && is_array($products[$i]['attributes'])) {
-            foreach($products[$i]['attributes'] as $option => $value) {
-              $products_field .= tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
-              $attributes = tep_db_query("select popt.*, poval.*, pa.*
-                                          from products_options popt, products_options_values poval, products_attributes pa
-                                          where pa.products_id = '" . (int)$products[$i]['id'] . "'
-                                          and pa.options_id = '" . (int)$option . "'
-                                          and pa.options_id = popt.products_options_id
-                                          and pa.options_values_id = '" . (int)$value . "'
-                                          and pa.options_values_id = poval.products_options_values_id
-                                          and popt.language_id = '" . (int)$languages_id . "'
-                                          and poval.language_id = '" . (int)$languages_id . "'");
-              $attributes_values = tep_db_fetch_array($attributes);
+          foreach (($products[$i]['attributes'] ?? []) as $option => $value) {
+            $products_field .= tep_draw_hidden_field('id[' . $products[$i]['id'] . '][' . $option . ']', $value);
+            $attributes = tep_db_query(sprintf(<<<'EOSQL'
+SELECT popt.*, poval.*, pa.*
+ FROM products_options popt
+   INNER JOIN products_attributes pa ON pa.options_id = popt.products_options_id
+   INNER JOIN products_options_values poval
+     ON pa.options_values_id = poval.products_options_values_id
+    AND popt.language_id = poval.language_id
+ WHERE pa.products_id = %d
+   AND pa.options_id = %d
+   AND pa.options_values_id = %d
+   AND popt.language_id = %d
+EOSQL
+              , (int)$products[$i]['id'], (int)$option, (int)$value, (int)$_SESSION['languages_id']));
+            $attributes_values = tep_db_fetch_array($attributes);
 
-              $products[$i][$option]['products_options_name'] = $attributes_values['products_options_name'];
-              $products[$i][$option]['options_values_id'] = $value;
-              $products[$i][$option]['products_options_values_name'] = $attributes_values['products_options_values_name'];
-              $products[$i][$option]['options_values_price'] = $attributes_values['options_values_price'];
-              $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix'];
-            }
+            $products[$i][$option]['products_options_name'] = $attributes_values['products_options_name'];
+            $products[$i][$option]['options_values_id'] = $value;
+            $products[$i][$option]['products_options_values_name'] = $attributes_values['products_options_values_name'];
+            $products[$i][$option]['options_values_price'] = $attributes_values['options_values_price'];
+            $products[$i][$option]['price_prefix'] = $attributes_values['price_prefix'];
           }
         }
 

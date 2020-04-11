@@ -116,7 +116,7 @@
     }
 
     public function before_process() {
-      global $order, $order_totals, $sendto, $response_array;
+      global $order, $order_totals, $response_array;
 
       if (isset($_POST['cc_owner_firstname']) && !empty($_POST['cc_owner_firstname']) && isset($_POST['cc_owner_lastname']) && !empty($_POST['cc_owner_lastname']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns'])) {
         if (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TRANSACTION_SERVER == 'Live') {
@@ -149,7 +149,7 @@
           'BUTTONSOURCE' => 'OSCOM23_DPPF',
         ];
 
-        if (is_numeric($sendto) && ($sendto > 0)) {
+        if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
           $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
           $params['SHIPTOLASTNAME'] = $order->delivery['lastname'];
           $params['SHIPTOSTREET'] = $order->delivery['street_address'];
@@ -379,7 +379,7 @@
     }
 
     function sendTransactionToGateway($url, $parameters) {
-      global $cartID, $order;
+      global $order;
 
       $server = parse_url($url);
 
@@ -391,7 +391,7 @@
         $server['path'] = '/';
       }
 
-      $request_id = (isset($order) && is_object($order)) ? md5($cartID . tep_session_id() . $this->format_raw($order->info['total'])) : 'oscom_conn_test';
+      $request_id = (isset($order->info['total'])) ? md5($_SESSION['cartID'] . session_id() . $this->format_raw($order->info['total'])) : 'oscom_conn_test';
 
       $headers = [
         'X-VPS-REQUEST-ID: ' . $request_id,
@@ -437,10 +437,10 @@
 
 // format prices without currency formatting
     function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies, $currency;
+      global $currencies;
 
       if (empty($currency_code) || !$this->is_set($currency_code)) {
-        $currency_code = $currency;
+        $currency_code = $_SESSION['currency'];
       }
 
       if (empty($currency_value) || !is_numeric($currency_value)) {

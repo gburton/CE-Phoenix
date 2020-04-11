@@ -67,8 +67,6 @@
 
     public function pre_confirmation_check() {
       if (MODULE_PAYMENT_PSIGATE_INPUT_MODE == 'Local') {
-        include 'includes/classes/cc_validation.php';
-
         $cc_validation = new cc_validation();
         $result = $cc_validation->validate($_POST['psigate_cc_number'], $_POST['psigate_cc_expires_month'], $_POST['psigate_cc_expires_year']);
 

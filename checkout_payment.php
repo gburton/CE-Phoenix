@@ -11,17 +11,12 @@
 */
 
   require 'includes/application_top.php';
-  
-  $OSCOM_Hooks->register_pipeline('progress');
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $navigation->set_snapshot();
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $OSCOM_Hooks->register_pipeline('loginRequired');
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($cart->count_contents() < 1) {
+  if ($_SESSION['cart']->count_contents() < 1) {
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
@@ -31,21 +26,21 @@
   }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
-  if (isset($cart->cartID) && isset($_SESSION['cartID'])) {
-    if ($cart->cartID != $cartID) {
-      tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-    }
+  if (isset($_SESSION['cart']->cartID, $_SESSION['cartID']) && ($_SESSION['cart']->cartID != $_SESSION['cartID'])) {
+    tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
   }
 
 // Stock Check
   if ( (STOCK_CHECK == 'true') && (STOCK_ALLOW_CHECKOUT != 'true') ) {
-    foreach ($cart->get_products() as $product) {
+    foreach ($_SESSION['cart']->get_products() as $product) {
       if (tep_check_stock($product['id'], $product['quantity'])) {
         tep_redirect(tep_href_link('shopping_cart.php'));
         break;
       }
     }
   }
+
+  $OSCOM_Hooks->register_pipeline('progress');
 
   if (isset($_SESSION['billto'])) {
 // verify the selected billing address
@@ -65,13 +60,14 @@
 
   $order = new order();
 
-  if (!tep_session_is_registered('comments')) tep_session_register('comments');
   if (isset($_POST['comments']) && tep_not_null($_POST['comments'])) {
-    $comments = tep_db_prepare_input($_POST['comments']);
+    $_SESSION['comments'] = tep_db_prepare_input($_POST['comments']);
+  } elseif (!array_key_exists('comments', $_SESSION)) {
+    $_SESSION['comments'] = null;
   }
 
-  $total_weight = $cart->show_weight();
-  $total_count = $cart->count_contents();
+  $total_weight = $_SESSION['cart']->show_weight();
+  $total_count = $_SESSION['cart']->count_contents();
 
 // load all enabled payment modules
   $payment_modules = new payment();
@@ -117,7 +113,7 @@
                 <?php
                 if (count($selection) > 1) {
                   echo '<div class="custom-control custom-radio custom-control-inline">';
-                    echo tep_draw_radio_field('payment', $choice['id'], ($choice['id'] == $payment), 'id="p_' . $choice['id'] . '" required="required" aria-required="true" class="custom-control-input"');
+                    echo tep_draw_radio_field('payment', $choice['id'], ($choice['id'] == $_SESSION['payment']), 'id="p_' . $choice['id'] . '" required="required" aria-required="true" class="custom-control-input"');
                     echo '<label class="custom-control-label" for="p_' . $choice['id'] . '">&nbsp;</label>';
                   echo '</div>';
                 } else {
@@ -146,13 +142,13 @@
           }
           ?>
         </table>
-        
+
         <?php
         if (count($selection) == 1) {
           echo '<p class="m-2 font-weight-lighter">' . TEXT_ENTER_PAYMENT_INFORMATION . "</p>\n";
         }
         ?>
-        
+
       </div>
     </div>
     <div class="col-sm-5">
@@ -175,7 +171,7 @@
 
   <div class="form-group row">
     <label for="inputComments" class="col-form-label col-sm-4 text-sm-right"><?php echo ENTRY_COMMENTS; ?></label>
-    <div class="col-sm-8"><?php echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . ENTRY_COMMENTS_PLACEHOLDER . '"'); ?></div>
+    <div class="col-sm-8"><?php echo tep_draw_textarea_field('comments', 'soft', 60, 5, $_SESSION['comments'], 'id="inputComments" placeholder="' . ENTRY_COMMENTS_PLACEHOLDER . '"'); ?></div>
   </div>
 
   <?php
@@ -191,7 +187,7 @@
   <?php
   $parameters = ['style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => ['position' => 2, 'min' => 0, 'max' => 100, 'now' => 67]];
   echo $OSCOM_Hooks->call('progress', 'progressBar', $parameters);
-  ?>  
+  ?>
 
   </div>
 

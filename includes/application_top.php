@@ -140,16 +140,14 @@
 
     if (tep_not_null($user_agent)) {
       foreach (file('includes/spiders.txt') as $spider) {
-        if (tep_not_null($spider)) {
-          if (is_integer(strpos($user_agent, trim($spider)))) {
-            $spider_flag = true;
-            break;
-          }
+        if (tep_not_null($spider) && is_integer(strpos($user_agent, trim($spider)))) {
+          $spider_flag = true;
+          break;
         }
       }
     }
 
-    if ($spider_flag == false) {
+    if (!$spider_flag) {
       tep_session_start();
       $session_started = true;
     }
@@ -172,7 +170,7 @@
   $SID = (defined('SID') ? SID : '');
 
 // verify the ssl_session_id if the feature is enabled
-  if ( ($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && (ENABLE_SSL == true) && ($session_started == true) ) {
+  if ( ($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && ENABLE_SSL && $session_started ) {
     $ssl_session_id = getenv('SSL_SESSION_ID');
     if (!isset($_SESSION['SSL_SESSION_ID'])) {
       $_SESSION['SSL_SESSION_ID'] = $ssl_session_id;
@@ -229,13 +227,10 @@
       $lng->get_browser_language();
     }
 
-    $language = $lng->language['directory'];
-    $languages_id = $lng->language['id'];
-
-    if (!isset($_SESSION['language'])) {
-      tep_session_register('language');
-      tep_session_register('languages_id');
-    }
+    $_SESSION['language'] = $lng->language['directory'];
+    $_SESSION['languages_id'] = $lng->language['id'];
+    $languages_id =& $_SESSION['languages_id'];
+    $language =& $_SESSION['language'];
   }
 
 // include the language translations
@@ -244,14 +239,14 @@
   setlocale(LC_NUMERIC, $_system_locale_numeric); // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
 
 // currency
-  if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $currency) ) ) {
+  if (!isset($_SESSION['currency']) || isset($_GET['currency']) || ( (USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && (LANGUAGE_CURRENCY != $_SESSION['currency']) ) ) {
     if (isset($_GET['currency']) && $currencies->is_set($_GET['currency'])) {
-      $currency = $_GET['currency'];
+      $_SESSION['currency'] = $_GET['currency'];
     } else {
-      $currency = ((USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && $currencies->is_set(LANGUAGE_CURRENCY)) ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
+      $_SESSION['currency'] = ((USE_DEFAULT_LANGUAGE_CURRENCY == 'true') && $currencies->is_set(LANGUAGE_CURRENCY)) ? LANGUAGE_CURRENCY : DEFAULT_CURRENCY;
     }
 
-    if (!isset($_SESSION['currency'])) tep_session_register('currency');
+    $currency =& $_SESSION['currency'];
   }
 
 // navigation history
@@ -266,7 +261,7 @@
 
   $customer_data = new customer_data();
   if (isset($_SESSION['customer_id'])) {
-    $customer = new customer($customer_id);
+    $customer = new customer($_SESSION['customer_id']);
   }
 
 // Shopping cart actions
@@ -363,9 +358,9 @@
 // add the products model to the breadcrumb trail
   if (isset($_GET['products_id'])) {
     if ( defined('MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      $model_query = tep_db_query("SELECT COALESCE(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$languages_id);
+      $model_query = tep_db_query("SELECT COALESCE(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
     } else {
-      $model_query = tep_db_query("SELECT COALESCE(NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$languages_id);
+      $model_query = tep_db_query("SELECT COALESCE(NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
     }
 
     if ($model = tep_db_fetch_array($model_query)) {

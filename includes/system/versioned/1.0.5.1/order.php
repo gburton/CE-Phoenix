@@ -29,8 +29,6 @@
     }
 
     public function query($order_id) {
-      global $languages_id;
-
       $order_id = tep_db_prepare_input($order_id);
 
       $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$order_id);
@@ -50,7 +48,7 @@
       $shipping_method_query = tep_db_query("SELECT title FROM orders_total WHERE orders_id = " . (int)$order_id . " AND class = 'ot_shipping'");
       $shipping_method = tep_db_fetch_array($shipping_method_query);
 
-      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . $order['orders_status'] . " AND language_id = " . (int)$languages_id);
+      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . $order['orders_status'] . " AND language_id = " . (int)$_SESSION['languages_id']);
       $order_status = tep_db_fetch_array($order_status_query);
 
       $this->info = [
@@ -137,38 +135,38 @@
     }
 
     public function cart() {
-      global $sendto, $billto, $cart, $languages_id, $currency, $currencies, $shipping, $payment, $customer;
+      global $currencies, $customer;
 
       $this->info = [
         'order_status' => DEFAULT_ORDERS_STATUS_ID,
-        'currency' => $currency,
-        'currency_value' => $currencies->currencies[$currency]['value'],
-        'payment_method' => $payment,
-        'shipping_method' => $shipping['title'],
-        'shipping_cost' => $shipping['cost'],
+        'currency' => $_SESSION['currency'],
+        'currency_value' => $currencies->currencies[$_SESSION['currency']]['value'],
+        'payment_method' => $_SESSION['payment'],
+        'shipping_method' => $_SESSION['shipping']['title'],
+        'shipping_cost' => $_SESSION['shipping']['cost'],
         'subtotal' => 0,
         'tax' => 0,
         'tax_groups' => [],
         'comments' => ($_SESSION['comments'] ?? ''),
       ];
 
-      if (is_string($payment) && (($GLOBALS[$payment] ?? null) instanceof $payment)) {
-        $this->info['payment_method'] = $GLOBALS[$payment]->public_title ?? $GLOBALS[$payment]->title;
+      if (is_string($_SESSION['payment']) && (($GLOBALS[$_SESSION['payment']] ?? null) instanceof $_SESSION['payment'])) {
+        $this->info['payment_method'] = $GLOBALS[$_SESSION['payment']]->public_title ?? $GLOBALS[$_SESSION['payment']]->title;
 
-        if ( is_numeric($GLOBALS[$payment]->order_status ?? null) && ($GLOBALS[$payment]->order_status > 0) ) {
-          $this->info['order_status'] = $GLOBALS[$payment]->order_status;
+        if ( is_numeric($GLOBALS[$_SESSION['payment']]->order_status ?? null) && ($GLOBALS[$_SESSION['payment']]->order_status > 0) ) {
+          $this->info['order_status'] = $GLOBALS[$_SESSION['payment']]->order_status;
         }
       }
 
       $this->customer = $customer->fetch_to_address(0);
-      $this->billing = $customer->fetch_to_address($billto);
+      $this->billing = $customer->fetch_to_address($_SESSION['billto']);
 
-      $this->content_type = $cart->get_content_type();
-      if ( !$sendto && ('virtual' !== $this->content_type) ) {
-        $sendto = $customer->get_default_address_id();
+      $this->content_type = $_SESSION['cart']->get_content_type();
+      if ( !$_SESSION['sendto'] && ('virtual' !== $this->content_type) ) {
+        $_SESSION['sendto'] = $customer->get_default_address_id();
       }
 
-      $this->delivery = $customer->fetch_to_address($sendto);
+      $this->delivery = $customer->fetch_to_address($_SESSION['sendto']);
 
       if ('virtual' === $this->content_type) {
         $tax_address = [
@@ -182,7 +180,7 @@
         ];
       }
 
-      foreach ($cart->get_products() as $product) {
+      foreach ($_SESSION['cart']->get_products() as $product) {
         $current = [
           'qty' => $product['quantity'],
           'name' => $product['name'],
@@ -190,14 +188,14 @@
           'tax' => tep_get_tax_rate($product['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
           'tax_description' => tep_get_tax_description($product['tax_class_id'], $tax_address['entry_country_id'], $tax_address['entry_zone_id']),
           'price' => $product['price'],
-          'final_price' => $product['price'] + $cart->attributes_price($product['id']),
+          'final_price' => $product['price'] + $_SESSION['cart']->attributes_price($product['id']),
           'weight' => $product['weight'],
           'id' => $product['id'],
         ];
 
         if ($product['attributes']) {
           foreach ($product['attributes'] as $option => $value) {
-            $attributes_query = tep_db_query("SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix FROM products_options  popt, products_options_values poval, products_attributes pa WHERE pa.products_id = " . (int)$product['id'] . " AND pa.options_id = " . (int)$option . " AND pa.options_id = popt.products_options_id AND pa.options_values_id = " . (int)$value . " AND pa.options_values_id = poval.products_options_values_id AND popt.language_id = " . (int)$languages_id . " AND poval.language_id = " . (int)$languages_id);
+            $attributes_query = tep_db_query("SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix FROM products_options  popt, products_options_values poval, products_attributes pa WHERE pa.products_id = " . (int)$product['id'] . " AND pa.options_id = " . (int)$option . " AND pa.options_id = popt.products_options_id AND pa.options_values_id = " . (int)$value . " AND pa.options_values_id = poval.products_options_values_id AND popt.language_id = " . (int)$_SESSION['languages_id'] . " AND poval.language_id = " . (int)$_SESSION['languages_id']);
             $attributes = tep_db_fetch_array($attributes_query);
 
             $current['attributes'][] = [

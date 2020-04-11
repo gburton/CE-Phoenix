@@ -30,11 +30,10 @@
     }
 
     function execute() {
-      global $cart, $currencies;
+      if ($_SESSION['cart']->count_contents() > 0) {
+        $content_width = (int)MODULE_CONTENT_SC_ORDER_SUBTOTAL_CONTENT_WIDTH;
+        $cart_total = sprintf(MODULE_CONTENT_SC_ORDER_SUBTOTAL_SUB_TOTAL, $GLOBALS['currencies']->format($_SESSION['cart']->show_total()));
 
-      $content_width = (int)MODULE_CONTENT_SC_ORDER_SUBTOTAL_CONTENT_WIDTH;
-
-      if ($cart->count_contents() > 0) {
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
         include 'includes/modules/content/cm_template.php';
       }

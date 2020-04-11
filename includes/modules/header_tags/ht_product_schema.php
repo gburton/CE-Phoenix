@@ -5,123 +5,135 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class ht_product_schema {
-    var $code = 'ht_product_schema';
-    var $group = 'header_tags';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class ht_product_schema extends abstract_executable_module {
 
-    function __construct() {
-      $this->title = MODULE_HEADER_TAGS_PRODUCT_SCHEMA_TITLE;
-      $this->description = MODULE_HEADER_TAGS_PRODUCT_SCHEMA_DESCRIPTION;
+    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_';
 
-      if ( defined('MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS') ) {
-        $this->sort_order = MODULE_HEADER_TAGS_PRODUCT_SCHEMA_SORT_ORDER;
-        $this->enabled = (MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS == 'True');
-      }
-    }
-    
     function execute() {
-      global $PHP_SELF, $oscTemplate, $product_check, $languages_id, $currency, $currencies;
-      
+      global $PHP_SELF, $oscTemplate, $product_check, $currencies;
+
       if (MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT != 'Header') {
         $this->group = 'footer_scripts';
       }
-      
-      if ($product_check['total'] > 0) {        
-        $product_info_query = tep_db_query("select p.*, pd.* from products p, products_description pd where p.products_id = '" . (int)$_GET['products_id'] . "' and p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
+
+      if ($product_check['total'] > 0) {
+        $product_info_query = tep_db_query(<<<'EOSQL'
+SELECT p.*, pd.*
+ FROM products p INNER JOIN products_description pd ON p.products_id = pd.products_id
+ WHERE p.products_status = 1 AND p.products_id = 
+EOSQL
+          . (int)$_GET['products_id'] . " AND pd.language_id = " . (int)$_SESSION['languages_id']);
 
         if ( tep_db_num_rows($product_info_query) ) {
-          $product_info = tep_db_fetch_array($product_info_query);  
-          
+          $product_info = tep_db_fetch_array($product_info_query);
+
           $products_image = $product_info['products_image'];
-          $pi_query = tep_db_query("select image from products_images where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order limit 1");
+          $pi_query = tep_db_query("SELECT image FROM products_images WHERE products_id = " . (int)$product_info['products_id'] . " ORDER BY sort_order LIMIT 1");
           if ( tep_db_num_rows($pi_query) ) {
             $pi = tep_db_fetch_array($pi_query);
             $products_image = $pi['image'];
           }
-          
-          $schema_product = array("@context"    => "https://schema.org",
-                                  "@type"       => "Product",
-                                  "name"        => tep_db_output($product_info['products_name']),
-                                  "image"       => tep_href_link('images/' . $products_image, '', 'NONSSL', false, false),
-                                  "url"         => tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false, false),
-                                  "description" => substr(trim(preg_replace('/\s\s+/', ' ', strip_tags($product_info['products_description']))), 0, 197) . '...');
-                                  
+
+          $schema_product = [
+            "@context"    => "https://schema.org",
+            "@type"       => "Product",
+            "name"        => tep_db_output($product_info['products_name']),
+            "image"       => tep_href_link('images/' . $products_image, '', 'NONSSL', false, false),
+            "url"         => tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false, false),
+            "description" => substr(trim(preg_replace('/\s\s+/', ' ', strip_tags($product_info['products_description']))), 0, 197) . '...',
+          ];
+
           if (tep_not_null($product_info['products_model'])) {
             $schema_product['mpn'] = tep_db_output($product_info['products_model']);
           }
-          
+
           if (tep_not_null($product_info['products_gtin']) && defined('MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH')) {
             $schema_product['gtin' .  MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH] = tep_db_output(substr($product_info['products_gtin'], 0-MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH));
           }
-          
-          $schema_product['offers'] = array("@type"         => "Offer",
-                                            "priceCurrency" => $currency);
-                                            
+
+          $schema_product['offers'] = [
+            "@type"         => "Offer",
+            "priceCurrency" => $_SESSION['currency'],
+          ];
+
           if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
             $products_price = $currencies->display_raw($new_price, tep_get_tax_rate($product_info['products_tax_class_id']));
           } else {
             $products_price = $currencies->display_raw($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
-          }          
-          
+          }
+
           $schema_product['offers']['price'] = $products_price;
-          
-          $specials_expiry_query = tep_db_query("select expires_date from specials where products_id = '" . (int)$product_info['products_id'] . "' and status = 1");
-          if (tep_db_num_rows($specials_expiry_query)) {
-            $specials_expiry = tep_db_fetch_array($specials_expiry_query); 
-            
+
+          $specials_expiry_query = tep_db_query("SELECT expires_date FROM specials WHERE status = 1 AND products_id = " . (int)$product_info['products_id']);
+          if ($specials_expiry = tep_db_fetch_array($specials_expiry_query)) {
             $schema_product['offers']['priceValidUntil'] = $specials_expiry['expires_date'];
           }
-          
+
           $availability = ( $product_info['products_quantity'] > 0 ) ? MODULE_HEADER_TAGS_PRODUCT_SCHEMA_TEXT_IN_STOCK : MODULE_HEADER_TAGS_PRODUCT_SCHEMA_TEXT_OUT_OF_STOCK;
-          $schema_product['offers']['availability'] = $availability;          
-                                            
-          $schema_product['offers']['seller'] = array("@type" => "Organization",
-                                                      "name"  => STORE_NAME);
-                                                                              
+          $schema_product['offers']['availability'] = $availability;
+
+          $schema_product['offers']['seller'] = [
+            "@type" => "Organization",
+            "name"  => STORE_NAME,
+          ];
+
           if ($product_info['manufacturers_id'] > 0) {
             // manufacturer class
-            require_once('includes/classes/manufacturer.php');
             $ht_brand = new manufacturer((int)$product_info['manufacturers_id']);
 
-            $schema_product['manufacturer'] = array("@type" => "Organization",
-                                                    "name"  => tep_db_output($ht_brand->getData('manufacturers_name')));
+            $schema_product['manufacturer'] = [
+              "@type" => "Organization",
+              "name"  => tep_db_output($ht_brand->getData('manufacturers_name')),
+            ];
           }
-                                        
-          $average_query = tep_db_query("select AVG(r.reviews_rating) as average, COUNT(r.reviews_rating) as count from reviews r where r.products_id = '" . (int)$product_info['products_id'] . "' and r.reviews_status = 1");
+
+          $average_query = tep_db_query(<<<'EOSQL'
+SELECT AVG(r.reviews_rating) AS average, COUNT(r.reviews_rating) AS count
+ FROM reviews r
+ where r.reviews_status = 1 AND r.products_id = 
+EOSQL
+            . (int)$product_info['products_id']);
           $average = tep_db_fetch_array($average_query);
           if ($average['count'] > 0) {
             $star_rating = round($average['average'], 0, PHP_ROUND_HALF_UP);
-            $schema_product['aggregateRating'] = array("@type"       => "AggregateRating",
-                                                       "ratingValue" => number_format($star_rating, 2),
-                                                       "reviewCount" => (int)$average['count']);
-                                                       
-            $reviews_query = tep_db_query("select rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read from reviews r, reviews_description rd where r.products_id = '" . (int)$_GET['products_id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$languages_id . "' and r.reviews_status = '1' order by r.reviews_rating DESC");
+            $schema_product['aggregateRating'] = [
+              "@type"       => "AggregateRating",
+              "ratingValue" => number_format($star_rating, 2),
+              "reviewCount" => (int)$average['count'],
+            ];
+
+            $reviews_query = tep_db_query(<<<'EOSQL'
+SELECT rd.reviews_text, r.reviews_rating, r.reviews_id, r.customers_name, r.date_added, r.reviews_read
+ FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id
+ WHERE r.reviews_status = 1 AND r.products_id = 
+EOSQL
+              . (int)$_GET['products_id'] . " AND rd.languages_id = " . (int)$_SESSION['languages_id'] . " ORDER BY r.reviews_rating DESC");
 
             if (tep_db_num_rows($reviews_query) > 0) {
-              $schema_product['review'] = array();
+              $schema_product['review'] = [];
               while($reviews = tep_db_fetch_array($reviews_query)) {
-                $schema_product['review'][] = array("@type"         => "Review",
-                                                    "author"        => tep_db_output($reviews['customers_name']),
-                                                    "datePublished" => tep_db_output($reviews['date_added']),
-                                                    "description"   => tep_db_output($reviews['reviews_text']),
-                                                    "name"          => tep_db_output($product_info['products_name']),
-                                                    "reviewRating"  => array("@type"       => "Rating",
-                                                                             "bestRating"  => "5",
-                                                                             "ratingValue" => (int)$reviews['reviews_rating'],
-                                                                             "worstRating" => "1"));
+                $schema_product['review'][] = [
+                  "@type"         => "Review",
+                  "author"        => tep_db_output($reviews['customers_name']),
+                  "datePublished" => tep_db_output($reviews['date_added']),
+                  "description"   => tep_db_output($reviews['reviews_text']),
+                  "name"          => tep_db_output($product_info['products_name']),
+                  "reviewRating"  => [
+                    "@type"       => "Rating",
+                    "bestRating"  => "5",
+                    "ratingValue" => (int)$reviews['reviews_rating'],
+                    "worstRating" => "1",
+                  ],
+                ];
               }
             }
           }
-          
+
           $data = json_encode($schema_product);
 
           $oscTemplate->addBlock('<script type="application/ld+json">' . $data . '</script>', $this->group);
@@ -129,26 +141,27 @@
       }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS' => [
+          'title' => 'Enable Product Schema Module',
+          'value' => 'True',
+          'desc' => 'Do you want to allow product schema to be added to your product page?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT' => [
+          'title' => 'Placement',
+          'value' => 'Header',
+          'desc' => 'Where should the code be placed?',
+          'set_func' => "tep_cfg_select_option(['Header', 'Footer'], ",
+        ],
+        'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '950',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Product Schema Module', 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS', 'True', 'Do you want to allow product schema to be added to your product page?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Placement', 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT', 'Header', 'Where should the code be placed?', '6', '1', 'tep_cfg_select_option(array(\'Header\', \'Footer\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_SORT_ORDER', '950', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_HEADER_TAGS_PRODUCT_SCHEMA_STATUS', 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT', 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_SORT_ORDER');
-    }
   }
-  
+

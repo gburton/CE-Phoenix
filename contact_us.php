@@ -5,16 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  require('includes/languages/' . $language . '/contact_us.php');
+  require "includes/languages/$language/contact_us.php";
 
-  if (isset($_GET['action']) && ($_GET['action'] == 'send') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
+  if (tep_validate_form_action_is('send')) {
     $error = false;
 
     $name = tep_db_prepare_input($_POST['name']);
@@ -29,7 +29,7 @@
     
     $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
-    $actionRecorder = new actionRecorder('ar_contact_us', (tep_session_is_registered('customer_id') ? $customer_id : null), $name);
+    $actionRecorder = new actionRecorder('ar_contact_us', ($_SESSION['customer_id'] ?? null), $name);
     if (!$actionRecorder->canPerform()) {
       $error = true;
 
@@ -38,7 +38,7 @@
       $messageStack->add('contact', sprintf(ERROR_ACTION_RECORDER, (defined('MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_MINUTES') ? (int)MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_MINUTES : 15)));
     }
 
-    if ($error == false) {
+    if (tep_form_processing_is_valid()) {
       tep_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, sprintf(EMAIL_SUBJECT, STORE_NAME), $enquiry, $name, $email_address);
 
       $actionRecorder->record();

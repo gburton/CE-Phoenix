@@ -38,15 +38,9 @@
     tep_db_query("UPDATE customers_info SET customers_info_date_of_last_logon = NOW(), customers_info_number_of_logons = customers_info_number_of_logons+1, password_reset_key = null, password_reset_date = null WHERE customers_info_id = " . (int)$_SESSION['customer_id']);
 
     tep_reset_session_token();
-    $cart->restore_contents();
+    $_SESSION['cart']->restore_contents();
 
-    if (count($navigation->snapshot) > 0) {
-      $origin_href = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], [session_name()]), $navigation->snapshot['mode']);
-      $navigation->clear_snapshot();
-      tep_redirect($origin_href);
-    }
-
-    tep_redirect(tep_href_link('index.php'));
+    tep_redirect($_SESSION['navigation']->pop_snapshot_as_link());
   }
 
   require "includes/languages/$language/login.php";
