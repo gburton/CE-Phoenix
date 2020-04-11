@@ -22,7 +22,7 @@
 // Now get all downloadable products in that order
   $downloads_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT
-    date_format(o.date_purchased, '%Y-%m-%d') AS date_purchased_day,
+    date_format(o.date_purchased, '%%Y-%%m-%%d') AS date_purchased_day,
     opd.download_maxdays,
     op.products_name,
     opd.orders_products_download_id,
@@ -34,7 +34,7 @@ SELECT
    INNER JOIN orders_products_download opd ON op.orders_products_id = opd.orders_products_id
    INNER JOIN orders_status os ON o.orders_status = os.orders_status_id
  WHERE opd.orders_products_filename != ''
-   AND os.downloads_flag = '1'
+   AND os.downloads_flag = 1
    AND o.customers_id = %d
    AND o.orders_id = %d
    AND os.language_id = %d
