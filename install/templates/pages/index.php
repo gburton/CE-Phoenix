@@ -89,7 +89,7 @@
           <p>
 
 <?php
-        echo implode("<br>\n", $config_file_array);
+        echo implode("<br>\n", $configfile_array);
 ?>
 
           </p>
