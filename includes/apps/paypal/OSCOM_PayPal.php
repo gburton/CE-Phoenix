@@ -76,7 +76,7 @@
         'server' => ($server == 'live') ? 1 : -1,
         'request' => trim($request_string),
         'response' => trim($response_string),
-        'ip_address' => sprintf('%u', ip2long($this->getIpAddress())),
+        'ip_address' => sprintf('%u', ip2long(tep_get_ip_address())),
         'date_added' => 'NOW()',
       ];
 
@@ -374,7 +374,7 @@
         $function = 'OSCOM_PayPal_Api_' . $call;
 
         if ( !function_exists($function) ) {
-          include(DIR_FS_CATALOG . 'includes/apps/paypal/api/' . $call . '.php');
+          require DIR_FS_CATALOG . 'includes/apps/paypal/api/' . $call . '.php';
         }
       } else {
         if ( !isset($server) ) {
@@ -384,7 +384,7 @@
         $function = 'OSCOM_PayPal_' . $module . '_Api_' . $call;
 
         if ( !function_exists($function) ) {
-          include(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/api/' . $call . '.php');
+          require DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/api/' . $call . '.php';
         }
       }
 
