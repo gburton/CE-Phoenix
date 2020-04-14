@@ -77,7 +77,16 @@
 
   <div class="row">
     <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
-    <div class="col text-right align-self-center"><?php echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger xxx text-white'); ?></div>
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('testimonials.php'), null, null, 'btn-light mt-2');
+      }
+      ?>
+    </div>
   </div>
 
 <?php
@@ -142,7 +151,6 @@
         echo tep_draw_hidden_field('date_added', $tInfo->date_added);
         
         echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
-        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('testimonials.php'), null, null, 'btn-light mt-2'); 
         ?>
 
       </form>
