@@ -34,7 +34,7 @@
       
       switch (basename($PHP_SELF)) {
         case 'index.php':
-          if (isset($cPath) && tep_not_null($cPath) && ($current_category_id > 0) && ($category_depth != 'top')) {
+          if (isset($cPath) && tep_not_null($cPath) && ($current_category_id > 0) && ($category_depth != 'index')) {
             $canonical = $OSCOM_category->buildBreadcrumb($current_category_id);
            
             $oscTemplate->addBlock('<link rel="canonical" href="' . tep_href_link('index.php', 'view=all&cPath=' . $canonical, 'SSL', false) . '" />' . PHP_EOL, $this->group);
