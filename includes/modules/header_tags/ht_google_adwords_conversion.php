@@ -14,12 +14,16 @@
 
     const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_';
 
-    function execute() {
-      global $PHP_SELF, $oscTemplate, $lng;
+    public function __construct() {
+      parent::__construct(__FILE__);
 
-      if (MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_JS_PLACEMENT === 'Footer') {
+      if (static::get_constant('MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_JS_PLACEMENT') === 'Footer') {
         $this->group = 'footer_scripts';
       }
+    }
+
+    function execute() {
+      global $PHP_SELF, $oscTemplate, $lng;
 
       if ( ($PHP_SELF == 'checkout_success.php') && isset($_SESSION['customer_id']) ) {
         $order_query = tep_db_query("SELECT orders_id, currency, currency_value FROM orders WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_purchased DESC LIMIT 1");
@@ -30,7 +34,7 @@
           $order_subtotal_query = tep_db_query("SELECT value FROM orders_total WHERE orders_id = '" . (int)$order['orders_id'] . "' AND class='ot_subtotal'");
           $order_subtotal = tep_db_fetch_array($order_subtotal_query);
 
-          if (!isset($lng) || !is_object($lng)) {
+          if (!isset($lng) || !($lng instanceof language)) {
             $lng = new language();
           }
 

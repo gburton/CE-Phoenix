@@ -14,12 +14,16 @@
 
     const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_PRODUCT_SCHEMA_';
 
-    function execute() {
-      global $PHP_SELF, $oscTemplate, $product_check, $currencies;
+    public function __construct() {
+      parent::__construct(__FILE__);
 
-      if (MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT != 'Header') {
+      if (static::get_constant('MODULE_HEADER_TAGS_PRODUCT_SCHEMA_PLACEMENT') != 'Header') {
         $this->group = 'footer_scripts';
       }
+    }
+
+    function execute() {
+      global $PHP_SELF, $oscTemplate, $product_check, $currencies;
 
       if ($product_check['total'] > 0) {
         $product_info_query = tep_db_query(<<<'EOSQL'

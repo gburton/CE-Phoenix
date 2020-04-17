@@ -29,28 +29,28 @@
         </tr>
       </thead>
       <tbody>
-<?php
-  $db_tables = $customer_data->build_db_tables(['id', 'name'], 'customers');
-  $customers_query_raw = "SELECT " . customer_query::build_columns($db_tables);
-  $customers_query_raw .= "o.customers_id, sum(op.products_quantity * op.final_price) AS ordersum FROM " . customer_query::build_joins($db_tables, []);
-  $customers_query_raw .= ", orders_products op, orders o WHERE " . customer_query::TABLE_ALIASES['customers'];
-  $customers_query_raw .= ".customers_id = o.customers_id AND o.orders_id = op.orders_id GROUP BY o.customers_id ORDER BY ordersum DESC";
-  $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_query_raw, $customers_query_numrows);
+        <?php
+        $db_tables = $customer_data->build_db_tables(['id', 'name'], 'customers');
+        $customers_query_raw = "SELECT " . customer_query::build_columns($db_tables);
+        $customers_query_raw .= "o.customers_id, sum(op.products_quantity * op.final_price) AS ordersum FROM " . customer_query::build_joins($db_tables, []);
+        $customers_query_raw .= ", orders_products op, orders o WHERE " . customer_query::TABLE_ALIASES['customers'];
+        $customers_query_raw .= ".customers_id = o.customers_id AND o.orders_id = op.orders_id GROUP BY o.customers_id ORDER BY ordersum DESC";
+        $customers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_query_raw, $customers_query_numrows);
 
-  $row = 0;
-  $customers_query = tep_db_query($customers_query_raw);
+        $row = 0;
+        $customers_query = tep_db_query($customers_query_raw);
 
-  while ($customer = tep_db_fetch_array($customers_query)) {
-    $row++;
-?>
-        <tr onclick="document.location.href='<?php echo tep_href_link('customers.php', 'cID=' . $customer['customers_id']); ?>'">
-          <td><?php echo str_pad($row, 2, '0', STR_PAD_LEFT); ?>.</td>
-          <td><?php echo '<a href="' . tep_href_link('customers.php', 'cID=' . $customer['customers_id']) . '">' . $customer_data->get('name', $customer) . '</a>'; ?></td>
-          <td class="text-right"><?php echo $currencies->format($customer['ordersum']); ?>&nbsp;</td>
-        </tr>
-<?php
-  }
-?>
+        while ($customer = tep_db_fetch_array($customers_query)) {
+          $row++;
+          ?>
+          <tr onclick="document.location.href='<?php echo tep_href_link('customers.php', 'cID=' . $customer['customers_id']); ?>'">
+            <td><?php echo str_pad($row, 2, '0', STR_PAD_LEFT); ?>.</td>
+            <td><?php echo '<a href="' . tep_href_link('customers.php', 'cID=' . $customer['customers_id']) . '">' . $customer_data->get('name', $customer) . '</a>'; ?></td>
+            <td class="text-right"><?php echo $currencies->format($customer['ordersum']); ?>&nbsp;</td>
+          </tr>
+          <?php
+        }
+        ?>
       </tbody>
     </table>
   </div>

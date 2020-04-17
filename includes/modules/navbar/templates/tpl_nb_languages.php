@@ -4,15 +4,9 @@
   </a>
   <div class="dropdown-menu<?php echo (('Right' === MODULE_NAVBAR_LANGUAGES_CONTENT_PLACEMENT) ? ' dropdown-menu-right' : ''); ?>" aria-labelledby="navDropdownLanguages">
     <?php
-  if (($GLOBALS['lng'] ?? null) instanceof language) {
-    $lng =& $GLOBALS['lng'];
-  } else {
-    $lng = new language();
-  }
-
   foreach ($lng->catalog_languages as $key => $value) {
     echo '<a class="dropdown-item" href="'
-       . tep_href_link($PHP_SELF, tep_get_all_get_params(['language', 'currency']) . 'language=' . $key, $GLOBALS['request_type'])
+       . tep_href_link($GLOBALS['PHP_SELF'], tep_get_all_get_params(['language', 'currency']) . 'language=' . $key, $GLOBALS['request_type'])
        . '">'
        . tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), null, null, null, false)
        . ' ' . $value['name'] . '</a>' . PHP_EOL;

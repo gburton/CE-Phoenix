@@ -43,7 +43,7 @@
 // if there is only one payment method, select it as default because in
 // checkout_confirmation.php the $payment variable is being assigned the
 // $_POST['payment'] value which will be empty (no radio button selection possible)
-        if ( (tep_count_payment_modules() == 1) && (!isset($GLOBALS[$_SESSION['payment']]) || !is_object($GLOBALS[$_SESSION['payment']])) ) {
+        if ( (tep_count_payment_modules() == 1) && (!isset($_SESSION['payment']) || !is_object($GLOBALS[$_SESSION['payment']] ?? null)) ) {
           $_SESSION['payment'] = $include_modules[0]['class'];
         }
 

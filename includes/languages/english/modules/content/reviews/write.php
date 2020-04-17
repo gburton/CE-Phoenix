@@ -17,6 +17,9 @@ define('SUB_TITLE_REVIEW', 'Your Review');
 
 define('SUB_TITLE_RATING', 'Rating');
 define('SUB_TITLE_REVIEW_TEXT', 'Your Review...');
+define('SUB_TITLE_REVIEW_NICKNAME', 'Your Name or Nickname.');
+
+define('VERIFIED_BUYER', '%s [Verified Buyer]');
 
 define('TEXT_BAD', '%s (Worst)');
 define('TEXT_GOOD', '%s (Best)');

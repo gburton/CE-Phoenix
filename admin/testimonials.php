@@ -24,6 +24,8 @@
             tep_db_query("update testimonials set testimonials_status = '" . (int)$_GET['flag'] . "' where testimonials_id = '" . (int)$_GET['tID'] . "'");
           }
         }
+        
+        $OSCOM_Hooks->call('testimonials', 'testimonialsActionSetFlag');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID']));
         break;
@@ -75,7 +77,16 @@
 
   <div class="row">
     <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
-    <div class="col text-right align-self-center"><?php echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger xxx text-white'); ?></div>
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('testimonials.php'), null, null, 'btn-light mt-2');
+      }
+      ?>
+    </div>
   </div>
 
 <?php
@@ -94,7 +105,7 @@
       default: $in_status = true; $out_status = false;
     }
 ?>
-      <?php echo tep_draw_form('testimonial', 'testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID'] . '&action=update'); ?>
+      <?php echo tep_draw_form('testimonial', 'testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID'] . '&action=update', 'post', 'enctype="multipart/form-data"'); ?>
         
         <div class="form-group row align-items-center">
           <label class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></label>
@@ -132,20 +143,22 @@
           </div>
         </div>
         
-        <?php 
+        <?php
+        echo $OSCOM_Hooks->call('testimonials', 'testimonialsFormEdit');
+
         echo tep_draw_hidden_field('testimonials_id', $tInfo->testimonials_id);
         echo tep_draw_hidden_field('customers_name', $tInfo->customers_name);
         echo tep_draw_hidden_field('date_added', $tInfo->date_added);
         
         echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
-        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('testimonials.php'), null, null, 'btn-light mt-2'); 
         ?>
 
       </form>
 <?php
   } elseif ($action == 'new') {
-    ?>
-      <?php echo tep_draw_form('review', 'testimonials.php', 'action=addnew'); ?>
+    
+      echo tep_draw_form('review', 'testimonials.php', 'action=addnew', 'post', 'enctype="multipart/form-data"'); 
+      ?>
       
         <div class="form-group row">
           <label for="inputFrom" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_FROM; ?></label>
@@ -169,7 +182,11 @@
           </div>
         </div>
         
-        <p><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-pen', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></p>
+        <?php
+        echo $OSCOM_Hooks->call('testimonials', 'testimonialsFormNew');
+        
+        echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-pen', null, 'primary', null, 'btn-success btn-block btn-lg'); 
+        ?>
 
       </form>
        <?php

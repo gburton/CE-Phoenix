@@ -48,7 +48,19 @@
   require('includes/template_top.php');
 ?>
 
-  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+  <div class="row">
+    <div class="col"><h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1></div>
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(IMAGE_NEW_ZONE, 'fas fa-map-marker-alt', tep_href_link('zones.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('zones.php'), null, null, 'btn-light mt-2');
+      }
+      ?>
+    </div>
+  </div>
   
   <div class="row no-gutters">
     <div class="col">
@@ -94,14 +106,6 @@
         <div class="col"><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ZONES); ?></div>
         <div class="col text-right mr-2"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
-      
-      <?php
-      if (empty($action)) {
-        ?>
-        <p class="pt-2 text-right"><?php echo tep_draw_bootstrap_button(IMAGE_NEW_ZONE, 'fas fa-map-marker-alt', tep_href_link('zones.php', 'page=' . $_GET['page'] . '&action=new'), null, null, 'btn-success btn-sm xxx text-white'); ?></p>
-        <?php
-        }
-      ?>
     </div>
 
 <?php
