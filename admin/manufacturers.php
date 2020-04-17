@@ -112,18 +112,21 @@
 
   require('includes/template_top.php');
 ?>
-
+  
   <div class="row">
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
-    <?php
-    if (empty($action)) {
-      echo '<div class="col text-right align-self-center">';
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
         echo tep_draw_bootstrap_button(BUTTON_INSERT_NEW_MANUFACTURER, 'fas fa-id-card', tep_href_link('manufacturers.php', 'action=new'), null, null, 'btn-danger xxx text-white');
-      echo '</div>';
-    }
-    ?>
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('manufacturers.php'), null, null, 'btn-light');
+      }
+      ?>
+    </div>
   </div>
   
   <div class="row no-gutters">

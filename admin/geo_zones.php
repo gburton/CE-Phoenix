@@ -84,15 +84,6 @@
   if (isset($_GET['zID']) && (($saction == 'edit') || ($saction == 'new'))) {
 ?>
 <script><!--
-function resetZoneSelected(theForm) {
-  if (theForm.state.value != '') {
-    theForm.zone_id.selectedIndex = '0';
-    if (theForm.zone_id.options.length > 0) {
-      theForm.state.value = '<?php echo JS_STATE_SELECT; ?>';
-    }
-  }
-}
-
 function update_zone(theForm) {
   var NumState = theForm.zone_id.options.length;
   var SelectedCountry = "";
@@ -141,6 +132,8 @@ function update_zone(theForm) {
                 <th><?php echo TABLE_HEADING_COUNTRY_ZONE; ?></th>
                 <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
               </tr>
+            </thead>
+            <tbody>
               <?php
               $rows = 0;
               $zones_query_raw = "select a.*, c.countries_name, z.zone_name from zones_to_geo_zones a left join countries c on a.zone_country_id = c.countries_id left join zones z on a.zone_id = z.zone_id where a.geo_zone_id = " . (int)$_GET['zID'] . " order by association_id";
@@ -156,14 +149,14 @@ function update_zone(theForm) {
                 } else {
                   echo '<tr onclick="document.location.href=\'' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $zones['association_id']) . '\'">';
                 }
-                 ?>
-                <td><?php echo (($zones['countries_name']) ? $zones['countries_name'] : TEXT_ALL_COUNTRIES); ?></td>
-                <td><?php echo (($zones['zone_id']) ? $zones['zone_name'] : PLEASE_SELECT); ?></td>
-                <td class="text-right"><?php if (isset($sInfo) && is_object($sInfo) && ($zones['association_id'] == $sInfo->association_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $zones['association_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?>&nbsp;</td>
-              </tr>
-              <?php
+                ?>
+                  <td><?php echo (($zones['countries_name']) ? $zones['countries_name'] : TEXT_ALL_COUNTRIES); ?></td>
+                  <td><?php echo (($zones['zone_id']) ? $zones['zone_name'] : PLEASE_SELECT); ?></td>
+                  <td class="text-right"><?php if (isset($sInfo) && is_object($sInfo) && ($zones['association_id'] == $sInfo->association_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $zones['association_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?>&nbsp;</td>
+                </tr>
+                <?php
               }
-            ?>
+              ?>
             </tbody>
           </table>
         </div>
@@ -195,6 +188,8 @@ function update_zone(theForm) {
                   <th><?php echo TABLE_HEADING_TAX_ZONES; ?></th>
                   <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
                 </tr>
+              </thead>
+              <tbody>
                 <?php
                 $zones_query_raw = "select * from geo_zones order by geo_zone_name";
                 $zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_query_raw, $zones_query_numrows);
@@ -224,16 +219,16 @@ function update_zone(theForm) {
                 <?php
               }
               ?>
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
       
-        <div class="row my-1">
-          <div class="col"><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['zpage'], TEXT_DISPLAY_NUMBER_OF_TAX_ZONES); ?></div>
-          <div class="col text-right mr-2"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['zpage'], '', 'zpage'); ?></div>
-        </div>
+          <div class="row my-1">
+            <div class="col"><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['zpage'], TEXT_DISPLAY_NUMBER_OF_TAX_ZONES); ?></div>
+            <div class="col text-right mr-2"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['zpage'], '', 'zpage'); ?></div>
+          </div>
         
-      </div>
+        </div>
       <?php
     }
     
