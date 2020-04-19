@@ -281,44 +281,44 @@
             </tr>
           </thead>
           <tbody>
-<?php
-    $reviews_query_raw = "select * from reviews order by date_added DESC";
-    $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $reviews_query_raw, $reviews_query_numrows);
-    $reviews_query = tep_db_query($reviews_query_raw);
-    while ($reviews = tep_db_fetch_array($reviews_query)) {
-      if ((!isset($_GET['rID']) || (isset($_GET['rID']) && ($_GET['rID'] == $reviews['reviews_id']))) && !isset($rInfo)) {
-        $reviews_text_query = tep_db_query("select r.*, rd.*, length(rd.reviews_text) as reviews_text_size from reviews r, reviews_description rd where r.reviews_id = '" . (int)$reviews['reviews_id'] . "' and r.reviews_id = rd.reviews_id");
-        $reviews_text = tep_db_fetch_array($reviews_text_query);
+            <?php
+            $reviews_query_raw = "select * from reviews order by date_added DESC";
+            $reviews_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $reviews_query_raw, $reviews_query_numrows);
+            $reviews_query = tep_db_query($reviews_query_raw);
+            while ($reviews = tep_db_fetch_array($reviews_query)) {
+              if ((!isset($_GET['rID']) || (isset($_GET['rID']) && ($_GET['rID'] == $reviews['reviews_id']))) && !isset($rInfo)) {
+                $reviews_text_query = tep_db_query("select r.*, rd.*, length(rd.reviews_text) as reviews_text_size from reviews r, reviews_description rd where r.reviews_id = '" . (int)$reviews['reviews_id'] . "' and r.reviews_id = rd.reviews_id");
+                $reviews_text = tep_db_fetch_array($reviews_text_query);
 
-        $products_image_query = tep_db_query("select products_image from products where products_id = '" . (int)$reviews['products_id'] . "'");
-        $products_image = tep_db_fetch_array($products_image_query);
+                $products_image_query = tep_db_query("select products_image from products where products_id = '" . (int)$reviews['products_id'] . "'");
+                $products_image = tep_db_fetch_array($products_image_query);
 
-        $products_name_query = tep_db_query("select products_name from products_description where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
-        $products_name = tep_db_fetch_array($products_name_query);
+                $products_name_query = tep_db_query("select products_name from products_description where products_id = '" . (int)$reviews['products_id'] . "' and language_id = '" . (int)$languages_id . "'");
+                $products_name = tep_db_fetch_array($products_name_query);
 
-        $reviews_average_query = tep_db_query("select (avg(reviews_rating) / 5 * 100) as average_rating from reviews where products_id = '" . (int)$reviews['products_id'] . "'");
-        $reviews_average = tep_db_fetch_array($reviews_average_query);
+                $reviews_average_query = tep_db_query("select (avg(reviews_rating) / 5 * 100) as average_rating from reviews where products_id = '" . (int)$reviews['products_id'] . "'");
+                $reviews_average = tep_db_fetch_array($reviews_average_query);
 
-        $review_info = array_merge($reviews_text, $reviews_average, $products_name);
-        $rInfo_array = array_merge($reviews, $review_info, $products_image);
-        $rInfo = new objectInfo($rInfo_array);
-      }
+                $review_info = array_merge($reviews_text, $reviews_average, $products_name);
+                $rInfo_array = array_merge($reviews, $review_info, $products_image);
+                $rInfo = new objectInfo($rInfo_array);
+              }
 
-      if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id) ) {
-        echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=preview') . '\'">' . "\n";
-      } else {
-        echo '<tr onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id']) . '\'">' . "\n";
-      }
-?>
+              if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id) ) {
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=preview') . '\'">' . "\n";
+              } else {
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id']) . '\'">' . "\n";
+              }
+              ?>
                 <td><?php echo tep_get_products_name($reviews['products_id']); ?></td>
                 <td class="text-center"><?php echo tep_draw_stars($reviews['reviews_rating']); ?></td>
                 <td class="text-right"><?php echo tep_date_short($reviews['date_added']); ?></td>
                 <td class="text-center"><?php if ($reviews['reviews_status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('reviews.php', 'action=setflag&flag=0&rID=' . $reviews['reviews_id'] . '&page=' . $_GET['page']) . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'action=setflag&flag=1&rID=' . $reviews['reviews_id'] . '&page=' . $_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
                 <td class="text-right"><?php if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
-<?php
-    }
-?>
+              <?php
+            }
+            ?>
           </tbody>
         </table>
       </div>

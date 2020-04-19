@@ -140,6 +140,7 @@ const TEXT_SET_DEFAULT = 'Set as default';
 
 const TEXT_NONE = '--none--';
 const TEXT_TOP = 'Top';
+const TEXT_ALL = 'All';
 
 const ERROR_DESTINATION_DOES_NOT_EXIST = 'Error: Destination does not exist.';
 const ERROR_DESTINATION_NOT_WRITEABLE = 'Error: Destination not writeable.';

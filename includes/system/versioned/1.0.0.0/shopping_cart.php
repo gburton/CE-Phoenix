@@ -330,7 +330,7 @@
             'weight' => $products['products_weight'],
             'final_price' => ($products_price + $this->attributes_price($products_id)),
             'tax_class_id' => $products['products_tax_class_id'],
-            'attributes' => ($this->contents[$products_id]['attributes'] ?? ''),
+            'attributes' => ($this->contents[$products_id]['attributes'] ?? null),
           ];
         }
       }

@@ -238,7 +238,13 @@
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
     </div>
     <div class="col text-right align-self-center">
-      <?php echo tep_draw_bootstrap_button(IMAGE_INSERT_NEW_ADMIN, 'fas fa-users', tep_href_link('administrators.php', 'action=new'), null, null, 'btn-danger xxx text-white'); ?>
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(IMAGE_INSERT_NEW_ADMIN, 'fas fa-users', tep_href_link('administrators.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      } else {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('administrators.php'), null, null, 'btn-light');
+      }
+      ?>
     </div>
   </div>
 

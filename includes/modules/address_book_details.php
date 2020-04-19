@@ -16,11 +16,15 @@
   <div class="contentText">
 
 <?php
-  if (is_numeric($_GET['edit'] ?? null)) {
-    $customer_data->display_input($customer_data->get_fields_for_page('address_book'), $customer->fetch_to_address($_GET['edit']));
-  } else {
-    $customer_data->display_input($customer_data->get_fields_for_page('address_book'));
+  if (!isset($customer_details)) {
+    if (is_numeric($_GET['edit'] ?? null)) {
+      $customer_details = $customer->fetch_to_address($_GET['edit']);
+    } else {
+      $customer_details = null;
+    }
   }
+
+  $customer_data->display_input($customer_data->get_fields_for_page('address_book'), $customer_details);
 
   if ( !isset($_GET['edit']) || ($customer->get_default_address_id() != $_GET['edit']) ) {
 ?>

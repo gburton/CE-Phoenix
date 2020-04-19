@@ -173,10 +173,10 @@ function updateForm() {
     </div>
     <div class="col-sm-4 text-right align-self-center">
       <?php
-      if (!empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('currencies.php'), null, null, 'btn-light');
-      } else {
+      if (empty($action)) {
         echo tep_draw_bootstrap_button(IMAGE_NEW_CURRENCY, 'fas fa-cogs', tep_href_link('currencies.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+      } else {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('currencies.php'), null, null, 'btn-light');
       }
       ?>
     </div>

@@ -95,7 +95,6 @@
   <div class="<?php echo $check_message['class']; ?>">
     <p class="lead"><?php echo $check_message['message']; ?></p>
   </div>
-      
 
 <?php
   if (!empty($new_versions)) {

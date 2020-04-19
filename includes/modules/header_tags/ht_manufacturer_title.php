@@ -10,14 +10,16 @@
   Released under the GNU General Public License
 */
 
-  class ht_manufacturer_title extends abstract_module {
+  class ht_manufacturer_title extends abstract_executable_module {
 
-    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_PRODUCT_TITLE_';
+    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_';
 
-    protected $group = 'header_tags';
+    public function __construct() {
+      parent::__construct(__FILE__);
+    }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $manufacturers, $brand;
+      global $PHP_SELF, $oscTemplate, $brand;
 
       if (basename($PHP_SELF) == 'index.php') {
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {

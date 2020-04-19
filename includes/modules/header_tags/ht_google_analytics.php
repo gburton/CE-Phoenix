@@ -14,13 +14,18 @@
 
     const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_';
 
+    public function __construct() {
+      parent::__construct(__FILE__);
+
+      if (static::get_constant('MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_JS_PLACEMENT') != 'Header') {
+        $this->group = 'footer_scripts';
+      }
+    }
+
     function execute() {
       global $PHP_SELF, $oscTemplate;
 
       if (tep_not_null(MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_ID)) {
-        if (MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_JS_PLACEMENT != 'Header') {
-          $this->group = 'footer_scripts';
-        }
 
         $header = '<script>
   var _gaq = _gaq || [];

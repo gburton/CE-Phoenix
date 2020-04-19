@@ -38,7 +38,7 @@
       $output = sprintf(<<<'EOTEXT'
 <table class="table table-striped table-hover mb-2">
  <thead>
-    <tr  class="thead-dark">
+    <tr class="thead-dark">
       <th>%s</th>
       <th class="text-right">%s</th>
     </tr>

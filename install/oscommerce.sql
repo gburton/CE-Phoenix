@@ -118,7 +118,8 @@ CREATE TABLE configuration (
   date_added datetime NOT NULL,
   use_function varchar(255) NULL,
   set_function varchar(255) NULL,
-  PRIMARY KEY (configuration_id)
+  PRIMARY KEY (configuration_id),
+  UNIQUE KEY uq_configuration_key (configuration_key)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS configuration_group;
