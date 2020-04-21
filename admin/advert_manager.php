@@ -346,8 +346,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, (int)$_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
-        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, (int)$_GET['page']); ?></div>
+        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
+        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
 
       <?php

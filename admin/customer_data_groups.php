@@ -49,7 +49,7 @@
         if ('insert' == $action) {
           tep_redirect(tep_href_link('customer_data_groups.php'));
         } elseif ('save' == $action) {
-          tep_redirect(tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $customer_data_groups_id));
+          tep_redirect(tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $customer_data_groups_id));
         }
         break;
       case 'deleteconfirm':
@@ -58,7 +58,7 @@
         tep_db_query("DELETE FROM customer_data_groups WHERE customer_data_groups_id = " . (int)$customer_data_groups_id);
         tep_db_query("DELETE FROM customer_data_groups_sequence WHERE customer_data_groups_id = " . (int)$customer_data_groups_id);
 
-        tep_redirect(tep_href_link('customer_data_groups.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
@@ -111,16 +111,16 @@ EOSQL
               }
 
               if (isset($cdgInfo) && is_object($cdgInfo) && ($customer_data_groups['customer_data_groups_id'] == $cdgInfo->customer_data_groups_id)) {
-                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit') . '\'">';
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit') . '\'">';
               } else {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $customer_data_groups['customer_data_groups_id']) . '\'">';
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $customer_data_groups['customer_data_groups_id']) . '\'">';
               }
               ?>
                 <td><?php echo $customer_data_groups['customer_data_groups_name']; ?></td>
                 <td><?php echo $customer_data_groups['cdg_vertical_sort_order']; ?></td>
                 <td><?php echo $customer_data_groups['cdg_horizontal_sort_order']; ?></td>
                 <td><?php echo $customer_data_groups['customer_data_groups_width']; ?></td>
-                <td class="text-right"><?php if (isset($cdgInfo) && is_object($cdgInfo) && ($customer_data_groups['customer_data_groups_id'] == $cdgInfo->customer_data_groups_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $customer_data_groups['customer_data_groups_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?php if (isset($cdgInfo) && is_object($cdgInfo) && ($customer_data_groups['customer_data_groups_id'] == $cdgInfo->customer_data_groups_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $customer_data_groups['customer_data_groups_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
               <?php
               }
@@ -144,7 +144,7 @@ EOSQL
     case 'new':
       $heading[] = ['text' => TEXT_INFO_HEADING_NEW_CUSTOMER_DATA_GROUP];
 
-      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . $_GET['page'] . '&action=insert')];
+      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&action=insert')];
       $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
       $contents[] = ['text' => tep_draw_checkbox_field('use_first', '1', true) . TEXT_INFO_USE_FIRST_FOR_ALL];
 
@@ -154,12 +154,12 @@ EOSQL
         $contents[] = ['text' => TEXT_INFO_HORIZONTAL_SORT_ORDER . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $lang['id'] . ']')];
         $contents[] = ['text' => TEXT_INFO_WIDTH . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $lang['id'] . ']', 12)];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_CUSTOMER_DATA_GROUP];
 
-      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=save')];
+      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=save')];
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
       $contents[] = ['text' => TEXT_INFO_USE_FIRST_FOR_ALL . '<br>' . tep_draw_checkbox_field('use_first', '1', true)];
 
@@ -183,12 +183,12 @@ EOSQL
         $contents[] = ['text' => sprintf(TEXT_INFO_HORIZONTAL_SORT_ORDER, null) . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $cdg['id'] . ']', $cdg['cdg_horizontal_sort_order'])];
         $contents[] = ['text' => sprintf(TEXT_INFO_WIDTH, null) . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $cdg['id'] . ']', $cdg['customer_data_groups_width'])];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CUSTOMER_DATA_GROUP];
 
-      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=deleteconfirm')];
+      $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
 
       $cdg_query = tep_db_query(<<<'EOSQL'
@@ -204,13 +204,13 @@ EOSQL
       while ($cdg = tep_db_fetch_array($cdg_query)) {
         $contents[] = ['text' => tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;<strong>' . $cdg['customer_data_groups_name'] . '</strong>'];
       }
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($cdgInfo ?? null)) {
         $heading[] = ['text' => $cdgInfo->customer_data_groups_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('customer_data_groups.php', 'page=' . $_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
 
         $cdg_query = tep_db_query(<<<'EOSQL'
 SELECT
