@@ -54,10 +54,10 @@
         $username = tep_db_prepare_input($_POST['username']);
         $password = tep_db_prepare_input($_POST['password']);
 
-        $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " where user_name = '" . tep_db_input($username) . "' limit 1");
+        $check_query = tep_db_query("select id from administrators where user_name = '" . tep_db_input($username) . "' limit 1");
 
         if (tep_db_num_rows($check_query) < 1) {
-          tep_db_query("insert into " . TABLE_ADMINISTRATORS . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
+          tep_db_query("insert into administrators (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
 
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
@@ -102,7 +102,7 @@
         $username = tep_db_prepare_input($_POST['username']);
         $password = tep_db_prepare_input($_POST['password']);
 
-        $check_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$_GET['aID'] . "'");
+        $check_query = tep_db_query("select id, user_name from administrators where id = '" . (int)$_GET['aID'] . "'");
         $check = tep_db_fetch_array($check_query);
 
 // update username in current session if changed
@@ -121,7 +121,7 @@
           }
         }
 
-        tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_name = '" . tep_db_input($username) . "' where id = '" . (int)$_GET['aID'] . "'");
+        tep_db_query("update administrators set user_name = '" . tep_db_input($username) . "' where id = '" . (int)$_GET['aID'] . "'");
 
         if (tep_not_null($password)) {
 // update password in htpasswd
@@ -139,7 +139,7 @@
             }
           }
 
-          tep_db_query("update " . TABLE_ADMINISTRATORS . " set user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' where id = '" . (int)$_GET['aID'] . "'");
+          tep_db_query("update administrators set user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' where id = '" . (int)$_GET['aID'] . "'");
         } elseif (!isset($_POST['htaccess']) || ($_POST['htaccess'] != 'true')) {
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
@@ -178,14 +178,14 @@
       case 'deleteconfirm':
         $id = tep_db_prepare_input($_GET['aID']);
 
-        $check_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$id . "'");
+        $check_query = tep_db_query("select id, user_name from administrators where id = '" . (int)$id . "'");
         $check = tep_db_fetch_array($check_query);
 
         if ($admin['id'] == $check['id']) {
           tep_session_unregister('admin');
         }
 
-        tep_db_query("delete from " . TABLE_ADMINISTRATORS . " where id = '" . (int)$id . "'");
+        tep_db_query("delete from administrators where id = '" . (int)$id . "'");
 
         if (is_array($htpasswd_array)) {
           for ($i=0, $n=sizeof($htpasswd_array); $i<$n; $i++) {
@@ -261,7 +261,7 @@
           </thead>
           <tbody>
             <?php
-            $admins_query = tep_db_query("select id, user_name from " . TABLE_ADMINISTRATORS . " order by user_name");
+            $admins_query = tep_db_query("select id, user_name from administrators order by user_name");
             while ($admins = tep_db_fetch_array($admins_query)) {
               if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $admins['id']))) && !isset($aInfo) && (substr($action, 0, 3) != 'new')) {
                 $aInfo = new objectInfo($admins);
