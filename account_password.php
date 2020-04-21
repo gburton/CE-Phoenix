@@ -71,7 +71,7 @@
   <?php
   $input_id = 'inputCurrent';
   $label_text = ENTRY_PASSWORD_CURRENT;
-  $input = tep_draw_input_field('password_current', null, abstract_customer_data_module::REQUIRED_ATTRIBUTE . 'autofocus="autofocus" id="' . $input_id . '" autocomplete="current-password" placeholder="' . ENTRY_PASSWORD_CURRENT_TEXT . '"', 'password') . FORM_REQUIRED_INPUT;
+  $input = tep_draw_input_field('password_current', null, abstract_customer_data_module::REQUIRED_ATTRIBUTE . 'autofocus="autofocus" autocapitalize="none" id="' . $input_id . '" autocomplete="current-password" placeholder="' . ENTRY_PASSWORD_CURRENT_TEXT . '"', 'password') . FORM_REQUIRED_INPUT;
   
   include $oscTemplate->map_to_template('includes/modules/customer_data/cd_whole_row_input.php');
 

@@ -78,7 +78,7 @@
       $label_text = constant($entry_base);
 
       $input_id = 'inputPassword';
-      $attribute = 'id="' . $input_id . '" placeholder="' . constant($entry_base . '_TEXT') . '"';
+      $attribute = 'id="' . $input_id . '" autocapitalize="none" placeholder="' . constant($entry_base . '_TEXT') . '"';
       $postInput = '';
       if ($this->is_required()) {
         $attribute = self::REQUIRED_ATTRIBUTE . $attribute;
