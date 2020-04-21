@@ -232,7 +232,7 @@ tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('orders
     <table border="0" width="100%" cellspacing="0" cellpadding="2">
       <tr>
         <td><?php echo ENTRY_STATUS; ?></td>
-        <td><?php echo tep_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status']); ?></td>
+        <td><?php echo tep_draw_pull_down_menu('status', $orders_statuses, $order->info['oid']); ?></td>
       </tr>
       <tr>
         <td valign="top"><?php echo ENTRY_ADD_COMMENT; ?></td>
