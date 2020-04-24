@@ -67,7 +67,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_COUNTRY, 'fas fa-map-marker-alt', tep_href_link('countries.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_COUNTRY, 'fas fa-map-marker-alt', tep_href_link('countries.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('countries.php'), null, null, 'btn-light');
@@ -135,7 +135,7 @@
       $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_2 . '<br>' . tep_draw_input_field('countries_iso_code_2')];
       $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_3 . '<br>' . tep_draw_input_field('countries_iso_code_3')];
       $contents[] = ['text' => TEXT_INFO_ADDRESS_FORMAT . '<br>' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats())];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_COUNTRY];
@@ -146,7 +146,7 @@
       $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_2 . '<br>' . tep_draw_input_field('countries_iso_code_2', $cInfo->countries_iso_code_2)];
       $contents[] = ['text' => TEXT_INFO_COUNTRY_CODE_3 . '<br>' . tep_draw_input_field('countries_iso_code_3', $cInfo->countries_iso_code_3)];
       $contents[] = ['text' => TEXT_INFO_ADDRESS_FORMAT . '<br>' . tep_draw_pull_down_menu('address_format_id', tep_get_address_formats(), $cInfo->address_format_id)];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_COUNTRY];
@@ -154,13 +154,13 @@
       $contents = ['form' => tep_draw_form('countries', 'countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->countries_name];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($cInfo)) {
         $heading[] = ['text' => $cInfo->countries_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->countries_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_NAME, $cInfo->countries_name)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_2, $cInfo->countries_iso_code_2)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COUNTRY_CODE_3, $cInfo->countries_iso_code_3)];

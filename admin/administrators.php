@@ -240,7 +240,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_INSERT_NEW_ADMIN, 'fas fa-users', tep_href_link('administrators.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_INSERT_NEW_ADMIN, 'fas fa-users', tep_href_link('administrators.php', 'action=new'), null, null, 'btn-danger');
       } else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('administrators.php'), null, null, 'btn-light');
       }
@@ -324,7 +324,7 @@
         $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
       }
 
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('administrators.php'), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('administrators.php'), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => $aInfo->user_name];
@@ -349,7 +349,7 @@
         $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
       }
 
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => $aInfo->user_name];
@@ -357,13 +357,13 @@
       $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $aInfo->user_name];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];
       break;
     default:
       if (isset($aInfo) && is_object($aInfo)) {
         $heading[] = ['text' => $aInfo->user_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('administrators.php', 'aID=' . $aInfo->id . '&action=delete'), null, null, 'btn-danger')];
       }
       break;
   }

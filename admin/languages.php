@@ -115,7 +115,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light');
@@ -193,7 +193,7 @@
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, null, null) . '<br>' . tep_draw_input_field('directory')];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, null) . '<br>' . tep_draw_input_field('sort_order')];
       $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php'), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php'), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_LANGUAGE];
@@ -206,21 +206,21 @@
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, null, null) . '<br>' . tep_draw_input_field('directory', $lInfo->directory)];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, null) . '<br>' . tep_draw_input_field('sort_order', $lInfo->sort_order)];
       if (DEFAULT_LANGUAGE != $lInfo->code) $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
-      $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_LANGUAGE];
 
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $lInfo->name];
-      $contents[] = ['class' => 'text-center', 'text' => (($remove_language) ? tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=deleteconfirm'), null, null, 'btn-danger xxx text-white mr-2') : '') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => (($remove_language) ? tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=deleteconfirm'), null, null, 'btn-danger mr-2') : '') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($lInfo)) {
         $heading[] = ['text' => $lInfo->name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete'), null, null, 'btn-danger xxx text-white mr-2')]; 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('define_language.php', 'lngdir=' . $lInfo->directory), null, null, 'btn-info xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete'), null, null, 'btn-danger mr-2')]; 
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('define_language.php', 'lngdir=' . $lInfo->directory), null, null, 'btn-info')];
         $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, DIR_WS_CATALOG_LANGUAGES, $lInfo->directory)];
         $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, $lInfo->sort_order)];
       }

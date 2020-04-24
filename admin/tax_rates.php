@@ -59,7 +59,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_TAX_RATE, 'fas fa-percent', tep_href_link('tax_rates.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_TAX_RATE, 'fas fa-percent', tep_href_link('tax_rates.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('tax_rates.php'), null, null, 'btn-light mt-2');
@@ -131,7 +131,7 @@
       $contents[] = ['text' => TEXT_INFO_TAX_RATE . '<br>' . tep_draw_input_field('tax_rate')];
       $contents[] = ['text' => sprintf(TEXT_INFO_RATE_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_description')];
       $contents[] = ['text' => TEXT_INFO_TAX_RATE_PRIORITY . '<br>' . tep_draw_input_field('tax_priority')];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_TAX_RATE];
@@ -143,7 +143,7 @@
       $contents[] = ['text' => TEXT_INFO_TAX_RATE . '<br>' . tep_draw_input_field('tax_rate', $trInfo->tax_rate)];
       $contents[] = ['text' => sprintf(TEXT_INFO_RATE_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_description', $trInfo->tax_description)];
       $contents[] = ['text' => TEXT_INFO_TAX_RATE_PRIORITY . '<br>' . tep_draw_input_field('tax_priority', $trInfo->tax_priority)];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_TAX_RATE];
@@ -151,12 +151,12 @@
       $contents = ['form' => tep_draw_form('rates', 'tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id  . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $trInfo->tax_class_title . ' ' . number_format($trInfo->tax_rate, TAX_DECIMAL_PLACES) . '%'];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id), null, null, 'btn-light')];
       break;
     default:
       if (is_object($trInfo)) {
         $heading[] = ['text' => $trInfo->tax_class_title];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id . '&action=delete'), null, null, 'btn-danger xxx text-white mr-2')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $trInfo->tax_rates_id . '&action=delete'), null, null, 'btn-danger mr-2')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($trInfo->date_added))];
         $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($trInfo->last_modified))];
         $contents[] = ['text' => sprintf(TEXT_INFO_RATE_DESCRIPTION, $trInfo->tax_description)];

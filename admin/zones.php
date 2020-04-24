@@ -53,7 +53,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_ZONE, 'fas fa-map-marker-alt', tep_href_link('zones.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_ZONE, 'fas fa-map-marker-alt', tep_href_link('zones.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('zones.php'), null, null, 'btn-light mt-2');
@@ -121,7 +121,7 @@
       $contents[] = ['text' => TEXT_INFO_ZONES_NAME . '<br>' . tep_draw_input_field('zone_name')];
       $contents[] = ['text' => TEXT_INFO_ZONES_CODE . '<br>' . tep_draw_input_field('zone_code')];
       $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . '<br>' . tep_draw_pull_down_menu('zone_country_id', tep_get_countries())];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_ZONE];
@@ -131,7 +131,7 @@
       $contents[] = ['text' => TEXT_INFO_ZONES_NAME . '<br>' . tep_draw_input_field('zone_name', $cInfo->zone_name)];
       $contents[] = ['text' => TEXT_INFO_ZONES_CODE . '<br>' . tep_draw_input_field('zone_code', $cInfo->zone_code)];
       $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . '<br>' . tep_draw_pull_down_menu('zone_country_id', tep_get_countries(), $cInfo->countries_id)];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_ZONE];
@@ -139,13 +139,13 @@
       $contents = ['form' => tep_draw_form('zones', 'zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['text' => '<strong>' . $cInfo->zone_name . '</strong>'];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id), null, null, 'btn-light')];
       break;
     default:
       if (isset($cInfo) && is_object($cInfo)) {
         $heading[] = ['text' => $cInfo->zone_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->zone_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => TEXT_INFO_ZONES_NAME . '<br>' . $cInfo->zone_name . ' (' . $cInfo->zone_code . ')'];
         $contents[] = ['text' => TEXT_INFO_COUNTRY_NAME . ' ' . $cInfo->countries_name];
       }

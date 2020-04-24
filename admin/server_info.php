@@ -99,7 +99,7 @@
     <?php 
     echo tep_draw_textarea_field('server configuration', 'soft', '100', '15', tep_format_system_info_array($info)); 
     
-    echo tep_draw_bootstrap_button(BUTTON_SAVE_TO_DISK, 'fas fa-save', tep_href_link('server_info.php', 'action=save'), 'primary', null, 'btn-success btn-block btn-lg my-2 xxx text-white');
+    echo tep_draw_bootstrap_button(BUTTON_SAVE_TO_DISK, 'fas fa-save', tep_href_link('server_info.php', 'action=save'), 'primary', null, 'btn-success btn-block btn-lg my-2');
 
     echo tep_draw_bootstrap_button(BUTTON_SEND_TO_OSCOMMERCE, 'fas fa-file-upload', tep_href_link('server_info.php', 'action=submit'), 'primary', null, 'btn-light');
     
@@ -157,7 +157,7 @@
   </div>
   
   <?php 
-  echo tep_draw_bootstrap_button(IMAGE_EXPORT, 'fas fa-save', tep_href_link('server_info.php', 'action=export'), null, null, 'btn-danger xxx text-white');
+  echo tep_draw_bootstrap_button(IMAGE_EXPORT, 'fas fa-save', tep_href_link('server_info.php', 'action=export'), null, null, 'btn-danger');
 
   }
 

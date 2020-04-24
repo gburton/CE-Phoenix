@@ -87,7 +87,7 @@ function selectAll(FormName, SelectBox) {
             $choose_audience_string .= tep_draw_pull_down_menu('products', $products, '', 'class="custom-select" size="20" multiple');
           $choose_audience_string .= '</div>';
           $choose_audience_string .= '<div class="col-2 align-self-center text-center">';
-            $choose_audience_string .= tep_draw_bootstrap_button(BUTTON_GLOBAL, 'fas fa-globe', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm&global=true'), 'primary', null, 'btn-info xxx text-white');
+            $choose_audience_string .= tep_draw_bootstrap_button(BUTTON_GLOBAL, 'fas fa-globe', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm&global=true'), 'primary', null, 'btn-info');
             $choose_audience_string .= '<br><br>';
             $choose_audience_string .= '<input type="button" class="btn btn-secondary" value="' . BUTTON_SELECT . '" onClick="mover(\'remove\');">';
             $choose_audience_string .= '<br><br>';
@@ -99,7 +99,7 @@ function selectAll(FormName, SelectBox) {
           $choose_audience_string .= '</div>';
         $choose_audience_string .= '</div>';
 
-        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block xxx text-white');
+        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block');
         $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID']), null, null, 'btn-light mt-2');
       $choose_audience_string .= '</form>';
 

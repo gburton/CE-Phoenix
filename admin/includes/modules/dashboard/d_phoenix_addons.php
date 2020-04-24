@@ -64,7 +64,7 @@
         $output .= '<a href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB . '</a>';
       $output .= '</div>';
       
-      $output .= tep_draw_bootstrap_button(MODULE_ADMIN_DASHBOARD_PHOENIX_VIEW_ALL, 'far fa-list-alt', tep_href_link('certified_addons.php'), null, null, 'btn btn-success btn-block xxx text-white mb-2');
+      $output .= tep_draw_bootstrap_button(MODULE_ADMIN_DASHBOARD_PHOENIX_VIEW_ALL, 'far fa-list-alt', tep_href_link('certified_addons.php'), null, null, 'btn btn-success btn-block mb-2');
 
       return $output;
     }

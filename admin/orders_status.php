@@ -112,7 +112,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_INSERT, 'fas fa-cogs', tep_href_link('orders_status.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_INSERT, 'fas fa-plus', tep_href_link('orders_status.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('orders_status.php'), null, null, 'btn-light');
@@ -194,7 +194,7 @@
       $contents[] = ['text' => tep_draw_checkbox_field('public_flag', '1') . ' ' . TEXT_SET_PUBLIC_STATUS];
       $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1') . ' ' . TEXT_SET_DOWNLOADS_STATUS];
       $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_ORDERS_STATUS];
@@ -212,7 +212,7 @@
       $contents[] = ['text' => tep_draw_checkbox_field('public_flag', '1', $oInfo->public_flag) . ' ' . TEXT_SET_PUBLIC_STATUS];
       $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1', $oInfo->downloads_flag) . ' ' . TEXT_SET_DOWNLOADS_STATUS];
       if (DEFAULT_ORDERS_STATUS_ID != $oInfo->orders_status_id) $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_ORDERS_STATUS];
@@ -220,13 +220,13 @@
       $contents = ['form' => tep_draw_form('status', 'orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id  . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $oInfo->orders_status_name];
-      if ($remove_status) $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, null, null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
+      if ($remove_status) $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
       break;
     default:
       if (isset($oInfo) && is_object($oInfo)) {
         $heading[] = ['text' => $oInfo->orders_status_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs',  tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs',  tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id . '&action=delete'), null, null, 'btn-danger')];
 
         $orders_status_inputs_string = '';
         $languages = tep_get_languages();

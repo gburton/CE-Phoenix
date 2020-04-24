@@ -148,7 +148,7 @@
       if (isset($_GET['list'])) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
       } else {
-        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-cogs', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger');
       }
       ?>
     </div>
@@ -289,7 +289,7 @@
 
       $contents = ['form' => tep_draw_form('modules', 'modules.php', 'set=' . $set . '&module=' . $_GET['module'] . '&action=save')];
       $contents[] = ['text' => $keys];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
       break;
     default:
       if (isset($mInfo)) {

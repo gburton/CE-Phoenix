@@ -113,8 +113,8 @@
     </div>
     <div class="col text-right align-self-center">
       <?php
-      echo tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info xxx text-white mr-2');
-      echo tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info xxx text-white mr-2');
+      echo tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info mr-2');
+      echo tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $_GET['oID']), null, ['newwindow' => true], 'btn-info mr-2');
       echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('orders.php', tep_get_all_get_params(['action'])), null, null, 'btn-light');
       ?>
     </div>
@@ -246,7 +246,7 @@
           echo $OSCOM_Hooks->call('orders', 'injectForm');
           ?>
           
-          <p><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg xxx text-white'); ?></p>
+          <p><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></p>
           
         </form>
 
@@ -395,17 +395,17 @@
       $contents = ['form' => tep_draw_form('orders', 'orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO . '<br><br><strong>' . $oInfo->customers_name . '</strong>'];
       $contents[] = ['text' => '<div class="custom-control custom-switch py-2">' . tep_draw_selection_field('restock', 'checkbox', 1, null, 'class="custom-control-input" id="oRestock"') . '<label for="oRestock" class="custom-control-label text-muted">' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY . '</label></div>'];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id), null, null, 'btn-light')];
       break;
     default:
       if (($oInfo ?? null) instanceof objectInfo) {
         $heading[] = ['text' => '[' . $oInfo->orders_id . '] ' . $oInfo->date_purchased];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_DATE_ORDER_CREATED, $oInfo->date_purchased)];
         if (tep_not_null($oInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_DATE_ORDER_LAST_MODIFIED, $oInfo->last_modified)];
         $contents[] = ['text' => sprintf(TEXT_INFO_PAYMENT_METHOD, $oInfo->payment_method)];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_ORDERS_INVOICE, 'fas fa-file-invoice-dollar', tep_href_link('invoice.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_ORDERS_PACKINGSLIP, 'fas fa-file-contract', tep_href_link('packingslip.php', 'oID=' . $oInfo->orders_id), null, ['newwindow' => true], 'btn-info')];
       }
       break;
   }

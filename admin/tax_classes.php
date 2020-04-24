@@ -53,7 +53,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_TAX_CLASS, 'fas fa-funnel-dollar', tep_href_link('tax_classes.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_TAX_CLASS, 'fas fa-funnel-dollar', tep_href_link('tax_classes.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('tax_classes.php'), null, null, 'btn-light mt-2');
@@ -116,7 +116,7 @@
       $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
       $contents[] = ['text' => TEXT_INFO_CLASS_TITLE . '<br>' . tep_draw_input_field('tax_class_title')];
       $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_class_description')];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, null, null, 'btn-success xxx text-white mr-2') .  tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, null, null, 'btn-success mr-2') .  tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_TAX_CLASS];
@@ -125,7 +125,7 @@
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
       $contents[] = ['text' => TEXT_INFO_CLASS_TITLE . '<br>' . tep_draw_input_field('tax_class_title', $tcInfo->tax_class_title)];
       $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_class_description', $tcInfo->tax_class_description)];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_TAX_CLASS];
@@ -133,13 +133,13 @@
       $contents = ['form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $tcInfo->tax_class_title];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
       break;
     default:
       if (isset($tcInfo) && is_object($tcInfo)) {
         $heading[] = ['text' => $tcInfo->tax_class_title];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete'), null, null, 'btn-danger xxx text-white mr-2')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete'), null, null, 'btn-danger mr-2')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($tcInfo->date_added))];
         $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($tcInfo->last_modified))];
         $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, $tcInfo->tax_class_description)];

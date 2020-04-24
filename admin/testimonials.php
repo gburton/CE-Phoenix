@@ -80,7 +80,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_TESTIMONIAL, 'fas fa-pen', tep_href_link('testimonials.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('testimonials.php'), null, null, 'btn-light mt-2');
@@ -262,13 +262,13 @@
 
         $contents = ['form' => tep_draw_form('testimonials', 'testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=deleteconfirm')];
         $contents[] = ['text' => TEXT_INFO_DELETE_TESTIMONIAL_INTRO];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id), null, null, 'btn-light')];
         break;
       default:
       if (isset($tInfo) && is_object($tInfo)) {
         $heading[] = ['text' => $tInfo->customers_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($tInfo->date_added))];
         if (tep_not_null($tInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($tInfo->last_modified))];
         $contents[] = ['text' => sprintf(TEXT_INFO_TESTIMONIAL_AUTHOR, $tInfo->customers_name)];

@@ -39,7 +39,7 @@
       $confirm_string .= '</table>' . "\n";
 
       $confirm_string .= '<div class="buttonSet">';
-      $confirm_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . (int)$_GET['nID'] . '&action=confirm_send'), 'primary', null, 'btn-success btn-block btn-lg xxx text-white');
+      $confirm_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . (int)$_GET['nID'] . '&action=confirm_send'), 'primary', null, 'btn-success btn-block btn-lg');
       $confirm_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . (int)$_GET['nID']), null, null, 'btn-light mt-2');
       $confirm_string .= '</div>' . "\n";
 

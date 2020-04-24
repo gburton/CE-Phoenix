@@ -103,7 +103,7 @@
     </div>
     <div class="col-4 col-sm-2">
       <?php
-      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules_array) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm xxx text-white');
+      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules_array) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm');
       ?>
     </div>
   </div>
