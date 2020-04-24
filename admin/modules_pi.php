@@ -287,7 +287,7 @@
         if ( substr($key, -5) == 'GROUP' ) {
           include_once(DIR_FS_CATALOG . 'includes/modules/content/product_info/cm_pi_modular.php');
           $layout = call_user_func(['cm_pi_modular', 'display_layout']);
-          $keys .= '<div class="secInfo">' . $layout . '</div>';
+          $keys .= '<div class="alert alert-info">' . $layout . '</div>';
         }        
 
         if ($value['set_function']) {

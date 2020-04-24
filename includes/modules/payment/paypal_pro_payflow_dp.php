@@ -31,7 +31,7 @@
       parent::__construct();
 
       if ( empty(self::get_constant(MODULE_PAYMENT_INSTALLED)) || !in_array('paypal_pro_payflow_ec.php', explode(';', MODULE_PAYMENT_INSTALLED)) || !defined('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_STATUS') || (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_STATUS != 'True') ) {
-        $this->description = '<div class="secWarning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_EXPRESS_MODULE . '</div>' . $this->description;
+        $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_EXPRESS_MODULE . '</div>' . $this->description;
 
         $this->enabled = false;
       }
@@ -46,14 +46,14 @@
       }
 
       if ( !function_exists('curl_init') ) {
-        $this->description = '<div class="secWarning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ADMIN_CURL . '</div>' . $this->description;
+        $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ADMIN_CURL . '</div>' . $this->description;
 
         $this->enabled = false;
       }
 
       if ( $this->enabled === true ) {
         if ( !tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_VENDOR) || !tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_PASSWORD) ) {
-          $this->description = '<div class="secWarning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
+          $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
 
           $this->enabled = false;
         }

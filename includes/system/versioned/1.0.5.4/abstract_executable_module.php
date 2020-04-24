@@ -19,7 +19,7 @@
 
       $this->group = basename(dirname($filename));
       if (isset($this->get_parameters()[static::CONFIG_KEY_BASE . 'CONTENT_WIDTH'])) {
-        $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
       }
     }
 

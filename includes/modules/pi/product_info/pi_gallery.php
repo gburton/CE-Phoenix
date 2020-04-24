@@ -25,8 +25,8 @@
 
       $this->title = PI_GALLERY_TITLE;
       $this->description = PI_GALLERY_DESCRIPTION;
-      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
-      $this->description .= '<div class="secInfo">' . $this->display_layout() . '</div>';
+      $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+      $this->description .= '<div class="alert alert-info">' . $this->display_layout() . '</div>';
 
       if ( defined('PI_GALLERY_STATUS') ) {
         $this->group = 'pi_modules_' . strtolower(PI_GALLERY_GROUP);

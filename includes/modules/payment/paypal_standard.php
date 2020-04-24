@@ -60,14 +60,14 @@
       }
 
       if ( !function_exists('curl_init') ) {
-        $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ps_error_curl') . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ps_error_curl') . '</div>';
 
         $this->enabled = false;
       }
 
       if ( $this->enabled === true ) {
         if ( !$this->_app->hasCredentials('PS', 'email') ) {
-          $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ps_error_credentials') . '</div>';
+          $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ps_error_credentials') . '</div>';
 
           $this->enabled = false;
         }
@@ -75,7 +75,7 @@
 
       if ( $this->enabled === true ) {
         if ( !defined('OSCOM_APP_PAYPAL_PS_PDT_IDENTITY_TOKEN') || (!tep_not_null(OSCOM_APP_PAYPAL_PS_PDT_IDENTITY_TOKEN) && !$this->_app->hasCredentials('PS')) ) {
-          $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ps_error_credentials_pdt_api') . '</div>';
+          $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ps_error_credentials_pdt_api') . '</div>';
 
           $this->enabled = false;
         }
