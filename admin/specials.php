@@ -22,7 +22,7 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
-        tep_set_specials_status($_GET['id'], $_GET['flag']);
+        tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
 
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;

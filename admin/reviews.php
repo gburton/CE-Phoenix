@@ -19,7 +19,7 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
-        tep_set_review_status($_GET['rID'], $_GET['flag']);
+        tep_db_query("UPDATE reviews SET reviews_status = '" . $_GET['flag'] . "', last_modified = NOW() WHERE reviews_id = " . (int)$_GET['rID']);
         
         $OSCOM_Hooks->call('reviews', 'reviewActionStatus');
 
