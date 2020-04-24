@@ -15,12 +15,7 @@
   }
 ?>
 
-
-  <div class="col-sm-4">
-    <?php echo '<a href="' . tep_href_link('index.php') . '">' . tep_image('images/oscommerce.png', 'OSCOM CE Phoenix v' . tep_get_version()) . '</a>'; ?>
-  </div>
-
-  <div class="col-sm-8">
+  <div class="col bg-light">
     <ul class="nav justify-content-end">
       <?php 
       echo '<li class="nav-item"><a class="nav-link" target="_blank" href="https://forums.oscommerce.com/clubs/1-phoenix/">' .tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_PHOENIX_CLUB . '</a></li>';
@@ -31,5 +26,5 @@
     </ul>
   </div>
   
-  <div class="w-100"><hr></div>
+  <hr class="w-100 m-0 p-0 mb-2">
 
