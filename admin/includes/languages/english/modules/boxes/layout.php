@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_LAYOUT', '<i title="Layout Modules" class="fas fa-puzzle-piece fa-fw mr-1"></i>');
+  define('BOX_HEADING_LAYOUT', '<i title="Layout Modules" data-toggle="tooltip" data-placement="right" class="fas fa-puzzle-piece fa-fw mr-1"></i>');
   

@@ -10,4 +10,4 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_REPORTS', '<i title="Reports" class="fas fa-chart-bar fa-fw mr-1"></i>');
+  define('BOX_HEADING_REPORTS', '<i title="Reports" data-toggle="tooltip" data-placement="right" class="fas fa-chart-bar fa-fw mr-1"></i>');

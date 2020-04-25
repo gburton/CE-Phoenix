@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_TOOLS', '<i title="Tools" class="fas fa-tools fa-fw mr-1"></i>');
+  define('BOX_HEADING_TOOLS', '<i title="Tools" data-toggle="tooltip" data-placement="right" class="fas fa-tools fa-fw mr-1"></i>');
   

@@ -10,4 +10,4 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_CONFIGURATION', '<i title="Configuration" class="fas fa-cogs fa-fw mr-1"></i>');
+  define('BOX_HEADING_CONFIGURATION', '<i title="Configuration" data-toggle="tooltip" data-placement="right" class="fas fa-cogs fa-fw mr-1"></i>');

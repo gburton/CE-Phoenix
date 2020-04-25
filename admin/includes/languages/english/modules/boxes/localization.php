@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-  define('BOX_HEADING_LOCALIZATION', '<i title="Localization" class="fas fa-language fa-fw mr-1"></i>');
+  define('BOX_HEADING_LOCALIZATION', '<i title="Localization" data-toggle="tooltip" data-placement="right" class="fas fa-language fa-fw mr-1"></i>');
   
