@@ -45,6 +45,7 @@
 # Database Server: %s
 #
 # Backup Date: %s
+
 EOSQL
 , STORE_NAME, date('Y'), STORE_OWNER, DB_DATABASE, DB_SERVER, date(PHP_DATE_TIME_FORMAT));
         fputs($fp, $schema);
@@ -53,7 +54,7 @@ EOSQL
         while ($tables = tep_db_fetch_array($tables_query)) {
           $table = reset($tables);
 
-          $schema = 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
+          $schema = "\n" . 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
                     'CREATE TABLE ' . $table . ' (' . "\n";
 
           $table_list = [];
@@ -63,11 +64,17 @@ EOSQL
 
             $schema .= '  ' . $fields['Field'] . ' ' . $fields['Type'];
 
-            if (strlen($fields['Default']) > 0) $schema .= ' default \'' . $fields['Default'] . '\'';
+            if (strlen($fields['Default']) > 0) {
+              $schema .= ' default \'' . $fields['Default'] . '\'';
+            }
 
-            if ($fields['Null'] != 'YES') $schema .= ' not null';
+            if ($fields['Null'] != 'YES') {
+              $schema .= ' NOT NULL';
+            }
 
-            if (isset($fields['Extra'])) $schema .= ' ' . $fields['Extra'];
+            if (!empty($fields['Extra'])) {
+              $schema .= ' ' . strtoupper($fields['Extra']);
+            }
 
             $schema .= ',' . "\n";
           }
