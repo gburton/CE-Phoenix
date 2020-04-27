@@ -308,7 +308,7 @@
           echo '<div class="input-group-prepend">';
             echo '<span class="input-group-text">' . HEADING_TITLE_SEARCH . '</span>';
           echo '</div>';
-          echo tep_draw_input_field('oID') . tep_draw_hidden_field('action', 'edit');
+          echo tep_draw_input_field('oID', null, null, 'number') . tep_draw_hidden_field('action', 'edit');
         echo '</div>';
         echo tep_hide_session_id();
       echo '</form>';
