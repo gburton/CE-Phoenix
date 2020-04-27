@@ -74,8 +74,8 @@ class hook_admin_siteWide_hMenu {
         $n++;
       }
       
-      $output .= '<nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark">';
-        $output .= '<a class="navbar-brand" href="' . tep_href_link('index.php') . '">' . tep_image('images/CE-Phoenix-30-30.png', 'OSCOM CE Phoenix v' . tep_get_version(), 30, 30) . '</a>';
+      $output .= '<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">';
+        $output .= '<a class="navbar-brand" href="' . tep_href_link('index.php') . '">' . tep_image('images/CE-Phoenix-30-30.png', 'OSCOM CE Phoenix v' . tep_get_version(), 30, 30, null, false) . '</a>';
         $output .= '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>';
         $output .= '<div class="collapse navbar-collapse" id="navbarAdmin">';
           $output .= '<ul class="navbar-nav mr-auto">' . $mr . '</ul>';
