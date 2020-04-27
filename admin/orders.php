@@ -87,12 +87,15 @@
   $OSCOM_Hooks->call('orders', 'postAction');
 
   if (($action == 'edit') && isset($_GET['oID'])) {
-    $oID = tep_db_prepare_input($_GET['oID']);
+    $oID = (int)$_GET['oID'];
 
     $orders_query = tep_db_query("SELECT orders_id FROM orders WHERE orders_id = " . (int)$oID);
     $order_exists = tep_db_num_rows($orders_query);
+    
     if (!$order_exists) {
-      $messageStack->add(sprintf(ERROR_ORDER_DOES_NOT_EXIST, $oID), 'error');
+      $messageStack->add_session(sprintf(ERROR_ORDER_DOES_NOT_EXIST, $oID), 'error');
+      
+      tep_redirect(tep_href_link('orders.php'));
     }
   }
 
@@ -305,7 +308,7 @@
           echo '<div class="input-group-prepend">';
             echo '<span class="input-group-text">' . HEADING_TITLE_SEARCH . '</span>';
           echo '</div>';
-          echo tep_draw_input_field('oID');
+          echo tep_draw_input_field('oID') . tep_draw_hidden_field('action', 'edit');
         echo '</div>';
         echo tep_hide_session_id();
       echo '</form>';
