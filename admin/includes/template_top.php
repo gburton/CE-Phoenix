@@ -61,3 +61,9 @@ echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 ?>
 
   <div id="contentText" class="col">
+
+    <?php
+    if ($messageStack->size > 0) {
+      echo $messageStack->output();
+    }
+    ?>

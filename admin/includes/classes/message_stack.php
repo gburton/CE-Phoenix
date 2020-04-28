@@ -12,16 +12,16 @@
   Example usage:
 
   $messageStack = new messageStack();
-  $messageStack->add('Error: Error 1', 'error');
-  $messageStack->add('Error: Error 2', 'warning');
+  $messageStack->add('<strong>Error:</strong> Error 1', 'error');
+  $messageStack->add('<strong>Error:</strong> Error 2', 'warning');
   if ($messageStack->size > 0) echo $messageStack->output();
 */
 
-  class messageStack extends tableBlock {
+  class messageStack {
 
     public $size = 0;
 
-	public function __construct() {
+	  public function __construct() {
       $this->errors = [];
 
       foreach (($_SESSION['messageToStack'] ?? []) as $message) {
@@ -32,26 +32,28 @@
     }
 
     public function add($message, $type = 'error') {
-      if ($type == 'error') {
-        $this->errors[] = [
-          'params' => 'class="messageStackError"',
-          'text' => tep_image('images/icons/error.gif', ICON_ERROR) . '&nbsp;' . $message,
-        ];
-      } elseif ($type == 'warning') {
-        $this->errors[] = [
-          'params' => 'class="messageStackWarning"',
-          'text' => tep_image('images/icons/warning.gif', ICON_WARNING) . '&nbsp;' . $message,
-        ];
-      } elseif ($type == 'success') {
-        $this->errors[] = [
-          'params' => 'class="messageStackSuccess"',
-          'text' => tep_image('images/icons/success.gif', ICON_SUCCESS) . '&nbsp;' . $message,
-        ];
-      } else {
-        $this->errors[] = [
-          'params' => 'class="messageStackError"',
-          'text' => $message,
-        ];
+      switch ($type) {
+        case 'primary':
+          $this->errors[] = ['params' => 'alert alert-primary', 'text' => $message];
+        break;
+        case 'secondary':
+          $this->errors[] = ['params' => 'alert alert-secondary', 'text' => $message];
+        break;
+        case 'light':
+          $this->errors[] = ['params' => 'alert alert-light', 'text' => $message];
+        break;
+        case 'dark':
+          $this->errors[] = ['params' => 'alert alert-dark', 'text' => $message];
+        break;
+        case 'warning':
+          $this->errors[] = ['params' => 'alert alert-warning', 'text' => $message];
+          break;
+        case 'success':
+          $this->errors[] = ['params' => 'alert alert-success', 'text' => $message];
+          break;
+        default:
+          // error & danger
+          $this->errors[] = ['params' => 'alert alert-danger', 'text' => $message];
       }
 
       $this->size++;
@@ -75,8 +77,15 @@
     }
 
     public function output() {
-      $this->table_data_parameters = 'class="messageBox"';
-      return $this->tableBlock($this->errors);
+      $alert = null;
+      foreach ($this->errors as $e) {
+        $alert .= '<div class="' . $e['params'] . ' mb-1 alert-dismissible fade show" role="alert">';
+          $alert .= $e['text'];
+          $alert .= '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';
+        $alert .= '</div>';
+      }
+      
+      return $alert;
     }
 
   }

@@ -9,10 +9,6 @@
 
   Released under the GNU General Public License
 */
-
-  if ($messageStack->size > 0) {
-    echo $messageStack->output();
-  }
 ?>
 
   <div class="col bg-light">
