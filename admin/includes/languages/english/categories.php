@@ -98,10 +98,10 @@ const TEXT_HOW_TO_COPY = 'Copy Method';
 const TEXT_COPY_AS_LINK = 'Link product';
 const TEXT_COPY_AS_DUPLICATE = 'Duplicate product';
 
-const ERROR_CANNOT_LINK_TO_SAME_CATEGORY = 'Error: Can not link products in the same category.';
-const ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE = 'Error: Catalog images directory is not writeable: ' . DIR_FS_CATALOG_IMAGES;
-const ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST = 'Error: Catalog images directory does not exist: ' . DIR_FS_CATALOG_IMAGES;
-const ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT = 'Error: Category cannot be moved into child category.';
+const ERROR_CANNOT_LINK_TO_SAME_CATEGORY = '<strong>Error:</strong> Can not link products in the same category.';
+const ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE = '<strong>Error:</strong> Catalog images directory is not writeable: ' . DIR_FS_CATALOG_IMAGES;
+const ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST = '<strong>Error:</strong> Catalog images directory does not exist: ' . DIR_FS_CATALOG_IMAGES;
+const ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT = '<strong>Error:</strong> Category cannot be moved into child category.';
 
 const TEXT_CATEGORIES_DESCRIPTION = 'Category Description:<br><small>shows in category page</small>';
 const TEXT_EDIT_CATEGORIES_DESCRIPTION = 'Edit the Category Description';

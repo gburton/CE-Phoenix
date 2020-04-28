@@ -25,4 +25,4 @@ define('TEXT_GUEST', 'Guest');
 define('TEXT_INFO_IDENTIFIER', 'Identifier:');
 define('TEXT_INFO_DATE_ADDED', 'Date Added: %s');
 
-define('SUCCESS_EXPIRED_ENTRIES', 'Success: %s expired entries were removed.');
+define('SUCCESS_EXPIRED_ENTRIES', '<strong>Success:</strong> %s expired entries were removed.');

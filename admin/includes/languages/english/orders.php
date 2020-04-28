@@ -79,9 +79,9 @@ define('EMAIL_TEXT_DATE_ORDERED', 'Date Ordered:');
 define('EMAIL_TEXT_STATUS_UPDATE', 'Your order has been updated to the following status.' . "\n\n" . 'New status: %s' . "\n\n" . 'Please reply to this email if you have any questions.' . "\n");
 define('EMAIL_TEXT_COMMENTS_UPDATE', 'The comments for your order are' . "\n\n%s\n\n");
 
-define('ERROR_ORDER_DOES_NOT_EXIST', 'Error: Order <strong>%s</strong> does not exist.');
-define('SUCCESS_ORDER_UPDATED', 'Success: Order has been successfully updated.');
-define('WARNING_ORDER_NOT_UPDATED', 'Warning: Nothing to change. The order was not updated.');
+define('ERROR_ORDER_DOES_NOT_EXIST', '<strong>Error:</strong> Order <strong>%s</strong> does not exist.');
+define('SUCCESS_ORDER_UPDATED', '<strong>Success:</strong> Order has been successfully updated.');
+define('WARNING_ORDER_NOT_UPDATED', '<strong>Warning:</strong> Nothing to change. The order was not updated.');
 
 define('ENTRY_ADD_COMMENT', 'Add Comment:');
 

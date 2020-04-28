@@ -38,13 +38,13 @@ define('TEXT_BACKUP_DIRECTORY', 'Backup Directory:<br>%s');
 define('TEXT_LAST_RESTORATION', 'Last Restoration:<br>%s');
 define('TEXT_FORGET', 'Forget');
 
-define('ERROR_BACKUP_DIRECTORY_DOES_NOT_EXIST', 'Error: Backup directory does not exist. Please set this in configure.php.');
-define('ERROR_BACKUP_DIRECTORY_NOT_WRITEABLE', 'Error: Backup directory is not writeable.');
-define('ERROR_DOWNLOAD_LINK_NOT_ACCEPTABLE', 'Error: Download link not acceptable.');
+define('ERROR_BACKUP_DIRECTORY_DOES_NOT_EXIST', '<strong>Error:</strong> Backup directory does not exist. Please set this in configure.php.');
+define('ERROR_BACKUP_DIRECTORY_NOT_WRITEABLE', '<strong>Error:</strong> Backup directory is not writeable.');
+define('ERROR_DOWNLOAD_LINK_NOT_ACCEPTABLE', '<strong>Error:</strong> Download link not acceptable.');
 
-define('SUCCESS_LAST_RESTORE_CLEARED', 'Success: The last restoration date has been cleared.');
-define('SUCCESS_DATABASE_SAVED', 'Success: The database has been saved.');
-define('SUCCESS_DATABASE_RESTORED', 'Success: The database has been restored.');
-define('SUCCESS_BACKUP_DELETED', 'Success: The backup has been removed.');
+define('SUCCESS_LAST_RESTORE_CLEARED', '<strong>Success:</strong> The last restoration date has been cleared.');
+define('SUCCESS_DATABASE_SAVED', '<strong>Success:</strong> The database has been saved.');
+define('SUCCESS_DATABASE_RESTORED', '<strong>Success:</strong> The database has been restored.');
+define('SUCCESS_BACKUP_DELETED', '<strong>Success:</strong> The backup has been removed.');
 
 define('TEXT_INFO_BACKUP_SIZE', '%s MB');

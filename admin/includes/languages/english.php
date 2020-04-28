@@ -142,12 +142,12 @@ const TEXT_NONE = '--none--';
 const TEXT_TOP = 'Top';
 const TEXT_ALL = 'All';
 
-const ERROR_DESTINATION_DOES_NOT_EXIST = 'Error: Destination does not exist.';
-const ERROR_DESTINATION_NOT_WRITEABLE = 'Error: Destination not writeable.';
-const ERROR_FILE_NOT_SAVED = 'Error: File upload not saved.';
-const ERROR_FILETYPE_NOT_ALLOWED = 'Error: File upload type not allowed.';
-const SUCCESS_FILE_SAVED_SUCCESSFULLY = 'Success: File upload saved successfully.';
-const WARNING_NO_FILE_UPLOADED = 'Warning: No file uploaded.';
+const ERROR_DESTINATION_DOES_NOT_EXIST = '<strong>Error:</strong> Destination does not exist.';
+const ERROR_DESTINATION_NOT_WRITEABLE = '<strong>Error:</strong> Destination not writeable.';
+const ERROR_FILE_NOT_SAVED = '<strong>Error:</strong> File upload not saved.';
+const ERROR_FILETYPE_NOT_ALLOWED = '<strong>Error:</strong> File upload type not allowed.';
+const SUCCESS_FILE_SAVED_SUCCESSFULLY = '<strong>Success:</strong> File upload saved successfully.';
+const WARNING_NO_FILE_UPLOADED = '<strong>Warning:</strong> No file uploaded.';
 
 // bootstrap helper
 const MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION = '<p>Content Width can be 12 or less per column per row.</p><p>12/12 = 100% width, 6/12 = 50% width, 4/12 = 33% width.</p><p>Total of all columns in any one row must equal 12 (eg:  3 boxes of 4 columns each, 1 box of 12 columns and so on).</p>';
