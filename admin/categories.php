@@ -991,7 +991,7 @@ function updateNet() {
                 <td class="text-right">
                   <?php
                   echo '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product_preview&read=only') . '"><i class="fas fa-eye mr-2 text-dark"></i></a>';
-                  echo '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product') . '"><i class="fas fa-plus mr-2 text-dark"></i></a>';
+                  echo '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product') . '"><i class="fas fa-cogs mr-2 text-dark"></i></a>';
                   if (isset($pInfo) && is_object($pInfo) && ($products['products_id'] == $pInfo->products_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; }
                   ?>
                 </td>
