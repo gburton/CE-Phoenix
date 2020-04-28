@@ -48,8 +48,16 @@
       $warning_array['mysql'] = 'The MySQLi extension is required but is not installed. Please enable the extension to continue installation.';
     }
 
-    if (version_compare(PHP_VERSION, '7', '<')) {
-      $warning_array['php_version'] = 'The version of PHP must be at least 7.  The version here is ' . PHP_VERSION;
+    $php_version_thumb = '<i class="fas fa-thumbs-up text-success"></i>';
+
+    if (version_compare(PHP_VERSION, PHP_VERSION_MIN, '<')) {
+      $warning_array['php_version'] = sprintf('The version of PHP must be at least <strong>%s</strong>.  The version here is %s.', PHP_VERSION_MIN, PHP_VERSION);
+      $php_version_thumb = '<i class="fas fa-thumbs-down text-danger"></i>';
+    }
+    
+    if (version_compare(PHP_VERSION, PHP_VERSION_MAX, '>=')) {
+      $warning_array['php_version'] = sprintf('The version of PHP must be lower than <strong>%s</strong>.  The version here is %s.', PHP_VERSION_MAX, PHP_VERSION);
+      $php_version_thumb = '<i class="fas fa-thumbs-down text-danger"></i>';
     }
     
     if ((int)ini_get('allow_url_fopen') == 0) {
@@ -152,7 +160,7 @@ $(function() {
       </tr>
       <tr>
         <th><?php echo implode('.', [PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION]); ?></th>
-        <td colspan="2" align="right"><?php echo ((version_compare(PHP_VERSION, '7', '>')) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo $php_version_thumb; ?></td>
       </tr>
 <?php
   if (function_exists('ini_get')) {
@@ -162,45 +170,45 @@ $(function() {
       </tr>
       <tr>
         <th>file_uploads</th>
-        <td align="right"><?php echo (((int)ini_get('file_uploads') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('file_uploads') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('file_uploads') == 0) ? 'Off' : 'On'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('file_uploads') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>auto_start</th>
-        <td align="right"><?php echo (((int)ini_get('session.auto_start') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('session.auto_start') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('session.auto_start') == 0) ? 'Off' : 'On'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('session.auto_start') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>use_trans_sid</th>
-        <td align="right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? 'Off' : 'On'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('session.use_trans_sid') == 0) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th colspan="3">Required Extensions</th>
       </tr>
       <tr>
         <th>MySQL<?php echo extension_loaded('mysqli') ? 'i' : ''; ?></th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('mysqli') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('mysqli') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>allow_url_fopen</th>
-        <td align="right"><?php echo (((int)ini_get('allow_url_fopen') == 0) ? 'Off' : 'On'); ?></td>
-        <td align="right"><?php echo (((int)ini_get('allow_url_fopen') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('allow_url_fopen') == 0) ? 'Off' : 'On'); ?></td>
+        <td class="text-right"><?php echo (((int)ini_get('allow_url_fopen') == 1) ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th colspan="3">Recommended Extensions</th>
       </tr>
       <tr>
         <th>GD</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('gd') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('gd') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>cURL</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('curl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('curl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
       <tr>
         <th>OpenSSL</th>
-        <td colspan="2" align="right"><?php echo (extension_loaded('openssl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('openssl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
       </tr>
     </table>
 <?php
