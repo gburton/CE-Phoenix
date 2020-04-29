@@ -227,7 +227,7 @@
                 ?>
                 <td><?php echo $module->title; ?></td>
                 <td class="text-right"><?php if (in_array($module->code . ".$file_extension", $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
-                <td class="text-right"><?php if ( array_key_exists('enabled', $module) && (1 != $module->enabled) ) { echo '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
+                <td class="text-right"><?php if ( property_exists($module, 'enabled') && (1 != $module->enabled) ) { echo '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
                 <td class="text-right"><?php echo $icon; ?></td>
               </tr>
               <?php
