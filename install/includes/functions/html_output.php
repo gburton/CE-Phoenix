@@ -72,7 +72,7 @@
         $field .= ' ' . $values[$i]['params'];
       }
 
-      $field .= '>' . osc_output_string($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+      $field .= '>' . osc_output_string($values[$i]['text'], ['"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;']) . '</option>';
 
       if ( ($group !== false) && (($group != $values[$i]['group']) || !isset($values[$i+1])) ) {
         $group = false;
@@ -91,7 +91,7 @@
       $default = date_default_timezone_get();
     }
 
-    $time_zones_array = array();
+    $time_zones_array = [];
 
     foreach ( timezone_identifiers_list() as $id ) {
       $tz_string = str_replace('_', ' ', $id);
@@ -101,13 +101,13 @@
       $time_zones_array[$id_array[0]][$id] = isset($id_array[1]) ? $id_array[1] : $id_array[0];
     }
 
-    $result = array();
+    $result = [];
 
     foreach ( $time_zones_array as $zone => $zones_array ) {
       foreach ( $zones_array as $key => $value ) {
-        $result[] = array('id' => $key,
-                          'text' => $value,
-                          'group' => $zone);
+        $result[] = ['id' => $key,
+                     'text' => $value,
+                     'group' => $zone];
       }
     }
 
@@ -119,7 +119,7 @@
   function osc_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null, $class = null) {
     static $button_counter = 1;
 
-    $types = array('submit', 'button', 'reset');
+    $types = ['submit', 'button', 'reset'];
 
     if ( !isset($params['type']) ) {
       $params['type'] = 'submit';

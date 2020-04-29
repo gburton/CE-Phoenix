@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -20,11 +20,11 @@
   if (isset($_GET['action']) && !empty($_GET['action'])) {
     switch ($_GET['action']) {
       case 'dbCheck':
-        $db = array('DB_SERVER' => trim(rawurldecode($_GET['server'])),
-                    'DB_SERVER_USERNAME' => trim(rawurldecode($_GET['username'])),
-                    'DB_SERVER_PASSWORD' => trim(rawurldecode($_GET['password'])),
-                    'DB_DATABASE' => trim(rawurldecode($_GET['name']))
-                   );
+        $db = ['DB_SERVER' => trim(rawurldecode($_GET['server'])),
+               'DB_SERVER_USERNAME' => trim(rawurldecode($_GET['username'])),
+               'DB_SERVER_PASSWORD' => trim(rawurldecode($_GET['password'])),
+               'DB_DATABASE' => trim(rawurldecode($_GET['name']))
+              ];
 
         $db_error = false;
         osc_db_connect($db['DB_SERVER'], $db['DB_SERVER_USERNAME'], $db['DB_SERVER_PASSWORD']);
@@ -43,18 +43,18 @@
         break;
 
       case 'dbImport':
-        $db = array('DB_SERVER' => trim(rawurldecode($_GET['server'])),
-                    'DB_SERVER_USERNAME' => trim(rawurldecode($_GET['username'])),
-                    'DB_SERVER_PASSWORD' => trim(rawurldecode($_GET['password'])),
-                    'DB_DATABASE' => trim(rawurldecode($_GET['name'])),
-                    'DB_IMPORT_SAMPLE' => trim(rawurldecode($_GET['importsample'])),
-                   );
+        $db = ['DB_SERVER' => trim(rawurldecode($_GET['server'])),
+               'DB_SERVER_USERNAME' => trim(rawurldecode($_GET['username'])),
+               'DB_SERVER_PASSWORD' => trim(rawurldecode($_GET['password'])),
+               'DB_DATABASE' => trim(rawurldecode($_GET['name'])),
+               'DB_IMPORT_SAMPLE' => trim(rawurldecode($_GET['importsample'])),
+              ];
 
         osc_db_connect($db['DB_SERVER'], $db['DB_SERVER_USERNAME'], $db['DB_SERVER_PASSWORD']);
 
         $db_error = false;
-        $sql_file = $dir_fs_www_root . '/oscommerce.sql';
-        $sql_sample_file = $dir_fs_www_root . '/oscommerce_data_sample.sql';
+        $sql_file = $dir_fs_www_root . '/phoenix.sql';
+        $sql_sample_file = $dir_fs_www_root . '/phoenix_data_sample.sql';
 
         osc_set_time_limit(0);
         osc_db_install($db['DB_DATABASE'], $sql_file);

@@ -5,23 +5,23 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 ?>
 
 <div class="alert alert-info" role="alert">
-  <h1>Welcome to OSCOM CE Phoenix v<?php echo osc_get_version(); ?></h1>
+  <h1>Welcome to OSCOM CE Phoenix</h1>
 
-  <p>OSCOM CE Phoenix helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials, and more to successfully build the success of your online business.</p>
-  <p>osCommerce has attracted a large community of store owners and developers who support each other and have provided thousands of free and paid-for add-ons that can extend the features and potential of your online store.</p>
+  <p>OSCOM CE Phoenix helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials and more to successfully build your online business.</p>
+  <p>Phoenix has attracted a community of store owners and developers who support each other and have provided many free and paid-for add-ons that will extend the features and potential of your online store.</p>
 </div>
 
 <div class="row">
   <div class="col-sm-12 col-md-9 order-last">
 
-    <h1 class="dislay-4">New Installation</h1>
+    <h1 class="dislay-4">New Phoenix v<?php echo osc_get_version(); ?> Installation</h1>
 
 <?php
     $configfile_array = [];
