@@ -56,7 +56,7 @@
     }
     
     if (version_compare(PHP_VERSION, PHP_VERSION_MAX, '>=')) {
-      $warning_array['php_version'] = sprintf('The version of PHP must be lower than <strong>%s</strong>.  The version here is %s.', PHP_VERSION_MAX, PHP_VERSION);
+      $warning_array['php_version'] = sprintf('Performance on versions higher than <strong>%s</strong> has not been tested.  The version here is %s.', PHP_VERSION_MAX, PHP_VERSION);
       $php_version_thumb = '<i class="fas fa-thumbs-down text-danger"></i>';
     }
     
