@@ -619,95 +619,88 @@ function updateNet() {
       </div>
 
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
-        <div id="productLanguageTabs">
-          <ul class="nav nav-pills">
-            <?php
-            for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-              $active = ($i == 0) ? ' active' : null;
-              echo '<li class="nav-item">';
-                echo '<a class="nav-link' . $active . '" href="#section_general_content_' . $languages[$i]['directory'] . '">';
-                echo tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . ' ' . $languages[$i]['name'] . '</a>';
-              echo '</li>';
-            }
+        <div class="accordion" id="productLanguageAccordion">
+          <?php
+          for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+            $show = ($i == 0) ? ' show' : null;
             ?>
-          </ul>
-          <div class="tab-content pt-3">
-            <?php
-            for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-              $active = ($i == 0) ? ' show active' : null;
-              ?>
-              <div class="tab-pane fade<?php echo $active; ?>" id="section_general_content_<?php echo $languages[$i]['directory']; ?>">
-
-                <div class="form-group row">
-                  <label for="pName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_NAME; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_input_field('products_name[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $languages[$i]['id'])), 'required aria-required="true" class="form-control" id="pName"');
-                    ?>
+            <div class="card">
+              <div class="card-header" id="heading<?php echo $languages[$i]['directory']; ?>">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#<?php echo $languages[$i]['directory']; ?>" aria-expanded="true" aria-controls="<?php echo $languages[$i]['directory']; ?>"><?php echo tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], null, null, null, false, 'lng mr-2') . $languages[$i]['name']; ?></button>
+              </div>
+              <div id="<?php echo $languages[$i]['directory']; ?>" class="collapse<?php echo $show; ?>" aria-labelledby="heading<?php echo $languages[$i]['directory']; ?>" data-parent="#productLanguageAccordion">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label for="pName" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_NAME; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_input_field('products_name[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $languages[$i]['id'])), 'required aria-required="true" class="form-control" id="pName"');
+                      ?>
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_DESCRIPTION; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pDesc"');
-                    ?>
+                  <div class="form-group row">
+                    <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_DESCRIPTION; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pDesc"');
+                      ?>
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_URL; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : tep_get_products_url($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
-                    ?>
-                    <small id="pUrlHelp" class="form-text text-muted">
-                      <?php echo TEXT_PRODUCTS_URL_WITHOUT_HTTP; ?>
-                    </small>
+                  <div class="form-group row">
+                    <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_URL; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : tep_get_products_url($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
+                      ?>
+                      <small id="pUrlHelp" class="form-text text-muted">
+                        <?php echo TEXT_PRODUCTS_URL_WITHOUT_HTTP; ?>
+                      </small>
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <label for="pSeoTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_TITLE; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_input_field('products_seo_title[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoHelp"');
-                    ?>
-                    <small id="pSeoHelp" class="form-text text-muted">
-                      <?php echo TEXT_PRODUCTS_SEO_TITLE_HELP; ?>
-                    </small>
+                  <div class="form-group row">
+                    <label for="pSeoTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_TITLE; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_input_field('products_seo_title[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoHelp"');
+                      ?>
+                      <small id="pSeoHelp" class="form-text text-muted">
+                        <?php echo TEXT_PRODUCTS_SEO_TITLE_HELP; ?>
+                      </small>
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_DESCRIPTION; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_textarea_field('products_seo_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"');
-                    ?>
-                    <small id="pSeoDescHelp" class="form-text text-muted">
-                      <?php echo TEXT_PRODUCTS_SEO_DESCRIPTION_HELP; ?>
-                    </small>
+                  <div class="form-group row">
+                    <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_DESCRIPTION; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_textarea_field('products_seo_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"');
+                      ?>
+                      <small id="pSeoDescHelp" class="form-text text-muted">
+                        <?php echo TEXT_PRODUCTS_SEO_DESCRIPTION_HELP; ?>
+                      </small>
+                    </div>
                   </div>
-                </div>
 
-                <div class="form-group row">
-                  <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_KEYWORDS; ?></label>
-                  <div class="col-sm-9">
-                    <?php
-                    echo tep_draw_input_field('products_seo_keywords[' . $languages[$i]['id'] . ']', tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id']), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
-                    ?>
-                    <small id="pSeoKeywordsHelp" class="form-text text-muted">
-                      <?php echo TEXT_PRODUCTS_SEO_KEYWORDS_HELP; ?>
-                    </small>
+                  <div class="form-group row">
+                    <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_KEYWORDS; ?></label>
+                    <div class="col-sm-9">
+                      <?php
+                      echo tep_draw_input_field('products_seo_keywords[' . $languages[$i]['id'] . ']', tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id']), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
+                      ?>
+                      <small id="pSeoKeywordsHelp" class="form-text text-muted">
+                        <?php echo TEXT_PRODUCTS_SEO_KEYWORDS_HELP; ?>
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
-              <?php
-            }
-            ?>
-          </div>
+            </div>
+            <?php
+          }
+          ?>
         </div>
       </div>
 
@@ -793,7 +786,7 @@ function updateNet() {
 
   <?php
   echo tep_draw_hidden_field('products_date_added', (tep_not_null($pInfo->products_date_added) ? $pInfo->products_date_added : date('Y-m-d')));
-  echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1');
+  echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mt-3 mb-1');
   echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . (isset($_GET['pID']) ? '&pID=' . (int)$_GET['pID'] : '')), null, null, 'btn-light');
   ?>
 
