@@ -46,7 +46,7 @@
 
       if ( $this->enabled === true ) {
         if ( !tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_DPM_LOGIN_ID) || !tep_not_null(MODULE_PAYMENT_AUTHORIZENET_CC_DPM_TRANSACTION_KEY) ) {
-          $this->description = '<div class="secWarning">' . MODULE_PAYMENT_AUTHORIZENET_CC_DPM_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
+          $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_AUTHORIZENET_CC_DPM_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
 
           $this->enabled = false;
         }

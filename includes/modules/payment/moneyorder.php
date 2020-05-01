@@ -20,7 +20,7 @@
       parent::__construct();
 
       if ( !defined('MODULE_PAYMENT_MONEYORDER_PAYTO') || (!tep_not_null(MODULE_PAYMENT_MONEYORDER_PAYTO))) {
-        $this->description .= '<div class="secWarning">' . MODULE_PAYMENT_MONEYORDER_WARNING_SETUP . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . MODULE_PAYMENT_MONEYORDER_WARNING_SETUP . '</div>';
       }
 
       $this->email_footer = sprintf(MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER,

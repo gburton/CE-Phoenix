@@ -88,7 +88,7 @@
       return htmlspecialchars($string);
     } else {
       if ($translate == false) {
-        return osc_parse_input_field_data($string, array('"' => '&quot;'));
+        return osc_parse_input_field_data($string, ['"' => '&quot;']);
       } else {
         return osc_parse_input_field_data($string, $translate);
       }

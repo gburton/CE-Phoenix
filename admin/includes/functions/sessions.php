@@ -20,7 +20,7 @@
     }
 
     function _sess_read($key) {
-      $value_query = tep_db_query("select value from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
+      $value_query = tep_db_query("select value from sessions where sesskey = '" . tep_db_input($key) . "'");
       $value = tep_db_fetch_array($value_query);
 
       if (isset($value['value'])) {
@@ -31,25 +31,25 @@
     }
 
     function _sess_write($key, $value) {
-      $check_query = tep_db_query("select 1 from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
+      $check_query = tep_db_query("select 1 from sessions where sesskey = '" . tep_db_input($key) . "'");
 
       if ( tep_db_num_rows($check_query) > 0 ) {
-        $result = tep_db_query("update " . TABLE_SESSIONS . " set expiry = '" . tep_db_input(time()) . "', value = '" . tep_db_input($value) . "' where sesskey = '" . tep_db_input($key) . "'");
+        $result = tep_db_query("update sessions set expiry = '" . tep_db_input(time()) . "', value = '" . tep_db_input($value) . "' where sesskey = '" . tep_db_input($key) . "'");
       } else {
-        $result = tep_db_query("insert into " . TABLE_SESSIONS . " values ('" . tep_db_input($key) . "', '" . tep_db_input(time()) . "', '" . tep_db_input($value) . "')");
+        $result = tep_db_query("insert into sessions values ('" . tep_db_input($key) . "', '" . tep_db_input(time()) . "', '" . tep_db_input($value) . "')");
       }
 
       return $result !== false;
     }
 
     function _sess_destroy($key) {
-      $result = tep_db_query("delete from " . TABLE_SESSIONS . " where sesskey = '" . tep_db_input($key) . "'");
+      $result = tep_db_query("delete from sessions where sesskey = '" . tep_db_input($key) . "'");
 
       return $result !== false;
     }
 
     function _sess_gc($maxlifetime) {
-      $result = tep_db_query("delete from " . TABLE_SESSIONS . " where expiry < '" . (time() - $maxlifetime) . "'");
+      $result = tep_db_query("delete from sessions where expiry < '" . (time() - $maxlifetime) . "'");
 
       return $result !== false;
     }

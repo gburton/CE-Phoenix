@@ -29,5 +29,5 @@ define('TEXT_INFO_HEADING_NEW_LANGUAGE', 'New Language');
 define('TEXT_INFO_HEADING_EDIT_LANGUAGE', 'Edit Language');
 define('TEXT_INFO_HEADING_DELETE_LANGUAGE', 'Delete Language');
 
-define('ERROR_REMOVE_DEFAULT_LANGUAGE', 'Error: The default language can not be removed. Please set another language as default, and try again.');
+define('ERROR_REMOVE_DEFAULT_LANGUAGE', '<strong>Error:</strong> The default language can not be removed. Please set another language as default, and try again.');
 

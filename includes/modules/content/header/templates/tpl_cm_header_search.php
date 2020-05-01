@@ -1,4 +1,4 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-header-search">
+<div class="col-sm-<?php echo $content_width; ?> cm-header-search align-self-center">
   <?php echo tep_draw_form('quick_find', tep_href_link('advanced_search_result.php', '', $GLOBALS['request_type'], false), 'get', '') . tep_hide_session_id(); ?>
     <div class="input-group">
       <?php echo tep_draw_input_field('keywords', '', 'required aria-required="true" autocomplete="off" list="search" aria-label="' . TEXT_SEARCH_PLACEHOLDER . '" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search'); ?>

@@ -24,7 +24,7 @@
 
       $this->title = MODULE_CONTENT_GDPR_PERSONAL_DETAILS_TITLE;
       $this->description = MODULE_CONTENT_GDPR_PERSONAL_DETAILS_DESCRIPTION;
-      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+      $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
 
       if ( defined('MODULE_CONTENT_GDPR_PERSONAL_DETAILS_STATUS') ) {
         $this->sort_order = MODULE_CONTENT_GDPR_PERSONAL_DETAILS_SORT_ORDER;

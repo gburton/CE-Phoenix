@@ -22,8 +22,8 @@
 
       $this->group = basename(dirname(__FILE__));
 
-      $this->description .= '<div class="secWarning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
-      $this->description .= '<div class="secInfo">' . cm_pi_modular::display_layout() . '</div>';
+      $this->description .= '<div class="alert alert-warning">' . MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION . '</div>';
+      $this->description .= '<div class="alert alert-info">' . cm_pi_modular::display_layout() . '</div>';
 
       if ( $this->enabled ) {
         $this->group = 'pi_modules_' . strtolower(PI_IMG_DISCLAIMER_GROUP);

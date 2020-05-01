@@ -75,7 +75,7 @@
       }
 
       if ( isset($braintree_error) ) {
-        $this->description = '<div class="secWarning">' . $braintree_error . '</div>' . $this->description;
+        $this->description = '<div class="alert alert-warning">' . $braintree_error . '</div>' . $this->description;
 
         $this->enabled = false;
       } else {

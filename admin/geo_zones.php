@@ -110,7 +110,7 @@ function update_zone(theForm) {
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(TEXT_INFO_HEADING_NEW_ZONE, 'fas fa-atlas', tep_href_link('geo_zones.php', 'action=new_zone' . (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : '')), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(TEXT_INFO_HEADING_NEW_ZONE, 'fas fa-atlas', tep_href_link('geo_zones.php', 'action=new_zone' . (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : '')), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('geo_zones.php'), null, null, 'btn-light');
@@ -244,7 +244,7 @@ function update_zone(theForm) {
         $contents[] = ['text' => TEXT_INFO_NEW_SUB_ZONE_INTRO];
         $contents[] = ['text' => TEXT_INFO_COUNTRY . '<br>' . tep_draw_pull_down_menu('zone_country_id', tep_get_countries(TEXT_ALL_COUNTRIES), '', 'onchange="update_zone(this.form);"')];
         $contents[] = ['text' => TEXT_INFO_COUNTRY_ZONE . '<br>' . tep_draw_pull_down_menu('zone_id', tep_prepare_country_zones_pull_down())];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . (isset($_GET['sID']) ? '&sID=' . $_GET['sID'] : '')), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . (isset($_GET['sID']) ? '&sID=' . $_GET['sID'] : '')), null, null, 'btn-light')];
         break;
       case 'edit':
         $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_SUB_ZONE];
@@ -253,7 +253,7 @@ function update_zone(theForm) {
         $contents[] = ['text' => TEXT_INFO_EDIT_SUB_ZONE_INTRO];
         $contents[] = ['text' => TEXT_INFO_COUNTRY . '<br>' . tep_draw_pull_down_menu('zone_country_id', tep_get_countries(TEXT_ALL_COUNTRIES), $sInfo->zone_country_id, 'onchange="update_zone(this.form);"')];
         $contents[] = ['text' => TEXT_INFO_COUNTRY_ZONE . '<br>' . tep_draw_pull_down_menu('zone_id', tep_prepare_country_zones_pull_down($sInfo->zone_country_id), $sInfo->zone_id)];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id), null, null, 'btn-light')];
         break;
       case 'delete':
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_SUB_ZONE];
@@ -261,13 +261,13 @@ function update_zone(theForm) {
         $contents = ['form' => tep_draw_form('zones', 'geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=deleteconfirm_sub')];
         $contents[] = ['text' => TEXT_INFO_DELETE_SUB_ZONE_INTRO];
         $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $sInfo->countries_name];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id), null, null, 'btn-light')];
         break;
       default:
         if (isset($sInfo) && is_object($sInfo)) {
           $heading[] = ['text' => $sInfo->countries_name];
 
-          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=delete'), null, null, 'btn-danger xxx text-white')];
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=delete'), null, null, 'btn-danger')];
           $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, null) . ' ' . tep_date_short($sInfo->date_added)];
           if (tep_not_null($sInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, null) . ' ' . tep_date_short($sInfo->last_modified)];
         }
@@ -282,7 +282,7 @@ function update_zone(theForm) {
         $contents[] = ['text' => TEXT_INFO_NEW_ZONE_INTRO];
         $contents[] = ['text' => TEXT_INFO_ZONE_NAME . '<br>' . tep_draw_input_field('geo_zone_name')];
         $contents[] = ['text' => sprintf(TEXT_INFO_ZONE_DESCRIPTION, null) . '<br>' . tep_draw_input_field('geo_zone_description')];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : '')), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : '')), null, null, 'btn-light')];
         break;
       case 'edit_zone':
         $heading[] = ['text' => '<strong>' . TEXT_INFO_HEADING_EDIT_ZONE . '</strong>'];
@@ -291,7 +291,7 @@ function update_zone(theForm) {
         $contents[] = ['text' => TEXT_INFO_EDIT_ZONE_INTRO];
         $contents[] = ['text' => TEXT_INFO_ZONE_NAME . '<br>' . tep_draw_input_field('geo_zone_name', $zInfo->geo_zone_name)];
         $contents[] = ['text' => sprintf(TEXT_INFO_ZONE_DESCRIPTION, null) . '<br>' . tep_draw_input_field('geo_zone_description', $zInfo->geo_zone_description)];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id), null, null, 'btn-light')];
         break;
       case 'delete_zone':
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_ZONE];
@@ -299,13 +299,13 @@ function update_zone(theForm) {
         $contents = ['form' => tep_draw_form('zones', 'geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=deleteconfirm_zone')];
         $contents[] = ['text' => TEXT_INFO_DELETE_ZONE_INTRO];
         $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $zInfo->geo_zone_name];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id), null, null, 'btn-light')];
         break;
       default:
         if (isset($zInfo) && is_object($zInfo)) {
           $heading[] = ['text' => $zInfo->geo_zone_name];
 
-          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=edit_zone'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=delete_zone'), null, null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list'), null, null, 'btn-info xxx text-white')];
+          $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=edit_zone'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=delete_zone'), null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list'), null, null, 'btn-info')];
           $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_ZONES, $zInfo->num_zones)];
           $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($zInfo->date_added))];
           if (tep_not_null($zInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($zInfo->last_modified))];

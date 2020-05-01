@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -82,7 +82,7 @@
         return false;
       }
 
-      $sql_array = array();
+      $sql_array = [];
       $sql_length = strlen($restore_query);
       $pos = strpos($restore_query, ';');
       for ($i=$pos; $i<$sql_length; $i++) {

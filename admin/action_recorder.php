@@ -44,7 +44,7 @@
   $modules_array = [];
   $modules_list_array = [['id' => '', 'text' => TEXT_ALL_MODULES]];
 
-  $modules_query = tep_db_query("select distinct module from " . TABLE_ACTION_RECORDER . " order by module");
+  $modules_query = tep_db_query("select distinct module from action_recorder order by module");
   while ($modules = tep_db_fetch_array($modules_query)) {
     $modules_array[] = $modules['module'];
 
@@ -63,7 +63,7 @@
           if (is_object(${$_GET['module']})) {
             $expired_entries += ${$_GET['module']}->expireEntries();
           } else {
-            $delete_query = tep_db_query("delete from " . TABLE_ACTION_RECORDER . " where module = '" . tep_db_input($_GET['module']) . "'");
+            $delete_query = tep_db_query("delete from action_recorder where module = '" . tep_db_input($_GET['module']) . "'");
             $expired_entries += tep_db_affected_rows();
           }
         } else {
@@ -103,7 +103,7 @@
     </div>
     <div class="col-4 col-sm-2">
       <?php
-      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules_array) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm xxx text-white');
+      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules_array) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm');
       ?>
     </div>
   </div>
@@ -133,7 +133,7 @@
               $filter[] = " identifier like '%" . tep_db_input($_GET['search']) . "%' ";
             }
 
-            $actions_query_raw = "select * from " . TABLE_ACTION_RECORDER . (!empty($filter) ? " where " . implode(" and ", $filter) : "") . " order by date_added desc";
+            $actions_query_raw = "select * from action_recorder " . (!empty($filter) ? " where " . implode(" and ", $filter) : "") . " order by date_added desc";
             $actions_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $actions_query_raw, $actions_query_numrows);
             $actions_query = tep_db_query($actions_query_raw);
             while ($actions = tep_db_fetch_array($actions_query)) {
@@ -145,7 +145,7 @@
               }
 
               if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $actions['id']))) && !isset($aInfo)) {
-                $actions_extra_query = tep_db_query("select identifier from " . TABLE_ACTION_RECORDER . " where id = '" . (int)$actions['id'] . "'");
+                $actions_extra_query = tep_db_query("select identifier from action_recorder where id = '" . (int)$actions['id'] . "'");
                 $actions_extra = tep_db_fetch_array($actions_extra_query);
 
                 $aInfo_array = array_merge($actions, $actions_extra, ['module' => $module_title]);

@@ -63,16 +63,16 @@
           $paypal_button = $this->_app->drawButton($this->_app->getDef('button_view_at_paypal'), 'https://www.' . ($pp_server == 'sandbox' ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_view-a-trans&id=' . $status['Transaction ID'], 'info', 'target="_blank"', true);
 
           $tab_title = addslashes($this->_app->getDef('tab_title'));
-          $tab_link = substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_paypal_content';
+          $tab_link = '#section_paypal_content';
 
           $output = <<<EOD
 <script>
 $(function() {
-  $('#orderTabs ul').append('<li><a href="{$tab_link}">{$tab_title}</a></li>');
+  $('#orderTabs ul').append('<li class="nav-item"><a class="nav-link" data-toggle="tab" href="{$tab_link}" role="tab">{$tab_title}</a></li>');
 });
 </script>
 
-<div id="section_paypal_content" style="padding: 10px;">
+<div class="tab-pane fade" id="section_paypal_content" role="tabpanel">
   {$info_button} {$capture_button} {$void_button} {$refund_button} {$paypal_button}
 </div>
 EOD;

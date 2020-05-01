@@ -45,6 +45,7 @@
 # Database Server: %s
 #
 # Backup Date: %s
+
 EOSQL
 , STORE_NAME, date('Y'), STORE_OWNER, DB_DATABASE, DB_SERVER, date(PHP_DATE_TIME_FORMAT));
         fputs($fp, $schema);
@@ -53,7 +54,7 @@ EOSQL
         while ($tables = tep_db_fetch_array($tables_query)) {
           $table = reset($tables);
 
-          $schema = 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
+          $schema = "\n" . 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
                     'CREATE TABLE ' . $table . ' (' . "\n";
 
           $table_list = [];
@@ -63,11 +64,17 @@ EOSQL
 
             $schema .= '  ' . $fields['Field'] . ' ' . $fields['Type'];
 
-            if (strlen($fields['Default']) > 0) $schema .= ' default \'' . $fields['Default'] . '\'';
+            if (strlen($fields['Default']) > 0) {
+              $schema .= ' default \'' . $fields['Default'] . '\'';
+            }
 
-            if ($fields['Null'] != 'YES') $schema .= ' not null';
+            if ($fields['Null'] != 'YES') {
+              $schema .= ' NOT NULL';
+            }
 
-            if (isset($fields['Extra'])) $schema .= ' ' . $fields['Extra'];
+            if (!empty($fields['Extra'])) {
+              $schema .= ' ' . strtoupper($fields['Extra']);
+            }
 
             $schema .= ',' . "\n";
           }
@@ -462,13 +469,13 @@ EOSQL
       $contents = ['form' => tep_draw_form('delete', 'backup.php', 'file=' . $buInfo->file . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $buInfo->file];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:
       if (isset($buInfo) && is_object($buInfo)) {
         $heading[] = ['text' => $buInfo->date];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE, $buInfo->date)];
         $contents[] = ['text' => sprintf(TEXT_INFO_SIZE, $buInfo->size)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COMPRESSION, $buInfo->compression)];

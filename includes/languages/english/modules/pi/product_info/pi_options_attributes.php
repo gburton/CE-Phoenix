@@ -11,7 +11,7 @@
 */
 
   const PI_OA_TITLE         = 'Options & Attributes';
-  const PI_OA_DESCRIPTION   = 'Shows the Product Options on the product_info Page.<div class="secInfo">This is a child module for use with the &Pi; system.</div>';
+  const PI_OA_DESCRIPTION   = 'Shows the Product Options on the product_info Page.<div class="alert alert-info">This is a child module for use with the &Pi; system.</div>';
   
   const PI_OA_HEADING_TITLE = 'Available Options';
   

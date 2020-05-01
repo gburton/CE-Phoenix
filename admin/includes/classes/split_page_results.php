@@ -12,8 +12,10 @@
 
   class splitPageResults {
 
+    private $current_page_number;
+
     function __construct(&$current_page_number, $max_rows_per_page, &$sql_query, &$query_num_rows) {
-      if (empty($current_page_number)) $current_page_number = 1;
+      $this->current_page_number = empty($current_page_number) ? 1 : (int)$current_page_number;
 
       $pos_to = strlen($sql_query);
       $pos_from = stripos($sql_query, ' from');
@@ -31,11 +33,11 @@
       $reviews_count = tep_db_fetch_array($reviews_count_query);
       $query_num_rows = $reviews_count['total'];
 
-      $num_pages = ceil($query_num_rows / $max_rows_per_page);
-      if ($current_page_number > $num_pages) {
-        $current_page_number = $num_pages;
+      $num_pages = (int)ceil($query_num_rows / $max_rows_per_page);
+      if ($this->current_page_number > $num_pages) {
+        $current_page_number = $this->current_page_number = $num_pages;
       }
-      $offset = ($max_rows_per_page * ($current_page_number - 1));
+      $offset = ($max_rows_per_page * ($this->current_page_number - 1));
       $sql_query .= " LIMIT " . max($offset, 0) . ", " . $max_rows_per_page;
     }
 
@@ -55,16 +57,16 @@
       if ($num_pages > 1) {
         $display_links = tep_draw_form('pages', $PHP_SELF, '', 'get');
 
-        if ($current_page_number > 1) {
-          $display_links .= '<a href="' . tep_href_link($PHP_SELF, $parameters . $page_name . '=' . ($current_page_number - 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_PREV . '</a>&nbsp;&nbsp;';
+        if ($this->current_page_number > 1) {
+          $display_links .= '<a href="' . tep_href_link($PHP_SELF, $parameters . $page_name . '=' . ($this->current_page_number - 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_PREV . '</a>&nbsp;&nbsp;';
         } else {
           $display_links .= PREVNEXT_BUTTON_PREV . '&nbsp;&nbsp;';
         }
 
-        $display_links .= sprintf(TEXT_RESULT_PAGE, tep_draw_pull_down_menu($page_name, $pages_array, $current_page_number, 'onchange="this.form.submit();"'), $num_pages);
+        $display_links .= sprintf(TEXT_RESULT_PAGE, tep_draw_pull_down_menu($page_name, $pages_array, $this->current_page_number, 'onchange="this.form.submit();"'), $num_pages);
 
-        if (($current_page_number < $num_pages) && ($num_pages != 1)) {
-          $display_links .= '&nbsp;&nbsp;<a href="' . tep_href_link($PHP_SELF, $parameters . $page_name . '=' . ($current_page_number + 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_NEXT . '</a>';
+        if (($this->current_page_number < $num_pages) && ($num_pages != 1)) {
+          $display_links .= '&nbsp;&nbsp;<a href="' . tep_href_link($PHP_SELF, $parameters . $page_name . '=' . ($this->current_page_number + 1)) . '" class="splitPageLink">' . PREVNEXT_BUTTON_NEXT . '</a>';
         } else {
           $display_links .= '&nbsp;&nbsp;' . PREVNEXT_BUTTON_NEXT;
         }
@@ -87,9 +89,9 @@
     }
 
     function display_count($query_numrows, $max_rows_per_page, $current_page_number, $text_output) {
-      $to_num = ($max_rows_per_page * $current_page_number);
+      $to_num = ($max_rows_per_page * $this->current_page_number);
       if ($to_num > $query_numrows) $to_num = $query_numrows;
-      $from_num = ($max_rows_per_page * ($current_page_number - 1));
+      $from_num = ($max_rows_per_page * ($this->current_page_number - 1));
       if ($to_num == 0) {
         $from_num = 0;
       } else {

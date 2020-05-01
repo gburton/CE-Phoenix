@@ -43,7 +43,7 @@
 
       if ( $this->enabled === true ) {
         if ( !tep_not_null(MODULE_PAYMENT_SAGE_PAY_FORM_VENDOR_LOGIN_NAME) || !tep_not_null(MODULE_PAYMENT_SAGE_PAY_FORM_ENCRYPTION_PASSWORD) ) {
-          $this->description = '<div class="secWarning">' . MODULE_PAYMENT_SAGE_PAY_FORM_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
+          $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_SAGE_PAY_FORM_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
 
           $this->enabled = false;
         }

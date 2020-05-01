@@ -11,14 +11,12 @@
 */
 
 class hook_shop_siteWide_jQuery {
-  public $version = '3.5.0';
-
-  public $afterfooter = null;
+  public $version = '3.4.1';
 
   public function listen_injectAfterFooter() {
-    $this->afterfooter .= '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>' . PHP_EOL;
+    $jQuery = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>' . PHP_EOL;
 
-    return $this->afterfooter;
+    return $jQuery;
   }
 
 }

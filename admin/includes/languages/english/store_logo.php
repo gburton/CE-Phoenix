@@ -20,6 +20,6 @@ define('HEADING_NEW_LOGO', 'Upload a new Logo');
 define('TEXT_LOGO_IMAGE', 'New Logo');
 define('TEXT_FORMAT_AND_LOCATION', 'The store logo must be in .png or .jpg or .gif or .svg format and will OVERWRITE the existing Logo');
 
-define('SUCCESS_LOGO_UPDATED', 'Success: The store logo has successfully been updated!');
+define('SUCCESS_LOGO_UPDATED', '<strong>Success:</strong> The store logo has successfully been updated!');
 
-define('ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE', 'Error: The images directory cannot be uploaded to. (<a href="%s">click here to review the directory permissions</a>)');
+define('ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE', '<strong>Error:</strong> The images directory cannot be uploaded to. (<a href="%s">click here to review the directory permissions</a>)');

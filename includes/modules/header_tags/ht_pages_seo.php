@@ -21,7 +21,7 @@
     function __construct() {
       $this->title = MODULE_HEADER_TAGS_PAGES_SEO_TITLE;
       $this->description = MODULE_HEADER_TAGS_PAGES_SEO_DESCRIPTION;
-      $this->description .= '<div class="secWarning">' . MODULE_HEADER_TAGS_PAGES_SEO_HELPER . '</div>';
+      $this->description .= '<div class="alert alert-warning">' . MODULE_HEADER_TAGS_PAGES_SEO_HELPER . '</div>';
 
       if ( defined('MODULE_HEADER_TAGS_PAGES_SEO_STATUS') ) {
         $this->sort_order = MODULE_HEADER_TAGS_PAGES_SEO_SORT_ORDER;

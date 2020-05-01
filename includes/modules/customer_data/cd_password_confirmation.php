@@ -57,11 +57,11 @@
 
       $input_id = 'inputPassword';
       if ('customers.php' === $GLOBALS['PHP_SELF']) {
-        $attribute = 'id="' . $input_id . '"';
+        $attribute = 'id="' . $input_id . '" autocapitalize="none"';
         $post_input = '';
       } else {
         $attribute = self::REQUIRED_ATTRIBUTE . 'id="' . $input_id
-                   . '" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"';
+                   . '" autocapitalize="none" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"';
         $post_input = FORM_REQUIRED_INPUT;
       }
 

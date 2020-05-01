@@ -32,13 +32,13 @@ define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this newslette
 define('TEXT_PLEASE_WAIT', 'Please wait .. sending emails ..<br /><br />Please do not interrupt this process!');
 define('TEXT_FINISHED_SENDING_EMAILS', 'Finished sending e-mails!');
 
-define('ERROR_NEWSLETTER_TITLE', 'Error: Newsletter title required');
-define('ERROR_NEWSLETTER_MODULE', 'Error: Newsletter module required');
-define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before deleting it.');
-define('ERROR_EDIT_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before editing it.');
-define('ERROR_SEND_UNLOCKED_NEWSLETTER', 'Error: Please lock the newsletter before sending it.');
+define('ERROR_NEWSLETTER_TITLE', '<strong>Error:</strong> Newsletter title required');
+define('ERROR_NEWSLETTER_MODULE', '<strong>Error:</strong> Newsletter module required');
+define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', '<strong>Error:</strong> Please lock the newsletter before deleting it.');
+define('ERROR_EDIT_UNLOCKED_NEWSLETTER', '<strong>Error:</strong> Please lock the newsletter before editing it.');
+define('ERROR_SEND_UNLOCKED_NEWSLETTER', '<strong>Error:</strong> Please lock the newsletter before sending it.');
 
-define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: Module does not exist');
+define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', '<strong>Error:</strong> Module does not exist');
 
 define('TEXT_TITLE', 'Title:');
 define('TEXT_CONTENT', 'Content:');

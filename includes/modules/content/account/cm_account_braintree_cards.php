@@ -57,7 +57,7 @@
       if ( $braintree_enabled !== true ) {
         $this->enabled = false;
 
-        $this->description = '<div class="secWarning">' . MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_ERROR_MAIN_MODULE . '</div>' . $this->description;
+        $this->description = '<div class="alert alert-warning">' . MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_ERROR_MAIN_MODULE . '</div>' . $this->description;
       }
     }
 

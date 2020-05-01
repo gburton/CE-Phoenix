@@ -56,18 +56,18 @@ define('TEXT_ADVERT_STATUS_CHANGE', 'Status Change: %s');
 define('TEXT_INFO_DELETE_INTRO', 'Are you sure you want to delete this Advert?');
 define('TEXT_INFO_DELETE_IMAGE', 'Delete Image');
 
-define('SUCCESS_IMAGE_INSERTED', 'Success: New Advert inserted.');
-define('SUCCESS_IMAGE_UPDATED', 'Success: This Advert has been updated.');
-define('SUCCESS_IMAGE_REMOVED', 'Success: This Advert has been removed.');
-define('SUCCESS_ADVERT_STATUS_UPDATED', 'Success: The status of this Advert has been updated.');
+define('SUCCESS_IMAGE_INSERTED', '<strong>Success:</strong> New Advert inserted.');
+define('SUCCESS_IMAGE_UPDATED', '<strong>Success:</strong> This Advert has been updated.');
+define('SUCCESS_IMAGE_REMOVED', '<strong>Success:</strong> This Advert has been removed.');
+define('SUCCESS_ADVERT_STATUS_UPDATED', '<strong>Success:</strong> The status of this Advert has been updated.');
 
-define('ERROR_ADVERT_TITLE_REQUIRED', 'Error: Advert TITLE required.');
-define('ERROR_ADVERT_GROUP_REQUIRED', 'Error: Advert GROUP required.');
-define('ERROR_IMAGE_DIRECTORY_DOES_NOT_EXIST', 'Error: Target directory does not exist: %s');
-define('ERROR_IMAGE_DIRECTORY_NOT_WRITEABLE', 'Error: Target directory is not writeable: %s');
-define('ERROR_IMAGE_DOES_NOT_EXIST', 'Error: Image does not exist.');
-define('ERROR_IMAGE_IS_NOT_WRITEABLE', 'Error: Image can not be removed.');
-define('ERROR_ADVERT_IMAGE_OR_TEXT_REQUIRED', 'Error: You have not inserted Image or Text.  Adverts need Image/Text/Both to display.');
+define('ERROR_ADVERT_TITLE_REQUIRED', '<strong>Error:</strong> Advert TITLE required.');
+define('ERROR_ADVERT_GROUP_REQUIRED', '<strong>Error:</strong> Advert GROUP required.');
+define('ERROR_IMAGE_DIRECTORY_DOES_NOT_EXIST', '<strong>Error:</strong> Target directory does not exist: %s');
+define('ERROR_IMAGE_DIRECTORY_NOT_WRITEABLE', '<strong>Error:</strong> Target directory is not writeable: %s');
+define('ERROR_IMAGE_DOES_NOT_EXIST', '<strong>Error:</strong> Image does not exist.');
+define('ERROR_IMAGE_IS_NOT_WRITEABLE', '<strong>Error:</strong> Image can not be removed.');
+define('ERROR_ADVERT_IMAGE_OR_TEXT_REQUIRED', '<strong>Error:</strong> You have not inserted Image or Text.  Adverts need Image/Text/Both to display.');
 
 define('TEXT_DISPLAY_NUMBER_OF_ADVERTS', 'Displaying <b>%s</b> to <b>%s</b> of <b>%s</b> Adverts');
 define('IMAGE_NEW_ADVERT', 'New Advert');
@@ -77,4 +77,4 @@ define('TEXT_ADVERT_INTERNAL_URL', '<i class="fas fa-link mr-1"></i> internal li
 
 define('IMAGE_IMPORT_ADVERT', 'Attempt Banner Import');
 define('IMAGE_IMPORT_ADVERT_EXPLANATION', 'This will import data from the "banners" database table.  You may need to delete some of the data after import as "banners" was never meant for Carousel use...');
-define('SUCCESS_BANNERS_IMPORTED', 'Success:  Banners Table Imported!');
+define('SUCCESS_BANNERS_IMPORTED', '<strong>Success:</strong>  Banners Table Imported!');

@@ -20,6 +20,8 @@
 
     public function execute() {
       global $messageStack;
+      
+      $content_width = (int)MODULE_CONTENT_HEADER_MESSAGESTACK_CONTENT_WIDTH;
 
       if ($messageStack->size('header') > 0) {
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
@@ -34,6 +36,12 @@
           'value' => 'True',
           'desc' => 'Should the Message Stack Notifications be shown in the header when needed? ',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_CONTENT_HEADER_MESSAGESTACK_CONTENT_WIDTH' => [
+          'title' => 'Content Width',
+          'value' => '12',
+          'desc' => 'What width container should the content be shown in?',
+          'set_func' => "tep_cfg_select_option(['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], ",
         ],
         'MODULE_CONTENT_HEADER_MESSAGESTACK_SORT_ORDER' => [
           'title' => 'Sort Order',
