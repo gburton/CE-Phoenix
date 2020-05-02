@@ -232,7 +232,7 @@
           <div class="form-group row align-items-center">
             <div class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NOTIFY_CUSTOMER; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
-              <?php echo tep_draw_selection_field('notify', 'checkbox', 1, 1, 'class="custom-control-input" id="oNotify"'); ?>
+              <?php echo tep_draw_selection_field('notify', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotify"'); ?>
               <label for="oNotify" class="custom-control-label text-muted"><small><?php echo ENTRY_NOTIFY_CUSTOMER_TEXT; ?></small></label>
             </div>
           </div>
@@ -240,7 +240,7 @@
           <div class="form-group row align-items-center">
             <div class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NOTIFY_COMMENTS; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
-              <?php echo tep_draw_selection_field('notify_comments', 'checkbox', 1, 1, 'class="custom-control-input" id="oNotifyComments"'); ?>
+              <?php echo tep_draw_selection_field('notify_comments', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotifyComments"'); ?>
               <label for="oNotifyComments" class="custom-control-label text-muted"><small><?php echo ENTRY_NOTIFY_COMMENTS_TEXT; ?></small></label>
             </div>
           </div>
