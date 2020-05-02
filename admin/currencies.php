@@ -293,7 +293,7 @@ function updateForm() {
       $contents[] = ['class' => 'text-center', 'text' => (($remove_currency) ? tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=deleteconfirm'), null, null, 'btn-danger mr-2') : '') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id), null, null, 'btn-light')];
       break;
     default:
-      if (is_object($cInfo)) {
+      if (is_object($cInfo ?? null)) {
         $heading[] = ['text' => $cInfo->title];
 
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=delete'), null, null, 'btn-danger')];
