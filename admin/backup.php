@@ -441,7 +441,7 @@ EOSQL
       if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'zip') . ' ' . TEXT_INFO_USE_ZIP];
 
       if ($dir_ok) {
-        $contents[] = ['text' => tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('download', 'checkbox', 'yes', null, 'class="custom-control-input" id="bDownload"') . '<label for="bDownload" class="custom-control-label text-muted"><small>' . TEXT_INFO_DOWNLOAD_ONLY . '<br>' . TEXT_INFO_BEST_THROUGH_HTTPS . '</small></label></div>'];
       } else {
         $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
       }

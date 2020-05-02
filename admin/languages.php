@@ -192,7 +192,7 @@
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_IMAGE, null) . '<br>' . tep_draw_input_field('image', 'icon.gif')];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, null, null) . '<br>' . tep_draw_input_field('directory')];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, null) . '<br>' . tep_draw_input_field('sort_order')];
-      $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="lDefault"') . '<label for="lDefault" class="custom-control-label text-muted"><small>' . TEXT_SET_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php'), null, null, 'btn-light')];
       break;
     case 'edit':
@@ -205,7 +205,7 @@
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_IMAGE, null) . '<br>' . tep_draw_input_field('image', $lInfo->image)];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, null, null) . '<br>' . tep_draw_input_field('directory', $lInfo->directory)];
       $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, null) . '<br>' . tep_draw_input_field('sort_order', $lInfo->sort_order)];
-      if (DEFAULT_LANGUAGE != $lInfo->code) $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      if (DEFAULT_LANGUAGE != $lInfo->code) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="lDefault"') . '<label for="lDefault" class="custom-control-label text-muted"><small>' . TEXT_SET_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => '<br>' . tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id), null, null, 'btn-light')];
       break;
     case 'delete':

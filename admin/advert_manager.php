@@ -378,7 +378,7 @@
       $contents = ['form' => tep_draw_form('advert', 'advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$cInfo->advert_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->advert_title];
-      if ($cInfo->advert_image) $contents[] = ['text' => tep_draw_checkbox_field('delete_image', 'on') . ' ' . TEXT_INFO_DELETE_IMAGE];
+      if ($cInfo->advert_image) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_image', 'checkbox', 'on', null, 'class="custom-control-input" id="aDelImg"') . '<label for="aDelImg" class="custom-control-label text-muted"><small>' . TEXT_INFO_DELETE_IMAGE . '</small></label></div>'];
       $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']), null, null, 'btn-light')];
       break;
     default:

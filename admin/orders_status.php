@@ -191,9 +191,9 @@
       }
 
       $contents[] = ['text' => TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
-      $contents[] = ['text' => tep_draw_checkbox_field('public_flag', '1') . ' ' . TEXT_SET_PUBLIC_STATUS];
-      $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1') . ' ' . TEXT_SET_DOWNLOADS_STATUS];
-      $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('public_flag', 'checkbox', '1', null, 'class="custom-control-input" id="osPublicFlag"') . '<label for="osPublicFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_PUBLIC_STATUS . '</small></label></div>'];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('downloads_flag', 'checkbox', '1', null, 'class="custom-control-input" id="osDownloadsFlag"') . '<label for="osDownloadsFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_DOWNLOADS_STATUS . '</small></label></div>'];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="osDefaultFlag"') . '<label for="osDefaultFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
@@ -209,9 +209,9 @@
       }
 
       $contents[] = ['text' => TEXT_INFO_ORDERS_STATUS_NAME . $orders_status_inputs_string];
-      $contents[] = ['text' => tep_draw_checkbox_field('public_flag', '1', $oInfo->public_flag) . ' ' . TEXT_SET_PUBLIC_STATUS];
-      $contents[] = ['text' => tep_draw_checkbox_field('downloads_flag', '1', $oInfo->downloads_flag) . ' ' . TEXT_SET_DOWNLOADS_STATUS];
-      if (DEFAULT_ORDERS_STATUS_ID != $oInfo->orders_status_id) $contents[] = ['text' => '<br>' . tep_draw_checkbox_field('default') . ' ' . TEXT_SET_DEFAULT];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('public_flag', 'checkbox', '1', $oInfo->public_flag, 'class="custom-control-input" id="osPublicFlag"') . '<label for="osPublicFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_PUBLIC_STATUS . '</small></label></div>'];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('downloads_flag', 'checkbox', '1', $oInfo->downloads_flag, 'class="custom-control-input" id="osDownloadsFlag"') . '<label for="osDownloadsFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_DOWNLOADS_STATUS . '</small></label></div>'];
+      if (DEFAULT_ORDERS_STATUS_ID != $oInfo->orders_status_id) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="osDefaultFlag"') . '<label for="osDefaultFlag" class="custom-control-label text-muted"><small>' . TEXT_SET_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $oInfo->orders_status_id), null, null, 'btn-light')];
       break;
     case 'delete':
