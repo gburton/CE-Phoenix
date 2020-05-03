@@ -56,7 +56,7 @@
 
           $pp_server = (strpos(strtolower($order['payment_method']), 'sandbox') !== false) ? 'sandbox' : 'live';
 
-          $info_button = $this->_app->drawButton($this->_app->getDef('button_details'), tep_href_link('orders.php', 'page=' . $_GET['page'] . '&oID=' . $oID . '&action=edit&tabaction=getTransactionDetails'), 'primary', null, true);
+          $info_button = $this->_app->drawButton($this->_app->getDef('button_details'), tep_href_link('orders.php', 'page=' . (int)($_GET['page'] ?? 1) . '&oID=' . $oID . '&action=edit&tabaction=getTransactionDetails'), 'primary', null, true);
           $capture_button = $this->getCaptureButton($status, $order);
           $void_button = $this->getVoidButton($status, $order);
           $refund_button = $this->getRefundButton($status, $order);
@@ -106,7 +106,7 @@ EOD;
             $dialog_body = $this->_app->getDef('dialog_capture_body');
             $field_amount_title = $this->_app->getDef('dialog_capture_amount_field_title');
             $field_last_capture_title = $this->_app->getDef('dialog_capture_last_capture_field_title', array('currency' => $order['currency']));
-            $capture_link = tep_href_link('orders.php', 'page=' . $_GET['page'] . '&oID=' . $order['orders_id'] . '&action=edit&tabaction=doCapture');
+            $capture_link = tep_href_link('orders.php', 'page=' . (int)($_GET['page'] ?? 1) . '&oID=' . $order['orders_id'] . '&action=edit&tabaction=doCapture');
             $capture_currency = $order['currency'];
             $dialog_button_capture = addslashes($this->_app->getDef('dialog_capture_button_capture'));
             $dialog_button_cancel = addslashes($this->_app->getDef('dialog_capture_button_cancel'));
@@ -195,7 +195,7 @@ EOD;
 
             $dialog_title = tep_output_string_protected($this->_app->getDef('dialog_void_title'));
             $dialog_body = $this->_app->getDef('dialog_void_body');
-            $void_link = tep_href_link('orders.php', 'page=' . $_GET['page'] . '&oID=' . $order['orders_id'] . '&action=edit&tabaction=doVoid');
+            $void_link = tep_href_link('orders.php', 'page=' . (int)($_GET['page'] ?? 1) . '&oID=' . $order['orders_id'] . '&action=edit&tabaction=doVoid');
             $dialog_button_void = addslashes($this->_app->getDef('dialog_void_button_void'));
             $dialog_button_cancel = addslashes($this->_app->getDef('dialog_void_button_cancel'));
 
@@ -271,7 +271,7 @@ EOD;
 
         $dialog_title = tep_output_string_protected($this->_app->getDef('dialog_refund_title'));
         $dialog_body = $this->_app->getDef('dialog_refund_body');
-        $refund_link = tep_href_link('orders.php', 'page=' . $_GET['page'] . '&oID=' . $_GET['oID'] . '&action=edit&tabaction=refundTransaction');
+        $refund_link = tep_href_link('orders.php', 'page=' . (int)($_GET['page'] ?? 1) . '&oID=' . (int)$_GET['oID'] . '&action=edit&tabaction=refundTransaction');
         $dialog_button_refund = addslashes($this->_app->getDef('dialog_refund_button_refund'));
         $dialog_button_cancel = addslashes($this->_app->getDef('dialog_refund_button_cancel'));
 
