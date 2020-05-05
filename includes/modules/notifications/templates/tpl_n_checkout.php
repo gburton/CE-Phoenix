@@ -32,7 +32,7 @@
 
 //------insert customer chosen option to order--------
     foreach (($product['attributes'] ?? []) as $attribute) {
-      echo "\n\t" . $attributes_values['option'] . ' ' . $attributes_values['value'];
+      echo "\n\t" . $attribute['option'] . ' ' . $attribute['value'];
     }
 //------insert customer chosen option eof ----
   }
