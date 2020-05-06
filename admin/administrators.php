@@ -321,7 +321,7 @@
       $contents[] = ['text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" autocapitalize="none" aria-required="true"', 'password')];
 
       if (is_array($htpasswd_array)) {
-        $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true') . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('htaccess', 'checkbox', 'true', null, 'class="custom-control-input" id="aHtpasswd"') . '<label for="aHtpasswd" class="custom-control-label text-muted"><small>' . TEXT_INFO_PROTECT_WITH_HTPASSWD . '</small></label></div>'];
       }
 
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('administrators.php'), null, null, 'btn-light')];
@@ -346,7 +346,7 @@
           }
         }
 
-        $contents[] = ['text' => tep_draw_checkbox_field('htaccess', 'true', $default_flag) . ' ' . TEXT_INFO_PROTECT_WITH_HTPASSWD];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('htaccess', 'checkbox', 'true', $default_flag, 'class="custom-control-input" id="aHtpasswd"') . '<label for="aHtpasswd" class="custom-control-label text-muted"><small>' . TEXT_INFO_PROTECT_WITH_HTPASSWD . '</small></label></div>'];
       }
 
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('administrators.php', 'aID=' . $aInfo->id), null, null, 'btn-light')];

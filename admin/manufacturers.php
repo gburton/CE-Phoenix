@@ -241,10 +241,10 @@
       $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
       $contents[] = ['text' => '<strong>' . $mInfo->manufacturers_name . '</strong>'];
-      $contents[] = ['text' => tep_draw_checkbox_field('delete_image', '', true) . ' ' . TEXT_DELETE_IMAGE];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_image', 'checkbox', 'on', null, 'class="custom-control-input" id="mDeleteImg"') . '<label for="mDeleteImg" class="custom-control-label text-muted"><small>' . TEXT_DELETE_IMAGE . '</small></label></div>'];
 
       if ($mInfo->products_count > 0) {
-        $contents[] = ['text' => tep_draw_checkbox_field('delete_products') . ' ' . TEXT_DELETE_PRODUCTS];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_products', 'checkbox', 'on', null, 'class="custom-control-input" id="mDeleteProducts"') . '<label for="mDeleteProducts" class="custom-control-label text-muted"><small>' . TEXT_DELETE_PRODUCTS . '</small></label></div>'];
         $contents[] = ['text' => sprintf(TEXT_DELETE_WARNING_PRODUCTS, $mInfo->products_count)];
       }
 

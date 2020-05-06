@@ -146,10 +146,10 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&action=insert')];
       $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
-      $contents[] = ['text' => tep_draw_checkbox_field('use_first', '1', true) . TEXT_INFO_USE_FIRST_FOR_ALL];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('use_first', 'checkbox', '1', 1, 'class="custom-control-input" id="cdUse"') . '<label for="cdUse" class="custom-control-label text-muted"><small>' . TEXT_INFO_USE_FIRST_FOR_ALL . '</small></label></div>'];
 
       foreach (tep_get_languages() as $lang) {
-        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $lang['directory'] . '/images/' . $lang['image'], '', 'SSL'), $lang['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $lang['id'] . ']')];
+        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $lang['directory'] . '/images/' . $lang['image'], '', 'SSL'), $lang['name']) . '</span></div>' . tep_draw_input_field('customer_data_groups_name[' . $lang['id'] . ']') . '</div>'];
         $contents[] = ['text' => TEXT_INFO_VERTICAL_SORT_ORDER . '<br>' . tep_draw_input_field('cdg_vertical_sort_order[' . $lang['id'] . ']')];
         $contents[] = ['text' => TEXT_INFO_HORIZONTAL_SORT_ORDER . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $lang['id'] . ']')];
         $contents[] = ['text' => TEXT_INFO_WIDTH . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $lang['id'] . ']', 12)];
@@ -161,7 +161,7 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('customer_data_groups', 'customer_data_groups.php', 'page=' . (int)$_GET['page'] . '&cdgID=' . $cdgInfo->customer_data_groups_id . '&action=save')];
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-      $contents[] = ['text' => TEXT_INFO_USE_FIRST_FOR_ALL . '<br>' . tep_draw_checkbox_field('use_first', '1', true)];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('use_first', 'checkbox', '1', 1, 'class="custom-control-input" id="cdUse"') . '<label for="cdUse" class="custom-control-label text-muted"><small>' . TEXT_INFO_USE_FIRST_FOR_ALL . '</small></label></div>'];
 
       $cdg_query = tep_db_query(<<<'EOSQL'
 SELECT
@@ -178,7 +178,7 @@ SELECT
 EOSQL
         . (int)$cdgInfo->customer_data_groups_id);
       while ($cdg = tep_db_fetch_array($cdg_query)) {
-        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<br>' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '&nbsp;' . tep_draw_input_field('customer_data_groups_name[' . $cdg['id'] . ']', $cdg['customer_data_groups_name'])];
+        $contents[] = ['text' => TEXT_INFO_CUSTOMER_DATA_GROUP_NAME . '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $cdg['directory'] . '/images/' . $cdg['image'], '', 'SSL'), $cdg['name']) . '</span></div>' . tep_draw_input_field('customer_data_groups_name[' . $cdg['id'] . ']', $cdg['customer_data_groups_name']) . '</div>'];
         $contents[] = ['text' => sprintf(TEXT_INFO_VERTICAL_SORT_ORDER, null) . '<br>' . tep_draw_input_field('cdg_vertical_sort_order[' . $cdg['id'] . ']', $cdg['cdg_vertical_sort_order'])];
         $contents[] = ['text' => sprintf(TEXT_INFO_HORIZONTAL_SORT_ORDER, null) . '<br>' . tep_draw_input_field('cdg_horizontal_sort_order[' . $cdg['id'] . ']', $cdg['cdg_horizontal_sort_order'])];
         $contents[] = ['text' => sprintf(TEXT_INFO_WIDTH, null) . '<br>' . tep_draw_input_field('customer_data_groups_width[' . $cdg['id'] . ']', $cdg['customer_data_groups_width'])];

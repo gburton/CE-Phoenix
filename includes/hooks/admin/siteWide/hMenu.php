@@ -14,7 +14,7 @@ class hook_admin_siteWide_hMenu {
   var $version = '1.0.0';
   
   function listen_injectBodyStart() {
-    global $PHP_SELF, $language, $cfgModules;
+    global $PHP_SELF, $language, $cfgModules, $admin;
     
     $output = null;
 
@@ -81,6 +81,17 @@ class hook_admin_siteWide_hMenu {
           $output .= '<ul class="navbar-nav mr-auto">' . $mr . '</ul>';
         $output .= '</div>';
       $output .= '</nav>';
+      
+      $output .= '<div class="col bg-light">';
+        $output .= '<ul class="nav justify-content-end">';
+          $output .= '<li class="nav-item"><a class="nav-link" target="_blank" href="https://forums.oscommerce.com/clubs/1-phoenix/">' .tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_PHOENIX_CLUB . '</a></li>';
+          $output .= '<li class="nav-item"><a class="nav-link" href="' . tep_href_link('certified_addons.php') . '">' . tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_CERTIFIED_ADDONS . '</a></li>';
+          $output .= '<li class="nav-item"><a class="nav-link" href="' . tep_catalog_href_link() . '">' . HEADER_TITLE_ONLINE_CATALOG . '</a></li>';
+          $output .= '<li class="nav-item"><a class="nav-link text-danger" href="' . tep_href_link('login.php', 'action=logoff') . '">' . sprintf(HEADER_TITLE_LOGOFF, $admin['username']) . '</a></li>';
+        $output .= '</ul>';
+      $output .= '</div>';
+      
+      $output .= '<hr class="w-100 m-0 p-0 mb-2">';
 
       return $output;
     }

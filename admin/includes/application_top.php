@@ -14,7 +14,7 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // Set the level of error reporting
-  error_reporting(E_ALL);
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
 // load server configuration parameters
   if (file_exists('includes/local/configure.php')) { // for developers

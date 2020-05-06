@@ -258,15 +258,15 @@ function updateForm() {
       $contents = ['form' => tep_draw_form('currencies', 'currencies.php', 'page=' . (int)$_GET['page'] . (isset($cInfo) ? '&cID=' . $cInfo->currencies_id : '') . '&action=insert')];
       $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
       $contents[] = ['text' => tep_draw_pull_down_menu('cs', $currency_select_array, '', 'onchange="updateForm();"')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_TITLE . '<br>' . tep_draw_input_field('title')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_CODE . '<br>' . tep_draw_input_field('code')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_SYMBOL_LEFT . '<br>' . tep_draw_input_field('symbol_left')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_SYMBOL_RIGHT . '<br>' . tep_draw_input_field('symbol_right')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_DECIMAL_POINT . '<br>' . tep_draw_input_field('decimal_point')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_THOUSANDS_POINT . '<br>' . tep_draw_input_field('thousands_point')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_DECIMAL_PLACES . '<br>' . tep_draw_input_field('decimal_places')];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_VALUE . '<br>' . tep_draw_input_field('value')];
-      $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_INFO_SET_AS_DEFAULT];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_TITLE, null) . '<br>' . tep_draw_input_field('title')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_CODE, null) . '<br>' . tep_draw_input_field('code')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_SYMBOL_LEFT, null) . '<br>' . tep_draw_input_field('symbol_left')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, null) . '<br>' . tep_draw_input_field('symbol_right')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_DECIMAL_POINT, null) . '<br>' . tep_draw_input_field('decimal_point')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_THOUSANDS_POINT, null) . '<br>' . tep_draw_input_field('thousands_point')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_DECIMAL_PLACES, null) . '<br>' . tep_draw_input_field('decimal_places')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_VALUE, null) . '<br>' . tep_draw_input_field('value')];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="cDefault"') . '<label for="cDefault" class="custom-control-label text-muted"><small>' . TEXT_INFO_SET_AS_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('currencies.php'), null, null, 'btn-light')];
       break;
     case 'edit':
@@ -274,15 +274,15 @@ function updateForm() {
 
       $contents = ['form' => tep_draw_form('currencies', 'currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=save')];
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_TITLE . '<br>' . tep_draw_input_field('title', $cInfo->title)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_CODE . '<br>' . tep_draw_input_field('code', $cInfo->code)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_SYMBOL_LEFT . '<br>' . tep_draw_input_field('symbol_left', $cInfo->symbol_left)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_SYMBOL_RIGHT . '<br>' . tep_draw_input_field('symbol_right', $cInfo->symbol_right)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_DECIMAL_POINT . '<br>' . tep_draw_input_field('decimal_point', $cInfo->decimal_point)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_THOUSANDS_POINT . '<br>' . tep_draw_input_field('thousands_point', $cInfo->thousands_point)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_DECIMAL_PLACES . '<br>' . tep_draw_input_field('decimal_places', $cInfo->decimal_places)];
-      $contents[] = ['text' => TEXT_INFO_CURRENCY_VALUE . '<br>' . tep_draw_input_field('value', $cInfo->value)];
-      if (DEFAULT_CURRENCY != $cInfo->code) $contents[] = ['text' => tep_draw_checkbox_field('default') . ' ' . TEXT_INFO_SET_AS_DEFAULT];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_TITLE, null) . '<br>' . tep_draw_input_field('title', $cInfo->title)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_CODE, null)  . '<br>' . tep_draw_input_field('code', $cInfo->code)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_SYMBOL_LEFT, null)  . '<br>' . tep_draw_input_field('symbol_left', $cInfo->symbol_left)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, null)  . '<br>' . tep_draw_input_field('symbol_right', $cInfo->symbol_right)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_DECIMAL_POINT, null)  . '<br>' . tep_draw_input_field('decimal_point', $cInfo->decimal_point)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_THOUSANDS_POINT, null)  . '<br>' . tep_draw_input_field('thousands_point', $cInfo->thousands_point)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_DECIMAL_PLACES, null)  . '<br>' . tep_draw_input_field('decimal_places', $cInfo->decimal_places)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CURRENCY_VALUE, null) . '<br>' . tep_draw_input_field('value', $cInfo->value)];
+      if (DEFAULT_CURRENCY != $cInfo->code) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('default', 'checkbox', 'on', null, 'class="custom-control-input" id="cDefault"') . '<label for="cDefault" class="custom-control-label text-muted"><small>' . TEXT_INFO_SET_AS_DEFAULT . '</small></label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id), null, null, 'btn-light')];
       break;
     case 'delete':
@@ -293,7 +293,7 @@ function updateForm() {
       $contents[] = ['class' => 'text-center', 'text' => (($remove_currency) ? tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=deleteconfirm'), null, null, 'btn-danger mr-2') : '') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id), null, null, 'btn-light')];
       break;
     default:
-      if (is_object($cInfo)) {
+      if (is_object($cInfo ?? null)) {
         $heading[] = ['text' => $cInfo->title];
 
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=delete'), null, null, 'btn-danger')];

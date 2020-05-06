@@ -436,14 +436,14 @@ EOSQL
       $contents = ['form' => tep_draw_form('backup', 'backup.php', 'action=backupnow')];
       $contents[] = ['text' => TEXT_INFO_NEW_BACKUP];
 
-      $contents[] = ['text' => tep_draw_radio_field('compress', 'no', true) . ' ' . TEXT_INFO_USE_NO_COMPRESSION];
-      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'gzip') . ' ' . TEXT_INFO_USE_GZIP];
-      if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'zip') . ' ' . TEXT_INFO_USE_ZIP];
+      $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'no', true, 'id="cNo" class="custom-control-input"') . '<label class="custom-control-label" for="cNo"><small>' . TEXT_INFO_USE_NO_COMPRESSION . '</small></label></div>'];
+      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'gzip', null, 'id="cGzip" class="custom-control-input"') . '<label class="custom-control-label" for="cGzip"><small>' . TEXT_INFO_USE_GZIP . '</small></label></div>'];
+      if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'zip', null, 'id="czip" class="custom-control-input"') . '<label class="custom-control-label" for="czip"><small>' . TEXT_INFO_USE_ZIP . '</small></label></div>'];
 
       if ($dir_ok) {
-        $contents[] = ['text' => tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('download', 'checkbox', 'yes', null, 'class="custom-control-input" id="d"') . '<label for="d" class="custom-control-label text-muted"><small>' . TEXT_INFO_DOWNLOAD_ONLY . '<br>' . TEXT_INFO_BEST_THROUGH_HTTPS . '</small></label></div>'];
       } else {
-        $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('download', 'radio', 'yes', true, 'id="d" class="custom-control-input"') . '<label class="custom-control-label" for="d"><small>' . TEXT_INFO_DOWNLOAD_ONLY . '<br>' . TEXT_INFO_BEST_THROUGH_HTTPS . '</small></label></div>'];
       }
 
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
@@ -459,7 +459,7 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('restore', 'backup.php', 'action=restorelocalnow', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL . '<br><br>' . TEXT_INFO_BEST_THROUGH_HTTPS];
-      $contents[] = ['text' => tep_draw_file_field('sql_file')];
+      $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('sql_file', '', 'required="required" aria-required="true" id="upload"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="upload">&nbsp;</label></div>'];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL_RAW_FILE];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;
@@ -492,6 +492,8 @@ EOSQL
 ?>
 
   </div>
+  
+  <script>$(document).on('change', '#upload', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>
 
 <?php
   require 'includes/template_bottom.php';

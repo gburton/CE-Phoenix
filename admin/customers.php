@@ -241,7 +241,7 @@ EOSQL
 
         $contents = ['form' => tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id . '&action=deleteconfirm')];
         $contents[] = ['text' => TEXT_DELETE_INTRO . '<br><br><strong>' . $cInfo->name . '</strong>'];
-        if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = ['text' => tep_draw_checkbox_field('delete_reviews', 'on', true) . ' ' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews)];
+        if (isset($cInfo->number_of_reviews) && ($cInfo->number_of_reviews) > 0) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_reviews', 'checkbox', 'on', 1, 'class="custom-control-input" id="cDeleteReview"') . '<label for="cDeleteReview" class="custom-control-label text-muted"><small>' . sprintf(TEXT_DELETE_REVIEWS, $cInfo->number_of_reviews) . '</small></label></div>'];
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->id), null, null, 'btn-light')];
         break;
       default:
