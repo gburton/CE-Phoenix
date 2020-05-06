@@ -374,7 +374,7 @@
               }
               $keys .= call_user_func($use_function, $value['value']);
             } else {
-              $keys .= $value['value'];
+              $keys .= tep_break_string($value['value'], 40, '<br>');
             }
 
             $keys .= '<br><br>';
