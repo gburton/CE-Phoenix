@@ -515,7 +515,7 @@ function updateNet() {
               <?php echo tep_draw_selection_field('products_status', 'radio', '1', $in_status, 'id="pIn" class="custom-control-input"') . '<label class="custom-control-label" for="pIn">' . TEXT_PRODUCT_AVAILABLE . '</label>'; ?>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('products_status', 'radio', '1', $out_status, 'id="pOut" class="custom-control-input"') . '<label class="custom-control-label" for="pOut">' . TEXT_PRODUCT_NOT_AVAILABLE . '</label>'; ?>
+              <?php echo tep_draw_selection_field('products_status', 'radio', '0', $out_status, 'id="pOut" class="custom-control-input"') . '<label class="custom-control-label" for="pOut">' . TEXT_PRODUCT_NOT_AVAILABLE . '</label>'; ?>
             </div>
           </div>
         </div>
