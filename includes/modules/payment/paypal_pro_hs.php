@@ -61,18 +61,18 @@
       }
 
       if ( !function_exists('curl_init') ) {
-        $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_hs_error_curl') . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_hs_error_curl') . '</div>';
 
         $this->enabled = false;
       }
 
       if ( $this->enabled === true ) {
         if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && !$this->_app->hasCredentials('HS') ) { // PayPal
-          $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_hs_error_credentials') . '</div>';
+          $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_hs_error_credentials') . '</div>';
 
           $this->enabled = false;
         } elseif ( OSCOM_APP_PAYPAL_GATEWAY == '0' ) { // Payflow
-          $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_hs_error_payflow') . '</div>';
+          $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_hs_error_payflow') . '</div>';
 
           $this->enabled = false;
         }

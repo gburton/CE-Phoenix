@@ -709,6 +709,8 @@ EOSQL
 
 ////
 // Sets the status of a product
+// DEPRECATE THIS ASAP
+/*
   function tep_set_product_status($products_id, $status) {
     if ($status == '1') {
       return tep_db_query("UPDATE products SET products_status = 1, products_last_modified = NOW() WHERE products_id = " . (int)$products_id);
@@ -718,9 +720,12 @@ EOSQL
       return -1;
     }
   }
+*/
 
 ////
 // Sets the status of a review
+// DEPRECATE THIS ASAP
+/*
   function tep_set_review_status($reviews_id, $status) {
     if ($status == '1') {
       return tep_db_query("UPDATE reviews SET reviews_status = 1, last_modified = NOW() WHERE reviews_id = " . (int)$reviews_id);
@@ -730,9 +735,12 @@ EOSQL
       return -1;
     }
   }
+*/
 
 ////
 // Sets the status of a product on special
+// DEPRECATE THIS ASAP
+/*
   function tep_set_specials_status($specials_id, $status) {
     if ($status == '1') {
       return tep_db_query("UPDATE specials SET status = 1, expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$specials_id);
@@ -742,6 +750,7 @@ EOSQL
       return -1;
     }
   }
+*/
 
 ////
 // Sets timeout for the current script.

@@ -75,7 +75,7 @@
         
         $OSCOM_Hooks->call('manufacturers', 'manufacturersActionSave');
 
-        tep_redirect(tep_href_link('manufacturers.php', (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'mID=' . $manufacturers_id));
+        tep_redirect(tep_href_link('manufacturers.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'mID=' . $manufacturers_id));
         break;
       case 'deleteconfirm':
         $manufacturers_id = tep_db_prepare_input($_GET['mID']);
@@ -103,7 +103,7 @@
         
         $OSCOM_Hooks->call('manufacturers', 'manufacturersActionDelete');
 
-        tep_redirect(tep_href_link('manufacturers.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
@@ -120,7 +120,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(BUTTON_INSERT_NEW_MANUFACTURER, 'fas fa-id-card', tep_href_link('manufacturers.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(BUTTON_INSERT_NEW_MANUFACTURER, 'fas fa-id-card', tep_href_link('manufacturers.php', 'action=new'), null, null, 'btn-danger');
       }
       else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('manufacturers.php'), null, null, 'btn-light');
@@ -160,7 +160,7 @@
               }
               ?>
                 <td><?php echo $manufacturers['manufacturers_name']; ?></td>
-                <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($manufacturers['manufacturers_id'] == $mInfo->manufacturers_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $manufacturers['manufacturers_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($manufacturers['manufacturers_id'] == $mInfo->manufacturers_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $manufacturers['manufacturers_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
 <?php
   }
@@ -206,12 +206,12 @@
       $contents[] = ['text' => TEXT_MANUFACTURERS_DESCRIPTION . $manufacturer_description_string];
       $contents[] = ['text' => TEXT_MANUFACTURERS_SEO_DESCRIPTION . $manufacturer_seo_description_string];
       $contents[] = ['text' => TEXT_MANUFACTURERS_SEO_KEYWORDS . $manufacturer_seo_keywords_string];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php'), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php'), null, null, 'btn-light')];
       break;
     case 'edit':
       $heading[] = ['text' => TEXT_HEADING_EDIT_MANUFACTURER . ' <small>' . TEXT_EDIT_INTRO . '</small>'];
 
-      $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=save', 'post', 'enctype="multipart/form-data"')];
+      $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=save', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_EDIT_INTRO];
       $contents[] = ['text' => TEXT_MANUFACTURERS_NAME . '<br>' . tep_draw_input_field('manufacturers_name', $mInfo->manufacturers_name)];
       $contents[] = ['text' => TEXT_MANUFACTURERS_IMAGE . '<br><div class="custom-file mb-2">' . tep_draw_input_field('manufacturers_image', '', 'id="inputManufacturersImage"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="inputManufacturersImage">' . $mInfo->manufacturers_image . '</label></div>'];
@@ -232,30 +232,30 @@
       $contents[] = ['text' => TEXT_EDIT_MANUFACTURERS_DESCRIPTION . $manufacturer_description_string];
       $contents[] = ['text' => TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION . $manufacturer_seo_description_string];
       $contents[] = ['text' => TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS . $manufacturer_seo_keywords_string];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . (int)$mInfo->manufacturers_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$mInfo->manufacturers_id), null, null, 'btn-light')];
       break;
     case 'delete':
       $col = 3;
       $heading[] = ['text' =>  TEXT_HEADING_DELETE_MANUFACTURER];
 
-      $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=deleteconfirm')];
+      $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
       $contents[] = ['text' => '<strong>' . $mInfo->manufacturers_name . '</strong>'];
-      $contents[] = ['text' => tep_draw_checkbox_field('delete_image', '', true) . ' ' . TEXT_DELETE_IMAGE];
+      $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_image', 'checkbox', 'on', null, 'class="custom-control-input" id="mDeleteImg"') . '<label for="mDeleteImg" class="custom-control-label text-muted"><small>' . TEXT_DELETE_IMAGE . '</small></label></div>'];
 
       if ($mInfo->products_count > 0) {
-        $contents[] = ['text' => tep_draw_checkbox_field('delete_products') . ' ' . TEXT_DELETE_PRODUCTS];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_products', 'checkbox', 'on', null, 'class="custom-control-input" id="mDeleteProducts"') . '<label for="mDeleteProducts" class="custom-control-label text-muted"><small>' . TEXT_DELETE_PRODUCTS . '</small></label></div>'];
         $contents[] = ['text' => sprintf(TEXT_DELETE_WARNING_PRODUCTS, $mInfo->products_count)];
       }
 
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $mInfo->manufacturers_id), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id), null, null, 'btn-light')];
       break;
     default:
       $col = 3;
       if (isset($mInfo) && is_object($mInfo)) {
         $heading[] = ['text' => $mInfo->manufacturers_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('manufacturers.php', 'page=' . $_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_DATE_ADDED, tep_date_short($mInfo->date_added))];
         if (tep_not_null($mInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_LAST_MODIFIED, tep_date_short($mInfo->last_modified))];
         $contents[] = ['text' => tep_info_image($mInfo->manufacturers_image, $mInfo->manufacturers_name)];

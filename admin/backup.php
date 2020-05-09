@@ -45,6 +45,7 @@
 # Database Server: %s
 #
 # Backup Date: %s
+
 EOSQL
 , STORE_NAME, date('Y'), STORE_OWNER, DB_DATABASE, DB_SERVER, date(PHP_DATE_TIME_FORMAT));
         fputs($fp, $schema);
@@ -53,7 +54,7 @@ EOSQL
         while ($tables = tep_db_fetch_array($tables_query)) {
           $table = reset($tables);
 
-          $schema = 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
+          $schema = "\n" . 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
                     'CREATE TABLE ' . $table . ' (' . "\n";
 
           $table_list = [];
@@ -63,11 +64,17 @@ EOSQL
 
             $schema .= '  ' . $fields['Field'] . ' ' . $fields['Type'];
 
-            if (strlen($fields['Default']) > 0) $schema .= ' default \'' . $fields['Default'] . '\'';
+            if (strlen($fields['Default']) > 0) {
+              $schema .= ' default \'' . $fields['Default'] . '\'';
+            }
 
-            if ($fields['Null'] != 'YES') $schema .= ' not null';
+            if ($fields['Null'] != 'YES') {
+              $schema .= ' NOT NULL';
+            }
 
-            if (isset($fields['Extra'])) $schema .= ' ' . $fields['Extra'];
+            if (!empty($fields['Extra'])) {
+              $schema .= ' ' . strtoupper($fields['Extra']);
+            }
 
             $schema .= ',' . "\n";
           }
@@ -429,14 +436,14 @@ EOSQL
       $contents = ['form' => tep_draw_form('backup', 'backup.php', 'action=backupnow')];
       $contents[] = ['text' => TEXT_INFO_NEW_BACKUP];
 
-      $contents[] = ['text' => tep_draw_radio_field('compress', 'no', true) . ' ' . TEXT_INFO_USE_NO_COMPRESSION];
-      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'gzip') . ' ' . TEXT_INFO_USE_GZIP];
-      if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => tep_draw_radio_field('compress', 'zip') . ' ' . TEXT_INFO_USE_ZIP];
+      $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'no', true, 'id="cNo" class="custom-control-input"') . '<label class="custom-control-label" for="cNo"><small>' . TEXT_INFO_USE_NO_COMPRESSION . '</small></label></div>'];
+      if (file_exists(LOCAL_EXE_GZIP)) $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'gzip', null, 'id="cGzip" class="custom-control-input"') . '<label class="custom-control-label" for="cGzip"><small>' . TEXT_INFO_USE_GZIP . '</small></label></div>'];
+      if (file_exists(LOCAL_EXE_ZIP)) $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('compress', 'radio', 'zip', null, 'id="czip" class="custom-control-input"') . '<label class="custom-control-label" for="czip"><small>' . TEXT_INFO_USE_ZIP . '</small></label></div>'];
 
       if ($dir_ok) {
-        $contents[] = ['text' => tep_draw_checkbox_field('download', 'yes') . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('download', 'checkbox', 'yes', null, 'class="custom-control-input" id="d"') . '<label for="d" class="custom-control-label text-muted"><small>' . TEXT_INFO_DOWNLOAD_ONLY . '<br>' . TEXT_INFO_BEST_THROUGH_HTTPS . '</small></label></div>'];
       } else {
-        $contents[] = ['text' => tep_draw_radio_field('download', 'yes', true) . ' ' . TEXT_INFO_DOWNLOAD_ONLY . '*<br><br>*' . TEXT_INFO_BEST_THROUGH_HTTPS];
+        $contents[] = ['text' => '<div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('download', 'radio', 'yes', true, 'id="d" class="custom-control-input"') . '<label class="custom-control-label" for="d"><small>' . TEXT_INFO_DOWNLOAD_ONLY . '<br>' . TEXT_INFO_BEST_THROUGH_HTTPS . '</small></label></div>'];
       }
 
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
@@ -452,7 +459,7 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('restore', 'backup.php', 'action=restorelocalnow', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL . '<br><br>' . TEXT_INFO_BEST_THROUGH_HTTPS];
-      $contents[] = ['text' => tep_draw_file_field('sql_file')];
+      $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('sql_file', '', 'required="required" aria-required="true" id="upload"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="upload">&nbsp;</label></div>'];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL_RAW_FILE];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;
@@ -462,13 +469,13 @@ EOSQL
       $contents = ['form' => tep_draw_form('delete', 'backup.php', 'file=' . $buInfo->file . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $buInfo->file];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:
       if (isset($buInfo) && is_object($buInfo)) {
         $heading[] = ['text' => $buInfo->date];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE, $buInfo->date)];
         $contents[] = ['text' => sprintf(TEXT_INFO_SIZE, $buInfo->size)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COMPRESSION, $buInfo->compression)];
@@ -485,6 +492,8 @@ EOSQL
 ?>
 
   </div>
+  
+  <script>$(document).on('change', '#upload', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>
 
 <?php
   require 'includes/template_bottom.php';

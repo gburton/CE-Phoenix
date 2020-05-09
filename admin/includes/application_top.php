@@ -14,7 +14,7 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // Set the level of error reporting
-  error_reporting(E_ALL);
+  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
 // load server configuration parameters
   if (file_exists('includes/local/configure.php')) { // for developers
@@ -29,10 +29,7 @@
   spl_autoload_register('tep_autoload_admin');
   spl_autoload_register('tep_autoload_catalog');
 
-// include the list of project database tables
-  require 'includes/database_tables.php';
-
-  // set default timezone if none exists (PHP 5.3 throws an E_WARNING)
+// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
   date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
 
 // include the database functions

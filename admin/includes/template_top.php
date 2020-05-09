@@ -19,12 +19,14 @@
 <title><?php echo TITLE; ?></title>
 <base href="<?php echo ($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_ADMIN : HTTP_SERVER . DIR_WS_ADMIN; ?>" />
 <link rel="stylesheet" href="<?php echo tep_catalog_href_link('ext/jquery/ui/redmond/jquery-ui-1.10.4.min.css', '', 'SSL'); ?>">
-<script src="<?php echo tep_catalog_href_link('ext/jquery/jquery-2.2.3.min.js', '', 'SSL'); ?>"></script>
-<script src="<?php echo tep_catalog_href_link('ext/jquery/ui/jquery-ui-1.10.4.min.js', '', 'SSL'); ?>"></script>
 
 <?php
   echo $OSCOM_Hooks->call('siteWide', 'injectSiteStart');
-  
+?>
+
+<script src="<?php echo tep_catalog_href_link('ext/jquery/ui/jquery-ui-1.10.4.min.js', '', 'SSL'); ?>"></script>
+
+<?php  
   if (tep_not_null(JQUERY_DATEPICKER_I18N_CODE)) {
 ?>
 <script src="<?php echo tep_catalog_href_link('ext/jquery/ui/i18n/jquery.ui.datepicker-' . JQUERY_DATEPICKER_I18N_CODE . '.js', '', 'SSL'); ?>"></script>
@@ -36,7 +38,6 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 ?>
 
 <link rel="stylesheet" href="includes/stylesheet.css">
-<script src="includes/general.js"></script>
 </head>
 <body>
 
@@ -44,7 +45,7 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 ?>
 
-<div class="container-fluid">
+<div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
   <div class="row">
 
 <?php
@@ -60,3 +61,9 @@ echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 ?>
 
   <div id="contentText" class="col">
+
+    <?php
+    if ($messageStack->size > 0) {
+      echo $messageStack->output();
+    }
+    ?>

@@ -43,7 +43,7 @@
       }
 
       if ( !function_exists('curl_init') ) {
-        $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ec_error_curl') . '</div>';
+        $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ec_error_curl') . '</div>';
 
         $this->enabled = false;
       }
@@ -51,13 +51,13 @@
       if ( $this->enabled === true ) {
         if ( OSCOM_APP_PAYPAL_GATEWAY == '1' ) { // PayPal
           if ( !$this->_app->hasCredentials('EC') ) {
-            $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ec_error_credentials') . '</div>';
+            $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ec_error_credentials') . '</div>';
 
             $this->enabled = false;
           }
         } else { // Payflow
           if ( !$this->_app->hasCredentials('EC', 'payflow') ) {
-            $this->description .= '<div class="secWarning">' . $this->_app->getDef('module_ec_error_credentials_payflow') . '</div>';
+            $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_ec_error_credentials_payflow') . '</div>';
 
             $this->enabled = false;
           }

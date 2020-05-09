@@ -15,5 +15,5 @@
 */
 
   define('MODULE_CONTENT_NAVBAR_TITLE', 'Navigation Bar');
-  define('MODULE_CONTENT_NAVBAR_DESCRIPTION', 'Show the Navigation Bar on your site. <div class="secWarning">This module has a number of Sub Modules which must also be installed.<br><br>Admin > Modules > Navbar Modules</div>');
+  define('MODULE_CONTENT_NAVBAR_DESCRIPTION', 'Show the Navigation Bar on your site. <div class="alert alert-warning">This module has a number of Sub Modules which must also be installed.<br><br>Admin > Modules > Navbar Modules</div>');
   

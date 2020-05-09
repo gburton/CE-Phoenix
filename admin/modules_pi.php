@@ -158,7 +158,7 @@
       if ($action == 'list_new') {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules_pi.php'), null, null, 'btn-light');
       } else {
-        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . count($modules['new']) . ')', 'fas fa-cogs', tep_href_link('modules_pi.php', 'action=list_new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . count($modules['new']) . ')', 'fas fa-plus', tep_href_link('modules_pi.php', 'action=list_new'), null, null, 'btn-danger');
       }
       ?>
     </div>
@@ -287,7 +287,7 @@
         if ( substr($key, -5) == 'GROUP' ) {
           include_once(DIR_FS_CATALOG . 'includes/modules/content/product_info/cm_pi_modular.php');
           $layout = call_user_func(['cm_pi_modular', 'display_layout']);
-          $keys .= '<div class="secInfo">' . $layout . '</div>';
+          $keys .= '<div class="alert alert-info">' . $layout . '</div>';
         }        
 
         if ($value['set_function']) {
@@ -306,7 +306,7 @@
       $contents = ['form' => tep_draw_form('modules', 'modules_pi.php', 'module=' . $mInfo->code . '&action=save')];
       $contents[] = ['text' => $keys];
       
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules_pi.php', 'module=' . $mInfo->code), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules_pi.php', 'module=' . $mInfo->code), null, null, 'btn-light')];
 
       break;
 
@@ -344,7 +344,7 @@
                 $keys .= tep_call_function($use_function, $value['value']);
               }
             } else {
-              $keys .= $value['value'];
+              $keys .= tep_break_string($value['value'], 40, '<br>');
             }
 
             $keys .= '<br><br>';

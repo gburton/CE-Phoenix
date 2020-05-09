@@ -19,11 +19,11 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
-        tep_set_review_status($_GET['rID'], $_GET['flag']);
+        tep_db_query("UPDATE reviews SET reviews_status = '" . $_GET['flag'] . "', last_modified = NOW() WHERE reviews_id = " . (int)$_GET['rID']);
         
         $OSCOM_Hooks->call('reviews', 'reviewActionStatus');
 
-        tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']));
+        tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']));
         break;
       case 'update':
         $reviews_id = tep_db_prepare_input($_GET['rID']);
@@ -36,7 +36,7 @@
         
         $OSCOM_Hooks->call('reviews', 'reviewActionUpdate');
 
-        tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews_id));
+        tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $reviews_id));
         break;
       case 'deleteconfirm':
         $reviews_id = tep_db_prepare_input($_GET['rID']);
@@ -46,7 +46,7 @@
         
         $OSCOM_Hooks->call('reviews', 'reviewActionDelete');
 
-        tep_redirect(tep_href_link('reviews.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page']));
         break;
       case 'addnew':
         $products_id = tep_db_prepare_input($_POST['products_id']);
@@ -77,7 +77,7 @@
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-star', tep_href_link('reviews.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-star', tep_href_link('reviews.php', 'action=new'), null, null, 'btn-danger');
       }
       else if ($action == "new") {
         echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2');
@@ -117,7 +117,7 @@
     }
     
     if ($form_action == 'preview') {
-      echo tep_draw_form('review', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'] . '&action=' . $form_action);
+      echo tep_draw_form('review', 'reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID'] . '&action=' . $form_action);
       echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added); 
     } else {
       echo tep_draw_form('review', 'reviews.php', 'action=' . $form_action);
@@ -178,9 +178,9 @@
     <div class="text-right">
       <?php 
       if ($action != 'new') {
-        echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
+        echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
       } else {
-        echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2');
+        echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2');
       }
       ?>
     </div>
@@ -190,7 +190,7 @@
   } elseif ($action == 'preview') {
     if (tep_not_null($_POST)) {
       $rInfo = new objectInfo($_POST);
-      echo tep_draw_form('update', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $_GET['rID'] . '&action=update', 'post', 'enctype="multipart/form-data"');
+      echo tep_draw_form('update', 'reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID'] . '&action=update', 'post', 'enctype="multipart/form-data"');
     } else {
       $rID = tep_db_prepare_input($_GET['rID']);
 
@@ -247,7 +247,7 @@
       }
 ?>
     <div class="text-right">
-        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light'); ?>
+        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light'); ?>
     </div>
   </form>
 <?php
@@ -257,7 +257,7 @@
         $back_url_params = '';
       } else {
         $back_url = 'reviews.php';
-        $back_url_params = 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id;
+        $back_url_params = 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id;
       }
 ?>
     <div class="text-right">
@@ -305,16 +305,16 @@
               }
 
               if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id) ) {
-                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=preview') . '\'">' . "\n";
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=preview') . '\'">' . "\n";
               } else {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id']) . '\'">' . "\n";
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $reviews['reviews_id']) . '\'">' . "\n";
               }
               ?>
                 <td><?php echo tep_get_products_name($reviews['products_id']); ?></td>
                 <td class="text-center"><?php echo tep_draw_stars($reviews['reviews_rating']); ?></td>
                 <td class="text-right"><?php echo tep_date_short($reviews['date_added']); ?></td>
-                <td class="text-center"><?php if ($reviews['reviews_status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('reviews.php', 'action=setflag&flag=0&rID=' . $reviews['reviews_id'] . '&page=' . $_GET['page']) . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'action=setflag&flag=1&rID=' . $reviews['reviews_id'] . '&page=' . $_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
-                <td class="text-right"><?php if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $reviews['reviews_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-center"><?php if ($reviews['reviews_status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('reviews.php', 'action=setflag&flag=0&rID=' . $reviews['reviews_id'] . '&page=' . (int)$_GET['page']) . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'action=setflag&flag=1&rID=' . $reviews['reviews_id'] . '&page=' . (int)$_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
+                <td class="text-right"><?php if (isset($rInfo) && is_object($rInfo) && ($reviews['reviews_id'] == $rInfo->reviews_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $reviews['reviews_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
               <?php
             }
@@ -337,16 +337,16 @@
       case 'delete':
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_REVIEW];
 
-        $contents = ['form' => tep_draw_form('reviews', 'reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=deleteconfirm')];
+        $contents = ['form' => tep_draw_form('reviews', 'reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=deleteconfirm')];
         $contents[] = ['text' => TEXT_INFO_DELETE_REVIEW_INTRO];
         $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $rInfo->products_name];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id), null, null, 'btn-light')];
         break;
       default:
       if (isset($rInfo) && is_object($rInfo)) {
         $heading[] = ['text' => $rInfo->products_name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('reviews.php', 'page=' . $_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $rInfo->reviews_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($rInfo->date_added))];
         if (tep_not_null($rInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($rInfo->last_modified))];
         $contents[] = ['text' => tep_info_image($rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT)];

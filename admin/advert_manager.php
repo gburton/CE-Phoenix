@@ -170,7 +170,7 @@
       if (isset($_GET['action']) && ($_GET['action'] == 'new')) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('advert_manager.php'), null, null, 'btn-light');
       } else {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_ADVERT, 'fas fa-map-marker-alt', tep_href_link('advert_manager.php', 'action=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_NEW_ADVERT, 'fas fa-map-marker-alt', tep_href_link('advert_manager.php', 'action=new'), null, null, 'btn-danger');
       }
       ?>
     </div>
@@ -293,7 +293,7 @@
       ?>
 
       <div class="buttonSet">
-        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg xxx text-white'); ?>
+        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg'); ?>
       </div>
 
     </form>
@@ -346,8 +346,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, (int)$_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
-        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, (int)$_GET['page']); ?></div>
+        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
+        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
 
       <?php
@@ -356,7 +356,7 @@
         echo '<div class="alert alert-info mt-3">';
           echo '<div class="row align-items-center">';
             echo '<div class="col-4">';
-              echo tep_draw_bootstrap_button(IMAGE_IMPORT_ADVERT, 'fas fa-database', tep_href_link('advert_manager.php', 'action=import'), null, null, 'btn-info btn-block xxx text-white');
+              echo tep_draw_bootstrap_button(IMAGE_IMPORT_ADVERT, 'fas fa-database', tep_href_link('advert_manager.php', 'action=import'), null, null, 'btn-info btn-block');
             echo '</div>';
             echo '<div class="col">';
               echo IMAGE_IMPORT_ADVERT_EXPLANATION;
@@ -378,14 +378,14 @@
       $contents = ['form' => tep_draw_form('advert', 'advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$cInfo->advert_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
       $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $cInfo->advert_title];
-      if ($cInfo->advert_image) $contents[] = ['text' => tep_draw_checkbox_field('delete_image', 'on') . ' ' . TEXT_INFO_DELETE_IMAGE];
-      $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']), null, null, 'btn-light')];
+      if ($cInfo->advert_image) $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('delete_image', 'checkbox', 'on', null, 'class="custom-control-input" id="aDelImg"') . '<label for="aDelImg" class="custom-control-label text-muted"><small>' . TEXT_INFO_DELETE_IMAGE . '</small></label></div>'];
+      $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']), null, null, 'btn-light')];
       break;
     default:
      if (isset($cInfo) && is_object($cInfo)) {
         $heading[] = ['text' => $cInfo->advert_title];
 
-        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=new'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=delete'), null, null, 'btn-danger xxx text-white')];
+        $contents[] = ['align' => 'center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=new'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $cInfo->advert_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_ADVERT_DATE_ADDED, tep_date_short($cInfo->date_added))];
 
         if (tep_not_null($cInfo->advert_url)) {

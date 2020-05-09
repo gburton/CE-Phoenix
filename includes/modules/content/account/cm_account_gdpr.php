@@ -85,7 +85,7 @@
     $country_query = tep_db_query("select countries_name from countries where countries_id = " .(int)$key . " limit 1");
     $country = tep_db_fetch_array($country_query);
 
-    return $country['countries_name'];
+    return $country['countries_name'] ?? null;
   }
 
   function gdpr_show_countries($text) {

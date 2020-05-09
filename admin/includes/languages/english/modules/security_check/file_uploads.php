@@ -10,5 +10,5 @@
   Released under the GNU General Public License
 */
 
-define('WARNING_FILE_UPLOADS_DISABLED', 'Warning: File uploads are disabled in the php.ini configuration file.');
+define('WARNING_FILE_UPLOADS_DISABLED', '<strong>Warning:</strong> File uploads are disabled in the php.ini configuration file.');
 ?>

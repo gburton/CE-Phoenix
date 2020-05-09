@@ -80,14 +80,14 @@ function selectAll(FormName, SelectBox) {
 }
 //--></script>';
 
-      $choose_audience_string .= '<form name="notifications" action="' . tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm') . '" method="post" onsubmit="return selectAll(\'notifications\', \'chosen[]\')">';
+      $choose_audience_string .= '<form name="notifications" action="' . tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm') . '" method="post" onsubmit="return selectAll(\'notifications\', \'chosen[]\')">';
         $choose_audience_string .= '<div class="row mb-3">';
           $choose_audience_string .= '<div class="col-5">';
             $choose_audience_string .= '<h6>' . TEXT_PRODUCTS . '</h6>';
             $choose_audience_string .= tep_draw_pull_down_menu('products', $products, '', 'class="custom-select" size="20" multiple');
           $choose_audience_string .= '</div>';
           $choose_audience_string .= '<div class="col-2 align-self-center text-center">';
-            $choose_audience_string .= tep_draw_bootstrap_button(BUTTON_GLOBAL, 'fas fa-globe', tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm&global=true'), 'primary', null, 'btn-info xxx text-white');
+            $choose_audience_string .= tep_draw_bootstrap_button(BUTTON_GLOBAL, 'fas fa-globe', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm&global=true'), 'primary', null, 'btn-info');
             $choose_audience_string .= '<br><br>';
             $choose_audience_string .= '<input type="button" class="btn btn-secondary" value="' . BUTTON_SELECT . '" onClick="mover(\'remove\');">';
             $choose_audience_string .= '<br><br>';
@@ -99,8 +99,8 @@ function selectAll(FormName, SelectBox) {
           $choose_audience_string .= '</div>';
         $choose_audience_string .= '</div>';
 
-        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block xxx text-white');
-        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID']), null, null, 'btn-light mt-2');
+        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_SEND, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-lg btn-block');
+        $choose_audience_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID']), null, null, 'btn-light mt-2');
       $choose_audience_string .= '</form>';
 
       return $choose_audience_string;
@@ -138,7 +138,7 @@ function selectAll(FormName, SelectBox) {
         $confirm_string .= '</table>';
 
       if (count($audience) > 0) {
-        $confirm_string .= tep_draw_form('confirm', 'newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm_send');
+        $confirm_string .= tep_draw_form('confirm', 'newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=confirm_send');
         if (is_array($_POST['chosen'] ?? null)) {
           foreach ($_POST['chosen'] as $customer_id) {
             $confirm_string .= tep_draw_hidden_field('chosen[]', $customer_id);
@@ -151,7 +151,7 @@ function selectAll(FormName, SelectBox) {
         $confirm_string .= '</form>';
       }
 
-      $confirm_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . $_GET['page'] . '&nID=' . $_GET['nID'] . '&action=send'), 'primary', null, 'btn-light mt-2');
+      $confirm_string .= tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID'] . '&action=send'), 'primary', null, 'btn-light mt-2');
 
       return $confirm_string;
     }

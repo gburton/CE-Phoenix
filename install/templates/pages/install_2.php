@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -29,8 +29,8 @@
     <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
-      <p>This web-based installation routine will correctly setup and configure OSCOM CE Phoenix to run on this server.</p>
-      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help at the community support forums.</p>
+      <p>This web-based installation routine will setup and configure <strong>Phoenix v<?php echo osc_get_version(); ?></strong> to run on this server.</p>
+      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help in the Phoenix Club.</p>
     </div>
   </div>
   <div class="col-sm-3">
@@ -66,7 +66,7 @@
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('HTTP_WWW_ADDRESS', $www_location, 'required aria-required="true" id="wwwAddress" placeholder="http://"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The web address to the online store.</span>
+          <small class="form-text text-muted">The web address (URL) of your online store.</small>
         </div>
       </div>
     
@@ -75,11 +75,11 @@
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DIR_FS_DOCUMENT_ROOT', $dir_fs_www_root, 'required aria-required="true" id="webRoot"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The directory where the online store is installed on the server.</span>
+          <small class="form-text text-muted">The directory where the online store is installed on the server.</small>
         </div>
       </div>
 
-      <p><?php echo osc_draw_button('Continue To Step 3', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
+      <p><?php echo osc_draw_button('Continue To Step 3', '<i class="fas fa-angle-right mr-2"></i>', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
       <?php
       foreach ( $_POST as $key => $value ) {

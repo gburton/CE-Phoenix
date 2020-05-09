@@ -156,7 +156,7 @@
       </div>
 
 <?php
-      echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('define_language.php', 'lngdir=' . $_GET['lngdir']), null, null, 'btn-warning btn-block btn-lg xxx text-white');
+      echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('define_language.php', 'lngdir=' . $_GET['lngdir']), null, null, 'btn-warning btn-block btn-lg');
     }
   } else {
     $filename = $_GET['lngdir'] . '.php';

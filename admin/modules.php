@@ -148,7 +148,7 @@
       if (isset($_GET['list'])) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules.php', 'set=' . $set), null, null, 'btn-light');
       } else {
-        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-cogs', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger xxx text-white');
+        echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . $new_modules_counter . ')', 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&list=new'), null, null, 'btn-danger');
       }
       ?>
     </div>
@@ -162,7 +162,6 @@
             <tr>
               <th><?php echo TABLE_HEADING_MODULES; ?></th>
               <th class="text-right"><?php echo TABLE_HEADING_SORT_ORDER; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ENABLED; ?></th>
               <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
             </tr>
           </thead>
@@ -227,7 +226,6 @@
                 ?>
                 <td><?php echo $module->title; ?></td>
                 <td class="text-right"><?php if (in_array($module->code . ".$file_extension", $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
-                <td class="text-right"><?php if ( array_key_exists('enabled', $module) && (1 != $module->enabled) ) { echo '<i class="fas fa-times-circle text-danger"></i>'; } else { echo '<i class="fas fa-check-circle text-success"></i>'; } ?></td>
                 <td class="text-right"><?php echo $icon; ?></td>
               </tr>
               <?php
@@ -289,7 +287,7 @@
 
       $contents = ['form' => tep_draw_form('modules', 'modules.php', 'set=' . $set . '&module=' . $_GET['module'] . '&action=save')];
       $contents[] = ['text' => $keys];
-      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success xxx text-white mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
       break;
     default:
       if (isset($mInfo)) {
@@ -311,7 +309,7 @@
                 $keys .= tep_call_function($use_function, $value['value']);
               }
             } else {
-              $keys .= $value['value'];
+              $keys .= tep_break_string($value['value'], 40, '<br>');
             }
             $keys .= '<br><br>';
           }
@@ -320,11 +318,11 @@
           $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_MODULE_REMOVE, 'fas fa-minus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=remove'), null, null, 'btn-warning')];
 
           if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
-            $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-dark mr-2"></i><strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
           }
 
           if (isset($mInfo->api_version)) {
-            $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
+            $contents[] = ['text' => '<i class="fas fa-info-circle text-dark mr-2"></i><strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
           }
 
           $contents[] = ['text' => $mInfo->description];
@@ -334,11 +332,11 @@
             $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL, 'fas fa-plus', tep_href_link('modules.php', 'set=' . $set . '&module=' . $mInfo->code . '&action=install'), null, null, 'btn-warning')];
 
             if (isset($mInfo->signature) && (list($scode, $smodule, $sversion, $soscversion) = explode('|', $mInfo->signature))) {
-              $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
+              $contents[] = ['text' => '<i class="fas fa-info-circle text-dark mr-2"></i><strong>' . TEXT_INFO_VERSION . '</strong> ' . $sversion . ' (<a href="http://sig.oscommerce.com/' . $mInfo->signature . '" target="_blank">' . TEXT_INFO_ONLINE_STATUS . '</a>)'];
             }
 
             if (isset($mInfo->api_version)) {
-              $contents[] = ['text' => tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '&nbsp;<strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
+              $contents[] = ['text' => '<i class="fas fa-info-circle text-dark mr-2"></i><strong>' . TEXT_INFO_API_VERSION . '</strong> ' . $mInfo->api_version];
             }
 
             $contents[] = ['text' => $mInfo->description];

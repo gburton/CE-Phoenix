@@ -72,7 +72,7 @@
         $field .= ' ' . $values[$i]['params'];
       }
 
-      $field .= '>' . osc_output_string($values[$i]['text'], array('"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;')) . '</option>';
+      $field .= '>' . osc_output_string($values[$i]['text'], ['"' => '&quot;', '\'' => '&#039;', '<' => '&lt;', '>' => '&gt;']) . '</option>';
 
       if ( ($group !== false) && (($group != $values[$i]['group']) || !isset($values[$i+1])) ) {
         $group = false;
@@ -91,7 +91,7 @@
       $default = date_default_timezone_get();
     }
 
-    $time_zones_array = array();
+    $time_zones_array = [];
 
     foreach ( timezone_identifiers_list() as $id ) {
       $tz_string = str_replace('_', ' ', $id);
@@ -101,13 +101,13 @@
       $time_zones_array[$id_array[0]][$id] = isset($id_array[1]) ? $id_array[1] : $id_array[0];
     }
 
-    $result = array();
+    $result = [];
 
     foreach ( $time_zones_array as $zone => $zones_array ) {
       foreach ( $zones_array as $key => $value ) {
-        $result[] = array('id' => $key,
-                          'text' => $value,
-                          'group' => $zone);
+        $result[] = ['id' => $key,
+                     'text' => $value,
+                     'group' => $zone];
       }
     }
 
@@ -115,11 +115,11 @@
   }
 
 ////
-// Output a jQuery UI Button
-  function osc_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null,  $class = null) {
+// Output a Button
+  function osc_draw_button($title = null, $icon = null, $link = null, $priority = null, $params = null, $class = null) {
     static $button_counter = 1;
 
-    $types = array('submit', 'button', 'reset');
+    $types = ['submit', 'button', 'reset'];
 
     if ( !isset($params['type']) ) {
       $params['type'] = 'submit';
@@ -140,13 +140,13 @@
     $button = '';
 
     if ( ($params['type'] == 'button') && isset($link) ) {
-      $button .= '<a id="tdb' . $button_counter . '" href="' . $link . '"';
+      $button .= '<a href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
         $button .= ' target="_blank" rel="noopener"';
       }
     } else {
-      $button .= '<button id="tdb' . $button_counter . '" type="' . osc_output_string($params['type']) . '"';
+      $button .= '<button type="' . osc_output_string($params['type']) . '"';
     }
 
     if ( isset($params['params']) ) {
@@ -157,39 +157,15 @@
     $button .= (isset($class)) ? $class : 'btn-outline-secondary';
     $button .= '"';
 
-    $button .= '>' . $title;
+    $button .= '>';
+    if (!empty($icon)) { $button .= $icon; }
+    $button .= $title;
 
     if ( ($params['type'] == 'button') && isset($link) ) {
       $button .= '</a>';
     } else {
       $button .= '</button>';
     }
-
-    $button .= '<script>$("#tdb' . $button_counter . '").button(';
-
-    $args = array();
-
-    if ( isset($icon) ) {
-      if ( !isset($params['iconpos']) ) {
-        $params['iconpos'] = 'left';
-      }
-
-      if ( $params['iconpos'] == 'left' ) {
-        $args[] = 'icons:{primary:"ui-icon-' . $icon . '"}';
-      } else {
-        $args[] = 'icons:{secondary:"ui-icon-' . $icon . '"}';
-      }
-    }
-
-    if (empty($title)) {
-      $args[] = 'text:false';
-    }
-
-    if (!empty($args)) {
-      $button .= '{' . implode(',', $args) . '}';
-    }
-
-    $button .= ').addClass("ui-priority-' . $priority . '");</script>';
 
     $button_counter++;
 
