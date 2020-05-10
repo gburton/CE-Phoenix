@@ -173,7 +173,7 @@ CREATE TABLE customers (
    customers_password varchar(60) NOT NULL,
    customers_newsletter char(1),
    PRIMARY KEY (customers_id),
-   KEY idx_customers_email_address (customers_email_address)
+   UNIQUE KEY uq_customers_email_address (customers_email_address)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS customers_basket;
