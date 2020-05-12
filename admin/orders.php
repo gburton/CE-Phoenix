@@ -61,14 +61,14 @@
 
           $order_updated = true;
         }
+        
+        $OSCOM_Hooks->call('orders', 'updateAction');
 
         if ($order_updated == true) {
          $messageStack->add_session(SUCCESS_ORDER_UPDATED, 'success');
         } else {
           $messageStack->add_session(WARNING_ORDER_NOT_UPDATED, 'warning');
         }
-
-        $OSCOM_Hooks->call('orders', 'updateAction');
 
         tep_redirect(tep_href_link('orders.php', tep_get_all_get_params(['action']) . 'action=edit'));
         break;
