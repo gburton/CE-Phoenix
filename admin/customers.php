@@ -140,6 +140,8 @@ EOSQL
     }
 
     chdir($cwd);
+    
+    echo $OSCOM_Hooks->call('customers', 'injectForm');
 
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>
