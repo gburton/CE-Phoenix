@@ -106,11 +106,7 @@
   echo $OSCOM_Hooks->call('invoice', 'extraComments');
   ?>
   
-    </div>
-  </div>  
-</div>
-
-</body>
-</html>
-
-<?php require 'includes/application_bottom.php'; ?>
+<?php
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
+?>
