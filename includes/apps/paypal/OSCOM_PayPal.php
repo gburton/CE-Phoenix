@@ -384,7 +384,7 @@
         $function = 'OSCOM_PayPal_' . $module . '_Api_' . $call;
 
         if ( !function_exists($function) ) {
-          require DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/api/' . $call . '.php';
+          include(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/api/' . $call . '.php');
         }
       }
 

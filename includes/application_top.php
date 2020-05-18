@@ -263,6 +263,8 @@
   if (isset($_SESSION['customer_id'])) {
     $customer = new customer($_SESSION['customer_id']);
   }
+  
+  $OSCOM_Hooks->call('system', 'preActionApp');
 
 // Shopping cart actions
   if (isset($_GET['action'])) {
@@ -286,6 +288,8 @@
     include 'includes/classes/actions.php';
     osC_Actions::parse($_GET['action']);
   }
+  
+  $OSCOM_Hooks->call('system', 'postActionApp');
 
 // include the who's online functions
   require 'includes/functions/whos_online.php';

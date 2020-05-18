@@ -43,10 +43,7 @@
 
       // migrate old hashed password to new phpass password
       if (tep_password_type($customer_data->get('password', $customer_details)) != 'phpass') {
-        tep_db_query(customer_write::update(
-          $customer_data->build_db_table_values(['password'], 'customers'),
-          ['password' => $password],
-          ['id' => (int)$GLOBALS['login_customer_id']]));
+        $customer_data->update(['password' => $password], ['id' => (int)$GLOBALS['login_customer_id']], 'customers');
       }
 
       return true;

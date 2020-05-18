@@ -50,7 +50,7 @@
           'title' => 'Category Card Layout',
           'value' => 'card-deck',
           'desc' => <<<'EOD'
-What Layout suits your shop?  See <a target="_blank" href="https://getbootstrap.com/docs/4.4/components/card/#card-layout"><u>card/#card-layout</u></a><div class="alert alert-warning">card-columns is a special use case that will not suit most shops as card-columns is very difficult to lay out and sort by...</div>
+What Layout suits your shop?  See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/card/#card-layout"><u>card/#card-layout</u></a><div class="alert alert-warning">card-columns is a special use case that will not suit most shops as card-columns is very difficult to lay out and sort by...</div>
 EOD
           ,
           'set_func' => "tep_cfg_select_option(['card-group', 'card-deck', 'card-columns'], ",

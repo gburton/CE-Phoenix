@@ -515,7 +515,7 @@ function updateNet() {
               <?php echo tep_draw_selection_field('products_status', 'radio', '1', $in_status, 'id="pIn" class="custom-control-input"') . '<label class="custom-control-label" for="pIn">' . TEXT_PRODUCT_AVAILABLE . '</label>'; ?>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-              <?php echo tep_draw_selection_field('products_status', 'radio', '1', $out_status, 'id="pOut" class="custom-control-input"') . '<label class="custom-control-label" for="pOut">' . TEXT_PRODUCT_NOT_AVAILABLE . '</label>'; ?>
+              <?php echo tep_draw_selection_field('products_status', 'radio', '0', $out_status, 'id="pOut" class="custom-control-input"') . '<label class="custom-control-label" for="pOut">' . TEXT_PRODUCT_NOT_AVAILABLE . '</label>'; ?>
             </div>
           </div>
         </div>
@@ -1162,8 +1162,8 @@ function updateNet() {
           $category_path = substr($category_path, 0, -16);
 
           $product_categories_string .= '<div class="custom-control custom-switch">';
-            $product_categories_string .= tep_draw_selection_field('product_categories[]', 'checkbox', $product_categories[$i][sizeof($product_categories[$i])-1]['id'], true, 'class="custom-control-input" id="dProduct"');
-            $product_categories_string .= '<label for="dProduct" class="custom-control-label text-muted"><small>' . $category_path . '</small></label>';
+            $product_categories_string .= tep_draw_selection_field('product_categories[]', 'checkbox', $product_categories[$i][sizeof($product_categories[$i])-1]['id'], true, 'class="custom-control-input" id="dProduct_' . $i . '"');
+            $product_categories_string .= '<label for="dProduct_' . $i . '" class="custom-control-label text-muted"><small>' . $category_path . '</small></label>';
           $product_categories_string .= '</div>';
         }
 

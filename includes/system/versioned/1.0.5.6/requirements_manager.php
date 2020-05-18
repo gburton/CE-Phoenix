@@ -44,7 +44,7 @@
       if ([] === $requirements) {
         $purveyors = $this->objects;
       } else {
-        $purveyors = array_map([$this, 'get_module'], $requirements);
+        $purveyors = array_filter(array_map([$this, 'get_module'], $requirements));
       }
 
       usort($purveyors, function ($a, $b) {

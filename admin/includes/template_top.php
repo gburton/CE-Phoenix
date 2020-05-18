@@ -50,13 +50,7 @@ echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 
 <?php
   if (tep_session_is_registered('admin')) {
-    $OSCOM_Hooks->call('siteWide', 'injectPrintablePage');
-    
-    if (!in_array($PHP_SELF, $printable_pages)) {
-      require('includes/header.php');
-    
-      echo $OSCOM_Hooks->call('siteWide', 'injectLeftColumn');
-    }
+    require('includes/header.php');
   } 
 ?>
 
