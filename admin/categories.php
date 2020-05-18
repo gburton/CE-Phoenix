@@ -1162,8 +1162,8 @@ function updateNet() {
           $category_path = substr($category_path, 0, -16);
 
           $product_categories_string .= '<div class="custom-control custom-switch">';
-            $product_categories_string .= tep_draw_selection_field('product_categories[]', 'checkbox', $product_categories[$i][sizeof($product_categories[$i])-1]['id'], true, 'class="custom-control-input" id="dProduct"');
-            $product_categories_string .= '<label for="dProduct" class="custom-control-label text-muted"><small>' . $category_path . '</small></label>';
+            $product_categories_string .= tep_draw_selection_field('product_categories[]', 'checkbox', $product_categories[$i][sizeof($product_categories[$i])-1]['id'], true, 'class="custom-control-input" id="dProduct_' . $i . '"');
+            $product_categories_string .= '<label for="dProduct_' . $i . '" class="custom-control-label text-muted"><small>' . $category_path . '</small></label>';
           $product_categories_string .= '</div>';
         }
 
