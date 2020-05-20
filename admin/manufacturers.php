@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('manufacturers', 'manufacturersPreAction');
+  $OSCOM_Hooks->call('manufacturers', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -73,7 +73,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('manufacturers', 'manufacturersActionSave');
+        $OSCOM_Hooks->call('manufacturers', 'insertsaveAction');
 
         tep_redirect(tep_href_link('manufacturers.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'mID=' . $manufacturers_id));
         break;
@@ -101,14 +101,14 @@
           tep_db_query("update products set manufacturers_id = '' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
         
-        $OSCOM_Hooks->call('manufacturers', 'manufacturersActionDelete');
+        $OSCOM_Hooks->call('manufacturers', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
   
-  $OSCOM_Hooks->call('manufacturers', 'manufacturersPostAction');
+  $OSCOM_Hooks->call('manufacturers', 'postAction');
 
   require('includes/template_top.php');
 ?>

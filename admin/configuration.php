@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('configuration', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -22,10 +24,14 @@
 
         tep_db_query("update configuration set configuration_value = '" . tep_db_input($configuration_value) . "', last_modified = now() where configuration_id = '" . (int)$cID . "'");
 
+        $OSCOM_Hooks->call('configuration', 'saveAction');
+        
         tep_redirect(tep_href_link('configuration.php', 'gID=' . $_GET['gID'] . '&cID=' . $cID));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('configuration', 'postAction');
 
   $gID = (isset($_GET['gID'])) ? $_GET['gID'] : 1;
 

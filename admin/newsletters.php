@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('newsletters', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -22,6 +24,13 @@
         $status = (($action == 'lock') ? '1' : '0');
 
         tep_db_query("update newsletters set locked = '" . $status . "' where newsletters_id = '" . (int)$newsletter_id . "'");
+        
+        if ($action == 'lock') {
+          $OSCOM_Hooks->call('newsletters', 'lockAction');
+        }
+        else {
+          $OSCOM_Hooks->call('newsletters', 'unlockAction');
+        }
 
         tep_redirect(tep_href_link('newsletters.php', 'page=' . (int)$_GET['page'] . '&nID=' . $_GET['nID']));
         break;
@@ -65,6 +74,12 @@
           } elseif ($action == 'update') {
             tep_db_perform('newsletters', $sql_data_array, 'update', "newsletters_id = '" . (int)$newsletter_id . "'");
           }
+          
+          if ($action == 'insert') {
+            $OSCOM_Hooks->call('newsletters', 'insertAction');
+          } elseif ($action == 'update') {
+            $OSCOM_Hooks->call('newsletters', 'updateAction');            
+          }
 
           tep_redirect(tep_href_link('newsletters.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'nID=' . $newsletter_id));
         } else {
@@ -75,6 +90,8 @@
         $newsletter_id = tep_db_prepare_input($_GET['nID']);
 
         tep_db_query("delete from newsletters where newsletters_id = '" . (int)$newsletter_id . "'");
+        
+        $OSCOM_Hooks->call('newsletters', 'deleteonfirmAction');
 
         tep_redirect(tep_href_link('newsletters.php', 'page=' . (int)$_GET['page']));
         break;
@@ -102,6 +119,8 @@
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('newsletters', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -189,6 +208,10 @@
       echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('newsletters.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . (isset($_GET['nID']) ? 'nID=' . (int)$_GET['nID'] : '')), null, null, 'btn-light mt-2');
       ?>
     </div>
+    
+    <?php
+    echo $OSCOM_Hooks->call('newsletters', 'newForm');
+    ?>
 
   </form>
 
@@ -211,6 +234,9 @@
         <th><?php echo TEXT_CONTENT; ?></th>
         <td><?php echo nl2br($nInfo->content); ?></td>
       </tr>
+      <?php
+      echo $OSCOM_Hooks->call('newsletters', 'preview');
+      ?>
     </table>
 
     <div class="buttonSet">

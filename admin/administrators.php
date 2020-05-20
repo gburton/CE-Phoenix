@@ -45,6 +45,8 @@
   }
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('administrators', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -93,6 +95,8 @@
         } else {
           $messageStack->add_session(ERROR_ADMINISTRATOR_EXISTS, 'error');
         }
+        
+        $OSCOM_Hooks->call('administrators', 'insertAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;
@@ -172,6 +176,8 @@
           fwrite($fp, implode("\n", $htaccess_array));
           fclose($fp);
         }
+        
+        $OSCOM_Hooks->call('administrators', 'saveAction');
 
         tep_redirect(tep_href_link('administrators.php', 'aID=' . (int)$_GET['aID']));
         break;
@@ -212,11 +218,15 @@
             fclose($fp);
           }
         }
+        
+        $OSCOM_Hooks->call('administrators', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('administrators', 'postAction');
 
   $secMessageStack = new messageStack();
 

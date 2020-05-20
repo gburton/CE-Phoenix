@@ -41,7 +41,7 @@
           $customer_data->update($customer_details, ['id' => $customer_details['id']]);
           tep_db_query("UPDATE customers_info SET customers_info_date_account_last_modified = NOW() WHERE customers_info_id = " . (int)$customer_details['id']);
 
-          $OSCOM_Hooks->call('customers', 'afterUpdate');
+          $OSCOM_Hooks->call('customers', 'updateAction');
 
           tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $customer_details['id']));
         }
@@ -65,7 +65,7 @@
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM whos_online WHERE customer_id = " . (int)$customers_id);
 
-        $OSCOM_Hooks->call('customers', 'afterDelete');
+        $OSCOM_Hooks->call('customers', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action'])));
         break;
@@ -141,7 +141,7 @@ EOSQL
 
     chdir($cwd);
     
-    echo $OSCOM_Hooks->call('customers', 'injectForm');
+    echo $OSCOM_Hooks->call('customers', 'editForm');
 
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>

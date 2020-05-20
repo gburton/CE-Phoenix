@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('countries', 'countriesPreAction');
+  $OSCOM_Hooks->call('countries', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -26,7 +26,7 @@
 
         tep_db_query("insert into countries (countries_name, countries_iso_code_2, countries_iso_code_3, address_format_id) values ('" . tep_db_input($countries_name) . "', '" . tep_db_input($countries_iso_code_2) . "', '" . tep_db_input($countries_iso_code_3) . "', '" . (int)$address_format_id . "')");
         
-        $OSCOM_Hooks->call('countries', 'countriesActionInsert');
+        $OSCOM_Hooks->call('countries', 'insertAction');
 
         tep_redirect(tep_href_link('countries.php'));
         break;
@@ -39,7 +39,7 @@
 
         tep_db_query("update countries set countries_name = '" . tep_db_input($countries_name) . "', countries_iso_code_2 = '" . tep_db_input($countries_iso_code_2) . "', countries_iso_code_3 = '" . tep_db_input($countries_iso_code_3) . "', address_format_id = '" . (int)$address_format_id . "' where countries_id = '" . (int)$countries_id . "'");
         
-        $OSCOM_Hooks->call('countries', 'countriesActionSave');
+        $OSCOM_Hooks->call('countries', 'saveAction');
 
         tep_redirect(tep_href_link('countries.php', 'page=' . (int)$_GET['page'] . '&cID=' . $countries_id));
         break;
@@ -48,14 +48,14 @@
 
         tep_db_query("delete from countries where countries_id = '" . (int)$countries_id . "'");
         
-        $OSCOM_Hooks->call('countries', 'countriesActionDelete');
+        $OSCOM_Hooks->call('countries', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('countries.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
   
-  $OSCOM_Hooks->call('countries', 'countriesPostAction');
+  $OSCOM_Hooks->call('countries', 'postAction');
 
   require('includes/template_top.php');
 ?>

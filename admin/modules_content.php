@@ -110,7 +110,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('modules_content', 'saveModuleConfiguration');
+        $OSCOM_Hooks->call('modules_content', 'saveAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
 
@@ -133,7 +133,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('modules_content', 'installModule');
+        $OSCOM_Hooks->call('modules_content', 'installAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'action=list_new&module=' . $class));
 
@@ -160,7 +160,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('modules_content', 'removeModule');
+        $OSCOM_Hooks->call('modules_content', 'removeAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
 

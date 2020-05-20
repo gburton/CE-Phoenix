@@ -53,6 +53,8 @@
   }
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('action_recorder', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -73,6 +75,8 @@
             }
           }
         }
+        
+        $OSCOM_Hooks->call('action_recorder', 'expireAction');
 
         $messageStack->add_session(sprintf(SUCCESS_EXPIRED_ENTRIES, $expired_entries), 'success');
 
@@ -81,6 +85,8 @@
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('action_recorder', 'postAction');
 
   require('includes/template_top.php');
 ?>

@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('tax_rates', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -24,6 +26,8 @@
         $tax_priority = tep_db_prepare_input($_POST['tax_priority']);
 
         tep_db_query("insert into tax_rates (tax_zone_id, tax_class_id, tax_rate, tax_description, tax_priority, date_added) values ('" . (int)$tax_zone_id . "', '" . (int)$tax_class_id . "', '" . tep_db_input($tax_rate) . "', '" . tep_db_input($tax_description) . "', '" . tep_db_input($tax_priority) . "', now())");
+        
+        $OSCOM_Hooks->call('tax_rates', 'insertAction');
 
         tep_redirect(tep_href_link('tax_rates.php'));
         break;
@@ -36,6 +40,8 @@
         $tax_priority = tep_db_prepare_input($_POST['tax_priority']);
 
         tep_db_query("update tax_rates set tax_rates_id = '" . (int)$tax_rates_id . "', tax_zone_id = '" . (int)$tax_zone_id . "', tax_class_id = '" . (int)$tax_class_id . "', tax_rate = '" . tep_db_input($tax_rate) . "', tax_description = '" . tep_db_input($tax_description) . "', tax_priority = '" . tep_db_input($tax_priority) . "', last_modified = now() where tax_rates_id = '" . (int)$tax_rates_id . "'");
+        
+        $OSCOM_Hooks->call('tax_rates', 'saveAction');
 
         tep_redirect(tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tax_rates_id));
         break;
@@ -43,11 +49,15 @@
         $tax_rates_id = tep_db_prepare_input($_GET['tID']);
 
         tep_db_query("delete from tax_rates where tax_rates_id = '" . (int)$tax_rates_id . "'");
+        
+        $OSCOM_Hooks->call('tax_rates', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('tax_rates', 'postAction');
 
   require('includes/template_top.php');
 ?>
