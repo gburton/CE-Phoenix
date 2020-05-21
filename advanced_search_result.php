@@ -209,6 +209,8 @@
     if ($pfrom > 0) $where_str .= " AND (IF(s.status, s.specials_new_products_price, p.products_price) >= " . (double)$pfrom . ")";
     if ($pto > 0) $where_str .= " AND (IF(s.status, s.specials_new_products_price, p.products_price) <= " . (double)$pto . ")";
   }
+  
+  $listing_sql .= $OSCOM_Hooks->call('filter', 'injectSQL');
 
   if ( (DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null($pto)) ) {
     $where_str .= " GROUP BY p.products_id, tr.tax_priority";
