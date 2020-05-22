@@ -143,7 +143,7 @@ function update_zone(theForm) {
   if ($action == 'list') {
     ?>
     <div class="row no-gutters">
-      <div class="col">
+      <div class="col-12 col-sm-8">
         <div class="table-responsive">
           <table class="table table-striped table-hover">
             <thead class="thead-dark">
@@ -200,7 +200,7 @@ function update_zone(theForm) {
     } else {
       ?>
       <div class="row no-gutters">
-        <div class="col">
+        <div class="col-12 col-sm-8">
           <div class="table-responsive">
             <table class="table table-striped table-hover">
               <thead class="thead-dark">
@@ -336,7 +336,7 @@ function update_zone(theForm) {
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

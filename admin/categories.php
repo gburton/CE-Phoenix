@@ -898,7 +898,7 @@ function updateNet() {
   </div>
 
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -1024,10 +1024,8 @@ function updateNet() {
     $heading = [];
     $contents = [];
 
-    $col = 3;
     switch ($action) {
       case 'new_category':
-        $col = 6;
         $heading[] = ['text' => TEXT_INFO_HEADING_NEW_CATEGORY];
 
         $contents = ['form' => tep_draw_form('newcategory', 'categories.php', 'action=insert_category&cPath=' . $cPath, 'post', 'enctype="multipart/form-data"')];
@@ -1079,7 +1077,6 @@ function updateNet() {
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath), null, null, 'btn-light')];
         break;
       case 'edit_category':
-        $col = 6;
         $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_CATEGORY];
 
         $contents = ['form' => tep_draw_form('categories', 'categories.php', 'action=update_category&cPath=' . $cPath, 'post', 'enctype="multipart/form-data"') . tep_draw_hidden_field('categories_id', $cInfo->categories_id)];
@@ -1233,7 +1230,7 @@ function updateNet() {
     }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-' . $col . '">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';
