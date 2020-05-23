@@ -22,16 +22,19 @@
 
   $action = ($_GET['action'] ?? '');
 
+  $page_fields = $customer_data->get_fields_for_page('customers');
   $OSCOM_Hooks->call('customers', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
       case 'update':
         $_SESSION['customer_id'] = (int)tep_db_prepare_input($_GET['cID']);
-        $customer_details = $customer_data->process();
+        $customer_details = $customer_data->process($page_fields);
         unset($_SESSION['customer_id']);
 
-        if (!empty($customer_details)) {
+        $OSCOM_Hooks->call('customers', 'injectFormVerify');
+
+        if (tep_form_process_is_valid()) {
           $customer_details['id'] = (int)tep_db_prepare_input($_GET['cID']);
           if (empty($customer_details['password'])) {
             unset($customer_details['password']);
@@ -135,13 +138,16 @@ EOSQL
 
       <?php
       foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
-        $module->display_input($customer_details);
+        if (count(array_intersect(get_class($module)::PROVIDES, $page_fields)) > 0) {
+          $module->display_input($customer_details);
+        }
       }
     }
 
     chdir($cwd);
-    
+
     echo $OSCOM_Hooks->call('customers', 'editForm');
+    echo $OSCOM_Hooks->call('customers', 'injectFormDisplay');
 
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>
