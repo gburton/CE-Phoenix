@@ -87,11 +87,7 @@
   echo $OSCOM_Hooks->call('packingslip', 'extraComments');
   ?>
   
-    </div>
-  </div>  
-</div>
-
-</body>
-</html>
-
-<?php require 'includes/application_bottom.php'; ?>
+<?php
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
+?>

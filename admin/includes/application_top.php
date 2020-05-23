@@ -38,10 +38,6 @@
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
   
-// printable pages
-// these are pages which need the header and sidecolumn removed
-  $printable_pages = ['invoice.php', 'packingslip.php'];
-
   $OSCOM_Hooks = new hooks('admin');
   $OSCOM_Hooks->register('system');
   $OSCOM_Hooks->generate('system', 'startApplication');

@@ -112,8 +112,13 @@
         $GLOBALS['messageStack']->add_classed($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
 
         return false;
-      } elseif (!isset($_SESSION['customer_id']) && !isset($customer_details['id'])) {
-        $check_email_query = tep_db_query("SELECT COUNT(*) AS total FROM customers WHERE customers_email_address = '" . tep_db_input($customer_details['email_address']) . "'");
+      } else {
+        $check_email_sql = "SELECT COUNT(*) AS total FROM customers WHERE customers_email_address = '" . tep_db_input($customer_details['email_address']) . "'";
+        if (isset($_SESSION['customer_id']) || isset($customer_details['id'])) {
+          $check_email_sql .= " AND customers_id != " . (int)($_SESSION['customer_id'] ?? $customer_details['id']);
+        }
+
+        $check_email_query = tep_db_query($check_email_sql);
         $check_email = tep_db_fetch_array($check_email_query);
         if ($check_email['total'] > 0) {
           $GLOBALS['messageStack']->add_classed($GLOBALS['message_stack_area'] ?? 'customer_data', ENTRY_EMAIL_ADDRESS_ERROR_EXISTS);

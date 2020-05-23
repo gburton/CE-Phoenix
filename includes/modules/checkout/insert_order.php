@@ -11,7 +11,9 @@
  */
 
   $order =& $GLOBALS['order'];
-  $sql_data = [
+
+  $sql_data = [];
+  $sql_data['orders'] = [
     'customers_id' => $_SESSION['customer_id'],
     'customers_name' => $order->customer['name'],
     'customers_company' => $order->customer['company'],
@@ -49,44 +51,21 @@
     'currency_value' => $order->info['currency_value'],
   ];
 
-  tep_db_perform('orders', $sql_data);
-
-  $GLOBALS['order_id'] = tep_db_insert_id();
-  $order->set_id($GLOBALS['order_id']);
   $order_id =& $GLOBALS['order_id'];
 
+  $sql_data['orders_total'] = [];
   foreach ($GLOBALS['order_totals'] as $order_total) {
-    $sql_data = [
-      'orders_id' => $order->get_id(),
+    $sql_data['orders_total'][] = [
       'title' => $order_total['title'],
       'text' => $order_total['text'],
       'value' => $order_total['value'],
       'class' => $order_total['code'],
       'sort_order' => $order_total['sort_order'],
     ];
-
-    tep_db_perform('orders_total', $sql_data);
   }
 
-  foreach ($order->products as $product) {
-    $sql_data = [
-      'orders_id' => $order->get_id(),
-      'products_id' => tep_get_prid($product['id']),
-      'products_model' => $product['model'],
-      'products_name' => $product['name'],
-      'products_price' => $product['price'],
-      'final_price' => $product['final_price'],
-      'products_tax' => $product['tax'],
-      'products_quantity' => $product['qty']];
-
-    tep_db_perform('orders_products', $sql_data);
-
-    $order_products_id = tep_db_insert_id();
-
-    if (isset($product['attributes'])) {
-      foreach ($product['attributes'] as $attribute) {
-        if (DOWNLOAD_ENABLED == 'true') {
-          $attributes_sql = <<<'EOSQL'
+  if (DOWNLOAD_ENABLED == 'true') {
+    $attributes_sql = <<<'EOSQL'
 SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix,
        pad.products_attributes_maxdays, pad.products_attributes_maxcount , pad.products_attributes_filename
   FROM products_options popt
@@ -98,8 +77,8 @@ SELECT popt.products_options_name, poval.products_options_values_name, pa.option
     AND pa.options_values_id = %d
     AND popt.language_id = %d
 EOSQL;
-        } else {
-          $attributes_sql = <<<'EOSQL'
+  } else {
+    $attributes_sql = <<<'EOSQL'
 SELECT popt.products_options_name, poval.products_options_values_name, pa.options_values_price, pa.price_prefix
   FROM products_options popt
     INNER JOIN products_attributes pa ON pa.options_id = popt.products_options_id
@@ -109,32 +88,73 @@ SELECT popt.products_options_name, poval.products_options_values_name, pa.option
     AND pa.options_values_id = %d
     AND popt.language_id = %d
 EOSQL;
-        }
+  }
+
+  $sql_data['orders_products'] = [];
+  $sql_data['orders_products_attributes'] = [];
+  $sql_data['orders_products_download'] = [];
+  foreach ($order->products as $i => $product) {
+    $sql_data['orders_products'][$i] = [
+      'products_id' => tep_get_prid($product['id']),
+      'products_model' => $product['model'],
+      'products_name' => $product['name'],
+      'products_price' => $product['price'],
+      'final_price' => $product['final_price'],
+      'products_tax' => $product['tax'],
+      'products_quantity' => $product['qty'],
+    ];
+
+    $sql_data['orders_products_attributes'][$i] = [];
+    $sql_data['orders_products_download'][$i] = [];
+    if (isset($product['attributes'])) {
+      foreach ($product['attributes'] as $attribute) {
         $attributes_query = tep_db_query(sprintf($attributes_sql, (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$_SESSION['languages_id']));
         $attributes_values = tep_db_fetch_array($attributes_query);
 
-        $sql_data = [
-          'orders_id' => $order->get_id(),
-          'orders_products_id' => $order_products_id,
+        $sql_data['orders_products_attributes'][$i][] = [
           'products_options' => $attributes_values['products_options_name'],
           'products_options_values' => $attributes_values['products_options_values_name'],
           'options_values_price' => $attributes_values['options_values_price'],
           'price_prefix' => $attributes_values['price_prefix'],
         ];
 
-        tep_db_perform('orders_products_attributes', $sql_data);
 
         if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
-          $sql_data = [
-            'orders_id' => $order->get_id(),
-            'orders_products_id' => $order_products_id,
+          $sql_data['orders_products_download'][$i][] = [
             'orders_products_filename' => $attributes_values['products_attributes_filename'],
             'download_maxdays' => $attributes_values['products_attributes_maxdays'],
             'download_count' => $attributes_values['products_attributes_maxcount'],
           ];
-
-          tep_db_perform('orders_products_download', $sql_data);
         }
       }
+    }
+  }
+
+  $GLOBALS['OSCOM_Hooks']->call('siteWide', 'insertOrder', $sql_data);
+
+  tep_db_perform('orders', $sql_data['orders']);
+  $GLOBALS['order_id'] = tep_db_insert_id();
+  $order->set_id($GLOBALS['order_id']);
+
+  foreach ($sql_data['orders_total'] as $order_total) {
+    $order_total['orders_id'] = $order->get_id();
+    tep_db_perform('orders_total', $order_total);
+  }
+
+  foreach ($sql_data['orders_products'] as $i => $product) {
+    $product['orders_id'] = $order->get_id();
+    tep_db_perform('orders_products', $product);
+    $order_products_id = tep_db_insert_id();
+
+    foreach ($sql_data['orders_products_attributes'][$i] as $attribute) {
+      $attribute['orders_id'] = $order->get_id();
+      $attribute['orders_products_id'] = $order_products_id;
+      tep_db_perform('orders_products_attributes', $attribute);
+    }
+
+    foreach ($sql_data['orders_products_download'][$i] as $download) {
+      $download['orders_id'] = $order->get_id();
+      $download['orders_products_id'] = $order_products_id;
+      tep_db_perform('orders_products_download', $download);
     }
   }
