@@ -43,7 +43,6 @@
   </div>
 </div>
 
-<div class="contentContainer">
   <div class="row">
     <div class="col-sm-7">
       <table class="table table-hover table-bordered">
@@ -137,8 +136,6 @@
   <div class="buttonSet my-2">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account_history.php', tep_get_all_get_params(['order_id']), 'SSL'), null, null, 'btn-light'); ?>
   </div>
-
-</div>
 
 <?php
   require 'includes/template_bottom.php';

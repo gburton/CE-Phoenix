@@ -21,11 +21,9 @@
   require('includes/template_top.php');
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $page_content; ?>
   </div>
-</div>
 
 <?php
   require('includes/template_bottom.php');

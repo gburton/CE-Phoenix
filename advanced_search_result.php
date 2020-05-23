@@ -269,8 +269,6 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE_2; ?></h1>
 
-<div class="contentContainer">
-
 <?php
   require 'includes/modules/product_listing.php';
 ?>
@@ -280,7 +278,6 @@
   <div class="buttonSet">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('advanced_search.php', tep_get_all_get_params(['sort', 'page']), 'NONSSL', true, false)); ?>
   </div>
-</div>
 
 <?php
   require 'includes/template_bottom.php';
