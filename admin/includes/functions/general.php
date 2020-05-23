@@ -1454,6 +1454,8 @@ EOSQL
       'account_password',
       'address_book',
       'checkout_new_address',
+      'create_account',
+      'customers',
     ];
 
     $parameters = ['pages' => &$pages];
@@ -1467,4 +1469,11 @@ EOSQL
   function tep_has_product_attributes($products_id) {
     return true;
   }
-  
+
+  function tep_block_form_processing() {
+    $GLOBALS['error'] = true;
+  }
+
+  function tep_form_processing_is_valid() {
+    return !($GLOBALS['error'] ?? false);
+  }
