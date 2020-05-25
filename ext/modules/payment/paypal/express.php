@@ -450,7 +450,7 @@ EOD;
             'entry_gender' => '',
           ]; // v22rc2a compatibility
 
-          if (ACCOUNT_STATE == 'true') {
+          if ($customer_data->has(['state'])) {
             if ($ship_zone_id > 0) {
               $sql_data_array['entry_zone_id'] = $ship_zone_id;
               $sql_data_array['entry_state'] = '';
