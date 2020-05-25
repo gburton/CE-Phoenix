@@ -703,6 +703,7 @@ function updateNet() {
               </div>
             </div>
             <?php
+            echo $OSCOM_Hooks->call('categories', 'injectLanguageForm');
           }
           ?>
         </div>
@@ -755,6 +756,10 @@ function updateNet() {
               ?>
             </div>
           </div>
+          
+          <?php
+          echo $OSCOM_Hooks->call('categories', 'injectImageForm');
+          ?>
 
           <script>
           $('#piList').sortable({ containment: 'parent' });
