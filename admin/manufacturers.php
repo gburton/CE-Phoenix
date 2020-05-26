@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('manufacturers', 'manufacturersPreAction');
+  $OSCOM_Hooks->call('manufacturers', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -73,7 +73,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('manufacturers', 'manufacturersActionSave');
+        $OSCOM_Hooks->call('manufacturers', 'insertsaveAction');
 
         tep_redirect(tep_href_link('manufacturers.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'mID=' . $manufacturers_id));
         break;
@@ -101,14 +101,14 @@
           tep_db_query("update products set manufacturers_id = '' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
         
-        $OSCOM_Hooks->call('manufacturers', 'manufacturersActionDelete');
+        $OSCOM_Hooks->call('manufacturers', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
   
-  $OSCOM_Hooks->call('manufacturers', 'manufacturersPostAction');
+  $OSCOM_Hooks->call('manufacturers', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -130,7 +130,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -179,8 +179,6 @@
   $heading = [];
   $contents = [];
   
-  $col = 6;
-
   switch ($action) {
     case 'new':
       $heading[] = ['text' => TEXT_HEADING_NEW_MANUFACTURER];
@@ -235,7 +233,6 @@
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$mInfo->manufacturers_id), null, null, 'btn-light')];
       break;
     case 'delete':
-      $col = 3;
       $heading[] = ['text' =>  TEXT_HEADING_DELETE_MANUFACTURER];
 
       $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=deleteconfirm')];
@@ -251,7 +248,6 @@
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id), null, null, 'btn-light')];
       break;
     default:
-      $col = 3;
       if (isset($mInfo) && is_object($mInfo)) {
         $heading[] = ['text' => $mInfo->manufacturers_name];
 
@@ -265,7 +261,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-' . $col . '">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

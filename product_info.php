@@ -26,13 +26,9 @@
   if ($product_check['total'] < 1) {
 ?>
 
-<div class="contentContainer">
-
   <div class="row">
     <?php echo $oscTemplate->getContent('product_info_not_found'); ?>
   </div>
-  
-</div>
 
 <?php
   } else {
@@ -51,13 +47,9 @@
   }
 ?>
 
-<div class="contentContainer">
-
   <div class="row is-product">
     <?php echo $oscTemplate->getContent('product_info'); ?>
   </div>
-
-</div>
 
 </form>
 

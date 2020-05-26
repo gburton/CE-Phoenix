@@ -30,8 +30,6 @@
   }
 ?>
 
-<div class="contentContainer">
-
   <h4><?php echo PRIMARY_ADDRESS_TITLE; ?></h4>
 
   <div class="row">
@@ -85,8 +83,6 @@
     ?>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
-
-</div>
 
 <?php
   require 'includes/template_bottom.php';

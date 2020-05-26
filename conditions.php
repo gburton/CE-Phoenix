@@ -21,13 +21,11 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
-<div class="contentContainer">
   <?php echo TEXT_INFORMATION; ?>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), null, null, 'btn-light btn-block btn-lg'); ?></div>
   </div>
-</div>
 
 <?php
   require('includes/template_bottom.php');

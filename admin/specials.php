@@ -17,12 +17,14 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('specials', 'specialsPreAction');
+  $OSCOM_Hooks->call('specials', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
+        
+        $OSCOM_Hooks->call('specials', 'setflagAction');
 
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;
@@ -47,7 +49,7 @@
 
         tep_db_query("insert into specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) values ('" . (int)$products_id . "', '" . tep_db_input($specials_price) . "', now(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", '1')");
         
-        $OSCOM_Hooks->call('specials', 'specialsActionInsert');
+        $OSCOM_Hooks->call('specials', 'insertAction');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
         break;
@@ -66,7 +68,7 @@
 
         tep_db_query("update specials set specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = now(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . " where specials_id = '" . (int)$specials_id . "'");
         
-        $OSCOM_Hooks->call('specials', 'specialsActionUpdate');
+        $OSCOM_Hooks->call('specials', 'updateAction');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . $specials_id));
         break;
@@ -75,14 +77,14 @@
 
         tep_db_query("delete from specials where specials_id = '" . (int)$specials_id . "'");
         
-        $OSCOM_Hooks->call('specials', 'specialsActionDelete');
+        $OSCOM_Hooks->call('specials', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
   
-  $OSCOM_Hooks->call('specials', 'specialsPostAction');
+  $OSCOM_Hooks->call('specials', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -159,7 +161,9 @@
       <?php echo TEXT_SPECIALS_PRICE_TIP; ?>
     </div>
     
-    <?php 
+    <?php
+    echo $OSCOM_Hooks->call('specials', 'formNew');
+    
     echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
     ?>
 
@@ -172,7 +176,7 @@
 ?>
 
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -254,7 +258,7 @@
       break;
   }
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

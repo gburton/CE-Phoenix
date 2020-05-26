@@ -45,7 +45,7 @@
         ],
         static::CONFIG_KEY_BASE . 'PAGES' => [
           'title' => 'Pages',
-          'value' => 'account_edit',
+          'value' => 'account_edit;create_account;customers',
           'desc' => 'On what pages should this appear?',
           'set_func' => 'tep_draw_account_edit_pages(',
           'use_func' => 'abstract_module::list_exploded',

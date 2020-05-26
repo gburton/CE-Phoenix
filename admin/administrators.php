@@ -45,6 +45,8 @@
   }
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('administrators', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -93,6 +95,8 @@
         } else {
           $messageStack->add_session(ERROR_ADMINISTRATOR_EXISTS, 'error');
         }
+        
+        $OSCOM_Hooks->call('administrators', 'insertAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;
@@ -172,6 +176,8 @@
           fwrite($fp, implode("\n", $htaccess_array));
           fclose($fp);
         }
+        
+        $OSCOM_Hooks->call('administrators', 'saveAction');
 
         tep_redirect(tep_href_link('administrators.php', 'aID=' . (int)$_GET['aID']));
         break;
@@ -212,11 +218,15 @@
             fclose($fp);
           }
         }
+        
+        $OSCOM_Hooks->call('administrators', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('administrators', 'postAction');
 
   $secMessageStack = new messageStack();
 
@@ -249,7 +259,7 @@
   </div>
 
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -369,7 +379,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

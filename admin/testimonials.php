@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('testimonials', 'testimonialsPreAction');
+  $OSCOM_Hooks->call('testimonials', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -25,7 +25,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('testimonials', 'testimonialsActionSetFlag');
+        $OSCOM_Hooks->call('testimonials', 'setflagAction');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $_GET['tID']));
         break;
@@ -39,7 +39,7 @@
         tep_db_query("update testimonials set customers_id = '" . (int)$customers_id . "', customers_name  = '" . tep_db_input($customers_name) . "', testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("update testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
 
-        $OSCOM_Hooks->call('testimonials', 'testimonialsActionUpdate');
+        $OSCOM_Hooks->call('testimonials', 'updateAction');
         
         tep_redirect(tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $testimonials_id));
         break;
@@ -49,7 +49,7 @@
         tep_db_query("delete from testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("delete from testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
         
-        $OSCOM_Hooks->call('testimonials', 'testimonialsActionDelete');
+        $OSCOM_Hooks->call('testimonials', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . (int)$_GET['page']));
         break;
@@ -63,14 +63,14 @@
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
         
-        $OSCOM_Hooks->call('testimonials', 'testimonialsActionSave');
+        $OSCOM_Hooks->call('testimonials', 'addnewAction');
 
         tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params(array('action'))));
         break;
     }
   }
   
-  $OSCOM_Hooks->call('testimonials', 'testimonialsPostAction');
+  $OSCOM_Hooks->call('testimonials', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -144,7 +144,7 @@
         </div>
         
         <?php
-        echo $OSCOM_Hooks->call('testimonials', 'testimonialsFormEdit');
+        echo $OSCOM_Hooks->call('testimonials', 'formEdit');
 
         echo tep_draw_hidden_field('testimonials_id', $tInfo->testimonials_id);
         echo tep_draw_hidden_field('customers_name', $tInfo->customers_name);
@@ -183,7 +183,7 @@
         </div>
         
         <?php
-        echo $OSCOM_Hooks->call('testimonials', 'testimonialsFormNew');
+        echo $OSCOM_Hooks->call('testimonials', 'formNew');
         
         echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-pen', null, 'primary', null, 'btn-success btn-block btn-lg'); 
         ?>
@@ -194,7 +194,7 @@
 ?>
       
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -278,7 +278,7 @@
     }
 
     if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-      echo '<div class="col-12 col-sm-3">';
+      echo '<div class="col-12 col-sm-4">';
         $box = new box;
         echo $box->infoBox($heading, $contents);
       echo '</div>';

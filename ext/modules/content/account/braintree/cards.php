@@ -62,7 +62,6 @@
   }
 ?>
 
-<div class="contentContainer">
   <?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_TEXT_DESCRIPTION; ?>
 
   <h4><?php echo MODULE_CONTENT_ACCOUNT_BRAINTREE_CARDS_SAVED_CARDS_TITLE; ?></h4>
@@ -99,7 +98,6 @@
   <div class="buttonSet">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'triangle-1-w', tep_href_link('account.php', '', 'SSL')); ?>
   </div>
-</div>
 
 <?php
   require 'includes/template_bottom.php';

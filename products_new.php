@@ -42,6 +42,8 @@
   }
 
   $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join manufacturers m on p.manufacturers_id = m.manufacturers_id left join specials s on p.products_id = s.products_id where p.products_status = '1' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'";
+  
+  $listing_sql .= $OSCOM_Hooks->call('filter', 'injectSQL');
 
   if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-8][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > sizeof($column_list)) ) {
     for ($i=0, $n=sizeof($column_list); $i<$n; $i++) {

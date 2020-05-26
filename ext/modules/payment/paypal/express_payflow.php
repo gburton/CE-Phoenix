@@ -195,15 +195,17 @@ EOD;
         if ($check = tep_db_fetch_array($check_query)) {
           $_SESSION['sendto'] = $check['address_book_id'];
         } else {
-          $customer_details = ['customers_id' => $_SESSION['customer_id'],
-                                  'entry_firstname' => $ship_firstname,
-                                  'entry_lastname' => $ship_lastname,
-                                  'entry_street_address' => $ship_address,
-                                  'entry_postcode' => $ship_postcode,
-                                  'entry_city' => $ship_city,
-                                  'entry_country_id' => $ship_country_id];
+          $customer_details = [
+            'customers_id' => $_SESSION['customer_id'],
+            'entry_firstname' => $ship_firstname,
+            'entry_lastname' => $ship_lastname,
+            'entry_street_address' => $ship_address,
+            'entry_postcode' => $ship_postcode,
+            'entry_city' => $ship_city,
+            'entry_country_id' => $ship_country_id,
+          ];
 
-          if (ACCOUNT_STATE == 'true') {
+          if ($customer_data->has(['state'])) {
             if ($ship_zone_id > 0) {
               $customer_details['entry_zone_id'] = $ship_zone_id;
               $customer_details['entry_state'] = '';

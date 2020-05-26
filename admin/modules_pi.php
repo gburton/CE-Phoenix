@@ -75,6 +75,8 @@
   }
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('modules_pi', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -93,6 +95,8 @@
             break;
           }
         }
+        
+        $OSCOM_Hooks->call('modules_pi', 'saveAction');
 
         tep_redirect(tep_href_link('modules_pi.php', 'module=' . $class));
 
@@ -115,6 +119,8 @@
             tep_redirect(tep_href_link('modules_pi.php', 'module=' . $class . '&action=edit'));
           }
         }
+        
+        $OSCOM_Hooks->call('modules_pi', 'installAction');
 
         tep_redirect(tep_href_link('modules_pi.php', 'action=list_new&module=' . $class));
 
@@ -141,12 +147,16 @@
             tep_redirect(tep_href_link('modules_pi.php'));
           }
         }
+        
+        $OSCOM_Hooks->call('modules_pi', 'removeAction');
 
         tep_redirect(tep_href_link('modules_pi.php', 'module=' . $class));
 
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('modules_pi', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -165,7 +175,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -367,7 +377,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

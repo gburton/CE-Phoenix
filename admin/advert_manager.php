@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
 
-  $OSCOM_Hooks->call('advert_manager', 'advertPreAction');
+  $OSCOM_Hooks->call('advert_manager', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -33,7 +33,7 @@
         tep_db_perform('advert', $sql_data_array);
       }
 
-      $OSCOM_Hooks->call('advert_manager', 'advertActionImport');
+      $OSCOM_Hooks->call('advert_manager', 'importAction');
 
       $messageStack->add_session(SUCCESS_BANNERS_IMPORTED, 'success');
 
@@ -47,7 +47,7 @@
           $messageStack->add_session(SUCCESS_ADVERT_STATUS_UPDATED, 'success');
         }
 
-        $OSCOM_Hooks->call('advert_manager', 'advertActionSetflag');
+        $OSCOM_Hooks->call('advert_manager', 'setflagAction');
 
         tep_redirect(tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']));
         break;
@@ -108,6 +108,8 @@
             $insert_sql_data = ['date_added' => 'now()', 'status' => '1'];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
+            
+            $OSCOM_Hooks->call('advert_manager', 'insertAction');
 
             tep_db_perform('advert', $sql_data_array);
 
@@ -115,12 +117,14 @@
 
             $messageStack->add_session(SUCCESS_IMAGE_INSERTED, 'success');
           } elseif ($action == 'update') {
+            $OSCOM_Hooks->call('advert_manager', 'updateAction');
+            
             tep_db_perform('advert', $sql_data_array, 'update', "advert_id = '" . (int)$advert_id . "'");
 
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
           }
 
-          $OSCOM_Hooks->call('advert_manager', 'advertActionSave');
+          $OSCOM_Hooks->call('advert_manager', 'insertupdateAction');
 
           tep_redirect(tep_href_link('advert_manager.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'cID=' . $advert_id));
         } else {
@@ -147,7 +151,7 @@
 
         tep_db_query("delete from advert where advert_id = '" . (int)$advert_id . "'");
 
-        $OSCOM_Hooks->call('advert_manager', 'advertActionDelete');
+        $OSCOM_Hooks->call('advert_manager', 'deleteconfirmAction');
 
         $messageStack->add_session(SUCCESS_IMAGE_REMOVED, 'success');
 
@@ -156,7 +160,7 @@
     }
   }
 
-  $OSCOM_Hooks->call('advert_manager', 'advertPostAction');
+  $OSCOM_Hooks->call('advert_manager', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -289,7 +293,12 @@
       </div>
 
       <?php
-      echo $OSCOM_Hooks->call('advert_manager', 'advertForm');
+      if ($form_action == 'update') {
+        echo $OSCOM_Hooks->call('advert_manager', 'editForm');
+      }
+      else {
+        echo $OSCOM_Hooks->call('advert_manager', 'newForm');
+      }
       ?>
 
       <div class="buttonSet">
@@ -304,7 +313,7 @@
 ?>
 
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -406,7 +415,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-     echo '<div class="col-12 col-sm-3">';
+     echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

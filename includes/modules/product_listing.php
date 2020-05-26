@@ -143,6 +143,8 @@
     if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_XL == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
     $item++;
   }
+  
+  echo $OSCOM_Hooks->call('filter', 'drawForm');
 
   echo '<div class="' . IS_PRODUCT_PRODUCTS_LAYOUT . '">' . PHP_EOL;
     echo $prod_list_contents;

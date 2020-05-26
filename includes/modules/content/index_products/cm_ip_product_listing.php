@@ -19,7 +19,7 @@
     }
 
     function execute() {
-      global $category, $cPath_array, $cPath, $current_category_id, $messageStack, $currencies, $PHP_SELF;
+      global $category, $cPath_array, $cPath, $current_category_id, $messageStack, $currencies, $PHP_SELF, $OSCOM_Hooks;
 
 // create column list
       $define_list = [
@@ -61,6 +61,8 @@
           $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join manufacturers m on p.manufacturers_id = m.manufacturers_id left join specials s on p.products_id = s.products_id, products_to_categories p2c where p.products_status = '1' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p2c.categories_id = '" . (int)$current_category_id . "'";
         }
       }
+      
+      $listing_sql .= $OSCOM_Hooks->call('filter', 'injectSQL');
 
       if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-9][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
         for ($i=0, $n=count($column_list); $i<$n; $i++) {

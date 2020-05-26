@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('tax_classes', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -21,6 +23,8 @@
         $tax_class_description = tep_db_prepare_input($_POST['tax_class_description']);
 
         tep_db_query("insert into tax_class (tax_class_title, tax_class_description, date_added) values ('" . tep_db_input($tax_class_title) . "', '" . tep_db_input($tax_class_description) . "', now())");
+        
+        $OSCOM_Hooks->call('tax_classes', 'insertAction');
 
         tep_redirect(tep_href_link('tax_classes.php'));
         break;
@@ -30,6 +34,8 @@
         $tax_class_description = tep_db_prepare_input($_POST['tax_class_description']);
 
         tep_db_query("update tax_class set tax_class_id = '" . (int)$tax_class_id . "', tax_class_title = '" . tep_db_input($tax_class_title) . "', tax_class_description = '" . tep_db_input($tax_class_description) . "', last_modified = now() where tax_class_id = '" . (int)$tax_class_id . "'");
+        
+        $OSCOM_Hooks->call('tax_classes', 'saveAction');
 
         tep_redirect(tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tax_class_id));
         break;
@@ -37,11 +43,15 @@
         $tax_class_id = tep_db_prepare_input($_GET['tID']);
 
         tep_db_query("delete from tax_class where tax_class_id = '" . (int)$tax_class_id . "'");
+        
+        $OSCOM_Hooks->call('tax_classes', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('tax_classes', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -63,7 +73,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -147,7 +157,7 @@
       break;
   }
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';
