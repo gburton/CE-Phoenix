@@ -34,7 +34,7 @@
 
         $OSCOM_Hooks->call('customers', 'injectFormVerify');
 
-        if (tep_form_process_is_valid()) {
+        if (tep_form_processing_is_valid()) {
           $customer_details['id'] = (int)tep_db_prepare_input($_GET['cID']);
           if (empty($customer_details['password'])) {
             unset($customer_details['password']);
