@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('zones', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -22,6 +24,8 @@
         $zone_name = tep_db_prepare_input($_POST['zone_name']);
 
         tep_db_query("insert into zones (zone_country_id, zone_code, zone_name) values ('" . (int)$zone_country_id . "', '" . tep_db_input($zone_code) . "', '" . tep_db_input($zone_name) . "')");
+        
+        $OSCOM_Hooks->call('zones', 'insertAction');
 
         tep_redirect(tep_href_link('zones.php'));
         break;
@@ -32,6 +36,8 @@
         $zone_name = tep_db_prepare_input($_POST['zone_name']);
 
         tep_db_query("update zones set zone_country_id = '" . (int)$zone_country_id . "', zone_code = '" . tep_db_input($zone_code) . "', zone_name = '" . tep_db_input($zone_name) . "' where zone_id = '" . (int)$zone_id . "'");
+        
+        $OSCOM_Hooks->call('zones', 'saveAction');
 
         tep_redirect(tep_href_link('zones.php', 'page=' . (int)$_GET['page'] . '&cID=' . $zone_id));
         break;
@@ -39,11 +45,15 @@
         $zone_id = tep_db_prepare_input($_GET['cID']);
 
         tep_db_query("delete from zones where zone_id = '" . (int)$zone_id . "'");
+        
+        $OSCOM_Hooks->call('zones', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('zones.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('zones', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -63,7 +73,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -153,7 +163,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

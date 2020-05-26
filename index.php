@@ -41,22 +41,18 @@
     }
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $oscTemplate->getContent('index_nested'); ?>
   </div>
-</div>
 
 <?php
   } elseif ($category_depth == 'products' || (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id']))) {
 
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $oscTemplate->getContent('index_products'); ?>
   </div>
-</div>
 
 <?php
   } else { // default page

@@ -209,6 +209,8 @@
     if ($pfrom > 0) $where_str .= " AND (IF(s.status, s.specials_new_products_price, p.products_price) >= " . (double)$pfrom . ")";
     if ($pto > 0) $where_str .= " AND (IF(s.status, s.specials_new_products_price, p.products_price) <= " . (double)$pto . ")";
   }
+  
+  $listing_sql .= $OSCOM_Hooks->call('filter', 'injectSQL');
 
   if ( (DISPLAY_PRICE_WITH_TAX == 'true') && (tep_not_null($pfrom) || tep_not_null($pto)) ) {
     $where_str .= " GROUP BY p.products_id, tr.tax_priority";
@@ -267,8 +269,6 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE_2; ?></h1>
 
-<div class="contentContainer">
-
 <?php
   require 'includes/modules/product_listing.php';
 ?>
@@ -278,7 +278,6 @@
   <div class="buttonSet">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('advanced_search.php', tep_get_all_get_params(['sort', 'page']), 'NONSSL', true, false)); ?>
   </div>
-</div>
 
 <?php
   require 'includes/template_bottom.php';

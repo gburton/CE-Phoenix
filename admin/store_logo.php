@@ -13,6 +13,8 @@
   require 'includes/application_top.php';
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('store_logo', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -27,6 +29,9 @@
           if ($store_logo->save()) {
             $messageStack->add_session(SUCCESS_LOGO_UPDATED, 'success');
             tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($store_logo->filename) . "' WHERE configuration_value = '" . STORE_LOGO . "'");
+            
+            $OSCOM_Hooks->call('store_logo', 'saveAction');
+            
           } else {
             $error = true;
           }
@@ -40,6 +45,8 @@
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('store_logo', 'postAction');
 
   if (!tep_is_writable(DIR_FS_CATALOG_IMAGES)) {
     $messageStack->add(sprintf(ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE, tep_href_link('sec_dir_permissions.php')), 'error');
@@ -78,7 +85,11 @@
       <label class="custom-file-label" for="inputLogo"><?php echo TEXT_LOGO_IMAGE; ?></label>
     </div>
     
-    <?php echo tep_draw_bootstrap_button(IMAGE_UPLOAD, 'fas fa-file-upload', null, 'primary', null, 'btn-danger btn-block'); ?>    
+    <?php 
+    echo $OSCOM_Hooks->call('store_logo', 'editForm');
+    
+    echo tep_draw_bootstrap_button(IMAGE_UPLOAD, 'fas fa-file-upload', null, 'primary', null, 'btn-danger btn-block'); 
+    ?>    
 
   </form>
 

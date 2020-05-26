@@ -46,19 +46,19 @@
           tep_db_perform('currencies', $sql_data_array);
           $currency_id = tep_db_insert_id();
           
-          $OSCOM_Hooks->call('currencies', 'insert');
+          $OSCOM_Hooks->call('currencies', 'insertAction');
           
         } elseif ($action == 'save') {
           tep_db_perform('currencies', $sql_data_array, 'update', "currencies_id = '" . (int)$currency_id . "'");
           
-          $OSCOM_Hooks->call('currencies', 'save');
+          $OSCOM_Hooks->call('currencies', 'saveAction');
         }
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
           tep_db_query("update configuration set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
         }
         
-        $OSCOM_Hooks->call('currencies', 'saveinsert');        
+        $OSCOM_Hooks->call('currencies', 'insertsaveAction');        
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $currency_id));
         break;
@@ -74,7 +74,7 @@
 
         tep_db_query("delete from currencies where currencies_id = '" . (int)$currencies_id . "'");
         
-        $OSCOM_Hooks->call('currencies', 'deleteconfirm');
+        $OSCOM_Hooks->call('currencies', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page']));
         break;
@@ -86,7 +86,7 @@
  
         call_user_func([$converter, 'execute']);
         
-        $OSCOM_Hooks->call('currencies', 'update');
+        $OSCOM_Hooks->call('currencies', 'updateAction');
 
         tep_redirect(tep_href_link('currencies.php'));
         break;
@@ -102,7 +102,7 @@
           $messageStack->add(ERROR_REMOVE_DEFAULT_CURRENCY, 'error');
         }
         
-        $OSCOM_Hooks->call('currencies', 'delete');
+        $OSCOM_Hooks->call('currencies', 'deleteAction');
         break;
     }
   }
@@ -183,7 +183,7 @@ function updateForm() {
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -312,7 +312,7 @@ function updateForm() {
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

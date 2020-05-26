@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('configuration', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -22,10 +24,14 @@
 
         tep_db_query("update configuration set configuration_value = '" . tep_db_input($configuration_value) . "', last_modified = now() where configuration_id = '" . (int)$cID . "'");
 
+        $OSCOM_Hooks->call('configuration', 'saveAction');
+        
         tep_redirect(tep_href_link('configuration.php', 'gID=' . $_GET['gID'] . '&cID=' . $cID));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('configuration', 'postAction');
 
   $gID = (isset($_GET['gID'])) ? $_GET['gID'] : 1;
 
@@ -38,7 +44,7 @@
   <h1 class="display-4 mb-2"><?php echo $cfg_group['configuration_group_title']; ?></h1>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -127,7 +133,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

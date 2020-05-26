@@ -63,7 +63,7 @@
           $order_updated = true;
         }
         
-        $OSCOM_Hooks->call('orders', 'updateAction');
+        $OSCOM_Hooks->call('orders', 'updateorderAction');
 
         if ($order_updated == true) {
          $messageStack->add_session(SUCCESS_ORDER_UPDATED, 'success');
@@ -78,7 +78,7 @@
 
         tep_remove_order($oID, $_POST['restock']);
 
-        $OSCOM_Hooks->call('orders', 'deleteAction');
+        $OSCOM_Hooks->call('orders', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action'])));
         break;
@@ -247,7 +247,7 @@
           </div>
           
           <?php
-          echo $OSCOM_Hooks->call('orders', 'injectForm');
+          echo $OSCOM_Hooks->call('orders', 'sectionstatushistorycontentForm');
           ?>
           
           <p><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></p>
@@ -327,7 +327,7 @@
   </div>
 
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -415,7 +415,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

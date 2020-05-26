@@ -14,14 +14,14 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('reviews', 'reviewPreAction');
+  $OSCOM_Hooks->call('reviews', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE reviews SET reviews_status = '" . $_GET['flag'] . "', last_modified = NOW() WHERE reviews_id = " . (int)$_GET['rID']);
         
-        $OSCOM_Hooks->call('reviews', 'reviewActionStatus');
+        $OSCOM_Hooks->call('reviews', 'setflagAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']));
         break;
@@ -34,7 +34,7 @@
         tep_db_query("update reviews set reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("update reviews_description set reviews_text = '" . tep_db_input($reviews_text) . "' where reviews_id = '" . (int)$reviews_id . "'");
         
-        $OSCOM_Hooks->call('reviews', 'reviewActionUpdate');
+        $OSCOM_Hooks->call('reviews', 'updateAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $reviews_id));
         break;
@@ -44,7 +44,7 @@
         tep_db_query("delete from reviews where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("delete from reviews_description where reviews_id = '" . (int)$reviews_id . "'");
         
-        $OSCOM_Hooks->call('reviews', 'reviewActionDelete');
+        $OSCOM_Hooks->call('reviews', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page']));
         break;
@@ -58,14 +58,14 @@
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
         
-        $OSCOM_Hooks->call('reviews', 'reviewActionSave');
+        $OSCOM_Hooks->call('reviews', 'addnewAction');
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(['action'])));
         break;   
     }
   }
   
-  $OSCOM_Hooks->call('reviews', 'reviewPostAction');
+  $OSCOM_Hooks->call('reviews', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -171,8 +171,12 @@
     </div>
 
     <?php
-    echo $OSCOM_Hooks->call('reviews', 'reviewFormEdit');
-    echo $OSCOM_Hooks->call('reviews', 'reviewFormNew');
+    if ($action != 'new') {
+      echo $OSCOM_Hooks->call('reviews', 'formEdit');
+    }
+    else {
+      echo $OSCOM_Hooks->call('reviews', 'formNew');
+    }
     ?>
  
     <div class="text-right">
@@ -238,7 +242,7 @@
     </div>
 
 <?php
-    echo $OSCOM_Hooks->call('reviews', 'reviewFormPreview');
+    echo $OSCOM_Hooks->call('reviews', 'formPreview');
     
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
@@ -268,7 +272,7 @@
   } else {
 ?>
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -360,7 +364,7 @@
     }
 
     if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-      echo '<div class="col-12 col-sm-3">';
+      echo '<div class="col-12 col-sm-4">';
         $box = new box;
         echo $box->infoBox($heading, $contents);
       echo '</div>';

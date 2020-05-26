@@ -15,9 +15,9 @@
 
   $action = $_GET['action'] ?? '';
 
-  $option_page = (isset($_GET['option_page']) && is_numeric($_GET['option_page'])) ? $_GET['option_page'] : 1;
-  $value_page = (isset($_GET['value_page']) && is_numeric($_GET['value_page'])) ? $_GET['value_page'] : 1;
-  $attribute_page = (isset($_GET['attribute_page']) && is_numeric($_GET['attribute_page'])) ? $_GET['attribute_page'] : 1;
+  $option_page = $_GET['option_page'] ?? 1;
+  $value_page = $_GET['value_page'] ?? 1;
+  $attribute_page = $_GET['attribute_page'] ?? 1;
 
   $page_info = 'option_page=' . $option_page . '&value_page=' . $value_page . '&attribute_page=' . $attribute_page;
 
@@ -35,7 +35,7 @@
           tep_db_query("insert into products_options (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'addProductOptionsAction');
+        $OSCOM_Hooks->call('products_attributes', 'addproductoptionsAction');
         
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -52,7 +52,7 @@
 
         tep_db_query("insert into products_options_values_to_products_options (products_options_id, products_options_values_id) values ('" . (int)$option_id . "', '" . (int)$value_id . "')");
         
-        $OSCOM_Hooks->call('products_attributes', 'addProductOptionValuesAction');
+        $OSCOM_Hooks->call('products_attributes', 'addproductoptionvaluesAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -77,7 +77,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'addProductAttributesAction');
+        $OSCOM_Hooks->call('products_attributes', 'addproductattributesAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -91,7 +91,7 @@
           tep_db_query("update products_options set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'updateOptionNameAction');
+        $OSCOM_Hooks->call('products_attributes', 'updateoptionnameAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -108,7 +108,7 @@
 
         tep_db_query("update products_options_values_to_products_options set products_options_id = '" . (int)$option_id . "'  where products_options_values_id = '" . (int)$value_id . "'");
 
-        $OSCOM_Hooks->call('products_attributes', 'updateValueAction');
+        $OSCOM_Hooks->call('products_attributes', 'updatevalueAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -132,7 +132,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'updateProductAttributeAction');
+        $OSCOM_Hooks->call('products_attributes', 'updateproductattributeAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -141,7 +141,7 @@
 
         tep_db_query("delete from products_options where products_options_id = '" . (int)$option_id . "'");
         
-        $OSCOM_Hooks->call('products_attributes', 'deleteOptionAction');
+        $OSCOM_Hooks->call('products_attributes', 'deleteoptionAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -151,7 +151,7 @@
         tep_db_query("delete from products_options_values where products_options_values_id = '" . (int)$value_id . "'");
         tep_db_query("delete from products_options_values_to_products_options where products_options_values_id = '" . (int)$value_id . "'");
         
-        $OSCOM_Hooks->call('products_attributes', 'deleteValueAction');
+        $OSCOM_Hooks->call('products_attributes', 'deletevalueAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -163,7 +163,7 @@
 // added for DOWNLOAD_ENABLED. Always try to remove attributes, even if downloads are no longer enabled
         tep_db_query("delete from products_attributes_download where products_attributes_id = '" . (int)$attribute_id . "'");
 
-        $OSCOM_Hooks->call('products_attributes', 'deleteAttributeAction');
+        $OSCOM_Hooks->call('products_attributes', 'deleteattributeAction');
         
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -502,7 +502,8 @@
   <h1 class="display-4"><?php echo HEADING_TITLE_ATRIB; ?></h1>
   
   <?php
-  $attributes = "select pa.* from products_attributes pa left join products_description pd on pa.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name";
+  $attributes = "select pa.* from products_attributes pa left join products_options po on po.products_options_id = pa.options_id left join products_options_values pov on pov.products_options_values_id = pa.options_values_id left join products_description pd on pa.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name, po.products_options_name, pov.products_options_values_name";
+ 
   $attributes_split = new splitPageResults($attribute_page, MAX_ROW_LISTS_OPTIONS, $attributes, $attributes_query_numrows);
   ?>
   
@@ -515,8 +516,8 @@
           <th><?php echo TABLE_HEADING_PRODUCT; ?></th>
           <th><?php echo TABLE_HEADING_OPT_NAME; ?></th>
           <th><?php echo TABLE_HEADING_OPT_VALUE; ?></th>
-          <th class="text-right"><?php echo TABLE_HEADING_OPT_PRICE; ?></th>
-          <th class="text-center"><?php echo TABLE_HEADING_OPT_PRICE_PREFIX; ?></th>
+          <th class="text-right" style="width: 120px;"><?php echo TABLE_HEADING_OPT_PRICE; ?></th>
+          <th class="text-center" style="width: 120px;"><?php echo TABLE_HEADING_OPT_PRICE_PREFIX; ?></th>
           <th class="text-right" style="width: 120px;"><?php echo TABLE_HEADING_ACTION; ?></th>
         </tr>
       </thead>
@@ -648,6 +649,7 @@
           <tr class="bg-white">
       	    <td>
               <select name="products_id" class="form-control">
+                <option value=""><?php echo PLEASE_SELECT_OPTION; ?></option>
                 <?php
                 $products = tep_db_query("select p.products_id, pd.products_name from products p, products_description pd where pd.products_id = p.products_id and pd.language_id = '" . $languages_id . "' order by pd.products_name");
                 while ($products_values = tep_db_fetch_array($products)) {
@@ -658,6 +660,7 @@
             </td>
             <td>
               <select name="options_id" class="form-control">
+                <option value=""><?php echo PLEASE_SELECT_OPTION; ?></option>
                 <?php
                 $options = tep_db_query("select * from products_options where language_id = '" . $languages_id . "' order by products_options_name");
                 while ($options_values = tep_db_fetch_array($options)) {
@@ -668,15 +671,17 @@
             </td>
             <td>
               <select name="values_id" class="form-control">
-              <?php
-              $values = tep_db_query("select * from products_options_values where language_id = '" . $languages_id . "' order by products_options_values_name");
-              while ($values_values = tep_db_fetch_array($values)) {
-                echo '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
-              } 
-              ?>
+                <option value=""><?php echo PLEASE_SELECT_OPTION; ?></option>
+                <?php
+                $values = tep_db_query("select pov.*, pov2po.* from products_options_values pov left join products_options_values_to_products_options pov2po on pov.products_options_values_id = pov2po.products_options_values_id where pov.language_id = '" . (int)$languages_id . "' order by pov.products_options_values_name");
+
+                while ($values_values = tep_db_fetch_array($values)) {
+                  echo '<option name="' . $values_values['products_options_values_name'] . '" value="' . $values_values['products_options_values_id'] . '" data-id="' . $values_values['products_options_id'] . '">' . $values_values['products_options_values_name'] . '</option>';
+                } 
+                ?>
               </select>
             </td>
-            <td class="text-right"><input class="form-control" type="text" name="value_price"></td>
+            <td class="text-right"><input class="form-control" type="text" name="value_price" value="0"></td>
             <td class="text-right"><input class="form-control" type="text" name="price_prefix" value="+"></td>
             <td class="text-right"><?php echo tep_draw_bootstrap_button(null, 'fas fa-plus text-success', null, null, null, 'btn-link'); ?></td>
           </tr>
@@ -708,7 +713,6 @@
       </tbody>
     </table>
   </div>
-  
 
 <?php
   require('includes/template_bottom.php');

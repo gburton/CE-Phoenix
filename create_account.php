@@ -17,8 +17,9 @@
 
   $message_stack_area = 'create_account';
 
+  $page_fields = $customer_data->get_fields_for_page('create_account');
   if (tep_validate_form_action_is('process')) {
-    $customer_details = $customer_data->process();
+    $customer_details = $customer_data->process($page_fields);
 
     $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
@@ -75,7 +76,6 @@ EOSQL
 
 <?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
-<div class="contentContainer">
   <?php
   while ($customer_data_group = tep_db_fetch_array($customer_data_group_query)) {
     if (empty($grouped_modules[$customer_data_group['customer_data_groups_id']])) {
@@ -87,7 +87,9 @@ EOSQL
   
     <?php
     foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
-      $module->display_input($customer_details);
+      if (count(array_intersect(get_class($module)::PROVIDES, $page_fields)) > 0) {
+        $module->display_input($customer_details);
+      }
     }
   }
 
@@ -97,8 +99,6 @@ EOSQL
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-user', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
-
-</div>
 
 </form>
 

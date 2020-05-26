@@ -14,7 +14,7 @@
 
   $action = $_GET['action'] ?? '';
   
-  $OSCOM_Hooks->call('orders_status', 'PreAction');
+  $OSCOM_Hooks->call('orders_status', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -52,7 +52,7 @@
           tep_db_query("update configuration set configuration_value = '" . tep_db_input($orders_status_id) . "' where configuration_key = 'DEFAULT_ORDERS_STATUS_ID'");
         }
         
-        $OSCOM_Hooks->call('orders_status', 'InsertSave');
+        $OSCOM_Hooks->call('orders_status', 'insertsaveAction');
 
         tep_redirect(tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $orders_status_id));
         break;
@@ -68,7 +68,7 @@
 
         tep_db_query("delete from orders_status where orders_status_id = '" . tep_db_input($oID) . "'");
         
-        $OSCOM_Hooks->call('orders_status', 'DeleteConfirm');
+        $OSCOM_Hooks->call('orders_status', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('orders_status.php', 'page=' . (int)$_GET['page']));
         break;
@@ -94,13 +94,13 @@
           }
         }
         
-        $OSCOM_Hooks->call('orders_status', 'Delete');
+        $OSCOM_Hooks->call('orders_status', 'deleteAction');
         
         break;
     }
   }
   
-  $OSCOM_Hooks->call('orders_status', 'PostAction');
+  $OSCOM_Hooks->call('orders_status', 'postAction');
 
   require('includes/template_top.php');
 ?>
@@ -122,7 +122,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -240,7 +240,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

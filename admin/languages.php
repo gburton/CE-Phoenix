@@ -14,7 +14,7 @@
 
   $action = ($_GET['action'] ?? '');
   
-  $OSCOM_Hooks->call('languages', 'languagesPreAction');
+  $OSCOM_Hooks->call('languages', 'preAction');
 
   if (tep_not_null($action)) {
     if ('insert' == $action || 'save' == $action) {
@@ -45,7 +45,7 @@
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
         
-        $OSCOM_Hooks->call('languages', 'languagesActionInsert');
+        $OSCOM_Hooks->call('languages', 'insertAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
@@ -57,7 +57,7 @@
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
         
-        $OSCOM_Hooks->call('languages', 'languagesActionSave');
+        $OSCOM_Hooks->call('languages', 'saveAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
@@ -82,7 +82,7 @@
         tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
         
-        $OSCOM_Hooks->call('languages', 'languagesActionDeleteConfirm');
+        $OSCOM_Hooks->call('languages', 'deleteconfirmAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
         break;
@@ -98,12 +98,12 @@
           $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
         }
         
-        $OSCOM_Hooks->call('languages', 'languagesActionDelete');
+        $OSCOM_Hooks->call('languages', 'deleteAction');
         break;
     }
   }
   
-  $OSCOM_Hooks->call('languages', 'languagesPostAction');
+  $OSCOM_Hooks->call('languages', 'postAction');
 
   require 'includes/template_top.php';
 ?>
@@ -125,7 +125,7 @@
   </div>
   
   <div class="row no-gutters">
-    <div class="col">
+    <div class="col-12 col-sm-8">
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -228,7 +228,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';

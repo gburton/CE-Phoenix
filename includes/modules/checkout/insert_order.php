@@ -130,7 +130,8 @@ EOSQL;
     }
   }
 
-  $GLOBALS['OSCOM_Hooks']->call('siteWide', 'insertOrder', $sql_data);
+  $parameters = [ 'sql_data' => &$sql_data ];
+  $GLOBALS['OSCOM_Hooks']->call('siteWide', 'insertOrder', $parameters);
 
   tep_db_perform('orders', $sql_data['orders']);
   $GLOBALS['order_id'] = tep_db_insert_id();

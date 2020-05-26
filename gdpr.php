@@ -32,11 +32,9 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $page_content; ?>
   </div>  
-</div>
 
 <?php
   require 'includes/template_bottom.php';

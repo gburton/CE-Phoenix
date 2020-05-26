@@ -134,8 +134,6 @@
   if (isset($_GET['delete'])) {
 ?>
 
-<div class="contentContainer">
-
   <div class="row">
     <div class="col-sm-8">
       <div class="alert alert-danger" role="alert"><?php echo DELETE_ADDRESS_DESCRIPTION; ?></div>
@@ -156,8 +154,6 @@
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('address_book.php', '', 'SSL')); ?></p>
   </div>
 
-</div>
-
 <?php
   } else {
     echo tep_draw_form('addressbook', tep_href_link('address_book_process.php', (isset($_GET['edit']) ? 'edit=' . $_GET['edit'] : ''), 'SSL'), 'post', '', true);
@@ -168,11 +164,7 @@
       echo tep_draw_hidden_field('action', 'process');
       $action_button = tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block');
     }
-?>
 
-<div class="contentContainer">
-
-<?php
     include 'includes/modules/address_book_details.php';
 ?>
 
@@ -180,8 +172,6 @@
     <div class="text-right"><?php echo $action_button; ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', $back_link); ?></p>
   </div>
-
-</div>
 
 </form>
 

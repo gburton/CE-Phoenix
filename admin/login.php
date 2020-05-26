@@ -16,6 +16,8 @@
   require 'includes/functions/password_funcs.php';
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('login', 'preAction');
 
 // prepare to logout an active administrator if the login page is accessed again
   if (isset($_SESSION['admin'])) {
@@ -78,6 +80,8 @@
         if (isset($_POST['username'])) {
           $actionRecorder->record(false);
         }
+        
+        $OSCOM_Hooks->call('login', 'processAction');
 
         break;
 
@@ -87,6 +91,8 @@
         if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
           $_SESSION['auth_ignore'] = true;
         }
+        
+        $OSCOM_Hooks->call('login', 'logoffAction');
 
         tep_redirect(tep_href_link('index.php'));
 
@@ -103,12 +109,16 @@
             tep_db_query("INSERT INTO administrators (user_name, user_password) VALUES ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
           }
         }
+        
+        $OSCOM_Hooks->call('login', 'createAction');
 
         tep_redirect(tep_href_link('login.php'));
 
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('login', 'postAction');
 
   $languages = [];
   $language_selected = DEFAULT_LANGUAGE;

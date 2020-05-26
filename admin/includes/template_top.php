@@ -37,7 +37,6 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
   }
 ?>
 
-<link rel="stylesheet" href="includes/stylesheet.css">
 </head>
 <body>
 

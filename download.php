@@ -28,7 +28,7 @@ SELECT opd.orders_products_filename
     INNER JOIN orders_status os ON o.orders_status = os.orders_status_id
   WHERE opd.orders_products_filename != ''
     AND os.downloads_flag = 1
-    AND (opd.download_maxdays = 0 OR o.date_purchased >= DATE_SUB(NOW(), INTERVAL opd.download_maxdays DAY)
+    AND (opd.download_maxdays = 0 OR o.date_purchased >= DATE_SUB(NOW(), INTERVAL opd.download_maxdays DAY))
     AND opd.download_count > 0
     AND o.customers_id = %d
     AND o.orders_id = %d

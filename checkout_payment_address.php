@@ -83,8 +83,6 @@
   }
 ?>
 
-<div class="contentContainer">
-
   <div class="row">
     <div class="col-sm-7">
       <h5 class="mb-1"><?php echo TABLE_HEADING_ADDRESS_BOOK_ENTRIES; ?></h5>
@@ -148,7 +146,6 @@
   <div class="buttonSet">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('checkout_payment.php', '', 'SSL'), null, null, 'btn-light mt-1'); ?>
   </div>
-</div>
 
 <?php
   require 'includes/template_bottom.php';

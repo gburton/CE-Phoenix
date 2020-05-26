@@ -13,6 +13,8 @@
   require('includes/application_top.php');
 
   $saction = $_GET['saction'] ?? '';
+  
+  $OSCOM_Hooks->call('geo_zones', 'preSaction');
 
   if (tep_not_null($saction)) {
     switch ($saction) {
@@ -23,6 +25,8 @@
 
         tep_db_query("insert into zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . (int)$zone_country_id . "', '" . (int)$zone_id . "', '" . (int)$zID . "', now())");
         $new_subzone_id = tep_db_insert_id();
+        
+        $OSCOM_Hooks->call('geo_zones', 'insertsubSaction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
         break;
@@ -34,19 +38,27 @@
 
         tep_db_query("update zones_to_geo_zones set geo_zone_id = '" . (int)$zID . "', zone_country_id = '" . (int)$zone_country_id . "', zone_id = " . (tep_not_null($zone_id) ? "'" . (int)$zone_id . "'" : 'null') . ", last_modified = now() where association_id = '" . (int)$sID . "'");
 
+        $OSCOM_Hooks->call('geo_zones', 'savesubSaction');
+        
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
         break;
       case 'deleteconfirm_sub':
         $sID = tep_db_prepare_input($_GET['sID']);
 
         tep_db_query("delete from zones_to_geo_zones where association_id = '" . (int)$sID . "'");
+        
+        $OSCOM_Hooks->call('geo_zones', 'deleteconfirmsubSaction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('geo_zones', 'postSaction');
 
   $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('geo_zones', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -56,6 +68,8 @@
 
         tep_db_query("insert into geo_zones (geo_zone_name, geo_zone_description, date_added) values ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', now())");
         $new_zone_id = tep_db_insert_id();
+        
+        $OSCOM_Hooks->call('geo_zones', 'insertzoneAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
         break;
@@ -65,6 +79,8 @@
         $geo_zone_description = tep_db_prepare_input($_POST['geo_zone_description']);
 
         tep_db_query("update geo_zones set geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . (int)$zID . "'");
+        
+        $OSCOM_Hooks->call('geo_zones', 'savezoneAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
         break;
@@ -73,11 +89,15 @@
 
         tep_db_query("delete from geo_zones where geo_zone_id = '" . (int)$zID . "'");
         tep_db_query("delete from zones_to_geo_zones where geo_zone_id = '" . (int)$zID . "'");
+        
+        $OSCOM_Hooks->call('geo_zones', 'delteconfirmAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('geo_zones', 'postAction');
 
   require('includes/template_top.php');
 
@@ -123,7 +143,7 @@ function update_zone(theForm) {
   if ($action == 'list') {
     ?>
     <div class="row no-gutters">
-      <div class="col">
+      <div class="col-12 col-sm-8">
         <div class="table-responsive">
           <table class="table table-striped table-hover">
             <thead class="thead-dark">
@@ -180,7 +200,7 @@ function update_zone(theForm) {
     } else {
       ?>
       <div class="row no-gutters">
-        <div class="col">
+        <div class="col-12 col-sm-8">
           <div class="table-responsive">
             <table class="table table-striped table-hover">
               <thead class="thead-dark">
@@ -316,7 +336,7 @@ function update_zone(theForm) {
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);
     echo '</div>';
