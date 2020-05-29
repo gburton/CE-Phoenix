@@ -1112,7 +1112,7 @@ function updateNet() {
             $category_seo_description_string .= '<div class="input-group-prepend">';
               $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
             $category_seo_description_string .= '</div>';
-            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_category_seo_keywords($cInfo->categories_id, $languages[$i]['id']));
+            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_category_seo_description($cInfo->categories_id, $languages[$i]['id']));
           $category_seo_description_string .= '</div>';
           $category_seo_keywords_string .= '<div class="input-group mb-1">';
             $category_seo_keywords_string .= '<div class="input-group-prepend">';

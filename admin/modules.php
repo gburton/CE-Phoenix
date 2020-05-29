@@ -348,7 +348,7 @@
   }
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '<div class="col-12 col-sm-3">';
+    echo '<div class="col-12 col-sm-4">';
     $box = new box();
     echo $box->infoBox($heading, $contents);
     echo '</div>';

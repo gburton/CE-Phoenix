@@ -11,6 +11,8 @@
 */
 
   $num_list = (isset($_GET['view']) && ($_GET['view'] == 'all') ) ? 999999 : MAX_DISPLAY_SEARCH_RESULTS;
+  $num_list = $OSCOM_Hooks->call('siteWide', 'numList');
+  
   $listing_split = new splitPageResults($listing_sql, $num_list, 'p.products_id');
 ?>
 
