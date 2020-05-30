@@ -15,7 +15,7 @@
   }
 ?>
 <div class="col-sm-<?php echo $content_width; ?> cm-ip-product-listing">
-  <?php include 'includes/modules/product_listing.php'; ?>
+  <?php include 'includes/system/segments/sortable_product_listing.php'; ?>
 </div>
 
 <?php
