@@ -5,21 +5,22 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   $oscTemplate->buildBlocks();
-  
+
   $OSCOM_Hooks->call('siteWide', 'injectRedirects');
-  
+
+  $tpl_template = $oscTemplate->get_template();
   if (!$oscTemplate->hasBlocks('boxes_column_left')) {
-    $oscTemplate->setGridContentWidth($oscTemplate->getGridContentWidth() + $oscTemplate->getGridColumnWidth());
+    $tpl_template->setGridContentWidth($tpl_template->getGridContentWidth() + $tpl_template->getGridColumnWidth());
   }
 
   if (!$oscTemplate->hasBlocks('boxes_column_right')) {
-    $oscTemplate->setGridContentWidth($oscTemplate->getGridContentWidth() + $oscTemplate->getGridColumnWidth());
+    $tpl_template->setGridContentWidth($tpl_template->getGridContentWidth() + $tpl_template->getGridColumnWidth());
   }
 ?>
 <!DOCTYPE html>
@@ -31,35 +32,35 @@
 <title><?php echo tep_output_string_protected($oscTemplate->getTitle()); ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
-<?php 
+<?php
 echo $OSCOM_Hooks->call('siteWide', 'injectSiteStart');
 
-echo $oscTemplate->getBlocks('header_tags'); 
+echo $oscTemplate->getBlocks('header_tags');
 ?>
 </head>
 <body>
 
-  <?php 
+  <?php
   echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
-  
-  echo $oscTemplate->getContent('navigation'); 
+
+  echo $oscTemplate->getContent('navigation');
   ?>
-  
+
   <div id="bodyWrapper" class="<?php echo BOOTSTRAP_CONTAINER; ?> pt-2">
 
     <?php
     echo $OSCOM_Hooks->call('siteWide', 'injectBodyWrapperStart');
-    
-    echo $OSCOM_Hooks->call('siteWide', 'injectBeforeHeader');
-    
-    require('includes/header.php');
 
-    echo $OSCOM_Hooks->call('siteWide', 'injectAfterHeader');    
+    echo $OSCOM_Hooks->call('siteWide', 'injectBeforeHeader');
+
+    require $oscTemplate->map_to_template('header.php', 'component');
+
+    echo $OSCOM_Hooks->call('siteWide', 'injectAfterHeader');
     ?>
 
     <div class="row">
       <div id="bodyContent" class="col order-1 order-md-6">
-      
+
         <?php
         echo $OSCOM_Hooks->call('siteWide', 'injectBodyContentStart');
         ?>
