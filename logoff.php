@@ -14,8 +14,6 @@
 
   require "includes/languages/$language/logoff.php";
 
-  $breadcrumb->add(NAVBAR_TITLE);
-
   unset($_SESSION['customer_id']);
 
   unset($_SESSION['sendto']);
@@ -26,20 +24,6 @@
 
   $_SESSION['cart']->reset();
 
-  require 'includes/template_top.php';
-?>
+  require $oscTemplate->map_to_template(__FILE__, 'page');
 
-<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
-
-  <div class="alert alert-danger" role="alert">
-    <?php echo TEXT_MAIN; ?>
-  </div>
-
-  <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), null, null, 'btn-danger btn-lg btn-block'); ?></div>
-  </div>
-
-<?php
-  require 'includes/template_bottom.php';
   require 'includes/application_bottom.php';
-?>

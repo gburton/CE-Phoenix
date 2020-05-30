@@ -5,22 +5,22 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
 // the following cPath references come from application_top.php
   $category_depth = 'top';
   if (isset($cPath) && tep_not_null($cPath)) {
-    $categories_products_query = tep_db_query("select count(*) as total from products_to_categories where categories_id = '" . (int)$current_category_id . "'");
+    $categories_products_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE categories_id = " . (int)$current_category_id);
     $categories_products = tep_db_fetch_array($categories_products_query);
     if ($categories_products['total'] > 0) {
       $category_depth = 'products'; // display products
     } else {
-      $category_parent_query = tep_db_query("select count(*) as total from categories where parent_id = '" . (int)$current_category_id . "'");
+      $category_parent_query = tep_db_query("SELECT COUNT(*) AS total FROM categories WHERE parent_id = " . (int)$current_category_id);
       $category_parent = tep_db_fetch_array($category_parent_query);
       if ($category_parent['total'] > 0) {
         $category_depth = 'nested'; // navigate through the categories
@@ -30,45 +30,8 @@
     }
   }
 
-  require('includes/languages/' . $language . '/index.php');
+  require "includes/languages/$language/index.php";
 
-  require('includes/template_top.php');
+  require $oscTemplate->map_to_template(__FILE__, 'page');
 
-  if ($category_depth == 'nested') {
-    
-    if ($messageStack->size('product_action') > 0) {
-      echo $messageStack->output('product_action');
-    }
-?>
-
-  <div class="row">
-    <?php echo $oscTemplate->getContent('index_nested'); ?>
-  </div>
-
-<?php
-  } elseif ($category_depth == 'products' || (isset($_GET['manufacturers_id']) && !empty($_GET['manufacturers_id']))) {
-
-?>
-
-  <div class="row">
-    <?php echo $oscTemplate->getContent('index_products'); ?>
-  </div>
-
-<?php
-  } else { // default page
-  
-    if ($messageStack->size('product_action') > 0) {
-      echo $messageStack->output('product_action');
-    }
-?>
-
-<div class="row">
-  <?php echo $oscTemplate->getContent('index'); ?>
-</div>
-
-<?php
-  }
-
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
-?>
+  require 'includes/application_bottom.php';

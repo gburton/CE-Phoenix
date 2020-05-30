@@ -16,18 +16,6 @@
 
   require "includes/languages/$language/account.php";
 
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('account.php', '', 'SSL'));
+  require $oscTemplate->map_to_template(__FILE__, 'page');
 
-  require 'includes/template_top.php';
-
-  if ($messageStack->size('account') > 0) {
-    echo $messageStack->output('account');
-  }
-?>
-
-<div class="row"><?php echo $oscTemplate->getContent('account'); ?></div>
-
-<?php
-  require 'includes/template_bottom.php';
   require 'includes/application_bottom.php';
-?>
