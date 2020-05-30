@@ -120,6 +120,8 @@ EOSQL
   if (DOWNLOAD_ENABLED == 'true') {
     include $oscTemplate->map_to_template('downloads.php', 'component');
   }
+
+  echo $OSCOM_Hooks->call('account_history_info', 'orderDetails');
 ?>
 
   <div class="buttonSet my-2">
