@@ -25,6 +25,8 @@
       foreach ($this->_base_hook_directories as $directory) {
         $GLOBALS['OSCOM_Hooks']->add_directory($directory);
       }
+
+      spl_autoload_register([$this, 'autoload_hooks'], true, true);
     }
 
     protected static function _get_template_mapping_for($file, $type) {
