@@ -34,10 +34,16 @@
     private $prefix_length;
     private $pipelines = [];
     private $page;
+    private $hook_directories = [];
 
     public function __construct($site) {
       $this->_site = basename($site);
       $this->prefix_length = strlen(self::PREFIX);
+      $this->add_directory(DIR_FS_CATALOG . 'includes/hooks/');
+    }
+
+    public function add_directory($directory) {
+      $this->hook_directories[] = $directory . $this->_site . '/';
     }
 
     private function sort_hooks() {
@@ -83,12 +89,7 @@ EOSQL
       $this->sort_hooks();
     }
 
-    public function register($group, $alias = null) {
-      $group = basename($group);
-      $alias = is_null($alias) ? $group : basename($alias);
-      $directory = DIR_FS_CATALOG . 'includes/hooks/' . $this->_site . '/' . $group;
-
-      $files = [];
+    protected function register_directory($directory, $group, $alias, &$files) {
       if ( file_exists($directory) ) {
         if ( $dir = @dir($directory) ) {
           while ( $file = $dir->read() ) {
@@ -102,7 +103,7 @@ EOSQL
 
         foreach ($files as $file) {
           $code = pathinfo($file, PATHINFO_FILENAME);
-          if ( $code !== $file ) {
+          if ( 'php' === pathinfo($file, PATHINFO_EXTENSION) ) {
             $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
 
             $GLOBALS[$class] = new $class();
@@ -116,6 +117,16 @@ EOSQL
             }
           }
         }
+      }
+    }
+
+    public function register($group, $alias = null) {
+      $group = basename($group);
+      $alias = is_null($alias) ? $group : basename($alias);
+
+      $files = [];
+      foreach ($this->hook_directories as $directory) {
+        $this->register_directory($directory . $group, $group, $alias, $files);
       }
 
       $this->load($group, $alias);
