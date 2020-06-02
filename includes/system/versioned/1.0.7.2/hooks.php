@@ -165,4 +165,8 @@ EOSQL
       }
     }
 
+    public function get_hook_directories() {
+      return $this->hook_directories;
+    }
+
   }

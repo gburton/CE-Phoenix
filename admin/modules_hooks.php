@@ -10,11 +10,97 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  $directory = DIR_FS_CATALOG . 'includes/hooks/';
+  $admin_hooks = $OSCOM_Hooks;
+  $OSCOM_Hooks = new hooks('shop');
+  $template_name = defined('TEMPLATE_SELECTION') ? TEMPLATE_SELECTION : 'default';
+  $template_name .= '_template';
+  $template = new $template_name();
+  $directories = $OSCOM_Hooks->get_hook_directories();
+  $OSCOM_Hooks = $admin_hooks;
 
-  require('includes/template_top.php');
+  function tep_find_contents($base, $test) {
+    $contents = [];
+    if (is_dir($base) && ($handle = @dir($base))) {
+      while ($file = $handle->read()) {
+        if (('.' !== $file[0]) && $test("$base/$file")) {
+          $contents[] = $file;
+        }
+      }
+
+      $handle->close();
+    }
+
+    return $contents;
+  }
+
+  function tep_find_listeners($class) {
+    $listeners = [];
+
+    if (class_exists($class)) {
+      $prefix = 'listen_';
+      $length = strlen($prefix);
+      foreach (get_class_methods($class) as $method) {
+        if (substr($method, 0, $length) === $prefix) {
+          $listeners[] = substr($method, $length);
+        }
+      }
+    }
+
+    return $listeners;
+  }
+
+  foreach ($directories as $directory) {
+    $directory = dirname($directory);
+    foreach (tep_find_contents($directory, 'is_dir') as $site) {
+      foreach (tep_find_contents("$directory/$site", 'is_dir') as $group) {
+        foreach (tep_find_contents("$directory/$site/$group", 'is_file') as $file) {
+          $pathinfo = pathinfo("$directory/$site/$group/$file");
+          if ('php' !== ($pathinfo['extension'] ?? null)) {
+            continue;
+          }
+
+          $class = "hook_{$site}_{$group}_{$pathinfo['filename']}";
+          foreach (tep_find_listeners($class) as $listener) {
+            tep_guarantee_all(
+              $hooks,
+              $site,
+              $group,
+              $listener,
+              $pathinfo['filename']
+            )[] = $directory;
+          }
+        }
+      }
+    }
+  }
+
+  $hooks_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method
+ FROM hooks
+EOSQL
+    , tep_db_input(tep_db_prepare_input($file))));
+  while ($hook = tep_db_fetch_array($hooks_query)) {
+    $callable = [];
+    if (!empty($hook['hooks_class'])) {
+      $callable[] = $hook['hooks_class'];
+    }
+
+    if (!empty($hook['hooks_method'])) {
+      $callable[] = $hook['hooks_method'];
+    }
+
+    tep_guarantee_all(
+      $hooks,
+      $hook['hooks_site'],
+      $hook['hooks_group'],
+      $hook['hooks_action'],
+      $hook['hooks_code']
+    )[] = $callable;
+  }
+
+  require 'includes/template_top.php';
 ?>
 
   <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
@@ -22,66 +108,47 @@
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <?php
-      if ( $dir = @dir($directory) ) {
-        while ( $file = $dir->read() ) {
-          if ( is_dir($directory . '/' . $file) && !in_array($file, ['.', '..']) ) {
-          ?>
-          <thead class="thead-dark">
-            <tr>
-              <th colspan="4"><?php echo sprintf(TABLE_HEADING_LOCATION, $file); ?></th>
-            </tr>
-          </thead>
-          <thead class="thead-light">
-            <tr>
-              <th><?php echo TABLE_HEADING_GROUP; ?></th>
-              <th><?php echo TABLE_HEADING_FILE; ?></th>
-              <th><?php echo TABLE_HEADING_METHOD; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_VERSION; ?></th>
-            </tr>
-          </thead>
-          <tbody>
-          <?php
-          if ( $dir2 = @dir($directory . '/' . $file) ) {
-            while ( $file2 = $dir2->read() ) {
-              if ( is_dir($directory . '/' . $file . '/' . $file2) && !in_array($file2, ['.', '..']) ) {
-                if ( $dir3 = @dir($directory . '/' . $file . '/' . $file2) ) {
-                  while ( $file3 = $dir3->read() ) {
-                    if ( !is_dir($directory . '/' . $file . '/' . $file2 . '/' . $file3) ) {
-                      if ( substr($file3, strrpos($file3, '.')) == '.php' ) {
-                        $code = substr($file3, 0, strrpos($file3, '.'));
-                        $class = 'hook_' . $file . '_' . $file2 . '_' . $code;
-
-                        if ( !class_exists($class) ) {
-                          include($directory . '/' . $file . '/' . $file2 . '/' . $file3);
-                        }
-
-                        $obj = new $class();
-
-                        foreach ( get_class_methods($obj) as $method ) {
-                          $obj_vars = get_class_vars(get_class($obj));
-                          
-                          if ( substr($method, 0, 7) == 'listen_' ) {
-                          ?>
-                            <tr>
-                              <td><?php echo $file2; ?></td>
-                              <td><?php echo $file3; ?></td>
-                              <td><?php echo substr($method, 7); ?></td>
-                              <td class="text-right"><?php echo $obj_vars['version'] ?? 'N/A'; ?></td>
-                            </tr>
-                            <?php
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+  foreach ( $hooks as $site => $groups ) {
+?>
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="4"><?php echo sprintf(TABLE_HEADING_LOCATION, $site); ?></th>
+        </tr>
+      </thead>
+      <thead class="thead-light">
+        <tr>
+          <th><?php echo TABLE_HEADING_GROUP; ?></th>
+          <th><?php echo TABLE_HEADING_FILE; ?></th>
+          <th><?php echo TABLE_HEADING_METHOD; ?></th>
+          <th class="text-right"><?php echo TABLE_HEADING_VERSION; ?></th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+    foreach ( $groups as $group => $actions ) {
+      foreach ( $actions as $action => $codes ) {
+        foreach ( $codes as $code => $locations) {
+          foreach ($locations as $location) {
+            if (is_array($location)) {
+              $file = implode('->', $location);
+            } else {
+              $file = "$code.php";
             }
+            $class = "hook_{$site}_{$group}_{$code}";
+?>
+        <tr>
+          <td><?php echo $group; ?></td>
+          <td><?php echo $file; ?></td>
+          <td><?php echo $action; ?></td>
+          <td class="text-right"><?php echo get_class_vars($class)['version'] ?? 'N/A'; ?></td>
+        </tr>
+        <?php
           }
         }
       }
-      ?>
+    }
+  }
+?>
       </tbody>
     </table>
   </div>
@@ -91,6 +158,6 @@
   <p><?php echo TEXT_HOOKS_DIRECTORY . ' ' . DIR_FS_CATALOG . 'includes/hooks/'; ?></p>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>
