@@ -12,9 +12,7 @@
 
   $num_list = (isset($_GET['view']) && ($_GET['view'] == 'all') ) ? 999999 : MAX_DISPLAY_SEARCH_RESULTS;
   $listing_split = new splitPageResults($listing_sql, $num_list, 'p.products_id');
-?>
 
-<?php
   if ($messageStack->size('product_action') > 0) {
     echo $messageStack->output('product_action');
   }
@@ -30,13 +28,14 @@
     <?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?>
   </div>
   <div class="col-sm-6">
-    <?php echo $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?>
+    <?php echo $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(['page', 'info', 'x', 'y'])); ?>
   </div>
 </div>
 <?php
   }
-  
-  if ($listing_split->number_of_rows > 0) { ?>
+
+  if ($listing_split->number_of_rows > 0) {
+?>
     <div class="card mb-2 card-body alert-filters">
       <ul class="nav">
         <li class="nav-item dropdown">
@@ -44,45 +43,45 @@
 
           <div class="dropdown-menu">
             <?php
-            for ($col=0, $n=sizeof($column_list); $col<$n; $col++) {
-              switch ($column_list[$col]) {
-                case 'PRODUCT_LIST_MODEL':
-                $lc_text = TABLE_HEADING_MODEL;
-                break;
-                case 'PRODUCT_LIST_NAME':
-                $lc_text = TABLE_HEADING_PRODUCTS;
-                break;
-                case 'PRODUCT_LIST_MANUFACTURER':
-                $lc_text = TABLE_HEADING_MANUFACTURER;
-                break;
-                case 'PRODUCT_LIST_PRICE':
-                $lc_text = TABLE_HEADING_PRICE;
-                break;
-                case 'PRODUCT_LIST_QUANTITY':
-                $lc_text = TABLE_HEADING_QUANTITY;
-                break;
-                case 'PRODUCT_LIST_WEIGHT':
-                $lc_text = TABLE_HEADING_WEIGHT;
-                break;
-                case 'PRODUCT_LIST_IMAGE':
-                $lc_text = TABLE_HEADING_IMAGE;
-                break;
-                case 'PRODUCT_LIST_BUY_NOW':
-                $lc_text = TABLE_HEADING_BUY_NOW;
-                break;
-                case 'PRODUCT_LIST_ID':
-                $lc_text = TABLE_HEADING_LATEST_ADDED;
-                break;
-                case 'PRODUCT_LIST_ORDERED':
-                $lc_text = TABLE_HEADING_ORDERED;
-                break;
-              }
+    foreach ($column_list as $i => $column) {
+      switch ($column) {
+        case 'PRODUCT_LIST_MODEL':
+          $lc_text = TABLE_HEADING_MODEL;
+          break;
+        case 'PRODUCT_LIST_NAME':
+          $lc_text = TABLE_HEADING_PRODUCTS;
+          break;
+        case 'PRODUCT_LIST_MANUFACTURER':
+          $lc_text = TABLE_HEADING_MANUFACTURER;
+          break;
+        case 'PRODUCT_LIST_PRICE':
+          $lc_text = TABLE_HEADING_PRICE;
+          break;
+        case 'PRODUCT_LIST_QUANTITY':
+          $lc_text = TABLE_HEADING_QUANTITY;
+          break;
+        case 'PRODUCT_LIST_WEIGHT':
+          $lc_text = TABLE_HEADING_WEIGHT;
+          break;
+        case 'PRODUCT_LIST_IMAGE':
+          $lc_text = TABLE_HEADING_IMAGE;
+          break;
+        case 'PRODUCT_LIST_BUY_NOW':
+          $lc_text = TABLE_HEADING_BUY_NOW;
+          break;
+        case 'PRODUCT_LIST_ID':
+          $lc_text = TABLE_HEADING_LATEST_ADDED;
+          break;
+        case 'PRODUCT_LIST_ORDERED':
+          $lc_text = TABLE_HEADING_ORDERED;
+          break;
+        }
 
-              if ( ($column_list[$col] != 'PRODUCT_LIST_BUY_NOW') && ($column_list[$col] != 'PRODUCT_LIST_IMAGE') ) {
-                $lc_text = tep_create_sort_heading($_GET['sort'], $col+1, $lc_text);
-                echo $lc_text;
-              }
-            }
+        if ( ($column != 'PRODUCT_LIST_BUY_NOW') && ($column != 'PRODUCT_LIST_IMAGE') ) {
+          $lc_text = tep_create_sort_heading($_GET['sort'], $i+1, $lc_text);
+          echo $lc_text;
+        }
+      }
             ?>
           </div>
 
@@ -143,13 +142,13 @@
     if ( $item%IS_PRODUCT_PRODUCTS_DISPLAY_ROW_XL == 0 ) $prod_list_contents .= '<div class="w-100 d-none d-xl-block"></div>' . PHP_EOL;
     $item++;
   }
-  
-  echo $OSCOM_Hooks->call('filter', 'drawForm');
+
+  echo $GLOBALS['OSCOM_Hooks']->call('filter', 'drawForm');
 
   echo '<div class="' . IS_PRODUCT_PRODUCTS_LAYOUT . '">' . PHP_EOL;
     echo $prod_list_contents;
   echo '</div>' . PHP_EOL;
-  
+
 } else {
   echo '<div class="alert alert-info" role="alert">' . TEXT_NO_PRODUCTS . '</div>';
 }
@@ -161,7 +160,7 @@ if ( ($listing_split->number_of_rows > 0) && ((PREV_NEXT_BAR_LOCATION == '2') ||
     <?php echo $listing_split->display_count(TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?>
   </div>
   <div class="col-sm-6">
-    <?php echo $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(array('page', 'info', 'x', 'y'))); ?>
+    <?php echo $listing_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(['page', 'info', 'x', 'y'])); ?>
   </div>
 </div>
   <?php
