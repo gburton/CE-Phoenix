@@ -72,6 +72,9 @@ EOSQL
         }
       }
 
+      $listing_sql .= $GLOBALS['OSCOM_Hooks']->call('filter', 'injectSQL');
+      require 'includes/system/segments/sortable_product_columns.php';
+
 // optional Product List Filter
       $output = null;
       if (PRODUCT_LIST_FILTER > 0) {
