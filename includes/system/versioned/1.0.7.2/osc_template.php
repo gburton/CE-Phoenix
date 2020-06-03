@@ -130,7 +130,7 @@
 
     public function map_to_template($file, $type = 'module') {
       return $this->_template->get_template_mapping_for($file, $type)
-          ?? default_template::get_template_mapping_for($file, $type);
+          ?? default_template::_get_template_mapping_for($file, $type);
     }
 
   }

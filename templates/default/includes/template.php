@@ -29,7 +29,7 @@
       spl_autoload_register([$this, 'autoload_hooks'], true, true);
     }
 
-    protected static function _get_template_mapping_for($file, $type) {
+    public static function _get_template_mapping_for($file, $type) {
       switch ($type) {
         case 'page':
           return DIR_FS_CATALOG . 'templates/default/includes/pages/' . basename($file);
@@ -51,16 +51,6 @@
                     ?? static::_get_template_mapping_for($file, $type);
 
       return file_exists($template_file) ? $template_file : null;
-    }
-
-    public function get_hooks_directories($site, $group) {
-      $hook_directories = [];
-
-      foreach ($this->_base_hook_directories as $directory) {
-        $hook_directories[] = "$directory$site/$group/";
-      }
-
-      return $hook_directories;
     }
 
     public function autoload_hooks($requested_class) {
