@@ -19,101 +19,87 @@
     }
 
     function execute() {
-      global $category, $cPath_array, $cPath, $current_category_id, $messageStack, $currencies, $PHP_SELF, $OSCOM_Hooks;
+      global $cPath, $current_category_id, $languages_id, $messageStack, $currencies, $PHP_SELF;
 
-// create column list
-      $define_list = [
-        'PRODUCT_LIST_MODEL' => PRODUCT_LIST_MODEL,
-        'PRODUCT_LIST_NAME' => PRODUCT_LIST_NAME,
-        'PRODUCT_LIST_MANUFACTURER' => PRODUCT_LIST_MANUFACTURER,
-        'PRODUCT_LIST_PRICE' => PRODUCT_LIST_PRICE,
-        'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
-        'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
-        'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-        'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
-        'PRODUCT_LIST_ID' => PRODUCT_LIST_ID,
-        'PRODUCT_LIST_ORDERED' => PRODUCT_LIST_ORDERED,
-      ];
-
-      asort($define_list);
-
-      $column_list = [];
-      foreach ($define_list as $key => $value) {
-        if ($value > 0) $column_list[] = $key;
-      }
+      $listing_sql = <<<'EOSQL'
+SELECT p.*, pd.*, m.*,
+  IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
+  IF(s.status, s.specials_new_products_price, p.products_price) AS final_price,
+  p.products_quantity AS in_stock,
+  IF(s.status, 1, 0) AS is_special
+ FROM
+  products p
+    LEFT JOIN specials s ON p.products_id = s.products_id
+    INNER JOIN products_description pd ON p.products_id = pd.products_id
+EOSQL;
 
 // show the products of a specified manufacturer
-      if (!empty($_GET['manufacturers_id'])) {
+      if (empty($_GET['manufacturers_id'])) {
+// show the products in a given category
+        if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
+// We are asked to show only a specific manufacturer
+          $listing_sql .= <<<'EOSQL'
+    INNER JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
+    INNER JOIN products_to_categories p2c ON p.products_id = p2c.products_id
+ WHERE p.products_status = 1 AND m.manufacturers_id = 
+EOSQL
+          . (int)$_GET['filter_id'] . " AND pd.language_id = " . (int)$languages_id . " AND p2c.categories_id = " . (int)$current_category_id;
+        } else {
+// We show them all
+          $listing_sql .= <<<'EOSQL'
+    LEFT JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
+    INNER JOIN products_to_categories p2c
+  WHERE p.products_status = 1 AND p.products_id = p2c.products_id AND pd.products_id = p2c.products_id AND pd.language_id = 
+EOSQL
+          . (int)$languages_id . " AND p2c.categories_id = " . (int)$current_category_id;
+        }
+      } else {
         if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
 // We are asked to show only a specific category
-          $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd, manufacturers m, products_to_categories p2c where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p2c.categories_id = '" . (int)$_GET['filter_id'] . "'";
+          $listing_sql .= <<<'EOSQL'
+    INNER JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
+    INNER JOIN products_to_categories p2c ON p.products_id = p2c.products_id
+  WHERE p.products_status = 1 AND m.manufacturers_id = 
+EOSQL
+          . (int)$_GET['manufacturers_id'] . " AND pd.language_id = " . (int)$languages_id . " AND p2c.categories_id = " . (int)$_GET['filter_id'];
         } else {
 // We show them all
-          $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd, manufacturers m where p.products_status = '1' and pd.products_id = p.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "'";
-        }
-      } else {
-// show the products in a given categorie
-        if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
-// We are asked to show only specific catgeory
-          $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products p left join specials s on p.products_id = s.products_id, products_description pd, manufacturers m, products_to_categories p2c where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and m.manufacturers_id = '" . (int)$_GET['filter_id'] . "' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p2c.categories_id = '" . (int)$current_category_id . "'";
-        } else {
-// We show them all
-          $listing_sql = "select p.*, pd.*, m.*, IF(s.status, s.specials_new_products_price, NULL) as specials_new_products_price, IF(s.status, s.specials_new_products_price, p.products_price) as final_price, p.products_quantity as in_stock, if(s.status, 1, 0) as is_special from products_description pd, products p left join manufacturers m on p.manufacturers_id = m.manufacturers_id left join specials s on p.products_id = s.products_id, products_to_categories p2c where p.products_status = '1' and p.products_id = p2c.products_id and pd.products_id = p2c.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p2c.categories_id = '" . (int)$current_category_id . "'";
+          $listing_sql .= <<<'EOSQL'
+    INNER JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
+  WHERE p.products_status = 1 AND pd.language_id = 
+EOSQL
+          . (int)$languages_id . " AND m.manufacturers_id = " . (int)$_GET['manufacturers_id'];
         }
       }
-      
-      $listing_sql .= $OSCOM_Hooks->call('filter', 'injectSQL');
 
-      if ( (!isset($_GET['sort'])) || (!preg_match('/^[1-9][ad]$/', $_GET['sort'])) || (substr($_GET['sort'], 0, 1) > count($column_list)) ) {
-        for ($i=0, $n=count($column_list); $i<$n; $i++) {
-          if ($column_list[$i] == 'PRODUCT_LIST_NAME') {
-            $_GET['sort'] = $i+1 . 'a';
-            $listing_sql .= " order by pd.products_name";
-            break;
-          }
-        }
-      } else {
-        $sort_col = substr($_GET['sort'], 0 , 1);
-        $sort_order = substr($_GET['sort'], 1);
-
-        switch ($column_list[$sort_col-1]) {
-          case 'PRODUCT_LIST_MODEL':
-            $listing_sql .= " order by p.products_model " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_NAME':
-            $listing_sql .= " order by pd.products_name " . ($sort_order == 'd' ? 'desc' : '');
-            break;
-          case 'PRODUCT_LIST_MANUFACTURER':
-            $listing_sql .= " order by m.manufacturers_name " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_QUANTITY':
-            $listing_sql .= " order by p.products_quantity " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_IMAGE':
-            $listing_sql .= " order by pd.products_name";
-            break;
-          case 'PRODUCT_LIST_WEIGHT':
-            $listing_sql .= " order by p.products_weight " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_PRICE':
-            $listing_sql .= " order by final_price " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_ID':
-            $listing_sql .= " order by p.products_id " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-          case 'PRODUCT_LIST_ORDERED':
-            $listing_sql .= " order by p.products_ordered " . ($sort_order == 'd' ? 'desc' : '') . ", pd.products_name";
-            break;
-        }
-      }
+      $listing_sql .= $GLOBALS['OSCOM_Hooks']->call('filter', 'injectSQL');
+      require 'includes/system/segments/sortable_product_columns.php';
 
 // optional Product List Filter
       $output = null;
       if (PRODUCT_LIST_FILTER > 0) {
         if (empty($_GET['manufacturers_id'])) {
-          $filterlist_sql = "select distinct m.manufacturers_id as id, m.manufacturers_name as name from products p, products_to_categories p2c, manufacturers m where p.products_status = '1' and p.manufacturers_id = m.manufacturers_id and p.products_id = p2c.products_id and p2c.categories_id = '" . (int)$current_category_id . "' order by m.manufacturers_name";
+          $filterlist_sql = <<<'EOSQL'
+SELECT DISTINCT m.manufacturers_id AS id, m.manufacturers_name AS name
+ FROM products p, products_to_categories p2c, manufacturers m
+ WHERE p.products_status = 1
+   AND p.manufacturers_id = m.manufacturers_id
+   AND p.products_id = p2c.products_id
+   AND p2c.categories_id = 
+EOSQL
+          . (int)$current_category_id . " ORDER BY m.manufacturers_name";
         } else {
-          $filterlist_sql = "select distinct c.categories_id as id, cd.categories_name as name from products p, products_to_categories p2c, categories c, categories_description cd where p.products_status = '1' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and p2c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id'] . "' and p.manufacturers_id = '" . (int)$_GET['manufacturers_id'] . "' order by cd.categories_name";
+          $filterlist_sql = <<<'EOSQL'
+SELECT DISTINCT c.categories_id AS id, cd.categories_name AS name
+ FROM products p, products_to_categories p2c, categories c, categories_description cd
+ WHERE p.products_status = 1
+   AND p.products_id = p2c.products_id
+   AND p2c.categories_id = c.categories_id
+   AND p2c.categories_id = cd.categories_id
+   AND cd.language_id = 
+EOSQL
+          . (int)$languages_id . " AND p.manufacturers_id = " . (int)$_GET['manufacturers_id']
+          . " ORDER BY cd.categories_name";
         }
 
         $filterlist_query = tep_db_query($filterlist_sql);
@@ -125,10 +111,12 @@
             $output = tep_draw_hidden_field('manufacturers_id', $_GET['manufacturers_id']);
             $options = [['id' => '', 'text' => TEXT_ALL_CATEGORIES]];
           }
+
           $output .= tep_draw_hidden_field('sort', $_GET['sort']);
           while ($filterlist = tep_db_fetch_array($filterlist_query)) {
             $options[] = ['id' => $filterlist['id'], 'text' => $filterlist['name']];
           }
+
           $output .= tep_draw_pull_down_menu('filter_id', $options, ($_GET['filter_id'] ?? ''), 'onchange="this.form.submit()"');
           $output .= tep_hide_session_id();
         }
