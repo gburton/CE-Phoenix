@@ -10,34 +10,15 @@
   Released under the GNU General Public License
 */
 
-  abstract class abstract_payment_module extends abstract_module {
+  abstract class abstract_payment_module extends abstract_zoneable_module {
 
     function __construct() {
       parent::__construct();
       $this->public_title = self::get_constant(static::CONFIG_KEY_BASE . 'TEXT_PUBLIC_TITLE')
                          ?? self::get_constant(static::CONFIG_KEY_BASE . 'PUBLIC_TITLE');
 
-      $this->order_status = (int)(self::get_constant(static::CONFIG_KEY_BASE . 'ORDER_STATUS_ID') ?? 0);
+      $this->order_status = (int)($this->base_constant('ORDER_STATUS_ID') ?? 0);
       $this->order_status = ($this->order_status > 0) ? $this->order_status : 0;
-      if ( ( $this->enabled === true ) && isset($GLOBALS['order']) && $GLOBALS['order'] instanceof order ) {
-        $this->update_status();
-      }
-    }
-
-    public function update_status() {
-      global $order;
-
-      $zone_id = constant(static::CONFIG_KEY_BASE . 'ZONE');
-      if ( $this->enabled && ((int)$zone_id > 0) ) {
-        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zone_id . " AND zone_country_id = " . (int)$order->delivery['country']['id'] . " ORDER BY zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
-          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->delivery['zone_id'])) {
-            return;
-          }
-        }
-
-        $this->enabled = false;
-      }
     }
 
     public function javascript_validation() {
