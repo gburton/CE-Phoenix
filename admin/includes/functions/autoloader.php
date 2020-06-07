@@ -21,17 +21,6 @@
       tep_find_all_files_under($overrides_directory, $class_files);
     }
 
-    // some classes do not follow either naming standard relating the class name and file name
-    $exception_mappings = [
-      'password_hash' => 'passwordhash',
-      'action_recorder_admin' => 'action_recorder',
-    ];
-
-    foreach ($exception_mappings as $class_name => $filename) {
-      $class_files[$class_name] = $class_files[$filename];
-      unset($class_files[$filename]);
-    }
-
     return $class_files;
   }
 
