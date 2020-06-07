@@ -70,6 +70,14 @@
     }
   }
 
+  function tep_find_all_actions_under($directory, &$files) {
+    foreach (scandir($directory, SCANDIR_SORT_ASCENDING) as $file) {
+      if (is_file($path = "$directory/$file")) {
+        $files[tep_normalize_class_name('osC_Actions_' . pathinfo($file, PATHINFO_FILENAME))] = $path;
+      }
+    }
+  }
+
   function tep_build_catalog_autoload_index() {
     $class_files = [];
 
@@ -78,6 +86,7 @@
 
     tep_find_all_files_under(DIR_FS_CATALOG . 'includes/modules', $class_files);
     tep_find_all_files_under(DIR_FS_CATALOG . 'includes/classes', $class_files);
+    tep_find_all_actions_under(DIR_FS_CATALOG . 'includes/actions', $class_files);
     tep_find_all_files_under(DIR_FS_CATALOG . 'includes/system/versioned', $class_files);
 
     $overrides_directory = DIR_FS_CATALOG . 'includes/system/override';
@@ -114,7 +123,7 @@
     $class = tep_normalize_class_name($original_class);
 
     if (isset($class_files[$class])) {
-      global $language;
+      $language =& $_SESSION['language'];
       if (isset($language) && DIR_FS_CATALOG . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
         $language_file = DIR_FS_CATALOG . "includes/languages/$language/modules" . substr($class_files[$class], $modules_directory_length);
         if (file_exists($language_file)) {
