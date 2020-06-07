@@ -30,7 +30,6 @@
   echo tep_draw_form('checkout_confirmation', $form_action_url, 'post');
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <div class="col-sm-7">
       <h5 class="mb-1"><?php echo LIST_PRODUCTS; ?><small><a class="font-weight-lighter ml-2" href="<?php echo tep_href_link('shopping_cart.php', '', 'SSL'); ?>"><?php echo TEXT_EDIT; ?></a></small></h5>
@@ -178,8 +177,6 @@
   echo $OSCOM_Hooks->call('progress', 'progressBar', $parameters);
 ?>
   </div>
-
-</div>
 
 </form>
 

@@ -20,11 +20,9 @@
   echo tep_draw_form('order', tep_href_link('checkout_success.php', 'action=update', 'SSL'), 'post', ' role="form"');
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $page_content; ?>
   </div>
-</div>
 
 </form>
 

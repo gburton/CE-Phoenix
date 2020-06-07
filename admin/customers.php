@@ -109,10 +109,6 @@
 
   <?php
   if ($action == 'edit' || $action == 'update') {
-    ?>
-
-  <div class="contentContainer">
-    <?php
     $oscTemplate = new oscTemplate();
     echo tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['action']) . 'action=update', 'post');
     echo tep_draw_hidden_field('default_address_id', $customer_data->get('address_id', $customer_details));
@@ -153,7 +149,7 @@ EOSQL
     ?>
 
   </form>
-</div>
+
 <?php
   } else {
 ?>
