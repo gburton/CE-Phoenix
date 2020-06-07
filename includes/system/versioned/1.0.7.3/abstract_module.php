@@ -19,7 +19,7 @@
     public $description;
     public $enabled = false;
     protected $_check;
-    protected $key_base;
+    protected $config_key_base;
     protected $status_key;
     public $sort_order;
 
@@ -27,19 +27,27 @@
       return defined($constant_name) ? constant($constant_name) : null;
     }
 
+    public function base_constant($suffix) {
+      return $this->get_constant($this->config_key_base . "$suffix");
+    }
+
     public function __construct() {
+      if (is_null($this->config_key_base)) {
+        $this->config_key_base = static::CONFIG_KEY_BASE;
+      }
+
       $this->code = get_class($this);
       $this->title = self::get_constant(static::CONFIG_KEY_BASE . 'TEXT_TITLE')
                   ?? self::get_constant(static::CONFIG_KEY_BASE . 'TITLE');
       $this->description = self::get_constant(static::CONFIG_KEY_BASE . 'TEXT_DESCRIPTION')
                         ?? self::get_constant(static::CONFIG_KEY_BASE . 'DESCRIPTION');
 
-      $this->status_key = static::CONFIG_KEY_BASE . 'STATUS';
+      $this->status_key = $this->config_key_base . 'STATUS';
       if (defined($this->status_key)) {
         $this->enabled = ('True' === constant($this->status_key));
       }
 
-      $this->sort_order = self::get_constant(static::CONFIG_KEY_BASE . 'SORT_ORDER') ?? 0;
+      $this->sort_order = $this->base_constant('SORT_ORDER') ?? 0;
     }
 
     public function isEnabled() {
