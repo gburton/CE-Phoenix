@@ -96,10 +96,7 @@
 
     // some classes do not follow either naming standard relating the class name and file name
     $exception_mappings = [
-      'alert_block' => 'alertbox',
       'os_c__actions' => 'actions',
-      'm_c_a_p_i' => 'MCAPI.class',
-      'password_hash' => 'passwordhash',
     ];
 
     foreach ($exception_mappings as $class_name => $path) {
