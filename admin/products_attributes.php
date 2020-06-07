@@ -502,7 +502,15 @@
   <h1 class="display-4"><?php echo HEADING_TITLE_ATRIB; ?></h1>
   
   <?php
-  $attributes = "select pa.* from products_attributes pa left join products_options po on po.products_options_id = pa.options_id left join products_options_values pov on pov.products_options_values_id = pa.options_values_id left join products_description pd on pa.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by pd.products_name, po.products_options_name, pov.products_options_values_name";
+  $attributes = sprintf(<<<'EOSQL'
+select pa.*
+ from products_attributes pa
+   left join products_options po on po.products_options_id = pa.options_id and po.language_id = %1$d
+   left join products_options_values pov on pov.products_options_values_id = pa.options_values_id and pov.language_id = %1$d
+   left join products_description pd on pa.products_id = pd.products_id and pd.language_id = %1$d
+ order by pd.products_name, po.products_options_name, pov.products_options_values_name
+EOSQL
+    , (int)$languages_id);
  
   $attributes_split = new splitPageResults($attribute_page, MAX_ROW_LISTS_OPTIONS, $attributes, $attributes_query_numrows);
   ?>
