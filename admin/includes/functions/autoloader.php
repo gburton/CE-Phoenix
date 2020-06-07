@@ -12,10 +12,15 @@
 
   function tep_build_admin_autoload_index($modules_directory_length) {
     $class_files = [];
-    
+
     tep_find_all_files_under(DIR_FS_ADMIN . 'includes/modules', $class_files);
     tep_find_all_files_under(DIR_FS_ADMIN . 'includes/classes', $class_files);
-    
+
+    $overrides_directory = DIR_FS_ADMIN . 'includes/classes/override';
+    if (is_dir($overrides_directory)) {
+      tep_find_all_files_under($overrides_directory, $class_files);
+    }
+
     // some classes do not follow either naming standard relating the class name and file name
     $exception_mappings = [
       'password_hash' => 'passwordhash',
