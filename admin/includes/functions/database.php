@@ -59,11 +59,8 @@
 
   function tep_db_perform($table, $data, $action = 'insert', $parameters = '', $link = 'db_link') {
     if ($action == 'insert') {
-      $query = 'INSERT INTO ' . $table . ' (';
-      foreach (array_keys($data) as $columns) {
-        $query .= $columns . ', ';
-      }
-      $query = substr($query, 0, -2) . ') VALUES (';
+      $query = 'INSERT INTO ' . $table . ' (' . implode(', ', array_keys($data)) . ') VALUES (';
+
       foreach ($data as $value) {
         switch ((string)$value) {
           case 'NOW()':
@@ -79,28 +76,53 @@
             break;
         }
       }
-      $query = substr($query, 0, -2) . ')';
+      $query = substr($query, 0, -strlen(', ')) . ')';
     } elseif ($action == 'update') {
       $query = 'UPDATE ' . $table . ' SET ';
-      foreach ($data as $columns => $value) {
+      foreach ($data as $column => $value) {
         switch ((string)$value) {
           case 'NOW()':
           case 'now()':
-            $query .= $columns . ' = NOW(), ';
+            $query .= $column . ' = NOW(), ';
             break;
           case 'NULL':
           case 'null':
-            $query .= $columns .= ' = NULL, ';
+            $query .= $column . ' = NULL, ';
             break;
           default:
-            $query .= $columns . ' = \'' . tep_db_input($value) . '\', ';
+            $query .= $column . ' = \'' . tep_db_input($value) . '\', ';
             break;
         }
       }
-      $query = substr($query, 0, -2) . ' WHERE ' . $parameters;
+      $query = substr($query, 0, -strlen(', ')) . ' WHERE ' . $parameters;
     }
 
     return tep_db_query($query, $link);
+  }
+
+  function tep_db_copy($db, $key, $value) {
+    $key_value = false;
+    foreach ($db as $table => $columns) {
+      $values = [];
+      foreach ($columns as $name => $v) {
+        if ($key_value && ($name === $key) && is_null($v)) {
+          $v = $key_value;
+        }
+
+        $values[] = ($v ?? $name);
+      }
+
+      tep_db_query('INSERT INTO ' . $table
+        . ' (' . implode(', ', array_keys($columns))
+        . ') SELECT ' . implode(', ', $values)
+        . ' FROM ' . $table . ' WHERE ' . $key . ' = ' . $value);
+
+      if (!$key_value) {
+        $key_value = tep_db_insert_id();
+      }
+    }
+
+    return $key_value;
   }
 
   function tep_db_fetch_array($db_query) {
