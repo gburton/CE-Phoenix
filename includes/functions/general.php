@@ -989,3 +989,12 @@
       tep_redirect(tep_href_link('login.php', '', 'SSL'));
     }
   }
+
+  function tep_ltrim_once($s, $prefix) {
+    $length = strlen($prefix);
+    if (substr($s, 0, $length) === $prefix) {
+      return substr($s, $length);
+    }
+
+    return $s;
+  }
