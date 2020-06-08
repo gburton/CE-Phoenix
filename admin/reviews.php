@@ -21,7 +21,7 @@
       case 'setflag':
         tep_db_query("UPDATE reviews SET reviews_status = '" . $_GET['flag'] . "', last_modified = NOW() WHERE reviews_id = " . (int)$_GET['rID']);
         
-        $OSCOM_Hooks->call('reviews', 'setflagAction');
+        $OSCOM_Hooks->call('reviews', 'setFlagAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']));
         break;
@@ -44,7 +44,7 @@
         tep_db_query("delete from reviews where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("delete from reviews_description where reviews_id = '" . (int)$reviews_id . "'");
         
-        $OSCOM_Hooks->call('reviews', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('reviews', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page']));
         break;
@@ -58,7 +58,7 @@
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
         
-        $OSCOM_Hooks->call('reviews', 'addnewAction');
+        $OSCOM_Hooks->call('reviews', 'addNewAction');
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(['action'])));
         break;   

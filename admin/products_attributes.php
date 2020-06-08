@@ -35,7 +35,7 @@
           tep_db_query("insert into products_options (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'addproductoptionsAction');
+        $OSCOM_Hooks->call('products_attributes', 'addProductOptionsAction');
         
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -52,7 +52,7 @@
 
         tep_db_query("insert into products_options_values_to_products_options (products_options_id, products_options_values_id) values ('" . (int)$option_id . "', '" . (int)$value_id . "')");
         
-        $OSCOM_Hooks->call('products_attributes', 'addproductoptionvaluesAction');
+        $OSCOM_Hooks->call('products_attributes', 'addProductOptionValuesAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -78,7 +78,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'addproductattributesAction');
+        $OSCOM_Hooks->call('products_attributes', 'addProductAttributesAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -92,7 +92,7 @@
           tep_db_query("update products_options set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'updateoptionnameAction');
+        $OSCOM_Hooks->call('products_attributes', 'updateOptionNameAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -109,7 +109,7 @@
 
         tep_db_query("update products_options_values_to_products_options set products_options_id = '" . (int)$option_id . "'  where products_options_values_id = '" . (int)$value_id . "'");
 
-        $OSCOM_Hooks->call('products_attributes', 'updatevalueAction');
+        $OSCOM_Hooks->call('products_attributes', 'updateValueAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -133,7 +133,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('products_attributes', 'updateproductattributeAction');
+        $OSCOM_Hooks->call('products_attributes', 'updateProductAttributeAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -142,7 +142,7 @@
 
         tep_db_query("delete from products_options where products_options_id = '" . (int)$option_id . "'");
         
-        $OSCOM_Hooks->call('products_attributes', 'deleteoptionAction');
+        $OSCOM_Hooks->call('products_attributes', 'deleteOptionAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -152,7 +152,7 @@
         tep_db_query("delete from products_options_values where products_options_values_id = '" . (int)$value_id . "'");
         tep_db_query("delete from products_options_values_to_products_options where products_options_values_id = '" . (int)$value_id . "'");
         
-        $OSCOM_Hooks->call('products_attributes', 'deletevalueAction');
+        $OSCOM_Hooks->call('products_attributes', 'deleteValueAction');
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -164,7 +164,7 @@
 // added for DOWNLOAD_ENABLED. Always try to remove attributes, even if downloads are no longer enabled
         tep_db_query("delete from products_attributes_download where products_attributes_id = '" . (int)$attribute_id . "'");
 
-        $OSCOM_Hooks->call('products_attributes', 'deleteattributeAction');
+        $OSCOM_Hooks->call('products_attributes', 'deleteAttributeAction');
         
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;

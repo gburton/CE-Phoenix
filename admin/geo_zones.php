@@ -26,7 +26,7 @@
         tep_db_query("insert into zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . (int)$zone_country_id . "', '" . (int)$zone_id . "', '" . (int)$zID . "', now())");
         $new_subzone_id = tep_db_insert_id();
         
-        $OSCOM_Hooks->call('geo_zones', 'insertsubSaction');
+        $OSCOM_Hooks->call('geo_zones', 'insertSubSaction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
         break;
@@ -38,7 +38,7 @@
 
         tep_db_query("update zones_to_geo_zones set geo_zone_id = '" . (int)$zID . "', zone_country_id = '" . (int)$zone_country_id . "', zone_id = " . (tep_not_null($zone_id) ? "'" . (int)$zone_id . "'" : 'null') . ", last_modified = now() where association_id = '" . (int)$sID . "'");
 
-        $OSCOM_Hooks->call('geo_zones', 'savesubSaction');
+        $OSCOM_Hooks->call('geo_zones', 'saveSubSaction');
         
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
         break;
@@ -47,7 +47,7 @@
 
         tep_db_query("delete from zones_to_geo_zones where association_id = '" . (int)$sID . "'");
         
-        $OSCOM_Hooks->call('geo_zones', 'deleteconfirmsubSaction');
+        $OSCOM_Hooks->call('geo_zones', 'deleteConfirmSubSaction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage']));
         break;
@@ -69,7 +69,7 @@
         tep_db_query("insert into geo_zones (geo_zone_name, geo_zone_description, date_added) values ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', now())");
         $new_zone_id = tep_db_insert_id();
         
-        $OSCOM_Hooks->call('geo_zones', 'insertzoneAction');
+        $OSCOM_Hooks->call('geo_zones', 'insertZoneAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
         break;
@@ -80,7 +80,7 @@
 
         tep_db_query("update geo_zones set geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . (int)$zID . "'");
         
-        $OSCOM_Hooks->call('geo_zones', 'savezoneAction');
+        $OSCOM_Hooks->call('geo_zones', 'saveZoneAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
         break;
@@ -90,7 +90,7 @@
         tep_db_query("delete from geo_zones where geo_zone_id = '" . (int)$zID . "'");
         tep_db_query("delete from zones_to_geo_zones where geo_zone_id = '" . (int)$zID . "'");
         
-        $OSCOM_Hooks->call('geo_zones', 'delteconfirmAction');
+        $OSCOM_Hooks->call('geo_zones', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage']));
         break;

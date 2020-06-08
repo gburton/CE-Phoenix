@@ -82,7 +82,7 @@
         tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
         
-        $OSCOM_Hooks->call('languages', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('languages', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
         break;
