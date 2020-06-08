@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,10 +14,11 @@
   require 'includes/application_top.php';
 
 // if the customer is not logged on, redirect them to the login page
-  if (!isset($_SESSION['customer_id'])) {
-    $_SESSION['navigation']->set_snapshot(['mode' => 'SSL', 'page' => 'checkout_payment.php']);
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
-  }
+  $parameters = [
+    'page' => 'checkout_payment.php',
+    'mode' => 'SSL',
+  ];
+  $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
 
 // if there is nothing in the customers cart, redirect them to the shopping cart page
   if ($_SESSION['cart']->count_contents() < 1) {
@@ -25,10 +26,8 @@
   }
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
-  if (isset($_SESSION['cart']->cartID, $_SESSION['cartID'])) {
-    if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
-      tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-    }
+  if ((isset($_SESSION['cart']->cartID, $_SESSION['cartID']) && $_SESSION['cart']->cartID !== $_SESSION['cartID'])) {
+    tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
   }
 
 // if no shipping method has been selected, redirect the customer to the shipping method selection page
@@ -43,7 +42,7 @@
 // load the selected payment module
   $payment_modules = new payment($_SESSION['payment']);
 
-  $order = new order;
+  $order = new order();
 
   $payment_modules->update_status();
 
@@ -70,15 +69,12 @@
       }
     }
     // Out of Stock
-    if ( (STOCK_ALLOW_CHECKOUT != 'true') && ($any_out_of_stock == true) ) {
+    if ( (STOCK_ALLOW_CHECKOUT != 'true') && $any_out_of_stock ) {
       tep_redirect(tep_href_link('shopping_cart.php'));
     }
   }
 
   require "includes/languages/$language/checkout_confirmation.php";
-
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2);
 
   if ($_SESSION['payment'] == 'sage_pay_direct') {
     $iframe_url = tep_href_link('ext/modules/payment/sage_pay/direct_3dauth.php', '', 'SSL');
@@ -86,14 +82,5 @@
     $iframe_url = $sage_pay_server_nexturl;
   }
 
-  require 'includes/template_top.php';
-?>
-
-    <iframe src="<?php echo $iframe_url; ?>" width="100%" height="600" frameborder="0">
-      <p>Your browser does not support iframes.</p>
-    </iframe>
-
-<?php
-  require 'includes/template_bottom.php';
+  require $oscTemplate->map_to_template(__FILE__, 'ext');
   require 'includes/application_bottom.php';
-?>

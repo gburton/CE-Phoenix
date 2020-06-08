@@ -34,7 +34,7 @@
     $error = true;
   }
 
-  if ( $error == false ) {
+  if ( !$error ) {
     $order_query = tep_db_query("SELECT orders_id, orders_status, currency, currency_value FROM orders WHERE orders_id = " . (int)$_POST['cartId'] . " AND customers_id = " . (int)$_POST['M_cid']);
 
     if (!tep_db_num_rows($order_query)) {
@@ -42,7 +42,7 @@
     }
   }
 
-  if ( $error == true ) {
+  if ( $error ) {
     $rbsworldpay_hosted->sendDebugEmail();
 
     exit();
@@ -82,30 +82,5 @@
   ];
 
   tep_db_perform('orders_status_history', $sql_data);
-?>
-<!DOCTYPE html>
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>" />
-<title><?php echo tep_output_string_protected($oscTemplate->getTitle()); ?></title>
-<meta http-equiv="refresh" content="3; URL=<?php echo tep_href_link('checkout_process.php', session_name() . '=' . $_POST['M_sid'] . '&hash=' . $_POST['M_hash'], 'SSL', false); ?>">
-</head>
-<body>
-<h1 class="h3"><?php echo STORE_NAME; ?></h1>
-
-<p><?php echo MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_SUCCESSFUL_TRANSACTION; ?></p>
-
-<form action="<?php echo tep_href_link('checkout_process.php', session_name() . '=' . $_POST['M_sid'] . '&hash=' . $_POST['M_hash'], 'SSL', false); ?>" method="post" target="_top">
-  <p><input type="submit" value="<?php echo sprintf(MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_CONTINUE_BUTTON, addslashes(STORE_NAME)); ?>" /></p>
-</form>
-
-<p>&nbsp;</p>
-
-<WPDISPLAY ITEM=banner>
-
-</body>
-</html>
-
-<?php
+  require $oscTemplate->map_to_template(__FILE__, 'ext');
   tep_session_destroy();
-?>

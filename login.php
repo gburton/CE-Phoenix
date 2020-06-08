@@ -44,21 +44,5 @@
   }
 
   require "includes/languages/$language/login.php";
-
-  $breadcrumb->add(NAVBAR_TITLE, tep_href_link('login.php', '', 'SSL'));
-
-  require 'includes/template_top.php';
-
-  if ($messageStack->size('login') > 0) {
-    echo $messageStack->output('login');
-  }
-?>
-
-  <div class="row">
-    <?php echo $page_content; ?>
-  </div>
-
-<?php
-  require 'includes/template_bottom.php';
+  require $oscTemplate->map_to_template(__FILE__, 'page');
   require 'includes/application_bottom.php';
-?>

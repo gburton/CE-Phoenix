@@ -15,7 +15,7 @@
   }
 ?>
 <div class="col-sm-<?php echo $content_width; ?> cm-ip-product-listing">
-  <?php include 'includes/modules/product_listing.php'; ?>
+  <?php include $GLOBALS['oscTemplate']->map_to_template('product_listing.php', 'component'); ?>
 </div>
 
 <?php
