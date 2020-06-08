@@ -38,7 +38,7 @@
 // password.
   function osc_encrypt_password($plain) {
     if (!class_exists('PasswordHash')) {
-      include('../includes/classes/passwordhash.php');
+      require '../includes/classes/password_hash.php';
     }
 
     $hasher = new PasswordHash(10, true);
@@ -94,4 +94,3 @@
       }
     }
   }
-?>
