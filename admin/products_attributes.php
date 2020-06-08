@@ -63,17 +63,18 @@
         $value_price = tep_db_prepare_input($_POST['value_price']);
         $price_prefix = tep_db_prepare_input($_POST['price_prefix']);
 
-        tep_db_query("insert into products_attributes values (null, '" . (int)$products_id . "', '" . (int)$options_id . "', '" . (int)$values_id . "', '" . (float)tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
+        tep_db_query("insert into products_attributes (products_id, options_id, options_values_id, options_values_price, price_prefix) values ('" . (int)$products_id . "', '" . (int)$options_id . "', '" . (int)$values_id . "', '" . (float)tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
+
+        $products_attributes_id = tep_db_insert_id();
 
         if (DOWNLOAD_ENABLED == 'true') {
-          $products_attributes_id = tep_db_insert_id();
 
           $products_attributes_filename = tep_db_prepare_input($_POST['products_attributes_filename']);
           $products_attributes_maxdays = tep_db_prepare_input($_POST['products_attributes_maxdays']);
           $products_attributes_maxcount = tep_db_prepare_input($_POST['products_attributes_maxcount']);
 
           if (tep_not_null($products_attributes_filename)) {
-            tep_db_query("insert into products_attributes_download values (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
+            tep_db_query("insert into products_attributes_download (products_attributes_id, products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount) values (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
           }
         }
         
