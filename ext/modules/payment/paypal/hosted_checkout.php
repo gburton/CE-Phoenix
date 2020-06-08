@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2017 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,12 +17,12 @@
 
   $error = false;
 
-  if ( !defined('OSCOM_APP_PAYPAL_HS_STATUS') || !in_array(OSCOM_APP_PAYPAL_HS_STATUS, array('1', '0')) ) {
+  if ( !defined('OSCOM_APP_PAYPAL_HS_STATUS') || !in_array(OSCOM_APP_PAYPAL_HS_STATUS, ['1', '0']) ) {
     $error = true;
   }
 
   if ( $error === false ) {
-    if ( !isset($_GET['key']) || !isset($_SESSION['pphs_key']) || ($_GET['key'] != $_SESSION['pphs_key']) || !isset($_SESSION['pphs_result']) ) {
+    if ( !isset($_GET['key'], $_SESSION['pphs_key'], $_SESSION['pphs_result']) || ($_GET['key'] !== $_SESSION['pphs_key']) ) {
       $error = true;
     }
   }
@@ -44,31 +44,6 @@
   } else {
     $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
   }
-?>
-<!DOCTYPE html>
-<html <?php echo HTML_PARAMS; ?>>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>" />
-<title><?php echo tep_output_string_protected(TITLE); ?></title>
-<base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>" />
-</head>
-<body>
 
-<div style="text-align: center;">
-  <?php echo tep_image('ext/modules/payment/paypal/images/hss_load.gif');?>
-</div>
-
-<form name="pphs" action="<?php echo $form_url; ?>" method="post" <?php echo ($error == true ? 'target="_top"' : ''); ?>>
-  <input type="hidden" name="hosted_button_id" value="<?php echo (isset($_SESSION['pphs_result']['HOSTEDBUTTONID']) ? tep_output_string_protected($_SESSION['pphs_result']['HOSTEDBUTTONID']) : ''); ?>" />
-</form>
-
-<script>
-  document.pphs.submit();
-</script>
-
-</body>
-</html>
-
-<?php
+  require $oscTemplate->map_to_template(__FILE__, 'ext');
   require(DIR_FS_CATALOG . 'includes/application_bottom.php');
-?>
