@@ -17,19 +17,15 @@
     protected $group = 'header_tags';
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $product_check;
+      global $oscTemplate, $product_info;
 
-      if (isset($_GET['products_id'])) {
-        if ($product_check['total'] > 0) {
-          $meta_info_query = tep_db_query("select pd.products_seo_description, pd.products_seo_keywords from products p, products_description pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['products_id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "'");
-          $meta_info = tep_db_fetch_array($meta_info_query);
+      if (isset($_GET['products_id'], $product_info)) {
+        if (tep_not_null($product_info['products_seo_description'])) {
+          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($product_info['products_seo_description']) . '" />' . PHP_EOL, $this->group);
+        }
 
-          if (tep_not_null($meta_info['products_seo_description'])) {
-            $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($meta_info['products_seo_description']) . '" />' . PHP_EOL, $this->group);
-          }
-          if ((tep_not_null($meta_info['products_seo_keywords'])) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS != 'Search') ) {
-            $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($meta_info['products_seo_keywords']) . '" />' . PHP_EOL, $this->group);
-          }
+        if ((tep_not_null($product_info['products_seo_keywords'])) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS !== 'Search') ) {
+          $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($product_info['products_seo_keywords']) . '" />' . PHP_EOL, $this->group);
         }
       }
     }

@@ -17,50 +17,41 @@
     public $group = 'header_tags';
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $product_check, $currencies;
+      global $product_info, $currencies;
 
-      if ($product_check['total'] > 0) {
-        $product_info_query = tep_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_image, p.products_price, p.products_quantity, p.products_tax_class_id, p.products_date_available from products p, products_description pd where p.products_id = " . (int)$_GET['products_id'] . " and p.products_status = 1 and p.products_id = pd.products_id and pd.language_id = " . (int)$_SESSION['languages_id']);
+      if (isset($product_info['products_name'])) {
+        $data = [
+          'og:type' => 'product',
+          'og:title' => $product_info['products_name'],
+          'og:site_name' => STORE_NAME,
+        ];
 
-        if ( tep_db_num_rows($product_info_query) === 1 ) {
-          $product_info = tep_db_fetch_array($product_info_query);
+        $product_description = substr(trim(preg_replace('/\s\s+/', ' ', strip_tags($product_info['products_description']))), 0, 197) . '...';
+        $data['og:description'] = $product_description;
 
-          $data = [
-            'og:type' => 'product',
-            'og:title' => $product_info['products_name'],
-            'og:site_name' => STORE_NAME,
-          ];
+        $pi_query = tep_db_query("SELECT image FROM products_images WHERE products_id = " . (int)$product_info['products_id'] . " ORDER BY sort_order LIMIT 1");
+        $pi = tep_db_fetch_array($pi_query);
+        $products_image = $pi['image'] ?? $product_info['products_image'];
+        $data['og:image'] = tep_href_link("images/$products_image", '', 'NONSSL', false, false);
 
-          $product_description = substr(trim(preg_replace('/\s\s+/', ' ', strip_tags($product_info['products_description']))), 0, 197) . '...';
-          $data['og:description'] = $product_description;
-
-          $products_image = $product_info['products_image'];
-          $pi_query = tep_db_query("select image from products_images where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order limit 1");
-          if ( tep_db_num_rows($pi_query) === 1 ) {
-            $pi = tep_db_fetch_array($pi_query);
-            $products_image = $pi['image'];
-          }
-          $data['og:image'] = tep_href_link("images/$products_image", '', 'NONSSL', false, false);
-
-          if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
-            $products_price = $currencies->display_raw($new_price, tep_get_tax_rate($product_info['products_tax_class_id']));
-          } else {
-            $products_price = $currencies->display_raw($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
-          }
-          $data['product:price:amount'] = $products_price;
-          $data['product:price:currency'] = $_SESSION['currency'];
-
-          $data['og:url'] = tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false);
-
-          $data['product:availability'] = ( $product_info['products_quantity'] > 0 ) ? MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_TEXT_IN_STOCK : MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_TEXT_OUT_OF_STOCK;
-
-          $result = '';
-          foreach ( $data as $key => $value ) {
-            $result .= '<meta property="' . tep_output_string_protected($key) . '" content="' . tep_output_string_protected($value) . '" />' . PHP_EOL;
-          }
-
-          $oscTemplate->addBlock($result, $this->group);
+        if ($new_price = tep_get_products_special_price($product_info['products_id'])) {
+          $products_price = $currencies->display_raw($new_price, tep_get_tax_rate($product_info['products_tax_class_id']));
+        } else {
+          $products_price = $currencies->display_raw($product_info['products_price'], tep_get_tax_rate($product_info['products_tax_class_id']));
         }
+        $data['product:price:amount'] = $products_price;
+        $data['product:price:currency'] = $_SESSION['currency'];
+
+        $data['og:url'] = tep_href_link('product_info.php', 'products_id=' . $product_info['products_id'], 'NONSSL', false);
+
+        $data['product:availability'] = ( $product_info['products_quantity'] > 0 ) ? MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_TEXT_IN_STOCK : MODULE_HEADER_TAGS_PRODUCT_OPENGRAPH_TEXT_OUT_OF_STOCK;
+
+        $result = '';
+        foreach ( $data as $property => $content ) {
+          $result .= '<meta property="' . tep_output_string_protected($property) . '" content="' . tep_output_string_protected($content) . '" />' . PHP_EOL;
+        }
+
+        $GLOBALS['oscTemplate']->addBlock($result, $this->group);
       }
     }
 
