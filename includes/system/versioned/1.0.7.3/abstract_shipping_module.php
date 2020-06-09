@@ -12,7 +12,7 @@
 
   abstract class abstract_shipping_module extends abstract_zoneable_module {
 
-    protected $tax_class;
+    public $tax_class;
     protected $icon = '';
     public $quotes;
     protected $country;
