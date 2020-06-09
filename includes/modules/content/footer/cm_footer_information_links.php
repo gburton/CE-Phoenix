@@ -30,7 +30,7 @@
         'MODULE_CONTENT_FOOTER_INFORMATION_STATUS' => [
           'title' => 'Enable Information Links Footer Module',
           'value' => 'True',
-          'desc' => 'Do you want to enable the Information Links content module?',
+          'desc' => 'Do you want to enable the Information Links Footer module?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_CONTENT_FOOTER_INFORMATION_CONTENT_WIDTH' => [
@@ -41,7 +41,7 @@
         ],
         'MODULE_CONTENT_FOOTER_INFORMATION_SORT_ORDER' => [
           'title' => 'Sort Order',
-          'value' => '0',
+          'value' => '10',
           'desc' => 'Sort order of display. Lowest is displayed first.',
         ],
       ];
