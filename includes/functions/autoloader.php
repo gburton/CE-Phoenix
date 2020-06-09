@@ -120,9 +120,8 @@
     $class = tep_normalize_class_name($original_class);
 
     if (isset($class_files[$class])) {
-      $language =& $_SESSION['language'];
-      if (isset($language) && DIR_FS_CATALOG . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
-        $language_file = DIR_FS_CATALOG . "includes/languages/$language/modules" . substr($class_files[$class], $modules_directory_length);
+      if (isset($_SESSION['language']) && DIR_FS_CATALOG . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
+        $language_file = DIR_FS_CATALOG . 'includes/languages/' . $_SESSION['language'] . '/modules' . substr($class_files[$class], $modules_directory_length);
         if (file_exists($language_file)) {
           include $language_file;
         }
