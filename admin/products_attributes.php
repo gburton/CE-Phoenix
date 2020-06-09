@@ -519,6 +519,14 @@ EOSQL
   <p class="my-2 text-right mr-2"><?php echo $attributes_split->display_links($attributes_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $attribute_page, 'option_page=' . $option_page . '&value_page=' . $value_page, 'attribute_page'); ?></p>
 
   <div class="table-responsive">
+  <?php
+  if ($action == 'update_attribute') {
+    $form_action = 'update_product_attribute';
+  } else {
+    $form_action = 'add_product_attributes';
+  }
+  ?>
+  <form name="attributes" action="<?php echo tep_href_link('products_attributes.php', 'action=' . $form_action . '&' . $page_info); ?>" method="post">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -531,14 +539,6 @@ EOSQL
         </tr>
       </thead>
       <tbody>
-        <?php
-        if ($action == 'update_attribute') {
-          $form_action = 'update_product_attribute';
-        } else {
-          $form_action = 'add_product_attributes';
-        }
-        ?>
-        <form name="attributes" action="<?php echo tep_href_link('products_attributes.php', 'action=' . $form_action . '&' . $page_info); ?>" method="post">
         <?php
         $next_id = 1;
         $attributes = tep_db_query($attributes);
@@ -718,10 +718,10 @@ EOSQL
           }
         }
         ?>
-        </form>
       </tbody>
     </table>
-  </div>
+  </form>
+ </div>
 
 <?php
   require('includes/template_bottom.php');
