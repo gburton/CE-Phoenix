@@ -529,8 +529,9 @@
     function before_process() {
       global $order;
 
-      $new_order_status = DEFAULT_ORDERS_STATUS_ID;
+      $order->set_id($this->extract_order_id());
 
+      $new_order_status = DEFAULT_ORDERS_STATUS_ID;
       if ( OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID > 0) {
         $new_order_status = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
       }
@@ -551,14 +552,14 @@
 
 // load the after_process function from the payment modules
       $this->after_process();
-
-      require 'includes/modules/checkout/reset.php';
-
-      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
 
     function after_process() {
       unset($_SESSION['cart_PayPal_Standard_ID']);
+
+      require 'includes/modules/checkout/reset.php';
+
+      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
 
     function get_error() {
