@@ -295,6 +295,8 @@ EOSQL
       foreach ($column_keys as $key => $column_name) {
         $product[$key] = $data[$column_name];
       }
+
+      return $product;
     }
 
     function get_products() {
