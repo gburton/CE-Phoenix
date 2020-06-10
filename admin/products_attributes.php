@@ -274,7 +274,7 @@
                   }
                   ?>
                 <tr>
-                  <td colspan="3">
+                  <td colspan="2">
                     <?php echo '<form name="option" action="' . tep_href_link('products_attributes.php', 'action=update_option_name&' . $page_info) . '" method="post">'; ?>
                       <div class="d-flex align-items-center">
                         <div class="col-10">
