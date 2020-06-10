@@ -5,39 +5,37 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class payment {
+
     public $modules, $selected_module;
 
 // class constructor
     function __construct($module = '') {
-      global $PHP_SELF;
-
       if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
         $this->modules = explode(';', MODULE_PAYMENT_INSTALLED);
 
         $include_modules = [];
 
-        if ( (tep_not_null($module)) && (in_array($module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)), $this->modules)) ) {
+        if ( (tep_not_null($module)) && (in_array($module . '.php', $this->modules)) ) {
           $this->selected_module = $module;
 
-          $include_modules[] = array('class' => $module, 'file' => $module . '.php');
+          $include_modules[] = ['class' => $module, 'file' => "$module.php"];
         } else {
-          foreach($this->modules as $value) {
-            $class = substr($value, 0, strrpos($value, '.'));
-            $include_modules[] = array('class' => $class, 'file' => $value);
+          foreach ($this->modules as $value) {
+            $include_modules[] = [
+              'class' => pathinfo($value, PATHINFO_FILENAME),
+              'file' => $value,
+            ];
           }
         }
 
-        for ($i=0, $n=count($include_modules); $i<$n; $i++) {
-          include('includes/languages/' . $_SESSION['language'] . '/modules/payment/' . $include_modules[$i]['file']);
-          include('includes/modules/payment/' . $include_modules[$i]['file']);
-
-          $GLOBALS[$include_modules[$i]['class']] = new $include_modules[$i]['class'];
+        foreach ($include_modules as $include_module) {
+          $GLOBALS[$include_module['class']] = new $include_module['class']();
         }
 
 // if there is only one payment method, select it as default because in
@@ -61,14 +59,13 @@
    The following method is a work-around to implementing the method in all
    payment modules available which would break the modules in the contributions
    section. This should be looked into again post 2.2.
-*/   
+*/
     function update_status() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module])) {
-          if (method_exists($GLOBALS[$this->selected_module], 'update_status')) {
-            $GLOBALS[$this->selected_module]->update_status();
-          }
-        }
+      if (is_array($this->modules)
+        && is_object($GLOBALS[$this->selected_module])
+        && method_exists($GLOBALS[$this->selected_module], 'update_status'))
+      {
+        $GLOBALS[$this->selected_module]->update_status();
       }
     }
 
@@ -93,7 +90,7 @@
               '  }' . "\n\n";
 
         foreach($this->modules as $value) {
-          $class = substr($value, 0, strrpos($value, '.'));
+          $class = pathinfo($value, PATHINFO_FILENAME);
           if ($GLOBALS[$class]->enabled) {
             $js .= $GLOBALS[$class]->javascript_validation();
           }
@@ -117,11 +114,12 @@
     }
 
     function checkout_initialization_method() {
-      $initialize_array = array();
+      $initialize_array = [];
 
       if (is_array($this->modules)) {
         foreach($this->modules as $value) {
-          $class = substr($value, 0, strrpos($value, '.'));
+          $class = pathinfo($value, PATHINFO_FILENAME);
+
           if ($GLOBALS[$class]->enabled && method_exists($GLOBALS[$class], 'checkout_initialization_method')) {
             $initialize_array[] = $GLOBALS[$class]->checkout_initialization_method();
           }
@@ -132,14 +130,18 @@
     }
 
     function selection() {
-      $selection_array = array();
+      $selection_array = [];
 
       if (is_array($this->modules)) {
-        foreach($this->modules as $value) {
-          $class = substr($value, 0, strrpos($value, '.'));
+        foreach ($this->modules as $value) {
+          $class = pathinfo($value, PATHINFO_FILENAME);
+
           if ($GLOBALS[$class]->enabled) {
             $selection = $GLOBALS[$class]->selection();
-            if (is_array($selection)) $selection_array[] = $selection;
+
+            if (is_array($selection)) {
+              $selection_array[] = $selection;
+            }
           }
         }
       }
@@ -147,52 +149,46 @@
       return $selection_array;
     }
 
+    protected function is_selected_enabled() {
+      return (is_array($this->modules)
+        && is_object($GLOBALS[$this->selected_module])
+        && ($GLOBALS[$this->selected_module]->enabled) );
+    }
+
     function pre_confirmation_check() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          $GLOBALS[$this->selected_module]->pre_confirmation_check();
-        }
+      if ($this->is_selected_enabled()) {
+        $GLOBALS[$this->selected_module]->pre_confirmation_check();
       }
     }
 
     function confirmation() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->confirmation();
-        }
+      if ($this->is_selected_enabled()) {
+        return $GLOBALS[$this->selected_module]->confirmation();
       }
     }
 
     function process_button() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->process_button();
-        }
+      if ($this->is_selected_enabled()) {
+        return $GLOBALS[$this->selected_module]->process_button();
       }
     }
 
     function before_process() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->before_process();
-        }
+      if ($this->is_selected_enabled()) {
+        return $GLOBALS[$this->selected_module]->before_process();
       }
     }
 
     function after_process() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->after_process();
-        }
+      if ($this->is_selected_enabled()) {
+        return $GLOBALS[$this->selected_module]->after_process();
       }
     }
 
     function get_error() {
-      if (is_array($this->modules)) {
-        if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
-          return $GLOBALS[$this->selected_module]->get_error();
-        }
+      if ($this->is_selected_enabled()) {
+        return $GLOBALS[$this->selected_module]->get_error();
       }
     }
+
   }
-?>
