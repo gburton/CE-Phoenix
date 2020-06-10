@@ -47,7 +47,7 @@
           $messageStack->add_session(SUCCESS_ADVERT_STATUS_UPDATED, 'success');
         }
 
-        $OSCOM_Hooks->call('advert_manager', 'setflagAction');
+        $OSCOM_Hooks->call('advert_manager', 'setFlagAction');
 
         tep_redirect(tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$_GET['cID']));
         break;
@@ -124,7 +124,7 @@
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
           }
 
-          $OSCOM_Hooks->call('advert_manager', 'insertupdateAction');
+          $OSCOM_Hooks->call('advert_manager', 'insertUpdateAction');
 
           tep_redirect(tep_href_link('advert_manager.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'cID=' . $advert_id));
         } else {
@@ -151,7 +151,7 @@
 
         tep_db_query("delete from advert where advert_id = '" . (int)$advert_id . "'");
 
-        $OSCOM_Hooks->call('advert_manager', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('advert_manager', 'deleteConfirmAction');
 
         $messageStack->add_session(SUCCESS_IMAGE_REMOVED, 'success');
 

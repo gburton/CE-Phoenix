@@ -18,8 +18,6 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
-<div class="contentContainer">
-
 <?php
   if (tep_count_customer_orders() > 0) {
     $history_query_raw = sprintf(<<<'EOSQL'
@@ -90,7 +88,6 @@ EOSQL
   <div class="buttonSet my-2">
     <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL'), null, null, 'btn-light'); ?>
   </div>
-</div>
 
 <?php
   require $oscTemplate->map_to_template('template_bottom.php', 'component');

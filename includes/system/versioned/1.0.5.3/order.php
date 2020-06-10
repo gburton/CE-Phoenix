@@ -123,6 +123,7 @@
           'tax' => $orders_products['products_tax'],
           'price' => $orders_products['products_price'],
           'final_price' => $orders_products['final_price'],
+          'orders_products_id' => $orders_products['orders_products_id'],
         ];
 
         $attributes_query = tep_db_query("SELECT products_options, products_options_values, options_values_price, price_prefix FROM orders_products_attributes WHERE orders_id = " . (int)$this->id . " AND orders_products_id = " . (int)$orders_products['orders_products_id']);

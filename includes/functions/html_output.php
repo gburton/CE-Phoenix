@@ -331,7 +331,7 @@
 
     $button .= ' class="btn ';
 
-    $button .= $style ?? 'btn-outline-secondary';
+    $button .= $style ?? 'btn-light mt-2';
 
     $button .= '">';
 

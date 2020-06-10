@@ -24,8 +24,6 @@
   echo tep_draw_form('review', tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_id=' . (int)$_GET['products_id'], 'SSL'), 'post', '', true);
 ?>
 
-<div class="contentContainer">
-
   <div class="alert alert-warning" role="alert">
     <?php echo sprintf(TEXT_REVIEW_WRITING, tep_output_string_protected($customer->get_short_name()), $product_info['products_name']); ?>
   </div>
@@ -75,8 +73,6 @@
     <div class="col-sm-8"><?php echo $product_info['products_description']; ?>...</div>
     <div class="col-sm-4"><?php echo tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name'])); ?></div>
   </div>
-
-</div>
 
 </form>
 

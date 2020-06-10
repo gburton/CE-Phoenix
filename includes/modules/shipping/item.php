@@ -5,122 +5,102 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2008 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class item {
-    var $code, $title, $description, $icon, $enabled;
+  class item extends abstract_shipping_module {
 
-// class constructor
-    function __construct() {
-      global $order;
-
-      $this->code = 'item';
-      $this->title = MODULE_SHIPPING_ITEM_TEXT_TITLE;
-      $this->description = MODULE_SHIPPING_ITEM_TEXT_DESCRIPTION;
-      
-      if ( defined('MODULE_SHIPPING_ITEM_STATUS') ) {
-        $this->sort_order = MODULE_SHIPPING_ITEM_SORT_ORDER;
-        $this->icon = '';
-        $this->tax_class = MODULE_SHIPPING_ITEM_TAX_CLASS;
-        $this->enabled = ((MODULE_SHIPPING_ITEM_STATUS == 'True') ? true : false);
-      }
-      
-      $delivery_country_id = $order->delivery['country']['id'] ?? STORE_COUNTRY ?? 0;
-      $delivery_zone_id = $order->delivery['zone_id'] ?? STORE_ZONE ?? 0;
-
-      if ( ($this->enabled == true) && ((int)MODULE_SHIPPING_ITEM_ZONE > 0) ) {
-        $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_SHIPPING_ITEM_ZONE . "' and zone_country_id = '" . $delivery_country_id . "' order by zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
-          if ($check['zone_id'] < 1) {
-            $check_flag = true;
-            break;
-          } elseif ($check['zone_id'] == $delivery_zone_id) {
-            $check_flag = true;
-            break;
-          }
-        }
-
-        if ($check_flag == false) {
-          $this->enabled = false;
-        }
-      }
-    }
+    const CONFIG_KEY_BASE = 'MODULE_SHIPPING_ITEM_';
 
 // class methods
-    function quote($method = '') {
-      global $order;
+    public function quote($method = '') {
+      $this->quotes = [
+        'id' => $this->code,
+        'module' => MODULE_SHIPPING_ITEM_TEXT_TITLE,
+        'methods' => [[
+          'id' => $this->code,
+          'title' => MODULE_SHIPPING_ITEM_TEXT_WAY,
+          'cost' => ($this->base_constant('COST') * $this->count_items()) + $this->calculate_handling(),
+        ]],
+      ];
 
-      $number_of_items = $this->getNumberOfItems();
-
-      $this->quotes = array('id' => $this->code,
-                            'module' => MODULE_SHIPPING_ITEM_TEXT_TITLE,
-                            'methods' => array(array('id' => $this->code,
-                                                     'title' => MODULE_SHIPPING_ITEM_TEXT_WAY,
-                                                     'cost' => (MODULE_SHIPPING_ITEM_COST * $number_of_items) + MODULE_SHIPPING_ITEM_HANDLING)));
-
-      if ($this->tax_class > 0) {
-        $this->quotes['tax'] = tep_get_tax_rate($this->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
-      }
-
-      if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, htmlspecialchars($this->title));
+      $this->quote_common();
 
       return $this->quotes;
     }
 
-    function check() {
-      if (!isset($this->_check)) {
-        $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_SHIPPING_ITEM_STATUS'");
-        $this->_check = tep_db_num_rows($check_query);
-      }
-      return $this->_check;
+    protected function get_parameters() {
+      return [
+        $this->config_key_base . 'STATUS' => [
+          'title' => 'Enable Item Shipping',
+          'value' => 'True',
+          'desc' => 'Do you want to offer per item rate shipping?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        $this->config_key_base . 'COST' => [
+          'title' => 'Shipping Cost',
+          'value' => '2.50',
+          'desc' => 'The shipping cost will be multiplied by the number of items in an order that uses this shipping method.',
+        ],
+        $this->config_key_base . 'HANDLING' => [
+          'title' => 'Handling Fee',
+          'value' => '0',
+          'desc' => 'Handling fee for this shipping method.',
+        ],
+        $this->config_key_base . 'TAX_CLASS' => [
+          'title' => 'Tax Class',
+          'value' => '0',
+          'desc' => 'Use the following tax class on the shipping fee.',
+          'use_func' => 'tep_get_tax_class_title',
+          'set_func' => 'tep_cfg_pull_down_tax_classes(',
+        ],
+        $this->config_key_base . 'ZONE' => [
+          'title' => 'Shipping Zone',
+          'value' => '0',
+          'desc' => 'If a zone is selected, only enable this shipping method for that zone.',
+          'use_func' => 'tep_get_zone_class_title',
+          'set_func' => 'tep_cfg_pull_down_zone_classes(',
+        ],
+        $this->config_key_base . 'SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display.',
+        ],
+      ];
     }
 
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Item Shipping', 'MODULE_SHIPPING_ITEM_STATUS', 'True', 'Do you want to offer per item rate shipping?', '6', '0', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Shipping Cost', 'MODULE_SHIPPING_ITEM_COST', '2.50', 'The shipping cost will be multiplied by the number of items in an order that uses this shipping method.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Handling Fee', 'MODULE_SHIPPING_ITEM_HANDLING', '0', 'Handling fee for this shipping method.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Tax Class', 'MODULE_SHIPPING_ITEM_TAX_CLASS', '0', 'Use the following tax class on the shipping fee.', '6', '0', 'tep_get_tax_class_title', 'tep_cfg_pull_down_tax_classes(', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Shipping Zone', 'MODULE_SHIPPING_ITEM_ZONE', '0', 'If a zone is selected, only enable this shipping method for that zone.', '6', '0', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_SHIPPING_ITEM_SORT_ORDER', '0', 'Sort order of display.', '6', '0', now())");
-    }
+    protected function count_items() {
+      global $order;
 
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
+      $item_count = ('physical' === $order->content_type) ? $GLOBALS['total_count'] : 0;
 
-    function keys() {
-      return array('MODULE_SHIPPING_ITEM_STATUS', 'MODULE_SHIPPING_ITEM_COST', 'MODULE_SHIPPING_ITEM_HANDLING', 'MODULE_SHIPPING_ITEM_TAX_CLASS', 'MODULE_SHIPPING_ITEM_ZONE', 'MODULE_SHIPPING_ITEM_SORT_ORDER');
-    }
+      if ('mixed' === $order->content_type) {
+        foreach ($order->products as $product) {
+          foreach (($product['attributes'] ?? []) as $option => $value) {
+            $virtual_check_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT COUNT(*) AS total
+ FROM products_attributes pa INNER JOIN products_attributes_download pad
+   ON pa.products_attributes_id = pad.products_attributes_id
+ WHERE pa.products_id = %d AND pa.options_values_id = %d
+EOSQL
+              , (int)$product['id'], (int)$value['value_id']));
+            $virtual_check = tep_db_fetch_array($virtual_check_query);
 
-    function getNumberOfItems() {
-      global $order, $total_count;
-
-      $number_of_items = $total_count;
-
-      if ($order->content_type == 'mixed') {
-        $number_of_items = 0;
-
-        for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
-          $number_of_items += $order->products[$i]['qty'];
-
-          if (isset($order->products[$i]['attributes'])) {
-            foreach($order->products[$i]['attributes'] as $option => $value) {
-              $virtual_check_query = tep_db_query("select count(*) as total from products_attributes pa, products_attributes_download pad where pa.products_id = '" . (int)$order->products[$i]['id'] . "' and pa.options_values_id = '" . (int)$value['value_id'] . "' and pa.products_attributes_id = pad.products_attributes_id");
-              $virtual_check = tep_db_fetch_array($virtual_check_query);
-
-              if ($virtual_check['total'] > 0) {
-                $number_of_items -= $order->products[$i]['qty'];
-              }
+            if ($virtual_check['total'] > 0) {
+              // if any attribute is downloadable, the product is virtual
+              // and doesn't count; so skip to the next product
+              // without adding the product quantity
+              continue 2;
             }
           }
+
+          $item_count += $product['qty'];
         }
       }
 
-      return $number_of_items;
+      return $item_count;
     }
+
   }
-?>

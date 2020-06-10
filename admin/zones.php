@@ -46,7 +46,7 @@
 
         tep_db_query("delete from zones where zone_id = '" . (int)$zone_id . "'");
         
-        $OSCOM_Hooks->call('zones', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('zones', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('zones.php', 'page=' . (int)$_GET['page']));
         break;

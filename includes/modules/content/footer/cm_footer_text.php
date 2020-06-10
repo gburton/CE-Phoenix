@@ -41,7 +41,7 @@
         ],
         'MODULE_CONTENT_FOOTER_TEXT_SORT_ORDER' => [
           'title' => 'Sort Order',
-          'value' => '0',
+          'value' => '40',
           'desc' => 'Sort order of display. Lowest is displayed first.',
         ],
       ];

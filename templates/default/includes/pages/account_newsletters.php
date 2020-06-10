@@ -20,8 +20,6 @@
 
 <?php echo tep_draw_form('account_newsletter', tep_href_link('account_newsletters.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
-<div class="contentContainer">
-
   <div class="form-group row align-items-center">
     <div class="col-form-label col-sm-4 text-left text-sm-right"><?php echo MY_NEWSLETTERS_GENERAL_NEWSLETTER; ?></div>
     <div class="col-sm-8 pl-5 custom-control custom-switch">
@@ -36,8 +34,6 @@
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_UPDATE_PREFERENCES, 'fas fa-users-cog', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
-
-</div>
 
 </form>
 

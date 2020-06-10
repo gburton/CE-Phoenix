@@ -24,7 +24,7 @@
       case 'setflag':
         tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
         
-        $OSCOM_Hooks->call('specials', 'setflagAction');
+        $OSCOM_Hooks->call('specials', 'setFlagAction');
 
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;
@@ -77,7 +77,7 @@
 
         tep_db_query("delete from specials where specials_id = '" . (int)$specials_id . "'");
         
-        $OSCOM_Hooks->call('specials', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('specials', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
         break;

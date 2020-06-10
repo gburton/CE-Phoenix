@@ -25,7 +25,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('testimonials', 'setflagAction');
+        $OSCOM_Hooks->call('testimonials', 'setFlagAction');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $_GET['tID']));
         break;
@@ -49,7 +49,7 @@
         tep_db_query("delete from testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("delete from testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
         
-        $OSCOM_Hooks->call('testimonials', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('testimonials', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('testimonials.php', 'page=' . (int)$_GET['page']));
         break;
@@ -63,7 +63,7 @@
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into testimonials_description (testimonials_id, languages_id, testimonials_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . tep_db_input($testimonial) . "')");
         
-        $OSCOM_Hooks->call('testimonials', 'addnewAction');
+        $OSCOM_Hooks->call('testimonials', 'addNewAction');
 
         tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params(array('action'))));
         break;

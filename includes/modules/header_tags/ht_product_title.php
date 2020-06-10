@@ -17,23 +17,13 @@
     protected $group = 'header_tags';
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $product_check;
+      global $oscTemplate, $product_info;
 
-      if (basename($PHP_SELF) == 'product_info.php') {
-        if (isset($_GET['products_id']) && ($product_check['total'] > 0)) {
-          $product_info_query = tep_db_query(sprintf(<<<'EOSQL'
-SELECT pd.products_name, pd.products_seo_title
- FROM products p INNER JOIN products_description pd ON pd.products_id = p.products_id
- WHERE p.products_status = 1 AND p.products_id = %d AND pd.language_id = %d
-EOSQL
-            , (int)$_GET['products_id'], (int)$_SESSION['languages_id']));
-          $product_info = tep_db_fetch_array($product_info_query);
-
-          if ( tep_not_null($product_info['products_seo_title']) && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
-            $oscTemplate->setTitle($product_info['products_seo_title'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
-          } else {
-            $oscTemplate->setTitle($product_info['products_name'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
-          }
+      if (isset($_GET['products_id'], $product_info['products_name']) && (basename($GLOBALS['PHP_SELF']) == 'product_info.php')) {
+        if ( tep_not_null($product_info['products_seo_title']) && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_TITLE_OVERRIDE === 'True') ) {
+          $oscTemplate->setTitle($product_info['products_seo_title'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
+        } else {
+          $oscTemplate->setTitle($product_info['products_name'] . MODULE_HEADER_TAGS_PRODUCT_SEO_SEPARATOR . $oscTemplate->getTitle());
         }
       }
     }

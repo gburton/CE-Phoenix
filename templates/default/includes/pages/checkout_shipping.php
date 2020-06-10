@@ -22,7 +22,6 @@
 
 <?php echo tep_draw_form('checkout_address', tep_href_link('checkout_shipping.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process'); ?>
 
-<div class="contentContainer">
   <div class="row">
     <div class="col-sm-7">
       <h5 class="mb-1"><?php echo TABLE_HEADING_SHIPPING_METHOD; ?></h5>
@@ -146,8 +145,6 @@
   $parameters = ['style' => 'progress-bar progress-bar-striped progress-bar-animated bg-info', 'markers' => ['position' => 1, 'min' => 0, 'max' => 100, 'now' => 33]];
   echo $OSCOM_Hooks->call('progress', 'progressBar', $parameters);
 ?>
-
-</div>
 
 </form>
 

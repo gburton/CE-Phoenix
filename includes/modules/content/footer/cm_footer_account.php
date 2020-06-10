@@ -30,7 +30,7 @@
         'MODULE_CONTENT_FOOTER_ACCOUNT_STATUS' => [
           'title' => 'Enable Account Footer Module',
           'value' => 'True',
-          'desc' => 'Do you want to enable the Account content module?',
+          'desc' => 'Do you want to enable this module?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_CONTENT_FOOTER_ACCOUNT_CONTENT_WIDTH' => [
@@ -41,7 +41,7 @@
         ],
         'MODULE_CONTENT_FOOTER_ACCOUNT_SORT_ORDER' => [
           'title' => 'Sort Order',
-          'value' => '0',
+          'value' => '20',
           'desc' => 'Sort order of display. Lowest is displayed first.',
         ],
       ];

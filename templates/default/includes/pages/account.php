@@ -19,10 +19,7 @@
   }
 ?>
 
-<div class="contentContainer">
-  <div class="row"><?php echo $oscTemplate->getContent('account'); ?></div>
-</div>
-
+<div class="row"><?php echo $oscTemplate->getContent('account'); ?></div>
 
 <?php
   require $oscTemplate->map_to_template('template_bottom.php', 'component');

@@ -22,11 +22,8 @@
 
 <h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
 
-<?php echo tep_draw_form('checkout_payment', tep_href_link('checkout_confirmation.php', '', 'SSL'), 'post', 'onsubmit="return check_form();"', true); ?>
+<?php echo tep_draw_form('checkout_payment', tep_href_link('checkout_confirmation.php', '', 'SSL'), 'post', 'onsubmit="return check_form();"', true); 
 
-<div class="contentContainer">
-
-<?php
   if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
     echo '<div class="alert alert-danger">' . "\n";
     echo '<p class="lead"><b>' . tep_output_string_protected($error['title']) . "</b></p>\n";
@@ -128,8 +125,6 @@
 ?>
 
   </div>
-
-</div>
 
 </form>
 

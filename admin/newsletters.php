@@ -91,7 +91,7 @@
 
         tep_db_query("delete from newsletters where newsletters_id = '" . (int)$newsletter_id . "'");
         
-        $OSCOM_Hooks->call('newsletters', 'deleteonfirmAction');
+        $OSCOM_Hooks->call('newsletters', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('newsletters.php', 'page=' . (int)$_GET['page']));
         break;

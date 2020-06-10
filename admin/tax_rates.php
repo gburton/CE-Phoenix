@@ -50,7 +50,7 @@
 
         tep_db_query("delete from tax_rates where tax_rates_id = '" . (int)$tax_rates_id . "'");
         
-        $OSCOM_Hooks->call('tax_rates', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('tax_rates', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('tax_rates.php', 'page=' . (int)$_GET['page']));
         break;

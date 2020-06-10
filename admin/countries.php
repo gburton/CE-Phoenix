@@ -48,7 +48,7 @@
 
         tep_db_query("delete from countries where countries_id = '" . (int)$countries_id . "'");
         
-        $OSCOM_Hooks->call('countries', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('countries', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('countries.php', 'page=' . (int)$_GET['page']));
         break;

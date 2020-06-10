@@ -30,7 +30,7 @@
 
     $customer_details = $customer_data->process($page_fields);
 
-    if (!empty($customer_details)) {
+    if (tep_form_processing_is_valid()) {
       $check_customer_query = tep_db_query($customer_data->build_read(['password'], 'customers', ['id' => (int)$_SESSION['customer_id']]));
       $check_customer = tep_db_fetch_array($check_customer_query);
 

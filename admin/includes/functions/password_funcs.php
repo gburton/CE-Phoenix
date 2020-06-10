@@ -19,10 +19,6 @@
         return tep_validate_old_password($plain, $encrypted);
       }
 
-      if (!class_exists('PasswordHash')) {
-        include('includes/classes/passwordhash.php');
-      }
-
       $hasher = new PasswordHash(10, true);
 
       return $hasher->CheckPassword($plain, $encrypted);
@@ -39,7 +35,9 @@
 // split apart the hash / salt
       $stack = explode(':', $encrypted);
 
-      if (sizeof($stack) != 2) return false;
+      if (count($stack) != 2) {
+        return false;
+      }
 
       if (md5($stack[1] . $plain) == $stack[0]) {
         return true;
@@ -53,10 +51,6 @@
 // This function encrypts a phpass password from a plaintext
 // password.
   function tep_encrypt_password($plain) {
-    if (!class_exists('PasswordHash')) {
-      include('includes/classes/passwordhash.php');
-    }
-
     $hasher = new PasswordHash(10, true);
 
     return $hasher->HashPassword($plain);
@@ -154,4 +148,3 @@
 
     return '$apr1$' . $salt . '$' . $tmp;
   }
-?>

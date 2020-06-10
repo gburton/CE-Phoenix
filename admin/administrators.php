@@ -219,7 +219,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('administrators', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('administrators', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;

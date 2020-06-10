@@ -26,7 +26,6 @@
   echo tep_draw_form('account_edit', tep_href_link('account_edit.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process');
 ?>
 
-<div class="contentContainer">
   <div class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></div>
 
   <?php
@@ -38,8 +37,6 @@
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
-
-</div>
 
 </form>
 
