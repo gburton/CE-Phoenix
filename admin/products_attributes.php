@@ -445,34 +445,33 @@
                   <tr class="table-success">
                     <td colspan="3">
                       <?php echo '<form name="values" action="' . tep_href_link('products_attributes.php', 'action=update_value&' . $page_info) . '" method="post">'; ?>
-                      <input type="hidden" name="value_id" value="<?php echo $values_values['products_options_values_id']; ?>">
-                      <div class="d-flex align-items-center">
-                        <div class="col-5">
-                          <select name="option_id" class="form-control">
-                            <?php
-                            $options = tep_db_query("select products_options_id, products_options_name from products_options where language_id = '" . (int)$languages_id . "' order by products_options_name");
-                            while ($options_values = tep_db_fetch_array($options)) {
-                              echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '"';
-                              if ($values_values['products_options_id'] == $options_values['products_options_id']) { 
-                                echo ' selected';
-                              }
-                              echo '>' . $options_values['products_options_name'] . '</option>';
-                            } 
-                            ?>
-                          </select>
+                        <input type="hidden" name="value_id" value="<?php echo $values_values['products_options_values_id']; ?>">
+                        <div class="d-flex align-items-center">
+                          <div class="col-5">
+                            <select name="option_id" class="form-control">
+                              <?php
+                              $options = tep_db_query("select products_options_id, products_options_name from products_options where language_id = '" . (int)$languages_id . "' order by products_options_name");
+                              while ($options_values = tep_db_fetch_array($options)) {
+                                echo "\n" . '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '"';
+                                if ($values_values['products_options_id'] == $options_values['products_options_id']) { 
+                                  echo ' selected';
+                                }
+                                echo '>' . $options_values['products_options_name'] . '</option>';
+                              } 
+                              ?>
+                            </select>
+                          </div>
+                          <div class="col-5">
+                            <?php echo $inputs; ?>
+                          </div>
+                          <div class="col-2">
+                            <?php echo tep_draw_bootstrap_button(null, 'fas fa-save text-success', null, 'primary', null, 'btn-link') . tep_draw_bootstrap_button(null, 'fas fa-times text-dark', tep_href_link('products_attributes.php', $page_info), null, null, 'btn-link'); ?>
+                          </div>
                         </div>
-                        <div class="col-5">
-                          <?php echo $inputs; ?>
-                        </div>
-                        <div class="col-2">
-                          <?php echo tep_draw_bootstrap_button(null, 'fas fa-save text-success', null, 'primary', null, 'btn-link') . tep_draw_bootstrap_button(null, 'fas fa-times text-dark', tep_href_link('products_attributes.php', $page_info), null, null, 'btn-link'); ?>
-                        </div>
-                      </div>
                       </form>
                     </td>                
                   </tr>
                   <?php
-                  echo '</form>';
                 } else {
                   ?>
                   <tr>
