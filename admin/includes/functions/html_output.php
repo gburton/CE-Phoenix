@@ -222,7 +222,7 @@ EOERROR
     }
 
     if (tep_not_null($parameters)) $field .= " $parameters";
-    if (tep_not_null($class)) $field .= " $class";
+    if (tep_not_null($class) && (false === strpos($parameters, 'class="'))) $field .= " $class";
 
     $field .= ' />';
 

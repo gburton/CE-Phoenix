@@ -25,22 +25,17 @@
   if (isset($_GET['action']) && ($_GET['action'] == 'success')) {
 ?>
 
-<div class="contentContainer">
   <div class="alert alert-info" role="alert"><?php echo TEXT_SUCCESS; ?></div>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', tep_href_link('index.php'), null, null, 'btn-light btn-block btn-lg'); ?></div>
   </div>
-</div>
 
 <?php
   } else {
-?>
-
-<?php echo tep_draw_form('contact_us', tep_href_link('contact_us.php', 'action=send'), 'post', '', true); ?>
-
-<div class="contentContainer">
-  
+    echo tep_draw_form('contact_us', tep_href_link('contact_us.php', 'action=send'), 'post', '', true); 
+    ?>
+ 
   <div class="row">
     <?php echo $oscTemplate->getContent('contact_us'); ?>
   </div>
@@ -85,8 +80,6 @@
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></div>
   </div>
-  
-</div>
 
 </form>
 

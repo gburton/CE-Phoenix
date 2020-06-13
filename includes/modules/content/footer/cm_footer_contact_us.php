@@ -30,7 +30,7 @@
         'MODULE_CONTENT_FOOTER_CONTACT_US_STATUS' => [
           'title' => 'Enable Contact Us Footer Module',
           'value' => 'True',
-          'desc' => 'Do you want to enable the Contact Us content module?',
+          'desc' => 'Do you want to enable this module?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_CONTENT_FOOTER_CONTACT_US_CONTENT_WIDTH' => [
@@ -41,7 +41,7 @@
         ],
         'MODULE_CONTENT_FOOTER_CONTACT_US_SORT_ORDER' => [
           'title' => 'Sort Order',
-          'value' => '0',
+          'value' => '30',
           'desc' => 'Sort order of display. Lowest is displayed first.',
         ],
       ];

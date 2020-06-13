@@ -17,11 +17,9 @@
   require $oscTemplate->map_to_template('template_top.php', 'component');
 ?>
 
-<div class="contentContainer">
   <div class="row">
     <?php echo $page_content; ?>
   </div>
-</div>
 
 <?php
   require $oscTemplate->map_to_template('template_bottom.php', 'component');

@@ -38,8 +38,8 @@
         case 'module':
           return dirname($file) . '/templates/tpl_' . basename($file);
         case 'ext':
-          $file = tep_ltrim_once($file, DIR_FS_CATALOG);
-          return DIR_FS_CATALOG . "templates/default/includes/components/$file";
+          $file = tep_ltrim_once(str_replace('\\', '/', $file), DIR_FS_CATALOG);
+          return DIR_FS_CATALOG . "templates/default/includes/$file";
         case 'literal':
         default:
           return DIR_FS_CATALOG . "templates/default/$file";

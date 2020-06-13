@@ -5,93 +5,67 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class flat {
-    var $code, $title, $description, $icon, $enabled;
+  class flat extends abstract_shipping_module {
 
-// class constructor
-    function __construct() {
-      global $order;
-
-      $this->code = 'flat';
-      $this->title = MODULE_SHIPPING_FLAT_TEXT_TITLE;
-      $this->description = MODULE_SHIPPING_FLAT_TEXT_DESCRIPTION;
-      
-      if ( defined('MODULE_SHIPPING_FLAT_STATUS') ) {
-        $this->sort_order = MODULE_SHIPPING_FLAT_SORT_ORDER;
-        $this->icon = '';
-        $this->tax_class = MODULE_SHIPPING_FLAT_TAX_CLASS;
-        $this->enabled = ((MODULE_SHIPPING_FLAT_STATUS == 'True') ? true : false);
-      }
-
-      if ( ($this->enabled == true) && ((int)MODULE_SHIPPING_FLAT_ZONE > 0) ) {
-        $check_flag = false;
-        
-        $delivery_country_id = $order->delivery['country']['id'] ?? STORE_COUNTRY ?? 0;
-        $delivery_zone_id = $order->delivery['zone_id'] ?? STORE_ZONE ?? 0;
-        
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_SHIPPING_FLAT_ZONE . "' and zone_country_id = '" . $delivery_country_id . "' order by zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
-          if ($check['zone_id'] < 1) {
-            $check_flag = true;
-            break;
-          } elseif ($check['zone_id'] == $delivery_zone_id) {
-            $check_flag = true;
-            break;
-          }
-        }
-
-        if ($check_flag == false) {
-          $this->enabled = false;
-        }
-      }
-    }
+    const CONFIG_KEY_BASE = 'MODULE_SHIPPING_FLAT_';
 
 // class methods
-    function quote($method = '') {
+    public function quote($method = '') {
       global $order;
 
-      $this->quotes = array('id' => $this->code,
-                            'module' => MODULE_SHIPPING_FLAT_TEXT_TITLE,
-                            'methods' => array(array('id' => $this->code,
-                                                     'title' => MODULE_SHIPPING_FLAT_TEXT_WAY,
-                                                     'cost' => MODULE_SHIPPING_FLAT_COST)));
+      $this->quotes = [
+        'id' => $this->code,
+        'module' => MODULE_SHIPPING_FLAT_TEXT_TITLE,
+        'methods' => [[
+          'id' => $this->code,
+          'title' => MODULE_SHIPPING_FLAT_TEXT_WAY,
+          'cost' => $this->base_constant('COST') + $this->calculate_handling(),
+        ]],
+      ];
 
-      if ($this->tax_class > 0) {
-        $this->quotes['tax'] = tep_get_tax_rate($this->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
-      }
-
-      if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, htmlspecialchars($this->title));
+      $this->quote_common();
 
       return $this->quotes;
     }
 
-    function check() {
-      if (!isset($this->_check)) {
-        $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_SHIPPING_FLAT_STATUS'");
-        $this->_check = tep_db_num_rows($check_query);
-      }
-      return $this->_check;
+    protected function get_parameters() {
+      return [
+        $this->config_key_base . 'STATUS' => [
+          'title' => 'Enable Flat Shipping',
+          'value' => 'True',
+          'desc' => 'Do you want to offer flat rate shipping?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        $this->config_key_base . 'COST' => [
+          'title' => 'Shipping Cost',
+          'value' => '5.00',
+          'desc' => 'The shipping cost for all orders using this shipping method.',
+        ],
+        $this->config_key_base . 'TAX_CLASS' => [
+          'title' => 'Tax Class',
+          'value' => '0',
+          'desc' => 'Use the following tax class on the shipping fee.',
+          'use_func' => 'tep_get_tax_class_title',
+          'set_func' => 'tep_cfg_pull_down_tax_classes(',
+        ],
+        $this->config_key_base . 'ZONE' => [
+          'title' => 'Shipping Zone',
+          'value' => '0',
+          'desc' => 'If a zone is selected, only enable this shipping method for that zone.',
+          'use_func' => 'tep_get_zone_class_title',
+          'set_func' => 'tep_cfg_pull_down_zone_classes(',
+        ],
+        $this->config_key_base . 'SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display.',
+        ],
+      ];
     }
 
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Flat Shipping', 'MODULE_SHIPPING_FLAT_STATUS', 'True', 'Do you want to offer flat rate shipping?', '6', '0', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Shipping Cost', 'MODULE_SHIPPING_FLAT_COST', '5.00', 'The shipping cost for all orders using this shipping method.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Tax Class', 'MODULE_SHIPPING_FLAT_TAX_CLASS', '0', 'Use the following tax class on the shipping fee.', '6', '0', 'tep_get_tax_class_title', 'tep_cfg_pull_down_tax_classes(', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Shipping Zone', 'MODULE_SHIPPING_FLAT_ZONE', '0', 'If a zone is selected, only enable this shipping method for that zone.', '6', '0', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_SHIPPING_FLAT_SORT_ORDER', '0', 'Sort order of display.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_SHIPPING_FLAT_STATUS', 'MODULE_SHIPPING_FLAT_COST', 'MODULE_SHIPPING_FLAT_TAX_CLASS', 'MODULE_SHIPPING_FLAT_ZONE', 'MODULE_SHIPPING_FLAT_SORT_ORDER');
-    }
   }
-?>

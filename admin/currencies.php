@@ -58,7 +58,7 @@
           tep_db_query("update configuration set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
         }
         
-        $OSCOM_Hooks->call('currencies', 'insertsaveAction');        
+        $OSCOM_Hooks->call('currencies', 'insertSaveAction');        
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $currency_id));
         break;
@@ -74,7 +74,7 @@
 
         tep_db_query("delete from currencies where currencies_id = '" . (int)$currencies_id . "'");
         
-        $OSCOM_Hooks->call('currencies', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('currencies', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page']));
         break;

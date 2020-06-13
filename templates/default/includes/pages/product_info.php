@@ -22,13 +22,9 @@
   }
 ?>
 
-<div class="contentContainer">
-
   <div class="row is-product">
     <?php echo $oscTemplate->getContent('product_info'); ?>
   </div>
-
-</div>
 
 </form>
 

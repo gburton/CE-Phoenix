@@ -24,7 +24,7 @@
 
   echo tep_draw_form('password_reset', tep_href_link('password_reset.php', 'account=' . urlencode($email_address) . '&key=' . $password_key . '&action=process', 'SSL'), 'post', '', true);
 ?>
-<div class="contentContainer">
+
   <div class="alert alert-info" role="alert"><?php echo TEXT_MAIN; ?></div>
   
   <?php
@@ -35,7 +35,6 @@
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
   </div>
-</div>
 </form>
 
 <?php

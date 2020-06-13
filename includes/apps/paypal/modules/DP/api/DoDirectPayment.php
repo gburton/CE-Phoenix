@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -17,32 +17,34 @@
       $api_url = 'https://api-3t.sandbox.paypal.com/nvp';
     }
 
-    $params = array('USER' => $OSCOM_PayPal->getCredentials('DP', 'username'),
-                    'PWD' => $OSCOM_PayPal->getCredentials('DP', 'password'),
-                    'SIGNATURE' => $OSCOM_PayPal->getCredentials('DP', 'signature'),
-                    'VERSION' => $OSCOM_PayPal->getApiVersion(),
-                    'METHOD' => 'DoDirectPayment',
-                    'PAYMENTACTION' => (OSCOM_APP_PAYPAL_DP_TRANSACTION_METHOD == '1') ? 'Sale' : 'Authorization',
-                    'IPADDRESS' => $OSCOM_PayPal->getIpAddress(),
-                    'BUTTONSOURCE' => $OSCOM_PayPal->getIdentifier());
+    $params = [
+      'USER' => $OSCOM_PayPal->getCredentials('DP', 'username'),
+      'PWD' => $OSCOM_PayPal->getCredentials('DP', 'password'),
+      'SIGNATURE' => $OSCOM_PayPal->getCredentials('DP', 'signature'),
+      'VERSION' => $OSCOM_PayPal->getApiVersion(),
+      'METHOD' => 'DoDirectPayment',
+      'PAYMENTACTION' => (OSCOM_APP_PAYPAL_DP_TRANSACTION_METHOD == '1') ? 'Sale' : 'Authorization',
+      'IPADDRESS' => tep_get_ip_address(),
+      'BUTTONSOURCE' => $OSCOM_PayPal->getIdentifier(),
+    ];
 
-    if ( is_array($extra_params) && !empty($extra_params) ) {
+    if ( !empty($extra_params) && is_array($extra_params) ) {
       $params = array_merge($params, $extra_params);
     }
 
     $post_string = '';
-
     foreach ( $params as $key => $value ) {
       $post_string .= $key . '=' . urlencode(utf8_encode(trim($value))) . '&';
     }
 
-    $post_string = substr($post_string, 0, -1);
+    $post_string = substr($post_string, 0, -strlen('&'));
 
     $response = $OSCOM_PayPal->makeApiCall($api_url, $post_string);
     parse_str($response, $response_array);
 
-    return array('res' => $response_array,
-                 'success' => in_array($response_array['ACK'], array('Success', 'SuccessWithWarning')),
-                 'req' => $params);
+    return [
+      'res' => $response_array,
+      'success' => in_array($response_array['ACK'], ['Success', 'SuccessWithWarning']),
+      'req' => $params,
+    ];
   }
-?>

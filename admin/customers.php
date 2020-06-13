@@ -68,7 +68,7 @@
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customers_id);
         tep_db_query("DELETE FROM whos_online WHERE customer_id = " . (int)$customers_id);
 
-        $OSCOM_Hooks->call('customers', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('customers', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action'])));
         break;
@@ -109,10 +109,6 @@
 
   <?php
   if ($action == 'edit' || $action == 'update') {
-    ?>
-
-  <div class="contentContainer">
-    <?php
     $oscTemplate = new oscTemplate();
     echo tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['action']) . 'action=update', 'post');
     echo tep_draw_hidden_field('default_address_id', $customer_data->get('address_id', $customer_details));
@@ -153,7 +149,7 @@ EOSQL
     ?>
 
   </form>
-</div>
+
 <?php
   } else {
 ?>

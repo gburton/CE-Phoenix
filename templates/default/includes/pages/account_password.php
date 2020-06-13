@@ -27,7 +27,6 @@
   echo tep_draw_hidden_field('username', $customer->get('username'), 'readonly autocomplete="username"');
 ?>
 
-<div class="contentContainer">
   <p class="text-danger text-right"><?php echo FORM_REQUIRED_INFORMATION; ?></p>
 
   <?php
@@ -48,8 +47,6 @@
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fas fa-angle-right', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>
     <p><?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php', '', 'SSL')); ?></p>
   </div>
-
-</div>
 
 </form>
 

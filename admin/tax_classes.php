@@ -44,7 +44,7 @@
 
         tep_db_query("delete from tax_class where tax_class_id = '" . (int)$tax_class_id . "'");
         
-        $OSCOM_Hooks->call('tax_classes', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('tax_classes', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']));
         break;

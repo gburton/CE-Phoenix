@@ -54,7 +54,7 @@
           }
         }
         
-        $OSCOM_Hooks->call('customer_data_groups', 'insertsaveAction');
+        $OSCOM_Hooks->call('customer_data_groups', 'insertSaveAction');
 
         if ('insert' == $action) {
           tep_redirect(tep_href_link('customer_data_groups.php'));
@@ -68,7 +68,7 @@
         tep_db_query("DELETE FROM customer_data_groups WHERE customer_data_groups_id = " . (int)$customer_data_groups_id);
         tep_db_query("DELETE FROM customer_data_groups_sequence WHERE customer_data_groups_id = " . (int)$customer_data_groups_id);
         
-        $OSCOM_Hooks->call('customer_data_groups', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('customer_data_groups', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('customer_data_groups.php', 'page=' . (int)$_GET['page']));
         break;

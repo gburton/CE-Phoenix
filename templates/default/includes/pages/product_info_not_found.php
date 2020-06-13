@@ -13,14 +13,10 @@
   require $oscTemplate->map_to_template('template_top.php', 'component');
 ?>
 
-<div class="contentContainer">
-
   <div class="row">
     <?php echo $oscTemplate->getContent('product_info_not_found'); ?>
   </div>
   
-</div>
-
 <?php
   require $oscTemplate->map_to_template('template_bottom.php', 'component');
 ?>

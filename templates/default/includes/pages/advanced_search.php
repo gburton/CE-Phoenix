@@ -85,8 +85,6 @@ function check_form() {
 
 <?php echo tep_draw_form('advanced_search', tep_href_link('advanced_search_result.php', '', 'NONSSL', false), 'get', 'onsubmit="return check_form(this);"') . tep_hide_session_id(); ?>
 
-<div class="contentContainer">
-
   <div class="form-group row">
     <label for="inputKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo HEADING_SEARCH_CRITERIA; ?></label>
     <div class="col-sm-9">
@@ -159,8 +157,6 @@ function check_form() {
       <?php echo tep_draw_input_field('pto', '', 'id="PriceTo" placeholder="' . ENTRY_PRICE_TO_TEXT . '"'); ?>
     </div>
   </div>
-
-</div>
 
 </form>
 

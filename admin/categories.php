@@ -33,7 +33,7 @@
       case 'setflag':
         tep_db_query("UPDATE products SET products_status = '" . (int)$_GET['flag'] . "', products_last_modified = NOW() WHERE products_id = " . (int)$_GET['pID']);
 
-        $OSCOM_Hooks->call('categories', 'setflagAction');
+        $OSCOM_Hooks->call('categories', 'setFlagAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $_GET['cPath'] . '&pID=' . (int)$_GET['pID']));
         break;
@@ -82,11 +82,11 @@
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
             
-            $OSCOM_Hooks->call('categories', 'insertcategoryAction');
+            $OSCOM_Hooks->call('categories', 'insertCategoryAction');
 
             tep_db_perform('categories_description', $sql_data_array);
           } elseif ($action == 'update_category') {
-            $OSCOM_Hooks->call('categories', 'updatecategoryAction');
+            $OSCOM_Hooks->call('categories', 'updateCategoryAction');
             
             tep_db_perform('categories_description', $sql_data_array, 'update', "categories_id = '" . (int)$categories_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
           }
@@ -99,7 +99,7 @@
           tep_db_query("update categories set categories_image = '" . tep_db_input($categories_image->filename) . "' where categories_id = '" . (int)$categories_id . "'");
         }
 
-        $OSCOM_Hooks->call('categories', 'insertcategoryupdatecategoryAction');
+        $OSCOM_Hooks->call('categories', 'insertCategoryUpdateCategoryAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $categories_id));
         break;
@@ -145,7 +145,7 @@
           }
         }
 
-        $OSCOM_Hooks->call('categories', 'deletecategoryconfirmAction');
+        $OSCOM_Hooks->call('categories', 'deleteCategoryConfirmAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath));
         break;
@@ -166,7 +166,7 @@
           }
         }
 
-        $OSCOM_Hooks->call('categories', 'deleteproductconfirmAction');
+        $OSCOM_Hooks->call('categories', 'deleteProductConfirmAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath));
         break;
@@ -184,7 +184,7 @@
           } else {
             tep_db_query("update categories set parent_id = '" . (int)$new_parent_id . "', last_modified = now() where categories_id = '" . (int)$categories_id . "'");
 
-            $OSCOM_Hooks->call('categories', 'movecategoryconfirmAction');
+            $OSCOM_Hooks->call('categories', 'moveCategoryConfirmAction');
 
             tep_redirect(tep_href_link('categories.php', 'cPath=' . $new_parent_id . '&cID=' . $categories_id));
           }
@@ -199,7 +199,7 @@
         $duplicate_check = tep_db_fetch_array($duplicate_check_query);
         if ($duplicate_check['total'] < 1) tep_db_query("update products_to_categories set categories_id = '" . (int)$new_parent_id . "' where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$current_category_id . "'");
 
-        $OSCOM_Hooks->call('categories', 'moveproductconfirmAction');
+        $OSCOM_Hooks->call('categories', 'moveProductConfirmAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $new_parent_id . '&pID=' . $products_id));
         break;
@@ -360,7 +360,7 @@
           }
         }
 
-        $OSCOM_Hooks->call('categories', 'copytoconfirmAction');
+        $OSCOM_Hooks->call('categories', 'copyToConfirmAction');
 
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $categories_id . '&pID=' . $products_id));
         break;

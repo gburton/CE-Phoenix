@@ -29,6 +29,9 @@ SELECT p.*, pd.*, m.*,
 EOSQL
   . (int)$languages_id;
 
+  $default_column = 'PRODUCT_LIST_ID';
+  $sort_order = 'd';
+
   require $oscTemplate->map_to_template(__FILE__, 'page');
 
   require 'includes/application_bottom.php';

@@ -52,7 +52,7 @@
           tep_db_query("update configuration set configuration_value = '" . tep_db_input($orders_status_id) . "' where configuration_key = 'DEFAULT_ORDERS_STATUS_ID'");
         }
         
-        $OSCOM_Hooks->call('orders_status', 'insertsaveAction');
+        $OSCOM_Hooks->call('orders_status', 'insertSaveAction');
 
         tep_redirect(tep_href_link('orders_status.php', 'page=' . (int)$_GET['page'] . '&oID=' . $orders_status_id));
         break;
@@ -68,7 +68,7 @@
 
         tep_db_query("delete from orders_status where orders_status_id = '" . tep_db_input($oID) . "'");
         
-        $OSCOM_Hooks->call('orders_status', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('orders_status', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('orders_status.php', 'page=' . (int)$_GET['page']));
         break;
