@@ -54,7 +54,7 @@
         'currency_value' => $order['currency_value'],
         'payment_method' => $order['payment_method'],
         'date_purchased' => $order['date_purchased'],
-        'oid' => $order['orders_status'],
+        'orders_status_id' => $order['orders_status'],
         'orders_status' => $order_status['orders_status_name'],
         'last_modified' => $order['last_modified'],
         'total' => strip_tags($order_total['text']),

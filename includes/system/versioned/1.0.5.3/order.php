@@ -51,6 +51,7 @@
         'payment_method' => $order['payment_method'],
         'date_purchased' => $order['date_purchased'],
         'orders_status' => $order_status['orders_status_name'],
+        'orders_status_id' => $order['orders_status'],
         'last_modified' => $order['last_modified'],
       ];
 
