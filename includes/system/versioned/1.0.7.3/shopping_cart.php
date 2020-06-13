@@ -263,7 +263,9 @@ EOSQL
         }
 
 // attributes price
-        $this->total += $this->attributes_price($products_id);
+        if (!empty($this->contents[$products_id]['attributes'])) {
+          $this->total += $currencies->calculate_price($this->attributes_price($products_id), $products_tax, $qty);
+        }
       }
     }
 
