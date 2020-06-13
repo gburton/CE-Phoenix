@@ -45,12 +45,12 @@
   if ($order->content_type != 'virtual') {
     echo "\n" . MODULE_NOTIFICATIONS_CHECKOUT_TEXT_DELIVERY_ADDRESS . "\n"
        . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n"
-       . $customer->make_address_label($_SESSION['sendto'], 0, '', "\n") . "\n";
+       . $customer->make_address_label($order->delivery, 0, '', "\n") . "\n";
   }
 
   echo "\n" . MODULE_NOTIFICATIONS_CHECKOUT_TEXT_BILLING_ADDRESS . "\n"
      . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n"
-     . $customer->make_address_label($_SESSION['billto'], 0, '', "\n") . "\n\n";
+     . $customer->make_address_label($order->billing, 0, '', "\n") . "\n\n";
 
   $payment = $GLOBALS[$_SESSION['payment']];
   if (is_object($payment)) {
