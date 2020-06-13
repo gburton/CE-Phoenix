@@ -276,7 +276,7 @@
                 <tr>
                   <td colspan="2">
                     <?php echo '<form name="option" action="' . tep_href_link('products_attributes.php', 'action=update_option_name&' . $page_info) . '" method="post">'; ?>
-                      <div class="d-flex align-items-center">
+                      <div class="form-row">
                         <div class="col-10">
                           <input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>">
                           <?php echo $inputs; ?>
@@ -284,7 +284,7 @@
                         <div class="col-1">
                           <?php echo tep_draw_bootstrap_button(null, 'fas fa-save text-success', null, 'primary', null, 'btn-link mr-2'); ?>
                         </div>
-                        <div class="col-1">
+                        <div class="col-1 text-right">
                           <?php echo tep_draw_bootstrap_button(null, 'fas fa-times text-dark', tep_href_link('products_attributes.php', $page_info), null, null, 'btn-link'); ?>
                         </div>
                       </div>
@@ -320,11 +320,11 @@
               <tr class="bg-white">
                 <td colspan="2">
                   <?php echo '<form name="options" action="' . tep_href_link('products_attributes.php', 'action=add_product_options&' . $page_info) . '" method="post"><input type="hidden" name="products_options_id" value="' . $next_id . '">'; ?>
-                    <div class="d-flex align-items-center">
+                    <div class="form-row">
                       <div class="col-10">
                         <?php echo $inputs; ?>
                       </div>
-                      <div class="col-2">
+                      <div class="col-2 text-right">
                         <?php echo tep_draw_bootstrap_button(null, 'fas fa-plus text-success', null, null, null, 'btn-link'); ?>
                       </div>
                     </div>
@@ -446,7 +446,7 @@
                     <td colspan="3">
                       <?php echo '<form name="values" action="' . tep_href_link('products_attributes.php', 'action=update_value&' . $page_info) . '" method="post">'; ?>
                         <input type="hidden" name="value_id" value="<?php echo $values_values['products_options_values_id']; ?>">
-                        <div class="d-flex align-items-center">
+                        <div class="form-row">
                           <div class="col-5">
                             <select name="option_id" class="form-control">
                               <?php
@@ -464,7 +464,7 @@
                           <div class="col-5">
                             <?php echo $inputs; ?>
                           </div>
-                          <div class="col-2">
+                          <div class="col-2 text-right">
                             <?php echo tep_draw_bootstrap_button(null, 'fas fa-save text-success', null, 'primary', null, 'btn-link') . tep_draw_bootstrap_button(null, 'fas fa-times text-dark', tep_href_link('products_attributes.php', $page_info), null, null, 'btn-link'); ?>
                           </div>
                         </div>
@@ -490,8 +490,8 @@
                 <tr class="bg-white">
                   <td colspan="3">
                     <?php echo '<form name="values" action="' . tep_href_link('products_attributes.php', 'action=add_product_option_values&' . $page_info) . '" method="post">'; ?>
-                      <div class="d-flex align-items-center">
-                        <div class="col-4">
+                      <div class="form-row">
+                        <div class="col-5">
                           <select name="option_id" class="form-control">
                           <?php
                           $options = tep_db_query("select products_options_id, products_options_name from products_options where language_id = '" . $languages_id . "' order by products_options_name");
@@ -511,11 +511,11 @@
                           ?>
                           </select>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                           <input type="hidden" name="value_id" value="<?php echo $next_id; ?>">
                           <?php echo $inputs; ?>
                         </div>
-                        <div class="col-2">
+                        <div class="col-2 text-right">
                           <?php echo tep_draw_bootstrap_button(null, 'fas fa-plus text-success', null, null, null, 'btn-link'); ?>
                         </div>
                       </div>
