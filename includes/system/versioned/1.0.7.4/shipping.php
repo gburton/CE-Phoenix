@@ -15,24 +15,24 @@
     public $modules;
 
 // class constructor
-    function __construct($module = '') {
-      global $PHP_SELF;
-
+    public function __construct($module = '') {
       if (defined('MODULE_SHIPPING_INSTALLED') && tep_not_null(MODULE_SHIPPING_INSTALLED)) {
         $this->modules = explode(';', MODULE_SHIPPING_INSTALLED);
 
         $include_modules = [];
 
-        $extension = '.' . pathinfo($PHP_SELF, PATHINFO_EXTENSION);
-        if ( (tep_not_null($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . $extension, $this->modules)) ) {
+        if ( (tep_not_null($module)) && (in_array(substr($module['id'], 0, strpos($module['id'], '_')) . '.php', $this->modules)) ) {
+          $class = substr($module['id'], 0, strpos($module['id'], '_'));
           $include_modules[] = [
-            'class' => substr($module['id'], 0, strpos($module['id'], '_')),
-            'file' => substr($module['id'], 0, strpos($module['id'], '_')) . $extension,
+            'class' => $class,
+            'file' => "$class.php",
           ];
         } else {
-          foreach($this->modules as $value) {
-            $class = pathinfo($value, PATHINFO_FILENAME);
-            $include_modules[] = ['class' => $class, 'file' => $value];
+          foreach ($this->modules as $value) {
+            $include_modules[] = [
+              'class' => pathinfo($value, PATHINFO_FILENAME),
+              'file' => $value,
+            ];
           }
         }
 
@@ -42,7 +42,7 @@
       }
     }
 
-    function quote($method = '', $module = '') {
+    public function quote($method = '', $module = '') {
       global $total_weight, $shipping_weight, $shipping_quoted, $shipping_num_boxes;
 
       $quotes_array = [];
@@ -52,10 +52,11 @@
         $shipping_num_boxes = 1;
         $shipping_weight = $total_weight;
 
-        if (SHIPPING_BOX_WEIGHT >= $shipping_weight*SHIPPING_BOX_PADDING/100) {
-          $shipping_weight = $shipping_weight+SHIPPING_BOX_WEIGHT;
+        $padded_weight = $shipping_weight * SHIPPING_BOX_PADDING / 100;
+        if (SHIPPING_BOX_WEIGHT >= $padded_weight) {
+          $shipping_weight += SHIPPING_BOX_WEIGHT;
         } else {
-          $shipping_weight = $shipping_weight + ($shipping_weight*SHIPPING_BOX_PADDING/100);
+          $shipping_weight += $padded_weight;
         }
 
         if ($shipping_weight > SHIPPING_MAX_WEIGHT) { // Split into many boxes
@@ -87,7 +88,7 @@
       return $quotes_array;
     }
 
-    function cheapest() {
+    public function cheapest() {
       if (is_array($this->modules)) {
         $rates = [];
 
@@ -115,6 +116,83 @@
         }
 
         return $cheapest;
+      }
+    }
+
+    public static function is_enabled($id) {
+      if (!is_string($id)) {
+        return false;
+      }
+
+      return ($GLOBALS[substr($id, 0, strpos($id, '_'))]->enabled ?? false);
+    }
+
+    public static function ensure_enabled() {
+      if (static::is_enabled($_SESSION['shipping']['id'] ?? $_SESSION['shipping'] ?? null)) {
+        return;
+      }
+
+      unset($_SESSION['shipping']);
+    }
+
+    public function count() {
+      return count(array_filter($this->modules, function ($m) {
+        return $GLOBALS[pathinfo($m, PATHINFO_FILENAME)]->enabled ?? false;
+      }));
+    }
+
+    public function process_selection() {
+      if (tep_not_null($_POST['comments'])) {
+        $_SESSION['comments'] = tep_db_prepare_input($_POST['comments']);
+      }
+
+      if ( ($GLOBALS['module_count'] <= 0) && !$GLOBALS['free_shipping'] ) {
+        if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') ) {
+          unset($_SESSION['shipping']);
+          return;
+        }
+
+        $_SESSION['shipping'] = false;
+        tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
+      }
+
+      if ( (isset($_POST['shipping'])) && (strpos($_POST['shipping'], '_')) ) {
+        $_SESSION['shipping'] = $_POST['shipping'];
+
+        list($module, $shipping_method) = explode('_', $_SESSION['shipping']);
+        if ('free_free' === $_SESSION['shipping']) {
+          $quote[0]['methods'][0]['title'] = FREE_SHIPPING_TITLE;
+          $quote[0]['methods'][0]['cost'] = '0';
+        } elseif (is_object($GLOBALS[$module] ?? null)) {
+          $quote = $GLOBALS['shipping_modules']->quote($shipping_method, $module);
+        } else {
+          unset($_SESSION['shipping']);
+          return;
+        }
+
+        if (isset($quote['error'])) {
+          unset($_SESSION['shipping']);
+          return;
+        }
+
+        if ( isset($quote[0]['methods'][0]['title'], $quote[0]['methods'][0]['cost']) ) {
+          if ($GLOBALS['free_shipping']) {
+            $title = $quote[0]['methods'][0]['title'];
+          } else {
+            $title = $quote[0]['module'];
+            if ($quote[0]['methods'][0]['title']) {
+              $title .= ' (' . $quote[0]['methods'][0]['title'] . ')';
+            }
+          }
+
+          $_SESSION['shipping'] = [
+            'id' => $_SESSION['shipping'],
+            'title' => $title,
+            'cost' => $quote[0]['methods'][0]['cost'],
+          ];
+
+          tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
+        }
       }
     }
 
