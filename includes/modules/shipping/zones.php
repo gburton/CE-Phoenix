@@ -197,9 +197,9 @@
             'desc' => 'Handling Fee for this shipping zone',
           ],
         ]);
-
-        return $parameters;
       }
+
+      return $parameters;
     }
 
   }
