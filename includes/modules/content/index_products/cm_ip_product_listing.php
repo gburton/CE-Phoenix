@@ -19,7 +19,7 @@
     }
 
     function execute() {
-      global $cPath, $current_category_id, $languages_id, $messageStack, $currencies, $PHP_SELF;
+      global $cPath, $current_category_id, $messageStack, $currencies, $PHP_SELF;
 
       $listing_sql = <<<'EOSQL'
 SELECT p.*, pd.*, m.*,
@@ -43,7 +43,7 @@ EOSQL;
     INNER JOIN products_to_categories p2c ON p.products_id = p2c.products_id
  WHERE p.products_status = 1 AND m.manufacturers_id = 
 EOSQL
-          . (int)$_GET['filter_id'] . " AND pd.language_id = " . (int)$languages_id . " AND p2c.categories_id = " . (int)$current_category_id;
+          . (int)$_GET['filter_id'] . " AND pd.language_id = " . (int)$_SESSION['languages_id'] . " AND p2c.categories_id = " . (int)$current_category_id;
         } else {
 // We show them all
           $listing_sql .= <<<'EOSQL'
@@ -51,7 +51,7 @@ EOSQL
     INNER JOIN products_to_categories p2c
   WHERE p.products_status = 1 AND p.products_id = p2c.products_id AND pd.products_id = p2c.products_id AND pd.language_id = 
 EOSQL
-          . (int)$languages_id . " AND p2c.categories_id = " . (int)$current_category_id;
+          . (int)$_SESSION['languages_id'] . " AND p2c.categories_id = " . (int)$current_category_id;
         }
       } else {
         if (isset($_GET['filter_id']) && tep_not_null($_GET['filter_id'])) {
@@ -61,14 +61,14 @@ EOSQL
     INNER JOIN products_to_categories p2c ON p.products_id = p2c.products_id
   WHERE p.products_status = 1 AND m.manufacturers_id = 
 EOSQL
-          . (int)$_GET['manufacturers_id'] . " AND pd.language_id = " . (int)$languages_id . " AND p2c.categories_id = " . (int)$_GET['filter_id'];
+          . (int)$_GET['manufacturers_id'] . " AND pd.language_id = " . (int)$_SESSION['languages_id'] . " AND p2c.categories_id = " . (int)$_GET['filter_id'];
         } else {
 // We show them all
           $listing_sql .= <<<'EOSQL'
     INNER JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
   WHERE p.products_status = 1 AND pd.language_id = 
 EOSQL
-          . (int)$languages_id . " AND m.manufacturers_id = " . (int)$_GET['manufacturers_id'];
+          . (int)$_SESSION['languages_id'] . " AND m.manufacturers_id = " . (int)$_GET['manufacturers_id'];
         }
       }
 
@@ -98,7 +98,7 @@ SELECT DISTINCT c.categories_id AS id, cd.categories_name AS name
    AND p2c.categories_id = cd.categories_id
    AND cd.language_id = 
 EOSQL
-          . (int)$languages_id . " AND p.manufacturers_id = " . (int)$_GET['manufacturers_id']
+          . (int)$_SESSION['languages_id'] . " AND p.manufacturers_id = " . (int)$_GET['manufacturers_id']
           . " ORDER BY cd.categories_name";
         }
 
