@@ -20,8 +20,6 @@
   $_SESSION['payment'] = 'paypal_standard';
   $paypal_standard = new paypal_standard();
 
-  require DIR_FS_CATALOG . "includes/languages/$language/checkout_process.php";
-
   $result = false;
 
   $seller_accounts = [$paypal_standard->_app->getCredentials('PS', 'email')];
