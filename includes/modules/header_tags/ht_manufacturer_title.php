@@ -37,27 +37,21 @@
 
     protected function get_parameters() {
       return [
-        'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS' => [
+        $this->config_key_base . 'STATUS' => [
           'title' => 'Enable Manufacturer Title Module',
           'value' => 'True',
           'desc' => 'Do you want to allow manufacturer titles to be added to the page title?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
-        'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SORT_ORDER' => [
+        $this->config_key_base . 'SORT_ORDER' => [
           'title' => 'Sort Order',
           'value' => '0',
           'desc' => 'Sort order of display. Lowest is displayed first.',
         ],
-        'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_TITLE_OVERRIDE' => [
+        $this->config_key_base . 'SEO_TITLE_OVERRIDE' => [
           'title' => 'SEO Title Override?',
           'value' => 'True',
           'desc' => 'Do you want to allow manufacturer names to be over-ridden by your SEO Titles (if set)?',
-          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
-        ],
-        'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE' => [
-          'title' => 'SEO Breadcrumb Override?',
-          'value' => 'True',
-          'desc' => 'Do you want to allow manufacturer names in the breadcrumb to be over-ridden by your SEO Titles (if set)?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
       ];

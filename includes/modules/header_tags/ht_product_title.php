@@ -47,12 +47,6 @@
           'desc' => 'Do you want to allow product titles to be over-ridden by your SEO Titles (if set)?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
-        'MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE' => [
-          'title' => 'SEO Breadcrumb Override?',
-          'value' => 'True',
-          'desc' => 'Do you want to allow product names in the breadcrumb to be over-ridden by your SEO Titles (if set)?',
-          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
-        ],
       ];
     }
 

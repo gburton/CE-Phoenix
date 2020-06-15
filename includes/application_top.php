@@ -324,53 +324,14 @@
     $OSCOM_category = new category_tree();
   } else {
     $current_category_id = 0;
+
+    if (isset($_GET['manufacturers_id'])) {
+      $brand = new manufacturer((int)$_GET['manufacturers_id']);
+    }
   }
 
 // start the breadcrumb trail
   $breadcrumb = new breadcrumb();
-
-  $breadcrumb->add(HEADER_TITLE_TOP, HTTP_SERVER);
-  $breadcrumb->add(HEADER_TITLE_CATALOG, tep_href_link('index.php'));
-
-// add category names or the manufacturer name to the breadcrumb trail
-  if (isset($cPath_array)) {
-    foreach ($cPath_array as $k => $v) {
-      $breadcrumb_category = $OSCOM_category->getData($v, 'name');
-
-      if ( defined('MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-        if (tep_not_null($OSCOM_category->getData($v, 'seo_title'))) {
-          $breadcrumb_category = $OSCOM_category->getData($v, 'seo_title');
-        }
-      }
-
-      $breadcrumb->add($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
-    }
-  } elseif (isset($_GET['manufacturers_id'])) {
-    $brand = new manufacturer((int)$_GET['manufacturers_id']);
-
-    $breadcrumb_brand = $brand->getData('manufacturers_name');
-
-    if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      if (tep_not_null($brand->getData('manufacturers_seo_title'))) {
-        $breadcrumb_brand = $brand->getData('manufacturers_seo_title');
-      }
-    }
-
-    $breadcrumb->add($breadcrumb_brand, tep_href_link('index.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id']));
-  }
-
-// add the products model to the breadcrumb trail
-  if (isset($_GET['products_id'])) {
-    if ( defined('MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE') && (MODULE_HEADER_TAGS_PRODUCT_TITLE_SEO_BREADCRUMB_OVERRIDE == 'True') ) {
-      $model_query = tep_db_query("SELECT COALESCE(NULLIF(pd.products_seo_title, ''), NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
-    } else {
-      $model_query = tep_db_query("SELECT COALESCE(NULLIF(p.products_model, ''), pd.products_name) AS products_model FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
-    }
-
-    if ($model = tep_db_fetch_array($model_query)) {
-      $breadcrumb->add($model['products_model'], tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id']));
-    }
-  }
 
   $OSCOM_Hooks->register_page();
   $OSCOM_Hooks->call('siteWide', 'injectAppTop');

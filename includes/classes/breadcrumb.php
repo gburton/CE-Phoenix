@@ -5,28 +5,34 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class breadcrumb {
-    var $_trail;
 
-    function __construct() {
+    public $_trail;
+
+    public function __construct() {
       $this->reset();
     }
 
-    function reset() {
-      $this->_trail = array();
+    public function reset() {
+      $this->_trail = [];
     }
 
-    function add($title, $link = '') {
-      $this->_trail[] = array('title' => $title, 'link' => $link);
+    public function add($title, $link = '') {
+      $this->_trail[] = ['title' => $title, 'link' => $link];
     }
 
-    function trail($separator = NULL) {
+    public function prepend($title, $link = '') {
+      array_unshift($this->_trail, ['title' => $title, 'link' => $link]);
+    }
+
+    public function trail($separator = null) {
       return $this->_trail;
     }
+
   }
   
