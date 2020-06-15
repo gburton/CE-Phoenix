@@ -9,11 +9,11 @@
 * [Installation](https://github.com/gburton/CE-Phoenix#installation)
   - [User Checklist](https://github.com/gburton/CE-Phoenix#user-checklist)
   - [Softaculous](https://github.com/gburton/CE-Phoenix#softaculous)
-  - [Language Packs](https://github.com/gburton/CE-Phoenix#other-languages)
+  - [Language Packs](https://github.com/gburton/CE-Phoenix#language-packs)
 * [Certified Service Providers](https://github.com/gburton/CE-Phoenix#certified-service-providers)
-* [Supporting the Project](https://github.com/gburton/CE-Phoenix#support-the-project)
+* [Supporting the Project](https://github.com/gburton/CE-Phoenix#supporting-the-project)
   - [Join the Phoenix Club](https://github.com/gburton/CE-Phoenix#join-the-phoenix-club)
-* [Credits](https://github.com/gburton/CE-Phoenix#image-credits)
+* [Credits](https://github.com/gburton/CE-Phoenix#credits)
 
 # Phoenix
 
