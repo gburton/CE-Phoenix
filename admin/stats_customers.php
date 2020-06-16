@@ -81,12 +81,12 @@
           ?>
           <tr>
             <td><?php echo $row; ?></td>
-            <td><?php echo '<a class="text-dark" href="' . tep_href_link('customers.php', 'cID=' . $customer['customers_id']) . '">' . $customer_data->get('name', $customer) . '</a>'; ?></td>
+            <td><?php echo $customer_data->get('name', $customer); ?></td>
             <td class="text-right"><?php echo $currencies->format($customer['ordersum']); ?></td>
             <td class="text-right">
               <?php 
               echo '<a class="text-dark" href="' . tep_href_link('stats_customers.php', 'action=docsv&cID=' . $customer['customers_id']) . '"><i class="fas fa-file-csv mr-2"></i></a>';
-              echo '<a class="text-dark" href="' . tep_href_link('customers.php', 'cID=' . $customer['customers_id']) . '"><i class="fas fa-eye"></i></a>'              
+              echo '<a class="text-dark" href="' . tep_href_link('orders.php', 'cID=' . $customer['customers_id']) . '"><i class="fas fa-eye"></i></a>'              
               ?>
             </td>
           </tr>
