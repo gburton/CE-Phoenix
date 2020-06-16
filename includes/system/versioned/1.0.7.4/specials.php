@@ -5,25 +5,23 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2012 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
+  class specials {
+
 ////
 // Sets the status of a special product
-  function tep_set_specials_status($specials_id, $status) {
-    return tep_db_query("update specials set status = '" . (int)$status . "', date_status_change = now() where specials_id = '" . (int)$specials_id . "'");
-  }
+    public static function set_status($specials_id, $status) {
+      return tep_db_query("UPDATE specials SET status = " . (int)$status . ", date_status_change = NOW() WHERE specials_id = " . (int)$specials_id);
+    }
 
 ////
 // Auto expire products on special
-  function tep_expire_specials() {
-    $specials_query = tep_db_query("select specials_id from specials where status = '1' and now() >= expires_date and expires_date > 0");
-    if (tep_db_num_rows($specials_query)) {
-      while ($specials = tep_db_fetch_array($specials_query)) {
-        tep_set_specials_status($specials['specials_id'], '0');
-      }
+    public static function expire() {
+      return tep_db_query("UPDATE specials SET status = 0, date_status_change = NOW() WHERE status = 1 AND NOW() >= expires_date AND expires_date > 0");
     }
+
   }
-?>
