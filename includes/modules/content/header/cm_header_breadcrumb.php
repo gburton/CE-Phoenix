@@ -41,12 +41,15 @@ EOSQL;
 
       // add category names or the manufacturer name to the breadcrumb trail
       if (isset($cPath_array)) {
-        foreach (array_reverse($cPath_array) as $k => $v) {
-          if ( ( 'True' !== $this->base_constant('CATEGORY_SEO_OVERRIDE') ) || !tep_not_null($breadcrumb_category = $OSCOM_category->getData($v, 'seo_title')) ) {
-            $breadcrumb_category = $OSCOM_category->getData($v, 'name');
+        $categories = $cPath_array;
+        while (count($categories) > 0) {
+          $cPath = implode('_', $categories);
+          $category_id = array_pop($categories);
+          if ( ( 'True' !== $this->base_constant('CATEGORY_SEO_OVERRIDE') ) || !tep_not_null($breadcrumb_category = $OSCOM_category->getData($category_id, 'seo_title')) ) {
+            $breadcrumb_category = $OSCOM_category->getData($category_id, 'name');
           }
 
-          $breadcrumb->prepend($breadcrumb_category, tep_href_link('index.php', 'cPath=' . implode('_', array_slice($cPath_array, 0, ($k+1)))));
+          $breadcrumb->prepend($breadcrumb_category, tep_href_link('index.php', 'cPath=' . $cPath));
         }
       } elseif (isset($_GET['manufacturers_id'])) {
         if ( ( 'True' !== $this->base_constant('MANUFACTURER_SEO_OVERRIDE') ) || !tep_not_null($breadcrumb_brand = $brand->getData('manufacturers_seo_title'))) {
