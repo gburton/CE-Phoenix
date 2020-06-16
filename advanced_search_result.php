@@ -148,7 +148,7 @@
         default:
           $keyword = tep_db_prepare_input($search_keyword);
           $where_str .= "(";
-          if ( (defined('MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS')) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS != 'Meta') ) {
+          if ( (defined('MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS')) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS == 'True') ) {
             $where_str .= "pd.products_seo_keywords LIKE '%" . tep_db_input($keyword) . "%' OR ";
           }
           $where_str .= "pd.products_name LIKE '%" . tep_db_input($keyword) . "%' OR p.products_model LIKE '%" . tep_db_input($keyword) . "%' OR m.manufacturers_name LIKE '%" . tep_db_input($keyword) . "%'";

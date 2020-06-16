@@ -24,9 +24,5 @@ define('TEXT_ALL_MANUFACTURERS', 'All Manufacturers');
 if ( ($category_depth == 'top') && (!isset($_GET['manufacturers_id'])) ) {
   define('META_SEO_TITLE', 'Index Page Title');
   define('META_SEO_DESCRIPTION', 'This is the description of your site to be used in the META Description Element');
-  /*
-  keywords are USELESS unless you are selling into China and want to be listed in Baidu Search Engine
-  */
-  define('META_SEO_KEYWORDS', 'these, are, the, comma, separated, keywords, used in the META keywords Element');
 }
 

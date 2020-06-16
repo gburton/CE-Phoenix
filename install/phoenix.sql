@@ -99,7 +99,6 @@ CREATE TABLE categories_description (
    categories_name varchar(255) NOT NULL,
    categories_description TEXT NULL,
    categories_seo_description TEXT NULL,
-   categories_seo_keywords VARCHAR(255) NULL,
    categories_seo_title VARCHAR(255) NULL,
    PRIMARY KEY (categories_id, language_id),
    KEY idx_categories_name (categories_name)
@@ -284,7 +283,6 @@ CREATE TABLE manufacturers_info (
   date_last_click datetime NULL,
   manufacturers_description TEXT NULL,
   manufacturers_seo_description TEXT NULL,
-  manufacturers_seo_keywords VARCHAR(255) NULL,
   manufacturers_seo_title VARCHAR(255) NULL,
   PRIMARY KEY (manufacturers_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;

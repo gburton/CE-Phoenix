@@ -108,16 +108,14 @@ const TEXT_EDIT_CATEGORIES_DESCRIPTION = 'Edit the Category Description';
 
 const TEXT_CATEGORIES_SEO_DESCRIPTION = 'Category Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>';
 const TEXT_EDIT_CATEGORIES_SEO_DESCRIPTION = 'Edit the Category Meta Description for SEO:<br><small>Changes the &lt;description&gt; Meta Element.</small>';
-const TEXT_CATEGORIES_SEO_KEYWORDS = 'Category Meta Keywords for SEO:<br><small>Add a &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>';
-const TEXT_EDIT_CATEGORIES_SEO_KEYWORDS = 'Edit the Category Meta Keywords for SEO:<br><small>Changes the &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>';
  
 const TEXT_PRODUCTS_GTIN = 'Products GTIN';
 const TEXT_PRODUCTS_GTIN_HELP = 'GTIN must be stored as 14 Digits. Any GTIN smaller than this will be zero-padded per GTIN Specifications.';
 
 const TEXT_PRODUCTS_SEO_DESCRIPTION = 'Product Meta Description for SEO';
 const TEXT_PRODUCTS_SEO_DESCRIPTION_HELP = 'Add a &lt;description&gt; Meta Element.  HTML is not allowed.';
-const TEXT_PRODUCTS_SEO_KEYWORDS = 'Product Meta Keywords for SEO';
-const TEXT_PRODUCTS_SEO_KEYWORDS_HELP = 'Add a &lt;keyword&gt; Meta Element or Search Engine. Must be comma separated. HTML is not allowed.';
+const TEXT_PRODUCTS_SEO_KEYWORDS = 'Product Keywords';
+const TEXT_PRODUCTS_SEO_KEYWORDS_HELP = 'Helps the Keyword Search Engine. Must be comma separated. HTML is not allowed.';
 const TEXT_PRODUCTS_SEO_TITLE = 'Products Title for SEO';
 const TEXT_PRODUCTS_SEO_TITLE_HELP = 'Replaces the product name in the &lt;title&gt; Meta Element and optionally in the Breadcrumb Trail.<br>Leave blank to default to product name.';
 const TEXT_CATEGORIES_SEO_TITLE = 'Category Title for SEO:<br><small>Replaces the category name in the &lt;title&gt; Meta Element.<br>Leave blank to default to category name.</small>';
