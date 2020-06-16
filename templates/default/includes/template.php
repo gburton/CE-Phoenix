@@ -23,10 +23,11 @@
 
     public function __construct() {
       foreach ($this->_base_hook_directories as $directory) {
-        $GLOBALS['OSCOM_Hooks']->add_directory($directory);
+        $GLOBALS['hooks']->add_directory($directory);
       }
 
       spl_autoload_register([$this, 'autoload_hooks'], true, true);
+      $GLOBALS['breadcrumb'] = new breadcrumb();
     }
 
     public static function _get_template_mapping_for($file, $type) {
