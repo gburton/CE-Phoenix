@@ -132,8 +132,7 @@ const TEXT_DISPLAY_NUMBER_OF_TAX_ZONES = 'Displaying <strong>%d</strong> to <str
 const TEXT_DISPLAY_NUMBER_OF_TAX_RATES = 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> tax rates)';
 const TEXT_DISPLAY_NUMBER_OF_ZONES = 'Displaying <strong>%d</strong> to <strong>%d</strong> (of <strong>%d</strong> zones)';
 
-const PREVNEXT_BUTTON_PREV = '&lt;&lt;';
-const PREVNEXT_BUTTON_NEXT = '&gt;&gt;';
+const SPLIT_PAGES = 'Select Page';
 
 const TEXT_DEFAULT = 'default';
 const TEXT_SET_DEFAULT = 'Set as default';
