@@ -10,19 +10,21 @@
   Released under the GNU General Public License
 */
 
-  function tep_update_whos_online() {
-    if (isset($_SESSION['customer_id'])) {
-      $wo_customer_id = $_SESSION['customer_id'];
-      $wo_full_name = $GLOBALS['customer']->get('name');
-    } else {
-      $wo_customer_id = 0;
-      $wo_full_name = 'Guest';
-    }
+  class whos_online {
 
-    $current_time = time();
-    tep_whos_online_expire($current_time);
+    public static function update() {
+      if (isset($_SESSION['customer_id'])) {
+        $wo_customer_id = $_SESSION['customer_id'];
+        $wo_full_name = $GLOBALS['customer']->get('name');
+      } else {
+        $wo_customer_id = 0;
+        $wo_full_name = 'Guest';
+      }
 
-    tep_db_query(<<<'EOSQL'
+      $current_time = time();
+      static::expire($current_time);
+
+      tep_db_query(<<<'EOSQL'
 INSERT INTO whos_online (customer_id, full_name, session_id, ip_address, time_entry, time_last_click, last_page_url) VALUES (
 EOSQL
         . (int)$wo_customer_id
@@ -40,30 +42,28 @@ EOSQL
   last_page_url = VALUES(last_page_url)
 EOSQL
         );
-  }
+    }
 
-  function tep_whos_online_expire($current_time) {
-    // remove entries that have expired
-    tep_db_query("DELETE FROM whos_online WHERE time_last_click < " . (int)($current_time - 900));
-  }
+    protected static function expire($current_time) {
+      tep_db_query("DELETE FROM whos_online WHERE time_last_click < " . (int)($current_time - 900));
+    }
 
-  function tep_whos_online_update_session_id($old_id, $new_id) {
-    tep_db_query(<<<'EOSQL'
+    public static function update_session_id($old_id, $new_id) {
+      tep_db_query(sprintf(<<<'EOSQL'
 INSERT INTO whos_online (customer_id, full_name, session_id, ip_address, time_entry, time_last_click, last_page_url)
-SELECT wo.customer_id, wo.full_name, '
+ SELECT wo.customer_id, wo.full_name, '%s', wo.ip_address, wo.time_entry, wo.time_last_click, wo.last_page_url
+   FROM whos_online wo
+   WHERE wo.session_id = '%s'
+ ON DUPLICATE KEY UPDATE
+   customer_id = VALUES(customer_id),
+   full_name = VALUES(full_name),
+   ip_address = VALUES(ip_address),
+   time_entry = VALUES(time_entry),
+   time_last_click = VALUES(time_last_click),
+   last_page_url = VALUES(last_page_url)
 EOSQL
-      . tep_db_input($new_id)
-      . "', wo.ip_address, wo.time_entry, wo.time_last_click, wo.last_page_url FROM whos_online wo WHERE wo.session_id = '"
-      . tep_db_input($old_id)
-      . <<<'EOSQL'
-' ON DUPLICATE KEY UPDATE
-  customer_id = VALUES(customer_id),
-  full_name = VALUES(full_name),
-  ip_address = VALUES(ip_address),
-  time_entry = VALUES(time_entry),
-  time_last_click = VALUES(time_last_click),
-  last_page_url = VALUES(last_page_url)
-EOSQL
-      );
-    tep_db_query("DELETE FROM whos_online WHERE session_id = '" . tep_db_input($old_id) . "' OR time_last_click < " . (int)(time() - 900));
+        , tep_db_input($new_id), tep_db_input($old_id)));
+      tep_db_query("DELETE FROM whos_online WHERE session_id = '" . tep_db_input($old_id) . "' OR time_last_click < " . (int)(time() - 900));
+    }
+
   }
