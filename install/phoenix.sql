@@ -1111,8 +1111,9 @@ INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_clas
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_26_validations', 'function_surface', 'validations');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_27_expire_specials', '', 'specials::expire');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_28_template', 'Loader', 'oscTemplate');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_29_breadcrumb', 'breadcrumb', '');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_30_register_page_hook', 'hooks', 'register_page');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_29_category_path', 'application_surface', 'category_path');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_30_breadcrumb', 'breadcrumb', '');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_31_register_page_hook', 'hooks', 'register_page');
 
 INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
 
