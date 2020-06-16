@@ -97,6 +97,7 @@
         $_SESSION['navigation'] = new navigationHistory();
         $GLOBALS['navigation'] = &$_SESSION['navigation'];
       }
+
       $_SESSION['navigation']->add_current_page();
     }
 

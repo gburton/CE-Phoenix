@@ -65,7 +65,7 @@ EOSQL
 , tep_db_input($this->_site), tep_db_input($group)));
 
       while ($hook = tep_db_fetch_array($hooks_query)) {
-        if ('' === $hook['hooks_class'] && function_exists($hook['hooks_method'])) {
+        if ('' === $hook['hooks_class'] && is_callable($hook['hooks_method'])) {
           tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
             = $hook['hooks_method'];
           continue;
@@ -80,7 +80,7 @@ EOSQL
           $object = new $hook['hooks_class']();
         }
 
-        if (method_exists($object, $hook['hooks_method'])) {
+        if (is_callable([$object, $hook['hooks_method']])) {
           tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
             = [$object, $hook['hooks_method']];
         }
@@ -136,6 +136,7 @@ EOSQL
       $this->page = pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME);
       $this->register('siteWide', $this->page);
       $this->register($this->page);
+      $this->call('siteWide', 'injectAppTop');
     }
 
     public function register_pipeline($pipeline, &$parameters = null) {
