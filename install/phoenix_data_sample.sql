@@ -17,16 +17,16 @@ INSERT INTO categories VALUES (2, 'sample/vegetables-1.jpg', 0, 20, NOW(), NULL)
 INSERT INTO categories VALUES (3, 'sample/apples-pears.jpg', 1, 10, NOW(), NULL);
 INSERT INTO categories VALUES (4, 'sample/citrus.jpg', 1, 20, NOW(), NULL);
 
-INSERT INTO categories_description VALUES ('1', '1', 'Fruit', 'Fruit contains many nutrients and vitamins essential to health.  Eating fruit is an essential part of a healthy balanced diet.', null, null, null);
-INSERT INTO categories_description VALUES ('2', '1', 'Vegetables', null, null, null, null);
-INSERT INTO categories_description VALUES (3, 1, 'Apples & Pears', 'Fresh and crisp with a variety of flavours.', NULL, NULL, NULL);
-INSERT INTO categories_description VALUES (4, 1, 'Citrus Fruit', 'Tart, tangy and full of Vitamin C.', NULL, NULL, NULL);
+INSERT INTO categories_description VALUES ('1', '1', 'Fruit', 'Fruit contains many nutrients and vitamins essential to health.  Eating fruit is an essential part of a healthy balanced diet.', null, null);
+INSERT INTO categories_description VALUES ('2', '1', 'Vegetables', null, null, null);
+INSERT INTO categories_description VALUES (3, 1, 'Apples & Pears', 'Fresh and crisp with a variety of flavours.', NULL, NULL);
+INSERT INTO categories_description VALUES (4, 1, 'Citrus Fruit', 'Tart, tangy and full of Vitamin C.', NULL, NULL);
 
 INSERT INTO manufacturers VALUES (1, 'Fiacre', null, now(), null);
 INSERT INTO manufacturers VALUES (2, 'Von Peacock', null, now(), null);
 
-INSERT INTO manufacturers_info VALUES (1, 1, '', 0, null, null, null, null, null);
-INSERT INTO manufacturers_info VALUES (2, 1, '', 0, null, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (1, 1, '', 0, null, null, null, null);
+INSERT INTO manufacturers_info VALUES (2, 1, '', 0, null, null, null, null);
 
 INSERT INTO products VALUES (1, 1000, 'ORA-1', 'sample/orange-1.jpg', 9.99, NOW(), NULL, NULL, 0.30, 1, 1, 1, 0, NULL);
 INSERT INTO products VALUES (2, 1000, 'LEM-1', 'sample/lemon-1.jpg', 7.99, NOW(), NULL, NULL, 0.30, 1, 1, 1, 0, NULL);
