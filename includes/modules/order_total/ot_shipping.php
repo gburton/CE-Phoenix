@@ -48,7 +48,7 @@
       $module = substr($_SESSION['shipping']['id'], 0, strpos($_SESSION['shipping']['id'], '_'));
 
       if (tep_not_null($order->info['shipping_method'])) {
-        if ($GLOBALS[$module]->tax_class > 0) {
+        if (($GLOBALS[$module]->tax_class ?? 0) > 0) {
           $shipping_tax = tep_get_tax_rate($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
           $shipping_tax_description = tep_get_tax_description($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
 
