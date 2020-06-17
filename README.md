@@ -39,10 +39,10 @@ Installation of Phoenix takes no more than a few minutes - you will need a hosti
       admin > tools > security checks
 - [ ] join Phoenix club
 - [ ] install modules;  
-      admin > modules > navbar
-      admin > modules > content
-      admin > modules > boxes
-      admin > modules > shipping
+      admin > modules > navbar<br>
+      admin > modules > content<br>
+      admin > modules > boxes<br>
+      admin > modules > shipping<br>
       admin > modules > payment
 - [ ] perform a test checkout
 - [ ] load your categories and products
