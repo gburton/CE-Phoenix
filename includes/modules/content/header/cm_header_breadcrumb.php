@@ -88,7 +88,7 @@ EOSQL;
         }
 
         $data = json_encode($schema_breadcrumb);
-        $GLOBALS['oscTemplate']->addBlock('<script type="application/ld+json">' . $data . '</script>', $this->group);
+        $GLOBALS['oscTemplate']->addBlock('<script type="application/ld+json">' . $data . '</script>', 'footer_scripts');
       }
 
       if (('Header' === $this->base_constant('LOCATION')) || ('Both' === $this->base_constant('LOCATION'))) {
