@@ -69,10 +69,34 @@ EOSQL;
         $breadcrumb->prepend($text, $link);
       }
 
-      $content_width = (int)MODULE_CONTENT_HEADER_BREADCRUMB_CONTENT_WIDTH;
+      if (('Schema' === $this->base_constant('LOCATION')) || ('Both' === $this->base_constant('LOCATION'))) {
+        $schema_breadcrumb = [
+          '@context' => 'https://schema.org',
+          '@type' => 'BreadcrumbList',
+          'itemListElement' => [],
+        ];
 
-      $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
-      include 'includes/modules/content/cm_template.php';
+        foreach ($breadcrumb->_trail as $i => $v) {
+          $schema_breadcrumb['itemListElement'][] = [
+            '@type' => 'ListItem',
+            'position' => $i,
+            'item' => [
+              '@id' => $v['link'],
+              'name' => strip_tags($v['title']),
+            ],
+          ];
+        }
+
+        $data = json_encode($schema_breadcrumb);
+        $GLOBALS['oscTemplate']->addBlock('<script type="application/ld+json">' . $data . '</script>', $this->group);
+      }
+
+      if (('Header' === $this->base_constant('LOCATION')) || ('Both' === $this->base_constant('LOCATION'))) {
+        $content_width = (int)MODULE_CONTENT_HEADER_BREADCRUMB_CONTENT_WIDTH;
+
+        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+        include 'includes/modules/content/cm_template.php';
+      }
     }
 
     protected function get_parameters() {
@@ -93,6 +117,12 @@ EOSQL;
           'title' => 'Sort Order',
           'value' => '0',
           'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+        $this->config_key_base . 'LOCATION' => [
+          'title' => 'Location',
+          'value' => 'Both',
+          'desc' => 'Where you want the breadcrumb to be used.  Display in the Header, post as Schema entries, or Both.',
+          'set_func' => "tep_cfg_select_option(['Header', 'Schema', 'Both'], ",
         ],
         $this->config_key_base . 'PRODUCT_SEO_OVERRIDE' => [
           'title' => 'Product SEO Override?',
