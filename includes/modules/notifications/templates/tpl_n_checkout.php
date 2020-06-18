@@ -38,7 +38,7 @@
   }
   echo "\n" . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n";
 
-  foreach ($GLOBALS['order_totals'] as $order_total) {
+  foreach ($order->totals as $order_total) {
     echo strip_tags($order_total['title']) . ' ' . strip_tags($order_total['text']) . "\n";
   }
 

@@ -269,7 +269,7 @@
 
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
-        foreach ( $GLOBALS['order_totals'] as $ot ) {
+        foreach ( $order->totals as $ot ) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_AMT' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);
@@ -344,7 +344,7 @@
 
         $items_total = $this->_app->formatCurrencyRaw($order->info['subtotal']);
 
-        foreach ($GLOBALS['order_totals'] as $ot) {
+        foreach ($order->totals as $ot) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_COST' . $line_item_no] = $this->_app->formatCurrencyRaw($ot['value']);

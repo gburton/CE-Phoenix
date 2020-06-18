@@ -74,7 +74,7 @@
 
   $order_total_modules = new order_total();
 
-  $order_totals = $order_total_modules->process();
+  $order->totals = $order_total_modules->process();
 
 // load the before_process function from the payment modules
   $payment_modules->before_process();

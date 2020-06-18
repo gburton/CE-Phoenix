@@ -453,7 +453,7 @@ EOD;
       }
 
       $order_total_modules = new order_total();
-      $order_totals = $order_total_modules->process();
+      $order->totals = $order_total_modules->process();
 
 // Remove shipping tax from total that was added again in ot_shipping
       if (DISPLAY_PRICE_WITH_TAX == 'true') {
@@ -468,7 +468,7 @@ EOD;
 
       $items_total = $paypal_pro_payflow_ec->format_raw($order->info['subtotal']);
 
-      foreach ($order_totals as $ot) {
+      foreach ($order->totals as $ot) {
         if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
           $item_params['L_NAME' . $line_item_no] = $ot['title'];
           $item_params['L_COST' . $line_item_no] = $paypal_pro_payflow_ec->format_raw($ot['value']);

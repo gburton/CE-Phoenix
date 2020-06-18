@@ -252,7 +252,7 @@ EOD;
     }
 
     function before_process() {
-      global $order, $order_totals, $currencies;
+      global $order, $currencies;
 
       $result = false;
 
