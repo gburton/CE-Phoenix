@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="alert alert-warning"><?php echo TEXT_CERTIFIED_ADDONS; ?></div>
+  <div class="alert alert-warning"><?php echo sprintf(TEXT_CERTIFIED_ADDONS, $feed->channel->description); ?></div>
 
   <div class="table-responsive">
     <table class="table table-striped table-hover table-filter">
