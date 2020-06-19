@@ -472,10 +472,15 @@ EOSQL
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:
-      if (isset($buInfo) && is_object($buInfo)) {
+      if (isset($buInfo->file)) {
         $heading[] = ['text' => $buInfo->date];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger')];
+        $buttons = tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2');
+        if ($dir_ok) {
+          $buttons .= tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger');
+        }
+
+        $contents[] = ['class' => 'text-center', 'text' => $buttons];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE, $buInfo->date)];
         $contents[] = ['text' => sprintf(TEXT_INFO_SIZE, $buInfo->size)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COMPRESSION, $buInfo->compression)];
