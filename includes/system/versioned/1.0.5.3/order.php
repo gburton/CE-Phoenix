@@ -42,7 +42,7 @@
       $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$this->id);
       $order = tep_db_fetch_array($order_query);
 
-      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . $order['orders_status'] . " AND language_id = " . (int)$_SESSION['languages_id']);
+      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . (int)$order['orders_status'] . " AND language_id = " . (int)$_SESSION['languages_id']);
       $order_status = tep_db_fetch_array($order_status_query);
 
       $this->info = [
