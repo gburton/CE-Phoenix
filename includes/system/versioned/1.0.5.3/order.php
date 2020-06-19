@@ -153,8 +153,8 @@
         'currency' => $_SESSION['currency'],
         'currency_value' => $currencies->currencies[$_SESSION['currency']]['value'],
         'payment_method' => $_SESSION['payment'],
-        'shipping_method' => $_SESSION['shipping']['title'],
-        'shipping_cost' => $_SESSION['shipping']['cost'],
+        'shipping_method' => $_SESSION['shipping']['title'] ?? null,
+        'shipping_cost' => $_SESSION['shipping']['cost'] ?? null,
         'subtotal' => 0,
         'tax' => 0,
         'tax_groups' => [],
@@ -170,7 +170,7 @@
       }
 
       $this->customer = $customer->fetch_to_address(0);
-      $this->billing = $customer->fetch_to_address($_SESSION['billto']);
+      $this->billing = $customer->fetch_to_address($_SESSION['billto'] ?? null);
 
       $this->content_type = $_SESSION['cart']->get_content_type();
       if ( !$_SESSION['sendto'] && ('virtual' !== $this->content_type) ) {
