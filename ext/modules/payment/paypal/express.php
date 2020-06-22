@@ -336,7 +336,7 @@ EOD;
               echo $output;
               exit;
             } else {
-              $customer_id = $check['customers_id'];
+              $customer_id = $_SESSION['customer_id'] = $check['customers_id'];
               $customers_firstname = $check['customers_firstname'];
             }
           } else {
