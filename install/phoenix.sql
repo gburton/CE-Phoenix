@@ -1100,7 +1100,7 @@ INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_clas
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_17_fix_numeric_locale', 'Application', 'fix_numeric_locale');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_18_set_currency', 'currencies', 'set_currency');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_19_ensure_navigation_history', 'Application', 'ensure_navigation_history');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_20_messageStack', 'messageStack', '');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_20_messageStack', 'Loader', 'messageStack');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_21_customer_data', 'Loader', 'customer_data');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_22_customer', 'Application', 'set_customer_if_identified');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_23_parse_actions', 'application_surface', 'parse_actions');
