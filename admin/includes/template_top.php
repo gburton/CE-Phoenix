@@ -44,7 +44,7 @@ $.datepicker.setDefaults($.datepicker.regional['<?php echo JQUERY_DATEPICKER_I18
 echo $OSCOM_Hooks->call('siteWide', 'injectBodyStart');
 ?>
 
-<div class="<?php echo BOOTSTRAP_CONTAINER; ?>">
+<div class="container-fluid">
   <div class="row">
 
 <?php
