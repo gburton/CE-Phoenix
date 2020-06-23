@@ -109,6 +109,7 @@
 
   <?php
   if ($action == 'edit' || $action == 'update') {
+    $hooks =& $OSCOM_Hooks;
     $oscTemplate = new oscTemplate();
     echo tep_draw_form('customers', 'customers.php', tep_get_all_get_params(['action']) . 'action=update', 'post');
     echo tep_draw_hidden_field('default_address_id', $customer_data->get('address_id', $customer_details));
