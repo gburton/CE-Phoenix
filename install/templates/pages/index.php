@@ -42,51 +42,57 @@
       $configfile_array[] = osc_realpath(dirname(__FILE__) . '/../../../admin/includes') . '/configure.php';
     }
 
+    $error_array = [];
     $warning_array = [];
 
     if (!extension_loaded('mysqli')) {
-      $warning_array['mysql'] = 'The MySQLi extension is required but is not installed. Please enable the extension to continue installation.';
+      $error_array['mysql'] = 'The MySQLi extension is required but is not installed. Please enable the extension to continue installation.';
     }
 
     $php_version_thumb = '<i class="fas fa-thumbs-up text-success"></i>';
 
     if (version_compare(PHP_VERSION, PHP_VERSION_MIN, '<')) {
-      $warning_array['php_version'] = sprintf('The version of PHP must be at least <strong>%s</strong>.  The version here is %s.', PHP_VERSION_MIN, PHP_VERSION);
+      $error_array['php_version'] = sprintf('The version of PHP must be at least <strong>%s</strong>.  The version here is %s.', PHP_VERSION_MIN, PHP_VERSION);
       $php_version_thumb = '<i class="fas fa-thumbs-down text-danger"></i>';
     }
     
     if (version_compare(PHP_VERSION, PHP_VERSION_MAX, '>=')) {
-      $warning_array['php_version'] = sprintf('Performance on versions higher than <strong>%s</strong> has not been tested.  The version here is %s.', PHP_VERSION_MAX, PHP_VERSION);
-      $php_version_thumb = '<i class="fas fa-thumbs-down text-danger"></i>';
+      $warning_array['php_version'] = sprintf('Performance on versions <strong>higher than %s has not been tested</strong>.  The version here is %s.', PHP_VERSION_MAX, PHP_VERSION);
+      $php_version_thumb = '<i class="fas fa-thumbs-up text-warning"></i>';
     }
     
     if ((int)ini_get('allow_url_fopen') == 0) {
-      $warning_array['allow_url_fopen'] = 'Fopen Wrappers must be turned on.  This is a <em>hosting</em> setting which you or your host may be able to change by setting allow_url_fopen to "1" or "On" in php.ini';
+      $warning_array['allow_url_fopen'] = 'Fopen Wrappers should be turned on.  This is a <em>hosting</em> setting which you or your host may be able to turn on.';
+    }
+    
+    if (!extension_loaded('cURL')) {
+      $warning_array['curl'] = 'cURL should be turned on.  This is a <em>hosting</em> which you or your host may be able to turn on.';
     }
 
-    if (!empty($configfile_array) || !empty($warning_array)) {
-?>
-
-      <div class="noticeBox">
-
-<?php
-      if (!empty($warning_array)) {
-?>
-
+    if (!empty($configfile_array) || !empty($error_array) || !empty($warning_array)) {
+        ?>
+        
         <table class="table table-condensed table-striped">
-
-<?php
-        foreach ( $warning_array as $key => $value ) {
-          echo '        <tr>' . "\n" .
-               '          <td valign="top"><strong>' . $key . '</strong></td>' . "\n" .
-               '          <td valign="top">' . $value . '</td>' . "\n" .
-               '        </tr>' . "\n";
-        }
-?>
-
+          <?php
+          if (!empty($error_array)) {
+            foreach ( $error_array as $key => $value ) {
+              echo '<tr class="table-danger">';
+                echo '<th>' . $key . '</th>';
+                echo '<td>' . $value . '</td>';
+              echo '</tr>';
+            }
+          }
+          if (!empty($warning_array)) {
+            foreach ( $warning_array as $key => $value ) {
+              echo '<tr class="table-warning">';
+                echo '<th>' . $key . '</th>';
+                echo '<td>' . $value . '</td>';
+              echo '</tr>';
+            }
+          }
+          ?>
         </table>
 <?php
-      }
 
       if (!empty($configfile_array)) {
 ?>
@@ -105,21 +111,16 @@
 
 <?php
       }
-?>
-
-      </div>
-
-<?php
     }
 
-    if (!empty($configfile_array) || !empty($warning_array)) {
+    if (!empty($configfile_array) || !empty($error_array)) {
 ?>
 
-      <div class="alert alert-danger" role="alert">Please correct the above errors and retry the installation procedure with the changes in place.</div>
+      
 
 <?php
-      if (!empty($warning_array)) {
-        echo '    <div class="alert alert-info" role="alert"><i>Changing webserver configuration parameters may require the webserver service to be restarted before the changes take affect.</i></div>' . "\n";
+      if (!empty($error_array)) {
+        echo '<div class="alert alert-info" role="alert"><i>Changing webserver configuration parameters may require the webserver service to be restarted before the changes take affect.</i></div>' . "\n";
       }
 ?>
 
@@ -129,7 +130,7 @@
     } else {
 ?>
 
-      <div class="alert alert-success" role="alert">The webserver environment has been verified to proceed with a successful installation and configuration of your online store.</div>
+      <div class="alert alert-success" role="alert">Please proceed with the installation and configuration of your online store.</div>
 
       <div id="jsOn" style="display: none;">
         <p><a href="install.php" class="btn btn-success btn-block" role="button">Start the installation procedure</a></p>
@@ -200,15 +201,15 @@ $(function() {
       </tr>
       <tr>
         <th>GD</th>
-        <td colspan="2" class="text-right"><?php echo (extension_loaded('gd') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('gd') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-warning"></i>'); ?></td>
       </tr>
       <tr>
         <th>cURL</th>
-        <td colspan="2" class="text-right"><?php echo (extension_loaded('curl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('curl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-warning"></i>'); ?></td>
       </tr>
       <tr>
         <th>OpenSSL</th>
-        <td colspan="2" class="text-right"><?php echo (extension_loaded('openssl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-danger"></i>'); ?></td>
+        <td colspan="2" class="text-right"><?php echo (extension_loaded('openssl') ? '<i class="fas fa-thumbs-up text-success"></i>' : '<i class="fas fa-thumbs-down text-warning"></i>'); ?></td>
       </tr>
     </table>
 <?php
