@@ -202,7 +202,7 @@
         }
 
         $order_total_modules = new order_total();
-        $order_totals = $order_total_modules->process();
+        $order->totals = $order_total_modules->process();
 
         $params = [
           'METHOD' => 'CallbackResponse',
@@ -336,7 +336,7 @@ EOD;
               echo $output;
               exit;
             } else {
-              $customer_id = $check['customers_id'];
+              $customer_id = $_SESSION['customer_id'] = $check['customers_id'];
               $customers_firstname = $check['customers_firstname'];
             }
           } else {
@@ -800,7 +800,7 @@ EOD;
         }
 
         $order_total_modules = new order_total();
-        $order_totals = $order_total_modules->process();
+        $order->totals = $order_total_modules->process();
 
 // Remove shipping tax from total that was added again in ot_shipping
         if ( isset($default_shipping) ) {
@@ -813,7 +813,7 @@ EOD;
 
         $items_total = $paypal_express->_app->formatCurrencyRaw($order->info['subtotal']);
 
-        foreach ($order_totals as $ot) {
+        foreach ($order->totals as $ot) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_PAYMENTREQUEST_0_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_PAYMENTREQUEST_0_AMT' . $line_item_no] = $paypal_express->_app->formatCurrencyRaw($ot['value']);

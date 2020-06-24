@@ -42,7 +42,7 @@
       $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$this->id);
       $order = tep_db_fetch_array($order_query);
 
-      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . $order['orders_status'] . " AND language_id = " . (int)$_SESSION['languages_id']);
+      $order_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . (int)$order['orders_status'] . " AND language_id = " . (int)$_SESSION['languages_id']);
       $order_status = tep_db_fetch_array($order_status_query);
 
       $this->info = [
@@ -51,6 +51,7 @@
         'payment_method' => $order['payment_method'],
         'date_purchased' => $order['date_purchased'],
         'orders_status' => $order_status['orders_status_name'],
+        'orders_status_id' => $order['orders_status'],
         'last_modified' => $order['last_modified'],
       ];
 
@@ -152,8 +153,8 @@
         'currency' => $_SESSION['currency'],
         'currency_value' => $currencies->currencies[$_SESSION['currency']]['value'],
         'payment_method' => $_SESSION['payment'],
-        'shipping_method' => $_SESSION['shipping']['title'],
-        'shipping_cost' => $_SESSION['shipping']['cost'],
+        'shipping_method' => $_SESSION['shipping']['title'] ?? null,
+        'shipping_cost' => $_SESSION['shipping']['cost'] ?? null,
         'subtotal' => 0,
         'tax' => 0,
         'tax_groups' => [],
@@ -169,7 +170,7 @@
       }
 
       $this->customer = $customer->fetch_to_address(0);
-      $this->billing = $customer->fetch_to_address($_SESSION['billto']);
+      $this->billing = $customer->fetch_to_address($_SESSION['billto'] ?? null);
 
       $this->content_type = $_SESSION['cart']->get_content_type();
       if ( !$_SESSION['sendto'] && ('virtual' !== $this->content_type) ) {

@@ -23,10 +23,6 @@
         if (tep_not_null($product_info['products_seo_description'])) {
           $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($product_info['products_seo_description']) . '" />' . PHP_EOL, $this->group);
         }
-
-        if ((tep_not_null($product_info['products_seo_keywords'])) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS !== 'Search') ) {
-          $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($product_info['products_seo_keywords']) . '" />' . PHP_EOL, $this->group);
-        }
       }
     }
 
@@ -39,10 +35,10 @@
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS' => [
-          'title' => 'Enable Product Meta Module - Keywords',
-          'value' => 'Search',
-          'desc' => 'Keywords can be used for META, for SEARCH, or for BOTH.  If you are into the Chinese Market select Both (for Baidu Search Engine) otherwise select Search.',
-          'set_func' => "tep_cfg_select_option(['Meta', 'Search', 'Both'], ",
+          'title' => 'Enable Keyword Search Engine',
+          'value' => 'True',
+          'desc' => 'Keywords can be used as an internal search engine...',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_HEADER_TAGS_PRODUCT_META_SORT_ORDER' => [
           'title' => 'Sort Order',

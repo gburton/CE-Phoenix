@@ -66,7 +66,6 @@
           $categories_name_array = $_POST['categories_name'];
           $categories_description_array = $_POST['categories_description'];
           $categories_seo_description_array = $_POST['categories_seo_description'];
-          $categories_seo_keywords_array = $_POST['categories_seo_keywords'];
           $categories_seo_title_array = $_POST['categories_seo_title'];
 
           $language_id = $languages[$i]['id'];
@@ -74,7 +73,6 @@
           $sql_data_array = ['categories_name' => tep_db_prepare_input($categories_name_array[$language_id])];
           $sql_data_array['categories_description'] = tep_db_prepare_input($categories_description_array[$language_id]);
           $sql_data_array['categories_seo_description'] = tep_db_prepare_input($categories_seo_description_array[$language_id]);
-          $sql_data_array['categories_seo_keywords'] = tep_db_prepare_input($categories_seo_keywords_array[$language_id]);
           $sql_data_array['categories_seo_title'] = tep_db_prepare_input($categories_seo_title_array[$language_id]);
 
           if ($action == 'insert_category') {
@@ -324,7 +322,7 @@
         tep_redirect(tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products_id));
         break;
       case 'copy_to_confirm':
-        if (isset($_POST['products_id']) && isset($_POST['categories_id'])) {
+        if (isset($_POST['products_id'], $_POST['categories_id'])) {
           $products_id = tep_db_prepare_input($_POST['products_id']);
           $categories_id = tep_db_prepare_input($_POST['categories_id']);
 
@@ -339,24 +337,43 @@
               $messageStack->add_session(ERROR_CANNOT_LINK_TO_SAME_CATEGORY, 'error');
             }
           } elseif ($_POST['copy_as'] == 'duplicate') {
-            $product_query = tep_db_query("select products_quantity, products_model, products_image, products_price, products_date_available, products_weight, products_tax_class_id, manufacturers_id, products_gtin from products where products_id = '" . (int)$products_id . "'");
-            $product = tep_db_fetch_array($product_query);
+            $db = [
+              'products' => [
+                'products_quantity' => null,
+                'products_model' => null,
+                'products_image' => null,
+                'products_price' => null,
+                'products_date_added' => 'NOW()',
+                'products_date_available' => null,
+                'products_weight' => null,
+                'products_status' => 0,
+                'products_tax_class_id' => null,
+                'manufacturers_id' => null,
+                'products_gtin' => null,
+              ],
+              'products_description' => [
+                'products_id' => null,
+                'language_id' => null,
+                'products_name' => null,
+                'products_description' => null,
+                'products_url' => null,
+                'products_viewed' => 0,
+                'products_seo_title' => null,
+                'products_seo_description' => null,
+                'products_seo_keywords' => null,
+              ],
+              'products_images' => [
+                'products_id' => null,
+                'image' => null,
+                'htmlcontent' => null,
+                'sort_order' => null,
+              ],
+            ];
 
-            tep_db_query("insert into products (products_quantity, products_model,products_image, products_price, products_date_added, products_date_available, products_weight, products_status, products_tax_class_id, manufacturers_id, products_gtin) values ('" . tep_db_input($product['products_quantity']) . "', '" . tep_db_input($product['products_model']) . "', '" . tep_db_input($product['products_image']) . "', '" . tep_db_input($product['products_price']) . "',  now(), " . (empty($product['products_date_available']) ? "null" : "'" . tep_db_input($product['products_date_available']) . "'") . ", '" . tep_db_input($product['products_weight']) . "', '0', '" . (int)$product['products_tax_class_id'] . "', '" . (int)$product['manufacturers_id'] . "', '" . tep_db_input($product['products_gtin']) . "')");
-            $dup_products_id = tep_db_insert_id();
-
-            $description_query = tep_db_query("select language_id, products_name, products_description, products_url, products_seo_title, products_seo_description, products_seo_keywords from products_description where products_id = '" . (int)$products_id . "'");
-            while ($description = tep_db_fetch_array($description_query)) {
-              tep_db_query("insert into products_description (products_id, language_id, products_name, products_description, products_url, products_viewed, products_seo_title, products_seo_description, products_seo_keywords) values ('" . (int)$dup_products_id . "', '" . (int)$description['language_id'] . "', '" . tep_db_input($description['products_name']) . "', '" . tep_db_input($description['products_description']) . "', '" . tep_db_input($description['products_url']) . "', '0', '" . tep_db_input($description['products_seo_title']) . "', '" . tep_db_input($description['products_seo_description']) . "', '" . tep_db_input($description['products_seo_keywords']) . "')");
-            }
-
-            $product_images_query = tep_db_query("select image, htmlcontent, sort_order from products_images where products_id = '" . (int)$products_id . "'");
-            while ($product_images = tep_db_fetch_array($product_images_query)) {
-              tep_db_query("insert into products_images (products_id, image, htmlcontent, sort_order) values ('" . (int)$dup_products_id . "', '" . tep_db_input($product_images['image']) . "', '" . tep_db_input($product_images['htmlcontent']) . "', '" . tep_db_input($product_images['sort_order']) . "')");
-            }
-
-            tep_db_query("insert into products_to_categories (products_id, categories_id) values ('" . (int)$dup_products_id . "', '" . (int)$categories_id . "')");
-            $products_id = $dup_products_id;
+            $parameters = ['db' => &$db];
+            $OSCOM_Hooks->call('categories', 'preDuplicateCopyToConfirmAction', $parameters);
+            $products_id = tep_db_copy($db, 'products_id', (int)$products_id);
+            tep_db_query("INSERT INTO products_to_categories (products_id, categories_id) VALUES (" . (int)$products_id . ", " . (int)$categories_id . ")");
           }
         }
 
@@ -1036,7 +1053,7 @@ function updateNet() {
         $contents = ['form' => tep_draw_form('newcategory', 'categories.php', 'action=insert_category&cPath=' . $cPath, 'post', 'enctype="multipart/form-data"')];
         $contents[] = ['text' => TEXT_NEW_CATEGORY_INTRO];
 
-        $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_keywords_string = $category_seo_title_string = '';
+        $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_title_string = '';
         $languages = tep_get_languages();
         for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
 
@@ -1064,19 +1081,12 @@ function updateNet() {
             $category_seo_description_string .= '</div>';
             $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10');
           $category_seo_description_string .= '</div>';
-          $category_seo_keywords_string .= '<div class="input-group mb-1">';
-            $category_seo_keywords_string .= '<div class="input-group-prepend">';
-              $category_seo_keywords_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
-            $category_seo_keywords_string .= '</div>';
-            $category_seo_keywords_string .= tep_draw_input_field('categories_seo_keywords[' . $languages[$i]['id'] . ']', null, 'placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '"');
-          $category_seo_keywords_string .= '</div>';
         }
 
         $contents[] = ['text' => TEXT_CATEGORIES_NAME . $category_inputs_string];
         $contents[] = ['text' => TEXT_CATEGORIES_SEO_TITLE . $category_seo_title_string];
         $contents[] = ['text' => TEXT_CATEGORIES_DESCRIPTION . $category_description_string];
         $contents[] = ['text' => TEXT_CATEGORIES_SEO_DESCRIPTION . $category_seo_description_string];
-        $contents[] = ['text' => TEXT_CATEGORIES_SEO_KEYWORDS . $category_seo_keywords_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_IMAGE . '<div class="custom-file mb-2">' . tep_draw_input_field('categories_image', '', 'id="cImg"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="cImg">&nbsp;</label></div>'];
         $contents[] = ['text' => TEXT_SORT_ORDER . '<br>' . tep_draw_input_field('sort_order', '', 'size="2"')];
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath), null, null, 'btn-light')];
@@ -1087,7 +1097,7 @@ function updateNet() {
         $contents = ['form' => tep_draw_form('categories', 'categories.php', 'action=update_category&cPath=' . $cPath, 'post', 'enctype="multipart/form-data"') . tep_draw_hidden_field('categories_id', $cInfo->categories_id)];
         $contents[] = ['text' => TEXT_EDIT_INTRO];
 
-        $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_keywords_string = $category_seo_title_string = '';
+        $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_title_string = '';
         $languages = tep_get_languages();
         for ($i = 0, $n = sizeof($languages); $i < $n; $i++) {
           $category_inputs_string .= '<div class="input-group mb-1">';
@@ -1114,19 +1124,12 @@ function updateNet() {
             $category_seo_description_string .= '</div>';
             $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_category_seo_description($cInfo->categories_id, $languages[$i]['id']));
           $category_seo_description_string .= '</div>';
-          $category_seo_keywords_string .= '<div class="input-group mb-1">';
-            $category_seo_keywords_string .= '<div class="input-group-prepend">';
-              $category_seo_keywords_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
-            $category_seo_keywords_string .= '</div>';
-            $category_seo_keywords_string .= tep_draw_input_field('categories_seo_keywords[' . $languages[$i]['id'] . ']', tep_get_category_seo_keywords($cInfo->categories_id, $languages[$i]['id']), 'placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '"');
-          $category_seo_keywords_string .= '</div>';
         }
 
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_NAME . $category_inputs_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_SEO_TITLE . $category_seo_title_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_DESCRIPTION . $category_description_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_SEO_DESCRIPTION . $category_seo_description_string];
-        $contents[] = ['text' => TEXT_EDIT_CATEGORIES_SEO_KEYWORDS . $category_seo_keywords_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_IMAGE . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $cInfo->categories_image, $cInfo->categories_name)];
         $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('categories_image', '', 'id="cImg"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="cImg">' .  $cInfo->categories_image . '</label></div>'];
         $contents[] = ['text' => TEXT_EDIT_SORT_ORDER . '<br>' . tep_draw_input_field('sort_order', $cInfo->sort_order, 'size="2"')];

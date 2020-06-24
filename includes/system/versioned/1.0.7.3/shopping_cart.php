@@ -164,7 +164,7 @@
           tep_db_query(sprintf(<<<'EOSQL'
 UPDATE customers_basket
  SET customers_basket_quantity = %d
- WHERE customers_id = "%d AND products_id = '%s'
+ WHERE customers_id = %d AND products_id = '%s'
 EOSQL
             , (int)$quantity, (int)$_SESSION['customer_id'], tep_db_input($products_id_string)));
         }

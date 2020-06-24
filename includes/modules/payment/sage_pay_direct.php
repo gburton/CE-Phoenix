@@ -195,7 +195,7 @@
     }
 
     public function before_process() {
-      global $order, $order_totals, $sage_pay_response;
+      global $order, $sage_pay_response;
 
       $transaction_response = null;
       $sage_pay_response = null;
@@ -430,7 +430,7 @@
           $contents[] = str_replace([':', "\n", "\r", '&'], '', $product_name) . ':' . $product['qty'] . ':' . $this->format_raw($product['final_price']) . ':' . $this->format_raw(($product['tax'] / 100) * $product['final_price']) . ':' . $this->format_raw((($product['tax'] / 100) * $product['final_price']) + $product['final_price']) . ':' . $this->format_raw(((($product['tax'] / 100) * $product['final_price']) + $product['final_price']) * $product['qty']);
         }
 
-        foreach ($order_totals as $ot) {
+        foreach ($order->totals as $ot) {
           $contents[] = str_replace([':', "\n", "\r", '&'], '', strip_tags($ot['title'])) . ':---:---:---:---:' . $this->format_raw($ot['value']);
         }
 

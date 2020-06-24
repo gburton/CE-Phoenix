@@ -180,7 +180,7 @@
       ];
 
       for ($i = 1; $i <= static::ZONE_COUNT; $i++) {
-        $keys = array_merge($keys, [
+        $parameters = array_merge($parameters, [
           $this->config_key_base . 'COUNTRIES_' . $i => [
             'title' => 'Zone ' . $i . ' Countries',
             'value' => (($i == 1) ? 'US;CA' : ''),
@@ -197,9 +197,9 @@
             'desc' => 'Handling Fee for this shipping zone',
           ],
         ]);
-
-        return $parameters;
       }
+
+      return $parameters;
     }
 
   }

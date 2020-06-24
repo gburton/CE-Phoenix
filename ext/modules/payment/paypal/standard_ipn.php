@@ -17,19 +17,15 @@
     exit;
   }
 
-  require 'includes/modules/payment/paypal_standard.php';
-
-  $payment = 'paypal_standard';
-  $$payment = new paypal_standard();
-
-  require DIR_FS_CATALOG . "includes/languages/$language/checkout_process.php";
+  $_SESSION['payment'] = 'paypal_standard';
+  $paypal_standard = new paypal_standard();
 
   $result = false;
 
-  $seller_accounts = [$$payment->_app->getCredentials('PS', 'email')];
+  $seller_accounts = [$paypal_standard->_app->getCredentials('PS', 'email')];
 
-  if ( tep_not_null($$payment->_app->getCredentials('PS', 'email_primary')) ) {
-    $seller_accounts[] = $$payment->_app->getCredentials('PS', 'email_primary');
+  if ( tep_not_null($paypal_standard->_app->getCredentials('PS', 'email_primary')) ) {
+    $seller_accounts[] = $paypal_standard->_app->getCredentials('PS', 'email_primary');
   }
 
   if ( (isset($_POST['receiver_email']) && in_array($_POST['receiver_email'], $seller_accounts)) || (isset($_POST['business']) && in_array($_POST['business'], $seller_accounts)) ) {
@@ -41,9 +37,9 @@
       }
     }
 
-    $parameters = substr($parameters, 0, -1);
+    $parameters = substr($parameters, 0, -strlen('&'));
 
-    $result = $$payment->_app->makeApiCall($$payment->form_action_url, $parameters);
+    $result = $paypal_standard->_app->makeApiCall($paypal_standard->form_action_url, $parameters);
   }
 
   $log_params = [];
@@ -56,10 +52,10 @@
     $log_params['GET ' . $key] = stripslashes($value);
   }
 
-  $$payment->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $log_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox', true);
+  $paypal_standard->_app->log('PS', '_notify-validate', ($result == 'VERIFIED') ? 1 : -1, $log_params, $result, (OSCOM_APP_PAYPAL_PS_STATUS == '1') ? 'live' : 'sandbox', true);
 
   if ( $result == 'VERIFIED' ) {
-    $$payment->verifyTransaction($_POST, true);
+    $paypal_standard->verifyTransaction($_POST, true);
 
     $order_id = (int)$_POST['invoice'];
     $customer_id = (int)$_POST['custom'];
@@ -115,5 +111,7 @@
       }
     }
   }
+
+  tep_session_destroy();
 
   require 'includes/application_bottom.php';

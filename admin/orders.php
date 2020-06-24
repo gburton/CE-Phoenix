@@ -219,7 +219,7 @@
           <div class="form-group row">
             <label for="oStatus" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_STATUS; ?></label>
             <div class="col-sm-9">
-              <?php echo tep_draw_pull_down_menu('status', $orders_statuses, $order->info['oid'], 'id="oStatus" class="form-control"'); ?>
+              <?php echo tep_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status_id'], 'id="oStatus" class="form-control"'); ?>
             </div>
           </div>
 

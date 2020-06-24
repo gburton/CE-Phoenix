@@ -116,7 +116,7 @@
     }
 
     public function before_process() {
-      global $order, $order_totals, $response_array;
+      global $order, $response_array;
 
       if (isset($_POST['cc_owner_firstname']) && !empty($_POST['cc_owner_firstname']) && isset($_POST['cc_owner_lastname']) && !empty($_POST['cc_owner_lastname']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns'])) {
         if (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TRANSACTION_SERVER == 'Live') {
@@ -173,7 +173,7 @@
 
         $items_total = $this->format_raw($order->info['subtotal']);
 
-        foreach ($order_totals as $ot) {
+        foreach ($order->totals as $ot) {
           if ( !in_array($ot['code'], ['ot_subtotal', 'ot_shipping', 'ot_tax', 'ot_total']) ) {
             $item_params['L_NAME' . $line_item_no] = $ot['title'];
             $item_params['L_COST' . $line_item_no] = $this->format_raw($ot['value']);

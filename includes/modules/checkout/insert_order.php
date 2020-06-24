@@ -54,7 +54,7 @@
   $order_id =& $GLOBALS['order_id'];
 
   $sql_data['orders_total'] = [];
-  foreach ($GLOBALS['order_totals'] as $order_total) {
+  foreach ($GLOBALS['order']->totals as $order_total) {
     $sql_data['orders_total'][] = [
       'title' => $order_total['title'],
       'text' => $order_total['text'],

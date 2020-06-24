@@ -13,10 +13,10 @@
   require 'includes/application_top.php';
 
   // Used in the "Backup Manager" to compress backups
-  define('LOCAL_EXE_GZIP', 'gzip');
-  define('LOCAL_EXE_GUNZIP', 'gunzip');
-  define('LOCAL_EXE_ZIP', 'zip');
-  define('LOCAL_EXE_UNZIP', 'unzip');
+  define('LOCAL_EXE_GZIP', '/usr/bin/gzip');
+  define('LOCAL_EXE_GUNZIP', '/usr/bin/gunzip');
+  define('LOCAL_EXE_ZIP', '/usr/bin/zip');
+  define('LOCAL_EXE_UNZIP', '/usr/bin/unzip');
 
   $action = $_GET['action'] ?? '';
 
@@ -360,46 +360,46 @@ EOSQL
           <tbody>
 
 <?php
-  if ($dir_ok) {
-    $dir = dir(DIR_FS_BACKUP);
-    $contents = [];
-    while ($file = $dir->read()) {
-      if (!is_dir(DIR_FS_BACKUP . $file) && in_array(substr($file, -3), ['zip', 'sql', '.gz'])) {
-        $contents[] = $file;
-      }
+  $dir = dir(DIR_FS_BACKUP);
+  $contents = [];
+  while ($file = $dir->read()) {
+    if (!is_dir(DIR_FS_BACKUP . $file) && in_array(substr($file, -3), ['zip', 'sql', '.gz'])) {
+      $contents[] = $file;
     }
-    sort($contents);
+  }
+  sort($contents);
 
-    foreach ($contents as $entry) {
-      if (!isset($buInfo) && (!isset($_GET['file']) || (isset($_GET['file']) && ($_GET['file'] == $entry))) && ($action != 'backup') && ($action != 'restorelocal')) {
-        $file_array['file'] = $entry;
-        $file_array['date'] = date(PHP_DATE_TIME_FORMAT, filemtime(DIR_FS_BACKUP . $entry));
-        $file_array['size'] = number_format(filesize(DIR_FS_BACKUP . $entry)) . ' bytes';
-        switch (substr($entry, -3)) {
-          case 'zip': $file_array['compression'] = 'ZIP'; break;
-          case '.gz': $file_array['compression'] = 'GZIP'; break;
-          default: $file_array['compression'] = TEXT_NO_EXTENSION; break;
-        }
-
-        $buInfo = new objectInfo($file_array);
+  foreach ($contents as $entry) {
+    if (!isset($buInfo) && (!isset($_GET['file']) || ($_GET['file'] == $entry)) && ($action != 'backup') && ($action != 'restorelocal')) {
+      $file_array['file'] = $entry;
+      $file_array['date'] = date(PHP_DATE_TIME_FORMAT, filemtime(DIR_FS_BACKUP . $entry));
+      $file_array['size'] = number_format(filesize(DIR_FS_BACKUP . $entry)) . ' bytes';
+      switch (substr($entry, -3)) {
+        case 'zip': $file_array['compression'] = 'ZIP'; break;
+        case '.gz': $file_array['compression'] = 'GZIP'; break;
+        default: $file_array['compression'] = TEXT_NO_EXTENSION; break;
       }
 
-      if (isset($buInfo) && is_object($buInfo) && ($entry == $buInfo->file)) {
-        $onclick_link = 'file=' . $buInfo->file . '&action=restore';
-      } else {
-        $onclick_link = 'file=' . $entry;
-      }
+      $buInfo = new objectInfo($file_array);
+    }
+
+    if (isset($buInfo->file) && ($entry == $buInfo->file)) {
+      $onclick_link = 'file=' . $buInfo->file . '&action=restore';
+      $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
+    } else {
+      $onclick_link = 'file=' . $entry;
+      $icon = '<a href="' . tep_href_link('backup.php', 'file=' . $entry) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+    }
 ?>
             <tr>
                 <td onclick="document.location.href='<?php echo tep_href_link('backup.php', $onclick_link); ?>'"><?php echo '<a href="' . tep_href_link('backup.php', 'action=download&file=' . $entry) . '"><i title="' . ICON_FILE_DOWNLOAD . '" class="fas fa-file-download text-muted"></i></a>&nbsp;' . $entry; ?></td>
                 <td onclick="document.location.href='<?php echo tep_href_link('backup.php', $onclick_link); ?>'"><?php echo date(PHP_DATE_TIME_FORMAT, filemtime(DIR_FS_BACKUP . $entry)); ?></td>
                 <td class="text-right" onclick="document.location.href='<?php echo tep_href_link('backup.php', $onclick_link); ?>'"><?php echo sprintf(TEXT_INFO_BACKUP_SIZE, number_format(filesize(DIR_FS_BACKUP . $entry)/1024000, 2)) ; ?></td>
-                <td class="text-right"><?php if (isset($buInfo) && is_object($buInfo) && ($entry == $buInfo->file)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('backup.php', 'file=' . $entry) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?php echo $icon; ?></td>
               </tr>
 <?php
-    }
-    $dir->close();
   }
+  $dir->close();
 ?>
           </tbody>
         </table>
@@ -407,7 +407,7 @@ EOSQL
       
       <div class="row my-1">
         <div class="col"><?php echo sprintf(TEXT_BACKUP_DIRECTORY, DIR_FS_BACKUP); ?></div>
-        <div class="col text-right mr-2"><?php if ( ($action != 'backup') && (isset($dir)) ) echo tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', tep_href_link('backup.php', 'action=backup'), null, null, 'btn-light mr-2'); if ( ($action != 'restorelocal') && isset($dir) ) echo tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-upload', tep_href_link('backup.php', 'action=restorelocal'), null, null, 'btn-light'); ?></div>
+        <div class="col text-right mr-2"><?php if ( ($action != 'backup') && $dir_ok && isset($dir) ) echo tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', tep_href_link('backup.php', 'action=backup'), null, null, 'btn-light mr-2'); if ( ($action != 'restorelocal') && isset($dir) ) echo tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-upload', tep_href_link('backup.php', 'action=restorelocal'), null, null, 'btn-light'); ?></div>
       </div>
 
 <?php
@@ -472,10 +472,15 @@ EOSQL
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php', 'file=' . $buInfo->file), null, null, 'btn-light')];
       break;
     default:
-      if (isset($buInfo) && is_object($buInfo)) {
+      if (isset($buInfo->file)) {
         $heading[] = ['text' => $buInfo->date];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger')];
+        $buttons = tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=restore'), null, null, 'btn-warning mr-2');
+        if ($dir_ok) {
+          $buttons .= tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('backup.php', 'file=' . $buInfo->file . '&action=delete'), null, null, 'btn-danger');
+        }
+
+        $contents[] = ['class' => 'text-center', 'text' => $buttons];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE, $buInfo->date)];
         $contents[] = ['text' => sprintf(TEXT_INFO_SIZE, $buInfo->size)];
         $contents[] = ['text' => sprintf(TEXT_INFO_COMPRESSION, $buInfo->compression)];

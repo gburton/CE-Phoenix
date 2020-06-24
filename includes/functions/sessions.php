@@ -156,7 +156,7 @@
       $SID = session_name() . '=' . session_id();
     }
 
-    tep_whos_online_update_session_id($old_id, session_id());
+    whos_online::update_session_id($old_id, session_id());
   }
 
   function tep_reset_session_token() {

@@ -38,17 +38,17 @@
   <div class="row">
     <div class="col">
       <ul class="list-group">
-        <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo ENTRY_SOLD_TO; ?></h6></li>
-        <li class="list-group-item border-0"><?php echo $address->format($order->billing, 1, '', '<br>'); ?></li>
-        <li class="list-group-item border-0"><i class="fas fa-phone fa-fw"></i> <?php echo ($order->customer['telephone'] ?? ''); ?> <i class="fas fa-at fa-fw"></i> <?php echo ($order->customer['email_address'] ?? ''); ?></li>
-     </ul>
-    </div>
-    <div class="col">
-      <ul class="list-group">
         <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo ENTRY_SHIP_TO; ?></h6></li>
         <li class="list-group-item border-0 font-weight-bold"><?php echo $address->format($order->delivery, 1, '', '<br>'); ?></li>
       </ul>
     </div>
+    <div class="col">
+      <ul class="list-group">
+        <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo ENTRY_SOLD_TO; ?></h6></li>
+        <li class="list-group-item border-0"><?php echo $address->format($order->billing, 1, '', '<br>'); ?></li>
+        <li class="list-group-item border-0"><i class="fas fa-phone fa-fw"></i> <?php echo ($order->customer['telephone'] ?? ''); ?> <i class="fas fa-at fa-fw"></i> <?php echo ($order->customer['email_address'] ?? ''); ?></li>
+     </ul>
+    </div>    
     <div class="col text-right">
       <ul class="list-group">
         <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo sprintf(ENTRY_INVOICE_NUMBER, (int)$_GET['oID']); ?></h6></li>

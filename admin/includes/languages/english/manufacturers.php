@@ -45,8 +45,6 @@ define('TEXT_EDIT_MANUFACTURERS_DESCRIPTION', 'Edit the Manufacturer Description
 
 define('TEXT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>');
 define('TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Edit the &lt;description&gt; Meta Element.</small>');
-define('TEXT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Add a &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
-define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Edit the &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
 
 const TEXT_MANUFACTURERS_SEO_TITLE = 'Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
 const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Edit the Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';

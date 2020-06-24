@@ -9,11 +9,11 @@
 * [Installation](https://github.com/gburton/CE-Phoenix#installation)
   - [User Checklist](https://github.com/gburton/CE-Phoenix#user-checklist)
   - [Softaculous](https://github.com/gburton/CE-Phoenix#softaculous)
-  - [Language Packs](https://github.com/gburton/CE-Phoenix#other-languages)
+  - [Language Packs](https://github.com/gburton/CE-Phoenix#language-packs)
 * [Certified Service Providers](https://github.com/gburton/CE-Phoenix#certified-service-providers)
-* [Supporting the Project](https://github.com/gburton/CE-Phoenix#support-the-project)
+* [Supporting the Project](https://github.com/gburton/CE-Phoenix#supporting-the-project)
   - [Join the Phoenix Club](https://github.com/gburton/CE-Phoenix#join-the-phoenix-club)
-* [Credits](https://github.com/gburton/CE-Phoenix#image-credits)
+* [Credits](https://github.com/gburton/CE-Phoenix#credits)
 
 # Phoenix
 
@@ -39,10 +39,10 @@ Installation of Phoenix takes no more than a few minutes - you will need a hosti
       admin > tools > security checks
 - [ ] join Phoenix club
 - [ ] install modules;  
-      admin > modules > navbar
-      admin > modules > content
-      admin > modules > boxes
-      admin > modules > shipping
+      admin > modules > navbar<br>
+      admin > modules > content<br>
+      admin > modules > boxes<br>
+      admin > modules > shipping<br>
       admin > modules > payment
 - [ ] perform a test checkout
 - [ ] load your categories and products

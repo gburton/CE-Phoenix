@@ -22,13 +22,9 @@
       if (basename($PHP_SELF) == 'index.php') {
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
           $brand_seo_description = $brand->getData('manufacturers_seo_description');
-          $brand_seo_keywords    = $brand->getData('manufacturers_seo_keywords');
 
           if (tep_not_null($brand_seo_description)) {
             $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($brand_seo_description) . '" />' . PHP_EOL, $this->group);
-          }
-          if ( (tep_not_null($brand_seo_keywords)) && (MODULE_HEADER_TAGS_MANUFACTURERS_SEO_KEYWORDS_STATUS == 'True') ) {
-            $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string($brand_seo_keywords) . '" />' . PHP_EOL, $this->group);
           }
         }
       }
@@ -47,12 +43,6 @@
           'value' => 'True',
           'desc' => 'Manufacturer Descriptions help your site and your sites visitors.',
           'set_func' => "tep_cfg_select_option(['True'], ",
-        ],
-        'MODULE_HEADER_TAGS_MANUFACTURERS_SEO_KEYWORDS_STATUS' => [
-          'title' => 'Display Manufacturer Meta Keywords',
-          'value' => 'False',
-          'desc' => 'Manufacturer Keywords are almost pointless.  If you are into the Chinese Market select True (for Baidu Search Engine) otherwise select False.',
-          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
         'MODULE_HEADER_TAGS_MANUFACTURERS_SEO_SORT_ORDER' => [
           'title' => 'Sort Order',
