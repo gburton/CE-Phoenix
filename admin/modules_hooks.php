@@ -12,13 +12,11 @@
 
   require 'includes/application_top.php';
 
-  $admin_hooks = $OSCOM_Hooks;
-  $OSCOM_Hooks = new hooks('shop');
+  $hooks = new hooks('shop');
   $template_name = defined('TEMPLATE_SELECTION') ? TEMPLATE_SELECTION : 'default';
   $template_name .= '_template';
   $template = new $template_name();
-  $directories = $OSCOM_Hooks->get_hook_directories();
-  $OSCOM_Hooks = $admin_hooks;
+  $directories = $hooks->get_hook_directories();
 
   function tep_find_contents($base, $test) {
     $contents = [];
@@ -64,7 +62,7 @@
           $class = "hook_{$site}_{$group}_{$pathinfo['filename']}";
           foreach (tep_find_listeners($class) as $listener) {
             tep_guarantee_all(
-              $hooks,
+              $contents,
               $site,
               $group,
               $listener,
@@ -92,7 +90,7 @@ EOSQL
     }
 
     tep_guarantee_all(
-      $hooks,
+      $contents,
       $hook['hooks_site'],
       $hook['hooks_group'],
       $hook['hooks_action'],
@@ -108,7 +106,7 @@ EOSQL
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <?php
-  foreach ( $hooks as $site => $groups ) {
+  foreach ( $contents as $site => $groups ) {
 ?>
       <thead class="thead-dark">
         <tr>
