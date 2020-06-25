@@ -49,6 +49,7 @@
     return $listeners;
   }
 
+  $contents = [];
   foreach ($directories as $directory) {
     $directory = dirname($directory);
     foreach (tep_find_contents($directory, 'is_dir') as $site) {
