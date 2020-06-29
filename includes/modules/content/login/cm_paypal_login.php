@@ -98,7 +98,7 @@
 
     function guarantee_address($customer_id, $address) {
       $address['id'] = $customer_id;
-      $check_query = tep_db_query($GLOBALS['customer_data']->build_read(['address_book_id'], 'address_book', $address) . "' LIMIT 1");
+      $check_query = tep_db_query($GLOBALS['customer_data']->build_read(['address_book_id'], 'address_book', $address) . " LIMIT 1");
       if ($check = tep_db_fetch_array($check_query)) {
         $_SESSION['sendto'] = $check['address_book_id'];
       } else {
