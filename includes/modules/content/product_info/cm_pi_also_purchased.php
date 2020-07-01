@@ -22,7 +22,7 @@
       global $currencies, $PHP_SELF;
 
       $content_width = (int)MODULE_CONTENT_PRODUCT_INFO_ALSO_PURCHASED_CONTENT_WIDTH;
-      $card_layout = IS_PRODUCT_PRODUCTS_LAYOUT;
+      $card_layout = IS_PRODUCT_PRODUCTS_DISPLAY_ROW;
 
       $orders_query = tep_db_query(<<<'EOSQL'
 SELECT
