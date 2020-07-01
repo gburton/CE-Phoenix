@@ -75,7 +75,7 @@ EOD
         ],
         'MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW_XL' => [
           'title' => 'Items In Each Row (XL)',
-          'value' => '6',
+          'value' => '4',
           'desc' => 'How many products should display per Row in XL (Extra Large) viewport?',
           'set_func' => "tep_cfg_select_option(['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], ",
         ],
