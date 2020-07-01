@@ -22,7 +22,7 @@
       global $new_products_category_id, $currencies, $PHP_SELF;
 
       $content_width = MODULE_CONTENT_CARD_PRODUCTS_CONTENT_WIDTH;
-      $card_layout = IS_PRODUCT_PRODUCTS_LAYOUT;
+      $card_layout = IS_PRODUCT_PRODUCTS_DISPLAY_ROW;
 
       if ( empty($new_products_category_id) ) {
         $card_products_query = tep_db_query(<<<'EOSQL'
