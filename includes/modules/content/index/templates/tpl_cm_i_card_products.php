@@ -6,7 +6,7 @@
     while ($card_products = tep_db_fetch_array($card_products_query)) {
       ?>
       <div class="col">
-        <div class="card mb-2 is-product" data-is-special="<?php echo (int)$card_products['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($card_products['final_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$card_products['manufacturers_id']); ?>">
+        <div class="card h-100 mb-2 is-product" data-is-special="<?php echo (int)$card_products['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($card_products['final_price'], tep_get_tax_rate($card_products['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$card_products['manufacturers_id']); ?>">
           <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$card_products['products_id']); ?>"><?php echo tep_image('images/' . $card_products['products_image'], htmlspecialchars($card_products['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top'); ?></a>
           <div class="card-body">         
             <h5 class="card-title">
