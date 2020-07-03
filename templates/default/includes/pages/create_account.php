@@ -33,7 +33,12 @@
 <?php echo tep_draw_form('create_account', tep_href_link('create_account.php', '', 'SSL'), 'post', '', true) . tep_draw_hidden_field('action', 'process');
 
   while ($customer_data_group = tep_db_fetch_array($customer_data_group_query)) {
-    if (empty($grouped_modules[$customer_data_group['customer_data_groups_id']])) {
+    $modules = $grouped_modules[$customer_data_group['customer_data_groups_id']] ?? [];
+    $modules = array_filter($modules, function ($v) use ($page_fields) {
+      return count(array_intersect(get_class($v)::PROVIDES, $page_fields)) > 0;
+    });
+
+    if ([] === $modules) {
       continue;
     }
     ?>
@@ -41,7 +46,7 @@
     <h4><?php echo $customer_data_group['customer_data_groups_name']; ?></h4>
 
     <?php
-    foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
+    foreach ($modules as $module) {
       $module->display_input($customer_details);
     }
   }
