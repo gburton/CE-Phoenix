@@ -95,8 +95,8 @@
   $prod_list_contents = NULL;
 
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="col">';
-      $prod_list_contents .= '<div class="card h-100 mb-2 is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">' . PHP_EOL;
+    $prod_list_contents .= '<div class="col mb-2">';
+      $prod_list_contents .= '<div class="card h-100 is-product" data-is-special="' . (int)$listing['is_special'] . '" data-product-price="' . $currencies->display_raw($listing['final_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '" data-product-manufacturer="' . max(0, (int)$listing['manufacturers_id']) . '">' . PHP_EOL;
         if (isset($_GET['manufacturers_id'])  && tep_not_null($_GET['manufacturers_id'])) {
           $prod_list_contents .= '<a href="' . tep_href_link('product_info.php', 'manufacturers_id=' . (int)$_GET['manufacturers_id'] . '&products_id=' . (int)$listing['products_id']) . '">' . tep_image('images/' . $listing['products_image'], htmlspecialchars($listing['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top') . '</a>' . PHP_EOL;
         } else {

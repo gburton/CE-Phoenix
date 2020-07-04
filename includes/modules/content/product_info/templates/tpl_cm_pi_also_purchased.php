@@ -5,8 +5,8 @@
     <?php
     while ($orders = tep_db_fetch_array($orders_query)) {      
       ?>
-      <div class="col">
-        <div class="card h-100 mb-2 is-product" data-is-special="<?php echo (int)$orders['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($orders['final_price'], tep_get_tax_rate($orders['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$orders['manufacturers_id']); ?>">
+      <div class="col mb-2">
+        <div class="card h-100 is-product" data-is-special="<?php echo (int)$orders['is_special']; ?>" data-product-price="<?php echo $currencies->display_raw($orders['final_price'], tep_get_tax_rate($orders['products_tax_class_id'])); ?>" data-product-manufacturer="<?php echo max(0, (int)$orders['manufacturers_id']); ?>">
           <a href="<?php echo tep_href_link('product_info.php', 'products_id=' . (int)$orders['products_id']); ?>"><?php echo tep_image('images/' . $orders['products_image'], htmlspecialchars($orders['products_name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, '', true, 'card-img-top'); ?></a>
           <div class="card-body">         
             <h5 class="card-title">
