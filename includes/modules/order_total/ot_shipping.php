@@ -79,7 +79,7 @@
         ],
         'MODULE_ORDER_TOTAL_SHIPPING_SORT_ORDER' => [
           'title' => 'Sort Order',
-          'value' => '2',
+          'value' => '20',
           'desc' => 'Sort order of display.',
         ],
         'MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING' => [

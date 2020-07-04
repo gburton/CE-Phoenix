@@ -17,10 +17,14 @@
     public $quotes;
     protected $country;
 
+    public function __construct() {
+      parent::__construct();
+      $this->tax_class = $this->base_constant('TAX_CLASS') ?? 0;
+    }
+
     public function quote_common() {
       global $order;
 
-      $this->tax_class = $this->base_constant('TAX_CLASS') ?? 0;
       if ($this->tax_class > 0) {
         $this->quotes['tax'] = tep_get_tax_rate($this->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id']);
       }

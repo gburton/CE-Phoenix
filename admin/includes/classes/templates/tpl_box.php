@@ -1,4 +1,9 @@
 <div class="table-responsive">
+  <?php
+  if ('' !== $form_start) {
+    echo $form_start;
+  }
+  ?>
   <table class="table table-striped table-hover">
     <thead class="thead-light">
       <tr>
@@ -9,6 +14,11 @@
       <?php echo $contents ?>
     </tbody>
   </table>
+  <?php
+  if ('' !== $form_close) {
+    echo $form_close;
+  }
+  ?>
 </div>
 
 <?php

@@ -19,9 +19,6 @@
 
   class box extends tableBlock {
 
-    //private $this->heading = [];
-    //private $this->contents = [];
-
     function infoBox($heading, $contents) {
       if (is_array($heading)) {
         $heading = $heading[0]['text'];
@@ -29,8 +26,14 @@
       $parameters = ['heading' => &$heading, 'contents' => &$contents];
       $GLOBALS['OSCOM_Hooks']->call(pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME), 'infoBox', $parameters);
 
-      //$this->table_row_parameters = '';
-      //$this->table_data_parameters = 'class="infoBoxContent"';
+      if (isset($contents['form'])) {
+        $form_start = $contents['form'] . PHP_EOL;
+        $form_close = '</form>' . PHP_EOL;
+        unset($contents['form']);
+      } else {
+        $form_start = '';
+        $form_close = '';
+      }
       $contents = $this->tableBlock($contents);
 
       ob_start();
