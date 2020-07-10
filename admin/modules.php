@@ -211,7 +211,7 @@
                   $mInfo = new objectInfo($module_info);
                 }
 
-                if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code) ) {
+                if (isset($mInfo->code) && ($class == $mInfo->code) ) {
                   if ($module->check() > 0) {
                     echo '<tr class="table-active onclick="document.location.href=\'' . tep_href_link('modules.php', 'set=' . $set . '&module=' . $class . '&action=edit') . '\'">' . PHP_EOL;
                   } else {
@@ -285,7 +285,7 @@
 
       $heading[] = ['text' => $mInfo->title];
 
-      $contents = ['form' => tep_draw_form('modules', 'modules.php', 'set=' . $set . '&module=' . $_GET['module'] . '&action=save')];
+      $contents = ['form' => tep_draw_form('modules', 'modules.php', tep_get_all_get_params(['action']) . 'action=save')];
       $contents[] = ['text' => $keys];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('modules.php', 'set=' . $set . '&module=' . $_GET['module']), null, null, 'btn-light')];
       break;
