@@ -273,10 +273,11 @@ EOERROR
 ////
 // Output a form textarea field
 // The $wrap parameter is no longer used in the core xhtml template
-  function tep_draw_textarea_field($name, $wrap, $width, $height, $text = '', $parameters = '', $reinsert_value = true) {
-    $field = '<textarea class="form-control" name="' . tep_output_string($name) . '" cols="' . tep_output_string($width) . '" rows="' . tep_output_string($height) . '"';
+  function tep_draw_textarea_field($name, $wrap, $width, $height, $text = '', $parameters = '', $reinsert_value = true, $class = 'class="form-control"') {
+    $field = '<textarea name="' . tep_output_string($name) . '" cols="' . tep_output_string($width) . '" rows="' . tep_output_string($height) . '"';
 
-    if (tep_not_null($parameters)) $field .= ' ' . $parameters;
+    if (tep_not_null($parameters)) $field .= " $parameters";
+    if (tep_not_null($class) && (false === strpos($parameters, 'class="'))) $field .= " $class";
 
     $field .= '>';
 
