@@ -425,6 +425,28 @@ CREATE TABLE orders_total (
   KEY idx_orders_total_orders_id (orders_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS pages;
+CREATE TABLE pages (
+  pages_id int NOT NULL auto_increment,
+  date_added datetime,
+  last_modified datetime,
+  pages_status tinyint(1) NOT NULL default '1',
+  pages_author varchar(255),
+  slug varchar(255) NOT NULL,
+  sort_order int(11) NULL,  
+  PRIMARY KEY (pages_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS pages_description;
+CREATE TABLE pages_description (
+  pages_id int NOT NULL,
+  languages_id int NOT NULL,
+  pages_title varchar(255) NOT NULL,
+  pages_text text NOT NULL,
+  navbar_title varchar(255) NOT NULL,
+  PRIMARY KEY (pages_id, languages_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   products_id int NOT NULL auto_increment,

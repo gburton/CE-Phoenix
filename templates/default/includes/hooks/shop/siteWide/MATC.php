@@ -39,13 +39,14 @@ eod;
       $this->load_lang(); 
       
       $close_button   = MATC_BUTTON_CLOSE;
-      $p_modal_title  = MATC_PRIVACY_MODAL_TITLE;
-      $p_modal_text   = MATC_PRIVACY_MODAL_TEXT;
-      $tc_modal_title = MATC_TERMS_MODAL_TITLE;
-      $tc_modal_text  = MATC_TERMS_MODAL_TEXT;
+      
+      $p_modal = info_pages::get_page(['p.slug' => 'privacy',
+                                       'pd.languages_id' => $_SESSION['languages_id']]);
+      $c_modal = info_pages::get_page(['p.slug' => 'conditions',
+                                       'pd.languages_id' => $_SESSION['languages_id']]);
       
       $modal = <<<eod
-<div class="modal fade" id="PModal" tabindex="-1" role="dialog" aria-labelledby="PModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="PModalLabel">{$p_modal_title}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">{$p_modal_text}</div><div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">{$close_button}</button></div></div></div></div><div class="modal fade" id="TCModal" tabindex="-1" role="dialog" aria-labelledby="TCModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="TCModalLabel">{$tc_modal_title}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">{$tc_modal_text}</div><div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">{$close_button}</button></div></div></div></div>
+<div class="modal fade" id="PModal" tabindex="-1" role="dialog" aria-labelledby="PModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="PModalLabel">{$p_modal['pages_title']}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">{$p_modal['pages_text']}</div><div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">{$close_button}</button></div></div></div></div><div class="modal fade" id="TCModal" tabindex="-1" role="dialog" aria-labelledby="TCModalLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="TCModalLabel">{$c_modal['pages_title']}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">{$c_modal['pages_text']}</div><div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">{$close_button}</button></div></div></div></div>
 eod;
 
       return $modal;
