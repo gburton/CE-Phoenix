@@ -139,7 +139,8 @@
         <div class="form-group row">
           <label for="inputText" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TESTIMONIAL; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text, 'required aria-required="true" id="inputText"'); ?>
+            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', $tInfo->testimonials_text, 'required aria-required="true" id="inputText" aria-describedby="TextHelp"'); ?>
+            <small id="TextHelp" class="form-text text-muted"><?php echo ENTRY_TESTIMONIAL_HTML_DISPLAYED; ?></small>
           </div>
         </div>
         
@@ -178,7 +179,8 @@
         <div class="form-group row">
           <label for="inputText" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_TESTIMONIAL; ?></label>
           <div class="col-sm-9">
-            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', '', 'required aria-required="true" id="inputText"'); ?>
+            <?php echo tep_draw_textarea_field('testimonials_text', 'soft', '60', '15', '', 'required aria-required="true" id="inputText" aria-describedby="TextHelp"'); ?>
+            <small id="TextHelp" class="form-text text-muted"><?php echo ENTRY_TESTIMONIAL_HTML_DISPLAYED; ?></small>
           </div>
         </div>
         
