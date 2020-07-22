@@ -96,7 +96,7 @@
     }
     
     public function requirements() {
-      $required_slugs = ['privacy', 'conditions']; $db_slugs = [];
+      $required_slugs = ['conditions', 'privacy', 'shipping']; $db_slugs = [];
       
       $slugs_query = tep_db_query("select slug from pages order by slug");
       while ($slugs = tep_db_fetch_array($slugs_query)) {

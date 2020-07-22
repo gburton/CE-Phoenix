@@ -191,7 +191,7 @@
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
-          $page_text .= tep_draw_textarea_field('page_text[' . $languages[$i]['id'] . ']', 'soft', '80', '10', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'pages_text'), 'required aria-required="true"');
+          $page_text .= tep_draw_textarea_field('page_text[' . $languages[$i]['id'] . ']', 'soft', '80', '10', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'pages_text'), 'required aria-required="true" class="form-control editor"');
         $page_text .= '</div>';
       }
       ?>
@@ -294,7 +294,7 @@
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
-          $page_text .= tep_draw_textarea_field('page_text[' . $languages[$i]['id'] . ']', 'soft', '80', '10', null, 'required aria-required="true" class="summernote"');
+          $page_text .= tep_draw_textarea_field('page_text[' . $languages[$i]['id'] . ']', 'soft', '80', '10', null, 'required aria-required="true" class="form-control editor"');
         $page_text .= '</div>';
       }
       ?>

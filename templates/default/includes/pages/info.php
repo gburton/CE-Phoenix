@@ -15,7 +15,7 @@
                                 'p.pages_status' => 1]);
   
   if (sizeof($page) > 0) {
-    $breadcrumb->add($page['pages_title']);
+    $breadcrumb->add($page['pages_title'], tep_href_link('info.php', 'pages_id=' . (int)$page['pages_id']));
     
     require $oscTemplate->map_to_template('template_top.php', 'component');
     
@@ -27,10 +27,10 @@
     </div>
     
     <?php
+    require $oscTemplate->map_to_template('template_bottom.php', 'component');
   }
   else {
     tep_redirect(tep_href_link('index.php'));
   }
-  
-  require $oscTemplate->map_to_template('template_bottom.php', 'component');
+  ?>
   
