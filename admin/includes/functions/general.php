@@ -808,6 +808,17 @@ EOSQL
     return $string;
   }
 
+  function tep_cfg_select_template($key_value, $key = null) {
+    $templates = [];
+    foreach (scandir(DIR_FS_CATALOG . 'templates', SCANDIR_SORT_ASCENDING) as $template) {
+      if ('.' !== $template[0]) {
+        $templates[] = $template;
+      }
+    }
+
+    return tep_cfg_select_option($templates, $key_value, $key);
+  }
+
 ////
 // Retrieve server information
   function tep_get_system_information() {

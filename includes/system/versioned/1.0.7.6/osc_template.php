@@ -18,11 +18,14 @@
     public $_data = [];
     private $_template;
 
-    public function __construct($template = 'default') {
+    public function __construct($template = null) {
       if (is_object($template)) {
         $this->_template = $template;
       } else {
-        require DIR_FS_CATALOG . "templates/$template/includes/template.php";
+        if (is_null($template)) {
+          $template = TEMPLATE_SELECTION;
+        }
+
         $template .= '_template';
         $this->_template = new $template();
       }
