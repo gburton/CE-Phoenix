@@ -32,13 +32,11 @@
       case 'update':
         $pages_id = tep_db_prepare_input($_GET['pID']);
 
-        $page_author = tep_db_prepare_input($_POST['page_author'] ?? null);
         $page_status = (int)$_POST['page_status'];
         $slug        = tep_db_prepare_input($_POST['slug']);
         $sort_order  = (int)$_POST['sort_order'];        
 
-        $sql_data_array = ['pages_author'  => $page_author,
-                           'pages_status'  => $page_status,
+        $sql_data_array = ['pages_status'  => $page_status,
                            'sort_order'    => $sort_order,
                            'slug'          => $slug,
                            'last_modified' => 'now()'];
@@ -80,13 +78,11 @@
         break;
 
       case 'addnew':
-        $page_author = tep_db_prepare_input($_POST['page_author'] ?? null);
         $page_status = (int)$_POST['page_status'];
         $slug        = tep_db_prepare_input($_POST['slug']);
         $sort_order  = (int)$_POST['sort_order'];
 
-        $sql_data_array = ['pages_author' => $page_author,
-                           'pages_status' => $page_status,
+        $sql_data_array = ['pages_status' => $page_status,
                            'slug'         => $slug,
                            'sort_order'   => $sort_order,
                            'date_added'   => 'now()'];
@@ -220,13 +216,6 @@
       </div>
       
       <hr>
-
-      <div class="form-group row">
-        <label for="inputAuthor" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo PAGE_AUTHOR; ?></label>
-        <div class="col-sm-9">
-          <?php echo tep_draw_input_field('page_author', $pInfo->pages_author, 'required aria-required="true" id="inputAuthor" class="form-control w-50"'); ?>
-        </div>
-      </div>
       
       <div class="form-group row">
         <label for="inputSlug" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo PAGE_SLUG; ?></label>
@@ -323,13 +312,6 @@
       </div>
       
       <hr>
-
-      <div class="form-group row">
-        <label for="inputAuthor" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo PAGE_AUTHOR; ?></label>
-        <div class="col-sm-9">
-          <?php echo tep_draw_input_field('page_author', null, 'required aria-required="true" id="inputAuthor" class="form-control w-50"'); ?>
-        </div>
-      </div>
       
       <div class="form-group row">
         <label for="inputSlug" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo PAGE_SLUG; ?></label>
@@ -440,7 +422,6 @@
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $pInfo->pages_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $pInfo->pages_id . '&action=delete'), null, null, 'btn-danger')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($pInfo->date_added))];
         if (tep_not_null($pInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($pInfo->last_modified))];
-        if (tep_not_null($pInfo->pages_author)) $contents[] = ['text' => sprintf(TEXT_INFO_PAGE_AUTHOR, $pInfo->pages_author)];
         $contents[] = ['text' => sprintf(TEXT_INFO_PAGE_SIZE, str_word_count($pInfo->pages_text))];
       }
         break;

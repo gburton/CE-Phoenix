@@ -431,7 +431,6 @@ CREATE TABLE pages (
   date_added datetime,
   last_modified datetime,
   pages_status tinyint(1) NOT NULL default '1',
-  pages_author varchar(255),
   slug varchar(255) NOT NULL,
   sort_order int(11) NULL,  
   PRIMARY KEY (pages_id)
