@@ -398,7 +398,7 @@
 
       $contents = ['form' => tep_draw_form('orders', 'orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=deleteconfirm')];
       $contents[] = ['text' => TEXT_INFO_DELETE_INTRO . '<br><br><strong>' . $oInfo->customers_name . '</strong>'];
-      $contents[] = ['text' => '<div class="custom-control custom-switch py-2">' . tep_draw_selection_field('restock', 'checkbox', 1, null, 'class="custom-control-input" id="oRestock"') . '<label for="oRestock" class="custom-control-label text-muted">' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY . '</label></div>'];
+      $contents[] = ['text' => '<div class="custom-control custom-switch py-2">' . tep_draw_selection_field('restock', 'checkbox', 'on', null, 'class="custom-control-input" id="oRestock"') . '<label for="oRestock" class="custom-control-label text-muted">' . TEXT_INFO_RESTOCK_PRODUCT_QUANTITY . '</label></div>'];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id), null, null, 'btn-light')];
       break;
     default:
