@@ -13,11 +13,10 @@
   class info_pages {
     /* 
     Example getContainer
-    $pages = info_pages::getContainer(['pd.languages_id' => '1',
-                                       'p.pages_author' => 'burty',
+    $pages = info_pages::getContainer(['pd.languages_id' => '1',                                       
                                        'p.pages_status' => '1']);
 
-    Makes array of pages authored by "burty", in english (1) where the page status is active (1)
+    Makes array of pages in english (1) where the page status is active (1)
     */
     public function getContainer($container = []) {
       global $languages_id; $pages_arr = [];
@@ -45,12 +44,6 @@
                                      'pd.languages_id' => '1'], 'pages_text');
 
     Get the Text of the privacy page in the english language (1)
-    
-    Example getElement
-    $pages = info_pages::getElement(['pd.pages_id' => '7',
-                                     'pd.languages_id' => '1'], 'pages_author');
-                                     
-    Get the Author of the page ID 7.
     */
     public function getElement($container = [], $element = null) {
       if ( (sizeof($container) > 0) && (tep_not_null($element)) ) {
