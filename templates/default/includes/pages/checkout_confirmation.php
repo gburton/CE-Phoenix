@@ -166,7 +166,7 @@
     echo $payment_modules->process_button();
   }
 
-  echo tep_draw_button(IMAGE_BUTTON_FINALISE_ORDER, 'fas fa-check-circle', null, 'primary', null, 'btn-success btn-block btn-lg');
+  echo tep_draw_button(sprintf(IMAGE_BUTTON_FINALISE_ORDER, $currencies->format($order->info['total'])), 'fas fa-check-circle', null, 'primary', null, 'btn-success btn-block btn-lg');
 ?>
     </div>
   </div>
