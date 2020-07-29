@@ -14,6 +14,29 @@
   require 'includes/application_top.php';
 
   $action = $_GET['action'] ?? '';
+
+  $OSCOM_Hooks->call('mail', 'preAction');
+  if (isset($_POST['customers_email_address'])) {
+    switch ($_POST['customers_email_address']) {
+      case '***':
+        $mail_sent_to = TEXT_ALL_CUSTOMERS;
+        break;
+      case '**D':
+        $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
+        break;
+      default:
+        if (filter_var($_POST['customers_email_address'], FILTER_VALIDATE_EMAIL)) {
+          $mail_sent_to = $_POST['customers_email_address'];
+        } elseif ($action) {
+          $messageStack->add(sprintf(ERROR_INVALID_EMAIL, htmlspecialchars($_POST['customers_email_address'])), 'error');
+          $action = '';
+        }
+    }
+  } elseif ($action) {
+    $messageStack->add(ERROR_NO_CUSTOMER_SELECTED, 'error');
+    $action = '';
+  }
+
   switch ($action) {
     case 'send_email_to_user':
       if ( !isset($_POST['customers_email_address']) || isset($_POST['back_x']) ) {
@@ -23,17 +46,15 @@
       switch ($_POST['customers_email_address']) {
         case '***':
           $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers'));
-          $mail_sent_to = TEXT_ALL_CUSTOMERS;
           break;
         case '**D':
           $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['newsletter' => true]));
-          $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
           break;
         default:
-          $customers_email_address = tep_db_prepare_input($_POST['customers_email_address']);
-
-          $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['email_address' => $customers_email_address]));
-          $mail_sent_to = $_POST['customers_email_address'];
+          $mail_query = tep_db_query($customer_data->build_read(
+            ['name', 'email_address'],
+            'customers',
+            ['email_address' => tep_db_prepare_input($_POST['customers_email_address'])]));
           break;
       }
 
@@ -46,40 +67,23 @@
       $mimemessage = new email();
       $mimemessage->add_message($message);
       $mimemessage->build_message();
-      while ($mail = tep_db_fetch_array($mail_query)) {
-        $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), $from_name, $from_address, $subject);
-      }
 
-      tep_redirect(tep_href_link('mail.php', 'mail_sent_to=' . urlencode($mail_sent_to)));
-      break;
-    case 'preview':
-      if (!isset($_POST['customers_email_address'])) {
-        $messageStack->add(ERROR_NO_CUSTOMER_SELECTED, 'error');
-        $action = '';
-      } else {
-        switch ($_POST['customers_email_address']) {
-          case '***':
-            $mail_sent_to = TEXT_ALL_CUSTOMERS;
-            break;
-          case '**D':
-            $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
-            break;
-          default:
-            if (filter_var($_POST['customers_email_address'], FILTER_VALIDATE_EMAIL)) {
-              $mail_sent_to = $_POST['customers_email_address'];
-            } else {
-              $messageStack->add(sprintf(ERROR_INVALID_EMAIL, htmlspecialchars($_POST['customers_email_address'])), 'error');
-              $action = '';
-            }
+      $count = 0;
+      while ($mail = tep_db_fetch_array($mail_query)) {
+        if ($mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), $from_name, $from_address, $subject)) {
+          $count++;
         }
       }
+
+      $OSCOM_Hooks->call('mail', 'sendEmailToUserAction');
+      if ($count > 0) {
+        $messageStack->add_session(sprintf(NOTICE_EMAIL_SENT_TO, $mail_sent_to), 'success');
+      }
+      tep_redirect(tep_href_link('mail.php'));
       break;
   }
 
-  if (isset($_GET['mail_sent_to'])) {
-    $messageStack->add(sprintf(NOTICE_EMAIL_SENT_TO, $_GET['mail_sent_to']), 'success');
-  }
-
+  $OSCOM_Hooks->call('mail', 'postAction');
   require 'includes/template_top.php';
 ?>
 
@@ -113,15 +117,19 @@
         </tr>
       </table>
 
-      <div class="buttonSet">
 <?php
+    echo $OSCOM_Hooks->call('mail', 'formPreview');
+
     /* Re-Post all POST'ed variables */
     foreach ($_POST as $key => $value) {
       if (!is_array($_POST[$key])) {
         echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
       }
     }
+?>
 
+      <div class="buttonSet">
+<?php
     echo tep_draw_bootstrap_button(IMAGE_SEND_EMAIL, 'fas fa-paper-plane', null, 'primary', null, 'btn-success btn-block btn-lg');
     echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('mail.php'), 'primary', null, 'btn-light mt-2');
 ?>
@@ -180,6 +188,10 @@
           <?php echo tep_draw_textarea_field('message', 'soft', '60', '15', null, 'id="Message" required="required" aria-required="true"'); ?>
         </div>
       </div>
+
+<?php
+    echo $OSCOM_Hooks->call('mail', 'formNew');
+?>
 
       <div class="buttonSet">
         <?php echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, 'primary', null, 'btn-success btn-block btn-lg'); ?>
