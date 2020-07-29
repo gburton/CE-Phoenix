@@ -53,7 +53,7 @@
       tep_redirect(tep_href_link('mail.php', 'mail_sent_to=' . urlencode($mail_sent_to)));
       break;
     case 'preview':
-      if (isset($_POST['customers_email_address'])) {
+      if (!isset($_POST['customers_email_address'])) {
         $messageStack->add(ERROR_NO_CUSTOMER_SELECTED, 'error');
         $action = '';
       } else {
