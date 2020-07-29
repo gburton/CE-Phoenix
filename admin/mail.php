@@ -14,42 +14,66 @@
   require 'includes/application_top.php';
 
   $action = $_GET['action'] ?? '';
-  if ( ($action == 'send_email_to_user') && isset($_POST['customers_email_address']) && !isset($_POST['back_x']) ) {
-    switch ($_POST['customers_email_address']) {
-      case '***':
-        $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers'));
-        $mail_sent_to = TEXT_ALL_CUSTOMERS;
+  switch ($action) {
+    case 'send_email_to_user':
+      if ( !isset($_POST['customers_email_address']) || isset($_POST['back_x']) ) {
         break;
-      case '**D':
-        $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['newsletter' => true]));
-        $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
-        break;
-      default:
-        $customers_email_address = tep_db_prepare_input($_POST['customers_email_address']);
+      }
 
-        $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['email_address' => $customers_email_address]));
-        $mail_sent_to = $_POST['customers_email_address'];
-        break;
-    }
+      switch ($_POST['customers_email_address']) {
+        case '***':
+          $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers'));
+          $mail_sent_to = TEXT_ALL_CUSTOMERS;
+          break;
+        case '**D':
+          $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['newsletter' => true]));
+          $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
+          break;
+        default:
+          $customers_email_address = tep_db_prepare_input($_POST['customers_email_address']);
 
-    $from_name = tep_db_prepare_input($_POST['from_name']);
-    $from_address = tep_db_prepare_input($_POST['from_address']);
-    $subject = tep_db_prepare_input($_POST['subject']);
-    $message = tep_db_prepare_input($_POST['message']);
+          $mail_query = tep_db_query($customer_data->build_read(['name', 'email_address'], 'customers', ['email_address' => $customers_email_address]));
+          $mail_sent_to = $_POST['customers_email_address'];
+          break;
+      }
 
-    //Let's build a message object using the email class
-    $mimemessage = new email();
-    $mimemessage->add_message($message);
-    $mimemessage->build_message();
-    while ($mail = tep_db_fetch_array($mail_query)) {
-      $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), $from_name, $from_address, $subject);
-    }
+      $from_name = tep_db_prepare_input($_POST['from_name']);
+      $from_address = tep_db_prepare_input($_POST['from_address']);
+      $subject = tep_db_prepare_input($_POST['subject']);
+      $message = tep_db_prepare_input($_POST['message']);
 
-    tep_redirect(tep_href_link('mail.php', 'mail_sent_to=' . urlencode($mail_sent_to)));
-  }
+      //Let's build a message object using the email class
+      $mimemessage = new email();
+      $mimemessage->add_message($message);
+      $mimemessage->build_message();
+      while ($mail = tep_db_fetch_array($mail_query)) {
+        $mimemessage->send($customer_data->get('name', $mail), $customer_data->get('email_address', $mail), $from_name, $from_address, $subject);
+      }
 
-  if ( ($action == 'preview') && !isset($_POST['customers_email_address']) ) {
-    $messageStack->add(ERROR_NO_CUSTOMER_SELECTED, 'error');
+      tep_redirect(tep_href_link('mail.php', 'mail_sent_to=' . urlencode($mail_sent_to)));
+      break;
+    case 'preview':
+      if (!isset($_POST['customers_email_address'])) {
+        $messageStack->add(ERROR_NO_CUSTOMER_SELECTED, 'error');
+        $action = '';
+      } else {
+        switch ($_POST['customers_email_address']) {
+          case '***':
+            $mail_sent_to = TEXT_ALL_CUSTOMERS;
+            break;
+          case '**D':
+            $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
+            break;
+          default:
+            if (filter_var($_POST['customers_email_address'], FILTER_VALIDATE_EMAIL)) {
+              $mail_sent_to = $_POST['customers_email_address'];
+            } else {
+              $messageStack->add(sprintf(ERROR_INVALID_EMAIL, htmlspecialchars($_POST['customers_email_address'])), 'error');
+              $action = '';
+            }
+        }
+      }
+      break;
   }
 
   if (isset($_GET['mail_sent_to'])) {
@@ -62,19 +86,7 @@
   <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
 
 <?php
-  if ( ($action == 'preview') && isset($_POST['customers_email_address']) ) {
-    switch ($_POST['customers_email_address']) {
-      case '***':
-        $mail_sent_to = TEXT_ALL_CUSTOMERS;
-        break;
-      case '**D':
-        $mail_sent_to = TEXT_NEWSLETTER_CUSTOMERS;
-        break;
-      default:
-        $mail_sent_to = $_POST['customers_email_address'];
-        break;
-    }
-
+  if ( ($action == 'preview') ) {
     echo tep_draw_form('mail', 'mail.php', 'action=send_email_to_user');
 ?>
 

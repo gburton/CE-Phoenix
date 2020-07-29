@@ -425,6 +425,27 @@ CREATE TABLE orders_total (
   KEY idx_orders_total_orders_id (orders_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+DROP TABLE IF EXISTS pages;
+CREATE TABLE pages (
+  pages_id int NOT NULL auto_increment,
+  date_added datetime,
+  last_modified datetime,
+  pages_status tinyint(1) NOT NULL default '1',
+  slug varchar(255) NOT NULL,
+  sort_order int(11) NULL,  
+  PRIMARY KEY (pages_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS pages_description;
+CREATE TABLE pages_description (
+  pages_id int NOT NULL,
+  languages_id int NOT NULL,
+  pages_title varchar(255) NOT NULL,
+  pages_text text NOT NULL,
+  navbar_title varchar(255) NOT NULL,
+  PRIMARY KEY (pages_id, languages_id)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   products_id int NOT NULL auto_increment,
@@ -673,6 +694,7 @@ INSERT INTO address_format VALUES (5, '$name$cr$streets$cr$postcode $city$cr$cou
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'OSCOM CE Phoenix', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'You', 'The name of my store owner', '1', '2', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('E-Mail Address', 'STORE_OWNER_EMAIL_ADDRESS', 'you@yours', 'The e-mail address of my store owner', '1', '3', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Template Selection', 'TEMPLATE_SELECTION', 'default', 'The template to use to display the shop.', '1', '5', 'tep_cfg_select_template(', NOW());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Country', 'STORE_COUNTRY', '223', 'The country my store is located in <br><br><strong>Note: Please remember to update the store zone.</strong>', '1', '6', 'tep_get_country_name', 'tep_cfg_pull_down_country_list(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Zone', 'STORE_ZONE', '18', 'The zone my store is located in', '1', '7', 'tep_cfg_get_zone_name', 'tep_cfg_pull_down_zone_list(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Switch To Default Language Currency', 'USE_DEFAULT_LANGUAGE_CURRENCY', 'false', 'Automatically switch to the language\'s currency when it is changed', '1', '10', 'tep_cfg_select_option([\'true\', \'false\'], ', now());

@@ -8,7 +8,7 @@
     while ($testimonials = tep_db_fetch_array($testimonials_query)) {
       echo '<div class="col-sm-' . $item_width . '">' . PHP_EOL;
         echo '<blockquote class="blockquote">' . PHP_EOL;
-          echo '<p class="font-weight-lighter">' . tep_output_string_protected($testimonials['testimonials_text']) . '</p>' . PHP_EOL;
+          echo nl2br($testimonials['testimonials_text']) . PHP_EOL;
           echo '<footer class="blockquote-footer">' . sprintf(MODULE_CONTENT_TESTIMONIALS_LIST_WRITERS_NAME_DATE, tep_output_string_protected($testimonials['customers_name']), tep_date_short($testimonials['date_added'])) . '</footer>' . PHP_EOL;
         echo '</blockquote>' . PHP_EOL;
       echo '</div>' . PHP_EOL;
