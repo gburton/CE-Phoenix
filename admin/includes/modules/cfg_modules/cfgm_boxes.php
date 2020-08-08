@@ -5,22 +5,18 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cfgm_boxes {
-    var $code = 'boxes';
-    var $directory;
-    var $language_directory = DIR_FS_CATALOG_LANGUAGES;
-    var $key = 'MODULE_BOXES_INSTALLED';
-    var $title;
-    var $template_integration = true;
 
-    function __construct() {
-      $this->directory = DIR_FS_CATALOG_MODULES . 'boxes/';
-      $this->title = MODULE_CFG_MODULE_BOXES_TITLE;
-    }
+    const CODE = 'boxes';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/boxes/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_BOXES_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_BOXES_TITLE;
+    const TEMPLATE_INTEGRATION = true;
+
   }
-?>

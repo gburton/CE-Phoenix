@@ -5,22 +5,18 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cfgm_shipping {
-    var $code = 'shipping';
-    var $directory;
-    var $language_directory = DIR_FS_CATALOG_LANGUAGES;
-    var $key = 'MODULE_SHIPPING_INSTALLED';
-    var $title;
-    var $template_integration = false;
 
-    function __construct() {
-      $this->directory = DIR_FS_CATALOG_MODULES . 'shipping/';
-      $this->title = MODULE_CFG_MODULE_SHIPPING_TITLE;
-    }
+    const CODE = 'shipping';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/shipping/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_SHIPPING_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_SHIPPING_TITLE;
+    const TEMPLATE_INTEGRATION = false;
+
   }
-?>
