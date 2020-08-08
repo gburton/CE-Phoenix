@@ -5,51 +5,44 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
-  $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
-  $directory_array = [];
-  if ($dir = @dir(DIR_FS_CATALOG_MODULES . 'action_recorder/')) {
+  $files = [];
+  if ($dir = @dir(DIR_FS_CATALOG . 'includes/modules/action_recorder/')) {
     while ($file = $dir->read()) {
-      if (!is_dir(DIR_FS_CATALOG_MODULES . 'action_recorder/' . $file)) {
-        if (substr($file, strrpos($file, '.')) == $file_extension) {
-          $directory_array[] = $file;
+      if (!is_dir(DIR_FS_CATALOG . 'includes/modules/action_recorder/' . $file)) {
+        if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
+          $files[] = $file;
         }
       }
     }
-    sort($directory_array);
     $dir->close();
+    sort($files);
   }
 
-  for ($i=0, $n=sizeof($directory_array); $i<$n; $i++) {
-    $file = $directory_array[$i];
-
-    if (file_exists(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/action_recorder/' . $file)) {
-      include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/action_recorder/' . $file);
-    }
-
-    include(DIR_FS_CATALOG_MODULES . 'action_recorder/' . $file);
-
-    $class = substr($file, 0, strrpos($file, '.'));
+  foreach ($files as $file) {
+    $class = pathinfo($file, PATHINFO_FILENAME);
     if (class_exists($class)) {
       ${$class} = new $class;
     }
   }
 
-  $modules_array = [];
-  $modules_list_array = [['id' => '', 'text' => TEXT_ALL_MODULES]];
+  $modules = [];
+  $modules_list = [['id' => '', 'text' => TEXT_ALL_MODULES]];
 
-  $modules_query = tep_db_query("select distinct module from action_recorder order by module");
-  while ($modules = tep_db_fetch_array($modules_query)) {
-    $modules_array[] = $modules['module'];
+  $modules_query = tep_db_query("SELECT DISTINCT module FROM action_recorder ORDER BY module");
+  while ($module = tep_db_fetch_array($modules_query)) {
+    $modules[] = $module['module'];
 
-    $modules_list_array[] = ['id' => $modules['module'],
-                             'text' => (is_object(${$modules['module']}) ? ${$modules['module']}->title : $modules['module'])];
+    $modules_list[] = [
+      'id' => $module['module'],
+      'text' => (${$module['module']}->title ?? $module['module']),
+    ];
   }
 
   $action = $_GET['action'] ?? '';
@@ -61,15 +54,15 @@
       case 'expire':
         $expired_entries = 0;
 
-        if (isset($_GET['module']) && in_array($_GET['module'], $modules_array)) {
+        if (isset($_GET['module']) && in_array($_GET['module'], $modules)) {
           if (is_object(${$_GET['module']})) {
             $expired_entries += ${$_GET['module']}->expireEntries();
           } else {
-            $delete_query = tep_db_query("delete from action_recorder where module = '" . tep_db_input($_GET['module']) . "'");
+            $delete_query = tep_db_query("DELETE FROM action_recorder WHERE module = '" . tep_db_input($_GET['module']) . "'");
             $expired_entries += tep_db_affected_rows();
           }
         } else {
-          foreach ($modules_array as $module) {
+          foreach ($modules as $module) {
             if (is_object(${$module})) {
               $expired_entries += ${$module}->expireEntries();
             }
@@ -88,7 +81,7 @@
   
   $OSCOM_Hooks->call('action_recorder', 'postAction');
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -102,14 +95,14 @@
         echo tep_draw_hidden_field('module') . tep_hide_session_id();
       echo '</form>';
       echo tep_draw_form('filter', 'action_recorder.php', '', 'get');
-        echo tep_draw_pull_down_menu('module', $modules_list_array, null, 'onchange="this.form.submit();"', 'class="form-control form-control-sm"');
+        echo tep_draw_pull_down_menu('module', $modules_list, null, 'onchange="this.form.submit();"', 'class="form-control form-control-sm"');
         echo tep_draw_hidden_field('search') . tep_hide_session_id();
       echo '</form>';
       ?>
     </div>
     <div class="col-4 col-sm-2">
       <?php
-      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules_array) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm');
+      echo tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('action_recorder.php', 'action=expire' . (isset($_GET['module']) && in_array($_GET['module'], $modules) ? '&module=' . $_GET['module'] : '')), 'primary', null, 'btn-danger btn-block btn-sm');
       ?>
     </div>
   </div>
@@ -131,26 +124,23 @@
             <?php
             $filter = [];
 
-            if (isset($_GET['module']) && in_array($_GET['module'], $modules_array)) {
+            if (isset($_GET['module']) && in_array($_GET['module'], $modules)) {
               $filter[] = " module = '" . tep_db_input($_GET['module']) . "' ";
             }
 
-            if (isset($_GET['search']) && !empty($_GET['search'])) {
-              $filter[] = " identifier like '%" . tep_db_input($_GET['search']) . "%' ";
+            if (!empty($_GET['search'])) {
+              $filter[] = " identifier LIKE '%" . tep_db_input($_GET['search']) . "%' ";
             }
 
-            $actions_query_raw = "select * from action_recorder " . (!empty($filter) ? " where " . implode(" and ", $filter) : "") . " order by date_added desc";
+            $actions_query_raw = "SELECT * FROM action_recorder " . (empty($filter) ? '' : " WHERE " . implode(" AND ", $filter)) . " ORDER BY date_added DESC";
             $actions_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $actions_query_raw, $actions_query_numrows);
             $actions_query = tep_db_query($actions_query_raw);
             while ($actions = tep_db_fetch_array($actions_query)) {
               $module = $actions['module'];
 
-              $module_title = $actions['module'];
-              if (is_object(${$module})) {
-                $module_title = ${$module}->title;
-              }
+              $module_title = ${$module}->title ?? $actions['module'];
 
-              if ((!isset($_GET['aID']) || (isset($_GET['aID']) && ($_GET['aID'] == $actions['id']))) && !isset($aInfo)) {
+              if (!isset($aInfo) && (!isset($_GET['aID']) || ($_GET['aID'] == $actions['id']))) {
                 $actions_extra_query = tep_db_query("select identifier from action_recorder where id = '" . (int)$actions['id'] . "'");
                 $actions_extra = tep_db_fetch_array($actions_extra_query);
 
@@ -158,17 +148,19 @@
                 $aInfo = new objectInfo($aInfo_array);
               }
 
-              if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) {
+              if ( isset($aInfo->id) && ($actions['id'] == $aInfo->id) ) {
                 echo '<tr class="table-active">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('action_recorder.php', tep_get_all_get_params(['aID']) . 'aID=' . (int)$actions['id']) . '\'">';
+                $icon = '<a href="' . tep_href_link('action_recorder.php', tep_get_all_get_params(['aID']) . 'aID=' . (int)$actions['id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
                 <td><?php echo $module_title; ?></td>
-                <td><?php echo tep_output_string_protected($actions['user_name']) . ' [' . (int)$actions['user_id'] . ']'; ?></td>
+                <td><?php echo htmlspecialchars($actions['user_name']) . ' [' . (int)$actions['user_id'] . ']'; ?></td>
                 <td><?php echo ($actions['success'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; ?></td>
                 <td class="text-right"><?php echo tep_datetime_short($actions['date_added']); ?></td>
-                <td class="text-right"><?php if ( (isset($aInfo) && is_object($aInfo)) && ($actions['id'] == $aInfo->id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('action_recorder.php', tep_get_all_get_params(['aID']) . 'aID=' . (int)$actions['id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?php echo $icon; ?></td>
               </tr>
 <?php
   }
@@ -179,7 +171,7 @@
 
       <div class="row my-1">
         <div class="col"><?php echo $actions_split->display_count($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ENTRIES); ?></div>
-        <div class="col text-right mr-2"><?php echo $actions_split->display_links($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], (isset($_GET['module']) && in_array($_GET['module'], $modules_array) && is_object(${$_GET['module']}) ? 'module=' . $_GET['module'] : null) . '&' . (isset($_GET['search']) && !empty($_GET['search']) ? 'search=' . $_GET['search'] : null)); ?></div>
+        <div class="col text-right mr-2"><?php echo $actions_split->display_links($actions_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], (isset($_GET['module']) && in_array($_GET['module'], $modules) && is_object(${$_GET['module']}) ? 'module=' . $_GET['module'] : null) . (empty($_GET['search']) ? null : '&search=' . $_GET['search'])); ?></div>
       </div>
     </div>
 
@@ -192,7 +184,7 @@
       if (isset($aInfo) && is_object($aInfo)) {
         $heading[] = ['text' => $aInfo->module];
 
-        $contents[] =['text' => TEXT_INFO_IDENTIFIER . ' ' . (!empty($aInfo->identifier) ? '<a href="' . tep_href_link('action_recorder.php', 'search=' . $aInfo->identifier) . '"><u>' . tep_output_string_protected($aInfo->identifier) . '</u></a>': '(empty)')];
+        $contents[] =['text' => TEXT_INFO_IDENTIFIER . ' ' . (!empty($aInfo->identifier) ? '<a href="' . tep_href_link('action_recorder.php', 'search=' . $aInfo->identifier) . '"><u>' . htmlspecialchars($aInfo->identifier) . '</u></a>': '(empty)')];
         $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_datetime_short($aInfo->date_added))];
       }
       break;
@@ -200,7 +192,7 @@
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
     echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }
@@ -209,6 +201,6 @@
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

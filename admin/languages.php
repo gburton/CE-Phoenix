@@ -13,7 +13,7 @@
   require 'includes/application_top.php';
 
   $action = ($_GET['action'] ?? '');
-  
+
   $OSCOM_Hooks->call('languages', 'preAction');
 
   if (tep_not_null($action)) {
@@ -44,7 +44,7 @@
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
-        
+
         $OSCOM_Hooks->call('languages', 'insertAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
@@ -56,7 +56,7 @@
         if (isset($_POST['default']) && $_POST['default'] == 'on') {
           tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
-        
+
         $OSCOM_Hooks->call('languages', 'saveAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
@@ -81,7 +81,7 @@
         tep_db_query("DELETE FROM orders_status WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
         tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
-        
+
         $OSCOM_Hooks->call('languages', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
@@ -97,12 +97,12 @@
           $remove_language = false;
           $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
         }
-        
+
         $OSCOM_Hooks->call('languages', 'deleteAction');
         break;
     }
   }
-  
+
   $OSCOM_Hooks->call('languages', 'postAction');
 
   require 'includes/template_top.php';
@@ -123,7 +123,7 @@
       ?>
     </div>
   </div>
-  
+
   <div class="row no-gutters">
     <div class="col-12 col-sm-8">
       <div class="table-responsive">
@@ -169,12 +169,12 @@
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?php echo $languages_split->display_count($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_LANGUAGES); ?></div>
         <div class="col text-right mr-2"><?php echo $languages_split->display_links($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
-      
+
     </div>
 
 <?php
@@ -219,9 +219,9 @@
       if (is_object($lInfo ?? null)) {
         $heading[] = ['text' => $lInfo->name];
 
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete'), null, null, 'btn-danger mr-2')]; 
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=delete'), null, null, 'btn-danger mr-2')];
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('define_language.php', 'lngdir=' . $lInfo->directory), null, null, 'btn-info')];
-        $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, DIR_WS_CATALOG_LANGUAGES, $lInfo->directory)];
+        $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_DIRECTORY, DIR_WS_CATALOG . 'includes/languages/', $lInfo->directory)];
         $contents[] = ['text' => sprintf(TEXT_INFO_LANGUAGE_SORT_ORDER, $lInfo->sort_order)];
       }
       break;
@@ -236,7 +236,7 @@
 ?>
 
   </div>
-  
+
 <?php
   require 'includes/template_bottom.php';
   require 'includes/application_bottom.php';

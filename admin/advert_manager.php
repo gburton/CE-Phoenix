@@ -82,7 +82,7 @@
         $advert_image->parse();
         
         if (!empty($advert_image->filename)) {
-          $advert_image->set_destination(DIR_FS_CATALOG_IMAGES . $advert_image_target);
+          $advert_image->set_destination(DIR_FS_CATALOG . 'images/' . $advert_image_target);
           if ( $advert_image->save() == false ) {
             $advert_error = true;
           }
@@ -138,9 +138,9 @@
           $advert_query = tep_db_query("select advert_image from advert where advert_id = '" . (int)$advert_id . "'");
           $advert = tep_db_fetch_array($advert_query);
 
-          if (is_file(DIR_FS_CATALOG_IMAGES . $advert['advert_image'])) {
-            if (tep_is_writable(DIR_FS_CATALOG_IMAGES . $advert['advert_image'])) {
-              unlink(DIR_FS_CATALOG_IMAGES . $advert['advert_image']);
+          if (is_file(DIR_FS_CATALOG . 'images/' . $advert['advert_image'])) {
+            if (tep_is_writable(DIR_FS_CATALOG . 'images/' . $advert['advert_image'])) {
+              unlink(DIR_FS_CATALOG . 'images/' . $advert['advert_image']);
             } else {
               $messageStack->add_session(ERROR_IMAGE_IS_NOT_WRITEABLE, 'error');
             }

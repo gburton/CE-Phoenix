@@ -23,8 +23,8 @@
   if ($secdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/')) {
     while ($file = $secdir->read()) {
       if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file)) {
-        if (substr($file, strrpos($file, '.')) == '.php') {
-          $class = 'securityCheck_' . substr($file, 0, strrpos($file, '.'));
+        if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
+          $class = 'securityCheck_' . pathinfo($file, PATHINFO_FILENAME);
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file);
           $$class = new $class();
@@ -41,7 +41,7 @@
   if ($extdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/')) {
     while ($file = $extdir->read()) {
       if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file)) {
-        if (substr($file, strrpos($file, '.')) == '.php') {
+        if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
           $class = 'securityCheckExtended_' . substr($file, 0, strrpos($file, '.'));
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file);
@@ -58,7 +58,7 @@
 
   usort($modules, 'tep_sort_secmodules');
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
   
   <div class="row">
