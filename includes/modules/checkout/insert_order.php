@@ -15,37 +15,37 @@
   $sql_data = [];
   $sql_data['orders'] = [
     'customers_id' => $_SESSION['customer_id'],
-    'customers_name' => $order->customer['name'],
-    'customers_company' => $order->customer['company'],
-    'customers_street_address' => $order->customer['street_address'],
-    'customers_suburb' => $order->customer['suburb'],
-    'customers_city' => $order->customer['city'],
-    'customers_postcode' => $order->customer['postcode'],
-    'customers_state' => $order->customer['state'],
-    'customers_country' => $order->customer['country']['title'],
-    'customers_telephone' => $order->customer['telephone'],
-    'customers_email_address' => $order->customer['email_address'],
-    'customers_address_format_id' => $order->customer['format_id'],
-    'delivery_name' => $order->delivery['name'],
-    'delivery_company' => $order->delivery['company'],
-    'delivery_street_address' => $order->delivery['street_address'],
-    'delivery_suburb' => $order->delivery['suburb'],
-    'delivery_city' => $order->delivery['city'],
-    'delivery_postcode' => $order->delivery['postcode'],
-    'delivery_state' => $order->delivery['state'],
-    'delivery_country' => $order->delivery['country']['title'],
-    'delivery_address_format_id' => $order->delivery['format_id'],
-    'billing_name' => $order->billing['name'],
-    'billing_company' => $order->billing['company'],
-    'billing_street_address' => $order->billing['street_address'],
-    'billing_suburb' => $order->billing['suburb'],
-    'billing_city' => $order->billing['city'],
-    'billing_postcode' => $order->billing['postcode'],
-    'billing_state' => $order->billing['state'],
-    'billing_country' => $order->billing['country']['title'],
-    'billing_address_format_id' => $order->billing['format_id'],
+    'customers_name' => $GLOBALS['customer_data']->get('name', $order->customer),
+    'customers_company' => $GLOBALS['customer_data']->get('company', $order->customer),
+    'customers_street_address' => $GLOBALS['customer_data']->get('street_address', $order->customer),
+    'customers_suburb' => $GLOBALS['customer_data']->get('suburb', $order->customer),
+    'customers_city' => $GLOBALS['customer_data']->get('city', $order->customer),
+    'customers_postcode' => $GLOBALS['customer_data']->get('postcode', $order->customer),
+    'customers_state' => $GLOBALS['customer_data']->get('state', $order->customer),
+    'customers_country' => $GLOBALS['customer_data']->get('country_name', $order->customer),
+    'customers_telephone' => $GLOBALS['customer_data']->get('telephone', $order->customer),
+    'customers_email_address' => $GLOBALS['customer_data']->get('email_address', $order->customer),
+    'customers_address_format_id' => $GLOBALS['customer_data']->get('format_id', $order->customer),
+    'delivery_name' => $GLOBALS['customer_data']->get('name', $order->delivery),
+    'delivery_company' => $GLOBALS['customer_data']->get('company', $order->delivery),
+    'delivery_street_address' => $GLOBALS['customer_data']->get('street_address', $order->delivery),
+    'delivery_suburb' => $GLOBALS['customer_data']->get('suburb', $order->delivery),
+    'delivery_city' => $GLOBALS['customer_data']->get('city', $order->delivery),
+    'delivery_postcode' => $GLOBALS['customer_data']->get('postcode', $order->delivery),
+    'delivery_state' => $GLOBALS['customer_data']->get('state', $order->delivery),
+    'delivery_country' => $GLOBALS['customer_data']->get('country_name', $order->delivery),
+    'delivery_address_format_id' => $GLOBALS['customer_data']->get('format_id', $order->delivery),
+    'billing_name' => $GLOBALS['customer_data']->get('name', $order->billing),
+    'billing_company' => $GLOBALS['customer_data']->get('company', $order->billing),
+    'billing_street_address' => $GLOBALS['customer_data']->get('street_address', $order->billing),
+    'billing_suburb' => $GLOBALS['customer_data']->get('suburb', $order->billing),
+    'billing_city' => $GLOBALS['customer_data']->get('city', $order->billing),
+    'billing_postcode' => $GLOBALS['customer_data']->get('postcode', $order->billing),
+    'billing_state' => $GLOBALS['customer_data']->get('state', $order->billing),
+    'billing_country' => $GLOBALS['customer_data']->get('country_name', $order->billing),
+    'billing_address_format_id' => $GLOBALS['customer_data']->get('format_id', $order->billing),
     'payment_method' => $order->info['payment_method'],
-    'date_purchased' => 'now()',
+    'date_purchased' => 'NOW()',
     'orders_status' => $order->info['order_status'],
     'currency' => $order->info['currency'],
     'currency_value' => $order->info['currency_value'],
@@ -106,26 +106,24 @@ EOSQL;
 
     $sql_data['orders_products_attributes'][$i] = [];
     $sql_data['orders_products_download'][$i] = [];
-    if (isset($product['attributes'])) {
-      foreach ($product['attributes'] as $attribute) {
-        $attributes_query = tep_db_query(sprintf($attributes_sql, (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$_SESSION['languages_id']));
-        $attributes_values = tep_db_fetch_array($attributes_query);
+    foreach (($product['attributes'] ?? []) as $attribute) {
+      $attributes_query = tep_db_query(sprintf($attributes_sql, (int)$product['id'], (int)$attribute['option_id'], (int)$attribute['value_id'], (int)$_SESSION['languages_id']));
+      $attributes_values = tep_db_fetch_array($attributes_query);
 
-        $sql_data['orders_products_attributes'][$i][] = [
-          'products_options' => $attributes_values['products_options_name'],
-          'products_options_values' => $attributes_values['products_options_values_name'],
-          'options_values_price' => $attributes_values['options_values_price'],
-          'price_prefix' => $attributes_values['price_prefix'],
+      $sql_data['orders_products_attributes'][$i][] = [
+        'products_options' => $attributes_values['products_options_name'],
+        'products_options_values' => $attributes_values['products_options_values_name'],
+        'options_values_price' => $attributes_values['options_values_price'],
+        'price_prefix' => $attributes_values['price_prefix'],
+      ];
+
+
+      if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
+        $sql_data['orders_products_download'][$i][] = [
+          'orders_products_filename' => $attributes_values['products_attributes_filename'],
+          'download_maxdays' => $attributes_values['products_attributes_maxdays'],
+          'download_count' => $attributes_values['products_attributes_maxcount'],
         ];
-
-
-        if ((DOWNLOAD_ENABLED == 'true') && isset($attributes_values['products_attributes_filename']) && tep_not_null($attributes_values['products_attributes_filename'])) {
-          $sql_data['orders_products_download'][$i][] = [
-            'orders_products_filename' => $attributes_values['products_attributes_filename'],
-            'download_maxdays' => $attributes_values['products_attributes_maxdays'],
-            'download_count' => $attributes_values['products_attributes_maxcount'],
-          ];
-        }
       }
     }
   }
