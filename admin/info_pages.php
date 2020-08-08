@@ -227,7 +227,7 @@
       <div class="form-group row">
         <label for="inputSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', $pInfo->sort_order, 'id="inputSort" class="form-control w-50"'); ?>
+          <?php echo tep_draw_input_field('sort_order', $pInfo->sort_order, 'required aria-required="true" id="inputSort" class="form-control w-50"'); ?>
         </div>
       </div>
 
@@ -269,7 +269,7 @@
           $navbar_title .= '<div class="input-group-prepend">';
             $navbar_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $navbar_title .= '</div>';
-          $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']');
+          $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
         $navbar_title .= '</div>';
         
         $page_title .= '<div class="input-group">';
@@ -323,7 +323,7 @@
       <div class="form-group row">
         <label for="inputSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', null, 'id="inputSort" class="form-control w-50"'); ?>
+          <?php echo tep_draw_input_field('sort_order', null, 'required aria-required="true" id="inputSort" class="form-control w-50"'); ?>
         </div>
       </div>
 
@@ -361,7 +361,7 @@
             </thead>
             <tbody>
               <?php
-              $pages = info_pages::get_pages();
+              $pages = info_pages::get_pages($OSCOM_Hooks->call('info_pages', 'order_by'));
               $pages_split = info_pages::split_page_results();
               
               foreach ($pages as $k => $v) {

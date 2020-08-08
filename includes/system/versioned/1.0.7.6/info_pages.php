@@ -67,10 +67,12 @@
       return $page_arr[0];
     }
 
-    public static function get_pages() {
+    public static function get_pages($order_by = null) {
       global $languages_id; $pages_arr = [];
+      
+      $sort_order = $order_by ?? 'p.sort_order';
 
-      $pages_query = tep_db_query("select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where pd.languages_id = '" . (int)$languages_id . "' order by p.last_modified DESC, p.pages_id DESC");
+      $pages_query = tep_db_query("select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where pd.languages_id = '" . (int)$languages_id . "' order by $sort_order");
       while($pages = tep_db_fetch_array($pages_query)) {
         $pages_arr[] = $pages;
       }

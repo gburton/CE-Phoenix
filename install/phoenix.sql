@@ -434,7 +434,8 @@ CREATE TABLE pages (
   pages_status tinyint(1) NOT NULL default '1',
   slug varchar(255) NOT NULL,
   sort_order int(11) NULL,  
-  PRIMARY KEY (pages_id)
+  PRIMARY KEY (pages_id),
+  UNIQUE KEY uq_slug (slug)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS pages_description;
