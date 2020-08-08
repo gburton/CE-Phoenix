@@ -99,8 +99,8 @@ const TEXT_COPY_AS_LINK = 'Link product';
 const TEXT_COPY_AS_DUPLICATE = 'Duplicate product';
 
 const ERROR_CANNOT_LINK_TO_SAME_CATEGORY = '<strong>Error:</strong> Can not link products in the same category.';
-const ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE = '<strong>Error:</strong> Catalog images directory is not writeable: ' . DIR_FS_CATALOG_IMAGES;
-const ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST = '<strong>Error:</strong> Catalog images directory does not exist: ' . DIR_FS_CATALOG_IMAGES;
+const ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE = '<strong>Error:</strong> Catalog images directory is not writeable:  %s';
+const ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST = '<strong>Error:</strong> Catalog images directory does not exist:  %s';
 const ERROR_CANNOT_MOVE_CATEGORY_TO_PARENT = '<strong>Error:</strong> Category cannot be moved into child category.';
 
 const TEXT_CATEGORIES_DESCRIPTION = 'Category Description:<br><small>shows in category page</small>';

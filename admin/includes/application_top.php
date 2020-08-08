@@ -13,24 +13,15 @@
 // Start the clock for the page parse time log
   define('PAGE_PARSE_START_TIME', microtime());
 
-// Set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 
 // load server configuration parameters
-  if (file_exists('includes/local/configure.php')) { // for developers
-    include 'includes/local/configure.php';
-  } else {
-    include 'includes/configure.php';
-  }
+  include 'includes/configure.php';
 
   // autoload classes in the classes or modules directories
   require DIR_FS_CATALOG . 'includes/functions/autoloader.php';
   require 'includes/functions/autoloader.php';
   spl_autoload_register('tep_autoload_admin');
   spl_autoload_register('tep_autoload_catalog');
-
-// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
-  date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
 
 // include the database functions
   require 'includes/functions/database.php';
@@ -50,12 +41,12 @@
 
   // set php_self in the local scope
   $req = parse_url($_SERVER['SCRIPT_NAME']);
-  $PHP_SELF = substr($req['path'], ($request_type === 'SSL') ? strlen(DIR_WS_HTTPS_ADMIN) : strlen(DIR_WS_ADMIN));
+  $PHP_SELF = substr($req['path'], strlen(DIR_WS_ADMIN));
 
 // set application wide parameters
-  $configuration_query = tep_db_query('SELECT configuration_key AS cfgKey, configuration_value AS cfgValue FROM configuration');
+  $configuration_query = tep_db_query('SELECT configuration_key, configuration_value FROM configuration');
   while ($configuration = tep_db_fetch_array($configuration_query)) {
-    define($configuration['cfgKey'], $configuration['cfgValue']);
+    define($configuration['configuration_key'], $configuration['configuration_value']);
   }
 
 // define our general functions used application-wide
@@ -65,16 +56,11 @@
 // define how the session functions will be used
   require 'includes/functions/sessions.php';
 
-// set the cookie domain
-  $cookie_domain = (($request_type == 'NONSSL') ? HTTP_COOKIE_DOMAIN : HTTPS_COOKIE_DOMAIN);
-  $cookie_path = (($request_type == 'NONSSL') ? HTTP_COOKIE_PATH : HTTPS_COOKIE_PATH);
-
-// set the session name and save path
-  tep_session_name('osCAdminID');
-  tep_session_save_path(SESSION_WRITE_DIRECTORY);
+// set the session name
+  session_name('osCAdminID');
 
 // set the session cookie parameters
-  session_set_cookie_params(0, $cookie_path, $cookie_domain);
+  Cookie::save_session_parameters();
 
   @ini_set('session.use_only_cookies', (SESSION_FORCE_COOKIE_USE == 'True') ? 1 : 0);
 
