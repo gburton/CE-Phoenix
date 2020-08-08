@@ -5,32 +5,33 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class securityCheck_session_storage {
-    var $type = 'warning';
+
+    public $type = 'warning';
 
     function __construct() {
-      global $language;
-
-      include(DIR_FS_ADMIN . 'includes/languages/' . $language . '/modules/security_check/session_storage.php');
+      include DIR_FS_ADMIN . 'includes/languages/' . $_SESSION['language'] . '/modules/security_check/session_storage.php';
     }
 
     function pass() {
-      return ((STORE_SESSIONS != '') || (is_dir(tep_session_save_path()) && tep_is_writable(tep_session_save_path())));
+      return (!defined('DIR_FS_SESSION') || !DIR_FS_SESSION || (is_dir(DIR_FS_SESSION) && is_writable(DIR_FS_SESSION)));
     }
 
     function getMessage() {
-      if (STORE_SESSIONS == '') {
-        if (!is_dir(tep_session_save_path())) {
+      if (defined('DIR_FS_SESSION') && DIR_FS_SESSION) {
+        if (!is_dir(DIR_FS_SESSION)) {
           return WARNING_SESSION_DIRECTORY_NON_EXISTENT;
-        } elseif (!tep_is_writable(tep_session_save_path())) {
+        }
+
+        if (!is_writable(DIR_FS_SESSION)) {
           return WARNING_SESSION_DIRECTORY_NOT_WRITEABLE;
         }
       }
     }
+
   }
-?>
