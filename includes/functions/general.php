@@ -25,18 +25,8 @@
 ////
 // Redirect to another page or site
   function tep_redirect($url) {
-    if ( (strstr($url, "\n") != false) || (strstr($url, "\r") != false) ) {
+    if ( strstr($url, "\n") || strstr($url, "\r") ) {
       tep_redirect(tep_href_link('index.php', '', 'NONSSL', false));
-    }
-
-    if ( ENABLE_SSL && ('on' === getenv('HTTPS')) ) {
-      // if this is an SSL page, we can't redirect to a non-SSL page
-      // so substitute the SSL URL instead
-      $http_base = HTTP_SERVER . DIR_WS_HTTP_CATALOG;
-      $http_length = strlen($http_base);
-      if (substr($url, 0, $http_length) === $http_base) {
-        $url = HTTPS_SERVER . DIR_WS_HTTPS_CATALOG . substr($url, $http_length);
-      }
     }
 
     if ( strpos($url, '&amp;') !== false ) {
@@ -46,7 +36,7 @@
     header('Location: ' . $url);
 
 
-    exit;
+    exit();
   }
 
 ////

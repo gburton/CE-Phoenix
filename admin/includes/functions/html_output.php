@@ -13,8 +13,6 @@
 ////
 // The HTML href link wrapper function
   function tep_href_link($page = '', $parameters = '', $connection = 'SSL', $add_session_id = true) {
-    global $request_type;
-
     $page = tep_output_string($page);
 
     if ($page == '') {
@@ -27,83 +25,41 @@ EOERROR
 );
     }
 
-    if ($connection == 'NONSSL') {
-      $link = HTTP_SERVER . DIR_WS_ADMIN;
-    } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL == true) {
-        $link = HTTPS_SERVER . DIR_WS_HTTPS_ADMIN;
-      } else {
-        $link = HTTP_SERVER . DIR_WS_ADMIN;
-      }
-    } else {
-      die(<<<EOERROR
-<h5>Error!</h5>
-<p>Unable to determine connection method on a link!/p>
-<p>Known methods: NONSSL SSL</p>
-<p>Function used:</p>
-<p>tep_href_link('$page', '$parameters', '$connection', '$add_session_id')</p>
-EOERROR
-);
-    }
+    $link = HTTP_SERVER . DIR_WS_ADMIN . $page;
 
     if (tep_not_null($parameters)) {
-      $link .= $page . '?' . tep_output_string($parameters);
+      $link .= '?' . tep_output_string($parameters);
       $separator = '&';
     } else {
-      $link .= $page;
       $separator = '?';
     }
 
-    while ( (substr($link, -1) == '&') || (substr($link, -1) == '?') ) $link = substr($link, 0, -1);
+    $link = rtrim($link, '&?');
 
 // Add the session ID when moving from different HTTP and HTTPS servers, or when SID is defined
-    if ( ($add_session_id == true) && (SESSION_FORCE_COOKIE_USE == 'False') ) {
-      if ( isset($SID) && tep_not_null($SID) ) {
-        $_sid = $SID;
-      } elseif ( ( ($request_type == 'NONSSL') && ($connection == 'SSL') && (ENABLE_SSL == true) ) || ( ($request_type == 'SSL') && ($connection == 'NONSSL') ) ) {
-        if (HTTP_COOKIE_DOMAIN != HTTPS_COOKIE_DOMAIN) {
-          $_sid = tep_session_name() . '=' . tep_session_id();
-        }
-      }
+    if ( $add_session_id && isset($SID) && (SESSION_FORCE_COOKIE_USE == 'False') && tep_not_null($SID) ) {
+      $_sid = $SID;
     }
 
     if (isset($_sid)) {
       $link .= $separator . tep_output_string($_sid);
     }
 
-    while (strpos($link, '&&') !== false) $link = str_replace('&&', '&', $link);
+    while (strpos($link, '&&') !== false) {
+      $link = str_replace('&&', '&', $link);
+    }
 
     return $link;
   }
 
   function tep_catalog_href_link($page = '', $parameters = '', $connection = 'NONSSL') {
-    if ($connection == 'NONSSL') {
-      $link = HTTP_CATALOG_SERVER . DIR_WS_CATALOG;
-    } elseif ($connection == 'SSL') {
-      if (ENABLE_SSL_CATALOG == 'true') {
-        $link = HTTPS_CATALOG_SERVER . (defined('DIR_WS_HTTPS_CATALOG') ? DIR_WS_HTTPS_CATALOG : DIR_WS_CATALOG);
-      } else {
-        $link = HTTP_CATALOG_SERVER . DIR_WS_CATALOG;
-      }
-    } else {
-      die(<<<EOERROR
-<h5>Error!</h5>
-<p>Unable to determine connection method on a link!/p>
-<p>Known methods: NONSSL SSL/p>
-<p>Function used:</p>
-<p>tep_href_link('$page', '$parameters', '$connection')</p>
-EOERROR
-);
-    }
-    if ($parameters == '') {
-      $link .= $page;
-    } else {
-      $link .= $page . '?' . $parameters;
+    $link = HTTP_CATALOG_SERVER . DIR_WS_CATALOG . $page;
+
+    if ('' !== $parameters) {
+      $link .= '?' . $parameters;
     }
 
-    while ( (substr($link, -1) == '&') || (substr($link, -1) == '?') ) $link = substr($link, 0, -1);
-
-    return $link;
+    return rtrim($link, '&?');
   }
 
 ////
