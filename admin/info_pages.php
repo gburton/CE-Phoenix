@@ -387,7 +387,7 @@
                     echo '<a href="' . tep_href_link('info_pages.php', 'action=setflag&flag=1&pID=' . $v['pages_id'] . '&page=' . (int)$_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a>  <i class="fas fa-times-circle text-danger"></i>';
                   }
                   ?></td>
-                  <td class="text-right"><?php if ( (is_object($pInfo)) && ($v['pages_id'] == $pInfo->pages_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $v['pages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                  <td class="text-right"><?php if ( (isset($pInfo->pages_id)) && ($v['pages_id'] == $pInfo->pages_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $v['pages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
                 </tr>
                 <?php
               }
