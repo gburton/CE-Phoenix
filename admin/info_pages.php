@@ -169,21 +169,21 @@
 
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $navbar_title .= '<div class="input-group">';
+        $navbar_title .= '<div class="input-group mb-1">';
           $navbar_title .= '<div class="input-group-prepend">';
             $navbar_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $navbar_title .= '</div>';
           $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'navbar_title'), 'required aria-required="true"');
         $navbar_title .= '</div>';
         
-        $page_title .= '<div class="input-group">';
+        $page_title .= '<div class="input-group mb-1">';
           $page_title .= '<div class="input-group-prepend">';
             $page_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_title .= '</div>';
           $page_title .= tep_draw_input_field('page_title[' . $languages[$i]['id'] . ']', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'pages_title'), 'required aria-required="true"');
         $page_title .= '</div>';
 
-        $page_text .= '<div class="input-group">';
+        $page_text .= '<div class="input-group mb-1">';
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
@@ -265,21 +265,21 @@
 
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $navbar_title .= '<div class="input-group">';
+        $navbar_title .= '<div class="input-group mb-1">';
           $navbar_title .= '<div class="input-group-prepend">';
             $navbar_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $navbar_title .= '</div>';
           $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
         $navbar_title .= '</div>';
         
-        $page_title .= '<div class="input-group">';
+        $page_title .= '<div class="input-group mb-1">';
           $page_title .= '<div class="input-group-prepend">';
             $page_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_title .= '</div>';
           $page_title .= tep_draw_input_field('page_title[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
         $page_title .= '</div>';
 
-        $page_text .= '<div class="input-group">';
+        $page_text .= '<div class="input-group mb-1">';
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
