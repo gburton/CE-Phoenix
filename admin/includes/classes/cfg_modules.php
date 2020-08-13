@@ -12,25 +12,23 @@
 
   class cfg_modules {
 
-    var $_modules = [];
+    private $_modules = [];
 
     function __construct() {
-      $file_extension = pathinfo($GLOBALS['PHP_SELF'], PATHINFO_EXTENSION);
       $directory = 'includes/modules/cfg_modules';
 
       if ($dir = @dir($directory)) {
         while ($file = $dir->read()) {
-          if (!is_dir("$directory/$file") && pathinfo($file, PATHINFO_EXTENSION) === $file_extension) {
+          if (!is_dir("$directory/$file") && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
             $class = pathinfo($file, PATHINFO_FILENAME);
-            $m = new $class();
 
             $this->_modules[] = [
-              'code' => $m->code,
-              'directory' => $m->directory,
-              'language_directory' => $m->language_directory,
-              'key' => $m->key,
-              'title' => $m->title,
-              'template_integration' => $m->template_integration,
+              'code' => $class::CODE,
+              'directory' => $class::DIRECTORY,
+              'language_directory' => $class::LANGUAGE_DIRECTORY,
+              'key' => $class::KEY,
+              'title' => $class::TITLE,
+              'template_integration' => $class::TEMPLATE_INTEGRATION,
             ];
           }
         }

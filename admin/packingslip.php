@@ -23,7 +23,7 @@
 ?>
 
   <div class="row align-items-center mx-1">
-    <div class="col"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . STORE_LOGO, STORE_NAME); ?></div>
+    <div class="col"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . STORE_LOGO, STORE_NAME); ?></div>
     <div class="col text-right">
       <?php
       echo '<h1 class="display-4">' . STORE_NAME . '</h1>';

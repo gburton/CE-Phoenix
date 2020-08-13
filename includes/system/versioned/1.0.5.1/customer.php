@@ -108,7 +108,7 @@
         $this->guarantee_customer_data()->get($key, $this->data[$to]);
       }
 
-      return $this->data[$to][$key];
+      return $this->data[$to][$key] ?? null;
     }
 
     public function set($key, $value, $to = 0) {

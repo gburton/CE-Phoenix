@@ -13,23 +13,8 @@
 // start the timer for the page parse time log
   define('PAGE_PARSE_START_TIME', microtime());
 
-// set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-
 // load server configuration parameters
-  if (file_exists('includes/local/configure.php')) { // for developers
-    include 'includes/local/configure.php';
-  } else {
-    include 'includes/configure.php';
-  }
-
-  if (DB_SERVER == '' && is_dir('install')) {
-    header('Location: install/index.php');
-    exit;
-  }
-
-// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
-  date_default_timezone_set(defined('CFG_TIME_ZONE') ? CFG_TIME_ZONE : date_default_timezone_get());
+  include 'includes/configure.php';
 
 // autoload classes in the classes or modules directories
   require 'includes/functions/autoloader.php';

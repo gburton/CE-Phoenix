@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_CONTENT_INSTALLED' limit 1");
   if (tep_db_num_rows($check_query) < 1) {
@@ -21,37 +21,31 @@
   $modules_installed = (tep_not_null(MODULE_CONTENT_INSTALLED) ? explode(';', MODULE_CONTENT_INSTALLED) : []);
   $modules = ['installed' => [], 'new' => []];
 
-  $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
-
-  if ($maindir = @dir(DIR_FS_CATALOG_MODULES . 'content/')) {
+  if ($maindir = @dir(DIR_FS_CATALOG . 'includes/modules/content/')) {
     while ($group = $maindir->read()) {
-      if ( ($group != '.') && ($group != '..') && is_dir(DIR_FS_CATALOG_MODULES . 'content/' . $group)) {
-        if ($dir = @dir(DIR_FS_CATALOG_MODULES . 'content/' . $group)) {
+      if ( ($group != '.') && ($group != '..') && is_dir(DIR_FS_CATALOG . 'includes/modules/content/' . $group)) {
+        if ($dir = @dir(DIR_FS_CATALOG . 'includes/modules/content/' . $group)) {
           while ($file = $dir->read()) {
-            if (!is_dir(DIR_FS_CATALOG_MODULES . 'content/' . $group . '/' . $file)) {
-              if (substr($file, strrpos($file, '.')) == $file_extension) {
-                $class = substr($file, 0, strrpos($file, '.'));
-
-                if (!class_exists($class)) {
-                  if ( file_exists(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/content/' . $group . '/' . $file) ) {
-                    include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/content/' . $group . '/' . $file);
-                  }
-
-                  include(DIR_FS_CATALOG_MODULES . 'content/' . $group . '/' . $file);
-                }
+            if (!is_dir(DIR_FS_CATALOG . 'includes/modules/content/' . $group . '/' . $file)) {
+              if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
+                $class = pathinfo($file, PATHINFO_FILENAME);
 
                 if (class_exists($class)) {
                   $module = new $class();
 
                   if (in_array($group . '/' . $class, $modules_installed)) {
-                    $modules['installed'][] = ['code' => $class,
-                                               'title' => $module->title,
-                                               'group' => $group,
-                                               'sort_order' => (int)$module->sort_order];
+                    $modules['installed'][] = [
+                      'code' => $class,
+                      'title' => $module->title,
+                      'group' => $group,
+                      'sort_order' => (int)$module->sort_order,
+                    ];
                   } else {
-                    $modules['new'][] = ['code' => $class,
-                                         'title' => $module->title,
-                                         'group' => $group];
+                    $modules['new'][] = [
+                      'code' => $class,
+                      'title' => $module->title,
+                      'group' => $group,
+                    ];
                   }
                 }
               }
@@ -89,7 +83,7 @@
   }
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('modules_content', 'preAction');
 
   if (tep_not_null($action)) {
@@ -109,7 +103,7 @@
             break;
           }
         }
-        
+
         $OSCOM_Hooks->call('modules_content', 'saveAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
@@ -132,7 +126,7 @@
             tep_redirect(tep_href_link('modules_content.php', 'module=' . $class . '&action=edit'));
           }
         }
-        
+
         $OSCOM_Hooks->call('modules_content', 'installAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'action=list_new&module=' . $class));
@@ -159,7 +153,7 @@
             tep_redirect(tep_href_link('modules_content.php'));
           }
         }
-        
+
         $OSCOM_Hooks->call('modules_content', 'removeAction');
 
         tep_redirect(tep_href_link('modules_content.php', 'module=' . $class));
@@ -167,10 +161,10 @@
         break;
     }
   }
-  
+
   $OSCOM_Hooks->call('modules_content', 'postAction');
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -187,10 +181,10 @@
       ?>
     </div>
   </div>
-  
+
   <div class="row no-gutters">
     <div class="col-12 col-sm-8">
-    
+
 <?php
   if ( $action == 'list_new' ) {
 ?>
@@ -238,7 +232,7 @@
 <?php
   } else {
 ?>
-    
+
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
@@ -255,14 +249,16 @@
             foreach ( $modules['installed'] as $m ) {
               $module = new $m['code']();
 
-              if ((!isset($_GET['module']) || (isset($_GET['module']) && ($_GET['module'] == $module->code))) && !isset($mInfo)) {
-                $module_info = ['code' => $module->code,
-                                'title' => $module->title,
-                                'description' => $module->description,
-                                'signature' => (isset($module->signature) ? $module->signature : null),
-                                'api_version' => (isset($module->api_version) ? $module->api_version : null),
-                                'sort_order' => (int)$module->sort_order,
-                                'keys' => []];
+              if (!isset($mInfo) && (!isset($_GET['module']) || ($_GET['module'] == $module->code))) {
+                $module_info = [
+                  'code' => $module->code,
+                  'title' => $module->title,
+                  'description' => $module->description,
+                  'signature' => ($module->signature ?? null),
+                  'api_version' => ($module->api_version ?? null),
+                  'sort_order' => (int)$module->sort_order,
+                  'keys' => [],
+                ];
 
                 foreach ($module->keys() as $key) {
                   $key = tep_db_prepare_input($key);
@@ -270,11 +266,13 @@
                   $key_value_query = tep_db_query("select configuration_title, configuration_value, configuration_description, use_function, set_function from configuration where configuration_key = '" . tep_db_input($key) . "'");
                   $key_value = tep_db_fetch_array($key_value_query);
 
-                  $module_info['keys'][$key] = ['title' => $key_value['configuration_title'],
-                                                'value' => $key_value['configuration_value'],
-                                                'description' => $key_value['configuration_description'],
-                                                'use_function' => $key_value['use_function'],
-                                                'set_function' => $key_value['set_function']];
+                  $module_info['keys'][$key] = [
+                    'title' => $key_value['configuration_title'],
+                    'value' => $key_value['configuration_value'],
+                    'description' => $key_value['configuration_description'],
+                    'use_function' => $key_value['use_function'],
+                    'set_function' => $key_value['set_function'],
+                  ];
                 }
 
                 $mInfo = new objectInfo($module_info);
@@ -303,8 +301,8 @@
 <?php
   }
 ?>
-      <p class="smallText"><?php echo TEXT_MODULE_DIRECTORY . ' ' . DIR_FS_CATALOG_MODULES . 'content/'; ?></p>
-      
+      <p class="smallText"><?php echo TEXT_MODULE_DIRECTORY . ' ' . DIR_FS_CATALOG . 'includes/modules/content/'; ?></p>
+
     </div>
 
 <?php
@@ -366,7 +364,6 @@
                 $class_method = explode('->', $use_function);
 
                 if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
-                  include('includes/classes/' . $class_method[0] . '.php');
                   ${$class_method[0]} = new $class_method[0]();
                 }
 
@@ -407,10 +404,10 @@
     echo '</div>';
   }
 ?>
-          
+
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

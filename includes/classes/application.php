@@ -14,13 +14,13 @@
 
     public function check_ssl_session_id() {
 // verify the ssl_session_id if the feature is enabled
-      if ( ($GLOBALS['request_type'] == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && ENABLE_SSL && $GLOBALS['session_started'] ) {
+      if ( ($GLOBALS['request_type'] === 'SSL') && (SESSION_CHECK_SSL_SESSION_ID === 'True') && $GLOBALS['session_started'] ) {
         $ssl_session_id = getenv('SSL_SESSION_ID');
         if (!isset($_SESSION['SSL_SESSION_ID'])) {
           $_SESSION['SSL_SESSION_ID'] = $ssl_session_id;
         }
-        
-        if ($_SESSION['SSL_SESSION_ID'] != $ssl_session_id) {
+
+        if ($_SESSION['SSL_SESSION_ID'] !== $ssl_session_id) {
           tep_session_destroy();
           tep_redirect(tep_href_link('ssl_check.php'));
         }
@@ -34,7 +34,7 @@
         if (!isset($_SESSION['SESSION_USER_AGENT'])) {
           $_SESSION['SESSION_USER_AGENT'] = $http_user_agent;
         }
-        
+
         if ($_SESSION['SESSION_USER_AGENT'] != $http_user_agent) {
           tep_session_destroy();
           tep_redirect(tep_href_link('login.php'));
@@ -49,7 +49,7 @@
         if (!isset($_SESSION['SESSION_IP_ADDRESS'])) {
           $_SESSION['SESSION_IP_ADDRESS'] = $ip_address;
         }
-        
+
         if ($_SESSION['SESSION_IP_ADDRESS'] != $ip_address) {
           tep_session_destroy();
           tep_redirect(tep_href_link('login.php'));
@@ -65,7 +65,7 @@
 
     public function fix_numeric_locale() {
       static $_system_locale_numeric = 0;
-      
+
 // Prevent LC_ALL from setting LC_NUMERIC to a locale with 1,0 float/decimal values instead of 1.0 (see bug #634)
       $_system_locale_numeric = setlocale(LC_NUMERIC, $_system_locale_numeric);
     }
@@ -75,13 +75,13 @@
         global $lng;
 
         $lng = new language();
-        
+
         if (isset($_GET['language']) && tep_not_null($_GET['language'])) {
           $lng->set_language($_GET['language']);
         } else {
           $lng->get_browser_language();
         }
-        
+
         $_SESSION['language'] = $lng->language['directory'];
         $_SESSION['languages_id'] = $lng->language['id'];
         $GLOBALS['languages_id'] =& $_SESSION['languages_id'];

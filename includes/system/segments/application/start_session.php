@@ -11,11 +11,10 @@
 */
 
 // set the session name and save path
-  tep_session_name('ceid');
-  tep_session_save_path(SESSION_WRITE_DIRECTORY);
+  session_name('ceid');
 
 // set the session cookie parameters
-  session_set_cookie_params(0, $cookie_path, $cookie_domain);
+  Cookie::save_session_parameters();
 
 // set the session ID if it exists
   if ( SESSION_FORCE_COOKIE_USE == 'False' ) {
@@ -33,7 +32,7 @@
   if (SESSION_FORCE_COOKIE_USE == 'True') {
     @ini_set('session.use_only_cookies', 1);
 
-    tep_setcookie('cookie_test', 'please_accept_for_session', time()+60*60*24*30, $cookie_path, $cookie_domain);
+    Cookie::save('cookie_test', 'please_accept_for_session');
 
     if (isset($_COOKIE['cookie_test'])) {
       tep_session_start();

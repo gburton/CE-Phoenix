@@ -238,7 +238,7 @@
           <div class="col-sm-9"><?php echo $rInfo->reviews_text; ?></div>
         </div>
       </div>
-      <div class="col-sm-2 text-right"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT); ?></div>
+      <div class="col-sm-2 text-right"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT); ?></div>
     </div>
 
 <?php

@@ -18,7 +18,7 @@
 
     Makes array of pages in english (1) where the page status is active (1)
     */
-    public function getContainer($container = []) {
+    public static function getContainer($container = []) {
       global $languages_id; $pages_arr = [];
 
       $pages_query_raw = "select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where 1=1 ";
@@ -45,7 +45,7 @@
 
     Get the Text of the privacy page in the english language (1)
     */
-    public function getElement($container = [], $element = null) {
+    public static function getElement($container = [], $element = null) {
       if ( (sizeof($container) > 0) && (tep_not_null($element)) ) {
         $page_query_raw = "select $element from pages p left join pages_description pd on p.pages_id = pd.pages_id where 1=1 ";
         foreach ($container as $k => $v) {
@@ -60,17 +60,19 @@
       }
     }
     
-    public function get_page($arr) {
+    public static function get_page($arr) {
       $page_arr = info_pages::getContainer($arr);
 
       // will always be the first and only item in the returned array
       return $page_arr[0];
     }
 
-    public function get_pages() {
+    public static function get_pages($order_by = null) {
       global $languages_id; $pages_arr = [];
+      
+      $sort_order = $order_by ?? 'p.sort_order';
 
-      $pages_query = tep_db_query("select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where pd.languages_id = '" . (int)$languages_id . "' order by p.last_modified DESC, p.pages_id DESC");
+      $pages_query = tep_db_query("select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where pd.languages_id = '" . (int)$languages_id . "' order by $sort_order");
       while($pages = tep_db_fetch_array($pages_query)) {
         $pages_arr[] = $pages;
       }
@@ -79,7 +81,7 @@
       return $pages_arr;
     }
 
-    public function split_page_results() {
+    public static function split_page_results() {
       global $languages_id, $pages_query_numrows;
 
       $pages_query_raw = "select * from pages p left join pages_description pd on p.pages_id = pd.pages_id where pd.languages_id = '" . (int)$languages_id . "' order by p.last_modified DESC, p.pages_id DESC";
@@ -88,7 +90,7 @@
       return $pages_split;
     }
     
-    public function requirements() {
+    public static function requirements() {
       $required_slugs = ['conditions', 'privacy', 'shipping']; $db_slugs = [];
       
       $slugs_query = tep_db_query("select slug from pages order by slug");

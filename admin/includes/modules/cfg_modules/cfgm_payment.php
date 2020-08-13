@@ -5,22 +5,18 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cfgm_payment {
-    var $code = 'payment';
-    var $directory;
-    var $language_directory = DIR_FS_CATALOG_LANGUAGES;
-    var $key = 'MODULE_PAYMENT_INSTALLED';
-    var $title;
-    var $template_integration = false;
 
-    function __construct() {
-      $this->directory = DIR_FS_CATALOG_MODULES . 'payment/';
-      $this->title = MODULE_CFG_MODULE_PAYMENT_TITLE;
-    }
+    const CODE = 'payment';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/payment/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_PAYMENT_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_PAYMENT_TITLE;
+    const TEMPLATE_INTEGRATION = false;
+
   }
-?>

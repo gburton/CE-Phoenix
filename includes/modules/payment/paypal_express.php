@@ -72,10 +72,6 @@
 
       if ( (basename($PHP_SELF) == 'shopping_cart.php') ) {
         if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '1') ) {
-          if ( isset($request_type) && ($request_type != 'SSL') && ENABLE_SSL ) {
-            tep_redirect(tep_href_link('shopping_cart.php', tep_get_all_get_params(), 'SSL'));
-          }
-
           header('X-UA-Compatible: IE=edge', true);
         }
       }

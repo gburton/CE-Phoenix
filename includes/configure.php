@@ -5,33 +5,49 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
+  if (file_exists('includes/local/configure.php')) { // for developers
+    include 'includes/local/configure.php';
+    return;
+  }
+
+// set the level of error reporting
+  error_reporting(E_ALL);
+
 // Define the webserver and path parameters
 // * DIR_FS_* = Filesystem directories (local/physical)
 // * DIR_WS_* = Webserver directories (virtual/URL)
-  define('HTTP_SERVER', ''); // eg, http://localhost - should not be empty for productive servers
-  define('HTTPS_SERVER', ''); // eg, https://localhost - should not be empty for productive servers
-  define('ENABLE_SSL', false); // secure webserver for checkout procedure?
-  define('HTTP_COOKIE_DOMAIN', '');
-  define('HTTPS_COOKIE_DOMAIN', '');
-  define('HTTP_COOKIE_PATH', '');
-  define('HTTPS_COOKIE_PATH', '');
-  define('DIR_WS_HTTP_CATALOG', '');
-  define('DIR_WS_HTTPS_CATALOG', '');
+  const HTTP_SERVER = ''; // eg, http://localhost - should not be empty for productive servers
+  const COOKIE_OPTIONS = [
+    'lifetime' => 0,
+    'domain' => '',
+    'path' => '',
+    'samesite' => 'Lax',
+  ];
+  const DIR_WS_CATALOG = '';
 
   define('DIR_FS_CATALOG', dirname($_SERVER['SCRIPT_FILENAME']) . '/');
-  define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
-  define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
+
+  // leave blank or omit to use MySQL sessions
+  const DIR_FS_SESSION = '';
+
+// set default timezone if none exists (PHP 5.3 throws an E_WARNING)
+  date_default_timezone_set(date_default_timezone_get());
+
+// If you are asked to provide configure.php details
+// please remove the data below before sharing
 
 // define our database connection
-  define('DB_SERVER', ''); // eg, localhost - should not be empty for productive servers
-  define('DB_SERVER_USERNAME', '');
-  define('DB_SERVER_PASSWORD', '');
-  define('DB_DATABASE', 'osCommerce');
-  define('USE_PCONNECT', 'false'); // use persistent connections?
-  define('STORE_SESSIONS', ''); // leave empty '' for default handler or set to 'mysql'
-?>
+  const DB_SERVER = ''; // eg, localhost - should not be empty for productive servers
+  const DB_SERVER_USERNAME = '';
+  const DB_SERVER_PASSWORD = '';
+  const DB_DATABASE = 'osCommerce';
+
+  if (DB_SERVER == '' && is_dir('install')) {
+    header('Location: install/index.php');
+    exit();
+  }

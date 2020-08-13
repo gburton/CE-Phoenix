@@ -10,17 +10,17 @@
   Released under the GNU General Public License
 */
 
-  $www_location = 'http://' . $_SERVER['HTTP_HOST'];
+  $www_location = (('on' === getenv('HTTPS')) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
 
-  if (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) {
-    $www_location .= $_SERVER['REQUEST_URI'];
-  } else {
+  if (empty($_SERVER['REQUEST_URI'])) {
     $www_location .= $_SERVER['SCRIPT_FILENAME'];
+  } else {
+    $www_location .= $_SERVER['REQUEST_URI'];
   }
 
-  $www_location = substr($www_location, 0, strpos($www_location, 'install'));
+  $www_location = substr($www_location, 0, strpos($www_location, 'install/install.php'));
 
-  $dir_fs_www_root = osc_realpath(dirname(__FILE__) . '/../../../') . '/';
+  $dir_fs_www_root = osc_realpath(dirname(__DIR__, 3)) . '/';
 ?>
 
 

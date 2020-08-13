@@ -169,21 +169,21 @@
 
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $navbar_title .= '<div class="input-group">';
+        $navbar_title .= '<div class="input-group mb-1">';
           $navbar_title .= '<div class="input-group-prepend">';
             $navbar_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $navbar_title .= '</div>';
           $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'navbar_title'), 'required aria-required="true"');
         $navbar_title .= '</div>';
         
-        $page_title .= '<div class="input-group">';
+        $page_title .= '<div class="input-group mb-1">';
           $page_title .= '<div class="input-group-prepend">';
             $page_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_title .= '</div>';
           $page_title .= tep_draw_input_field('page_title[' . $languages[$i]['id'] . ']', info_pages::getElement(['pd.pages_id' => $pInfo->pages_id, 'pd.languages_id' => $languages[$i]['id']], 'pages_title'), 'required aria-required="true"');
         $page_title .= '</div>';
 
-        $page_text .= '<div class="input-group">';
+        $page_text .= '<div class="input-group mb-1">';
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
@@ -227,7 +227,7 @@
       <div class="form-group row">
         <label for="inputSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', $pInfo->sort_order, 'id="inputSort" class="form-control w-50"'); ?>
+          <?php echo tep_draw_input_field('sort_order', $pInfo->sort_order, 'required aria-required="true" id="inputSort" class="form-control w-50"'); ?>
         </div>
       </div>
 
@@ -265,21 +265,21 @@
 
       $languages = tep_get_languages();
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $navbar_title .= '<div class="input-group">';
+        $navbar_title .= '<div class="input-group mb-1">';
           $navbar_title .= '<div class="input-group-prepend">';
             $navbar_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $navbar_title .= '</div>';
-          $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']');
+          $navbar_title .= tep_draw_input_field('navbar_title[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
         $navbar_title .= '</div>';
         
-        $page_title .= '<div class="input-group">';
+        $page_title .= '<div class="input-group mb-1">';
           $page_title .= '<div class="input-group-prepend">';
             $page_title .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_title .= '</div>';
           $page_title .= tep_draw_input_field('page_title[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
         $page_title .= '</div>';
 
-        $page_text .= '<div class="input-group">';
+        $page_text .= '<div class="input-group mb-1">';
           $page_text .= '<div class="input-group-prepend">';
             $page_text .= '<span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
           $page_text .= '</div>';
@@ -323,7 +323,7 @@
       <div class="form-group row">
         <label for="inputSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', null, 'id="inputSort" class="form-control w-50"'); ?>
+          <?php echo tep_draw_input_field('sort_order', null, 'required aria-required="true" id="inputSort" class="form-control w-50"'); ?>
         </div>
       </div>
 
@@ -361,7 +361,7 @@
             </thead>
             <tbody>
               <?php
-              $pages = info_pages::get_pages();
+              $pages = info_pages::get_pages($OSCOM_Hooks->call('info_pages', 'order_by'));
               $pages_split = info_pages::split_page_results();
               
               foreach ($pages as $k => $v) {
@@ -387,7 +387,7 @@
                     echo '<a href="' . tep_href_link('info_pages.php', 'action=setflag&flag=1&pID=' . $v['pages_id'] . '&page=' . (int)$_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a>  <i class="fas fa-times-circle text-danger"></i>';
                   }
                   ?></td>
-                  <td class="text-right"><?php if ( (is_object($pInfo)) && ($v['pages_id'] == $pInfo->pages_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $v['pages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                  <td class="text-right"><?php if ( (isset($pInfo->pages_id)) && ($v['pages_id'] == $pInfo->pages_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $v['pages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
                 </tr>
                 <?php
               }

@@ -12,15 +12,11 @@
 
   class cfgm_customer_data {
 
-    public $code = 'customer_data';
-    public $directory;
-    public $language_directory = DIR_FS_CATALOG . 'includes/languages/';
-    public $key = 'MODULE_CUSTOMER_DATA_INSTALLED';
-    public $title = MODULE_CFG_MODULE_CUSTOMER_DATA_TITLE;
-    public $template_integration = false;
-
-    function __construct() {
-      $this->directory = DIR_FS_CATALOG . "includes/modules/$this->code/";
-    }
+    const CODE = 'customer_data';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/customer_data/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_CUSTOMER_DATA_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_CUSTOMER_DATA_TITLE;
+    const TEMPLATE_INTEGRATION = false;
 
   }

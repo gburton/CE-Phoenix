@@ -24,6 +24,8 @@
     $current_category_id = 0;
   }
 
+  const DIR_FS_CATALOG_IMAGES = DIR_FS_CATALOG . 'images/';
+
   $action = $_GET['action'] ?? '';
 
   $OSCOM_Hooks->call('categories', 'preAction');
@@ -79,13 +81,13 @@
             $insert_sql_data = ['categories_id' => $categories_id, 'language_id' => $languages[$i]['id']];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
-            
+
             $OSCOM_Hooks->call('categories', 'insertCategoryAction');
 
             tep_db_perform('categories_description', $sql_data_array);
           } elseif ($action == 'update_category') {
             $OSCOM_Hooks->call('categories', 'updateCategoryAction');
-            
+
             tep_db_perform('categories_description', $sql_data_array, 'update', "categories_id = '" . (int)$categories_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
           }
         }
@@ -388,14 +390,16 @@
 
 // check if the catalog image directory exists
   if (is_dir(DIR_FS_CATALOG_IMAGES)) {
-    if (!tep_is_writable(DIR_FS_CATALOG_IMAGES)) $messageStack->add(ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE, 'error');
+    if (!tep_is_writable(DIR_FS_CATALOG_IMAGES)) {
+      $messageStack->add(sprintf(ERROR_CATALOG_IMAGE_DIRECTORY_NOT_WRITEABLE, DIR_FS_CATALOG_IMAGES), 'error');
+    }
   } else {
-    $messageStack->add(ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST, 'error');
+    $messageStack->add(sprintf(ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST, DIR_FS_CATALOG_IMAGES), 'error');
   }
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 
-  $base_url = ($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_ADMIN : HTTP_SERVER . DIR_WS_ADMIN;
+  $base_url = HTTP_SERVER . DIR_WS_ADMIN;
 
   if ($action == 'new_product') {
     $parameters = ['products_name' => '',
@@ -773,7 +777,7 @@ function updateNet() {
               ?>
             </div>
           </div>
-          
+
           <?php
           echo $OSCOM_Hooks->call('categories', 'injectImageForm');
           ?>
@@ -852,7 +856,7 @@ function updateNet() {
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?php echo TEXT_PRODUCTS_IMAGE; ?></div>
-        <div class="col-sm-9"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $products_image_name); ?></div>
+        <div class="col-sm-9"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $products_image_name); ?></div>
       </div>
 
       <div class="row">
@@ -1130,7 +1134,7 @@ function updateNet() {
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_SEO_TITLE . $category_seo_title_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_DESCRIPTION . $category_description_string];
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_SEO_DESCRIPTION . $category_seo_description_string];
-        $contents[] = ['text' => TEXT_EDIT_CATEGORIES_IMAGE . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES . $cInfo->categories_image, $cInfo->categories_name)];
+        $contents[] = ['text' => TEXT_EDIT_CATEGORIES_IMAGE . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $cInfo->categories_image, $cInfo->categories_name)];
         $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('categories_image', '', 'id="cImg"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="cImg">' .  $cInfo->categories_image . '</label></div>'];
         $contents[] = ['text' => TEXT_EDIT_SORT_ORDER . '<br>' . tep_draw_input_field('sort_order', $cInfo->sort_order, 'size="2"')];
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
@@ -1259,6 +1263,6 @@ $(document).on('change', '#cImg, [id^=pImg]', function (event) { $(this).next('.
 
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

@@ -104,7 +104,7 @@
 
   require 'includes/template_top.php';
 
-  $base_url = ($request_type == 'SSL') ? HTTPS_SERVER . DIR_WS_HTTPS_ADMIN : HTTP_SERVER . DIR_WS_ADMIN;
+  $base_url = HTTP_SERVER . DIR_WS_ADMIN;
 
   if (($action == 'edit') && $order_exists) {
     $order = new order($oID);

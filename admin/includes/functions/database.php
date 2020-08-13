@@ -13,10 +13,6 @@
   function tep_db_connect($server = DB_SERVER, $username = DB_SERVER_USERNAME, $password = DB_SERVER_PASSWORD, $database = DB_DATABASE, $link = 'db_link') {
     global $$link;
 
-    if (USE_PCONNECT == 'true') {
-      $server = 'p:' . $server;
-    }
-
     $$link = mysqli_connect($server, $username, $password, $database);
 
     if ( !mysqli_connect_errno() ) {

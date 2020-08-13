@@ -10,7 +10,12 @@
   Released under the GNU General Public License
 */
 
-  if (STORE_SESSIONS == 'mysql') {
+  if (defined('DIR_FS_SESSION') && DIR_FS_SESSION && is_dir(DIR_FS_SESSION) && is_writable(DIR_FS_SESSION)) {
+    session_save_path(DIR_FS_SESSION);
+  } else {
+    // if we don't have a usable session directory defined,
+    // use MySQL sessions
+    // Note:  this is the default configuration in the normal install process.
     function _sess_open($save_path, $session_name) {
       return true;
     }

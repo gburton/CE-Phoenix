@@ -498,7 +498,7 @@ EOD;
             // Live server requires SSL to be enabled
             if ( (OSCOM_APP_PAYPAL_GATEWAY == '1')
               && (OSCOM_APP_PAYPAL_EC_INSTANT_UPDATE == '1')
-              && ((OSCOM_APP_PAYPAL_EC_STATUS == '0') || ((OSCOM_APP_PAYPAL_EC_STATUS == '1') && (ENABLE_SSL)))
+              && ((OSCOM_APP_PAYPAL_EC_STATUS == '0') || ((OSCOM_APP_PAYPAL_EC_STATUS == '1') && ('SSL' === $GLOBALS['request_type'])))
               && (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0')
               && isset($appPayPalEcResult['SHIPPINGOPTIONNAME'], $appPayPalEcResult['SHIPPINGOPTIONAMOUNT']))
             {
@@ -689,7 +689,12 @@ EOD;
       $paypal_item_total = $paypal_express->_app->formatCurrencyRaw($order->info['subtotal']);
 
       // Live server requires SSL to be enabled
-      if ( (OSCOM_APP_PAYPAL_GATEWAY == '1') && (OSCOM_APP_PAYPAL_EC_INSTANT_UPDATE == '1') && ((OSCOM_APP_PAYPAL_EC_STATUS == '0') || ((OSCOM_APP_PAYPAL_EC_STATUS == '1') && (ENABLE_SSL == true))) && (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0') ) {
+      if ( (OSCOM_APP_PAYPAL_GATEWAY == '1')
+        && (OSCOM_APP_PAYPAL_EC_INSTANT_UPDATE == '1')
+        && ((OSCOM_APP_PAYPAL_EC_STATUS == '0')
+          || ((OSCOM_APP_PAYPAL_EC_STATUS == '1') && ('SSL' === $GLOBALS['request_type'])))
+        && (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0') )
+      {
         $quotes_array = [];
 
         if ( $_SESSION['cart']->get_content_type() != 'virtual' ) {

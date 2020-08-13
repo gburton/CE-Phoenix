@@ -23,7 +23,7 @@
 
         $store_logo = new upload('store_logo');
         $store_logo->set_extensions(['png', 'gif', 'jpg', 'svg', 'webp']);
-        $store_logo->set_destination(DIR_FS_CATALOG_IMAGES);
+        $store_logo->set_destination(DIR_FS_CATALOG . 'images/');
 
         if ($store_logo->parse()) {
           if ($store_logo->save()) {
@@ -48,7 +48,7 @@
   
   $OSCOM_Hooks->call('store_logo', 'postAction');
 
-  if (!tep_is_writable(DIR_FS_CATALOG_IMAGES)) {
+  if (!tep_is_writable(DIR_FS_CATALOG . 'images/')) {
     $messageStack->add(sprintf(ERROR_IMAGES_DIRECTORY_NOT_WRITEABLE, tep_href_link('sec_dir_permissions.php')), 'error');
   }
 
@@ -67,8 +67,8 @@
       </thead>
       <tbody>
         <tr>
-          <td><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG_IMAGES .  STORE_LOGO); ?></td>
-          <td><?php echo DIR_FS_CATALOG_IMAGES .  STORE_LOGO; ?></td>
+          <td><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' .  STORE_LOGO); ?></td>
+          <td><?php echo DIR_FS_CATALOG . 'images/' .  STORE_LOGO; ?></td>
         </tr>
       </tbody>
     </table>

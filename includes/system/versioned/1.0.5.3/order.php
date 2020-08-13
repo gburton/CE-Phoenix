@@ -152,7 +152,7 @@
         'order_status' => DEFAULT_ORDERS_STATUS_ID,
         'currency' => $_SESSION['currency'],
         'currency_value' => $currencies->currencies[$_SESSION['currency']]['value'],
-        'payment_method' => $_SESSION['payment'],
+        'payment_method' => $_SESSION['payment'] ?? null,
         'shipping_method' => $_SESSION['shipping']['title'] ?? null,
         'shipping_cost' => $_SESSION['shipping']['cost'] ?? null,
         'subtotal' => 0,
@@ -161,7 +161,7 @@
         'comments' => ($_SESSION['comments'] ?? ''),
       ];
 
-      if (is_string($_SESSION['payment']) && (($GLOBALS[$_SESSION['payment']] ?? null) instanceof $_SESSION['payment'])) {
+      if (is_string($_SESSION['payment'] ?? null) && (($GLOBALS[$_SESSION['payment']] ?? null) instanceof $_SESSION['payment'])) {
         $this->info['payment_method'] = $GLOBALS[$_SESSION['payment']]->public_title ?? $GLOBALS[$_SESSION['payment']]->title;
 
         if ( is_numeric($GLOBALS[$_SESSION['payment']]->order_status ?? null) && ($GLOBALS[$_SESSION['payment']]->order_status > 0) ) {

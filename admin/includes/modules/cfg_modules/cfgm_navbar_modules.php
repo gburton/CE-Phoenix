@@ -5,18 +5,18 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cfgm_navbar_modules {
 
-    public $code = 'navbar';
-    public $directory = DIR_FS_CATALOG_MODULES . 'navbar/';
-    public $language_directory = DIR_FS_CATALOG_LANGUAGES;
-    public $key = 'MODULE_CONTENT_NAVBAR_INSTALLED';
-    public $title = MODULE_CFG_MODULE_CONTENT_NAVBAR_TITLE;
-    public $template_integration = false;
+    const CODE = 'navbar';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/navbar/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_CONTENT_NAVBAR_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_CONTENT_NAVBAR_TITLE;
+    const TEMPLATE_INTEGRATION = false;
 
   }

@@ -12,15 +12,11 @@
 
   class cfgm_notifications {
 
-    public $code = 'notifications';
-    public $directory;
-    public $language_directory = DIR_FS_CATALOG . 'includes/languages/';
-    public $key = 'MODULE_NOTIFICATIONS_INSTALLED';
-    public $title = MODULE_CFG_MODULE_NOTIFICATIONS_TITLE;
-    public $template_integration = false;
-
-    function __construct() {
-      $this->directory = DIR_FS_CATALOG . "includes/modules/$this->code/";
-    }
+    const CODE = 'notifications';
+    const DIRECTORY = DIR_FS_CATALOG . 'includes/modules/notifications/';
+    const LANGUAGE_DIRECTORY = DIR_FS_CATALOG . 'includes/languages/';
+    const KEY = 'MODULE_NOTIFICATIONS_INSTALLED';
+    const TITLE = MODULE_CFG_MODULE_NOTIFICATIONS_TITLE;
+    const TEMPLATE_INTEGRATION = false;
 
   }
