@@ -104,7 +104,7 @@
           $order->content_type = 'physical';
         }
 
-        include 'includes/modules/checkout/after.php';
+        include 'includes/system/segments/checkout/after.php';
 
         tep_db_query("DELETE FROM customers_basket WHERE customers_id = " . (int)$customer_id);
         tep_db_query("DELETE FROM customers_basket_attributes WHERE customers_id = " . (int)$customer_id);

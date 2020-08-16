@@ -235,7 +235,7 @@
       tep_db_perform('orders_status_history', $sql_data);
 
       if ( MODULE_PAYMENT_SAGE_PAY_SERVER_PROFILE_PAGE == 'Low' ) {
-        require 'includes/modules/checkout/reset.php';
+        require 'includes/system/segments/checkout/reset.php';
 
         unset($_SESSION['sage_pay_server_nexturl']);
 

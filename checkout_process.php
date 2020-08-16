@@ -79,7 +79,7 @@
 // load the before_process function from the payment modules
   $payment_modules->before_process();
 
-  require 'includes/modules/checkout/insert_order.php';
+  require 'includes/system/segments/checkout/insert_order.php';
 
   $customer_notification = (SEND_EMAILS == 'true') ? '1' : '0';
   $sql_data = [
@@ -91,12 +91,12 @@
   ];
   tep_db_perform('orders_status_history', $sql_data);
 
-  include 'includes/modules/checkout/after.php';
+  include 'includes/system/segments/checkout/after.php';
 
 // load the after_process function from the payment modules
   $payment_modules->after_process();
 
-  include 'includes/modules/checkout/reset.php';
+  include 'includes/system/segments/checkout/reset.php';
 
   tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
 

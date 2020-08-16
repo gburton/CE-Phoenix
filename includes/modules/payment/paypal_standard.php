@@ -175,8 +175,8 @@
         }
 
         if ($insert_order) {
-          require 'includes/modules/checkout/build_order_totals.php';
-          require 'includes/modules/checkout/insert_order.php';
+          require 'includes/system/segments/checkout/build_order_totals.php';
+          require 'includes/system/segments/checkout/insert_order.php';
 
           $_SESSION['cart_PayPal_Standard_ID'] = $_SESSION['cartID'] . '-' . $GLOBALS['order']->get_id();
         }
@@ -548,7 +548,7 @@
 
       tep_db_perform('orders_status_history', $sql_data);
 
-      include 'includes/modules/checkout/after.php';
+      include 'includes/system/segments/checkout/after.php';
 
 // load the after_process function from the payment modules
       $this->after_process();
@@ -557,7 +557,7 @@
     function after_process() {
       unset($_SESSION['cart_PayPal_Standard_ID']);
 
-      require 'includes/modules/checkout/reset.php';
+      require 'includes/system/segments/checkout/reset.php';
 
       tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }
