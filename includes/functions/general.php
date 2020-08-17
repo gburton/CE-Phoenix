@@ -40,8 +40,9 @@
   }
 
 ////
-// Parse the data used in the html tags to ensure the tags will not break
+// Deprecated:  replace with strtr(trim($data), $parse)
   function tep_parse_input_field_data($data, $parse) {
+    trigger_error('The tep_parse_input_field_data function has been deprecated.', E_USER_DEPRECATED);
     return strtr(trim($data), $parse);
   }
 
@@ -54,7 +55,7 @@
       $translate = ['"' => '&quot;'];
     }
 
-    return tep_parse_input_field_data($string, $translate);
+    return strtr(trim($string), $translate);
   }
 
   function tep_output_string_protected($string) {
