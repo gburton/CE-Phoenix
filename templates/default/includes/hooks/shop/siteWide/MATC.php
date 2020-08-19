@@ -54,19 +54,15 @@ eod;
   }
   
   function load_lang() {
-    global $language;
-
-    require('includes/languages/' . $language . '/hooks/shop/siteWide/MATC.php');
+    if (!defined('ENTRY_MATC')) {
+      require 'includes/languages/' . $_SESSION['language'] . '/hooks/shop/siteWide/MATC.php';
+    }
   }
   
   function show_pages() {
-    global $PHP_SELF;
-
     $good_pages = ['create_account.php', 'checkout_confirmation.php'];
     
-    if (in_array(basename($PHP_SELF), $good_pages)) return true;
-    
-    return false;
+    return in_array(basename($GLOBALS['PHP_SELF']), $good_pages);
   }
   
 }
