@@ -41,11 +41,11 @@
           'description' => substr(trim(preg_replace('/\s\s+/', ' ', strip_tags($product_info['products_description']))), 0, 197) . '...',
         ];
 
-        if (tep_not_null($product_info['products_model'])) {
+        if (tep_not_null($product_info['products_model'] ?? null)) {
           $schema_product['mpn'] = tep_db_output($product_info['products_model']);
         }
 
-        if (tep_not_null($product_info['products_gtin']) && defined('MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH')) {
+        if (tep_not_null($product_info['products_gtin'] ?? null) && defined('MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH')) {
           $schema_product['gtin' .  MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH] = tep_db_output(substr($product_info['products_gtin'], 0-MODULE_CONTENT_PRODUCT_INFO_GTIN_LENGTH));
         }
 
@@ -75,7 +75,7 @@
           'name'  => STORE_NAME,
         ];
 
-        if ($product_info['manufacturers_id'] > 0) {
+        if (($product_info['manufacturers_id'] ?? 0) > 0) {
           // manufacturer class
           $ht_brand = new manufacturer((int)$product_info['manufacturers_id']);
 

@@ -19,10 +19,8 @@
     function execute() {
       global $oscTemplate, $product_info;
 
-      if (isset($_GET['products_id'], $product_info)) {
-        if (tep_not_null($product_info['products_seo_description'])) {
-          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($product_info['products_seo_description']) . '" />' . PHP_EOL, $this->group);
-        }
+      if (isset($_GET['products_id'], $product_info['products_seo_description']) && tep_not_null($product_info['products_seo_description'])) {
+        $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($product_info['products_seo_description']) . '" />' . PHP_EOL, $this->group);
       }
     }
 
