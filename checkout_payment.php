@@ -47,13 +47,13 @@
       $check_address = tep_db_fetch_array($check_address_query);
 
       if ($check_address['total'] != '1') {
-        $_SESSION['billto'] = $customer->get_default_address_id();
+        $_SESSION['billto'] = $customer->get('default_billto');
         unset($_SESSION['payment']);
       }
     }
   } else {
     // if no billing destination address was selected, use the customers own address as default
-    $_SESSION['billto'] = $customer->get_default_address_id();
+    $_SESSION['billto'] = $customer->get('default_billto');
   }
 
   $order = new order();

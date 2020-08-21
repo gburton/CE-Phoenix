@@ -61,7 +61,7 @@
 
 // if no billing destination address was selected, use their own address as default
   if (!isset($_SESSION['billto'])) {
-    $_SESSION['billto'] = $customer->get_default_address_id();
+    $_SESSION['billto'] = $customer->get('default_billto');
     $billto =& $_SESSION['billto'];
   }
 

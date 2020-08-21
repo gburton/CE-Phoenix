@@ -14,7 +14,7 @@
 
     const CONFIG_KEY_BASE = 'MODULE_CUSTOMER_DATA_DEFAULT_ADDRESS_ID_';
 
-    const PROVIDES = [ 'default_address_id' ];
+    const PROVIDES = [ 'default_address_id', 'default_billto', 'default_sendto' ];
     const REQUIRES = [  ];
 
     protected function get_parameters() {
@@ -30,6 +30,8 @@
 
     public function get($field, &$customer_details) {
       switch ($field) {
+        case 'default_sendto':
+        case 'default_billto':
         case 'default_address_id':
           if (!isset($customer_details[$field])) {
             $customer_details[$field] = $customer_details['default_address_id']

@@ -163,7 +163,7 @@
 
       $this->content_type = $_SESSION['cart']->get_content_type();
       if ( !$_SESSION['sendto'] && ('virtual' !== $this->content_type) ) {
-        $_SESSION['sendto'] = $customer->get_default_address_id();
+        $_SESSION['sendto'] = $customer->get('default_sendto');
       }
 
       $this->delivery = $customer->fetch_to_address($_SESSION['sendto']);

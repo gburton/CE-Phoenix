@@ -69,7 +69,7 @@
 
 // if no shipping destination address was selected, use their own address as default
   if (!isset($_SESSION['sendto'])) {
-    $_SESSION['sendto'] = $customer->get_default_address_id();
+    $_SESSION['sendto'] = $customer->get('default_sendto');
     $sendto =& $_SESSION['sendto'];
   }
 

@@ -26,7 +26,7 @@
 
   if ( !isset($_SESSION['sendto']) ) {
     if ( isset($_SESSION['customer_id']) ) {
-      $_SESSION['sendto'] = $customer->get('default_address_id');
+      $_SESSION['sendto'] = $customer->get('default_sendto');
     } else {
       $country = [ 'country' => [ 'id' => STORE_COUNTRY ] ];
       $country = $customer_data->get('country', $country);

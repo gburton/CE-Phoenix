@@ -22,12 +22,12 @@
 
   if (isset($_SESSION['sendto'])) {
     if ( (is_numeric($_SESSION['sendto']) && empty($customer->fetch_to_address($_SESSION['sendto']))) || ([] === $_SESSION['sendto']) ) {
-      $_SESSION['sendto'] = $customer->get('default_address_id');
+      $_SESSION['sendto'] = $customer->get('default_sendto');
       unset($_SESSION['shipping']);
     }
   } else {
     // if no shipping destination address was selected, use the customer's own address as default
-    $_SESSION['sendto'] = $customer->get('default_address_id');
+    $_SESSION['sendto'] = $customer->get('default_sendto');
   }
 
   $order = new order();
