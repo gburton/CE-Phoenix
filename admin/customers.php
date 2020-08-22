@@ -214,9 +214,9 @@ EOSQL
             }
             ?>
               <tr <?php echo $css; ?>onclick="document.location.href='<?php echo $href; ?>'">
-                <td class="dataTableContent"><?php echo $customer_data->get('sortable_name', $customers); ?></td>
-                <td class="dataTableContent" align="right"><?php echo tep_date_short($info['date_account_created']); ?></td>
-                <td class="dataTableContent" align="right"><?php echo $icon; ?></td>
+                <td><?php echo $customer_data->get('sortable_name', $customers); ?></td>
+                <td class="text-right"><?php echo tep_date_short($info['date_account_created']); ?></td>
+                <td class="text-right"><?php echo $icon; ?></td>
               </tr>
               <?php
             }
