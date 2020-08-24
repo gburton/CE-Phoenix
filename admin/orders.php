@@ -272,14 +272,14 @@
                   echo '<td>' . $orders_history['date_added'] . '</td>';
                   echo '<td>' . $orders_status_array[$orders_history['orders_status_id']] . '</td>';
                   echo '<td>' . nl2br(tep_db_output($orders_history['comments'])) . '&nbsp;</td>';
-                  echo '<td class="text-right" valign="top" align="right">';
+                  echo '<td class="text-right">';
                     echo ($orders_history['customer_notified'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>';
                   echo '</td>';
                 echo '</tr>' . "\n";
               }
             } else {
               echo '<tr>';
-                echo '<td colspan="5">' . TEXT_NO_ORDER_HISTORY . '</td>';
+                echo '<td colspan="4">' . TEXT_NO_ORDER_HISTORY . '</td>';
               echo '</tr>';
             }
             ?>

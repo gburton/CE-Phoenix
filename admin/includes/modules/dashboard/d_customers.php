@@ -55,8 +55,8 @@ EOTEXT
       while ($customers = tep_db_fetch_array($customers_query)) {
         $output .= sprintf(<<<'EOTEXT'
     <tr>
-      <td class="dataTableContent"><a href="%s">%s</a></td>
-      <td class="dataTableContent" align="right">%s</td>
+      <td><a href="%s">%s</a></td>
+      <td class="text-right">%s</td>
     </tr>
 EOTEXT
 , tep_href_link('customers.php', 'cID=' . (int)$customer_data->get('id', $customers) . '&action=edit'),
