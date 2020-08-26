@@ -688,7 +688,7 @@
 ////
 //! Send email (text/html) using MIME
 // This is the central mail function. The SMTP Server should be configured
-// correct in php.ini
+// correctly in php.ini
 // Parameters:
 // $to_name           The name of the recipient, e.g. "Jan Wildeboer"
 // $to_email_address  The eMail address of the recipient,
@@ -699,7 +699,7 @@
 // $from_email_adress The eMail address of the sender,
 //                    e.g. info@mytepshop.com
   function tep_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address) {
-    if (SEND_EMAILS != 'true') {
+    if (SEND_EMAILS !== 'true') {
       return false;
     }
 
@@ -707,10 +707,13 @@
     $message = new email();
     $message->add_message($email_text);
     $message->build_message();
-    $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
+
+    return $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
   }
 
   function tep_notify($trigger, $subject) {
+    $notified = false;
+
     if (defined('MODULE_NOTIFICATIONS_INSTALLED') && tep_not_null(MODULE_NOTIFICATIONS_INSTALLED)) {
       foreach ((array)explode(';', MODULE_NOTIFICATIONS_INSTALLED) as $basename) {
         $class = pathinfo($basename, PATHINFO_FILENAME);
@@ -724,10 +727,15 @@
         }
 
         if (in_array($trigger, $class::TRIGGERS)) {
-          $GLOBALS[$class]->notify($subject);
+          $result = $GLOBALS[$class]->notify($subject);
+          if (!is_null($result)) {
+            $notified = $notified || $result;
+          }
         }
       }
     }
+
+    return $notified;
   }
 
 ////

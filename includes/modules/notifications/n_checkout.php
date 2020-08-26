@@ -55,12 +55,14 @@ EOSQL;
       $parameters = ['order' => $order, 'email' => &$email_order];
       echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'orderMail', $parameters);
 
-      tep_mail($order->customer['name'], $order->customer['email_address'], MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+      $accepted = tep_mail($order->customer['name'], $order->customer['email_address'], MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
 
       // send emails to other people
       if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
         tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, MODULE_NOTIFICATIONS_CHECKOUT_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
       }
+
+      return $accepted;
     }
 
     protected function get_parameters() {
