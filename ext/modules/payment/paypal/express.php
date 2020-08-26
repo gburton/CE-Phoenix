@@ -59,7 +59,7 @@
 // against alterations in the shopping cart contents
   $_SESSION['cartID'] = $_SESSION['cart']->cartID;
 
-  switch ($_GET['osC_Action']) {
+  switch ($_GET['osC_Action'] ?? '') {
     case 'cancel':
       unset($_SESSION['appPayPalEcResult']);
       unset($_SESSION['appPayPalEcSecret']);
