@@ -169,7 +169,7 @@
 // load all enabled shipping modules
           $shipping_modules = new shipping();
 
-          if ( ot_shipping::is_eligible_free_shipping($order->delivery['country_id'], $order->info['total']) ) {
+          if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
             include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
 
             $quotes_array[] = [
@@ -484,7 +484,7 @@ EOD;
 
           $_SESSION['shipping'] = false;
 
-          if ( ot_shipping::is_eligible_free_shipping($order->delivery['country_id'], $order->info['total']) ) {
+          if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
             include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
 
             $_SESSION['shipping'] = 'free_free';
@@ -619,14 +619,17 @@ EOD;
         $params['CURRENCY'] = $order->info['currency'];
         $params['EMAIL'] = $order->customer['email_address'];
 
-        $params['BILLTOFIRSTNAME'] = $order->billing['firstname'];
-        $params['BILLTOLASTNAME'] = $order->billing['lastname'];
-        $params['BILLTOSTREET'] = $order->billing['street_address'];
-        $params['BILLTOSTREET2'] = $order->billing['suburb'];
-        $params['BILLTOCITY'] = $order->billing['city'];
-        $params['BILLTOSTATE'] = tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']);
-        $params['BILLTOCOUNTRY'] = $order->billing['country']['iso_code_2'];
-        $params['BILLTOZIP'] = $order->billing['postcode'];
+        $params['BILLTOFIRSTNAME'] = $customer_data->get('firstname', $order->billing);
+        $params['BILLTOLASTNAME'] = $customer_data->get('lastname', $order->billing);
+        $params['BILLTOSTREET'] = $customer_data->get('street_address', $order->billing);
+        $params['BILLTOSTREET2'] = $customer_data->get('suburb', $order->billing);
+        $params['BILLTOCITY'] = $customer_data->get('city', $order->billing);
+        $params['BILLTOSTATE'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->billing),
+          $customer_data->get('zone_id', $order->billing),
+          $customer_data->get('state', $order->billing));
+        $params['BILLTOCOUNTRY'] = $customer_data->get('country_iso_code_2', $order->billing);
+        $params['BILLTOZIP'] = $customer_data->get('postcode', $order->billing);
       }
 
 // A billing address is required for digital orders so we use the shipping address PayPal provides
@@ -666,23 +669,29 @@ EOD;
         $line_item_no++;
       }
 
-      if ( tep_not_null($order->delivery['street_address']) ) {
+      if ( tep_not_null($customer_data->get('street_address', $order->delivery)) ) {
         if ( OSCOM_APP_PAYPAL_GATEWAY == '1' ) { // PayPal
-          $params['PAYMENTREQUEST_0_SHIPTONAME'] = $order->delivery['firstname'] . ' ' . $order->delivery['lastname'];
-          $params['PAYMENTREQUEST_0_SHIPTOSTREET'] = $order->delivery['street_address'];
-          $params['PAYMENTREQUEST_0_SHIPTOSTREET2'] = $order->delivery['suburb'];
-          $params['PAYMENTREQUEST_0_SHIPTOCITY'] = $order->delivery['city'];
-          $params['PAYMENTREQUEST_0_SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-          $params['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'] = $order->delivery['country']['iso_code_2'];
-          $params['PAYMENTREQUEST_0_SHIPTOZIP'] = $order->delivery['postcode'];
+          $params['PAYMENTREQUEST_0_SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+          $params['PAYMENTREQUEST_0_SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+          $params['PAYMENTREQUEST_0_SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+          $params['PAYMENTREQUEST_0_SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+          $params['PAYMENTREQUEST_0_SHIPTOSTATE'] = tep_get_zone_code(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery));
+          $params['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'] = $customer_data->get('country_iso_code_2', $order->delivery);
+          $params['PAYMENTREQUEST_0_SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
         } else { // Payflow
-          $params['SHIPTONAME'] = $order->delivery['firstname'] . ' ' . $order->delivery['lastname'];
-          $params['SHIPTOSTREET'] = $order->delivery['street_address'];
-          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
-          $params['SHIPTOCITY'] = $order->delivery['city'];
-          $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-          $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
-          $params['SHIPTOZIP'] = $order->delivery['postcode'];
+          $params['SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+          $params['SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+          $params['SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+          $params['SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+          $params['SHIPTOSTATE'] = tep_get_zone_code(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery));
+          $params['SHIPTOCOUNTRY'] = $customer_data->get('country_iso_code_2', $order->delivery);
+          $params['SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
         }
       }
 
@@ -704,7 +713,7 @@ EOD;
 // load all enabled shipping modules
           $shipping_modules = new shipping();
 
-          if ( ot_shipping::is_eligible_free_shipping($order->delivery['country_id'], $order->info['total']) ) {
+          if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
             include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
             $quotes_array[] = [
               'id' => 'free_free',
@@ -812,7 +821,8 @@ EOD;
           if (DISPLAY_PRICE_WITH_TAX == 'true') $order->info['shipping_cost'] = $order->info['shipping_cost'] / (1.0 + ($quotes_array[$default_shipping]['tax'] / 100));
           $module = substr($_SESSION['shipping']['id'], 0, strpos($_SESSION['shipping']['id'], '_'));
           $order->info['tax'] -= tep_calculate_tax($order->info['shipping_cost'], $quotes_array[$default_shipping]['tax']);
-          $order->info['tax_groups'][tep_get_tax_description($GLOBALS[$module]->tax_class, $order->delivery['country']['id'], $order->delivery['zone_id'])] -= tep_calculate_tax($order->info['shipping_cost'], $quotes_array[$default_shipping]['tax']);
+          $order->info['tax_groups'][tep_get_tax_description($GLOBALS[$module]->tax_class, $customer_data->get('country_id', $order->delivery), $customer_data->get('zone_id', $order->delivery))]
+            -= tep_calculate_tax($order->info['shipping_cost'], $quotes_array[$default_shipping]['tax']);
           $order->info['total'] -= tep_calculate_tax($order->info['shipping_cost'], $quotes_array[$default_shipping]['tax']);
         }
 
