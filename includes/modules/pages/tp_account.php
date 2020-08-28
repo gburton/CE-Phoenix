@@ -95,7 +95,8 @@
 
         foreach ( $group['links'] as $entry ) {
           if (empty($entry['link'])) {
-            $close = '';
+            $output .= '<span class="text-center col-sm-4 col-lg-3 list-group-item list-group-item-action">';
+            $close = '</span>';
           } else {
             $output .= '<a class="text-center col-sm-4 col-lg-3 list-group-item list-group-item-action" href="' . $entry['link'] . '">';
             $close = '</a>';
