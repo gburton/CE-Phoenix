@@ -10,11 +10,6 @@
  Released under the GNU General Public License
  */
 
-  $_SESSION['cart']->reset(true);
-
-  // unregister session variables used during checkout
-  unset($_SESSION['sendto']);
-  unset($_SESSION['billto']);
-  unset($_SESSION['shipping']);
-  unset($_SESSION['payment']);
-  unset($_SESSION['comments']);
+  trigger_error('The checkout/reset segment has been deprecated.', E_USER_DEPRECATED);
+  // use the reset pipeline instead:
+  $GLOBALS['hooks']->register_pipeline('reset');

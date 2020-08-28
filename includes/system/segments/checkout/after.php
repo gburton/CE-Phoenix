@@ -10,7 +10,6 @@
  Released under the GNU General Public License
  */
 
-  include __DIR__ . '/update_stock.php';
-  include __DIR__ . '/update_products_ordered.php';
-
-  tep_notify('checkout', $GLOBALS['order']);
+  trigger_error('The checkout/after segment has been deprecated.', E_USER_DEPRECATED);
+  // use the after pipeline instead:
+  $GLOBALS['hooks']->register_pipeline('after');
