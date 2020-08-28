@@ -12,13 +12,7 @@
 
   require 'includes/application_top.php';
 
-// if the customer is not logged on, redirect them to the login page
-  $OSCOM_Hooks->register_pipeline('loginRequired');
-
-// if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($_SESSION['cart']->count_contents() < 1) {
-    tep_redirect(tep_href_link('shopping_cart.php'));
-  }
+  require 'includes/system/segments/checkout/pipeline.php';
 
   if (!$customer_data->has('address')) {
     tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
@@ -61,7 +55,7 @@
 
 // if no billing destination address was selected, use their own address as default
   if (!isset($_SESSION['billto'])) {
-    $_SESSION['billto'] = $customer->get('default_billto');
+    $_SESSION['billto'] = $customer->get_default_address_id();
     $billto =& $_SESSION['billto'];
   }
 

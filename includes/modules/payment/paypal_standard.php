@@ -175,8 +175,8 @@
         }
 
         if ($insert_order) {
-          require 'includes/system/segments/checkout/build_order_totals.php';
-          require 'includes/system/segments/checkout/insert_order.php';
+          require 'includes/modules/checkout/build_order_totals.php';
+          require 'includes/modules/checkout/insert_order.php';
 
           $_SESSION['cart_PayPal_Standard_ID'] = $_SESSION['cartID'] . '-' . $GLOBALS['order']->get_id();
         }
@@ -531,24 +531,15 @@
 
       $order->set_id($this->extract_order_id());
 
-      $new_order_status = DEFAULT_ORDERS_STATUS_ID;
+      $order->info['order_status'] = DEFAULT_ORDERS_STATUS_ID;
       if ( OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID > 0) {
-        $new_order_status = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
+        $order->info['order_status'] = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
       }
 
-      tep_db_query("UPDATE orders SET orders_status = " . (int)$new_order_status . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
+      tep_db_query("UPDATE orders SET orders_status = " . (int)$order->info['order_status'] . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
 
-      $sql_data = [
-        'orders_id' => $order->get_id(),
-        'orders_status_id' => (int)$new_order_status,
-        'date_added' => 'NOW()',
-        'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
-        'comments' => $order->info['comments'],
-      ];
-
-      tep_db_perform('orders_status_history', $sql_data);
-
-      include 'includes/system/segments/checkout/after.php';
+      $GLOBALS['hooks']->register_pipeline('after');
+      require 'includes/system/segments/checkout/insert_history.php';
 
 // load the after_process function from the payment modules
       $this->after_process();
@@ -557,7 +548,7 @@
     function after_process() {
       unset($_SESSION['cart_PayPal_Standard_ID']);
 
-      require 'includes/system/segments/checkout/reset.php';
+      $GLOBALS['hooks']->register_pipeline('reset');
 
       tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }

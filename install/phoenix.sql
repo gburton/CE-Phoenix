@@ -60,8 +60,7 @@ CREATE TABLE administrators (
   id int NOT NULL auto_increment,
   user_name varchar(255) binary NOT NULL,
   user_password varchar(60) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY uq_administrator_user_name (user_name)
+  PRIMARY KEY (id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS advert;
@@ -426,28 +425,6 @@ CREATE TABLE orders_total (
   KEY idx_orders_total_orders_id (orders_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-DROP TABLE IF EXISTS pages;
-CREATE TABLE pages (
-  pages_id int NOT NULL auto_increment,
-  date_added datetime,
-  last_modified datetime,
-  pages_status tinyint(1) NOT NULL default '1',
-  slug varchar(255) NOT NULL,
-  sort_order int(11) NULL,  
-  PRIMARY KEY (pages_id),
-  UNIQUE KEY uq_slug (slug)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
-DROP TABLE IF EXISTS pages_description;
-CREATE TABLE pages_description (
-  pages_id int NOT NULL,
-  languages_id int NOT NULL,
-  pages_title varchar(255) NOT NULL,
-  pages_text text NOT NULL,
-  navbar_title varchar(255) NOT NULL,
-  PRIMARY KEY (pages_id, languages_id)
-) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   products_id int NOT NULL auto_increment,
@@ -696,7 +673,6 @@ INSERT INTO address_format VALUES (5, '$name$cr$streets$cr$postcode $city$cr$cou
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Name', 'STORE_NAME', 'OSCOM CE Phoenix', 'The name of my store', '1', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Store Owner', 'STORE_OWNER', 'You', 'The name of my store owner', '1', '2', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('E-Mail Address', 'STORE_OWNER_EMAIL_ADDRESS', 'you@yours', 'The e-mail address of my store owner', '1', '3', now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Template Selection', 'TEMPLATE_SELECTION', 'default', 'The template to use to display the shop.', '1', '5', 'tep_cfg_select_template(', NOW());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Country', 'STORE_COUNTRY', '223', 'The country my store is located in <br><br><strong>Note: Please remember to update the store zone.</strong>', '1', '6', 'tep_get_country_name', 'tep_cfg_pull_down_country_list(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) VALUES ('Zone', 'STORE_ZONE', '18', 'The zone my store is located in', '1', '7', 'tep_cfg_get_zone_name', 'tep_cfg_pull_down_zone_list(', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Switch To Default Language Currency', 'USE_DEFAULT_LANGUAGE_CURRENCY', 'false', 'Automatically switch to the language\'s currency when it is changed', '1', '10', 'tep_cfg_select_option([\'true\', \'false\'], ', now());
@@ -808,6 +784,7 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enable GZip Compression', 'GZIP_COMPRESSION', 'false', 'Enable HTTP GZip compression.', '14', '1', 'tep_cfg_select_option([\'true\', \'false\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Compression Level', 'GZIP_LEVEL', '5', 'Use this compression level 0-9 (0 = minimum, 9 = maximum).', '14', '2', now());
 
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Session Directory', 'SESSION_WRITE_DIRECTORY', '/tmp', 'If sessions are file based, store them in this directory.', '15', '1', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Force Cookie Use', 'SESSION_FORCE_COOKIE_USE', 'False', 'Force the use of sessions when cookies are only enabled.', '15', '2', 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Check SSL Session ID', 'SESSION_CHECK_SSL_SESSION_ID', 'False', 'Validate the SSL_SESSION_ID on every secure HTTPS page request.', '15', '3', 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Check User Agent', 'SESSION_CHECK_USER_AGENT', 'False', 'Validate the clients browser user agent on every page request.', '15', '4', 'tep_cfg_select_option([\'True\', \'False\'], ', now());
@@ -1098,8 +1075,6 @@ INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (5, 1, 'Options', 50, 10, 12);
 INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) VALUES (6, 1, 'Your Password', 60, 10, 12);
 
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'loginRequired', 'loginRequiredStart', 'redirect', '', 'tep_require_login');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_success', 'injectAppTop', 'notify', 'cm_cs_product_notifications', 'process');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_01_project_version', 'application_surface', 'project_version');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_02_request', 'application_surface', 'request');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_03_read_configuration', 'application_surface', 'read_configuration');
@@ -1129,6 +1104,46 @@ INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_clas
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_28_template', 'Loader', 'oscTemplate');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_29_category_path', 'application_surface', 'category_path');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'system', 'startApplication', '_30_register_page_hook', 'hooks', 'register_page');
+
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout', 'checkoutStart', '_01_register_stages', 'Checkout', 'register_stages');
+
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout', 'startApplication', '_01_require_login', '', 'tep_require_login');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_01_require_login', 'Checkout', 'require_login');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout', 'startApplication', '_02_guarantee_cart', 'Checkout', 'guarantee_cart');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_shipping', 'startApplication', '_03_guarantee_cart_id', 'Checkout', 'guarantee_cart_id');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_shipping', 'startApplication', '_04_validate', 'Checkout', 'validate_sendto');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_payment_stage', 'startApplication', '_04_validate', 'Checkout', 'validate');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_payment', 'startApplication', '_05_validate_payment', 'Checkout', 'validate_billto');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_05_validate_payment', 'Checkout', 'validate_payment');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_payment', 'startApplication', '_06_initialize_payment_module', 'Checkout', 'initialize_payment_modules');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_06_initialize_payment_module', 'Checkout', 'initialize_payment_module');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_07_initialize_shipping_module', 'Checkout', 'initialize_shipping_module');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout', 'startApplication', '_08_order', 'Loader', 'order');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_payment_stage', 'startApplication', '_09_check_stock', 'checkout_surface', 'check_stock');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_shipping', 'startApplication', '_10_virtual_shipping', 'Checkout', 'skip_shipping');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_shipping_address', 'startApplication', '_10_virtual_shipping', 'Checkout', 'skip_shipping');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_10_update_payment_modules', 'Checkout', 'update_payment_modules');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation_stage', 'startApplication', '_11_set_order_totals', 'Checkout', 'set_order_totals');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_confirmation', 'startApplication', '_12_prepare_payment', 'Checkout', 'preconfirm_payment');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_12_prepare_payment', 'Checkout', 'prepare_payment');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_14_insert_order', 'checkout_surface', 'insert_order');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_20_after', 'pipeline_surface', 'after');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_21_update_stock', 'checkout_surface', 'update_stock');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_22_update_products_ordered', 'checkout_surface', 'update_products_ordered');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_23_notify', 'checkout', 'notify');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_30_insert_history', 'checkout_surface', 'insert_history');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_31_conclude_payment', 'Checkout', 'conclude_payment');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_40_reset', 'pipeline_surface', 'reset');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_41_reset_cart', 'checkout', 'reset_cart');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_42_unset_sendto', 'session_eraser', 'sendto');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_43_unset_billto', 'session_eraser', 'billto');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_44_unset_shipping', 'session_eraser', 'shipping');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_45_unset_payment', 'session_eraser', 'payment');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_46_unset_comments', 'session_eraser', 'comments');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_50_redirect_success', 'Checkout', 'redirect_success');
+
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_success', 'injectAppTop', 'notify', 'cm_cs_product_notifications', 'process');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'loginRequired', 'loginRequiredStart', 'redirect', '', 'tep_require_login');
 
 INSERT INTO languages VALUES (1,'English','en','icon.gif','english',1);
 
@@ -1430,7 +1445,7 @@ insert into configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Template Block Groups', 'TEMPLATE_BLOCK_GROUPS', 'boxes;header_tags', 'This is automatically updated. No need to edit.', '6', '0', now());
 
 # Content Modules
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_INSTALLED', 'account/cm_account_gdpr;account/cm_account_title;account/cm_account_set_password;checkout_success/cm_cs_title;checkout_success/cm_cs_redirect_old_order;checkout_success/cm_cs_thank_you;checkout_success/cm_cs_product_notifications;checkout_success/cm_cs_downloads;checkout_success/cm_cs_continue_button;create_account_success/cm_cas_title;create_account_success/cm_cas_message;create_account_success/cm_cas_continue_button;header/cm_header_logo;footer/cm_footer_information_links;footer/cm_footer_account;footer/cm_footer_contact_us;footer/cm_footer_text;footer_suffix/cm_footer_extra_copyright;footer_suffix/cm_footer_extra_icons;gdpr/cm_gdpr_intro;gdpr/cm_gdpr_personal_details;header/cm_header_search;header/cm_header_messagestack;header/cm_header_breadcrumb;index/cm_i_title;index/cm_i_customer_greeting;index/cm_i_text_main;index/cm_i_card_products;index/cm_i_upcoming_products;index_nested/cm_in_title;index_nested/cm_in_category_description;index_nested/cm_in_category_listing;index_nested/cm_in_card_products;index_products/cm_ip_title;index_products/cm_ip_category_manufacturer_description;index_products/cm_ip_product_listing;info/cm_info_title;info/cm_info_text;login/cm_login_title;login/cm_login_form;login/cm_create_account_link;login/cm_forgot_password;navigation/cm_navbar;product_info/cm_pi_name;product_info/cm_pi_price;product_info/cm_pi_review_stars;product_info/cm_pi_modular;product_info/cm_pi_description;product_info/cm_pi_date_available;product_info/cm_pi_reviews;product_info_not_found/cm_pinf_message;shopping_cart/cm_sc_title;shopping_cart/cm_sc_no_products;shopping_cart/cm_sc_product_listing;shopping_cart/cm_sc_order_subtotal;shopping_cart/cm_sc_stock_notice;shopping_cart/cm_sc_checkout;testimonials/cm_t_title;testimonials/cm_t_list', 'This is automatically updated. No need to edit.', '6', '0', now());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_INSTALLED', 'account/cm_account_gdpr;account/cm_account_title;account/cm_account_set_password;checkout_success/cm_cs_title;checkout_success/cm_cs_redirect_old_order;checkout_success/cm_cs_thank_you;checkout_success/cm_cs_product_notifications;checkout_success/cm_cs_downloads;checkout_success/cm_cs_continue_button;create_account_success/cm_cas_title;create_account_success/cm_cas_message;create_account_success/cm_cas_continue_button;header/cm_header_logo;footer/cm_footer_information_links;footer/cm_footer_account;footer/cm_footer_contact_us;footer/cm_footer_text;footer_suffix/cm_footer_extra_copyright;footer_suffix/cm_footer_extra_icons;gdpr/cm_gdpr_intro;gdpr/cm_gdpr_personal_details;header/cm_header_search;header/cm_header_messagestack;header/cm_header_breadcrumb;index/cm_i_title;index/cm_i_customer_greeting;index/cm_i_text_main;index/cm_i_card_products;index/cm_i_upcoming_products;index_nested/cm_in_title;index_nested/cm_in_category_description;index_nested/cm_in_category_listing;index_nested/cm_in_card_products;index_products/cm_ip_title;index_products/cm_ip_category_manufacturer_description;index_products/cm_ip_product_listing;login/cm_login_title;login/cm_login_form;login/cm_create_account_link;login/cm_forgot_password;navigation/cm_navbar;product_info/cm_pi_name;product_info/cm_pi_price;product_info/cm_pi_review_stars;product_info/cm_pi_modular;product_info/cm_pi_description;product_info/cm_pi_date_available;product_info/cm_pi_reviews;product_info_not_found/cm_pinf_message;shopping_cart/cm_sc_title;shopping_cart/cm_sc_no_products;shopping_cart/cm_sc_product_listing;shopping_cart/cm_sc_order_subtotal;shopping_cart/cm_sc_stock_notice;shopping_cart/cm_sc_checkout;testimonials/cm_t_title;testimonials/cm_t_list', 'This is automatically updated. No need to edit.', '6', '0', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Set Account Password', 'MODULE_CONTENT_ACCOUNT_SET_PASSWORD_STATUS', 'True', 'Do you want to enable the Set Account Password module?', '6', '1', 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Allow Local Passwords', 'MODULE_CONTENT_ACCOUNT_SET_PASSWORD_ALLOW_PASSWORD', 'True', 'Allow local account passwords to be set.', '6', '1', 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_ACCOUNT_SET_PASSWORD_SORT_ORDER', '100', 'Sort order of display. Lowest is displayed first.', '6', '0', now());
@@ -1830,18 +1845,3 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Add Helper Text', 'PI_OA_HELPER', 'True', 'Should first option in dropdown be Helper Text?', 6, 4, 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enforce Selection', 'PI_OA_ENFORCE', 'True', 'Should customer be forced to select option(s)?', 6, 5, 'tep_cfg_select_option([\'True\', \'False\'], ', now());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'PI_OA_SORT_ORDER', '310', 'Sort order of display. Lowest is displayed first.', 6, 6, now());
-
-INSERT INTO pages (pages_id, date_added, pages_status, slug, sort_order) VALUES (1, now(), 1, 'privacy', 10);
-INSERT INTO pages (pages_id, date_added, pages_status, slug, sort_order) VALUES (2, now(), 1, 'conditions', 20);
-INSERT INTO pages (pages_id, date_added, pages_status, slug, sort_order) VALUES (3, now(), 1, 'shipping', 30);
-INSERT INTO pages_description (pages_id, languages_id, pages_title, pages_text, navbar_title) VALUES (1, 1, 'Privacy & Cookie Policy', 'Put here your Privacy/Cookie Policies Text.', 'Privacy & Cookie Policy');
-INSERT INTO pages_description (pages_id, languages_id, pages_title, pages_text, navbar_title) VALUES (2, 1, 'Terms & Conditions', 'Put here your Terms & Conditions Text.', 'Terms & Conditions');
-INSERT INTO pages_description (pages_id, languages_id, pages_title, pages_text, navbar_title) VALUES (3, 1, 'Shipping & Returns', 'Put here your Shipping & Returns Text.', 'Shipping & Returns');
-
-
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enable Title Module', 'MODULE_CONTENT_INFO_TITLE_STATUS', 'True', 'Should this module be shown?', 6, 1, 'tep_cfg_select_option([\'True\', \'False\'], ', now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Content Width', 'MODULE_CONTENT_INFO_TITLE_CONTENT_WIDTH', 'col-12', 'What width container should the content be shown in?', 6, 2, now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_CONTENT_INFO_TITLE_SORT_ORDER', '10', 'Sort order of display. Lowest is displayed first.', 6, 3, now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES ('Enable Text Module', 'MODULE_CONTENT_INFO_TEXT_STATUS', 'True', 'Should this module be shown?', 6, 1, 'tep_cfg_select_option([\'True\', \'False\'], ', now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Content Width', 'MODULE_CONTENT_INFO_TEXT_CONTENT_WIDTH', 'col-12', 'What width container should the content be shown in?', 6, 2, now());
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_CONTENT_INFO_TEXT_SORT_ORDER', '20', 'Sort order of display. Lowest is displayed first.', 6, 3, now());

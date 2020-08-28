@@ -12,36 +12,13 @@
 
   require 'includes/application_top.php';
 
-// if the customer is not logged on, redirect them to the login page
-  $parameters = [
-    'page' => 'checkout_payment.php',
-    'mode' => 'SSL',
-  ];
-  $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
-
-// if there is nothing in the customers cart, redirect them to the shopping cart page
-  if ($_SESSION['cart']->count_contents() < 1) {
-    tep_redirect(tep_href_link('shopping_cart.php'));
-  }
-
-// avoid hack attempts during the checkout procedure by checking the internal cartID
-  if (isset($_SESSION['cart']->cartID, $_SESSION['cartID'])) {
-    if ($_SESSION['cart']->cartID != $_SESSION['cartID']) {
-      tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-    }
-  }
-
-// if no shipping method has been selected, redirect the customer to the shipping method selection page
-  if (!isset($_SESSION['shipping'])) {
-    tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
-  }
+  require 'includes/system/segments/checkout/pipeline.php';
 
   if (isset($_POST['payment'])) {
     $_SESSION['payment'] = $_POST['payment'];
   } elseif (!array_key_exists('payment', $_SESSION)) {
     $_SESSION['payment'] = null;
   }
-
 
   if (isset($_POST['comments']) && tep_not_null($_POST['comments'])) {
     $_SESSION['comments'] = tep_db_prepare_input($_POST['comments']);
