@@ -173,8 +173,8 @@ EOSQL
       }
     }
 
-    public function generate($group, $action, $parameters = []) {
-      foreach ( @(array)$this->_hooks[$this->_site][$group][$action] as $callback ) {
+    public function generate($group = null, $action, $parameters = []) {
+      foreach ( @(array)$this->_hooks[$this->_site][$group ?? $this->page][$action] as $callback ) {
         yield call_user_func($callback, $parameters);
       }
     }

@@ -11,7 +11,7 @@
  */
 
   $hooks->register_pipeline('checkout');
-  foreach ($hooks->generate('checkout', 'startApplication') as $result) {
+  foreach ($hooks->generate(null, 'startApplication') as $result) {
     if (is_string($result)) {
       $result = [ $result ];
     }
