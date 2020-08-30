@@ -48,7 +48,7 @@
               <?php
     if (count($selection) > 1) {
       echo '<div class="custom-control custom-radio custom-control-inline">';
-      echo tep_draw_radio_field('payment', $choice['id'], ($choice['id'] == $_SESSION['payment']), 'id="p_' . $choice['id'] . '" required="required" aria-required="true" class="custom-control-input"');
+      echo tep_draw_radio_field('payment', $choice['id'], ($choice['id'] === ($_SESSION['payment'] ?? null)), 'id="p_' . $choice['id'] . '" required="required" aria-required="true" class="custom-control-input"');
       echo '<label class="custom-control-label" for="p_' . $choice['id'] . '">&nbsp;</label>';
       echo '</div>';
     } else {
