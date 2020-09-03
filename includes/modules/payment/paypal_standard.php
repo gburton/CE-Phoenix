@@ -235,24 +235,30 @@
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $parameters['address_override'] = '1';
-        $parameters['first_name'] = $order->delivery['firstname'];
-        $parameters['last_name'] = $order->delivery['lastname'];
-        $parameters['address1'] = $order->delivery['street_address'];
-        $parameters['address2'] = $order->delivery['suburb'];
-        $parameters['city'] = $order->delivery['city'];
-        $parameters['state'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-        $parameters['zip'] = $order->delivery['postcode'];
-        $parameters['country'] = $order->delivery['country']['iso_code_2'];
+        $parameters['first_name'] = $customer_data->get('firstname', $order->delivery);
+        $parameters['last_name'] = $customer_data->get('lastname', $order->delivery);
+        $parameters['address1'] = $customer_data->get('street_address', $order->delivery);
+        $parameters['address2'] = $customer_data->get('suburb', $order->delivery);
+        $parameters['city'] = $customer_data->get('city', $order->delivery);
+        $parameters['state'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->delivery),
+          $customer_data->get('zone_id', $order->delivery),
+          $customer_data->get('state', $order->delivery));
+        $parameters['zip'] = $customer_data->get('postcode', $order->delivery);
+        $parameters['country'] = $customer_data->get('country_iso_code_2', $order->delivery);
       } else {
         $parameters['no_shipping'] = '1';
-        $parameters['first_name'] = $order->billing['firstname'];
-        $parameters['last_name'] = $order->billing['lastname'];
-        $parameters['address1'] = $order->billing['street_address'];
-        $parameters['address2'] = $order->billing['suburb'];
-        $parameters['city'] = $order->billing['city'];
-        $parameters['state'] = tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']);
-        $parameters['zip'] = $order->billing['postcode'];
-        $parameters['country'] = $order->billing['country']['iso_code_2'];
+        $parameters['first_name'] = $customer_data->get('firstname', $order->billing);
+        $parameters['last_name'] = $customer_data->get('lastname', $order->billing);
+        $parameters['address1'] = $customer_data->get('street_address', $order->billing);
+        $parameters['address2'] = $customer_data->get('suburb', $order->billing);
+        $parameters['city'] = $customer_data->get('city', $order->billing);
+        $parameters['state'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->billing),
+          $customer_data->get('zone_id', $order->billing),
+          $customer_data->get('state', $order->billing));
+        $parameters['zip'] = $customer_data->get('postcode', $order->billing);
+        $parameters['country'] = $customer_data->get('country_iso_code_2', $order->billing);
       }
 
       $item_params = [];
