@@ -607,7 +607,17 @@ EOD;
       }
 
       if (!isset($customer)) {
-        $customer = new customer(-1);
+        $customer = new class {
+
+          public function fetch_to_address($to = null) {
+            return [];
+          }
+
+          public function get($key, $to = 0) {
+            return null;
+          }
+
+        };
       }
       $order = new order();
 
