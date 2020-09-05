@@ -181,13 +181,13 @@
 
       if ('virtual' === $this->content_type) {
         $tax_address = [
-          'entry_country_id' => $this->billing['country']['id'],
-          'entry_zone_id' => $this->billing['zone_id'],
+          'entry_country_id' => $GLOBALS['customer_data']->get('country_id', $this->billing),
+          'entry_zone_id' => $GLOBALS['customer_data']->get('zone_id', $this->billing),
         ];
       } else {
         $tax_address = [
-          'entry_country_id' => $this->delivery['country']['id'],
-          'entry_zone_id' => $this->delivery['zone_id'],
+          'entry_country_id' => $GLOBALS['customer_data']->get('country_id', $this->delivery),
+          'entry_zone_id' => $GLOBALS['customer_data']->get('zone_id', $this->delivery),
         ];
       }
 
