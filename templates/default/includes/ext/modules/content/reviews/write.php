@@ -21,7 +21,7 @@
 </div>
 
 <?php
-  echo tep_draw_form('review', tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_id=' . (int)$_GET['products_id'], 'SSL'), 'post', '', true);
+  echo tep_draw_form('review', tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_id=' . (int)$_GET['products_id'], 'SSL'), 'post', 'enctype="multipart/form-data"', true);
 ?>
 
   <div class="alert alert-warning" role="alert">
@@ -61,6 +61,10 @@
       </div>
     </div>
   </div>
+  
+  <?php
+  echo $OSCOM_Hooks->call('write', 'injectFormDisplay');
+  ?>
 
   <div class="buttonSet">
     <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-pen', null, 'primary', null, 'btn-success btn-lg btn-block'); ?></div>

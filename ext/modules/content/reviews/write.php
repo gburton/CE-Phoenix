@@ -78,6 +78,8 @@ EOSQL
     $insert_id = tep_db_insert_id();
 
     tep_db_query("INSERT INTO reviews_description (reviews_id, languages_id, reviews_text) VALUES ('" . (int)$insert_id . "', '" . (int)$_SESSION['languages_id'] . "', '" . tep_db_input($review) . "')");
+    
+    $OSCOM_Hooks->call('write', 'addNewAction');
 
     $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $nickname), 'success');
 
