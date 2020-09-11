@@ -1476,3 +1476,12 @@ EOSQL
   function tep_form_processing_is_valid() {
     return !($GLOBALS['error'] ?? false);
   }
+
+  function tep_ltrim_once($s, $prefix) {
+    $length = strlen($prefix);
+    if (substr($s, 0, $length) === $prefix) {
+      return substr($s, $length);
+    }
+
+    return $s;
+  }
