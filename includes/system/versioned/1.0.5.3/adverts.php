@@ -22,7 +22,7 @@
       }
     }
 
-    public function get_grouped_adverts($advert_group) {
+    public static function get_grouped_adverts($advert_group) {
       $group = tep_db_prepare_input($advert_group);
 
       $advert_query = tep_db_query("SELECT * FROM advert WHERE advert_group = '" . tep_db_input($group) . "' and status = 1 order by sort_order");
