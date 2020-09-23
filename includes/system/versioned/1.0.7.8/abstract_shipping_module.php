@@ -19,7 +19,14 @@
 
     public function __construct() {
       parent::__construct();
+
       $this->tax_class = $this->base_constant('TAX_CLASS') ?? 0;
+    }
+
+    public function update_status() {
+      if ($this->enabled && isset($GLOBALS['order']->delivery['country']['id'])) {
+        $this->update_status_by($GLOBALS['order']->delivery);
+      }
     }
 
     public function quote_common() {

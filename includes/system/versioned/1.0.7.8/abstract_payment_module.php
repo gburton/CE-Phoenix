@@ -14,11 +14,18 @@
 
     function __construct() {
       parent::__construct();
+
       $this->public_title = self::get_constant(static::CONFIG_KEY_BASE . 'TEXT_PUBLIC_TITLE')
                          ?? self::get_constant(static::CONFIG_KEY_BASE . 'PUBLIC_TITLE');
 
       $this->order_status = (int)($this->base_constant('ORDER_STATUS_ID') ?? 0);
       $this->order_status = ($this->order_status > 0) ? $this->order_status : 0;
+    }
+
+    public function update_status() {
+      if ($this->enabled && isset($GLOBALS['order']->billing['country']['id'])) {
+        $this->update_status_by($GLOBALS['order']->billing);
+      }
     }
 
     public function javascript_validation() {

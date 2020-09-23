@@ -14,19 +14,20 @@
 
     public function __construct() {
       parent::__construct();
-      if ($this->enabled && isset($GLOBALS['order']->delivery['country']['id'])) {
+
+      if ($this->enabled) {
         $this->update_status();
       }
     }
 
-    public function update_status() {
-      global $order;
+    abstract public function update_status();
 
+    public function update_status_by($address) {
       $zone_id = $this->base_constant('ZONE') ?? 0;
-      if ( $this->enabled && isset($order->delivery['zone_id']) && ((int)$zone_id > 0) ) {
-        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zone_id . " AND zone_country_id = " . (int)$order->delivery['country']['id'] . " ORDER BY zone_id");
+      if ( $this->enabled && isset($address['zone_id'], $address['country']['id']) && ((int)$zone_id > 0) ) {
+        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zone_id . " AND zone_country_id = " . (int)$address['country']['id'] . " ORDER BY zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
-          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->delivery['zone_id'])) {
+          if (($check['zone_id'] < 1) || ($check['zone_id'] == $address['zone_id'])) {
             return;
           }
         }
