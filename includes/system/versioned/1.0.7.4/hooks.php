@@ -75,9 +75,22 @@ EOSQL
           continue;
         }
 
-        $object = &$GLOBALS[$hook['hooks_class']];
-        if (!isset($object)) {
-          $object = new $hook['hooks_class']();
+        if (is_callable([$hook['hooks_class'], $hook['hooks_method']])) {
+          $method = new \ReflectionMethod($hook['hooks_class'], $hook['hooks_method']);
+          if ($method->isStatic()) {
+            tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
+              = [$hook['hooks_class'], $hook['hooks_method']];
+            continue;
+          }
+        }
+
+        if (isset($_SESSION[$hook['hooks_class']])) {
+          $object = &$_SESSION[$hook['hooks_class']];
+        } else {
+          $object = &$GLOBALS[$hook['hooks_class']];
+          if (!isset($object)) {
+            $object = new $hook['hooks_class']();
+          }
         }
 
         if (is_callable([$object, $hook['hooks_method']])) {
@@ -155,13 +168,13 @@ EOSQL
         $result .= call_user_func($callback, $parameters);
       }
 
-      if ( !empty($result) ) {
+      if ( $result ) {
         return $result;
       }
     }
 
-    public function generate($group, $action, $parameters = []) {
-      foreach ( @(array)$this->_hooks[$this->_site][$group][$action] as $callback ) {
+    public function generate($group = null, $action, $parameters = []) {
+      foreach ( @(array)$this->_hooks[$this->_site][$group ?? $this->page][$action] as $callback ) {
         yield call_user_func($callback, $parameters);
       }
     }

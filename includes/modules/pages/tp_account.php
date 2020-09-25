@@ -94,10 +94,20 @@
         $output .= '<div class="list-group list-group-horizontal-sm">';
 
         foreach ( $group['links'] as $entry ) {
-          $output .= '<a class="text-center col-sm-4 col-lg-3 list-group-item list-group-item-action" href="' . $entry['link'] . '">';
-            $output .= '<i title="' . $entry['title'] . '" class="d-none d-sm-block ' . $entry['icon'] . '"></i>';
-            $output .= $entry['title'];
-          $output .= '</a>';
+          if (empty($entry['link'])) {
+            $output .= '<span class="text-center col-sm-4 col-lg-3 list-group-item list-group-item-action">';
+            $close = '</span>';
+          } else {
+            $output .= '<a class="text-center col-sm-4 col-lg-3 list-group-item list-group-item-action" href="' . $entry['link'] . '">';
+            $close = '</a>';
+          }
+
+          $output .= '<i title="' . $entry['title'] . '" class="d-none d-sm-block ' . $entry['icon'] . '"></i>';
+          $output .= $entry['title'];
+
+          if ('' !== $close) {
+            $output .= $close;
+          }
         }
 
         $output .= '</div>';

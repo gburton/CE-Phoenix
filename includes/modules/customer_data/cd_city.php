@@ -97,7 +97,7 @@
     }
 
     public function process(&$customer_details) {
-      $customer_details['city'] = tep_db_prepare_input($_POST['city']);
+      $customer_details['city'] = tep_db_prepare_input($_POST['city'] ?? '');
 
       if (strlen($customer_details['city']) < MODULE_CUSTOMER_DATA_CITY_MIN_LENGTH
         && ($this->is_required()

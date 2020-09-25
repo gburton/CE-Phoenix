@@ -202,12 +202,7 @@ EOSQL
 
 // get total number of items in cart
     function count_contents() {
-      $total_items = 0;
-      foreach (array_keys($this->contents) as $products_id) {
-        $total_items += $this->get_quantity($products_id);
-      }
-
-      return $total_items;
+      return array_sum(array_column($this->contents, 'qty'));
     }
 
     function get_quantity($products_id) {

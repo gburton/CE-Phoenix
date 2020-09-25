@@ -95,8 +95,8 @@
       }
 
       if ($insert_order) {
-        require 'includes/modules/checkout/build_order_totals.php';
-        require 'includes/modules/checkout/insert_order.php';
+        require 'includes/system/segments/checkout/build_order_totals.php';
+        require 'includes/system/segments/checkout/insert_order.php';
 
         $_SESSION['cart_RBS_Worldpay_Hosted_ID'] = $_SESSION['cartID'] . '-' . $order->get_id();
       }
@@ -179,6 +179,8 @@
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
+      $GLOBALS['hooks']->register_pipeline('after');
+
       $order_status = tep_db_fetch_array($order_query);
       if ($order_status['orders_status'] == $MODULE_PAYMENT_RBSWORLDPAY_HOSTED_PREPARE_ORDER_STATUS_ID) {
         tep_db_query("UPDATE orders SET orders_status = " . (int)$order_status_id . ", last_modified = NOW() WHERE orders_id = " . (int)$order_id);
@@ -186,8 +188,8 @@
         $sql_data = [
           'orders_id' => $order_id,
           'orders_status_id' => $order_status_id,
-          'date_added' => 'now()',
-          'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
+          'date_added' => 'NOW()',
+          'customer_notified' => $GLOBALS['customer_notification'],
           'comments' => $order->info['comments'],
         ];
 
@@ -199,30 +201,28 @@
           $order_status = tep_db_fetch_array($order_status_query);
 
           $sql_data = [
-            'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
+            'customer_notified' => $GLOBALS['customer_notification'],
             'comments' => $order->info['comments'],
           ];
 
-          tep_db_perform('orders_status_history', $sql_data, 'update', "orders_status_history_id = '" . (int)$order_status['orders_status_history_id'] . "'");
+          tep_db_perform('orders_status_history', $sql_data, 'update', "orders_status_history_id = " . (int)$order_status['orders_status_history_id']);
         }
       }
 
       $sql_data = [
         'orders_id' => $order_id,
         'orders_status_id' => $module_status_id,
-        'date_added' => 'now()',
-        'customer_notified' => '0',
+        'date_added' => 'NOW()',
+        'customer_notified' => 0,
         'comments' => $trans_result,
       ];
 
       tep_db_perform('orders_status_history', $sql_data);
 
-      include 'includes/modules/checkout/after.php';
-
 // load the after_process function from the payment modules
       $this->after_process();
 
-      require 'includes/modules/checkout/reset.php';
+      $GLOBALS['hooks']->register_pipeline('reset');
 
       unset($_SESSION['cart_RBS_Worldpay_Hosted_ID']);
 

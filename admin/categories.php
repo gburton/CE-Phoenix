@@ -549,7 +549,7 @@ function updateNet() {
           <label for="pQty" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_QUANTITY; ?></label>
           <div class="col-sm-9">
             <?php
-            echo tep_draw_input_field('products_quantity', $pInfo->products_quantity, 'id="pQty" class="form-control w-25"');
+            echo tep_draw_input_field('products_quantity', $pInfo->products_quantity, 'required aria-required="true" id="pQty" class="form-control w-25"');
             ?>
           </div>
         </div>
@@ -601,7 +601,7 @@ function updateNet() {
           <label for="pNet" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_PRICE_NET; ?></label>
           <div class="col-sm-9">
             <?php
-            echo tep_draw_input_field('products_price', $pInfo->products_price, 'id="pNet" class="form-control w-25" onchange="updateGross()"');
+            echo tep_draw_input_field('products_price', $pInfo->products_price, 'required aria-required="true" id="pNet" class="form-control w-25" onchange="updateGross()"');
             ?>
           </div>
         </div>
@@ -668,7 +668,7 @@ function updateNet() {
                     <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_DESCRIPTION; ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pDesc"');
+                      echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'required aria-required="true" class="form-control" id="pDesc"');
                       ?>
                     </div>
                   </div>
@@ -737,8 +737,8 @@ function updateNet() {
             <div class="col-sm-9">
               <div class="custom-file mb-2">
                 <?php
-                echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, 'class="form-control-input"');
-                echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';
+                echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (!tep_not_null($pInfo->products_image) ? 'required aria-required="true" ' : null) . 'class="form-control-input"');
+                echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';                
                 ?>
               </div>
             </div>

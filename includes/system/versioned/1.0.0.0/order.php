@@ -148,7 +148,7 @@
       $this->content_type = $_SESSION['cart']->get_content_type();
 
       if ( ($this->content_type != 'virtual') && !$_SESSION['sendto'] ) {
-        $_SESSION['sendto'] = $GLOBALS['customer']->get('default_address_id');
+        $_SESSION['sendto'] = $GLOBALS['customer']->get('default_sendto');
       }
 
       $customer_address_query = tep_db_query("select c.customers_firstname, c.customers_lastname, c.customers_telephone, c.customers_email_address, ab.entry_company, ab.entry_street_address, ab.entry_suburb, ab.entry_postcode, ab.entry_city, ab.entry_zone_id, z.zone_name, co.countries_id, co.countries_name, co.countries_iso_code_2, co.countries_iso_code_3, co.address_format_id, ab.entry_state from customers c, address_book ab left join zones z on (ab.entry_zone_id = z.zone_id) left join countries co on (ab.entry_country_id = co.countries_id) where c.customers_id = '" . (int)$_SESSION['customer_id'] . "' and ab.customers_id = '" . (int)$_SESSION['customer_id'] . "' and c.customers_default_address_id = ab.address_book_id");

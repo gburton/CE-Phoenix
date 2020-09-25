@@ -109,7 +109,8 @@
 
           if (isset($customer_details['country']['id']) && 6 > count(array_filter($customer_details['country'], function ($v) { return isset($v); }))) {
             $countries_query = tep_db_query("SELECT * FROM countries WHERE countries_id = " . (int)$customer_details['country_id']);
-            $customer_details['country'] = $this->get('country', tep_db_fetch_array($countries_query));
+            $country = tep_db_fetch_array($countries_query);
+            $customer_details['country'] = $this->get('country', $country);
           }
           return $customer_details[$field];
       }

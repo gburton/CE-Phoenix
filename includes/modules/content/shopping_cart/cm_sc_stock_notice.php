@@ -32,7 +32,7 @@
     function execute() {
       $content_width = (int)MODULE_CONTENT_SC_STOCK_NOTICE_CONTENT_WIDTH;
 
-      if ($GLOBALS['cart']->count_contents() > 0 && isset($GLOBALS['any_out_of_stock']) && $GLOBALS['any_out_of_stock']) {
+      if (($_SESSION['cart']->count_contents() > 0) && !empty($GLOBALS['any_out_of_stock'])) {
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
         include 'includes/modules/content/cm_template.php';
       }

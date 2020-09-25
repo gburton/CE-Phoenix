@@ -10,8 +10,10 @@
   Released under the GNU General Public License
 */
 
-  include 'includes/application_top.php';
+  class pipeline_surface {
 
-  require 'includes/system/segments/checkout/pipeline.php';
+    public function __call($name, $arguments = null) {
+      $GLOBALS['hooks']->register_pipeline($name, $arguments);
+    }
 
-  require 'includes/application_bottom.php';
+  }

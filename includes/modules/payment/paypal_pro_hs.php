@@ -163,8 +163,8 @@
         }
 
         if ($insert_order) {
-          require 'includes/modules/checkout/build_order_totals.php';
-          require 'includes/modules/checkout/insert_order.php';
+          require 'includes/system/segments/checkout/build_order_totals.php';
+          require 'includes/system/segments/checkout/insert_order.php';
 
           $_SESSION['cart_PayPal_Pro_HS_ID'] = $_SESSION['cartID'] . '-' . $order_id;
         } else {
@@ -252,8 +252,6 @@ EOD;
     }
 
     function before_process() {
-      global $order, $currencies;
-
       $result = false;
 
       if ( !empty($_GET['tx']) ) { // direct payment (eg, credit card)
@@ -266,7 +264,7 @@ EOD;
         tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($result['L_LONGMESSAGE0'])));
       }
 
-      $order_id = $this->extract_order_id();
+      $order = new order($this->extract_order_id());
 
       $seller_accounts = [$this->_app->getCredentials('HS', 'email')];
 
@@ -274,18 +272,15 @@ EOD;
         $seller_accounts[] = $this->_app->getCredentials('HS', 'email_primary');
       }
 
-      if ( !isset($result['RECEIVERBUSINESS']) || !in_array($result['RECEIVERBUSINESS'], $seller_accounts) || ($result['INVNUM'] != $order_id) || ($result['CUSTOM'] != $_SESSION['customer_id']) ) {
+      if ( !isset($result['RECEIVERBUSINESS']) || !in_array($result['RECEIVERBUSINESS'], $seller_accounts) || ($result['INVNUM'] != $order->get_id()) || ($result['CUSTOM'] != $_SESSION['customer_id']) ) {
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       $_SESSION['pphs_result'] = $result;
 
-      $check_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = '" . (int)$order_id . "' and customers_id = '" . (int)$_SESSION['customer_id'] . "'");
+      $check_query = tep_db_query("SELECT orders_status FROM orders WHERE orders_id = " . (int)$order->get_id() . " and customers_id = " . (int)$_SESSION['customer_id']);
 
-      $tx_order_id = $_SESSION['pphs_result']['INVNUM'];
-      $tx_customer_id = $_SESSION['pphs_result']['CUSTOM'];
-
-      if (!tep_db_num_rows($check_query) || ($order_id != $tx_order_id) || ($_SESSION['customer_id'] != $tx_customer_id)) {
+      if (!tep_db_num_rows($check_query)) {
         tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
@@ -293,34 +288,25 @@ EOD;
 
       $this->verifyTransaction($_SESSION['pphs_result']);
 
-      $new_order_status = DEFAULT_ORDERS_STATUS_ID;
+      $order->info['order_status'] = DEFAULT_ORDERS_STATUS_ID;
 
       if ( $check['orders_status'] != OSCOM_APP_PAYPAL_HS_PREPARE_ORDER_STATUS_ID ) {
-        $new_order_status = $check['orders_status'];
+        $order->info['order_status'] = $check['orders_status'];
       }
 
       if ( (OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID > 0) && ($check['orders_status'] == OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID) ) {
-        $new_order_status = OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID;
+        $order->info['order_status'] = OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID;
       }
 
-      tep_db_query("UPDATE orders SET orders_status = " . (int)$new_order_status . ", last_modified = NOW() WHERE orders_id = " . (int)$order_id);
+      tep_db_query("UPDATE orders SET orders_status = " . (int)$order->info['order_status'] . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
 
-      $sql_data = [
-        'orders_id' => $order_id,
-        'orders_status_id' => (int)$new_order_status,
-        'date_added' => 'NOW()',
-        'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
-        'comments' => $order->info['comments'],
-      ];
-
-      tep_db_perform('orders_status_history', $sql_data);
-
-      include 'includes/modules/checkout/after.php';
+      $GLOBALS['hooks']->register_pipeline('after');
+      require 'includes/system/segments/checkout/insert_history.php';
 
 // load the after_process function from the payment modules
       $this->after_process();
 
-      require 'includes/modules/checkout/reset.php';
+      $GLOBALS['hooks']->register_pipeline('reset');
 
       unset($_SESSION['cart_PayPal_Pro_HS_ID']);
       unset($_SESSION['pphs_result']);
@@ -372,8 +358,6 @@ EOD;
     }
 
     function verifyTransaction($pphs_result, $is_ipn = false) {
-      global $currencies;
-
       $tx_order_id = $pphs_result['INVNUM'];
       $tx_customer_id = $pphs_result['CUSTOM'];
       $tx_transaction_id = $pphs_result['TRANSACTIONID'];

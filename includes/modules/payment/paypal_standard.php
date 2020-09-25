@@ -175,8 +175,8 @@
         }
 
         if ($insert_order) {
-          require 'includes/modules/checkout/build_order_totals.php';
-          require 'includes/modules/checkout/insert_order.php';
+          require 'includes/system/segments/checkout/build_order_totals.php';
+          require 'includes/system/segments/checkout/insert_order.php';
 
           $_SESSION['cart_PayPal_Standard_ID'] = $_SESSION['cartID'] . '-' . $GLOBALS['order']->get_id();
         }
@@ -235,24 +235,30 @@
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $parameters['address_override'] = '1';
-        $parameters['first_name'] = $order->delivery['firstname'];
-        $parameters['last_name'] = $order->delivery['lastname'];
-        $parameters['address1'] = $order->delivery['street_address'];
-        $parameters['address2'] = $order->delivery['suburb'];
-        $parameters['city'] = $order->delivery['city'];
-        $parameters['state'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-        $parameters['zip'] = $order->delivery['postcode'];
-        $parameters['country'] = $order->delivery['country']['iso_code_2'];
+        $parameters['first_name'] = $customer_data->get('firstname', $order->delivery);
+        $parameters['last_name'] = $customer_data->get('lastname', $order->delivery);
+        $parameters['address1'] = $customer_data->get('street_address', $order->delivery);
+        $parameters['address2'] = $customer_data->get('suburb', $order->delivery);
+        $parameters['city'] = $customer_data->get('city', $order->delivery);
+        $parameters['state'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->delivery),
+          $customer_data->get('zone_id', $order->delivery),
+          $customer_data->get('state', $order->delivery));
+        $parameters['zip'] = $customer_data->get('postcode', $order->delivery);
+        $parameters['country'] = $customer_data->get('country_iso_code_2', $order->delivery);
       } else {
         $parameters['no_shipping'] = '1';
-        $parameters['first_name'] = $order->billing['firstname'];
-        $parameters['last_name'] = $order->billing['lastname'];
-        $parameters['address1'] = $order->billing['street_address'];
-        $parameters['address2'] = $order->billing['suburb'];
-        $parameters['city'] = $order->billing['city'];
-        $parameters['state'] = tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']);
-        $parameters['zip'] = $order->billing['postcode'];
-        $parameters['country'] = $order->billing['country']['iso_code_2'];
+        $parameters['first_name'] = $customer_data->get('firstname', $order->billing);
+        $parameters['last_name'] = $customer_data->get('lastname', $order->billing);
+        $parameters['address1'] = $customer_data->get('street_address', $order->billing);
+        $parameters['address2'] = $customer_data->get('suburb', $order->billing);
+        $parameters['city'] = $customer_data->get('city', $order->billing);
+        $parameters['state'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->billing),
+          $customer_data->get('zone_id', $order->billing),
+          $customer_data->get('state', $order->billing));
+        $parameters['zip'] = $customer_data->get('postcode', $order->billing);
+        $parameters['country'] = $customer_data->get('country_iso_code_2', $order->billing);
       }
 
       $item_params = [];
@@ -531,24 +537,15 @@
 
       $order->set_id($this->extract_order_id());
 
-      $new_order_status = DEFAULT_ORDERS_STATUS_ID;
+      $order->info['order_status'] = DEFAULT_ORDERS_STATUS_ID;
       if ( OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID > 0) {
-        $new_order_status = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
+        $order->info['order_status'] = OSCOM_APP_PAYPAL_PS_ORDER_STATUS_ID;
       }
 
-      tep_db_query("UPDATE orders SET orders_status = " . (int)$new_order_status . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
+      tep_db_query("UPDATE orders SET orders_status = " . (int)$order->info['order_status'] . ", last_modified = NOW() WHERE orders_id = " . (int)$order->get_id());
 
-      $sql_data = [
-        'orders_id' => $order->get_id(),
-        'orders_status_id' => (int)$new_order_status,
-        'date_added' => 'NOW()',
-        'customer_notified' => (SEND_EMAILS == 'true') ? '1' : '0',
-        'comments' => $order->info['comments'],
-      ];
-
-      tep_db_perform('orders_status_history', $sql_data);
-
-      include 'includes/modules/checkout/after.php';
+      $GLOBALS['hooks']->register_pipeline('after');
+      require 'includes/system/segments/checkout/insert_history.php';
 
 // load the after_process function from the payment modules
       $this->after_process();
@@ -557,7 +554,7 @@
     function after_process() {
       unset($_SESSION['cart_PayPal_Standard_ID']);
 
-      require 'includes/modules/checkout/reset.php';
+      $GLOBALS['hooks']->register_pipeline('reset');
 
       tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
     }

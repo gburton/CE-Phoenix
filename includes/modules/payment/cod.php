@@ -14,24 +14,26 @@
 
     const CONFIG_KEY_BASE = 'MODULE_PAYMENT_COD_';
 
-    public $code = 'cod';
-    public $title, $description, $enabled;
-
     public function __construct() {
       parent::__construct();
+
       $this->sort_order = defined('MODULE_PAYMENT_COD_SORT_ORDER') ? MODULE_PAYMENT_COD_SORT_ORDER : 0;
     }
 
     public function update_status() {
-      global $order;
+      if (!$this->enabled || !isset($GLOBALS['order'])) {
+        return;
+      }
 
       // disable the module if the order only contains virtual products
-      if ($this->enabled && 'virtual' === $order->content_type) {
+      if ('virtual' === $GLOBALS['order']->content_type) {
         $this->enabled = false;
         return;
       }
 
-      parent::update_status();
+      if (isset($GLOBALS['order']->delivery['country']['id'])) {
+        $this->update_status_by($GLOBALS['order']->delivery);
+      }
     }
 
     protected function get_parameters() {

@@ -50,7 +50,12 @@
     }
   }
 
-  $product_info_query = tep_db_query("SELECT p.products_id, p.products_image, p.products_price, p.products_tax_class_id, pd.products_name, SUBSTRING_INDEX(pd.products_description, ' ', 40) AS products_description FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['products_id'] . " AND p.products_status = 1 AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
+  $product_info_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT p.*, pd.*, SUBSTRING_INDEX(pd.products_description, ' ', 40) AS products_description
+ FROM products p INNER JOIN products_description pd ON p.products_id = pd.products_id
+ WHERE p.products_status = 1 AND p.products_id = %d AND pd.language_id = %d
+EOSQL
+    , (int)$_GET['products_id'], (int)$_SESSION['languages_id']));
 
   if (!tep_db_num_rows($product_info_query)) {
     tep_redirect(tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id']));
@@ -73,6 +78,8 @@
     $insert_id = tep_db_insert_id();
 
     tep_db_query("INSERT INTO reviews_description (reviews_id, languages_id, reviews_text) VALUES ('" . (int)$insert_id . "', '" . (int)$_SESSION['languages_id'] . "', '" . tep_db_input($review) . "')");
+    
+    $OSCOM_Hooks->call('write', 'addNewAction');
 
     $messageStack->add_session('product_action', sprintf(TEXT_REVIEW_RECEIVED, $nickname), 'success');
 

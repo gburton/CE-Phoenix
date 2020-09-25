@@ -10,8 +10,10 @@
   Released under the GNU General Public License
 */
 
-  include 'includes/application_top.php';
+  class session_eraser {
 
-  require 'includes/system/segments/checkout/pipeline.php';
+    public function __call($name, $arguments) {
+      unset($_SESSION[$name]);
+    }
 
-  require 'includes/application_bottom.php';
+  }

@@ -32,7 +32,7 @@
     function execute() {
       $content_width = (int)MODULE_CONTENT_SC_NO_PRODUCTS_CONTENT_WIDTH;
 
-      if ($GLOBALS['cart']->count_contents() === 0) {
+      if ($_SESSION['cart']->count_contents() === 0) {
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
         include 'includes/modules/content/cm_template.php';
       }

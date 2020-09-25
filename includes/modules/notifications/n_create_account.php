@@ -23,7 +23,7 @@
       echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountCreationNotification');
       $email_text = ob_get_clean();
 
-      tep_mail($customer->get('name'), $customer->get('email_address'), MODULE_NOTIFICATIONS_CREATE_ACCOUNT_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+      return tep_mail($customer->get('name'), $customer->get('email_address'), MODULE_NOTIFICATIONS_CREATE_ACCOUNT_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
     }
 
     protected function get_parameters() {

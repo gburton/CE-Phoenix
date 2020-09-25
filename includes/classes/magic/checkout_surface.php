@@ -10,8 +10,10 @@
   Released under the GNU General Public License
 */
 
-  include 'includes/application_top.php';
+  class checkout_surface {
 
-  require 'includes/system/segments/checkout/pipeline.php';
+    public function __call($name, $arguments) {
+      return DIR_FS_CATALOG . "includes/system/segments/checkout/$name.php";
+    }
 
-  require 'includes/application_bottom.php';
+  }

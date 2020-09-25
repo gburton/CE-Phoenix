@@ -18,7 +18,7 @@
      . tep_href_link('account_history_info.php', 'order_id=' . $order->get_id(), 'SSL', false) . "\n"
      . MODULE_NOTIFICATIONS_CHECKOUT_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
 
-  if ($order->info['comments']) {
+  if (!empty($order->info['comments'])) {
     echo tep_db_output($order->info['comments']) . "\n";
   }
 

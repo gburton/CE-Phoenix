@@ -33,7 +33,7 @@
 
   if ( !isset($_SESSION['sendto']) ) {
     if ( $customer instanceof customer ) {
-      $_SESSION['sendto'] = $customer->get('default_address_id');
+      $_SESSION['sendto'] = $customer->get('default_sendto');
     } else {
       $country = [ 'country_id' => STORE_COUNTRY ];
       $country = $customer_data->get('country', $country);

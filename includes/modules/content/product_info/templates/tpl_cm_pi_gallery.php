@@ -35,27 +35,23 @@
       }
       $other_img .= '</div>';
     }
-  }
-
-  echo $pi_image;
-  echo $pi_thumb;
   ?>
 </div>
 
 <?php
-  $swipe_arrows = '';
-  if (MODULE_CONTENT_PI_GALLERY_SWIPE_ARROWS == 'True') {
-    $swipe_arrows = '<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a><a class="carousel-control-next" href="#carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>';
-  }
+    $swipe_arrows = '';
+    if (MODULE_CONTENT_PI_GALLERY_SWIPE_ARROWS == 'True') {
+      $swipe_arrows = '<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a><a class="carousel-control-next" href="#carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>';
+    }
 
-  $indicators = '';
-  if (MODULE_CONTENT_PI_GALLERY_INDICATORS == 'True') {
-    $indicators .= '<ol class="carousel-indicators">';
-    $indicators .= $first_img_indicator;
-    $indicators .= $other_img_indicator;
-    $indicators .= '</ol>';
-  }
-  $modal_gallery_footer = <<<mgf
+    $indicators = '';
+    if (MODULE_CONTENT_PI_GALLERY_INDICATORS == 'True') {
+      $indicators .= '<ol class="carousel-indicators">';
+      $indicators .= $first_img_indicator;
+      $indicators .= $other_img_indicator;
+      $indicators .= '</ol>';
+    }
+    $modal_gallery_footer = <<<mgf
 <div id="lightbox" class="modal fade" role="dialog">
   <div class="modal-dialog {$modal_size}" role="document">
     <div class="modal-content">
@@ -77,12 +73,16 @@
 </div>
 mgf;
 
-  $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
+    $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
 
-  $modal_clicker = <<<mc
+    $modal_clicker = <<<mc
 <script>$(document).ready(function() { $('a.lb').click(function(e) { var s = $(this).data('slide'); $('#lightbox').carousel(s); }); });</script>
 mc;
-  $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
+    $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
+  }
+
+  echo $pi_image;
+  echo $pi_thumb;
 
 /*
   $Id$

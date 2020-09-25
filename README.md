@@ -69,8 +69,9 @@ Please be aware that language packs are maintained by volunteers so may not be u
 
 Name | URL | Services Offered
 ------------ | ------------- | ------------- 
-Rainer | https://www.oscaddons.com/index.php/en | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
-John | https://sewebsites.net/ | Custom jobs, big or small, including adapting existing addons to CE Phoenix. Integration of stock systems and new payment methods. Addons both free and great value, soon to be added to the site.
+Rainer<br>[@raiwa](https://forums.oscommerce.com/profile/249059-raiwa/) | [oscaddons.com](https://www.oscaddons.com/index.php/en) | Providing all kinds of support for CE Phoenix online stores. You will find Add-Ons which add functionality and features to your store.  Completely free Add-Ons and a selection of commercial Add-Ons at very affordable prices exclusive to my website.  On the other hand you can count on installation and programming services at very competitive prices.  Visit my website and feel free to contact me - English, Deutsch and Español.
+John<br>[@BrockleyJohn](https://forums.oscommerce.com/profile/220375-brockleyjohn/) | [sewebsites.net](https://sewebsites.net/) | Custom jobs, big or small, including adapting existing addons to CE Phoenix. Integration of stock systems and new payment methods. Addons both free and great value, soon to be added to the site.
+Preston<br>[@zipurman](https://forums.oscommerce.com/profile/406830-zipurman/) | [phoenixaddons.com](https://phoenixaddons.com/) | Any need for programming in your CE Phoenix online store, or any PHP/JS/CSS/SQL, I am happy to help. We also offer hosting on our own VMWare servers and have been building web solutions and hosting for over 20 years. The website offers some free add-ons and more coming soon. Thanks for any consideration on your projects. (CST Canada)
 
 # External Libraries
 

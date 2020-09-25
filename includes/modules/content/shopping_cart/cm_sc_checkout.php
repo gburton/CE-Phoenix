@@ -32,7 +32,7 @@
     public function execute() {
       $content_width = (int)MODULE_CONTENT_SC_CHECKOUT_CONTENT_WIDTH;
 
-      if ($GLOBALS['cart']->count_contents() > 0) {
+      if ($_SESSION['cart']->count_contents() > 0) {
         $payment_modules = new payment();
 
         $initialize_checkout_methods = $payment_modules->checkout_initialization_method();

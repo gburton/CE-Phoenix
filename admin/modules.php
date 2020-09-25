@@ -199,6 +199,10 @@
                       $keys_extra[$key] = [];
                     }
 
+                    if (is_null($key_value) && ($module->check() <= 0)) {
+                      continue;
+                    }
+
                     $keys_extra[$key]['title'] = $key_value['configuration_title'];
                     $keys_extra[$key]['value'] = $key_value['configuration_value'];
                     $keys_extra[$key]['description'] = $key_value['configuration_description'];

@@ -12,31 +12,21 @@
 
   class adverts {
 
-    public $adverts;
-
-    public function __construct($advert_group = '') {
-      $adverts = [];
-
-      if (tep_not_null($advert_group)) {
-        $this->get_grouped_adverts($advert_group);
-      }
-    }
-
-    public function get_grouped_adverts($advert_group) {
+    public static function get_grouped_adverts($advert_group) {
       $group = tep_db_prepare_input($advert_group);
 
       $advert_query = tep_db_query("SELECT * FROM advert WHERE advert_group = '" . tep_db_input($group) . "' and status = 1 order by sort_order");
-      
-      $num = 1;
+
+      $num = 1; $adverts = [];
       while ($advert = tep_db_fetch_array($advert_query)) {
         $adverts[$num] =  $advert;
-        
+
         $num++;
       }
-      
+
       return $adverts;
     }
-    
+
     public static function advert_pull_down_groups($advert_id, $key = '') {
       $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
 
@@ -52,6 +42,5 @@
     public static function advert_get_group($advert_id) {
       return $advert_id;
     }
-  
 
   }
