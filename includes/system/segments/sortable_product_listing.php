@@ -10,6 +10,5 @@
   Released under the GNU General Public License
 */
 
-  $listing_sql .= $GLOBALS['OSCOM_Hooks']->call('filter', 'injectSQL');
   require 'includes/system/segments/sortable_product_columns.php';
   include $GLOBALS['oscTemplate']->map_to_template('product_listing.php', 'component');
