@@ -186,7 +186,7 @@
     }
 
     function process_button() {
-      global $order;
+      global $order, $customer_data;
 
       $total_tax = $order->info['tax'];
 
