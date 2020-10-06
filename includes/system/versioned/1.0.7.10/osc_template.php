@@ -112,6 +112,11 @@
         $template_page->build();
       }
 
+      $parameters = [
+        'group' => $group,
+        'content' => &$this->_content[$group],
+      ];
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'getContent', $parameters);
       if ($this->hasContent($group)) {
         return implode("\n", $this->_content[$group]);
       }
@@ -128,6 +133,8 @@
         }
       }
 
+      $parameters = [ 'results' => &$results ];
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'getContentModules', $parameters);
       return $result;
     }
 
