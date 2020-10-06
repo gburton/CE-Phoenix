@@ -137,7 +137,9 @@ EOSQL
     function count_items() {
       global $order;
       
-      $item_count = ('physical' === $order->content_type) ? $GLOBALS['total_count'] : 0;
+      $item_count = ('physical' === $order->content_type)
+                  ? ($GLOBALS['total_count'] ?? $_SESSION['cart']->count_contents())
+                  : 0;
       
       if ('mixed' === $order->content_type) {
         foreach ($order->products as $product) {
