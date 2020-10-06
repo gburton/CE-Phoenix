@@ -529,6 +529,7 @@ CREATE TABLE products_options (
   products_options_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
   products_options_name varchar(255) NOT NULL default '',
+  sort_order int(3),
   PRIMARY KEY  (products_options_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -537,6 +538,7 @@ CREATE TABLE products_options_values (
   products_options_values_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
   products_options_values_name varchar(255) NOT NULL default '',
+  sort_order int(3),
   PRIMARY KEY  (products_options_values_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
