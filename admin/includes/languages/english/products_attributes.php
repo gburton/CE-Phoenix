@@ -10,27 +10,29 @@
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE_OPT', 'Product Options');
-define('HEADING_TITLE_VAL', 'Option Values');
-define('HEADING_TITLE_ATRIB', 'Products Attributes');
+const HEADING_TITLE_OPT = 'Options';
+const HEADING_TITLE_VAL = 'Values';
+const HEADING_TITLE_ATRIB = 'Attributes';
 
-define('TABLE_HEADING_ID', 'ID');
-define('TABLE_HEADING_PRODUCT', 'Product Name');
-define('TABLE_HEADING_OPT_NAME', 'Option Name');
-define('TABLE_HEADING_OPT_VALUE', 'Option Value');
-define('TABLE_HEADING_OPT_PRICE', 'Value Price');
-define('TABLE_HEADING_OPT_PRICE_PREFIX', 'Prefix');
-define('TABLE_HEADING_ACTION', 'Action');
-define('TABLE_HEADING_DOWNLOAD', 'Downloadable products:');
-define('TABLE_TEXT_FILENAME', 'Filename:');
-define('TABLE_TEXT_MAX_DAYS', 'Expiry days:');
-define('TABLE_TEXT_MAX_COUNT', 'Maximum download count:');
+const TABLE_HEADING_ID = 'ID';
+const TABLE_HEADING_PRODUCT = 'Product Name';
+const TABLE_HEADING_OPT_NAME = 'Option Name';
+const TABLE_HEADING_OPT_VALUE = 'Option Value';
+const TABLE_HEADING_OPT_PRICE = 'Value Price';
+const TABLE_HEADING_OPT_PRICE_PREFIX = 'Prefix';
+const TABLE_HEADING_ACTION = 'Action';
+const TABLE_HEADING_DOWNLOAD = 'Downloadable products:';
+const TABLE_TEXT_FILENAME = 'Filename:';
+const TABLE_TEXT_MAX_DAYS = 'Expiry days:';
+const TABLE_TEXT_MAX_COUNT = 'Maximum download count:';
 
-define('MAX_ROW_LISTS_OPTIONS', 10);
+const MAX_ROW_LISTS_OPTIONS = 10;
 
-define('TEXT_WARNING_OF_DELETE', 'This option has products and values linked to it - it is not safe to delete it.');
-define('TEXT_OK_TO_DELETE', 'This option has no products and values linked to it - it is safe to delete it.');
-define('TEXT_OPTION_ID', 'Option ID');
-define('TEXT_OPTION_NAME', 'Option Name');
+const TEXT_WARNING_OF_DELETE = 'This option has products and values linked to it - it is not safe to delete it.';
+const TEXT_OK_TO_DELETE = 'This option has no products and values linked to it - it is safe to delete it.';
+const TEXT_OPTION_ID = 'Option ID';
+const TEXT_OPTION_NAME = 'Option Name';
 
 const PLEASE_SELECT_OPTION = '--- Please Select ---';
+
+const TABLE_HEADING_OPT_SORT_ORDER = 'Sort Order';
