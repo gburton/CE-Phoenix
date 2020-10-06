@@ -35,7 +35,7 @@
       global $currencies, $product_info;
 
       $products_options_name_query = tep_db_query(sprintf(<<<'EOSQL'
-SELECT DISTINCT po.*
+SELECT DISTINCT po.products_options_id, po.products_options_name
   FROM products_options po INNER JOIN products_attributes patrib ON patrib.options_id = po.products_options_id
   WHERE patrib.products_id = %d AND po.language_id = %d
   ORDER BY po.sort_order, po.products_options_name

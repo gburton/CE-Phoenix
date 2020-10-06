@@ -23,7 +23,7 @@
 
       $content_width = (int)MODULE_CONTENT_PI_OA_CONTENT_WIDTH;
 
-      $products_options_name_query = tep_db_query("select distinct po.* from products_options po, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = po.products_options_id and po.language_id = '" . (int)$_SESSION['languages_id'] . "' order by po.sort_order, po.products_options_name");
+      $products_options_name_query = tep_db_query("select distinct po.products_options_id, po.products_options_name from products_options po, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = po.products_options_id and po.language_id = '" . (int)$_SESSION['languages_id'] . "' order by po.sort_order, po.products_options_name");
 
       if (tep_db_num_rows($products_options_name_query)) {
         $fr_input = $fr_required = '';
