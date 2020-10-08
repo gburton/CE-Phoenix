@@ -10,8 +10,8 @@
   Released under the GNU General Public License
 */
 
-const MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_TITLE = 'Checkout';
-const MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_DESCRIPTION = 'Send a notification at the completion of checkout.';
+const MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_TITLE = 'Update order status';
+const MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_DESCRIPTION = 'Send a notification when the order status is updated.';
 
 const MODULE_NOTIFICATIONS_UPDATE_ORDER_SEPARATOR = '------------------------------------------------------';
 const MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_SUBJECT = 'Order Update';
