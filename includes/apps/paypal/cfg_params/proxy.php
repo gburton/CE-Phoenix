@@ -27,17 +27,10 @@
       $input = tep_draw_input_field('proxy', OSCOM_APP_PAYPAL_PROXY, 'id="inputProxy"');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label for="inputProxy">{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}  </p>
 
-    {$this->description}
-  </p>
-
-  <div>
-    {$input}
-  </div>
-</div>
+<div>{$input}</div>
 EOT;
 
       return $result;

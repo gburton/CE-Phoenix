@@ -479,23 +479,21 @@
 
     function drawButton($title = null, $link = null, $type = null, $params = null, $force_css = false) {
       $colours = [
-        'success' => '#1cb841',
-        'error' => '#ca3c3c',
-        'warning' => '#ebaa16',
-        'info' => '#42B8DD',
-        'primary' => '#0078E7',
+        'success' => 'success',
+        'error' => 'danger',
+        'warning' => 'warning',
+        'info' => 'info',
+        'primary' => 'primary',
       ];
 
       if ( !isset($type) || !in_array($type, array_keys($colours)) ) {
         $type = 'info';
       }
 
-      $css = 'font-size:14px;color:#fff;padding:8px 16px;border:0;border-radius:4px;text-shadow:0 1px 1px rgba(0, 0, 0, 0.2);text-decoration:none;display:inline-block;cursor:pointer;white-space:nowrap;vertical-align:baseline;text-align:center;background-color:' . $colours[$type] . ';';
-
       $button = '';
 
       if ( isset($link) ) {
-        $button .= '<a href="' . $link . '" class="pp-button';
+        $button .= '<a href="' . $link . '" class="btn btn-' . $colours[$type] . ' pp-button';
 
         if ( isset($type) ) {
           $button .= ' pp-button-' . $type;
@@ -507,13 +505,13 @@
           $button .= ' ' . $params;
         }
 
-        if ( $force_css == true ) {
-          $button .= ' style="' . $css . '"';
-        }
+        //if ( $force_css == true ) {
+          //$button .= ' style="' . $css . '"';
+        //}
 
         $button .= '>' . $title . '</a>';
       } else {
-        $button .= '<button type="submit" class="pp-button';
+        $button .= '<button type="submit" class="btn btn-' . $colours[$type] . ' pp-button';
 
         if ( isset($type) ) {
           $button .= ' pp-button-' . $type;
@@ -525,9 +523,9 @@
           $button .= ' ' . $params;
         }
 
-        if ( $force_css == true ) {
-          $button .= ' style="' . $css . '"';
-        }
+        //if ( $force_css == true ) {
+        //  $button .= ' style="' . $css . '"';
+        //}
 
         $button .= '>' . $title . '</button>';
       }
@@ -672,13 +670,13 @@
 
         foreach ( $_SESSION['OSCOM_PayPal_Alerts'] as $type => $messages ) {
           if ( in_array($type, ['error', 'warning', 'success']) ) {
-            $m = '<ul class="pp-alerts-' . $type . '">';
+            $m = null;
 
             foreach ( $messages as $message ) {
-              $m .= '<li>' . tep_output_string_protected($message) . '</li>';
-            }
-
-            $m .= '</ul>';
+              $m .= '<div class="alert alert-' . $type . '">';
+                $m .= tep_output_string_protected($message);
+              $m .= '</div>';
+            }            
 
             $result[] = $m;
           }

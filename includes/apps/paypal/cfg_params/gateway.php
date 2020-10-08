@@ -25,28 +25,22 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-
-      $input = '<input type="radio" id="gatewaySelectionPayPal" name="gateway" value="1"' . (OSCOM_APP_PAYPAL_GATEWAY == '1' ? ' checked="checked"' : '') . '><label for="gatewaySelectionPayPal">' . $OSCOM_PayPal->getDef('cfg_gateway_paypal') . '</label>' .
-               '<input type="radio" id="gatewaySelectionPayflow" name="gateway" value="0"' . (OSCOM_APP_PAYPAL_GATEWAY == '0' ? ' checked="checked"' : '') . '><label for="gatewaySelectionPayflow">' . $OSCOM_PayPal->getDef('cfg_gateway_payflow') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="gatewaySelectionPayPal" name="gateway" value="1"' . (OSCOM_APP_PAYPAL_GATEWAY == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="gatewaySelectionPayPal">' . $OSCOM_PayPal->getDef('cfg_gateway_paypal') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="gatewaySelectionPayflow" name="gateway" value="0"' . (OSCOM_APP_PAYPAL_GATEWAY == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="gatewaySelectionPayflow">' . $OSCOM_PayPal->getDef('cfg_gateway_payflow') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="gatewaySelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#gatewaySelection').buttonset();
-});
-</script>
+<div id="gatewaySelection" class="mb-3">{$input}</div>
 EOT;
 
       return $result;

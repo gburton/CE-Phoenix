@@ -25,28 +25,22 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-
-      $input = '<input type="radio" id="transactionMethodSelectionAuthorize" name="transaction_method" value="0"' . (OSCOM_APP_PAYPAL_PS_TRANSACTION_METHOD == '0' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionAuthorize">' . $OSCOM_PayPal->getDef('cfg_ps_transaction_method_authorize') . '</label>' .
-               '<input type="radio" id="transactionMethodSelectionSale" name="transaction_method" value="1"' . (OSCOM_APP_PAYPAL_PS_TRANSACTION_METHOD == '1' ? ' checked="checked"' : '') . '><label for="transactionMethodSelectionSale">' . $OSCOM_PayPal->getDef('cfg_ps_transaction_method_sale') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="transactionMethodSelectionAuthorize" name="transaction_method" value="0"' . (OSCOM_APP_PAYPAL_PS_TRANSACTION_METHOD == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="transactionMethodSelectionAuthorize">' . $OSCOM_PayPal->getDef('cfg_ps_transaction_method_authorize') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="transactionMethodSelectionSale" name="transaction_method" value="1"' . (OSCOM_APP_PAYPAL_PS_TRANSACTION_METHOD == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="transactionMethodSelectionSale">' . $OSCOM_PayPal->getDef('cfg_ps_transaction_method_sale') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="transactionMethodSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#transactionMethodSelection').buttonset();
-});
-</script>
+<div id="transactionMethodSelection" class="mb-3">{$input}</div>
 EOT;
 
       return $result;

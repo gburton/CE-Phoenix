@@ -55,54 +55,9 @@
       $get_balance_url = tep_href_link('paypal.php', 'action=balance&subaction=retrieve&type=PPTYPE');
 
       $output = <<<EOD
-<style>
-.pp-container {
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.pp-panel {
-  padding: 1px 10px;
-  margin-bottom: 15px;
-}
-
-.pp-panel.pp-panel-success {
-  background-color: #e8ffe1;
-  border-left: 2px solid #a0e097;
-  color: #349a20;
-}
-
-.pp-panel-header-success {
-  background-color: #a0e097;
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
-  font-size: 12px;
-  color: #fff;
-  margin: 0;
-  padding: 3px 15px;
-}
-
-.pp-panel.pp-panel-warning {
-  background-color: #fff4dd;
-  border-left: 2px solid #e2ab62;
-  color: #cd7c20;
-}
-
-.pp-panel-header-warning {
-  background-color: #e2ab62;
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
-  font-size: 12px;
-  color: #fff;
-  margin: 0;
-  padding: 3px 15px;
-}
-
-small .pp-button {
-  font-size: 11px !important;
-}
-</style>
 <script>
 if ( typeof jQuery == 'undefined' ) {
-  document.write('<scr' + 'ipt src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></scr' + 'ipt>');
+  document.write('<scr' + 'ipt src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></scr' + 'ipt>');
 }
 </script>
 <script>
@@ -123,91 +78,45 @@ var OSCOM = {
       version: '{$version}',
       versionCheckResult: {$version_check_result},
       doOnlineVersionCheck: false,
-      canApplyOnlineUpdates: {$can_apply_online_updates},
+      canApplyOnlineUpdates: false,
       accountTypes: {
         live: {$has_live_account},
         sandbox: {$has_sandbox_account}
-      },
-      versionCheck: function() {
-        $.get('{$version_check_url}', function (data) {
-          var versions = [];
-
-          if ( OSCOM.APP.PAYPAL.canApplyOnlineUpdates == true ) {
-            try {
-              data = $.parseJSON(data);
-            } catch (ex) {
-            }
-
-            if ( (typeof data == 'object') && ('rpcStatus' in data) && (data['rpcStatus'] == 1) && (typeof data['releases'] != 'undefined') && (data['releases'].length > 0) ) {
-              for ( var i = 0; i < data['releases'].length; i++ ) {
-                versions.push(data['releases'][i]['version']);
-              }
-            }
-          } else {
-            if ( (typeof data == 'string') && (data.indexOf('rpcStatus') > -1) ) {
-              var result = data.split("\\n", 2);
-
-              if ( result.length == 2 ) {
-                var rpcStatus = result[0].split('=', 2);
-
-                if ( rpcStatus[1] == 1 ) {
-                  var release = result[1].split('=', 2);
-
-                  versions.push(release[1]);
-                }
-              }
-            }
-          }
-
-          if ( versions.length > 0 ) {
-            OSCOM.APP.PAYPAL.versionCheckResult = [ OSCOM.dateNow.getDate(), Math.max.apply(Math, versions) ];
-
-            OSCOM.APP.PAYPAL.versionCheckNotify();
-          }
-        });
-      },
-      versionCheckNotify: function() {
-        if ( (typeof this.versionCheckResult[0] != 'undefined') && (typeof this.versionCheckResult[1] != 'undefined') ) {
-          if ( this.versionCheckResult[1] > this.version ) {
-            $('#ppAppUpdateNotice').show();
-          }
-        }
       }
     }
   }
 };
-
-if ( typeof OSCOM.APP.PAYPAL.versionCheckResult != 'undefined' ) {
-  OSCOM.APP.PAYPAL.versionCheckResult = OSCOM.APP.PAYPAL.versionCheckResult.split('-', 2);
-}
 </script>
 
 <div class="pp-container">
-  <div id="ppAppUpdateNotice" style="display: none;">
-    <div class="pp-panel pp-panel-success">
-      {$new_update_notice}
+  <div class="card" id="ppAccountBalanceLive">
+    <div class="card-header">
+      {$heading_live_account}
+    </div>
+    <div class="card-body">
+      <div id="ppBalanceLiveInfo">
+        <p>{$receiving_balance_progress}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card" id="ppAccountBalanceSandbox">
+    <div class="card-header">
+      {$heading_sandbox_account}
+    </div>
+    <div class="card-body">
+      <div id="ppBalanceLiveInfo">
+        <p>{$receiving_balance_progress}</p>
+      </div>
     </div>
   </div>
 
-  <div id="ppAccountBalanceLive">
-    <h3 class="pp-panel-header-success">{$heading_live_account}</h3>
-    <div id="ppBalanceLiveInfo" class="pp-panel pp-panel-success">
-      <p>{$receiving_balance_progress}</p>
-    </div>
-  </div>
-
-  <div id="ppAccountBalanceSandbox">
-    <h3 class="pp-panel-header-warning">{$heading_sandbox_account}</h3>
-    <div id="ppBalanceSandboxInfo" class="pp-panel pp-panel-warning">
-      <p>{$receiving_balance_progress}</p>
-    </div>
-  </div>
-
-  <div id="ppAccountBalanceNone" style="display: none;">
-    <div class="pp-panel pp-panel-warning">
+  <div class="card" id="ppAccountBalanceNone" style="display: none;">
+    <div class="card-body">
       <p>{$app_get_started}</p>
     </div>
   </div>
+
 </div>
 
 <script>
@@ -269,22 +178,6 @@ OSCOM.APP.PAYPAL.getBalance = function(type) {
 };
 
 $(function() {
-  if ( typeof OSCOM.APP.PAYPAL.versionCheckResult == 'undefined' ) {
-    OSCOM.APP.PAYPAL.doOnlineVersionCheck = true;
-  } else {
-    if ( typeof OSCOM.APP.PAYPAL.versionCheckResult[0] != 'undefined' ) {
-      if ( OSCOM.dateNow.getDate() != OSCOM.APP.PAYPAL.versionCheckResult[0] ) {
-        OSCOM.APP.PAYPAL.doOnlineVersionCheck = true;
-      }
-    }
-  }
-
-  if ( OSCOM.APP.PAYPAL.doOnlineVersionCheck == true ) {
-    OSCOM.APP.PAYPAL.versionCheck();
-  } else {
-    OSCOM.APP.PAYPAL.versionCheckNotify();
-  }
-
   (function() {
     var pass = false;
 

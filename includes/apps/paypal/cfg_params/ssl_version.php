@@ -46,28 +46,24 @@
       $dialog_connection_test_general_error = addslashes($OSCOM_PayPal->getDef('cfg_ssl_version_dialog_general_error'));
 
       $has_json = function_exists('json_encode') ? 'true' : 'false';
-
-      $input = '<input type="radio" id="sslVersionSelectionDefault" name="ssl_version" value="0"' . (OSCOM_APP_PAYPAL_SSL_VERSION == '0' ? ' checked="checked"' : '') . '><label for="sslVersionSelectionDefault">' . $OSCOM_PayPal->getDef('cfg_ssl_version_default') . '</label>' .
-               '<input type="radio" id="sslVersionSelectionTls12" name="ssl_version" value="1"' . (OSCOM_APP_PAYPAL_SSL_VERSION == '1' ? ' checked="checked"' : '') . '><label for="sslVersionSelectionTls12">' . $OSCOM_PayPal->getDef('cfg_ssl_version_tls12') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="sslVersionSelectionDefault" name="ssl_version" value="0"' . (OSCOM_APP_PAYPAL_SSL_VERSION == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="sslVersionSelectionDefault">' . $OSCOM_PayPal->getDef('cfg_ssl_version_default') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="sslVersionSelectionTls12" name="ssl_version" value="1"' . (OSCOM_APP_PAYPAL_SSL_VERSION == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="sslVersionSelectionTls12">' . $OSCOM_PayPal->getDef('cfg_ssl_version_tls12') . '</label>';
+      $input .= '</div>';
 
       $connection_test_url = tep_href_link('paypal.php', 'action=ssltest');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-
-    <small id="ppSslTestButton">{$test_button}</small>
-  </p>
-
-  <div id="sslVersionSelection">
-    {$input}
-  </div>
-</div>
-
-<div id="dialogSslTest" title="{$dialog_connection_test_title}"></div>
+<div id="sslVersionSelection" class="mb-3">{$input}</div>
 
 <script>
 $(function() {
@@ -83,8 +79,6 @@ $(function() {
       }
     }
   });
-
-  $('#sslVersionSelection').buttonset();
 
   if ('{$has_json}' == 'true') {
     $('a[data-button="ppSslVersionTestButton"]').click(function(e) {

@@ -25,29 +25,26 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-
-      $input = '<input type="radio" id="statusSelectionLive" name="status" value="1"' . (OSCOM_APP_PAYPAL_DP_STATUS == '1' ? ' checked="checked"' : '') . '><label for="statusSelectionLive">' . $OSCOM_PayPal->getDef('cfg_dp_status_live') . '</label>' .
-               '<input type="radio" id="statusSelectionSandbox" name="status" value="0"' . (OSCOM_APP_PAYPAL_DP_STATUS == '0' ? ' checked="checked"' : '') . '><label for="statusSelectionSandbox">' . $OSCOM_PayPal->getDef('cfg_dp_status_sandbox') . '</label>' .
-               '<input type="radio" id="statusSelectionDisabled" name="status" value="-1"' . (OSCOM_APP_PAYPAL_DP_STATUS == '-1' ? ' checked="checked"' : '') . '><label for="statusSelectionDisabled">' . $OSCOM_PayPal->getDef('cfg_dp_status_disabled') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="statusSelectionLive" name="status" value="1"' . (OSCOM_APP_PAYPAL_DP_STATUS == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="statusSelectionLive">' . $OSCOM_PayPal->getDef('cfg_dp_status_live') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="statusSelectionSandbox" name="status" value="0"' . (OSCOM_APP_PAYPAL_DP_STATUS == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="statusSelectionSandbox">' . $OSCOM_PayPal->getDef(cfg_dp_status_sandbox) . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="statusSelectionDisabled" name="status" value="-1"' . (OSCOM_APP_PAYPAL_DP_STATUS == '-1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="statusSelectionDisabled">' . $OSCOM_PayPal->getDef(cfg_dp_status_disabled) . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="statusSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#statusSelection').buttonset();
-});
-</script>
+<div class="mb-3" id="statusSelection">{$input}</div> 
 EOT;
 
       return $result;

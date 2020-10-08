@@ -31,23 +31,10 @@
                '<input type="radio" id="contentWidthSelectionFull" name="content_width" value="Full"' . (OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH == 'Full' ? ' checked="checked"' : '') . '><label for="contentWidthSelectionFull">' . $OSCOM_PayPal->getDef('cfg_login_content_width_full') . '</label>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="contentWidthSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#contentWidthSelection').buttonset();
-});
-</script>
+<div class="mb-3" id="contentWidthSelection">{$input}</div>
 EOT;
 
       return $result;
