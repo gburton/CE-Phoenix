@@ -16,7 +16,7 @@
 
   $orders_statuses = [];
   $orders_status_array = [];
-  $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$languages_id);
+  $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$_SESSION['languages_id']);
   while ($orders_status = tep_db_fetch_array($orders_status_query)) {
     $orders_statuses[] = [
       'id' => $orders_status['orders_status_id'],
@@ -42,23 +42,16 @@
 
         if ( ($check_status['orders_status'] != $status) || tep_not_null($comments)) {
           tep_db_query("UPDATE orders SET orders_status = '" . tep_db_input($status) . "', last_modified = NOW() WHERE orders_id = " . (int)$oID);
+          $check_status['status_name'] = $orders_status_array[$status];
+          $check_status['notify_comments'] = $comments;
 
-          $customer_notified = '0';
-          if (isset($_POST['notify']) && ($_POST['notify'] == 'on')) {
-            $notify_comments = '';
-            if (isset($_POST['notify_comments']) && ($_POST['notify_comments'] == 'on')) {
-              $notify_comments = sprintf(EMAIL_TEXT_COMMENTS_UPDATE, $comments) . "\n\n";
-            }
-
-            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link('account_history_info.php', 'order_id=' . $oID, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
-
-            $OSCOM_Hooks->call('orders', 'statusUpdateEmail');
-            tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-
-            $customer_notified = '1';
+          if (isset($_POST['notify']) && ('on' === $_POST['notify']) && tep_notify('update_order', $check_status)) {
+            $customer_notified = 1;
+          } else {
+            $customer_notified = 0;
           }
 
-          tep_db_query("INSERT INTO orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . (int)$oID . "', '" . tep_db_input($status) . "', NOW(), '" . tep_db_input($customer_notified) . "', '" . tep_db_input($comments)  . "')");
+          tep_db_query("INSERT INTO orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . (int)$oID . "', '" . tep_db_input($status) . "', NOW(), " . (int)$customer_notified . ", '" . tep_db_input($comments)  . "')");
 
           $order_updated = true;
         }
