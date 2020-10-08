@@ -45,7 +45,7 @@
   $parameters = [
     'column_list' => &$column_list,
     'column_orderings' => &$column_orderings,
-    'default_column' => $default_column,
+    'default_column' => $default_column ?? null,
     'direction' => &$direction,
     'listing_sql' => &$listing_sql,
     'sort_column' => &$sort_column,
