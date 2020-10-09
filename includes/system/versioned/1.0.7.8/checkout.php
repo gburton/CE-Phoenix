@@ -173,6 +173,14 @@
       $GLOBALS['payment_modules']->before_process();
     }
 
+    public static function update_stock() {
+      require 'includes/system/segments/checkout/update_stock.php';
+    }
+
+    public static function update_products_ordered() {
+      require 'includes/system/segments/checkout/update_products_ordered.php';
+    }
+
     public static function notify() {
       $GLOBALS['customer_notification'] = tep_notify('checkout', $GLOBALS['order']) ? 1 : 0;
     }

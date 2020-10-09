@@ -1154,13 +1154,13 @@ INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_clas
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_12_prepare_payment', 'Checkout', 'prepare_payment');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_14_insert_order', 'checkout_surface', 'insert_order');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_20_after', 'pipeline_surface', 'after');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_21_update_stock', 'checkout_surface', 'update_stock');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_22_update_products_ordered', 'checkout_surface', 'update_products_ordered');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_23_notify', 'checkout', 'notify');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_21_update_stock', 'Checkout', 'update_stock');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_22_update_products_ordered', 'Checkout', 'update_products_ordered');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_23_notify', 'Checkout', 'notify');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_30_insert_history', 'checkout_surface', 'insert_history');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_31_conclude_payment', 'Checkout', 'conclude_payment');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_40_reset', 'pipeline_surface', 'reset');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_41_reset_cart', 'checkout', 'reset_cart');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_41_reset_cart', 'Checkout', 'reset_cart');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_42_unset_sendto', 'session_eraser', 'sendto');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_43_unset_billto', 'session_eraser', 'billto');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_44_unset_shipping', 'session_eraser', 'shipping');
