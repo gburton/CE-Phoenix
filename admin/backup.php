@@ -99,7 +99,7 @@ EOSQL
           foreach ($index as $kname => $info) {
             $schema .= ',' . "\n";
 
-            $columns = implode($info['columns'], ', ');
+            $columns = implode(', ', $info['columns']);
 
             if ($kname == 'PRIMARY') {
               $schema .= '  PRIMARY KEY (' . $columns . ')';
