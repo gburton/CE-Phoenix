@@ -15,4 +15,4 @@
 
   define('MODULE_CONTENT_LOGIN_HEADING_NEW_CUSTOMER', 'New Customer');
   define('MODULE_CONTENT_LOGIN_TEXT_NEW_CUSTOMER', 'I am a new customer.');
-  define('MODULE_CONTENT_LOGIN_TEXT_NEW_CUSTOMER_INTRODUCTION', 'By creating an account at ' . STORE_NAME . ' you will be able to shop faster, be up to date on an orders status, and keep track of the orders you have previously made.');
+  define('MODULE_CONTENT_LOGIN_TEXT_NEW_CUSTOMER_INTRODUCTION', 'By creating a Profile at ' . STORE_NAME . ' you will be able to shop faster, be up to date on an orders status, and keep track of the orders you have previously made.');

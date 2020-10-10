@@ -5,80 +5,66 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class bm_order_history {
-    var $code = 'bm_order_history';
-    var $group = 'boxes';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class bm_order_history extends abstract_block_module {
 
-    function __construct() {
-      $this->title = MODULE_BOXES_ORDER_HISTORY_TITLE;
-      $this->description = MODULE_BOXES_ORDER_HISTORY_DESCRIPTION;
-
-      if ( defined('MODULE_BOXES_ORDER_HISTORY_STATUS') ) {
-        $this->sort_order = MODULE_BOXES_ORDER_HISTORY_SORT_ORDER;
-        $this->enabled = (MODULE_BOXES_ORDER_HISTORY_STATUS == 'True');
-
-        $this->group = ((MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT == 'Left Column') ? 'boxes_column_left' : 'boxes_column_right');
-      }
-    }
+    const CONFIG_KEY_BASE = 'MODULE_BOXES_ORDER_HISTORY_';
 
     function execute() {
-      global $customer_id, $languages_id, $PHP_SELF, $oscTemplate;
+      global $PHP_SELF;
 
-      if (tep_session_is_registered('customer_id')) {
-// retreive the last x products purchased
-        $orders_query = tep_db_query("select distinct op.products_id from orders o, orders_products op, products p where o.customers_id = '" . (int)$customer_id . "' and o.orders_id = op.orders_id and op.products_id = p.products_id and p.products_status = '1' group by products_id order by o.date_purchased desc limit " . MAX_DISPLAY_PRODUCTS_IN_ORDER_HISTORY_BOX);
-        if (tep_db_num_rows($orders_query)) {
-          $product_ids = '';
-          while ($orders = tep_db_fetch_array($orders_query)) {
-            $product_ids .= (int)$orders['products_id'] . ',';
-          }
-          $product_ids = substr($product_ids, 0, -1);
-		  
-          $customer_orders_string = NULL;
-          
-          $products_query = tep_db_query("select products_id, products_name from products_description where products_id in (" . $product_ids . ") and language_id = '" . (int)$languages_id . "' order by products_name");
-          while ($products = tep_db_fetch_array($products_query)) {
-            $customer_orders_string .= '<li class="list-group-item d-flex justify-content-between align-items-center"><a href="' . tep_href_link('product_info.php', 'products_id=' . $products['products_id']) . '">' . $products['products_name'] . '</a><span class="badge"><a class="badge badge-primary" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=cust_order&pid=' . $products['products_id']) . '"><i class="fas fa-shopping-cart fa-fw fa-2x"></i></a></span></li>';
-          }
+      if (isset($_SESSION['customer_id'])) {
+// retrieve the last x products purchased
+        $products_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT DISTINCT op.products_id, pd.products_name
+ FROM orders o
+   INNER JOIN orders_products op ON o.orders_id = op.orders_id
+   INNER JOIN products p ON op.products_id = p.products_id
+   INNER JOIN products_description pd ON p.products_id = pd.products_id
+ WHERE p.products_status = 1 AND o.customers_id = %d AND pd.language_id = %d
+ GROUP BY products_id
+ ORDER BY o.date_purchased DESC
+ LIMIT %d
+EOSQL
+          , (int)$_SESSION['customer_id'], (int)$_SESSION['languages_id'], (int)MODULE_BOXES_ORDER_HISTORY_MAX_DISPLAY_PRODUCTS));
 
-          ob_start();
-          include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-          $data = ob_get_clean();
-
-          $oscTemplate->addBlock($data, $this->group);
+        if (tep_db_num_rows($products_query)) {
+          $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+          include 'includes/modules/block_template.php';
         }
       }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_BOXES_ORDER_HISTORY_STATUS' => [
+          'title' => 'Enable Order History Module',
+          'value' => 'True',
+          'desc' => 'Do you want to add the module to your shop?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_BOXES_ORDER_HISTORY_MAX_DISPLAY_PRODUCTS' => [
+          'title' => 'Maximum Products to show',
+          'value' => '6',
+          'desc' => 'Maximum number of products to display in the customer order history box',
+        ],
+        'MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT' => [
+          'title' => 'Content Placement',
+          'value' => 'Right Column',
+          'desc' => 'Should the module be loaded in the left or right column?',
+          'set_func' => "tep_cfg_select_option(['Left Column', 'Right Column'], ",
+        ],
+        'MODULE_BOXES_ORDER_HISTORY_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_BOXES_ORDER_HISTORY_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Order History Module', 'MODULE_BOXES_ORDER_HISTORY_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', '6', '1', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_BOXES_ORDER_HISTORY_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_BOXES_ORDER_HISTORY_STATUS', 'MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT', 'MODULE_BOXES_ORDER_HISTORY_SORT_ORDER');
-    }
   }
 

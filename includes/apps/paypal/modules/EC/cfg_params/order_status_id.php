@@ -24,11 +24,11 @@
     }
 
     function getSetField() {
-      global $OSCOM_PayPal, $languages_id;
-
+      global $OSCOM_PayPal;
+      
       $statuses_array = array(array('id' => '0', 'text' => $OSCOM_PayPal->getDef('cfg_ec_order_status_id_default')));
 
-      $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$languages_id . "' order by orders_status_name");
+      $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$_SESSION['languages_id'] . "' order by orders_status_name");
       while ($statuses = tep_db_fetch_array($statuses_query)) {
         $statuses_array[] = array('id' => $statuses['orders_status_id'],
                                   'text' => $statuses['orders_status_name']);

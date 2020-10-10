@@ -5,96 +5,81 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class cm_login_form {
-    var $code;
-    var $group;
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class cm_login_form extends abstract_executable_module {
+
+    const REQUIRES = [ 'password', 'id', 'email_address' ];
+
+    const CONFIG_KEY_BASE = 'MODULE_CONTENT_LOGIN_FORM_';
 
     function __construct() {
-      $this->code = get_class($this);
-      $this->group = basename(dirname(__FILE__));
-
-      $this->title = MODULE_CONTENT_LOGIN_FORM_TITLE;
-      $this->description = MODULE_CONTENT_LOGIN_FORM_DESCRIPTION;
-
-      if ( defined('MODULE_CONTENT_LOGIN_FORM_STATUS') ) {
-        $this->sort_order = MODULE_CONTENT_LOGIN_FORM_SORT_ORDER;
-        $this->enabled = (MODULE_CONTENT_LOGIN_FORM_STATUS == 'True');
-      }
+      parent::__construct(__FILE__);
     }
 
-    function execute() {
-      global $sessiontoken, $login_customer_id, $messageStack, $oscTemplate;
+    function login() {
+      global $customer_data;
+
+      // Check if email exists
+      $email_address = tep_db_prepare_input($_POST['email_address']);
+
+      $customer_query = tep_db_query($customer_data->build_read(['id', 'password'], 'customers', ['email_address' => $email_address]) . ' LIMIT 1');
+      $customer_details = tep_db_fetch_array($customer_query);
+      if (!$customer_details) {
+        return false;
+      }
+
+      // Check that password is good
+      $password = tep_db_prepare_input($_POST['password']);
+      if (!tep_validate_password($password, $customer_data->get('password', $customer_details))) {
+        return false;
+      }
+
+      // set $login_customer_id globally and perform post login code in catalog/login.php
+      $GLOBALS['login_customer_id'] = (int)$customer_data->get('id', $customer_details);
+
+      // migrate old hashed password to new phpass password
+      if (tep_password_type($customer_data->get('password', $customer_details)) != 'phpass') {
+        $customer_data->update(['password' => $password], ['id' => (int)$GLOBALS['login_customer_id']], 'customers');
+      }
+
+      return true;
+    }
+
+    public function execute() {
+      if ((tep_validate_form_action_is('process')) && (!$this->login())) {
+        $GLOBALS['messageStack']->add('login', MODULE_CONTENT_LOGIN_TEXT_LOGIN_ERROR);
+      }
 
       $content_width = (int)MODULE_CONTENT_LOGIN_FORM_CONTENT_WIDTH;
-      
-      $error = false;
 
-      if (isset($_GET['action']) && ($_GET['action'] == 'process') && isset($_POST['formid']) && ($_POST['formid'] == $sessiontoken)) {
-        $email_address = tep_db_prepare_input($_POST['email_address']);
-        $password = tep_db_prepare_input($_POST['password']);
-
-// Check if email exists
-        $customer_query = tep_db_query("select customers_id, customers_password from customers where customers_email_address = '" . tep_db_input($email_address) . "' limit 1");
-        if (!tep_db_num_rows($customer_query)) {
-          $error = true;
-        } else {
-          $customer = tep_db_fetch_array($customer_query);
-
-// Check that password is good
-          if (!tep_validate_password($password, $customer['customers_password'])) {
-            $error = true;
-          } else {
-// set $login_customer_id globally and perform post login code in catalog/login.php
-            $login_customer_id = (int)$customer['customers_id'];
-
-// migrate old hashed password to new phpass password
-            if (tep_password_type($customer['customers_password']) != 'phpass') {
-              tep_db_query("update customers set customers_password = '" . tep_encrypt_password($password) . "' where customers_id = '" . (int)$login_customer_id . "'");
-            }
-          }
-        }
-      }
-
-      if ($error == true) {
-        $messageStack->add('login', MODULE_CONTENT_LOGIN_TEXT_LOGIN_ERROR);
-      }
-
-      ob_start();
-      include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
-      $template = ob_get_clean();
-
-      $oscTemplate->addContent($template, $this->group);
+      $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+      include 'includes/modules/content/cm_template.php';
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    public function get_parameters() {
+      return [
+        'MODULE_CONTENT_LOGIN_FORM_STATUS' => [
+          'title' => 'Enable Login Form Module',
+          'value' => 'True',
+          'desc' => 'Do you want to enable the login form module?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_CONTENT_LOGIN_FORM_CONTENT_WIDTH' => [
+          'title' => 'Content Width',
+          'value' => '6',
+          'desc' => 'What width container should the content be shown in? (12 = full width, 6 = half width).',
+          'set_func' => "tep_cfg_select_option(['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], ",
+        ],
+        'MODULE_CONTENT_LOGIN_FORM_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '1000',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_CONTENT_LOGIN_FORM_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Login Form Module', 'MODULE_CONTENT_LOGIN_FORM_STATUS', 'True', 'Do you want to enable the login form module?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_CONTENT_LOGIN_FORM_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_LOGIN_FORM_SORT_ORDER', '1000', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_CONTENT_LOGIN_FORM_STATUS', 'MODULE_CONTENT_LOGIN_FORM_CONTENT_WIDTH', 'MODULE_CONTENT_LOGIN_FORM_SORT_ORDER');
-    }
   }
-  

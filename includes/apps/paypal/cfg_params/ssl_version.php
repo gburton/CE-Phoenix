@@ -96,7 +96,7 @@ $(function() {
 
       $.getJSON('{$connection_test_url}', function (data) {
         if ( (typeof data == 'object') && ('rpcStatus' in data) && (data.rpcStatus == 1) ) {
-          var content = '<p>{$dialog_connection_test_curl_version} ' + data.curl_version + '<br />{$dialog_connection_test_curl_ssl_version} ' + data.curl_ssl_version + '</p><p>{$dialog_connection_test_default_setting} ';
+          var content = '<p>{$dialog_connection_test_curl_version} ' + data.curl_version + '<br>{$dialog_connection_test_curl_ssl_version} ' + data.curl_ssl_version + '</p><p>{$dialog_connection_test_default_setting} ';
 
           if (data.default == true) {
             content += '<span style="color: green; font-weight: bold;">{$dialog_connection_test_success}</span>';
@@ -104,7 +104,7 @@ $(function() {
             content += '<span style="color: red; font-weight: bold;">{$dialog_connection_test_failed}</span>';
           }
 
-          content += '<br />{$dialog_connection_test_tlsv12_setting} ';
+          content += '<br>{$dialog_connection_test_tlsv12_setting} ';
 
           if (data.tlsv12 == true) {
             content += '<span style="color: green; font-weight: bold;">{$dialog_connection_test_success}</span>';

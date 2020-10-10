@@ -5,56 +5,41 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 
   Example usage:
-
-  $heading = array();
-  $heading[] = array('params' => 'class="menuBoxHeading"',
-                     'text'  => BOX_HEADING_TOOLS,
-                     'link'  => tep_href_link(basename($PHP_SELF));
-
-  $contents = array();
-  $contents[] = array('text'  => SOME_TEXT);
-
-  $box = new box;
+  $heading = BOX_HEADING_TOOLS;
+  $contents = [];
+  $contents[] = ['text'  => SOME_TEXT];
+  $box = new box();
   echo $box->infoBox($heading, $contents);
 */
 
   class box extends tableBlock {
-	function __construct() {
-      $this->heading = array();
-      $this->contents = array();
-    }
 
     function infoBox($heading, $contents) {
-      $this->table_row_parameters = 'class="infoBoxHeading"';
-      $this->table_data_parameters = 'class="infoBoxHeading"';
-      $this->heading = $this->tableBlock($heading);
-
-      $this->table_row_parameters = '';
-      $this->table_data_parameters = 'class="infoBoxContent"';
-      $this->contents = $this->tableBlock($contents);
-
-      return $this->heading . $this->contents;
-    }
-
-    function menuBox($heading, $contents) {
-      $this->table_data_parameters = 'class="menuBoxHeading"';
-      if (isset($heading[0]['link'])) {
-        $this->table_data_parameters .= ' onmouseover="this.style.cursor=\'hand\'" onclick="document.location.href=\'' . $heading[0]['link'] . '\'"';
-        $heading[0]['text'] = '&nbsp;<a href="' . $heading[0]['link'] . '" class="menuBoxHeadingLink">' . $heading[0]['text'] . '</a>&nbsp;';
-      } else {
-        $heading[0]['text'] = '&nbsp;' . $heading[0]['text'] . '&nbsp;';
+      if (is_array($heading)) {
+        $heading = $heading[0]['text'];
       }
-      $this->heading = $this->tableBlock($heading);
+      $parameters = ['heading' => &$heading, 'contents' => &$contents];
+      $GLOBALS['OSCOM_Hooks']->call(pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME), 'infoBox', $parameters);
 
-      $this->table_data_parameters = 'class="menuBoxContent"';
-      $this->contents = (!empty($contents) ? $this->tableBlock($contents) : '');
+      if (isset($contents['form'])) {
+        $form_start = $contents['form'] . PHP_EOL;
+        $form_close = '</form>' . PHP_EOL;
+        unset($contents['form']);
+      } else {
+        $form_start = '';
+        $form_close = '';
+      }
+      $contents = $this->tableBlock($contents);
 
-      return $this->heading . $this->contents;
+      ob_start();
+      include __DIR__ . '/templates/tpl_box.php';
+
+      return ob_get_clean();
     }
+
   }
-?>

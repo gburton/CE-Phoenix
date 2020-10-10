@@ -5,80 +5,54 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class bm_product_notifications {
-    var $code = 'bm_product_notifications';
-    var $group = 'boxes';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class bm_product_notifications extends abstract_block_module {
 
-    function __construct() {
-      $this->title = MODULE_BOXES_PRODUCT_NOTIFICATIONS_TITLE;
-      $this->description = MODULE_BOXES_PRODUCT_NOTIFICATIONS_DESCRIPTION;
-
-      if ( defined('MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS') ) {
-        $this->sort_order = MODULE_BOXES_PRODUCT_NOTIFICATIONS_SORT_ORDER;
-        $this->enabled = (MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS == 'True');
-        
-        $this->group = ((MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT == 'Left Column') ? 'boxes_column_left' : 'boxes_column_right');
-      }
-    }
+    const CONFIG_KEY_BASE = 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_';
 
     function execute() {
-      global $customer_id, $PHP_SELF, $request_type, $oscTemplate;
+      global $PHP_SELF, $request_type;
 
       if (isset($_GET['products_id'])) {
-        if (tep_session_is_registered('customer_id')) {
-          $check_query = tep_db_query("select count(*) as count from products_notifications where products_id = '" . (int)$_GET['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
+        if (isset($_SESSION['customer_id'])) {
+          $check_query = tep_db_query("SELECT COUNT(*) AS count FROM products_notifications WHERE products_id = " . (int)$_GET['products_id'] . " AND customers_id = " . (int)$_SESSION['customer_id']);
           $check = tep_db_fetch_array($check_query);
 
-          $notification_exists = (($check['count'] > 0) ? true : false);
+          $notification_exists = ($check['count'] > 0);
         } else {
           $notification_exists = false;
         }
 
-        $notif_contents = '';
-
-        if ($notification_exists == true) {
-          $notif_contents = '<a class="list-group-item list-group-item-action" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify_remove', $request_type) . '"><i class="fas fa-times"></i> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY_REMOVE, tep_get_products_name($_GET['products_id'])) .'</a>';
-        } else {
-          $notif_contents = '<a class="list-group-item list-group-item-action" href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=notify', $request_type) . '"><i class="fas fa-envelope"></i> ' . sprintf(MODULE_BOXES_PRODUCT_NOTIFICATIONS_BOX_NOTIFY, tep_get_products_name($_GET['products_id'])) .'</a>';
-        }
-        
-        ob_start();
-        include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-        $data = ob_get_clean();
-                 
-        $oscTemplate->addBlock($data, $this->group);
+        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+        include 'includes/modules/block_template.php';
       }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS' => [
+          'title' => 'Enable Product Notifications Module',
+          'value' => 'True',
+          'desc' => 'Do you want to add the module to your shop?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT' => [
+          'title' => 'Content Placement',
+          'value' => 'Right Column',
+          'desc' => 'Should the module be loaded in the left or right column?',
+          'set_func' => "tep_cfg_select_option(['Left Column', 'Right Column'], ",
+        ],
+        'MODULE_BOXES_PRODUCT_NOTIFICATIONS_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Product Notifications Module', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', '6', '1', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_SORT_ORDER');
-    }
   }
 

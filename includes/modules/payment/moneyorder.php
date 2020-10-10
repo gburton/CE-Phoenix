@@ -5,118 +5,70 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class moneyorder {
-    var $code, $title, $description, $enabled;
+  class moneyorder extends abstract_payment_module {
 
-// class constructor
-    function __construct() {
-      global $order;
+    const CONFIG_KEY_BASE = 'MODULE_PAYMENT_MONEYORDER_';
 
-      $this->code = 'moneyorder';
-      $this->title = MODULE_PAYMENT_MONEYORDER_TEXT_TITLE;
-      $this->description = MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION;
-      
+    public $email_footer;
+
+    public function __construct() {
+      parent::__construct();
+
       if ( !defined('MODULE_PAYMENT_MONEYORDER_PAYTO') || (!tep_not_null(MODULE_PAYMENT_MONEYORDER_PAYTO))) {
-        $this->description .= '<div class="secWarning">' . MODULE_PAYMENT_MONEYORDER_WARNING_SETUP . '</div>';
-      }
-      
-      if ( defined('MODULE_PAYMENT_MONEYORDER_STATUS') ) {
-        $this->sort_order = MODULE_PAYMENT_MONEYORDER_SORT_ORDER;
-        $this->enabled = ((MODULE_PAYMENT_MONEYORDER_STATUS == 'True') ? true : false);
-
-        if ((int)MODULE_PAYMENT_MONEYORDER_ORDER_STATUS_ID > 0) {
-          $this->order_status = MODULE_PAYMENT_MONEYORDER_ORDER_STATUS_ID;
-        }
+        $this->description .= '<div class="alert alert-warning">' . MODULE_PAYMENT_MONEYORDER_WARNING_SETUP . '</div>';
       }
 
-      if (is_object($order)) $this->update_status();
-    
-      $this->email_footer = MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER;
+      $this->email_footer = sprintf(MODULE_PAYMENT_MONEYORDER_TEXT_EMAIL_FOOTER,
+        (self::get_constant('MODULE_PAYMENT_MONEYORDER_PAYTO') ?? ''),
+        STORE_NAME, nl2br(STORE_ADDRESS));
     }
 
-// class methods
-    function update_status() {
-      global $order;
-
-      if ( ($this->enabled == true) && ((int)MODULE_PAYMENT_MONEYORDER_ZONE > 0) ) {
-        $check_flag = false;
-        $check_query = tep_db_query("select zone_id from zones_to_geo_zones where geo_zone_id = '" . MODULE_PAYMENT_MONEYORDER_ZONE . "' and zone_country_id = '" . $order->billing['country']['id'] . "' order by zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
-          if ($check['zone_id'] < 1) {
-            $check_flag = true;
-            break;
-          } elseif ($check['zone_id'] == $order->billing['zone_id']) {
-            $check_flag = true;
-            break;
-          }
-        }
-
-        if ($check_flag == false) {
-          $this->enabled = false;
-        }
-      }
+    public function confirmation() {
+      return [
+        'title' => sprintf(MODULE_PAYMENT_MONEYORDER_TEXT_CONFIRMATION,
+                           (self::get_constant('MODULE_PAYMENT_MONEYORDER_PAYTO') ?? ''),
+                           STORE_NAME, STORE_ADDRESS),
+      ];
     }
 
-    function javascript_validation() {
-      return false;
+    protected function get_parameters() {
+      return [
+        'MODULE_PAYMENT_MONEYORDER_STATUS' => [
+          'title' => 'Enable Check/Money Order Module',
+          'value' => 'True',
+          'desc' => 'Do you want to accept Check/Money Order payments?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_PAYMENT_MONEYORDER_PAYTO' => [
+          'title' => 'Make Payable to:',
+          'value' => '',
+          'desc' => 'Who should payments be made payable to?',
+        ],
+        'MODULE_PAYMENT_MONEYORDER_SORT_ORDER' => [
+          'title' => 'Sort order of display.',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+        'MODULE_PAYMENT_MONEYORDER_ZONE' => [
+          'title' => 'Payment Zone',
+          'value' => '0',
+          'desc' => 'If a zone is selected, only enable this payment method for that zone.',
+          'use_func' => 'tep_get_zone_class_title',
+          'set_func' => 'tep_cfg_pull_down_zone_classes(',
+        ],
+        'MODULE_PAYMENT_MONEYORDER_ORDER_STATUS_ID' => [
+          'title' => 'Set Order Status',
+          'value' => '0',
+          'desc' => 'Set the status of orders made with this payment module to this value',
+          'set_func' => 'tep_cfg_pull_down_order_statuses(',
+          'use_func' => 'tep_get_order_status_name',
+        ],
+      ];
     }
 
-    function selection() {
-      return array('id' => $this->code,
-                   'module' => $this->title);
-    }
-
-    function pre_confirmation_check() {
-      return false;
-    }
-
-    function confirmation() {
-      return array('title' => MODULE_PAYMENT_MONEYORDER_TEXT_DESCRIPTION);
-    }
-
-    function process_button() {
-      return false;
-    }
-
-    function before_process() {
-      return false;
-    }
-
-    function after_process() {
-      return false;
-    }
-
-    function get_error() {
-      return false;
-    }
-
-    function check() {
-      if (!isset($this->_check)) {
-        $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_PAYMENT_MONEYORDER_STATUS'");
-        $this->_check = tep_db_num_rows($check_query);
-      }
-      return $this->_check;
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Check/Money Order Module', 'MODULE_PAYMENT_MONEYORDER_STATUS', 'True', 'Do you want to accept Check/Money Order payments?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now());");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Make Payable to:', 'MODULE_PAYMENT_MONEYORDER_PAYTO', '', 'Who should payments be made payable to?', '6', '1', now());");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort order of display.', 'MODULE_PAYMENT_MONEYORDER_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Payment Zone', 'MODULE_PAYMENT_MONEYORDER_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', '6', '2', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) values ('Set Order Status', 'MODULE_PAYMENT_MONEYORDER_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', '6', '0', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_PAYMENT_MONEYORDER_STATUS', 'MODULE_PAYMENT_MONEYORDER_ZONE', 'MODULE_PAYMENT_MONEYORDER_ORDER_STATUS_ID', 'MODULE_PAYMENT_MONEYORDER_SORT_ORDER', 'MODULE_PAYMENT_MONEYORDER_PAYTO');
-    }
   }
-?>

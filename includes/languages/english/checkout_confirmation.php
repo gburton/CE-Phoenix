@@ -29,7 +29,7 @@ define('HEADING_ORDER_COMMENTS', 'Comments About Your Order');
 
 define('TEXT_EDIT', 'Edit');
 
-define('IMAGE_BUTTON_FINALISE_ORDER', 'Finalise and Pay For my Order');
+define('IMAGE_BUTTON_FINALISE_ORDER', 'Finalise and Pay %s For my Order');
 
 define('HEADING_QTY', 'Qty');
 

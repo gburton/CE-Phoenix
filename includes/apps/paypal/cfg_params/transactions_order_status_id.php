@@ -24,16 +24,14 @@
     }
 
     function getSetField() {
-      global $languages_id;
-
       $statuses_array = array();
 
       $flags_query = tep_db_query("describe orders_status public_flag");
 
       if (tep_db_num_rows($flags_query) == 1) {
-        $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$languages_id . "' and public_flag = '0' order by orders_status_name");
+        $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$_SESSION['languages_id'] . "' and public_flag = '0' order by orders_status_name");
       } else {
-        $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$languages_id . "' order by orders_status_name");
+        $statuses_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$_SESSION['languages_id'] . "' order by orders_status_name");
       }
 
       while ($statuses = tep_db_fetch_array($statuses_query)) {

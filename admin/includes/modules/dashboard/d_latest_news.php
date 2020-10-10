@@ -57,11 +57,11 @@
       
       $output .= '<div class="text-right my-0 mb-2 p-1">';
         $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-        $output .= '<a href="http://www.oscommerce.com/Us&News" target="_blank">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWS) . '</a> ';
-        $output .= '<a href="http://www.oscommerce.com/newsletter/subscribe" target="_blank">' . tep_image('images/icon_newsletter.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWSLETTER) . '</a> ';
-        $output .= '<a href="http://www.facebook.com/pages/osCommerce/33387373079" target="_blank">' . tep_image('images/icon_facebook.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_FACEBOOK) . '</a> ';
-        $output .= '<a href="http://twitter.com/osCommerce" target="_blank">' . tep_image('images/icon_twitter.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_TWITTER) . '</a> ';
-        $output .= '<a href="http://feeds.feedburner.com/osCommerceNewsAndBlogs" target="_blank">' . tep_image('images/icon_rss.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_RSS) . '</a> ';
+        $output .= '<a class="float-left ml-1" href="http://www.oscommerce.com/Us&News" target="_blank">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWS) . '</a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWSLETTER . '" href="http://www.oscommerce.com/newsletter/subscribe" target="_blank"><i class="fas fa-envelope-square fa-2x text-muted"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_FACEBOOK . '" href="http://www.facebook.com/pages/osCommerce/33387373079" target="_blank"><i class="fab fa-facebook-square fa-2x text-info"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_TWITTER . '" href="http://twitter.com/osCommerce" target="_blank"><i class="fab fa-twitter-square fa-2x text-primary"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_RSS . '" href="http://feeds.feedburner.com/osCommerceNewsAndBlogs" target="_blank"><i class="fas fa-rss-square fa-2x text-warning"></i></a> ';
       $output .= '</div>';
 
       return $output;

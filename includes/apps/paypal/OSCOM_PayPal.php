@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2017 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -13,19 +13,18 @@
   include(DIR_FS_CATALOG . 'includes/apps/paypal/functions/compatibility.php');
 
   class OSCOM_PayPal {
-    var $_code = 'paypal';
-    var $_title = 'PayPal App';
-    var $_version;
-    var $_api_version = '204';
-    var $_identifier = 'osCommerce_PPapp_v5';
-    var $_definitions = array();
+
+    public $_code = 'paypal';
+    public $_title = 'PayPal App';
+    public $_version;
+    public $_api_version = '204';
+    public $_identifier = 'osCommerce_PPapp_v5';
+    public $_definitions = [];
 
     function log($module, $action, $result, $request, $response, $server, $is_ipn = false) {
-      global $customer_id;
-
       $do_log = false;
 
-      if ( in_array(OSCOM_APP_PAYPAL_LOG_TRANSACTIONS, array('1', '0')) ) {
+      if ( in_array(OSCOM_APP_PAYPAL_LOG_TRANSACTIONS, ['1', '0']) ) {
         $do_log = true;
 
         if ( (OSCOM_APP_PAYPAL_LOG_TRANSACTIONS == '0') && ($result === 1) ) {
@@ -37,7 +36,7 @@
         return false;
       }
 
-      $filter = array('ACCT', 'CVV2', 'ISSUENUMBER');
+      $filter = ['ACCT', 'CVV2', 'ISSUENUMBER'];
 
       $request_string = '';
 
@@ -69,15 +68,17 @@
         $response_string = $response;
       }
 
-      $data = array('customers_id' => tep_session_is_registered('customer_id') ? $customer_id : 0,
-                    'module' => $module,
-                    'action' => $action . (($is_ipn === true) ? ' [IPN]' : ''),
-                    'result' => $result,
-                    'server' => ($server == 'live') ? 1 : -1,
-                    'request' => trim($request_string),
-                    'response' => trim($response_string),
-                    'ip_address' => sprintf('%u', ip2long($this->getIpAddress())),
-                    'date_added' => 'now()');
+      $data = [
+        'customers_id' => ($_SESSION['customer_id'] ?? 0),
+        'module' => $module,
+        'action' => $action . (($is_ipn === true) ? ' [IPN]' : ''),
+        'result' => $result,
+        'server' => ($server == 'live') ? 1 : -1,
+        'request' => trim($request_string),
+        'response' => trim($response_string),
+        'ip_address' => sprintf('%u', ip2long(tep_get_ip_address())),
+        'date_added' => 'NOW()',
+      ];
 
       tep_db_perform('oscom_app_paypal_log', $data);
     }
@@ -92,9 +93,9 @@
           $class = 'OSCOM_PayPal_' . $module;
 
           if ( !class_exists($class) ) {
-            $this->loadLanguageFile('modules/' . $module . '/' . $module . '.php');
+            $this->loadLanguageFile("modules/$module/$module.php");
 
-            include(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/' . $module . '.php');
+            include(DIR_FS_CATALOG . "includes/apps/paypal/modules/$module/$module.php");
           }
 
           $m = new $class();
@@ -116,11 +117,16 @@
       static $result;
 
       if ( !isset($result) ) {
-        $result = array();
-
-        if ( $dir = @dir(DIR_FS_CATALOG . 'includes/apps/paypal/modules/') ) {
+        $result = [];
+        
+        $d = DIR_FS_CATALOG . 'includes/apps/paypal/modules/';
+        if ( $dir = @dir($d) ) {
           while ( $file = $dir->read() ) {
-            if ( !in_array($file, array('.', '..')) && is_dir(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $file) && file_exists(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $file . '/' . $file . '.php') ) {
+            if (in_array($file, ['.', '..'])) {
+              continue;
+            }
+
+            if ( is_dir("$d/$file") && file_exists("$d/$file/$file.php") ) {
               $sort_order = $this->getModuleInfo($file, 'sort_order');
 
               if ( is_numeric($sort_order) ) {
@@ -162,9 +168,9 @@
       $class = 'OSCOM_PayPal_' . $module;
 
       if ( !class_exists($class) ) {
-        $this->loadLanguageFile('modules/' . $module . '/' . $module . '.php');
+        $this->loadLanguageFile("modules/$module/$module.php");
 
-        include(DIR_FS_CATALOG . 'includes/apps/paypal/modules/' . $module . '/' . $module . '.php');
+        include DIR_FS_CATALOG . "includes/apps/paypal/modules/$module/$module.php";
       }
 
       $m = new $class();
@@ -179,26 +185,30 @@
 
       $server = constant('OSCOM_APP_PAYPAL_' . $module . '_STATUS');
 
-      if ( !in_array($server, array('1', '0')) ) {
+      if ( !in_array($server, ['1', '0']) ) {
         return false;
       }
 
       $server = ($server == '1') ? 'LIVE' : 'SANDBOX';
 
       if ( $type == 'email') {
-        $creds = array('OSCOM_APP_PAYPAL_' . $server . '_SELLER_EMAIL');
+        $creds = ['OSCOM_APP_PAYPAL_' . $server . '_SELLER_EMAIL'];
       } elseif ( substr($type, 0, 7) == 'payflow' ) {
         if ( strlen($type) > 7 ) {
-          $creds = array('OSCOM_APP_PAYPAL_PF_' . $server . '_' . strtoupper(substr($type, 8)));
+          $creds = ['OSCOM_APP_PAYPAL_PF_' . $server . '_' . strtoupper(substr($type, 8))];
         } else {
-          $creds = array('OSCOM_APP_PAYPAL_PF_' . $server . '_VENDOR',
-                         'OSCOM_APP_PAYPAL_PF_' . $server . '_PASSWORD',
-                         'OSCOM_APP_PAYPAL_PF_' . $server . '_PARTNER');
+          $creds = [
+            'OSCOM_APP_PAYPAL_PF_' . $server . '_VENDOR',
+            'OSCOM_APP_PAYPAL_PF_' . $server . '_PASSWORD',
+            'OSCOM_APP_PAYPAL_PF_' . $server . '_PARTNER',
+          ];
         }
       } else {
-        $creds = array('OSCOM_APP_PAYPAL_' . $server . '_API_USERNAME',
-                       'OSCOM_APP_PAYPAL_' . $server . '_API_PASSWORD',
-                       'OSCOM_APP_PAYPAL_' . $server . '_API_SIGNATURE');
+        $creds = [
+          'OSCOM_APP_PAYPAL_' . $server . '_API_USERNAME',
+          'OSCOM_APP_PAYPAL_' . $server . '_API_PASSWORD',
+          'OSCOM_APP_PAYPAL_' . $server . '_API_SIGNATURE',
+        ];
       }
 
       foreach ( $creds as $c ) {
@@ -238,13 +248,15 @@
       $server = ($server == 'live') ? 'LIVE' : 'SANDBOX';
 
       if ( $type == 'email') {
-        $creds = array('OSCOM_APP_PAYPAL_' . $server . '_SELLER_EMAIL');
+        $creds = ['OSCOM_APP_PAYPAL_' . $server . '_SELLER_EMAIL'];
       } elseif ( substr($type, 0, 7) == 'payflow' ) {
-        $creds = array('OSCOM_APP_PAYPAL_PF_' . $server . '_' . strtoupper(substr($type, 8)));
+        $creds = ['OSCOM_APP_PAYPAL_PF_' . $server . '_' . strtoupper(substr($type, 8))];
       } else {
-        $creds = array('OSCOM_APP_PAYPAL_' . $server . '_API_USERNAME',
-                       'OSCOM_APP_PAYPAL_' . $server . '_API_PASSWORD',
-                       'OSCOM_APP_PAYPAL_' . $server . '_API_SIGNATURE');
+        $creds = [
+          'OSCOM_APP_PAYPAL_' . $server . '_API_USERNAME',
+          'OSCOM_APP_PAYPAL_' . $server . '_API_PASSWORD',
+          'OSCOM_APP_PAYPAL_' . $server . '_API_SIGNATURE',
+        ];
       }
 
       foreach ( $creds as $c ) {
@@ -265,7 +277,7 @@
     }
 
     function getParameters($module) {
-      $result = array();
+      $result = [];
 
       if ( $module == 'G' ) {
         if ( $dir = @dir(DIR_FS_CATALOG . 'includes/apps/paypal/cfg_params/') ) {
@@ -289,7 +301,7 @@
     }
 
     function getInputParameters($module) {
-      $result = array();
+      $result = [];
 
       if ( $module == 'G' ) {
         $cut = 'OSCOM_APP_PAYPAL_';
@@ -323,7 +335,7 @@
         $cfg = new $cfg_class();
 
         if ( !defined($key) ) {
-          $this->saveParameter($key, $cfg->default, isset($cfg->title) ? $cfg->title : null, isset($cfg->description) ? $cfg->description : null, isset($cfg->set_func) ? $cfg->set_func : null);
+          $this->saveParameter($key, $cfg->default, ($cfg->title ?? null), ($cfg->description ?? null), ($cfg->set_func ?? null));
         }
 
         if ( !isset($cfg->app_configured) || ($cfg->app_configured !== false) ) {
@@ -362,7 +374,7 @@
         $function = 'OSCOM_PayPal_Api_' . $call;
 
         if ( !function_exists($function) ) {
-          include(DIR_FS_CATALOG . 'includes/apps/paypal/api/' . $call . '.php');
+          require DIR_FS_CATALOG . 'includes/apps/paypal/api/' . $call . '.php';
         }
       } else {
         if ( !isset($server) ) {
@@ -453,11 +465,11 @@
       $result = curl_exec($curl);
 
       if (isset($opts['returnFull']) && ($opts['returnFull'] === true)) {
-        $result = array(
+        $result = [
           'response' => $result,
           'error' => curl_error($curl),
-          'info' => curl_getinfo($curl)
-        );
+          'info' => curl_getinfo($curl),
+        ];
       }
 
       curl_close($curl);
@@ -466,11 +478,13 @@
     }
 
     function drawButton($title = null, $link = null, $type = null, $params = null, $force_css = false) {
-      $colours = array('success' => '#1cb841',
-                       'error' => '#ca3c3c',
-                       'warning' => '#ebaa16',
-                       'info' => '#42B8DD',
-                       'primary' => '#0078E7');
+      $colours = [
+        'success' => '#1cb841',
+        'error' => '#ca3c3c',
+        'warning' => '#ebaa16',
+        'info' => '#42B8DD',
+        'primary' => '#0078E7',
+      ];
 
       if ( !isset($type) || !in_array($type, array_keys($colours)) ) {
         $type = 'info';
@@ -539,52 +553,31 @@
 
       $value = '';
 
-      if ( !class_exists('PasswordHash') && file_exists(DIR_FS_CATALOG . 'includes/classes/passwordhash.php') ) {
-        include(DIR_FS_CATALOG . 'includes/classes/passwordhash.php');
+      $hasher = new PasswordHash(10, true);
 
-        $hasher = new PasswordHash(10, true);
+      do {
+        $random = base64_encode($hasher->get_random_bytes($length));
 
-        do {
-          $random = base64_encode($hasher->get_random_bytes($length));
+        for ($i = 0, $n = strlen($random); $i < $n; $i++) {
+          $char = substr($random, $i, 1);
 
-          for ($i = 0, $n = strlen($random); $i < $n; $i++) {
-            $char = substr($random, $i, 1);
-
-            if ( strpos($base, $char) !== false ) {
-              $value .= $char;
-            }
+          if ( strpos($base, $char) !== false ) {
+            $value .= $char;
           }
-        } while ( strlen($value) < $length );
-
-        if ( strlen($value) > $length ) {
-          $value = substr($value, 0, $length);
         }
+      } while ( strlen($value) < $length );
 
-        return $value;
-      }
-
-// fallback for v2.3.1
-      while ( strlen($value) < $length ) {
-        if ($type == 'digits') {
-          $char = tep_rand(0,9);
-        } else {
-          $char = chr(tep_rand(0,255));
-        }
-
-        if ( $type == 'mixed' ) {
-          if (preg_match('/^[a-z0-9]$/i', $char)) $value .= $char;
-        } elseif ($type == 'chars') {
-          if (preg_match('/^[a-z]$/i', $char)) $value .= $char;
-        } elseif ($type == 'digits') {
-          if (preg_match('/^[0-9]$/i', $char)) $value .= $char;
-        }
+      if ( strlen($value) > $length ) {
+        $value = substr($value, 0, $length);
       }
 
       return $value;
     }
 
     function saveParameter($key, $value, $title = null, $description = null, $set_func = null) {
-      if ( !defined($key) ) {
+      if ( defined($key) ) {
+        tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($value) . "' WHERE configuration_key = '" . tep_db_input($key) . "'");
+      } else {
         if ( !isset($title) ) {
           $title = 'PayPal App Parameter';
         }
@@ -593,27 +586,31 @@
           $description = 'A parameter for the PayPal Application.';
         }
 
-        tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('" . tep_db_input($title) . "', '" . tep_db_input($key) . "', '" . tep_db_input($value) . "', '" . tep_db_input($description) . "', '6', '0', now())");
-
+        $sql = 'INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, ';
         if ( isset($set_func) ) {
-          tep_db_query("update " . TABLE_CONFIGURATION . " set set_function = '" . tep_db_input($set_func) . "' where configuration_key = '" . tep_db_input($key) . "'");
+          $sql .= 'set_function, ';
         }
+        $sql .= "date_added) VALUES ('" . tep_db_input($title) . "', '" . tep_db_input($key) . "', '" . tep_db_input($value) . "', '" . tep_db_input($description) . "', 6, 0, ";
+        if ( isset($set_func) ) {
+          $sql .= "'" . tep_db_input($set_func) . "', ";
+        }
+        $sql .= 'NOW())';
+
+        tep_db_query($sql);
 
         define($key, $value);
-      } else {
-        tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
       }
     }
 
     function deleteParameter($key) {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key = '" . tep_db_input($key) . "'");
+      tep_db_query("DELETE FROM configuration WHERE configuration_key = '" . tep_db_input($key) . "'");
     }
 
     function formatCurrencyRaw($total, $currency_code = null, $currency_value = null) {
-      global $currencies, $currency;
+      global $currencies;
 
       if ( !isset($currency_code) ) {
-        $currency_code = tep_session_is_registered('currency') ? $currency : DEFAULT_CURRENCY;
+        $currency_code = $_SESSION['currency'] ?? DEFAULT_CURRENCY;
       }
 
       if ( !isset($currency_value) || !is_numeric($currency_value) ) {
@@ -654,32 +651,27 @@
     }
 
     function hasAlert() {
-      return tep_session_is_registered('OSCOM_PayPal_Alerts');
+      return isset($_SESSION['OSCOM_PayPal_Alerts']);
     }
 
     function addAlert($message, $type) {
-      global $OSCOM_PayPal_Alerts;
-
-      if ( in_array($type, array('error', 'warning', 'success')) ) {
-        if ( !tep_session_is_registered('OSCOM_PayPal_Alerts') ) {
-          $OSCOM_PayPal_Alerts = array();
-          tep_session_register('OSCOM_PayPal_Alerts');
+      if ( in_array($type, ['error', 'warning', 'success']) ) {
+        if ( !isset($_SESSION['OSCOM_PayPal_Alerts']) ) {
+          $_SESSION['OSCOM_PayPal_Alerts'] = [];
         }
 
-        $OSCOM_PayPal_Alerts[$type][] = $message;
+        $_SESSION['OSCOM_PayPal_Alerts'][$type][] = $message;
       }
     }
 
     function getAlerts() {
-      global $OSCOM_PayPal_Alerts;
-
       $output = '';
 
-      if ( tep_session_is_registered('OSCOM_PayPal_Alerts') && !empty($OSCOM_PayPal_Alerts) ) {
-        $result = array();
+      if ( !empty($_SESSION['OSCOM_PayPal_Alerts']) ) {
+        $result = [];
 
-        foreach ( $OSCOM_PayPal_Alerts as $type => $messages ) {
-          if ( in_array($type, array('error', 'warning', 'success')) ) {
+        foreach ( $_SESSION['OSCOM_PayPal_Alerts'] as $type => $messages ) {
+          if ( in_array($type, ['error', 'warning', 'success']) ) {
             $m = '<ul class="pp-alerts-' . $type . '">';
 
             foreach ( $messages as $message ) {
@@ -697,7 +689,7 @@
         }
       }
 
-      tep_session_unregister('OSCOM_PayPal_Alerts');
+      unset($_SESSION['OSCOM_PayPal_Alerts']);
 
       return $output;
     }
@@ -718,7 +710,7 @@
 
         $cfg = new $cfg_class();
 
-        $this->saveParameter($key, $cfg->default, isset($cfg->title) ? $cfg->title : null, isset($cfg->description) ? $cfg->description : null, isset($cfg->set_func) ? $cfg->set_func : null);
+        $this->saveParameter($key, $cfg->default, ($cfg->title ?? null), ($cfg->description ?? null), ($cfg->set_func ?? null));
       }
 
       $m_class = 'OSCOM_PayPal_' . $module;
@@ -737,7 +729,7 @@
     }
 
     function uninstall($module) {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key like 'OSCOM_APP_PAYPAL_" . tep_db_input($module) . "_%'");
+      tep_db_query("delete from configuration where configuration_key like 'OSCOM_APP_PAYPAL_" . tep_db_input($module) . "_%'");
 
       $m_class = 'OSCOM_PayPal_' . $module;
 
@@ -761,9 +753,7 @@
     }
 
     public function loadLanguageFile($filename, $lang = null) {
-      global $language;
-
-      $lang = isset($lang) ? basename($lang) : basename($language);
+      $lang = basename($lang ?? $_SESSION['language']);
 
       if ( $lang != 'english' ) {
         $this->loadLanguageFile($filename, 'english');
@@ -774,7 +764,7 @@
       if ( file_exists($pathname) ) {
         $contents = file($pathname);
 
-        $ini_array = array();
+        $ini_array = [];
 
         foreach ( $contents as $line ) {
           $line = trim($line);
@@ -802,7 +792,7 @@
     }
 
     function getDef($key, $values = null) {
-      $def = isset($this->_definitions[$key]) ? $this->_definitions[$key] : $key;
+      $def = $this->_definitions[$key] ?? $key;
 
       if ( is_array($values) ) {
         $keys = array_keys($values);
@@ -817,7 +807,7 @@
       return $def;
     }
 
-    function getDirectoryContents($base, &$result = array()) {
+    function getDirectoryContents($base, &$result = []) {
       foreach ( scandir($base) as $file ) {
         if ( ($file == '.') || ($file == '..') ) {
           continue;
@@ -851,7 +841,7 @@
 
     function rmdir($dir) {
       foreach ( scandir($dir) as $file ) {
-        if ( !in_array($file, array('.', '..')) ) {
+        if ( !in_array($file, ['.', '..']) ) {
           if ( is_dir($dir . '/' . $file) ) {
             $this->rmdir($dir . '/' . $file);
           } else {
@@ -870,45 +860,5 @@
 
       return str_replace('/', DIRECTORY_SEPARATOR, $pathname);
     }
-// OSCOM v2.2rc2a compatibility
-    function getIpAddress() {
-      if ( function_exists('tep_get_ip_address') ) {
-        return tep_get_ip_address();
-      }
-      $ip_address = null;
-      $ip_addresses = array();
-      if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        foreach ( array_reverse(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])) as $x_ip ) {
-          $x_ip = trim($x_ip);
-          if ($this->isValidIpAddress($x_ip)) {
-            $ip_addresses[] = $x_ip;
-          }
-        }
-      }
-      if (isset($_SERVER['HTTP_CLIENT_IP']) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip_addresses[] = $_SERVER['HTTP_CLIENT_IP'];
-      }
-      if (isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']) && !empty($_SERVER['HTTP_X_CLUSTER_CLIENT_IP'])) {
-        $ip_addresses[] = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
-      }
-      if (isset($_SERVER['HTTP_PROXY_USER']) && !empty($_SERVER['HTTP_PROXY_USER'])) {
-        $ip_addresses[] = $_SERVER['HTTP_PROXY_USER'];
-      }
-      $ip_addresses[] = $_SERVER['REMOTE_ADDR'];
-      foreach ( $ip_addresses as $ip ) {
-        if (!empty($ip) && $this->isValidIpAddress($ip)) {
-          $ip_address = $ip;
-          break;
-        }
-      }
-      return $ip_address;
-    }
-// OSCOM v2.2rc2a compatibility
-    function isValidIpAddress($ip_address) {
-      if ( function_exists('tep_validate_ip_address') ) {
-        return tep_validate_ip_address($ip_address);
-      }
-      return filter_var($ip_address, FILTER_VALIDATE_IP, array('flags' => FILTER_FLAG_IPV4));
-    }
+
   }
-?>

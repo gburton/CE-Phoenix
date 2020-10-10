@@ -5,68 +5,56 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class ht_manufacturer_title {
-    var $code = 'ht_manufacturer_title';
-    var $group = 'header_tags';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class ht_manufacturer_title extends abstract_executable_module {
 
-    function __construct() {
-      $this->title = MODULE_HEADER_TAGS_MANUFACTURER_TITLE_TITLE;
-      $this->description = MODULE_HEADER_TAGS_MANUFACTURER_TITLE_DESCRIPTION;
+    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_';
 
-      if ( defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS') ) {
-        $this->sort_order = MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SORT_ORDER;
-        $this->enabled = (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS == 'True');
-      }
+    public function __construct() {
+      parent::__construct(__FILE__);
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $manufacturers, $languages_id, $brand;
-      
+      global $PHP_SELF, $oscTemplate, $brand;
+
       if (basename($PHP_SELF) == 'index.php') {
         if (isset($_GET['manufacturers_id']) && is_numeric($_GET['manufacturers_id'])) {
           $brand_seo_title = $brand->getData('manufacturers_seo_title');
           $brand_name      = $brand->getData('manufacturers_name');
-          
+
           if ( tep_not_null($brand_seo_title) && (MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
             $oscTemplate->setTitle($brand_seo_title . MODULE_HEADER_TAGS_MANUFACTURER_SEO_SEPARATOR . $oscTemplate->getTitle());
-          }
-          else {
+          } else {
             $oscTemplate->setTitle($brand_name . MODULE_HEADER_TAGS_MANUFACTURER_SEO_SEPARATOR . $oscTemplate->getTitle());
           }
         }
-      }      
+      }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        $this->config_key_base . 'STATUS' => [
+          'title' => 'Enable Manufacturer Title Module',
+          'value' => 'True',
+          'desc' => 'Do you want to allow manufacturer titles to be added to the page title?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        $this->config_key_base . 'SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+        $this->config_key_base . 'SEO_TITLE_OVERRIDE' => [
+          'title' => 'SEO Title Override?',
+          'value' => 'True',
+          'desc' => 'Do you want to allow manufacturer names to be over-ridden by your SEO Titles (if set)?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Manufacturer Title Module', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS', 'True', 'Do you want to allow manufacturer titles to be added to the page title?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('SEO Title Override?', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_TITLE_OVERRIDE', 'True', 'Do you want to allow manufacturer names to be over-ridden by your SEO Titles (if set)?', '6', '0', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('SEO Breadcrumb Override?', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE', 'True', 'Do you want to allow manufacturer names in the breadcrumb to be over-ridden by your SEO Titles (if set)?', '6', '0', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SORT_ORDER', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_TITLE_OVERRIDE', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SEO_BREADCRUMB_OVERRIDE');
-    }
   }
-  

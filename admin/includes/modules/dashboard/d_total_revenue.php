@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2019 osCommerce
 
   Released under the GNU General Public License
 */
@@ -35,91 +35,67 @@
       $chart_days = (int)MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS;
       
       for($i = 0; $i < $chart_days; $i++) {
-        $days[date('Y-m-d', strtotime('-'. $i .' days'))] = 0;
+        $days[date('M-d', strtotime('-'. $i .' days'))] = 0;
       }
 
-      $orders_query = tep_db_query("select date_format(o.date_purchased, '%Y-%m-%d') as dateday, sum(ot.value) as total from orders o, orders_total ot where date_sub(curdate(), interval '" . $chart_days . "' day) <= o.date_purchased and o.orders_id = ot.orders_id and ot.class = 'ot_total' group by dateday");
+      $orders_query = tep_db_query("select date_format(o.date_purchased, '%b-%d') as dateday, sum(ot.value) as total from orders o, orders_total ot where date_sub(curdate(), interval '" . $chart_days . "' day) <= o.date_purchased and o.orders_id = ot.orders_id and ot.class = 'ot_total' group by dateday");
       while ($orders = tep_db_fetch_array($orders_query)) {
         $days[$orders['dateday']] = $orders['total'];
       }
 
       $days = array_reverse($days, true);
-
-      $js_array = '';
-      foreach ($days as $date => $total) {
-        $js_array .= '[' . (mktime(0, 0, 0, substr($date, 5, 2), substr($date, 8, 2), substr($date, 0, 4))*1000) . ', ' . $total . '],';
+      
+      foreach ($days as $d => $r) {
+        $plot_days[] = $d;
+        $plot_revenue[] = $r;
       }
-
-      if (!empty($js_array)) {
-        $js_array = substr($js_array, 0, -1);
-      }
-
-      $chart_label = tep_output_string(MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CHART_LINK);
-      $chart_label_link = tep_href_link('orders.php');
+      
+      $plot_days = json_encode($plot_days);
+      $plot_revenue = json_encode($plot_revenue);
+      
+      $table_header = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CHART_LINK;
+      $step_size = MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP;
 
       $output = <<<EOD
-<div id="d_total_revenue" class="mb-2" style="height: 150px;"></div>
+<div class="table-responsive">
+  <table class="table mb-2">
+    <thead class="thead-dark">
+      <tr>
+        <th>{$table_header}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><canvas id="totalRevenue" width="400" height="220"></canvas></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <script>
-$(function () {
-  var plot30 = [$js_array];
-  $.plot($('#d_total_revenue'), [ {
-    label: '$chart_label',
-    data: plot30,
-    lines: { show: true, fill: true },
-    points: { show: true },
-    color: '#66CC33'
-  }], {
-    xaxis: {
-      ticks: 4,
-      mode: 'time'
-    },
-    yaxis: {
-      ticks: 3,
-      min: 0
-    },
-    grid: {
-      backgroundColor: { colors: ['#fff', '#eee'] },
-      hoverable: true
-    },
-    legend: {
-      labelFormatter: function(label, series) {
-        return '<a href="$chart_label_link">' + label + '</a>';
-      }
-    }
-  });
-});
+var ctx = document.getElementById('totalRevenue').getContext('2d');
 
-function showTooltip(x, y, contents) {
-  $('<div id="tooltip">' + contents + '</div>').css( {
-    position: 'absolute',
-    display: 'none',
-    top: y + 5,
-    left: x + 5,
-    border: '1px solid #fdd',
-    padding: '2px',
-    backgroundColor: '#fee',
-    opacity: 0.80
-  }).appendTo('body').fadeIn(200);
-}
-
-var monthNames = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ];
-
-var previousPoint = null;
-$('#d_total_revenue').bind('plothover', function (event, pos, item) {
-  if (item) {
-    if (previousPoint != item.datapoint) {
-      previousPoint = item.datapoint;
-
-      $('#tooltip').remove();
-      var x = item.datapoint[0],
-          y = item.datapoint[1],
-          xdate = new Date(x);
-
-      showTooltip(item.pageX, item.pageY, y + ' for ' + monthNames[xdate.getMonth()] + '-' + xdate.getDate());
-    }
-  } else {
-    $('#tooltip').remove();
-    previousPoint = null;
+var totalRevenue = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {$plot_days},
+    datasets: [{
+        data: {$plot_revenue},
+        backgroundColor: '#eee',
+        borderColor: '#aaa',
+        pointRadius: 5,
+        pointHoverRadius: 5,
+        pointBackgroundColor: 'orange',
+        borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {yAxes: [{ticks: {stepSize: {$step_size}}}]},
+    responsive: true,
+    title: {display: false},
+    legend: {display: false},
+    tooltips: {mode: 'index', intersect: false},
+    hover: {mode: 'nearest', intersect: true}      
   }
 });
 </script>
@@ -127,7 +103,7 @@ EOD;
 
       return $output;
     }
-
+    
     function isEnabled() {
       return $this->enabled;
     }
@@ -139,6 +115,7 @@ EOD;
     function install() {
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Total Revenue Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'True', 'Do you want to show the total revenue chart on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Days', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', '7', 'Days to display.', '6', '2', now())");
+      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Step Size', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP', '50', 'This is the Y Axis Step Size in Currency Units.  Make this a number that is about half or so of your average daily revenue, you can play with this to suit the Graph output.', '6', '2', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '3', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
       tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER', '100', 'Sort order of display. Lowest is displayed first.', '6', '4', now())");
     }
@@ -148,7 +125,7 @@ EOD;
     }
 
     function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER');
+      return array('MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_DAYS', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STEP',  'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER');
     }
   }
   

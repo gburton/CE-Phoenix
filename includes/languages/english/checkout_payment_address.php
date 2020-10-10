@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -19,7 +19,9 @@ define('TABLE_HEADING_PAYMENT_ADDRESS', 'Billing Address');
 
 define('TABLE_HEADING_ADDRESS_BOOK_ENTRIES', 'Choose a saved Address');
 
-define('TABLE_HEADING_NEW_PAYMENT_ADDRESS', 'Save a new Address');
+define('TABLE_HEADING_NEW_PAYMENT_ADDRESS', 'Or use a new Address');
 define('TEXT_CREATE_NEW_PAYMENT_ADDRESS', 'Please use the following form to create and save a new address to use for this order.');
 
-define('BUTTON_CONTINUE_CHECKOUT_PROCEDURE', 'Update My Address');
+define('BUTTON_SELECT_ADDRESS', 'Use this Address');
+define('BUTTON_ADD_NEW_ADDRESS', 'Add and Use this Address');
+

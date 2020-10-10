@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2014 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -21,6 +21,9 @@
   if (strlen(ini_get('date.timezone')) < 1) {
     date_default_timezone_set(@date_default_timezone_get());
   }
+    
+  const PHP_VERSION_MIN = '7.0';
+  const PHP_VERSION_MAX = '7.4';
 
   require('includes/functions/general.php');
   require('includes/functions/database.php');

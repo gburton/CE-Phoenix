@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -31,8 +31,6 @@
     }
 
     function execute() {
-      global $languages_id, $oscTemplate;
-      
       if (isset($_GET['products_id'])) {
         $manufacturer_query = tep_db_query("select manufacturers_id from products where products_id = '" . (int)$_GET['products_id'] . "' and manufacturers_id is not null");
         $manufacturer = tep_db_fetch_array($manufacturer_query);
@@ -55,11 +53,8 @@
           $box_url = '<a class="list-group-item list-group-item-action text-muted" href="' . tep_href_link('index.php', 'manufacturers_id=' . (int)$_id) . '">' . MODULE_BOXES_MANUFACTURER_INFO_BOX_OTHER_PRODUCTS . '</a>';
           if (tep_not_null($_url)) $box_url .= '<a class="list-group-item list-group-item-action text-muted" href="' . tep_href_link('redirect.php', 'action=manufacturer&manufacturers_id=' . (int)$_id) . '" target="_blank">' . sprintf(MODULE_BOXES_MANUFACTURER_INFO_BOX_HOMEPAGE, $_brand) . '</a>';
 
-          ob_start();
-          include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-          $data = ob_get_clean();
-          
-          $oscTemplate->addBlock($data, $this->group);
+          $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+          include 'includes/modules/block_template.php';
         }
       }
     }

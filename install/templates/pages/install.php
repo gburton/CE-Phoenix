@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
@@ -98,8 +98,8 @@
     <div class="alert alert-info" role="alert">
       <h1>New Installation</h1>
 
-      <p>This web-based installation routine will correctly setup and configure OSCOM CE Phoenix to run on this server.</p>
-      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help at the community support forums.</p>
+      <p>This web-based installation routine will setup and configure <strong>Phoenix v<?php echo osc_get_version(); ?></strong> to run on this server.</p>
+      <p>Please follow the on-screen instructions that will take you through the database server, web server, and store configuration options. If help is needed at any stage, please consult the documentation or seek help in the Phoenix Club.</p>
     </div>
   </div>
   <div class="col-sm-3">
@@ -131,7 +131,7 @@
       <div class="mBoxContents"></div>
     </div>
     
-    <h2 class="h4">Database Server</h2>
+    <h4>Database Server</h4>
     <p class="text-danger pull-right text-right"><i class="fas fa-asterisk text-danger"></i> Required information</p>
 
     <form name="install" id="installForm" action="install.php?step=2" method="post" role="form">
@@ -141,7 +141,7 @@
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER', NULL, 'required aria-required="true" id="dbServer" placeholder="localhost"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The address of the database server in the form of a hostname or IP address.</span>
+          <small class="form-text text-muted">The address of the database server in the form of a hostname or IP address.</small>
         </div>
       </div>
     
@@ -150,7 +150,7 @@
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_SERVER_USERNAME', NULL, 'required aria-required="true" id="userName" placeholder="Username"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The username used to connect to the database server.</span>
+          <small class="form-text text-muted">The username used to connect to the database server.</small>
         </div>
       </div>
     
@@ -159,7 +159,7 @@
         <div class="col-sm-9">
           <?php echo osc_draw_password_field('DB_SERVER_PASSWORD', NULL, 'required aria-required="true" id="passWord"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The password that is used together with the username to connect to the database server.</span>
+          <small class="form-text text-muted">The password that is used together with the username to connect to the database server.</small>
         </div>
       </div>
     
@@ -168,16 +168,16 @@
         <div class="col-sm-9">
           <?php echo osc_draw_input_field('DB_DATABASE', NULL, 'required aria-required="true" id="dbName" placeholder="Database"'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">The name of the database to hold the data in.</span>
+          <small class="form-text text-muted">The name of the database to hold the data in.</small>
         </div>
       </div>
       
       <div class="form-group row">
         <label for="dbName" class="col-form-label col-sm-3 text-left text-sm-right">Import Sample Data</label>
         <div class="col-sm-9">
-          <?php echo osc_draw_select_menu('DB_IMPORT_SAMPLE', array(array('id' => '0', 'text' => 'Skip sample data'), array('id' => '1', 'text' => 'Import sample data')), '1'); ?>
+          <?php echo osc_draw_select_menu('DB_IMPORT_SAMPLE', [['id' => '0', 'text' => 'Skip sample data'], ['id' => '1', 'text' => 'Import sample data']], '1'); ?>
           <i class="fas fa-asterisk form-control-feedback text-danger"></i>
-          <span class="form-text">Import sample product and category data?</span>
+          <small class="form-text text-muted">Import sample product and category data?</small>
         </div>
       </div>
       
@@ -185,15 +185,15 @@
         <div class="mBoxContents"></div>
       </div>
       
-      <p><?php echo osc_draw_button('Continue To Step 2', 'triangle-1-e', null, 'primary', null, 'btn-success btn-block'); ?></p>
+      <p><?php echo osc_draw_button('Continue To Step 2', '<i class="fas fa-angle-right mr-2"></i>', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
     </form>    
   </div>
   <div class="col-12 col-sm-3">
-    <h2 class="h4">Step 1</h2>
+    <h4>Step 1</h4>
     <div class="card card-body">      
-      <p>The database server stores the content of the online store such as product information, customer information, and the orders that have been made.</p>
-      <p>Please consult your server administrator if your database server parameters are not yet known.</p>
+      <p>The database server stores data such as product information, customer information, and the orders that have been made.</p>
+      <p>Please consult your server administrator (host) if your database server parameters are not yet known.</p>
     </div>
   </div>
   

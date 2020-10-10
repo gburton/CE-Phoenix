@@ -1,21 +1,50 @@
 <div class="col-sm-<?php echo $content_width ?> cm-sc-product-listing">
-  <?php 
+  <?php
   echo tep_draw_form('cart_quantity', tep_href_link('shopping_cart.php', 'action=update_product')) . PHP_EOL;
-  echo $products_field . PHP_EOL; 
+  echo $products_field . PHP_EOL;
   ?>
-  <div class="table-responsive">  
+  <div class="table-responsive">
     <table class="table mb-0">
       <thead class="thead-light">
         <tr>
           <th class="d-none d-md-table-cell">&nbsp;</th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRODUCT; ?></th>
           <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_AVAILABILITY; ?></th>
-          <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY; ?></th>          
+          <th><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_QUANTITY; ?></th>
           <th class="text-right"><?php echo MODULE_CONTENT_SC_PRODUCT_LISTING_HEADING_PRICE; ?></th>
         </tr>
       </thead>
       <tbody>
-        <?php echo $products_name; ?>
+        <?php
+  foreach ($products as $product) {
+    echo '<tr>';
+    echo '<td class="d-none d-md-table-cell"><a href="' . tep_href_link('product_info.php', 'products_id=' . $product['id']) . '">' . tep_image('images/' . $product['image'], htmlspecialchars($product['name']), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a></td>';
+    echo   '<th><a href="' . tep_href_link('product_info.php', 'products_id=' . $product['id']) . '">' . $product['name'] . '</a>';
+    foreach (($product['attributes'] ?? []) as $option => $value) {
+      echo '<small><br><i> - ' . $product[$option]['products_options_name'] . ' ' . $product[$option]['products_options_values_name'] . '</i></small>';
+    }
+    echo   '</th>';
+
+    if (STOCK_CHECK == 'true' && tep_check_stock($product['id'], $product['quantity'])) {
+      $GLOBALS['any_out_of_stock'] = true;
+
+      echo '<td><span class="text-danger"><b>' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . '</b></span></td>';
+    } else {
+      echo '<td>' . MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_IN_STOCK . '</td>';
+    }
+
+    echo '<td>';
+    echo '<div class="input-group">';
+    echo tep_draw_input_field('cart_quantity[]', $product['quantity'], 'style="width: 65px;" min="0"', 'number');
+    echo tep_draw_hidden_field('products_id[]', $product['id']);
+    echo '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_UPDATE, null, NULL, NULL, NULL, 'btn-info') . '</div>';
+    echo '<div class="input-group-append">' . tep_draw_button(MODULE_CONTENT_SC_PRODUCT_LISTING_TEXT_BUTTON_REMOVE, null, tep_href_link('shopping_cart.php', 'products_id=' . $product['id'] . '&action=remove_product'), NULL, NULL, 'btn-danger') . '</div>';
+    echo '</div>';
+    echo '</td>';
+    echo '<td class="text-right">' . $GLOBALS['currencies']->display_price($product['final_price'], tep_get_tax_rate($product['tax_class_id']), $product['quantity']) . '</td>';
+    echo '</tr>';
+  }
+?>
       </tbody>
     </table>
   </div>
@@ -34,7 +63,7 @@
     Rainer Schmied - @raiwa
 
   All rights reserved.
-  
+
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.

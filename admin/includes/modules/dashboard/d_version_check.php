@@ -60,7 +60,7 @@
             $output .= '<th class="text-right">'. MODULE_ADMIN_DASHBOARD_VERSION_CHECK_DATE . '</th>';
           $output .= '</tr>';
         $output .= '</thead>';
-          $output .= '<tbody>';
+        $output .= '<tbody>';
 
           if ($new_version == true) {
             $output .= '<tr>';

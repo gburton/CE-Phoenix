@@ -28,7 +28,7 @@ define('TEXT_INFO_HEADING_DELETE_ORDERS_STATUS', 'Delete Orders Status');
 define('TEXT_SET_PUBLIC_STATUS', 'Show the order to the customer at this order status level');
 define('TEXT_SET_DOWNLOADS_STATUS', 'Allow downloads of virtual products at this order status level');
 
-define('ERROR_REMOVE_DEFAULT_ORDER_STATUS', 'Error: The default order status can not be removed. Please set another order status as default, and try again.');
-define('ERROR_STATUS_USED_IN_ORDERS', 'Error: This order status is currently used in orders.');
-define('ERROR_STATUS_USED_IN_HISTORY', 'Error: This order status is currently used in the order status history.');
+define('ERROR_REMOVE_DEFAULT_ORDER_STATUS', '<strong>Error:</strong> The default order status can not be removed. Please set another order status as default, and try again.');
+define('ERROR_STATUS_USED_IN_ORDERS', '<strong>Error:</strong> This order status is currently used in orders.');
+define('ERROR_STATUS_USED_IN_HISTORY', '<strong>Error:</strong> This order status is currently used in the order status history.');
 ?>

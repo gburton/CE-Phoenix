@@ -5,14 +5,16 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   require('includes/application_top.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
+  
+  $OSCOM_Hooks->call('tax_classes', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
@@ -20,7 +22,9 @@
         $tax_class_title = tep_db_prepare_input($_POST['tax_class_title']);
         $tax_class_description = tep_db_prepare_input($_POST['tax_class_description']);
 
-        tep_db_query("insert into " . TABLE_TAX_CLASS . " (tax_class_title, tax_class_description, date_added) values ('" . tep_db_input($tax_class_title) . "', '" . tep_db_input($tax_class_description) . "', now())");
+        tep_db_query("insert into tax_class (tax_class_title, tax_class_description, date_added) values ('" . tep_db_input($tax_class_title) . "', '" . tep_db_input($tax_class_description) . "', now())");
+        
+        $OSCOM_Hooks->call('tax_classes', 'insertAction');
 
         tep_redirect(tep_href_link('tax_classes.php'));
         break;
@@ -29,134 +33,138 @@
         $tax_class_title = tep_db_prepare_input($_POST['tax_class_title']);
         $tax_class_description = tep_db_prepare_input($_POST['tax_class_description']);
 
-        tep_db_query("update " . TABLE_TAX_CLASS . " set tax_class_id = '" . (int)$tax_class_id . "', tax_class_title = '" . tep_db_input($tax_class_title) . "', tax_class_description = '" . tep_db_input($tax_class_description) . "', last_modified = now() where tax_class_id = '" . (int)$tax_class_id . "'");
+        tep_db_query("update tax_class set tax_class_id = '" . (int)$tax_class_id . "', tax_class_title = '" . tep_db_input($tax_class_title) . "', tax_class_description = '" . tep_db_input($tax_class_description) . "', last_modified = now() where tax_class_id = '" . (int)$tax_class_id . "'");
+        
+        $OSCOM_Hooks->call('tax_classes', 'saveAction');
 
-        tep_redirect(tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tax_class_id));
+        tep_redirect(tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tax_class_id));
         break;
       case 'deleteconfirm':
         $tax_class_id = tep_db_prepare_input($_GET['tID']);
 
-        tep_db_query("delete from " . TABLE_TAX_CLASS . " where tax_class_id = '" . (int)$tax_class_id . "'");
+        tep_db_query("delete from tax_class where tax_class_id = '" . (int)$tax_class_id . "'");
+        
+        $OSCOM_Hooks->call('tax_classes', 'deleteConfirmAction');
 
-        tep_redirect(tep_href_link('tax_classes.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']));
         break;
     }
   }
+  
+  $OSCOM_Hooks->call('tax_classes', 'postAction');
 
   require('includes/template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td valign="top"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-              <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_TAX_CLASSES; ?></td>
-                <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
-              </tr>
-<?php
-  $classes_query_raw = "select tax_class_id, tax_class_title, tax_class_description, last_modified, date_added from " . TABLE_TAX_CLASS . " order by tax_class_title";
-  $classes_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $classes_query_raw, $classes_query_numrows);
-  $classes_query = tep_db_query($classes_query_raw);
-  while ($classes = tep_db_fetch_array($classes_query)) {
-    if ((!isset($_GET['tID']) || (isset($_GET['tID']) && ($_GET['tID'] == $classes['tax_class_id']))) && !isset($tcInfo) && (substr($action, 0, 3) != 'new')) {
-      $tcInfo = new objectInfo($classes);
-    }
+  <div class="row">
+    <div class="col">
+      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+    </div>
+    <div class="col text-right align-self-center">
+      <?php
+      if (empty($action)) {
+        echo tep_draw_bootstrap_button(IMAGE_NEW_TAX_CLASS, 'fas fa-funnel-dollar', tep_href_link('tax_classes.php', 'action=new'), null, null, 'btn-danger');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('tax_classes.php'), null, null, 'btn-light mt-2');
+      }
+      ?>
+    </div>
+  </div>
+  
+  <div class="row no-gutters">
+    <div class="col-12 col-sm-8">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th><?php echo TABLE_HEADING_TAX_CLASSES; ?></th>
+              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $classes_query_raw = "select * from tax_class order by tax_class_title";
+            $classes_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $classes_query_raw, $classes_query_numrows);
+            $classes_query = tep_db_query($classes_query_raw);
+            while ($classes = tep_db_fetch_array($classes_query)) {
+              if ((!isset($_GET['tID']) || (isset($_GET['tID']) && ($_GET['tID'] == $classes['tax_class_id']))) && !isset($tcInfo) && (substr($action, 0, 3) != 'new')) {
+                $tcInfo = new objectInfo($classes);
+              }
 
-    if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) {
-      echo '              <tr id="defaultSelected" class="dataTableRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit') . '\'">' . "\n";
-    } else {
-      echo'              <tr class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $classes['tax_class_id']) . '\'">' . "\n";
-    }
-?>
-                <td class="dataTableContent"><?php echo $classes['tax_class_title']; ?></td>
-                <td class="dataTableContent" align="right"><?php if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) { echo tep_image('images/icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $classes['tax_class_id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+              if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) {
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit') . '\'">';
+              } else {
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $classes['tax_class_id']) . '\'">';
+              }
+              ?>
+                <td><?php echo $classes['tax_class_title']; ?></td>
+                <td class="text-right"><?php if (isset($tcInfo) && is_object($tcInfo) && ($classes['tax_class_id'] == $tcInfo->tax_class_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $classes['tax_class_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
+              <?php
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="row my-1">
+        <div class="col"><?php echo $classes_split->display_count($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES); ?></div>
+        <div class="col text-right mr-2"><?php echo $classes_split->display_links($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+      </div>
+    </div>
+
 <?php
-  }
-?>
-              <tr>
-                <td colspan="2"><table border="0" width="100%" cellspacing="0" cellpadding="2">
-                  <tr>
-                    <td class="smallText" valign="top"><?php echo $classes_split->display_count($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES); ?></td>
-                    <td class="smallText" align="right"><?php echo $classes_split->display_links($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
-                  </tr>
-<?php
-  if (empty($action)) {
-?>
-                  <tr>
-                    <td class="smallText" colspan="2" align="right"><?php echo tep_draw_button(IMAGE_NEW_TAX_CLASS, 'plus', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&action=new')); ?></td>
-                  </tr>
-<?php
-  }
-?>
-                </table></td>
-              </tr>
-            </table></td>
-<?php
-  $heading = array();
-  $contents = array();
+  $heading = [];
+  $contents = [];
 
   switch ($action) {
     case 'new':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_TAX_CLASS . '</strong>');
+      $heading[] = ['text' => TEXT_INFO_HEADING_NEW_TAX_CLASS];
 
-      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $_GET['page'] . '&action=insert'));
-      $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_TITLE . '<br />' . tep_draw_input_field('tax_class_title'));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . tep_draw_input_field('tax_class_description'));
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'plus', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $_GET['page'])));
+      $contents = ['form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . (int)$_GET['page'] . '&action=insert')];
+      $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_CLASS_TITLE . '<br>' . tep_draw_input_field('tax_class_title')];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_class_description')];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, null, null, 'btn-success mr-2') .  tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page']), null, null, 'btn-light')];
       break;
     case 'edit':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_EDIT_TAX_CLASS . '</strong>');
+      $heading[] = ['text' => TEXT_INFO_HEADING_EDIT_TAX_CLASS];
 
-      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=save'));
-      $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-      $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_TITLE . '<br />' . tep_draw_input_field('tax_class_title', $tcInfo->tax_class_title));
-      $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . tep_draw_input_field('tax_class_description', $tcInfo->tax_class_description));
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id)));
+      $contents = ['form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=save')];
+      $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
+      $contents[] = ['text' => TEXT_INFO_CLASS_TITLE . '<br>' . tep_draw_input_field('tax_class_title', $tcInfo->tax_class_title)];
+      $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, null) . '<br>' . tep_draw_input_field('tax_class_description', $tcInfo->tax_class_description)];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
       break;
     case 'delete':
-      $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_TAX_CLASS . '</strong>');
+      $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_TAX_CLASS];
 
-      $contents = array('form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm'));
-      $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
-      $contents[] = array('text' => '<br /><strong>' . $tcInfo->tax_class_title . '</strong>');
-      $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id)));
+      $contents = ['form' => tep_draw_form('classes', 'tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=deleteconfirm')];
+      $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
+      $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $tcInfo->tax_class_title];
+      $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id), null, null, 'btn-light')];
       break;
     default:
       if (isset($tcInfo) && is_object($tcInfo)) {
-        $heading[] = array('text' => '<strong>' . $tcInfo->tax_class_title . '</strong>');
+        $heading[] = ['text' => $tcInfo->tax_class_title];
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('tax_classes.php', 'page=' . $_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete')));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($tcInfo->date_added));
-        $contents[] = array('text' => '' . TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($tcInfo->last_modified));
-        $contents[] = array('text' => '<br />' . TEXT_INFO_CLASS_DESCRIPTION . '<br />' . $tcInfo->tax_class_description);
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('tax_classes.php', 'page=' . (int)$_GET['page'] . '&tID=' . $tcInfo->tax_class_id . '&action=delete'), null, null, 'btn-danger mr-2')];
+        $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($tcInfo->date_added))];
+        $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($tcInfo->last_modified))];
+        $contents[] = ['text' => sprintf(TEXT_INFO_CLASS_DESCRIPTION, $tcInfo->tax_class_description)];
       }
       break;
   }
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
-    echo '            <td width="25%" valign="top">' . "\n";
-
-    $box = new box;
-    echo $box->infoBox($heading, $contents);
-
-    echo '            </td>' . "\n";
+    echo '<div class="col-12 col-sm-4">';
+      $box = new box;
+      echo $box->infoBox($heading, $contents);
+    echo '</div>';
   }
 ?>
-          </tr>
-        </table></td>
-      </tr>
-    </table>
+
+  </div>
 
 <?php
   require('includes/template_bottom.php');

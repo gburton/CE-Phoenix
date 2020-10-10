@@ -12,7 +12,7 @@
 
   require('includes/application_top.php');
 
-  $action = (isset($_GET['action']) ? $_GET['action'] : '');
+  $action = $_GET['action'] ?? '';
 
   switch ($action) {
     case 'export':
@@ -28,7 +28,7 @@
       $response = false;
 
       if (function_exists('curl_init')) {
-        $data = array('info' => $encoded);
+        $data = ['info' => $encoded];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://' . $target_host . $target_path);
@@ -87,127 +87,80 @@
   require('includes/template_top.php');
 ?>
 
-    <table border="0" width="100%" cellspacing="0" cellpadding="2">
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="pageHeading"><?php echo HEADING_TITLE; ?></td>
-            <td class="pageHeading" align="right"><?php echo tep_draw_separator('pixel_trans.gif', HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT); ?></td>
-          </tr>
-        </table></td>
-      </tr>
+  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+
 <?php
   if ($action == 'export') {
 ?>
-      <tr>
-        <td><table border="0" cellspacing="0" cellpadding="2">
-          <tr>
-            <td class="smallText" colspan="2"><?php echo TEXT_EXPORT_INTRO; ?></td>
-          </tr>
-          <tr>
-            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>
-          <tr>
-            <td colspan="2"><?php echo tep_draw_textarea_field('server configuration', 'soft', '100', '15', tep_format_system_info_array($info)); ?></td>
-          </tr>
-          <tr>
-            <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-      </tr>
-      <tr>
-          <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SEND, 'arrowreturnthick-1-n', tep_href_link('server_info.php', 'action=submit'), 'primary') . tep_draw_button(IMAGE_SAVE, 'disk', tep_href_link('server_info.php', 'action=save'), 'primary');?>
-      </tr>
-  <?php
+    <div class="alert alert-info">
+      <?php echo TEXT_EXPORT_INTRO; ?>
+    </div>
+    
+    <?php 
+    echo tep_draw_textarea_field('server configuration', 'soft', '100', '15', tep_format_system_info_array($info)); 
+    
+    echo tep_draw_bootstrap_button(BUTTON_SAVE_TO_DISK, 'fas fa-save', tep_href_link('server_info.php', 'action=save'), 'primary', null, 'btn-success btn-block btn-lg my-2');
+
+    echo tep_draw_bootstrap_button(BUTTON_SEND_TO_OSCOMMERCE, 'fas fa-file-upload', tep_href_link('server_info.php', 'action=submit'), 'primary', null, 'btn-light');
+    
   } else {
     $server = parse_url(HTTP_SERVER);
 ?>
-      <tr>
-        <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
-          <tr>
-            <td><table border="0" cellspacing="0" cellpadding="3">
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_SERVER_HOST; ?></strong></td>
-                <td class="smallText"><?php echo $server['host'] . ' (' . gethostbyname($server['host']) . ')'; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE_HOST; ?></strong></td>
-                <td class="smallText"><?php echo DB_SERVER . ' (' . gethostbyname(DB_SERVER) . ')'; ?></td>
-              </tr>
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_SERVER_OS; ?></strong></td>
-                <td class="smallText"><?php echo $info['system']['os'] . ' ' . $info['system']['kernel']; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE; ?></strong></td>
-                <td class="smallText"><?php echo 'MySQL ' . $info['mysql']['version']; ?></td>
-              </tr>
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_SERVER_DATE; ?></strong></td>
-                <td class="smallText"><?php echo $info['system']['date']; ?></td>
-                <td class="smallText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><?php echo TITLE_DATABASE_DATE; ?></strong></td>
-                <td class="smallText"><?php echo $info['mysql']['date']; ?></td>
-              </tr>
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_SERVER_UP_TIME; ?></strong></td>
-                <td colspan="3" class="smallText"><?php echo $info['system']['uptime']; ?></td>
-              </tr>
-              <tr>
-                <td colspan="4"><?php echo tep_draw_separator('pixel_trans.gif', '1', '5'); ?></td>
-              </tr>
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_HTTP_SERVER; ?></strong></td>
-                <td colspan="3" class="smallText"><?php echo $info['system']['http_server']; ?></td>
-              </tr>
-              <tr>
-                <td class="smallText"><strong><?php echo TITLE_PHP_VERSION; ?></strong></td>
-                <td colspan="3" class="smallText"><?php echo $info['php']['version'] . ' (' . TITLE_ZEND_VERSION . ' ' . $info['php']['zend'] . ')'; ?></td>
-              </tr>
-            </table></td>
-          </tr>
-          <tr>
-            <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>
-          <tr>
-            <td class="smallText"><?php echo tep_draw_button(IMAGE_EXPORT, 'triangle-1-nw', tep_href_link('server_info.php', 'action=export'));?></td>
-          </tr>
-        </table></td>
-      </tr>
-      <tr>
-        <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-      </tr>
-      <tr>
-        <td>
-<style type="text/css">
-body, td, th {font-family: sans-serif; font-size: 10px;}
-.p {text-align: left;}
-.e {background-color: #ccccff; font-weight: bold;}
-.h {background-color: #9999cc; font-weight: bold;}
-.v {background-color: #cccccc;}
-i {color: #666666;}
-hr {display: none;}
-</style>
-<?php
-  ob_start();
-  phpinfo();
-  $phpinfo = ob_get_contents();
-  ob_end_clean();
-
-  $phpinfo = str_replace('border: 1px', '', $phpinfo);
-  preg_match('/<body>(.*)<\/body>/is', $phpinfo, $regs);
-  echo '<table border="1" cellpadding="3" width="600" style="border: 0px; border-color: #000000;">' .
-       '  <tr><td><a href="http://www.oscommerce.com"><img border="0" src="images/oscommerce.png" title="OSCOM CE Phoenix v' . tep_get_version() . '" /></a><h1 class="p">OSCOM CE Phoenix v' . tep_get_version() . '</h1></td>' .
-       '  </tr>' .
-       '</table>';
-  echo $regs[1];
-?>
-        </td>
-      </tr>
-<?php
-  }
- ?>
+      
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th><?php echo TABLE_HEADING_KEY; ?></th>
+          <th><?php echo TABLE_HEADING_VALUE; ?></th>
+        </tr>
+      </thead>
+      <tbody>      
+        <tr>
+          <td><?php echo TITLE_SERVER_HOST; ?></td>
+          <td><?php echo $server['host'] . ' (' . gethostbyname($server['host']) . ')'; ?></td>
+        </tr>
+        <tr>        
+          <td><?php echo TITLE_DATABASE_HOST; ?></td>
+          <td><?php echo DB_SERVER . ' (' . gethostbyname(DB_SERVER) . ')'; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_SERVER_OS; ?></td>
+          <td><?php echo $info['system']['os'] . ' ' . $info['system']['kernel']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_DATABASE; ?></td>
+          <td><?php echo 'MySQL ' . $info['mysql']['version']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_SERVER_DATE; ?></td>
+          <td><?php echo $info['system']['date']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_DATABASE_DATE; ?></td>
+          <td><?php echo $info['mysql']['date']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_SERVER_UP_TIME; ?></td>
+          <td><?php echo $info['system']['uptime']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_HTTP_SERVER; ?></td>
+          <td><?php echo $info['system']['http_server']; ?></td>
+        </tr>
+        <tr>
+          <td><?php echo TITLE_PHP_VERSION; ?></td>
+          <td><?php echo $info['php']['version'] . ' (' . TITLE_ZEND_VERSION . ' ' . $info['php']['zend'] . ')'; ?></td>
+        </tr>              
+      </tbody>
     </table>
+  </div>
+  
+  <?php 
+  echo tep_draw_bootstrap_button(IMAGE_EXPORT, 'fas fa-save', tep_href_link('server_info.php', 'action=export'), null, null, 'btn-danger');
 
-<?php
+  }
+
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
 ?>

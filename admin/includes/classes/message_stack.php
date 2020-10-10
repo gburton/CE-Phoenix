@@ -5,67 +5,87 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2003 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 
   Example usage:
 
   $messageStack = new messageStack();
-  $messageStack->add('Error: Error 1', 'error');
-  $messageStack->add('Error: Error 2', 'warning');
+  $messageStack->add('<strong>Error:</strong> Error 1', 'error');
+  $messageStack->add('<strong>Error:</strong> Error 2', 'warning');
   if ($messageStack->size > 0) echo $messageStack->output();
 */
 
-  class messageStack extends tableBlock {
-    var $size = 0;
-		
-	function __construct() {
-      global $messageToStack;
+  class messageStack {
 
-      $this->errors = array();
+    public $size = 0;
 
-      if (tep_session_is_registered('messageToStack')) {
-        for ($i = 0, $n = sizeof($messageToStack); $i < $n; $i++) {
-          $this->add($messageToStack[$i]['text'], $messageToStack[$i]['type']);
-        }
-        tep_session_unregister('messageToStack');
+	  public function __construct() {
+      $this->errors = [];
+
+      foreach (($_SESSION['messageToStack'] ?? []) as $message) {
+        $this->add($message['text'], $message['type']);
       }
+
+      unset($_SESSION['messageToStack']);
     }
 
-    function add($message, $type = 'error') {
-      if ($type == 'error') {
-        $this->errors[] = array('params' => 'class="messageStackError"', 'text' => tep_image('images/icons/error.gif', ICON_ERROR) . '&nbsp;' . $message);
-      } elseif ($type == 'warning') {
-        $this->errors[] = array('params' => 'class="messageStackWarning"', 'text' => tep_image('images/icons/warning.gif', ICON_WARNING) . '&nbsp;' . $message);
-      } elseif ($type == 'success') {
-        $this->errors[] = array('params' => 'class="messageStackSuccess"', 'text' => tep_image('images/icons/success.gif', ICON_SUCCESS) . '&nbsp;' . $message);
-      } else {
-        $this->errors[] = array('params' => 'class="messageStackError"', 'text' => $message);
+    public function add($message, $type = 'error') {
+      switch ($type) {
+        case 'primary':
+          $this->errors[] = ['params' => 'alert alert-primary', 'text' => $message];
+        break;
+        case 'secondary':
+          $this->errors[] = ['params' => 'alert alert-secondary', 'text' => $message];
+        break;
+        case 'light':
+          $this->errors[] = ['params' => 'alert alert-light', 'text' => $message];
+        break;
+        case 'dark':
+          $this->errors[] = ['params' => 'alert alert-dark', 'text' => $message];
+        break;
+        case 'warning':
+          $this->errors[] = ['params' => 'alert alert-warning', 'text' => $message];
+          break;
+        case 'success':
+          $this->errors[] = ['params' => 'alert alert-success', 'text' => $message];
+          break;
+        default:
+          // error & danger
+          $this->errors[] = ['params' => 'alert alert-danger', 'text' => $message];
       }
 
       $this->size++;
     }
 
-    function add_session($message, $type = 'error') {
-      global $messageToStack;
-
-      if (!tep_session_is_registered('messageToStack')) {
-        tep_session_register('messageToStack');
-        $messageToStack = array();
-      }
-
-      $messageToStack[] = array('text' => $message, 'type' => $type);
+    public function add_classed($class, $message, $type = 'error') {
+      $this->add($message, $type);
     }
 
-    function reset() {
-      $this->errors = array();
+    public function add_session($message, $type = 'error') {
+      if (!isset($_SESSION['messageToStack'])) {
+        $_SESSION['messageToStack'] = [];
+      }
+
+      $_SESSION['messageToStack'][] = ['text' => $message, 'type' => $type];
+    }
+
+    public function reset() {
+      $this->errors = [];
       $this->size = 0;
     }
 
-    function output() {
-      $this->table_data_parameters = 'class="messageBox"';
-      return $this->tableBlock($this->errors);
+    public function output() {
+      $alert = null;
+      foreach ($this->errors as $e) {
+        $alert .= '<div class="' . $e['params'] . ' mb-1 alert-dismissible fade show" role="alert">';
+          $alert .= $e['text'];
+          $alert .= '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';
+        $alert .= '</div>';
+      }
+      
+      return $alert;
     }
+
   }
-?>

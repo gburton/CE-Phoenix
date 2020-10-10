@@ -5,21 +5,23 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2002 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-define('HEADING_TITLE', 'Send Email To Customers');
+const HEADING_TITLE = 'Send Email To Customers';
 
-define('TEXT_CUSTOMER', 'Customer:');
-define('TEXT_SUBJECT', 'Subject:');
-define('TEXT_FROM', 'From:');
-define('TEXT_MESSAGE', 'Message:');
-define('TEXT_SELECT_CUSTOMER', 'Select Customer');
-define('TEXT_ALL_CUSTOMERS', 'All Customers');
-define('TEXT_NEWSLETTER_CUSTOMERS', 'To All Newsletter Subscribers');
+const TEXT_CUSTOMER = 'Customer';
+const TEXT_SUBJECT = 'Subject';
+const TEXT_FROM = 'From';
+const TEXT_FROM_ADDRESS = 'From Address';
+const TEXT_MESSAGE = 'Message';
 
-define('NOTICE_EMAIL_SENT_TO', 'Notice: Email sent to: %s');
-define('ERROR_NO_CUSTOMER_SELECTED', 'Error: No customer has been selected.');
-?>
+const TEXT_SELECT_CUSTOMER = 'Select Customer';
+const TEXT_ALL_CUSTOMERS = 'All Customers';
+const TEXT_NEWSLETTER_CUSTOMERS = 'To All Newsletter Subscribers';
+
+const NOTICE_EMAIL_SENT_TO = '<strong>Notice:</strong> Email sent to: %s';
+const ERROR_NO_CUSTOMER_SELECTED = '<strong>Error:</strong> No customer has been selected.';
+const ERROR_INVALID_EMAIL = '<strong>Error:</strong> "%s" is not a valid email address.';

@@ -21,7 +21,7 @@
     function __construct() {
       $this->title = MODULE_HEADER_TAGS_PAGES_SEO_TITLE;
       $this->description = MODULE_HEADER_TAGS_PAGES_SEO_DESCRIPTION;
-      $this->description .= '<div class="secWarning">' . MODULE_HEADER_TAGS_PAGES_SEO_HELPER . '</div>';
+      $this->description .= '<div class="alert alert-warning">' . MODULE_HEADER_TAGS_PAGES_SEO_HELPER . '</div>';
 
       if ( defined('MODULE_HEADER_TAGS_PAGES_SEO_STATUS') ) {
         $this->sort_order = MODULE_HEADER_TAGS_PAGES_SEO_SORT_ORDER;
@@ -30,18 +30,20 @@
     }
 
     function execute() {
-      global $oscTemplate;
+      global $oscTemplate, $page;
 
-      if ( (defined('META_SEO_TITLE')) && (strlen(META_SEO_TITLE) > 0) ) {
-        $oscTemplate->setTitle(tep_output_string(META_SEO_TITLE)  . MODULE_HEADER_TAGS_PAGES_SEO_SEPARATOR . $oscTemplate->getTitle());
+      if ( (defined('META_SEO_TITLE')) && (strlen(META_SEO_TITLE) > 0) || (!empty($page['navbar_title'])) || (!empty($page['pages_title'])) ) {
+        $title = defined('META_SEO_TITLE') ? META_SEO_TITLE : $page['navbar_title'] ?? $page['pages_title'] ?? null;
+        if (tep_not_null($title)) {
+          $oscTemplate->setTitle(tep_output_string($title)  . MODULE_HEADER_TAGS_PAGES_SEO_SEPARATOR . $oscTemplate->getTitle());
+        }
       }
-      if ( (defined('META_SEO_DESCRIPTION')) && (strlen(META_SEO_DESCRIPTION) > 0) ) {
-        $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string(META_SEO_DESCRIPTION) . '" />' . "\n", $this->group);
+      if ( (defined('META_SEO_DESCRIPTION')) && (strlen(META_SEO_DESCRIPTION) > 0) || (!empty($page['pages_seo_description'])) ) {
+        $desc = defined('META_SEO_DESCRIPTION') ? META_SEO_DESCRIPTION : $page['pages_seo_description'] ?? null;
+        if (tep_not_null($desc)) {
+          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($desc) . '" />' . "\n", $this->group);
+        }
       }
-      if ( (defined('META_SEO_KEYWORDS')) && (strlen(META_SEO_KEYWORDS) > 0) ) {
-        $oscTemplate->addBlock('<meta name="keywords" content="' . tep_output_string(META_SEO_KEYWORDS) . '" />' . "\n", $this->group);
-      }
-
     }
 
     function isEnabled() {

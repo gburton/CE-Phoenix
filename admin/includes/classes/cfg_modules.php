@@ -5,38 +5,31 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2010 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
   class cfg_modules {
-    var $_modules = array();
+
+    private $_modules = [];
 
     function __construct() {
-      global $PHP_SELF, $language;
-
-      $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
       $directory = 'includes/modules/cfg_modules';
 
       if ($dir = @dir($directory)) {
         while ($file = $dir->read()) {
-          if (!is_dir($directory . $file)) {
-            if (substr($file, strrpos($file, '.')) == $file_extension) {
-              $class = substr($file, 0, strrpos($file, '.'));
+          if (!is_dir("$directory/$file") && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+            $class = pathinfo($file, PATHINFO_FILENAME);
 
-              include('includes/languages/' . $language . '/modules/cfg_modules/' . $file);
-              include('includes/modules/cfg_modules/' . $class . '.php');
-
-              $m = new $class();
-
-              $this->_modules[] = array('code' => $m->code,
-                                        'directory' => $m->directory,
-                                        'language_directory' => $m->language_directory,
-                                        'key' => $m->key,
-                                        'title' => $m->title,
-                                        'template_integration' => $m->template_integration);
-            }
+            $this->_modules[] = [
+              'code' => $class::CODE,
+              'directory' => $class::DIRECTORY,
+              'language_directory' => $class::LANGUAGE_DIRECTORY,
+              'key' => $class::KEY,
+              'title' => $class::TITLE,
+              'template_integration' => $class::TEMPLATE_INTEGRATION,
+            ];
           }
         }
       }
@@ -63,5 +56,36 @@
 
       return false;
     }
+
+    public static function can($module, $action) {
+      if (method_exists($module, 'can')) {
+        return $module->can($action);
+      }
+
+      switch ($action) {
+        case 'install':
+          $requirements = get_class($module) . '::REQUIRES';
+          if (!defined($requirements) || empty($requirements = constant($requirements)) || !is_array($requirements)) {
+            return true;
+          }
+
+          return $GLOBALS['customer_data']->has($requirements);
+        case 'remove':
+          $provides = get_class($module) . '::PROVIDES';
+          if (!defined($provides)) {
+            return true;
+          }
+          $provides = constant($provides);
+
+          if (empty($provides) || !is_array($provides)) {
+            $provides = [];
+          }
+
+          // we can remove if nothing requires this module's abilities
+          return !$GLOBALS['customer_data']->has_requirements($provides, get_class($module));
+        default:
+          return true;
+      }
+    }
+
   }
-?>

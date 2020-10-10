@@ -2,26 +2,13 @@
 
   <p class="alert alert-success" role="alert"><?php echo MODULE_CONTENT_LOGIN_TEXT_RETURNING_CUSTOMER; ?></p>
 
-  <?php echo tep_draw_form('login', tep_href_link('login.php', 'action=process', 'SSL'), 'post', '', true); ?>
-   
-  <div class="form-group row">
-    <div class="col-sm-12">
-      <?php 
-      echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail" autocomplete="username email" placeholder="' . MODULE_CONTENT_LOGIN_ENTRY_EMAIL_ADDRESS_PLACEHOLDER . '"', 'email');
-      echo FORM_REQUIRED_INPUT;
-      ?>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-12">
-      <?php 
-      echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . MODULE_CONTENT_LOGIN_ENTRY_PASSWORD_PLACEHOLDER . '"', 'password');
-      echo FORM_REQUIRED_INPUT;
-      ?>
-    </div>
-  </div>
+<?php
+  echo tep_draw_form('login', tep_href_link('login.php', 'action=process', 'SSL'), 'post', '', true);
+  $GLOBALS['customer_data']->act_on('username', 'display_input');
+  $GLOBALS['customer_data']->act_on('password', 'display_input');
+?>
 
-  <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'fas fa-sign-in-alt', null, 'primary', NULL, 'btn-success btn-block'); ?></p>
+  <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_LOGIN, 'fas fa-sign-in-alt', null, 'primary', null, 'btn-success btn-block'); ?></p>
 
   </form>
 
@@ -29,7 +16,7 @@
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2020, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

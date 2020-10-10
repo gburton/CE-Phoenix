@@ -16,8 +16,8 @@
   $major_version = (int)substr($current_version, 0, 1);
 
   $releases = null;
-  $new_versions = array();
-  $check_message = array();
+  $new_versions = [];
+  $check_message = [];
 
   if (function_exists('curl_init')) {
     $ch = curl_init();
@@ -77,15 +77,12 @@
     }
 
     if (!empty($new_versions)) {
-      $check_message = array('class' => 'alert alert-danger',
-                             'message' => sprintf(VERSION_UPGRADES_AVAILABLE, $new_versions[0][0]));
+      $check_message = ['class' => 'alert alert-danger', 'message' => sprintf(VERSION_UPGRADES_AVAILABLE, $new_versions[0][0])];
     } else {
-      $check_message = array('class' => 'alert alert-success',
-                             'message' => VERSION_RUNNING_LATEST);
+      $check_message = ['class' => 'alert alert-success', 'message' => VERSION_RUNNING_LATEST];
     }
   } else {
-    $check_message = array('class' => 'alert alert-warning',
-                           'message' => ERROR_COULD_NOT_CONNECT);
+    $check_message = ['class' => 'alert alert-warning', 'message' => ERROR_COULD_NOT_CONNECT];
   }
 
   require('includes/template_top.php');
@@ -98,7 +95,6 @@
   <div class="<?php echo $check_message['class']; ?>">
     <p class="lead"><?php echo $check_message['message']; ?></p>
   </div>
-      
 
 <?php
   if (!empty($new_versions)) {

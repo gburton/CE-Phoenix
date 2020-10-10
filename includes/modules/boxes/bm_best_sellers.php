@@ -5,77 +5,75 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2018 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class bm_best_sellers {
-    var $code = 'bm_best_sellers';
-    var $group = 'boxes';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class bm_best_sellers extends abstract_block_module {
 
-    function __construct() {
-      $this->title = MODULE_BOXES_BEST_SELLERS_TITLE;
-      $this->description = MODULE_BOXES_BEST_SELLERS_DESCRIPTION;
+    const CONFIG_KEY_BASE = 'MODULE_BOXES_BEST_SELLERS_';
 
-      if ( defined('MODULE_BOXES_BEST_SELLERS_STATUS') ) {
-        $this->sort_order = MODULE_BOXES_BEST_SELLERS_SORT_ORDER;
-        $this->enabled = (MODULE_BOXES_BEST_SELLERS_STATUS == 'True');
-
-        $this->group = ((MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT == 'Left Column') ? 'boxes_column_left' : 'boxes_column_right');
-      }
-    }
+    protected $group = 'boxes';
 
     function execute() {
-      global $current_category_id, $languages_id, $oscTemplate;
+      global $current_category_id;
 
+      $sql = 'SELECT DISTINCT p.products_id, pd.products_name FROM products p, products_description pd';
       if (isset($current_category_id) && ($current_category_id > 0)) {
-        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from products p, products_description pd, products_to_categories p2c, categories c where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' and p.products_id = p2c.products_id and p2c.categories_id = c.categories_id and '" . (int)$current_category_id . "' in (c.categories_id, c.parent_id) order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
+        $sql .= ", products_to_categories p2c, categories c WHERE p.products_id = p2c.products_id AND p2c.categories_id = c.categories_id AND "
+              . (int)$current_category_id . " IN (c.categories_id, c.parent_id) AND";
       } else {
-        $best_sellers_query = tep_db_query("select distinct p.products_id, pd.products_name from products p, products_description pd where p.products_status = '1' and p.products_ordered > 0 and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "' order by p.products_ordered desc, pd.products_name limit " . MAX_DISPLAY_BESTSELLERS);
+        $sql .= ' WHERE';
       }
-      
-      $num_best_sellers = tep_db_num_rows($best_sellers_query);
+      $sql .= " p.products_status = 1 AND p.products_ordered > 0 AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY p.products_ordered DESC, pd.products_name LIMIT " . MODULE_BOXES_BEST_SELLERS_MAX_DISPLAY;
 
-      if ($num_best_sellers >= MIN_DISPLAY_BESTSELLERS) {
-        $bestsellers_list = NULL;
+      $best_sellers_query = tep_db_query($sql);
+      if (tep_db_num_rows($best_sellers_query) >= MODULE_BOXES_BEST_SELLERS_MIN_DISPLAY) {
+        $best_sellers = [];
 
-        while ($best_sellers = tep_db_fetch_array($best_sellers_query)) {
-          $bestsellers_list .= '<a class="list-group-item list-group-item-action" href="' . tep_href_link('product_info.php', 'products_id=' . (int)$best_sellers['products_id']) . '">' . $best_sellers['products_name'] . '</a>' . PHP_EOL;
+        while ($best_seller = tep_db_fetch_array($best_sellers_query)) {
+          $best_sellers[] = [
+            'link' => tep_href_link('product_info.php', 'products_id=' . (int)$best_seller['products_id']),
+            'text' => $best_seller['products_name'],
+          ];
         }
 
-        ob_start();
-        include('includes/modules/boxes/templates/tpl_' . basename(__FILE__));
-        $data = ob_get_clean();
-
-        $oscTemplate->addBlock($data, $this->group);
+        $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+        include 'includes/modules/block_template.php';
       }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_BOXES_BEST_SELLERS_STATUS' => [
+          'title' => 'Enable Best Sellers Module',
+          'value' => 'True',
+          'desc' => 'Do you want to add the module to your shop?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_BOXES_BEST_SELLERS_MIN_DISPLAY' => [
+          'title' => 'Minimum to Display',
+          'value' => '1',
+          'desc' => 'Minimum number of best sellers to make the box display',
+        ],
+        'MODULE_BOXES_BEST_SELLERS_MAX_DISPLAY' => [
+          'title' => 'Maximum Display',
+          'value' => '10',
+          'desc' => 'Maximum number of best sellers to display in the box',
+        ],
+        'MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT' => [
+          'title' => 'Content Placement',
+          'value' => 'Right Column',
+          'desc' => 'Should the module be loaded in the left or right column?',
+          'set_func' => "tep_cfg_select_option(['Left Column', 'Right Column'], ",
+        ],
+        'MODULE_BOXES_BEST_SELLERS_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_BOXES_BEST_SELLERS_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Best Sellers Module', 'MODULE_BOXES_BEST_SELLERS_STATUS', 'True', 'Do you want to add the module to your shop?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Placement', 'MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', '6', '1', 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_BOXES_BEST_SELLERS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_BOXES_BEST_SELLERS_STATUS', 'MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT', 'MODULE_BOXES_BEST_SELLERS_SORT_ORDER');
-    }
   }
-  

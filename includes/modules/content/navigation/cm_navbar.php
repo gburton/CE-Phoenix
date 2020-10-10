@@ -1,6 +1,6 @@
 <?php
 /*
-  Copyright (c) 2018, G Burton
+  Copyright (c) 2020, G Burton
   All rights reserved.
 
   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -14,37 +14,24 @@
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-  class cm_navbar {
-    var $code;
-    var $group;
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class cm_navbar extends abstract_executable_module {
 
-    function __construct() {
-      $this->code = get_class($this);
-      $this->group = basename(dirname(__FILE__));
+    const CONFIG_KEY_BASE = 'MODULE_CONTENT_NAVBAR_';
 
-      $this->title = MODULE_CONTENT_NAVBAR_TITLE;
-      $this->description = MODULE_CONTENT_NAVBAR_DESCRIPTION;
-
-      if ( defined('MODULE_CONTENT_NAVBAR_STATUS') ) {
-        $this->sort_order = MODULE_CONTENT_NAVBAR_SORT_ORDER;
-        $this->enabled = (MODULE_CONTENT_NAVBAR_STATUS == 'True');
-      }
+    public function __construct() {
+      parent::__construct(__FILE__);
     }
 
     function execute() {
-      global $language, $oscTemplate;
-      
-      $style_array = array();
+      global $oscTemplate;
+
+      $style_array = [];
       $style_array[] = MODULE_CONTENT_NAVBAR_STYLE_BG;
       $style_array[] = MODULE_CONTENT_NAVBAR_STYLE_FG;
       $style_array[] = MODULE_CONTENT_NAVBAR_FIXED;
       $style_array[] = MODULE_CONTENT_NAVBAR_COLLAPSE;
-      
-      $navbar_style = implode(' ', $style_array);      
+
+      $navbar_style = implode(' ', $style_array);
 
       switch (MODULE_CONTENT_NAVBAR_FIXED) {
         case 'fixed-top':
@@ -57,62 +44,73 @@
           $custom_css = null;
       }
 
-      $oscTemplate->addBlock($custom_css, 'footer_scripts');      
-      
+      // workaround; padding needs to be set last
+      $oscTemplate->addBlock($custom_css, 'footer_scripts');
+
       if ( defined('MODULE_CONTENT_NAVBAR_INSTALLED') && tep_not_null(MODULE_CONTENT_NAVBAR_INSTALLED) ) {
         $nav_array = explode(';', MODULE_CONTENT_NAVBAR_INSTALLED);
 
-        $navbar_modules = array();
+        $navbar_modules = [];
 
         foreach ( $nav_array as $nbm ) {
-          $class = substr($nbm, 0, strrpos($nbm, '.'));
-
-          if ( !class_exists($class) ) {
-            include('includes/languages/' . $language . '/modules/navbar_modules/' . $nbm);
-            require('includes/modules/navbar_modules/' . $class . '.php');
-          }
+          $class = pathinfo($nbm, PATHINFO_FILENAME);
 
           $nav = new $class();
-
           if ( $nav->isEnabled() ) {
             $navbar_modules[] = $nav->getOutput();
           }
         }
 
-        if ( !empty($navbar_modules) ) {          
-          ob_start();
-          include('includes/modules/content/' . $this->group . '/templates/tpl_' . basename(__FILE__));
-          $template = ob_get_clean();
-
-          $oscTemplate->addContent($template, $this->group);
+        if ( [] !== $navbar_modules ) {
+          $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
+          include 'includes/modules/content/cm_template.php';
         }
-      }      
+      }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_CONTENT_NAVBAR_STATUS' => [
+          'title' => 'Enable Navbar Module',
+          'value' => 'True',
+          'desc' => 'Should the Navbar be shown? ',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_CONTENT_NAVBAR_STYLE_BG' => [
+          'title' => 'Background Colour Scheme',
+          'value' => 'bg-light',
+          'desc' => 'What background colour should the Navbar have?  See <a target="_blank" href="https://getbootstrap.com/docs/4.5/utilities/colors/#background-color"><u>colors/#background-color</u></a>',
+          'set_func' => "tep_cfg_select_option(['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info', 'bg-light', 'bg-dark', 'bg-white'], ",
+        ],
+        'MODULE_CONTENT_NAVBAR_STYLE_FG' => [
+          'title' => 'Link Colour Scheme',
+          'value' => 'navbar-light',
+          'desc' => 'What foreground colour should the Navbar have?  See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#color-schemes"><u>navbar/#color-schemes</u></a>',
+          'set_func' => "tep_cfg_select_option(['navbar-dark', 'navbar-light'], ",
+        ],
+        'MODULE_CONTENT_NAVBAR_FIXED' => [
+          'title' => 'Placement',
+          'value' => 'default',
+          'desc' => 'Should the Navbar be Fixed/Sticky/Default behaviour? See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#placement"><u>navbar/#placement</u></a>',
+          'set_func' => "tep_cfg_select_option(['fixed-top', 'fixed-bottom', 'sticky-top', 'default'], ",
+        ],
+        'MODULE_CONTENT_NAVBAR_OFFSET' => [
+          'title' => 'Placement Offset',
+          'value' => '4rem',
+          'desc' => 'Offset if using fixed-* Placement.',
+        ],
+        'MODULE_CONTENT_NAVBAR_COLLAPSE' => [
+          'title' => 'Collapse',
+          'value' => 'navbar-expand-sm',
+          'desc' => 'When should the Navbar Show? See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#how-it-works"><u>navbar/#how-it-works</u></a>',
+          'set_func' => "tep_cfg_select_option(['navbar-expand', 'navbar-expand-sm', 'navbar-expand-md', 'navbar-expand-lg', 'navbar-expand-xl'], ",
+        ],
+        'MODULE_CONTENT_NAVBAR_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '10',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_CONTENT_NAVBAR_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Navbar Module', 'MODULE_CONTENT_NAVBAR_STATUS', 'True', 'Should the Navbar be shown? ', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Background Colour Scheme', 'MODULE_CONTENT_NAVBAR_STYLE_BG', 'bg-light', 'What background colour should the Navbar have?  See https://getbootstrap.com/docs/4.3/utilities/colors/#background-color', '6', '0', 'tep_cfg_select_option(array(\'bg-primary\', \'bg-secondary\', \'bg-success\', \'bg-danger\', \'bg-warning\', \'bg-info\', \'bg-light\', \'bg-dark\', \'bg-white\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Link Colour Scheme', 'MODULE_CONTENT_NAVBAR_STYLE_FG', 'navbar-light', 'What foreground colour should the Navbar have?  See https://getbootstrap.com/docs/4.3/utilities/colors/#background-color', '6', '0', 'tep_cfg_select_option(array(\'navbar-dark\', \'navbar-light\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Placement', 'MODULE_CONTENT_NAVBAR_FIXED', 'default', 'Should the Navbar be Fixed/Sticky/Default behaviour? See https://getbootstrap.com/docs/4.3/components/navbar/#placement', '6', '0', 'tep_cfg_select_option(array(\'fixed-top\', \'fixed-bottom\', \'sticky-top\', \'default\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Placement Offset', 'MODULE_CONTENT_NAVBAR_OFFSET', '4rem', 'Offset if using fixed-* Placement.', '6', '0', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Collapse', 'MODULE_CONTENT_NAVBAR_COLLAPSE', 'navbar-expand-sm', 'When should the Navbar Show? See https://getbootstrap.com/docs/4.3/components/navbar/#how-it-works', '6', '0', 'tep_cfg_select_option(array(\'navbar-expand\', \'navbar-expand-sm\', \'navbar-expand-md\', \'navbar-expand-lg\', \'navbar-expand-xl\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_CONTENT_NAVBAR_SORT_ORDER', '10', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_CONTENT_NAVBAR_STATUS', 'MODULE_CONTENT_NAVBAR_STYLE_BG', 'MODULE_CONTENT_NAVBAR_STYLE_FG', 'MODULE_CONTENT_NAVBAR_FIXED', 'MODULE_CONTENT_NAVBAR_OFFSET', 'MODULE_CONTENT_NAVBAR_COLLAPSE', 'MODULE_CONTENT_NAVBAR_SORT_ORDER');
-    }
   }
-  

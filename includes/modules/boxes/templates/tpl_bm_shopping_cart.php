@@ -1,7 +1,22 @@
 <div class="card mb-2 bm-shopping-cart">
   <div class="card-header"><a href="<?php echo tep_href_link('shopping_cart.php'); ?>"><?php echo MODULE_BOXES_SHOPPING_CART_BOX_TITLE; ?></a></div>
-  <div class="list-group list-group-flush">
-    <?php echo $cart_contents_string; ?>
+  <div class="list-group list-group-flush box-cart-list">
+    <?php
+  if ($_SESSION['cart']->count_contents() > 0) {
+    foreach ($_SESSION['cart']->get_products() as $product) {
+      echo '<a class="list-group-item list-group-item-action';
+      if (isset($_SESSION['new_products_id_in_cart']) && ($_SESSION['new_products_id_in_cart'] == $product['id'])) {
+        echo ' active';
+        unset($_SESSION['new_products_id_in_cart']);
+      }
+      echo '" href="' . tep_href_link('product_info.php', 'products_id=' . $product['id']) . '">',
+           $product['quantity'] . ' x ' . $product['name'],
+           '</a>';
+    }
+  } else {
+    echo '<span class="list-group-item">' . MODULE_BOXES_SHOPPING_CART_BOX_CART_EMPTY . '</span>';
+  }
+    ?>
   </div>
   <div class="card-footer text-right">
     <?php echo $cart_totalised; ?>
@@ -10,17 +25,13 @@
 
 <?php
 /*
-  Copyright (c) 2018, G Burton
-  All rights reserved.
+  $Id$
 
-  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
 
-  1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+  Copyright (c) 2020 osCommerce
 
-  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  Released under the GNU General Public License
 */
 ?>
