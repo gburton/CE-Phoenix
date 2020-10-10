@@ -35,12 +35,9 @@
         }
       }
       ?>
-      
     </nav>
   </div>
 </div>
-
-
 
 <?php
   if ( $OSCOM_PayPal->isInstalled($current_module) || ($current_module == 'G') ) {
@@ -68,7 +65,23 @@
   </div>
 </div>
 
-<p class="mt-2"><?= $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_save'), null, 'success');?></p>
+<div class="row">
+  <div class="col">
+    <p class="mt-2"><?= $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_save'), null, 'success');?></p>
+  </div>
+  <?php 
+  if ( $current_module != 'G' ) {
+    ?>
+    <div class="col text-right">
+      <button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#delModal">
+        <?= $OSCOM_PayPal->getDef('dialog_uninstall_title'); ?>
+      </button>
+    </div>
+    <?php
+  }
+  ?>
+  </div>
+</div>
 
 </form>
 
@@ -85,6 +98,26 @@
 <?php
   }
 ?>
+
+<div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="..." aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="..."><?= sprintf($OSCOM_PayPal->getDef('modal_uninstall_title'), $current_module); ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="<?= $OSCOM_PayPal->getDef('modal_uninstall_cancel'); ?>">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <?= sprintf($OSCOM_PayPal->getDef('dialog_uninstall_body'), $OSCOM_PayPal->getModuleInfo($current_module, 'title')); ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= $OSCOM_PayPal->getDef('modal_uninstall_cancel'); ?></button>
+        <a role="button" class="btn btn-danger" href="<?= tep_href_link('paypal.php', 'action=configure&subaction=uninstall&module=' . $current_module); ?>"><?= $OSCOM_PayPal->getDef('modal_uninstall_do_it'); ?></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 $(function() {
