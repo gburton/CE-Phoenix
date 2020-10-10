@@ -11,7 +11,7 @@
 */
 
   class securityCheck_fopen_wrapper {
-    var $type = 'error';
+    var $type = 'warning';
     var $has_doc = false;
 
     function __construct() {

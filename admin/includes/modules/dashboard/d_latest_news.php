@@ -30,7 +30,7 @@
     }
 
     function getOutput() {
-      $feed = simplexml_load_file('http://feeds.feedburner.com/osCommerceNewsAndBlogs');
+      $feed = Application::load_xml('https://feeds.feedburner.com/osCommerceNewsAndBlogs');
       
       $output = null; $count = 0;
       

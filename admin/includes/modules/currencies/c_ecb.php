@@ -34,7 +34,7 @@
     static function execute() {
       global $messageStack;
       
-      $xml = simplexml_load_file('https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
+      $xml = Application::load_xml('https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml');
       $xml = json_decode(json_encode($xml), JSON_FORCE_OBJECT);
       
       $currency_query = tep_db_query("select currencies_id, code, title from currencies");

@@ -14,7 +14,7 @@
 
   require('includes/template_top.php');
 
-  $feed = simplexml_load_file('http://feeds.feedburner.com/PhoenixAddons'); 
+  $feed = Application::load_xml('https://feeds.feedburner.com/PhoenixAddons');
   $num = 0;
 ?>
 

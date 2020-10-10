@@ -106,5 +106,24 @@
         $GLOBALS['customer'] = new customer($_SESSION['customer_id']);
       }
     }
+    
+    public static function load_xml($url) {
+      if (!empty($url)) {
+        if (ini_get('allow_url_fopen')) {
+          $feed = simplexml_load_file($url);
+        }
+        else {
+          $ch = curl_init();
+          curl_setopt ($ch, CURLOPT_URL, $url);
+          curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+          curl_setopt($ch, CURLOPT_HEADER, false);
+          $xml = curl_exec($ch);
+
+          $feed = simplexml_load_string($xml);
+        }
+        
+        return $feed;
+      }
+    }
 
   }
