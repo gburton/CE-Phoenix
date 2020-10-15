@@ -34,7 +34,8 @@
         $specials_price = tep_db_prepare_input($_POST['specials_price']);
         $expdate = tep_db_prepare_input($_POST['expdate']);
 
-        if (substr($specials_price, -1) == '%') {
+        if (substr($specials_price, -1) === '%') {
+          $specials_price = substr($specials_price, 0, -1);
           $new_special_insert_query = tep_db_query("select products_id, products_price from products where products_id = '" . (int)$products_id . "'");
           $new_special_insert = tep_db_fetch_array($new_special_insert_query);
 
@@ -51,7 +52,8 @@
         
         $OSCOM_Hooks->call('specials', 'insertAction');
 
-        tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
+        tep_redirect(tep_href_link('specials.php', isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : ''));
+
         break;
       case 'update':
         $specials_id = tep_db_prepare_input($_POST['specials_id']);
