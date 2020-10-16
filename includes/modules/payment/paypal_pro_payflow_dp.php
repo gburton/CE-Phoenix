@@ -84,26 +84,26 @@
       for ($i = $today['year']; $i < $today['year'] + 10; $i++) {
         $year_expires_array[] = ['id' => strftime('%y',mktime(0, 0, 0, 1, 1, $i)), 'text' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i))];
       }
-
-      $content = '<table id="paypal_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">'
+      
+      $content = '<table class="table" id="paypal_table_new_card">'
                . '<tr>'
-               . '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_OWNER_FIRSTNAME . '</td>'
+               . '  <td class="w-25">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_OWNER_FIRSTNAME . '</td>'
                . '  <td>' . tep_draw_input_field('cc_owner_firstname', $order->billing['firstname']) . '</td>'
                . '</tr>'
                . '<tr>'
-               . '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_OWNER_LASTNAME . '</td>'
+               . '  <td class="w-25">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_OWNER_LASTNAME . '</td>'
                . '  <td>' . tep_draw_input_field('cc_owner_lastname', $order->billing['lastname']) . '</td>'
                . '</tr>'
                . '<tr>'
-               . '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_NUMBER . '</td>'
+               . '  <td class="w-25">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_NUMBER . '</td>'
                . '  <td>' . tep_draw_input_field('cc_number_nh-dns', '', 'id="paypal_card_num"') . '</td>'
                . '</tr>'
                . '<tr>'
-               . '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_EXPIRES . '</td>'
+               . '  <td class="w-25">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_EXPIRES . '</td>'
                . '  <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>'
                . '</tr>'
                . '<tr>'
-               . '  <td width="30%">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_CVC . '</td>'
+               . '  <td class="w-25">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_CARD_CVC . '</td>'
                . '  <td>' . tep_draw_input_field('cc_cvc_nh-dns', '', 'size="5" maxlength="4"') . '</td>'
                . '</tr>'
                . '</table>';

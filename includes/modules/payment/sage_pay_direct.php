@@ -114,73 +114,73 @@
         $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_sagepay_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
-          $content .= '<table id="sagepay_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
+          $content .= '<table class="table" id="sagepay_table">';
 
           while ( $tokens = tep_db_fetch_array($tokens_query) ) {
             $content .= '<tr class="moduleRow" id="sagepay_card_' . (int)$tokens['id'] . '">' .
-                        '  <td width="40" valign="top"><input type="radio" name="sagepay_card" value="' . (int)$tokens['id'] . '" /></td>' .
-                        '  <td valign="top">' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2)) . '/' . strftime('%Y', mktime(0, 0, 0, 1, 1, (2000 + substr($tokens['expiry_date'], 2)))) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>' .
+                        '  <td><input type="radio" name="sagepay_card" value="' . (int)$tokens['id'] . '" /></td>' .
+                        '  <td>' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2)) . '/' . strftime('%Y', mktime(0, 0, 0, 1, 1, (2000 + substr($tokens['expiry_date'], 2)))) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>' .
                         '</tr>';
 
             if (MODULE_PAYMENT_SAGE_PAY_DIRECT_VERIFY_WITH_CVC == 'True') {
               $content .= '<tr class="moduleRowExtra" id="sagepay_card_cvc_' . (int)$tokens['id'] . '">' .
-                          '  <td width="40" valign="top">&nbsp;</td>' .
-                          '  <td valign="top">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_CVC . '&nbsp;' . tep_draw_input_field('cc_cvc_tokens_nh-dns[' . (int)$tokens['id'] . ']', '', 'size="5" maxlength="4"') . '</td>' .
+                          '  <td>&nbsp;</td>' .
+                          '  <td>' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_CVC . '&nbsp;' . tep_draw_input_field('cc_cvc_tokens_nh-dns[' . (int)$tokens['id'] . ']', '', 'size="5" maxlength="4"') . '</td>' .
                           '</tr>';
             }
           }
 
           $content .= '<tr class="moduleRow" id="sagepay_card_0">' .
-                      '  <td width="40" valign="top"><input type="radio" name="sagepay_card" value="0" /></td>' .
-                      '  <td valign="top">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_NEW . '</td>' .
+                      '  <td><input type="radio" name="sagepay_card" value="0" /></td>' .
+                      '  <td>' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_NEW . '</td>' .
                       '</tr>' .
                       '</table>';
         }
       }
 
-      $content .= '<table id="sagepay_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">' .
+      $content .= '<table class="table" id="sagepay_table_new_card">' .
                   '<tr>' .
-                  '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_TYPE . '</td>' .
+                  '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_TYPE . '</td>' .
                   '  <td>' . tep_draw_pull_down_menu('cc_type', $card_types, '', 'id="sagepay_card_type"') . '</td>' .
                   '</tr>' .
                   '<tr>' .
-                  '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_OWNER . '</td>' .
+                  '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_OWNER . '</td>' .
                   '  <td>' . tep_draw_input_field('cc_owner', $order->billing['name'], 'maxlength="50"') . '</td>' .
                   '</tr>' .
                   '<tr>' .
-                  '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_NUMBER . '</td>' .
+                  '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_NUMBER . '</td>' .
                   '  <td>' . tep_draw_input_field('cc_number_nh-dns', '', 'maxlength="20"') . '</td>' .
                   '</tr>';
 
       if ( (MODULE_PAYMENT_SAGE_PAY_DIRECT_ALLOW_MAESTRO == 'True') || (MODULE_PAYMENT_SAGE_PAY_DIRECT_ALLOW_AMEX == 'True') ) {
         $content .= '<tr>' .
-                    '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_STARTS . '</td>' .
+                    '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_STARTS . '</td>' .
                     '  <td class="date-fields">' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="sagepay_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_STARTS_INFO . '</td>' .
                     '</tr>';
       }
 
       $content .= '<tr>' .
-                  '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_EXPIRES . '</td>' .
+                  '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_EXPIRES . '</td>' .
                   '  <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_valid_to_array) . '</td>' .
                   '</tr>';
 
       if ( (MODULE_PAYMENT_SAGE_PAY_DIRECT_ALLOW_MAESTRO == 'True') ) {
         $content .= '<tr>' .
-                    '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_ISSUE_NUMBER . '</td>' .
+                    '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_ISSUE_NUMBER . '</td>' .
                     '  <td>' . tep_draw_input_field('cc_issue_nh-dns', '', 'id="sagepay_card_issue" size="3" maxlength="2"') . '&nbsp;' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_ISSUE_NUMBER_INFO . '</td>' .
                     '</tr>';
       }
 
       if (MODULE_PAYMENT_SAGE_PAY_DIRECT_VERIFY_WITH_CVC == 'True') {
         $content .= '<tr>' .
-                    '  <td width="30%">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_CVC . '</td>' .
+                    '  <td class="w-25">' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_CVC . '</td>' .
                     '  <td>' . tep_draw_input_field('cc_cvc_nh-dns', '', 'size="5" maxlength="4"') . '</td>' .
                     '</tr>';
       }
 
       if ( MODULE_PAYMENT_SAGE_PAY_DIRECT_TOKENS == 'True' ) {
         $content .= '<tr>' .
-                    '  <td width="30%">&nbsp;</td>' .
+                    '  <td class="w-25">&nbsp;</td>' .
                     '  <td>' . tep_draw_checkbox_field('cc_save', 'true') . ' ' . MODULE_PAYMENT_SAGE_PAY_DIRECT_CREDIT_CARD_SAVE . '</td>' .
                     '</tr>';
       }
