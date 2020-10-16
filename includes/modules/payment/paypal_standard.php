@@ -161,7 +161,7 @@
           $curr_check = tep_db_query("SELECT currency FROM orders WHERE orders_id = " . (int)$order_id);
           $curr = tep_db_fetch_array($curr_check);
 
-          if ( ($curr['currency'] != $order->info['currency']) || ($_SESSION['cartID'] != substr($_SESSION['cart_PayPal_Standard_ID'], 0, strlen($_SESSION['cartID']))) ) {
+          if ( ($curr['currency'] != $GLOBALS['order']->info['currency']) || ($_SESSION['cartID'] != substr($_SESSION['cart_PayPal_Standard_ID'], 0, strlen($_SESSION['cartID']))) ) {
             $check_query = tep_db_query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int)$order_id . ' LIMIT 1');
 
             if (tep_db_num_rows($check_query) < 1) {
