@@ -130,6 +130,8 @@ EOSQL;
 
         $attributes[] = tep_db_fetch_array($attributes_query);
       }
+
+      return $attributes;
     }
 
     public function build_products() {
