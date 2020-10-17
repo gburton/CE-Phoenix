@@ -629,6 +629,7 @@ EOD;
         $params['CURRENCY'] = $order->info['currency'];
         $params['EMAIL'] = $order->customer['email_address'];
 
+        $customer_data->get('country', $order->billing);
         $params['BILLTOFIRSTNAME'] = $customer_data->get('firstname', $order->billing);
         $params['BILLTOLASTNAME'] = $customer_data->get('lastname', $order->billing);
         $params['BILLTOSTREET'] = $customer_data->get('street_address', $order->billing);

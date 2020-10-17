@@ -235,6 +235,7 @@
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $parameters['address_override'] = '1';
+        $customer_data->get('country', $order->delivery);
         $parameters['first_name'] = $customer_data->get('firstname', $order->delivery);
         $parameters['last_name'] = $customer_data->get('lastname', $order->delivery);
         $parameters['address1'] = $customer_data->get('street_address', $order->delivery);
@@ -248,6 +249,7 @@
         $parameters['country'] = $customer_data->get('country_iso_code_2', $order->delivery);
       } else {
         $parameters['no_shipping'] = '1';
+        $customer_data->get('country', $order->billing);
         $parameters['first_name'] = $customer_data->get('firstname', $order->billing);
         $parameters['last_name'] = $customer_data->get('lastname', $order->billing);
         $parameters['address1'] = $customer_data->get('street_address', $order->billing);
