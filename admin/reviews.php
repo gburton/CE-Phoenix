@@ -13,14 +13,14 @@
   require('includes/application_top.php');
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('reviews', 'preAction');
 
   if (tep_not_null($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE reviews SET reviews_status = '" . $_GET['flag'] . "', last_modified = NOW() WHERE reviews_id = " . (int)$_GET['rID']);
-        
+
         $OSCOM_Hooks->call('reviews', 'setFlagAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']));
@@ -33,7 +33,7 @@
 
         tep_db_query("update reviews set reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("update reviews_description set reviews_text = '" . tep_db_input($reviews_text) . "' where reviews_id = '" . (int)$reviews_id . "'");
-        
+
         $OSCOM_Hooks->call('reviews', 'updateAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $reviews_id));
@@ -43,7 +43,7 @@
 
         tep_db_query("delete from reviews where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("delete from reviews_description where reviews_id = '" . (int)$reviews_id . "'");
-        
+
         $OSCOM_Hooks->call('reviews', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('reviews.php', 'page=' . (int)$_GET['page']));
@@ -57,14 +57,14 @@
         tep_db_query("insert into reviews (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) values ('" . (int)$products_id . "', '" . (int)$customers_id . "', '" . tep_customers_name($customers_id) . "', '" . (int)$rating . "', now(), 1)");
         $insert_id = tep_db_insert_id();
         tep_db_query("insert into reviews_description (reviews_id, languages_id, reviews_text) values ('" . (int)$insert_id . "', '" . (int)$languages_id . "', '" . $review . "')");
-        
+
         $OSCOM_Hooks->call('reviews', 'addNewAction');
 
         tep_redirect(tep_href_link('reviews.php', tep_get_all_get_params(['action'])));
-        break;   
+        break;
     }
   }
-  
+
   $OSCOM_Hooks->call('reviews', 'postAction');
 
   require('includes/template_top.php');
@@ -115,7 +115,7 @@
     } else {
       $rInfo = new objectInfo([]);
     }
-    
+
     if ($form_action == 'preview') {
       echo tep_draw_form('review', 'reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID'] . '&action=' . $form_action);
       echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added); 
@@ -157,16 +157,16 @@
         <label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?php echo TEXT_BAD; ?></label>
         <?php 
         for ($i=1; $i<=5; $i++) { 
-          echo tep_draw_selection_field('reviews_rating', 'radio', $i, (isset($rInfo->reviews_rating)?(($i == $rInfo->reviews_rating) ? true : false) : ($i == 5) ? true : false), 'class="form-check-input" id="rating_' . $i . '"'); 
-        } 
+          echo tep_draw_selection_field('reviews_rating', 'radio', $i, ($i == ($rInfo->reviews_rating ?? 5)), 'class="form-check-input" id="rating_' . $i . '"');
+        }
         ?>
-        <label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>   
+        <label class="form-check-label font-weight-bold text-danger" for="rating_5"><?php echo TEXT_GOOD; ?></label></div>
       </div>
     </div>
 
     <div class="form-group row">
       <label for="reviewReview" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_REVIEW; ?></label>
-      <div class="col-sm-9"><?php echo tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT; ?>     
+      <div class="col-sm-9"><?php echo tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT; ?>
       </div>
     </div>
 
@@ -178,9 +178,9 @@
       echo $OSCOM_Hooks->call('reviews', 'formNew');
     }
     ?>
- 
+
     <div class="text-right">
-      <?php 
+      <?php
       if ($action != 'new') {
         echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
       } else {
@@ -188,7 +188,7 @@
       }
       ?>
     </div>
-    
+
   </form>
 <?php
   } elseif ($action == 'preview') {
@@ -230,7 +230,7 @@
 
         <div class="form-group row">
           <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?php echo ENTRY_RATING; ?></label>
-          <div class="col-sm-9"><?php echo tep_draw_stars($rInfo->reviews_rating); ?></div>   
+          <div class="col-sm-9"><?php echo tep_draw_stars($rInfo->reviews_rating); ?></div>
         </div>
 
         <div class="form-group row">
@@ -243,7 +243,7 @@
 
 <?php
     echo $OSCOM_Hooks->call('reviews', 'formPreview');
-    
+
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
       foreach($_POST as $key => $value) {
@@ -326,13 +326,13 @@
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?php echo $reviews_split->display_count($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_REVIEWS); ?></div>
         <div class="col text-right mr-2"><?php echo $reviews_split->display_links($reviews_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
     </div>
-    
+
 <?php
     $heading = [];
     $contents = [];
@@ -369,7 +369,7 @@
         echo $box->infoBox($heading, $contents);
       echo '</div>';
     }
-  echo '</div>';  
+  echo '</div>';
 }
 
   require('includes/template_bottom.php');
