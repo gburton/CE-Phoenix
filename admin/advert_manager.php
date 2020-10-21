@@ -19,18 +19,31 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'import':
+      $languages = tep_get_languages();
+      
       $import_query = tep_db_query("select * from banners order by banners_id");
       while ($import = tep_db_fetch_array($import_query)) {
         $sql_data_array = ['advert_title'       => $import['banners_title'],
                            'advert_url'         => $import['banners_url'],
                            'advert_image'       => $import['banners_image'],
                            'advert_group'       => $import['banners_group'],
-                           'advert_html_text'   => $import['banners_html_text'],
                            'date_added'         => $import['date_added'],
                            'date_status_change' => $import['date_status_change'],
                            'status'             => $import['status']];
 
         tep_db_perform('advert', $sql_data_array);
+        
+        $advert_id = tep_db_insert_id();
+        
+        for ($i=0, $n=count($languages); $i<$n; $i++) {
+          $language_id = $languages[$i]['id'];
+          
+          $lng_data_array = ['advert_id'        => $advert_id,
+                             'languages_id'     => $language_id,
+                             'advert_html_text' => $import['banners_html_text']];
+                             
+          tep_db_perform('advert_info', $lng_data_array);
+        }
       }
 
       $OSCOM_Hooks->call('advert_manager', 'importAction');
@@ -101,8 +114,7 @@
                              'advert_fragment'  => $advert_fragment,
                              'advert_image'     => $db_image_location,
                              'advert_group'     => $advert_group,
-                             'sort_order'       => $sort_order,
-                             'advert_html_text' => $advert_html_text];
+                             'sort_order'       => $sort_order];
 
           if ($action == 'insert') {
             $insert_sql_data = ['date_added' => 'now()', 'status' => '1'];
@@ -122,6 +134,25 @@
             tep_db_perform('advert', $sql_data_array, 'update', "advert_id = '" . (int)$advert_id . "'");
 
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
+          }
+          
+          $languages = tep_get_languages();
+          for ($i=0, $n=count($languages); $i<$n; $i++) {
+            $advert_html_text_array = $_POST['advert_html_text'];
+            
+            $language_id = $languages[$i]['id'];
+            
+            $lng_data_array['advert_html_text'] = tep_db_prepare_input($advert_html_text_array[$language_id]);
+            
+            if ($action == 'insert') {
+              $insert_sql_data = ['advert_id' => $advert_id, 'languages_id' => $language_id];
+
+              $lng_data_array = array_merge($lng_data_array, $insert_sql_data);
+
+              tep_db_perform('advert_info', $lng_data_array);
+            } elseif ($action == 'update') {
+              tep_db_perform('advert_info', $lng_data_array, 'update', "advert_id = '" . (int)$advert_id . "' and languages_id = '" . (int)$language_id . "'");
+            }
           }
 
           $OSCOM_Hooks->call('advert_manager', 'insertUpdateAction');
@@ -150,6 +181,7 @@
         }
 
         tep_db_query("delete from advert where advert_id = '" . (int)$advert_id . "'");
+        tep_db_query("delete from advert_info where advert_id = '" . (int)$advert_id . "'");
 
         $OSCOM_Hooks->call('advert_manager', 'deleteConfirmAction');
 
@@ -182,6 +214,8 @@
 
 <?php
   if ($action == 'new') {
+    $languages = tep_get_languages();
+    
     $form_action = 'insert';
 
     $parameters = ['advert_title' => '', 'advert_url' => '', 'advert_fragment' => '', 'advert_group' => '', 'advert_image' => '', 'sort_order' => '', 'advert_html_text' => ''];
@@ -281,12 +315,24 @@
       </div>
 
       <hr>
-
-      <div class="form-group row">
-        <label for="cText" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_HTML_TEXT; ?></label>
-        <div class="col-sm-9"><?php echo tep_draw_textarea_field('advert_html_text', 'soft', '60', '5', $cInfo->advert_html_text, 'class="form-control" id="cText"'); ?>
+      
+      <?php
+      for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+        ?>
+        <div class="form-group row">
+          <label for="cText_<?= $languages[$i]['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_HTML_TEXT; ?></label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']); ?></span>
+              </div>
+              <?php echo tep_draw_textarea_field('advert_html_text[' . $languages[$i]['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $languages[$i]['id']), 'class="form-control" id="cText_' . $languages[$i]['id'] . '"'); ?>
+            </div>
+          </div>
         </div>
-      </div>
+        <?php
+      }
+      ?>
 
       <div class="alert alert-info">
         <?php echo TEXT_ADVERT_NOTE . TEXT_INSERT_NOTE; ?>
