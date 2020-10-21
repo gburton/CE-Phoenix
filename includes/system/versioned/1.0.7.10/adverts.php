@@ -15,7 +15,7 @@
     public static function get_grouped_adverts($advert_group) {
       $group = tep_db_prepare_input($advert_group);
 
-      $advert_query = tep_db_query("SELECT * FROM advert WHERE advert_group = '" . tep_db_input($group) . "' and status = 1 order by sort_order");
+      $advert_query = tep_db_query("select a.*, ai.* from advert a, advert_info ai where a.advert_group = '" . tep_db_input($group) . "' and a.advert_id = ai.advert_id and ai.languages_id = " . (int)$_SESSION['languages_id'] . " and status = 1 order by sort_order");
 
       $num = 1; $adverts = [];
       while ($advert = tep_db_fetch_array($advert_query)) {
