@@ -138,7 +138,7 @@
               unset($modules_installed[array_search($module_to_remove, $modules_installed)]);
             }
 
-            tep_db_query("update configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_PI_INSTALLED'");
+            tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = 'MODULE_CONTENT_PI_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_pi.php'));
           }
@@ -299,8 +299,7 @@
       foreach ($mInfo->keys as $key => $value) {
         $keys .= '<strong>' . $value['title'] . '</strong><br>' . $value['description'] . '<br>';
 
-        if ( substr($key, -5) == 'GROUP' ) {
-          include_once(DIR_FS_CATALOG . 'includes/modules/content/product_info/cm_pi_modular.php');
+        if ( substr($key, -strlen('GROUP')) === 'GROUP' ) {
           $layout = call_user_func(['cm_pi_modular', 'display_layout']);
           $keys .= '<div class="alert alert-info">' . $layout . '</div>';
         }
