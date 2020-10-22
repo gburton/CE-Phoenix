@@ -373,18 +373,24 @@ EOSQL
             $keys .= '<strong>' . $value['title'] . '</strong><br>';
 
             if ($value['use_function']) {
-              $use_function = $value['use_function'];
-
-              if (preg_match('/->/', $use_function)) {
-                $class_method = explode('->', $use_function);
-
-                if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
-                  ${$class_method[0]} = new $class_method[0]();
-                }
-
-                $use_function = [${$class_method[0]}, $class_method[1]];
+              if (strpos($value['use_function'], '->')) {
+                $class_method = explode('->', $value['use_function']);
+                $use_function = [Guarantor::ensure_global($class_method[0]), $class_method[1]];
+              } else {
+                $use_function = $value['use_function'];
               }
-              $keys .= call_user_func($use_function, $value['value']);
+
+              if (is_callable($use_function)) {
+                $keys .= call_user_func($use_function, $value['value']);
+              } else {
+                $keys .= '0';
+                $messageStack->add(
+                  sprintf(
+                    WARNING_INVALID_USE_FUNCTION,
+                    $configuration['use_function'],
+                    $configuration['configuration_title']),
+                  'warning');
+              }
             } else {
               $keys .= tep_break_string($value['value'], 40, '<br>');
             }

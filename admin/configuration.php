@@ -58,20 +58,26 @@
             <?php
             $configuration_query = tep_db_query("SELECT configuration_id, configuration_title, configuration_value, use_function FROM configuration WHERE configuration_group_id = " . (int)$gID . " ORDER BY sort_order");
             while ($configuration = tep_db_fetch_array($configuration_query)) {
-              $cfgValue = 0;
               if (tep_not_null($configuration['use_function'])) {
-                $use_function = $configuration['use_function'];
-                if (preg_match('/->/', $use_function)) {
-                  $class_method = explode('->', $use_function, 2);
-                  if (!is_object(${$class_method[0]})) {
-                    include('includes/classes/' . $class_method[0] . '.php');
-                    ${$class_method[0]} = new $class_method[0]();
-                  }
-                  $cfgValue = tep_call_function($class_method[1], $configuration['configuration_value'], ${$class_method[0]});
+                if (strpos($configuration['use_function'], '->')) {
+                  // if there is a -> with something before it
+                  // make sure that the something is instantiated
+                  $class_method = explode('->', $configuration['use_function'], 2);
+                  $use_function = [Guarantor::ensure_global($class_method[0]), $class_method[1]];
                 } else {
-                  if (function_exists($use_function)) {
-                    $cfgValue = tep_call_function($use_function, $configuration['configuration_value']);
-                  }
+                  $use_function = $configuration['use_function'];
+                }
+
+                if (is_callable($use_function)) {
+                  $cfgValue = call_user_func($use_function, $configuration['configuration_value']);
+                } else {
+                  $cfgValue = 0;
+                  $messageStack->add(
+                    sprintf(
+                      WARNING_INVALID_USE_FUNCTION,
+                      $configuration['use_function'],
+                      $configuration['configuration_title']),
+                    'warning');
                 }
               } else {
                 $cfgValue = $configuration['configuration_value'];

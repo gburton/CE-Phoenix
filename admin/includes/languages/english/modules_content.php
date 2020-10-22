@@ -23,3 +23,5 @@ const TEXT_INFO_ONLINE_STATUS = 'online status';
 const TEXT_INFO_API_VERSION = 'API Version:';
 
 const TEXT_MODULE_DIRECTORY = 'Module Directory:';
+
+const WARNING_INVALID_USE_FUNCTION = 'The use function (%s) for "%s" is invalid.';
