@@ -1185,6 +1185,7 @@ EOSQL
   }
 
   function tep_call_function($function, $parameter, $object = '') {
+    trigger_error('The tep_call_function function has been deprecated.', E_USER_DEPRECATED);
     if ($object == '') {
       return call_user_func($function, $parameter);
     } else {
