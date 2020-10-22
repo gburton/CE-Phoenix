@@ -291,7 +291,8 @@
   } else {
     $orders_sql = sprintf(<<<'EOSQL'
 SELECT o.*, s.orders_status_name, ot.text AS order_total
- FROM orders o LEFT JOIN orders_total ot ON (o.orders_id = ot.orders_id) LEFT JOIN orders_status s ON o.orders_status = s.orders_status_id AND s.language_id = %d
+ FROM orders o INNER JOIN orders_total ot ON o.orders_id = ot.orders_id
+   LEFT JOIN orders_status s ON o.orders_status = s.orders_status_id AND s.language_id = %d
  WHERE ot.class = 'ot_total'
 EOSQL
       , (int)$_SESSION['languages_id']);
