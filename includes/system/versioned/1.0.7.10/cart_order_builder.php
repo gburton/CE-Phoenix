@@ -15,7 +15,7 @@
     public static $column_keys = null;
     public static $attributes_sql = <<<'EOSQL'
 SELECT
-   popt.products_options_name AS option,
+   popt.products_options_name AS `option`,
    poval.products_options_values_name AS value,
    pa.options_id AS option_id,
    pa.options_values_id AS value_id,
