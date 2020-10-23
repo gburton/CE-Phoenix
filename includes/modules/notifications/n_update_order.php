@@ -19,13 +19,13 @@
 
     public function notify($data) {
       if (isset($_POST['notify_comments']) && ('on' === $_POST['notify_comments'])) {
-        $data['notify_comments'] = sprintf(EMAIL_TEXT_COMMENTS_UPDATE, $data['notify_comments']) . "\n\n";
+        $data['notify_comments'] = sprintf(MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_COMMENTS_UPDATE, $data['notify_comments']) . "\n\n";
       } else {
         $data['notify_comments'] = '';
       }
 
       ob_start();
-      include $GLOBALS['oscTemplate']->map_to_template(__FILE__);
+      include Guarantor::ensure_global('oscTemplate')->map_to_template(__FILE__);
       echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'statusUpdateEmail', $data);
 
       return tep_mail($data['customers_name'], $data['customers_email_address'], MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_SUBJECT, ob_get_clean(), STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
