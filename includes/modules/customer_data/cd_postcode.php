@@ -93,16 +93,16 @@
       $input = tep_draw_input_field('postcode', $postcode, $attribute)
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template($this->get_constant('TEMPLATE'));
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {
       $customer_details['postcode'] = tep_db_prepare_input($_POST['postcode']);
 
-      if ($this->is_required() && (strlen($customer_details['postcode']) < $this->get_constant('MIN_LENGTH'))) {
+      if ($this->is_required() && (strlen($customer_details['postcode']) < $this->base_constant('MIN_LENGTH'))) {
         $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
-          sprintf(ENTRY_POST_CODE_ERROR, $this->get_constant('MIN_LENGTH')));
+          sprintf(ENTRY_POST_CODE_ERROR, $this->base_constant('MIN_LENGTH')));
 
         return false;
       }

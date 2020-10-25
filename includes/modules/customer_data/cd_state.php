@@ -129,7 +129,7 @@
       }
       $input .= $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template($this->get_constant('TEMPLATE'));
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function fetch_zone_count($country_id) {
