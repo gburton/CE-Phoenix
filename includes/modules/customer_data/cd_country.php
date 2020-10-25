@@ -142,7 +142,7 @@
       $input = $this->draw_country_list('country_id', $country_id, $attribute)
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_COUNTRY_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->get_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {
