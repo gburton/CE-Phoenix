@@ -11,12 +11,12 @@
 */
 
   $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_NAVBAR_TITLE_1, tep_href_link('account.php'));
-  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/sage_pay/cards.php', '', 'SSL'));
+  $breadcrumb->add(MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_NAVBAR_TITLE_2, tep_href_link('ext/modules/content/account/sage_pay/cards.php'));
 
   require $oscTemplate->map_to_template('template_top.php', 'component');
 ?>
 
-<h1 class="display-4"><?php echo MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_HEADING_TITLE; ?></h1>
+<h1 class="display-4"><?= MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_HEADING_TITLE ?></h1>
 
 <?php
   if ($messageStack->size('cards') > 0) {
@@ -24,9 +24,9 @@
   }
 ?>
 
-  <?php echo MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_TEXT_DESCRIPTION; ?>
+  <?= MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_TEXT_DESCRIPTION ?>
 
-  <h4><?php echo MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_SAVED_CARDS_TITLE; ?></h4>
+  <h4><?= MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_SAVED_CARDS_TITLE ?></h4>
 
   <div class="contentText row align-items-center">
 
@@ -38,8 +38,8 @@
 ?>
 
     <div>
-      <div class="col-sm-6"><strong><?php echo tep_output_string_protected($tokens['card_type']); ?></strong>&nbsp;&nbsp;****<?php echo tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)); ?></div>
-      <div class="col-sm-6 text-right"><?php echo tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'fas fa-trash', tep_href_link('ext/modules/content/account/sage_pay/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($_SESSION['sessiontoken']))); ?></div>
+      <div class="col-sm-6"><strong><?= tep_output_string_protected($tokens['card_type']) ?></strong>&nbsp;&nbsp;****<?= tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) ?></div>
+      <div class="col-sm-6 text-right"><?= tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'fas fa-trash', tep_href_link('ext/modules/content/account/sage_pay/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($_SESSION['sessiontoken']))) ?></div>
     </div>
 
 <?php
@@ -47,7 +47,7 @@
   } else {
 ?>
 
-    <div class="alert alert-danger col"><?php echo MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_TEXT_NO_CARDS; ?></div>
+    <div class="alert alert-danger col"><?= MODULE_CONTENT_ACCOUNT_SAGE_PAY_CARDS_TEXT_NO_CARDS ?></div>
 
 <?php
   }
@@ -56,7 +56,7 @@
   </div>
 
   <div class="buttonSet">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php')); ?>
+    <?= tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account.php')) ?>
   </div>
 
 <?php
