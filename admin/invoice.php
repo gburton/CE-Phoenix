@@ -21,7 +21,7 @@
 ?>
 
   <div class="row align-items-center mx-1">
-    <div class="col"><?php echo tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . STORE_LOGO, STORE_NAME); ?></div>
+    <div class="col"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . STORE_LOGO, STORE_NAME); ?></div>
     <div class="col text-right">
       <?php
       echo '<h1 class="display-4">' . STORE_NAME . '</h1>';
@@ -36,22 +36,23 @@
   <div class="row">
     <div class="col">
       <ul class="list-group">
-        <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo ENTRY_SHIP_TO; ?></h6></li>
-        <li class="list-group-item border-0 font-weight-bold"><?php echo $address->format($order->delivery, 1, '', '<br>'); ?></li>
+        <li class="list-group-item border-0"><h6 class="lead m-0"><?= ENTRY_SHIP_TO; ?></h6></li>
+        <li class="list-group-item border-0 font-weight-bold"><?= $address->format($order->delivery, 1, '', '<br>'); ?></li>
       </ul>
     </div>
     <div class="col">
       <ul class="list-group">
-        <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo ENTRY_SOLD_TO; ?></h6></li>
-        <li class="list-group-item border-0"><?php echo $address->format($order->billing, 1, '', '<br>'); ?></li>
-        <li class="list-group-item border-0"><i class="fas fa-phone fa-fw"></i> <?php echo ($order->customer['telephone'] ?? ''); ?> <i class="fas fa-at fa-fw"></i> <?php echo ($order->customer['email_address'] ?? ''); ?></li>
+        <li class="list-group-item border-0"><h6 class="lead m-0"><?= ENTRY_SOLD_TO; ?></h6></li>
+        <li class="list-group-item border-0"><?= $address->format($order->billing, 1, '', '<br>'); ?></li>
+        <li class="list-group-item border-0"><i class="fas fa-phone fa-fw"></i> <?= ($order->customer['telephone'] ?? ''); ?> <i class="fas fa-at fa-fw"></i> <?= ($order->customer['email_address'] ?? ''); ?></li>
      </ul>
     </div>
     <div class="col text-right">
       <ul class="list-group">
-        <li class="list-group-item border-0"><h6 class="lead m-0"><?php echo sprintf(ENTRY_INVOICE_NUMBER, (int)$_GET['oID']); ?></h6></li>
-        <li class="list-group-item border-0"><?php echo sprintf(ENTRY_INVOICE_DATE, tep_date_short($order->info['date_purchased'])); ?></li>
-        <li class="list-group-item border-0"><?php echo sprintf(ENTRY_PAYMENT_METHOD, $order->info['payment_method']); ?></li>
+        <li class="list-group-item border-0"><h6 class="lead m-0"><?= sprintf(ENTRY_INVOICE_NUMBER, (int)$_GET['oID']); ?></h6></li>
+        <li class="list-group-item border-0"><?= sprintf(ENTRY_INVOICE_DATE, tep_date_short($order->info['date_purchased'])); ?></li>
+        <li class="list-group-item border-0"><?= sprintf(ENTRY_PAYMENT_METHOD, $order->info['payment_method']); ?></li>
+        <?= $OSCOM_Hooks->call('invoice', 'invoiceData'); ?>
       </ul>
     </div>
   </div>
@@ -59,14 +60,14 @@
   <table class="table table-striped mt-3">
     <thead class="thead-dark">
       <tr>
-        <th><?php echo TABLE_HEADING_QTY; ?></th>
-        <th><?php echo TABLE_HEADING_PRODUCTS; ?></th>
-        <th><?php echo TABLE_HEADING_PRODUCTS_MODEL; ?></th>
-        <th class="text-right"><?php echo TABLE_HEADING_TAX; ?></th>
-        <th class="text-right"><?php echo TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
-        <th class="text-right"><?php echo TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
-        <th class="text-right"><?php echo TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
-        <th class="text-right"><?php echo TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
+        <th><?= TABLE_HEADING_QTY; ?></th>
+        <th><?= TABLE_HEADING_PRODUCTS; ?></th>
+        <th><?= TABLE_HEADING_PRODUCTS_MODEL; ?></th>
+        <th class="text-right"><?= TABLE_HEADING_TAX; ?></th>
+        <th class="text-right"><?= TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
+        <th class="text-right"><?= TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
+        <th class="text-right"><?= TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
+        <th class="text-right"><?= TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
       </tr>
     </thead>
     <tbody>
