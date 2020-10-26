@@ -1491,12 +1491,6 @@ EOSQL
     return tep_cfg_multiple_select_option($pages, $key_values, $key_name);
   }
 
-////
-// Check if product has attributes
-  function tep_has_product_attributes($products_id) {
-    return true;
-  }
-
   function tep_block_form_processing() {
     $GLOBALS['error'] = true;
   }

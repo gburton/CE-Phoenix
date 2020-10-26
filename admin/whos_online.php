@@ -79,41 +79,37 @@
     $heading[] = ['text' => TABLE_HEADING_SHOPPING_CART];
 
     if ( $info->customer_id > 0 ) {
-      $products_query = tep_db_query(sprintf(<<<'EOSQL'
-SELECT cb.*, pd.*
- FROM customers_basket cb INNER JOIN products_description pd ON cb.products_id = pd.products_id
- WHERE cb.customers_id = %d AND pd.language_id = %d
-EOSQL
-        , (int)$info->customer_id, (int)$_SESSION['languages_id']));
+      function tep_has_product_attributes($products_id) {
+        $attributes_query = tep_db_query("SELECT COUNT(*) AS count FROM products_attributes WHERE products_id = " . (int)$products_id);
+        $attributes = tep_db_fetch_array($attributes_query);
 
-      if ( tep_db_num_rows($products_query) ) {
-        $shoppingCart = new shoppingCart();
-
-        while ( $products = tep_db_fetch_array($products_query) ) {
-          $contents[] = ['text' => sprintf(TEXT_SHOPPING_CART_ITEM, $products['customers_basket_quantity'], $products['products_name'])];
-
-          $attributes = [];
-
-          if ( strpos($products['products_id'], '{') !== false ) {
-            $combos = [];
-            preg_match_all('/(\{[0-9]+\}[0-9]+){1}/', $products['products_id'], $combos);
-
-            foreach ( $combos[0] as $combo ) {
-              $att = [];
-              preg_match('/\{([0-9]+)\}([0-9]+)/', $combo, $att);
-
-              $attributes[$att[1]] = $att[2];
-            }
-          }
-
-          $shoppingCart->add_cart(tep_get_prid($products['products_id']), $products['customers_basket_quantity'], $attributes);
-        }
-
-        $currencies = new currencies();
-        $contents[] = ['class' => 'table-dark text-right', 'text'  => sprintf(TEXT_SHOPPING_CART_SUBTOTAL, $currencies->format($shoppingCart->show_total()))];
-      } else {
-        $contents[] = ['text' => '&nbsp;'];
+        return $attributes['count'] > 0;
       }
+
+      function tep_create_random_value($length, $type = 'mixed') {
+        return 0;
+      }
+
+      $session_customer_id = $_SESSION['customer_id'] ?? null;
+      $session_currency = $_SESSION['currency'] ?? null;
+      $_SESSION['customer_id'] = $info->customer_id;
+      $_SESSION['currency'] = DEFAULT_CURRENCY;
+
+      $shoppingCart = new shoppingCart();
+      $shoppingCart->restore_contents();
+
+      foreach ($shoppingCart->get_products() as $product) {
+        $contents[] = ['text' => sprintf(TEXT_SHOPPING_CART_ITEM, $product['quantity'], $product['name'])];
+      }
+
+      $currencies = new currencies();
+      $contents[] = [
+        'class' => 'table-dark text-right',
+        'text' => sprintf(TEXT_SHOPPING_CART_SUBTOTAL, $currencies->format($shoppingCart->show_total())),
+      ];
+
+      $_SESSION['customer_id'] = $session_customer_id;
+      $_SESSION['currency'] = $session_currency;
     } else {
       $contents[] = ['text' => TEXT_SHOPPING_CART_NA];
     }
