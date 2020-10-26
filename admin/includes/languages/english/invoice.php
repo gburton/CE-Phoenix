@@ -30,5 +30,5 @@ define('ENTRY_TAX', 'Tax:');
 define('ENTRY_SHIPPING', 'Shipping:');
 define('ENTRY_TOTAL', 'Total:');
 
-define('ENTRY_INVOICE_NUMBER', 'Invoice: %s');
-define('ENTRY_INVOICE_DATE', 'Date: %s');
+define('ENTRY_INVOICE_NUMBER', 'Order ID: %s');
+define('ENTRY_INVOICE_DATE', 'Order Date: %s');

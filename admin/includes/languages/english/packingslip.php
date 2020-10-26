@@ -19,5 +19,5 @@ define('ENTRY_SOLD_TO', 'SOLD TO:');
 define('ENTRY_SHIP_TO', 'SHIP TO:');
 define('ENTRY_PAYMENT_METHOD', 'Payment Method: %s');
 
-define('ENTRY_INVOICE_NUMBER', 'Invoice: %s');
-define('ENTRY_INVOICE_DATE', 'Date: %s');
+define('ENTRY_INVOICE_NUMBER', 'Order ID: %s');
+define('ENTRY_INVOICE_DATE', 'Order Date: %s');
