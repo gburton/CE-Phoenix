@@ -30,7 +30,7 @@
     }
 
     function getOutput() {
-      $feed = Application::load_xml('https://feeds.feedburner.com/PhoenixAddons');
+      $feed = Web::load_xml('https://feeds.feedburner.com/PhoenixAddons');
       
       $output = null;
       
