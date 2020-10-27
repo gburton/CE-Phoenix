@@ -52,7 +52,7 @@
      . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n"
      . $customer->make_address_label($order->billing, 0, '', "\n") . "\n\n";
 
-  $payment = $GLOBALS[$order->info['payment_method']];
+  $payment = $GLOBALS[$_SESSION['payment']];
   if (is_object($payment)) {
     echo MODULE_NOTIFICATIONS_CHECKOUT_TEXT_PAYMENT_METHOD . "\n"
        . MODULE_NOTIFICATIONS_CHECKOUT_SEPARATOR . "\n";
