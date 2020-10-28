@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  class d_phoenix_addons {
+  class d_phoenix_addons extends abstract_module {
 
     const CONFIG_KEY_BASE = 'MODULE_ADMIN_DASHBOARD_PHOENIX_ADDONS_';
 
