@@ -37,8 +37,8 @@
     while ( $tokens = tep_db_fetch_array($tokens_query) ) {
 ?>
 
-      <div class="col-sm-6"><strong><?= tep_output_string_protected($tokens['card_type']) ?></strong>&nbsp;&nbsp;****<?= tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) ?></p>
-      <div class="col-sm-6 text-right"><?= tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'fas fa-trash', tep_href_link('ext/modules/content/account/braintree/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($_SESSION['sessiontoken']))) ?></span>
+      <div class="col-sm-6"><strong><?= tep_output_string_protected($tokens['card_type']) ?></strong>&nbsp;&nbsp;****<?= tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) ?></div>
+      <div class="col-sm-6 text-right"><?= tep_draw_button(SMALL_IMAGE_BUTTON_DELETE, 'fas fa-trash', tep_href_link('ext/modules/content/account/braintree/cards.php', 'action=delete&id=' . (int)$tokens['id'] . '&formid=' . md5($_SESSION['sessiontoken']))) ?></div>
 
 <?php
     }
