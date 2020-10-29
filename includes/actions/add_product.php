@@ -19,7 +19,7 @@
         $pid = (int)$_POST['products_id'];
         $attributes = $_POST['id'] ?? '';
 
-        $qty = (int)($_POST['qty'] ?? 1);
+        $qty = (!empty($_POST['qty'])) ? (int)$_POST['qty'] : 1;
 
         $_SESSION['cart']->add_cart($_POST['products_id'], $_SESSION['cart']->get_quantity(tep_get_uprid($pid, $attributes))+$qty, $attributes);
 
