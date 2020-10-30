@@ -646,7 +646,7 @@ function updateNet() {
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
         <div class="accordion" id="productLanguageAccordion">
           <?php
-          for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+          for ($i=0, $n=count($languages); $i<$n; $i++) {
             $show = ($i == 0) ? ' show' : null;
             ?>
             <div class="card">
@@ -677,7 +677,7 @@ function updateNet() {
                     <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_URL; ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : tep_get_products_url($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
+                      echo tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $languages[$i]['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
                       ?>
                       <small id="pUrlHelp" class="form-text text-muted">
                         <?php echo TEXT_PRODUCTS_URL_WITHOUT_HTTP; ?>
@@ -713,7 +713,7 @@ function updateNet() {
                     <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_PRODUCTS_SEO_KEYWORDS; ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_seo_keywords[' . $languages[$i]['id'] . ']', tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id']), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
+                      echo tep_draw_input_field('products_seo_keywords[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
                       ?>
                       <small id="pSeoKeywordsHelp" class="form-text text-muted">
                         <?php echo TEXT_PRODUCTS_SEO_KEYWORDS_HELP; ?>
@@ -737,7 +737,7 @@ function updateNet() {
             <div class="col-sm-9">
               <div class="custom-file mb-2">
                 <?php
-                echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (!tep_not_null($pInfo->products_image) ? 'required aria-required="true" ' : null) . 'class="form-control-input"');
+                echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (tep_not_null($pInfo->products_image) ? null : 'required aria-required="true" ') . 'class="form-control-input"');
                 echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';                
                 ?>
               </div>
