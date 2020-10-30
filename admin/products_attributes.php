@@ -657,7 +657,7 @@ EOSQL
     <h1 class="display-4"><?php echo HEADING_TITLE_VAL; ?></h1>
     
     <?php
-    $values = "select po.*, pov.*, pov2po.* from products_options po, products_options_values pov left join products_options_values_to_products_options pov2po on pov.products_options_values_id = pov2po.products_options_values_id where pov.language_id = '" . (int)$languages_id . "' and po.products_options_id = pov2po.products_options_id order by po.sort_order, pov.sort_order";
+    $values = "select po.*, pov.*, pov2po.* from products_options po, products_options_values pov left join products_options_values_to_products_options pov2po on pov.products_options_values_id = pov2po.products_options_values_id where pov.language_id = '" . (int)$languages_id . "' and po.language_id = '" . (int)$languages_id . "' and po.products_options_id = pov2po.products_options_id order by po.sort_order, pov.sort_order";
     
     $values_split = new splitPageResults($value_page, MAX_ROW_LISTS_OPTIONS, $values, $values_query_numrows);
     ?>
