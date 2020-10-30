@@ -138,7 +138,7 @@
               unset($modules_installed[array_search($module_to_remove, $modules_installed)]);
             }
 
-            tep_db_query("update configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_PI_INSTALLED'");
+            tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = 'MODULE_CONTENT_PI_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_pi.php'));
           }
@@ -299,14 +299,13 @@
       foreach ($mInfo->keys as $key => $value) {
         $keys .= '<strong>' . $value['title'] . '</strong><br>' . $value['description'] . '<br>';
 
-        if ( substr($key, -5) == 'GROUP' ) {
-          include_once(DIR_FS_CATALOG . 'includes/modules/content/product_info/cm_pi_modular.php');
+        if ( substr($key, -strlen('GROUP')) === 'GROUP' ) {
           $layout = call_user_func(['cm_pi_modular', 'display_layout']);
           $keys .= '<div class="alert alert-info">' . $layout . '</div>';
         }
 
         if ($value['set_function']) {
-          eval('$keys .= ' . $value['set_function'] . "'" . tep_db_input($value['value']) . "', '" . $key . "');");
+          eval('$keys .= ' . $value['set_function'] . "'" . addslashes($value['value']) . "', '" . $key . "');");
         } else {
           $keys .= tep_draw_input_field('configuration[' . $key . ']', $value['value']);
         }
@@ -344,19 +343,23 @@
             $keys .= '<strong>' . $value['title'] . '</strong><br>';
 
             if ($value['use_function']) {
-              $use_function = $value['use_function'];
-
-              if (preg_match('/->/', $use_function)) {
-                $class_method = explode('->', $use_function);
-
-                if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
-                  include('includes/classes/' . $class_method[0] . $file_extension);
-                  ${$class_method[0]} = new $class_method[0]();
-                }
-
-                $keys .= tep_call_function($class_method[1], $value['value'], ${$class_method[0]});
+              if (strpos($value['use_function'], '->')) {
+                $class_method = explode('->', $value['use_function']);
+                $use_function = [Guarantor::ensure_global($class_method[0]), $class_method[1]];
               } else {
-                $keys .= tep_call_function($use_function, $value['value']);
+                $use_function = $value['use_function'];
+              }
+
+              if (is_callable($use_function)) {
+                $keys .= call_user_func($use_function, $value['value']);
+              } else {
+                $keys .= '0';
+                $messageStack->add(
+                  sprintf(
+                    WARNING_INVALID_USE_FUNCTION,
+                    $configuration['use_function'],
+                    $configuration['configuration_title']),
+                  'warning');
               }
             } else {
               $keys .= tep_break_string($value['value'], 40, '<br>');

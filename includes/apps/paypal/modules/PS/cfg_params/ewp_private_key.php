@@ -27,17 +27,10 @@
       $input = tep_draw_input_field('ewp_private_key', OSCOM_APP_PAYPAL_PS_EWP_PRIVATE_KEY, 'id="inputPsEwpPrivateKey"');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label for="inputPsEwpPrivateKey">{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div>
-    {$input}
-  </div>
-</div>
+<div class="mb-3">{$input}</div>
 EOT;
 
       return $result;

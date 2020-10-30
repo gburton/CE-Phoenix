@@ -160,35 +160,35 @@
         $year_expires_array[] = ['id' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i)), 'text' => strftime('%Y',mktime(0, 0, 0, 1, 1, $i))];
       }
 
-      $content = '<table id="paypal_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">'
+      $content = '<table class="table" id="paypal_table_new_card">'
                . '  <tr>'
-               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_type') . '</td>'
+               . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_type') . '</td>'
                . '    <td>' . tep_draw_pull_down_menu('cc_type', $types_array, '', 'id="paypal_card_type"') . '</td>'
                . '  </tr>'
                . '  <tr>'
-               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>'
+               . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>'
                . '    <td>' . tep_draw_input_field('cc_owner', $order->billing['name']) . '</td>'
                . '  </tr>'
                . '  <tr>'
-               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_number') . '</td>'
+               . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_number') . '</td>'
                . '    <td>' . tep_draw_input_field('cc_number_nh-dns', '', 'id="paypal_card_num"') . '</td>'
                . '  </tr>'
                . '  <tr>'
-               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_expires') . '</td>'
+               . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_expires') . '</td>'
                . '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_expires_month', $months_array) . '&nbsp;' . tep_draw_pull_down_menu('cc_expires_year', $year_expires_array) . '</td>'
                . '  </tr>'
                . '  <tr>'
-               . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_cvc') . '</td>'
+               . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_cvc') . '</td>'
                . '    <td>' . tep_draw_input_field('cc_cvc_nh-dns', '', 'size="5" maxlength="4"') . ' <span id="cardSecurityCodeInfo" title="' . tep_output_string($this->_app->getDef('module_dp_field_card_cvc_info')) . '" style="color: #084482; text-decoration: none; border-bottom: 1px dashed #084482; cursor: pointer;">' . $this->_app->getDef('module_dp_field_card_cvc_info_link') . '</span></td>'
                . '  </tr>';
 
       if ( $this->isCardAccepted('MAESTRO') ) {
         $content .= '  <tr>'
-                  . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_valid_from') . '</td>'
+                  . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_valid_from') . '</td>'
                   . '    <td class="date-fields">' . tep_draw_pull_down_menu('cc_starts_month', $months_array, '', 'id="paypal_card_date_start"') . '&nbsp;' . tep_draw_pull_down_menu('cc_starts_year', $year_valid_from_array) . '&nbsp;' . $this->_app->getDef('module_dp_field_card_valid_from_info') . '</td>'
                   . '  </tr>'
                   . '  <tr>'
-                  . '    <td width="30%">' . $this->_app->getDef('module_dp_field_card_issue_number') . '</td>'
+                  . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_issue_number') . '</td>'
                   . '    <td>' . tep_draw_input_field('cc_issue_nh-dns', '', 'id="paypal_card_issue" size="3" maxlength="2"') . '&nbsp;' . $this->_app->getDef('module_dp_field_card_issue_number_info') . '</td>'
                   . '  </tr>';
       }

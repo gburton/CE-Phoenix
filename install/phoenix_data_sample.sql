@@ -55,10 +55,10 @@ INSERT INTO products_attributes VALUES (4, 2, 1, 2, '4.5000', '+');
 INSERT INTO products_attributes VALUES (5, 5, 1, 1, '0.0000', '+');
 INSERT INTO products_attributes VALUES (6, 5, 1, 2, '4.9900', '+');
 
-INSERT INTO products_options VALUES (1, 1, 'Box Size');
+INSERT INTO products_options VALUES (1, 1, 'Box Size', 10);
 
-INSERT INTO products_options_values VALUES (1, 1, '12');
-INSERT INTO products_options_values VALUES (2, 1, '24');
+INSERT INTO products_options_values VALUES (1, 1, '12', 10);
+INSERT INTO products_options_values VALUES (2, 1, '24', 20);
 
 INSERT INTO products_options_values_to_products_options VALUES (1, 1, 1);
 INSERT INTO products_options_values_to_products_options VALUES (2, 1, 2);

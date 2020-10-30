@@ -1,8 +1,8 @@
 privacy_title = Privacy Policy
 
-privacy_body = <h3>API Credentials</h3>
+privacy_body = <h5>API Credentials</h5>
 
-<p>The PayPal App for osCommerce Online Merchant allows store owners to automatically setup and configure the App with their PayPal API credentials without the need to enter them manually. This is performed securely by granting osCommerce access to retrieve the API credentials from the store owners PayPal account.</p>
+<p>The PayPal App for OSCOM CE Phoenix allows store owners to automatically setup and configure the App with their PayPal API credentials without the need to enter them manually. This is performed securely by granting osCommerce access to retrieve the API credentials from the store owners PayPal account.</p>
 
 <p>Granting osCommerce access allows the following limited information to be retrieved from the store owners PayPal account:</p>
 
@@ -25,7 +25,7 @@ privacy_body = <h3>API Credentials</h3>
   <li>Log In with PayPal</li>
 </ul>
 
-<p>The process is started by using the "Retrieve Live Credentials" and "Retrieve Sandbox Credentials" buttons displayed on the PayPal App start and credentials management pages. The store owner is securely taken to PayPal's website where they are asked to grant osCommerce access to retrieve the API credentials, and are then redirected back to their online store to continue configuration of the PayPal App. This is performed with the following steps:</p>
+<p>The process is started by using the "Retrieve Live Credentials" and "Retrieve Sandbox Credentials" buttons displayed on the PayPal App start and credentials management pages. The store owner is securely taken to the PayPal website where they are asked to grant osCommerce access to retrieve the API credentials, and are then redirected back to their online store to continue configuration of the PayPal App. This is performed with the following steps:</p>
 
 <ol>
   <li>The store owner clicks on "Retrieve Live Credentials" or "Retrieve Sandbox Credentials" and is securely taken to an initialization page on the osCommerce website that registers the request and immediately redirects the store owner to an on-boarding page on the PayPal website. osCommerce registers the following information in the request:
@@ -53,15 +53,15 @@ privacy_body = <h3>API Credentials</h3>
   <li>The PayPal App configures itself with the API credentials.</li>
 </ol>
 
-<div class="pp-panel pp-panel-warning">
+<div class="alert alert-warning">
   <p>The API Credentials retrieved from the store owners PayPal account are only used to configure the PayPal App. osCommerce temporarily stores the API Credentials as described in this privacy policy, and discards the API Credentials as soon as the process is over. A back-end script is also run to discard any stored information for processes that have not finalized.</p>
 </div>
 
-<div class="pp-panel pp-panel-info">
+<div class="alert alert-info">
   <p>osCommerce has worked closely with PayPal to ensure the PayPal App follows strict privacy and security policies.</p>
 </div>
 
-<h3>PayPal Modules</h3>
+<h5>PayPal Modules</h5>
 
 <p>PayPal modules send store owner, online store, and customer related information to PayPal to process API transactions. These include the following modules:</p>
 
@@ -85,16 +85,10 @@ privacy_body = <h3>API Credentials</h3>
   <li>E-Commerce solution identification.</li>
 </ul>
 
-<div class="pp-panel pp-panel-info">
+<div class="alert alert-info">
   <p>The parameters of each transaction sent to and received from PayPal can be inspected on the PayPal App Log page.</p>
 </div>
 
-<h3>App Updates</h3>
+<h5>Hosted Libraries (jQuery and jQuery UI)</h5>
 
-<p>The PayPal App for osCommerce Online Merchant automatically checks the osCommerce website for updates that are available to the App. This check is performed once every 24 hours and if an update is available, a notification is shown to allow the App to download and apply the update.</p>
-
-<p>A manual check for available updates is also performed on the PayPal App Info page.</p>
-
-<h3>Google Hosted Libraries (jQuery and jQuery UI)</h3>
-
-<p>If jQuery or jQuery UI are not already loaded in the Administration Tool, the PayPal App administration pages automatically load the libraries securely through Google Hosted Libraries.</p>
+<p>If jQuery or jQuery UI are not already loaded in the Administration Tool, the PayPal App administration pages automatically load the libraries securely.</p>

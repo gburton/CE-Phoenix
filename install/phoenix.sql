@@ -72,13 +72,20 @@ CREATE TABLE advert (
   advert_fragment varchar(255) NOT NULL,
   advert_image varchar(64) NOT NULL,
   advert_group varchar(64) NOT NULL,
-  advert_html_text text,
   date_added datetime NOT NULL,
   date_status_change datetime DEFAULT NULL,
   sort_order int(3),
   status int(1) DEFAULT '1' NOT NULL,
   PRIMARY KEY (advert_id),
   KEY idx_advert_group (advert_group)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+DROP TABLE IF EXISTS advert_info;
+CREATE TABLE advert_info (
+  advert_id int NOT NULL,
+  languages_id int NOT NULL,
+  advert_html_text text,
+  PRIMARY KEY (advert_id, languages_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 DROP TABLE IF EXISTS categories;
@@ -529,6 +536,7 @@ CREATE TABLE products_options (
   products_options_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
   products_options_name varchar(255) NOT NULL default '',
+  sort_order int(3),
   PRIMARY KEY  (products_options_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -537,6 +545,7 @@ CREATE TABLE products_options_values (
   products_options_values_id int NOT NULL default '0',
   language_id int NOT NULL default '1',
   products_options_values_name varchar(255) NOT NULL default '',
+  sort_order int(3),
   PRIMARY KEY  (products_options_values_id,language_id)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
@@ -1152,13 +1161,13 @@ INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_clas
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_12_prepare_payment', 'Checkout', 'prepare_payment');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_14_insert_order', 'checkout_surface', 'insert_order');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_20_after', 'pipeline_surface', 'after');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_21_update_stock', 'checkout_surface', 'update_stock');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_22_update_products_ordered', 'checkout_surface', 'update_products_ordered');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_23_notify', 'checkout', 'notify');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_21_update_stock', 'Checkout', 'update_stock');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_22_update_products_ordered', 'Checkout', 'update_products_ordered');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'after', 'afterStart', '_23_notify', 'Checkout', 'notify');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_30_insert_history', 'checkout_surface', 'insert_history');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_31_conclude_payment', 'Checkout', 'conclude_payment');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'checkout_process', 'startApplication', '_40_reset', 'pipeline_surface', 'reset');
-INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_41_reset_cart', 'checkout', 'reset_cart');
+INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_41_reset_cart', 'Checkout', 'reset_cart');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_42_unset_sendto', 'session_eraser', 'sendto');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_43_unset_billto', 'session_eraser', 'billto');
 INSERT INTO hooks (hooks_site, hooks_group, hooks_action, hooks_code, hooks_class, hooks_method) VALUES ('shop', 'reset', 'resetStart', '_44_unset_shipping', 'session_eraser', 'shipping');
@@ -1842,9 +1851,10 @@ INSERT INTO configuration (configuration_title, configuration_key, configuration
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES ('Sort Order', 'MODULE_CONTENT_CAS_CONTINUE_BUTTON_SORT_ORDER', '30', 'Sort order of display. Lowest is displayed first.', '6', '3', now());
 
 # Notification modules
-INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES('Installed Modules', 'MODULE_NOTIFICATIONS_INSTALLED', 'n_checkout.php;n_create_account.php', 'This is automatically updated. No need to edit.', 6, 0, NOW());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES('Installed Modules', 'MODULE_NOTIFICATIONS_INSTALLED', 'n_checkout.php;n_create_account.php;n_update_order.php', 'This is automatically updated. No need to edit.', 6, 0, NOW());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES('Enable Checkout Notification module', 'MODULE_NOTIFICATIONS_CHECKOUT_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, 'tep_cfg_select_option([\'True\', \'False\'], ', NOW());
 INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES('Enable Account Creation Notification module', 'MODULE_NOTIFICATIONS_CREATE_ACCOUNT_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, 'tep_cfg_select_option([\'True\', \'False\'], ', NOW());
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) VALUES('Enable Order Status Update Notification module', 'MODULE_NOTIFICATIONS_UPDATE_ORDER_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, 'tep_cfg_select_option([\'True\', \'False\'], ', NOW());
 
 # Layout modules
 INSERT INTO configuration (configuration_id, configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) VALUES (NULL, 'Installed Modules', 'MODULE_CONTENT_PI_INSTALLED', 'pi_gallery.php;pi_img_disclaimer.php;pi_options_attributes.php;pi_buy_button.php', 'List of &pi; Product Info child modules separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, now());

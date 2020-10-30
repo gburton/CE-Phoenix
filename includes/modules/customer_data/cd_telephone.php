@@ -93,13 +93,13 @@
       $input = tep_draw_input_field('telephone', $telephone, $attribute)
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_TELEPHONE_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {
       $customer_details['telephone'] = tep_db_prepare_input($_POST['telephone']);
 
-      if (strlen($customer_details['telephone']) < MODULE_CUSTOMER_DATA_TELEPHONE_MIN_LENGTH
+      if (strlen($customer_details['telephone']) < $this->base_constant('MIN_LENGTH')
         && ($this->is_required()
           || !empty($customer_details['telephone'])
           )
@@ -107,7 +107,7 @@
       {
         $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
-          sprintf(ENTRY_TELEPHONE_ERROR, MODULE_CUSTOMER_DATA_TELEPHONE_MIN_LENGTH));
+          sprintf(ENTRY_TELEPHONE_ERROR, $this->base_constant('MIN_LENGTH')));
 
         return false;
       }

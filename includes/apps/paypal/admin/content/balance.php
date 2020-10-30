@@ -11,23 +11,31 @@
 */
 ?>
 
-<div id="ppAccountBalanceLive">
-  <h3 class="pp-panel-header-success"><?php echo $OSCOM_PayPal->getDef('heading_live_account', array('account' => str_replace('_api1.', '@', $OSCOM_PayPal->getApiCredentials('live', 'username')))); ?></h3>
-  <div id="ppBalanceLiveInfo" class="pp-panel pp-panel-success">
-    <p><?php echo $OSCOM_PayPal->getDef('retrieving_balance_progress'); ?></p>
+<div class="card" id="ppAccountBalanceLive">
+  <div class="card-header">
+    <?= $OSCOM_PayPal->getDef('heading_live_account', array('account' => str_replace('_api1.', '@', $OSCOM_PayPal->getApiCredentials('live', 'username')))); ?>
+  </div>
+  <div class="card-body">
+    <div id="ppBalanceLiveInfo">
+      <p><?= $OSCOM_PayPal->getDef('retrieving_balance_progress'); ?></p>
+    </div>
   </div>
 </div>
 
-<div id="ppAccountBalanceSandbox">
-  <h3 class="pp-panel-header-warning"><?php echo $OSCOM_PayPal->getDef('heading_sandbox_account', array('account' => str_replace('_api1.', '@', $OSCOM_PayPal->getApiCredentials('sandbox', 'username')))); ?></h3>
-  <div id="ppBalanceSandboxInfo" class="pp-panel pp-panel-warning">
-    <p><?php echo $OSCOM_PayPal->getDef('retrieving_balance_progress'); ?></p>
+<div class="card" id="ppAccountBalanceSandbox">
+  <div class="card-header">
+    <?= $OSCOM_PayPal->getDef('heading_sandbox_account', array('account' => str_replace('_api1.', '@', $OSCOM_PayPal->getApiCredentials('sandbox', 'username')))); ?>
+  </div>
+  <div class="card-body">
+    <div id="ppBalanceSandboxInfo">
+      <p><?= $OSCOM_PayPal->getDef('retrieving_balance_progress'); ?></p>
+    </div>
   </div>
 </div>
 
-<div id="ppAccountBalanceNone" style="display: none;">
-  <div class="pp-panel pp-panel-error">
-    <p><?php echo $OSCOM_PayPal->getDef('error_no_accounts_configured'); ?></p>
+<div class="card" id="ppAccountBalanceNone" style="display: none;">
+  <div class="card-body">
+    <p><?= $OSCOM_PayPal->getDef('error_no_accounts_configured'); ?></p>
   </div>
 </div>
 

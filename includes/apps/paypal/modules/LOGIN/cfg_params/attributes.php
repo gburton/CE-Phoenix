@@ -69,36 +69,33 @@
 
       $values_array = explode(';', OSCOM_APP_PAYPAL_LOGIN_ATTRIBUTES);
 
-      $input = '';
+      $input = null;
 
       foreach ( $this->attributes as $group => $attributes ) {
-        $input .= '<strong>' . $OSCOM_PayPal->getDef('cfg_login_attributes_group_' . $group) . '</strong>';
+        $input .= '<h6 class="mt-2 mb-0">' . $OSCOM_PayPal->getDef('cfg_login_attributes_group_' . $group) . '</h6>';
 
         foreach ( $attributes as $attribute => $scope ) {
           if ( in_array($attribute, $this->required) ) {
-            $input .= '<br><input type="radio" id="ppLogInAttributesSelection' . ucfirst($attribute) . '" name="ppLogInAttributesTmp' . ucfirst($attribute) . '" value="' . $attribute . '" checked="checked" />';
+            $input .= '<div class="custom-control custom-radio custom-control-inline">';
+              $input .= '<input type="radio" class="custom-control-input" id="ppLogInAttributesSelection' . ucfirst($attribute) . '" name="ppLogInAttributesTmp' . ucfirst($attribute) . '" value="' . $attribute . '" checked="checked" />';
+              $input .= '<label class="custom-control-label" for="ppLogInAttributesSelection' . ucfirst($attribute) . '">' . $OSCOM_PayPal->getDef('cfg_login_attributes_attribute_' . $attribute) . '</label>';
+            $input .= '</div>';
           } else {
-            $input .= '<br><input type="checkbox" id="ppLogInAttributesSelection' . ucfirst($attribute) . '" name="ppLogInAttributes[]" value="' . $attribute . '"' . (in_array($attribute, $values_array) ? ' checked="checked"' : '') . ' />';
+            $input .= '<div class="custom-control custom-checkbox custom-control-inline">';
+              $input .= '<input type="checkbox" class="custom-control-input" id="ppLogInAttributesSelection' . ucfirst($attribute) . '" name="ppLogInAttributes[]" value="' . $attribute . '"' . (in_array($attribute, $values_array) ? ' checked="checked"' : '') . ' />';
+              $input .= '<label class="custom-control-label" for="ppLogInAttributesSelection' . ucfirst($attribute) . '">' . $OSCOM_PayPal->getDef('cfg_login_attributes_attribute_' . $attribute) . '</label>';
+            $input .= '</div>';
           }
-
-          $input .= '&nbsp;<label for="ppLogInAttributesSelection' . ucfirst($attribute) . '">' . $OSCOM_PayPal->getDef('cfg_login_attributes_attribute_' . $attribute) . '</label>';
         }
       }
 
       $input .= '<input type="hidden" name="attributes" value="" />';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="attributesSelection">
-    {$input}
-  </div>
-</div>
+<div class="mb-3" id="attributesSelection">{$input}</div>
 
 <script>
 function ppLogInAttributesUpdateCfgValue() {

@@ -93,13 +93,13 @@
       $input = tep_draw_input_field('fax', $fax, $attribute)
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_FAX_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {
       $customer_details['fax'] = tep_db_prepare_input($_POST['fax']);
 
-      if (strlen($customer_details['fax']) < MODULE_CUSTOMER_DATA_FAX_MIN_LENGTH
+      if (strlen($customer_details['fax']) < $this->base_constant('MIN_LENGTH')
         && ($this->is_required()
           || !empty($customer_details['fax'])
           )
@@ -107,7 +107,7 @@
       {
         $GLOBALS['messageStack']->add_classed(
           $GLOBALS['message_stack_area'] ?? 'customer_data',
-          sprintf(ENTRY_FAX_ERROR, MODULE_CUSTOMER_DATA_FAX_MIN_LENGTH));
+          sprintf(ENTRY_FAX_ERROR, $this->base_constant('MIN_LENGTH')));
 
         return false;
       }

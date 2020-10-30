@@ -16,7 +16,7 @@
 
   $orders_statuses = [];
   $orders_status_array = [];
-  $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$languages_id);
+  $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$_SESSION['languages_id']);
   while ($orders_status = tep_db_fetch_array($orders_status_query)) {
     $orders_statuses[] = [
       'id' => $orders_status['orders_status_id'],
@@ -42,31 +42,24 @@
 
         if ( ($check_status['orders_status'] != $status) || tep_not_null($comments)) {
           tep_db_query("UPDATE orders SET orders_status = '" . tep_db_input($status) . "', last_modified = NOW() WHERE orders_id = " . (int)$oID);
+          $check_status['status_name'] = $orders_status_array[$status];
+          $check_status['notify_comments'] = $comments;
 
-          $customer_notified = '0';
-          if (isset($_POST['notify']) && ($_POST['notify'] == 'on')) {
-            $notify_comments = '';
-            if (isset($_POST['notify_comments']) && ($_POST['notify_comments'] == 'on')) {
-              $notify_comments = sprintf(EMAIL_TEXT_COMMENTS_UPDATE, $comments) . "\n\n";
-            }
-
-            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link('account_history_info.php', 'order_id=' . $oID, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
-
-            $OSCOM_Hooks->call('orders', 'statusUpdateEmail');
-            tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-
-            $customer_notified = '1';
+          if (isset($_POST['notify']) && ('on' === $_POST['notify']) && tep_notify('update_order', $check_status)) {
+            $customer_notified = 1;
+          } else {
+            $customer_notified = 0;
           }
 
-          tep_db_query("INSERT INTO orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . (int)$oID . "', '" . tep_db_input($status) . "', NOW(), '" . tep_db_input($customer_notified) . "', '" . tep_db_input($comments)  . "')");
+          tep_db_query("INSERT INTO orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) VALUES ('" . (int)$oID . "', '" . tep_db_input($status) . "', NOW(), " . (int)$customer_notified . ", '" . tep_db_input($comments)  . "')");
 
           $order_updated = true;
         }
         
         $OSCOM_Hooks->call('orders', 'updateOrderAction');
 
-        if ($order_updated == true) {
-         $messageStack->add_session(SUCCESS_ORDER_UPDATED, 'success');
+        if ($order_updated) {
+          $messageStack->add_session(SUCCESS_ORDER_UPDATED, 'success');
         } else {
           $messageStack->add_session(WARNING_ORDER_NOT_UPDATED, 'warning');
         }
@@ -296,6 +289,30 @@
 
 <?php
   } else {
+    $orders_sql = sprintf(<<<'EOSQL'
+SELECT o.*, s.orders_status_name, ot.text AS order_total
+ FROM orders o INNER JOIN orders_total ot ON o.orders_id = ot.orders_id
+   LEFT JOIN orders_status s ON o.orders_status = s.orders_status_id AND s.language_id = %d
+ WHERE ot.class = 'ot_total'
+EOSQL
+      , (int)$_SESSION['languages_id']);
+    if (isset($_GET['cID'])) {
+      $orders_sql .= ' AND o.customers_id = ' . (int)tep_db_prepare_input($_GET['cID']);
+    }
+    if (!empty($_GET['status']) && is_numeric($_GET['status'])) {
+      $orders_sql .= ' AND o.orders_status = ' . (int)tep_db_prepare_input($_GET['status']);
+    }
+    $listing_order = ' ORDER BY o.orders_id DESC';
+
+    $parameters = [
+      'orders_sql' => &$orders_sql,
+      'listing_order' => &$listing_order,
+    ];
+    $OSCOM_Hooks->call('orders', 'injectSQL', $parameters);
+    $orders_sql .= $listing_order;
+
+    $orders_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $orders_sql, $orders_query_numrows);
+    $orders_query = tep_db_query($orders_sql);
 ?>
 
   <div class="row">
@@ -322,6 +339,7 @@
         echo '</div>';
         echo tep_hide_session_id();
       echo '</form>';
+      echo $OSCOM_Hooks->call('orders', 'injectFilterForm');
       ?>
     </div>
   </div>
@@ -342,24 +360,12 @@
           </thead>
           <tbody>
             <?php
-            if (isset($_GET['cID'])) {
-              $cID = tep_db_prepare_input($_GET['cID']);
-              $orders_query_raw = "SELECT o.*, s.orders_status_name, ot.text AS order_total FROM orders o LEFT JOIN orders_total ot ON (o.orders_id = ot.orders_id), orders_status s WHERE o.customers_id = " . (int)$cID . " AND o.orders_status = s.orders_status_id AND s.language_id = " . (int)$languages_id . " AND ot.class = 'ot_total' ORDER BY orders_id DESC";
-            } elseif (!empty($_GET['status']) && is_numeric($_GET['status'])) {
-              $status = tep_db_prepare_input($_GET['status']);
-              $orders_query_raw = "SELECT o.*, s.orders_status_name, ot.text AS order_total FROM orders o LEFT JOIN orders_total ot ON (o.orders_id = ot.orders_id), orders_status s WHERE o.orders_status = s.orders_status_id AND s.language_id = " . (int)$languages_id . " AND s.orders_status_id = " . (int)$status . " AND ot.class = 'ot_total' ORDER BY o.orders_id DESC";
-            } else {
-              $orders_query_raw = "SELECT o.*, s.orders_status_name, ot.text AS order_total FROM orders o LEFT JOIN orders_total ot ON (o.orders_id = ot.orders_id), orders_status s WHERE o.orders_status = s.orders_status_id AND s.language_id = " . (int)$languages_id . " AND ot.class = 'ot_total' ORDER BY o.orders_id DESC";
-            }
-
-            $orders_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $orders_query_raw, $orders_query_numrows);
-            $orders_query = tep_db_query($orders_query_raw);
             while ($orders = tep_db_fetch_array($orders_query)) {
               if ((!isset($oInfo) || !($oInfo instanceof objectInfo)) && (!isset($_GET['oID']) || ($_GET['oID'] == $orders['orders_id']))) {
                 $oInfo = new objectInfo($orders);
               }
 
-              if (isset($oInfo) && $oInfo instanceof objectInfo && ($orders['orders_id'] == $oInfo->orders_id)) {
+              if (isset($oInfo->orders_id) && ($orders['orders_id'] == $oInfo->orders_id)) {
                 echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $oInfo->orders_id . '&action=edit') . '\'">';
                 $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
@@ -416,7 +422,7 @@
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
     echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }

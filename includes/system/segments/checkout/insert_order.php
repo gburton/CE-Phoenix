@@ -12,6 +12,10 @@
 
   $order =& $GLOBALS['order'];
 
+  $GLOBALS['customer_data']->get('country', $order->customer);
+  $GLOBALS['customer_data']->get('country', $order->delivery);
+  $GLOBALS['customer_data']->get('country', $order->billing);
+
   $sql_data = [];
   $sql_data['orders'] = [
     'customers_id' => $_SESSION['customer_id'],

@@ -27,17 +27,10 @@
       $input = tep_draw_input_field('sort_order', OSCOM_APP_PAYPAL_DP_SORT_ORDER, 'id="inputDpSortOrder"');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label for="inputDpSortOrder">{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div>
-    {$input}
-  </div>
-</div>
+<div class="mb-3">{$input}</div> 
 EOT;
 
       return $result;

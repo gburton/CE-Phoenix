@@ -25,28 +25,23 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-
-      $input = '<input type="radio" id="checkoutFlowSelectionInContext" name="checkout_flow" value="1"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '1' ? ' checked="checked"' : '') . '><label for="checkoutFlowSelectionInContext">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_flow_in_context') . '</label>' .
-               '<input type="radio" id="checkoutFlowSelectionDefault" name="checkout_flow" value="0"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0' ? ' checked="checked"' : '') . '><label for="checkoutFlowSelectionDefault">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_flow_default') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="checkoutFlowSelectionInContext" name="checkout_flow" value="1"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="checkoutFlowSelectionInContext">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_flow_in_context') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="checkoutFlowSelectionDefault" name="checkout_flow" value="0"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="checkoutFlowSelectionDefault">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_flow_default') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+      
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="checkoutFlowSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#checkoutFlowSelection').buttonset();
-});
-</script>
+<div class="mb-3" id="checkoutFlowSelection">{$input}</div>
 EOT;
 
       return $result;

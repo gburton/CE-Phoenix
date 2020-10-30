@@ -68,7 +68,7 @@
       $input = tep_draw_input_field('password_confirmation', null, $attribute, 'password')
              . $post_input;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_PASSWORD_CONFIRMATION_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details, $entry_base = 'ENTRY_PASSWORD') {

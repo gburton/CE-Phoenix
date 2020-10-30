@@ -15,24 +15,18 @@
   $log_query = tep_db_query($log_query_raw);
 ?>
 
-<table width="100%" style="margin-bottom: 5px;">
-  <tr>
-    <td><?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_dialog_delete'), '#', 'warning', 'data-button="delLogs"'); ?></td>
-    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'action=log'); ?></td>
-  </tr>
-</table>
+<h1 class="display-4"><?= $OSCOM_PayPal->getDef('heading_log'); ?></h1>
 
-<table id="ppTableLog" class="pp-table pp-table-hover" width="100%">
-  <thead>
+<table class="table table-hover">
+  <thead class="thead-dark">
     <tr>
-      <th colspan="2"><?php echo $OSCOM_PayPal->getDef('table_heading_action'); ?></th>
-      <th><?php echo $OSCOM_PayPal->getDef('table_heading_ip'); ?></th>
-      <th><?php echo $OSCOM_PayPal->getDef('table_heading_customer'); ?></th>
-      <th colspan="2"><?php echo $OSCOM_PayPal->getDef('table_heading_date'); ?></th>
+      <th colspan="2"><?= $OSCOM_PayPal->getDef('table_heading_action'); ?></th>
+      <th><?= $OSCOM_PayPal->getDef('table_heading_ip'); ?></th>
+      <th><?= $OSCOM_PayPal->getDef('table_heading_customer'); ?></th>
+      <th colspan="2"><?= $OSCOM_PayPal->getDef('table_heading_date'); ?></th>
     </tr>
   </thead>
   <tbody>
-
 <?php
   if ( tep_db_num_rows($log_query) > 0 ) {
     while ($log = tep_db_fetch_array($log_query)) {
@@ -48,12 +42,12 @@
 ?>
 
     <tr>
-      <td style="text-align: center; width: 30px;"><span class="<?php echo ($log['result'] == '1') ? 'logSuccess' : 'logError'; ?>"><?php echo $log['module']; ?></span></td>
-      <td><?php echo $log['action']; ?></td>
-      <td><?php echo long2ip($log['ip_address']); ?></td>
-      <td><?php echo (!empty($customers_name)) ? tep_output_string_protected($customers_name) : '<i>' . $OSCOM_PayPal->getDef('guest') . '</i>'; ?></td>
-      <td><?php echo date(PHP_DATE_TIME_FORMAT, $log['date_added']); ?></td>
-      <td class="pp-table-action"><small><?php echo $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view'), tep_href_link('paypal.php', 'action=log&page=' . $_GET['page'] . '&lID=' . $log['id'] . '&subaction=view'), 'info'); ?></small></td>
+      <td style="text-center"><span class="<?= ($log['result'] == '1') ? 'logSuccess' : 'logError'; ?>"><?= $log['module']; ?></span></td>
+      <td><?= $log['action']; ?></td>
+      <td><?= long2ip($log['ip_address']); ?></td>
+      <td><?= (!empty($customers_name)) ? tep_output_string_protected($customers_name) : '<i>' . $OSCOM_PayPal->getDef('guest') . '</i>'; ?></td>
+      <td><?= date(PHP_DATE_TIME_FORMAT, $log['date_added']); ?></td>
+      <td class="pp-table-action text-right"><?= $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view'), tep_href_link('paypal.php', 'action=log&page=' . $_GET['page'] . '&lID=' . $log['id'] . '&subaction=view'), 'info'); ?></td>
     </tr>
 
 <?php
@@ -62,7 +56,7 @@
 ?>
 
     <tr>
-      <td colspan="6" style="padding: 10px;"><?php echo $OSCOM_PayPal->getDef('no_entries'); ?></td>
+      <td colspan="6"><?= $OSCOM_PayPal->getDef('no_entries'); ?></td>
     </tr>
 
 <?php
@@ -72,38 +66,7 @@
   </tbody>
 </table>
 
-<table width="100%">
-  <tr>
-    <td valign="top"><?php echo $log_split->display_count($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $OSCOM_PayPal->getDef('listing_number_of_log_entries')); ?></td>
-    <td style="text-align: right;"><?php echo $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'action=log'); ?></td>
-  </tr>
-</table>
-
-<div id="delLogs-dialog-confirm" title="<?php echo tep_output_string_protected($OSCOM_PayPal->getDef('dialog_delete_title')); ?>">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php echo $OSCOM_PayPal->getDef('dialog_delete_body'); ?></p>
+<div class="row my-1">
+  <div class="col"><?= $log_split->display_count($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], $OSCOM_PayPal->getDef('listing_number_of_log_entries')); ?></div>
+  <div class="col text-right mr-2"><?= $log_split->display_links($log_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'action=log'); ?></div>
 </div>
-
-<script>
-$(function() {
-  $('#delLogs-dialog-confirm').dialog({
-    autoOpen: false,
-    resizable: false,
-    height: 140,
-    modal: true,
-    buttons: {
-      "<?php echo addslashes($OSCOM_PayPal->getDef('button_delete')); ?>": function() {
-        window.location = '<?php echo tep_href_link('paypal.php', 'action=log&subaction=deleteAll'); ?>';
-      },
-      "<?php echo addslashes($OSCOM_PayPal->getDef('button_cancel')); ?>": function() {
-        $( this ).dialog('close');
-      }
-    }
-  });
-
-  $('a[data-button="delLogs"]').click(function(e) {
-    e.preventDefault();
-
-    $('#delLogs-dialog-confirm').dialog('open');
-  });
-});
-</script>

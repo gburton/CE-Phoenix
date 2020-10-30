@@ -94,7 +94,7 @@
       $input = tep_draw_input_field('firstname', $firstname, $attribute)
              . $postInput;
 
-      include DIR_FS_CATALOG . $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_FIRSTNAME_TEMPLATE);
+      include DIR_FS_CATALOG . $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {

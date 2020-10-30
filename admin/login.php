@@ -146,10 +146,6 @@
   }
 
   require 'includes/template_top.php';
-
-  if ($messageStack->size > 0) {
-    echo $messageStack->output();
-  }
 ?>
 
   <div class="mx-auto w-75 w-md-25">

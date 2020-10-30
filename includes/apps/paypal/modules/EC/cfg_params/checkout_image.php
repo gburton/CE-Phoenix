@@ -26,27 +26,21 @@
     function getSetField() {
       global $OSCOM_PayPal;
 
-      $input = '<input type="radio" id="checkoutImageSelectionStatic" name="checkout_image" value="0"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_IMAGE == '0' ? ' checked="checked"' : '') . '><label for="checkoutImageSelectionStatic">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_image_static') . '</label>' .
-               '<input type="radio" id="checkoutImageSelectionDynamic" name="checkout_image" value="1"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_IMAGE == '1' ? ' checked="checked"' : '') . '><label for="checkoutImageSelectionDynamic">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_image_dynamic') . '</label>';
+      $input = null;
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="checkoutImageSelectionStatic" name="checkout_image" value="0"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="checkoutImageSelectionStatic">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_image_static') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="checkoutImageSelectionDynamic" name="checkout_image" value="1"' . (OSCOM_APP_PAYPAL_EC_CHECKOUT_FLOW == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="checkoutImageSelectionDynamic">' . $OSCOM_PayPal->getDef('cfg_ec_checkout_image_dynamic') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="checkoutImageSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#checkoutImageSelection').buttonset();
-});
-</script>
+<div class="mb-3" id="checkoutImageSelection">{$input}</div>
 EOT;
 
       return $result;

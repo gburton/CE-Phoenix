@@ -291,11 +291,11 @@ EOD;
     }
 
     function confirmation() {
-      if (empty($comments)) {
+      if (empty($_SESSION['comments'])) {
         return [
           'fields' => [ [
             'title' => $this->_app->getDef('module_ec_field_comments'),
-            'field' => tep_draw_textarea_field('ppecomments', 'soft', '60', '5', ($comments ?? null)),
+            'field' => tep_draw_textarea_field('ppecomments', 'soft', '60', '5', ($_SESSION['comments'] ?? null)),
             ] ],
         ];
       }

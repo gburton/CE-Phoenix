@@ -37,17 +37,10 @@
       $input = tep_draw_pull_down_menu('order_status_id', $statuses_array, OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID, 'id="inputHsOrderStatusId"');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label for="inputHsOrderStatusId">{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div>
-    {$input}
-  </div>
-</div>
+<div class="mb-3">{$input}</div>
 EOT;
 
       return $result;

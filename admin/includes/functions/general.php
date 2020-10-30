@@ -1091,6 +1091,33 @@ EOSQL
     $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
   }
 
+  function tep_notify($trigger, $subject) {
+    $notified = false;
+
+    if (defined('MODULE_NOTIFICATIONS_INSTALLED') && tep_not_null(MODULE_NOTIFICATIONS_INSTALLED)) {
+      foreach ((array)explode(';', MODULE_NOTIFICATIONS_INSTALLED) as $basename) {
+        $class = pathinfo($basename, PATHINFO_FILENAME);
+
+        if (!isset($GLOBALS[$class])) {
+          $GLOBALS[$class] = new $class();
+        }
+
+        if (!$GLOBALS[$class]->isEnabled()) {
+          continue;
+        }
+
+        if (in_array($trigger, $class::TRIGGERS)) {
+          $result = $GLOBALS[$class]->notify($subject);
+          if (!is_null($result)) {
+            $notified = $notified || $result;
+          }
+        }
+      }
+    }
+
+    return $notified;
+  }
+
   function tep_get_tax_class_title($tax_class_id) {
     if ($tax_class_id == '0') {
       return TEXT_NONE;
@@ -1158,6 +1185,7 @@ EOSQL
   }
 
   function tep_call_function($function, $parameter, $object = '') {
+    trigger_error('The tep_call_function function has been deprecated.', E_USER_DEPRECATED);
     if ($object == '') {
       return call_user_func($function, $parameter);
     } else {
@@ -1350,7 +1378,7 @@ EOSQL
 
     return $manufacturer['manufacturers_seo_title'];
   }
-  
+
   function tep_get_products_seo_description($product_id, $language_id = 0) {
     global $languages_id;
 
@@ -1461,12 +1489,6 @@ EOSQL
     $GLOBALS['OSCOM_Hooks']->call('siteWide', 'accountEditPages', $parameters);
 
     return tep_cfg_multiple_select_option($pages, $key_values, $key_name);
-  }
-  
-////
-// Check if product has attributes
-  function tep_has_product_attributes($products_id) {
-    return true;
   }
 
   function tep_block_form_processing() {

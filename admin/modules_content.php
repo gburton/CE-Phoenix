@@ -12,9 +12,13 @@
 
   require 'includes/application_top.php';
 
-  $check_query = tep_db_query("select configuration_value from configuration where configuration_key = 'MODULE_CONTENT_INSTALLED' limit 1");
+  $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = 'MODULE_CONTENT_INSTALLED' LIMIT 1");
   if (tep_db_num_rows($check_query) < 1) {
-    tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Installed Modules', 'MODULE_CONTENT_INSTALLED', '', 'This is automatically updated. No need to edit.', '6', '0', now())");
+    tep_db_query(<<<'EOSQL'
+INSERT INTO configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added)
+ VALUES ('Installed Modules', 'MODULE_CONTENT_INSTALLED', '', 'This is automatically updated. No need to edit.', 6, 0, NOW())
+EOSQL
+      );
     define('MODULE_CONTENT_INSTALLED', '');
   }
 
@@ -79,7 +83,7 @@
   }
 
   if ( implode(';', $_installed) != MODULE_CONTENT_INSTALLED ) {
-    tep_db_query("update configuration set configuration_value = '" . implode(';', $_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+    tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $_installed) . "' WHERE configuration_key = 'MODULE_CONTENT_INSTALLED'");
   }
 
   $action = $_GET['action'] ?? '';
@@ -97,7 +101,7 @@
               $key = tep_db_prepare_input($key);
               $value = tep_db_prepare_input($value);
 
-              tep_db_query("update configuration set configuration_value = '" . tep_db_input($value) . "' where configuration_key = '" . tep_db_input($key) . "'");
+              tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($value) . "' WHERE configuration_key = '" . tep_db_input($key) . "'");
             }
 
             break;
@@ -121,7 +125,7 @@
 
             $modules_installed[] = $m['group'] . '/' . $m['code'];
 
-            tep_db_query("update configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+            tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = 'MODULE_CONTENT_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_content.php', 'module=' . $class . '&action=edit'));
           }
@@ -148,7 +152,7 @@
               unset($modules_installed[array_search($m['group'] . '/' . $m['code'], $modules_installed)]);
             }
 
-            tep_db_query("update configuration set configuration_value = '" . implode(';', $modules_installed) . "' where configuration_key = 'MODULE_CONTENT_INSTALLED'");
+            tep_db_query("UPDATE configuration SET configuration_value = '" . implode(';', $modules_installed) . "' WHERE configuration_key = 'MODULE_CONTENT_INSTALLED'");
 
             tep_redirect(tep_href_link('modules_content.php'));
           }
@@ -169,11 +173,11 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col-sm-4 text-right align-self-center">
       <?php
-      if (isset($_GET['action']) && ($_GET['action'] == 'list_new')) {
+      if ('list_new' === $action) {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('modules_content.php'), null, null, 'btn-light');
       } else {
         echo tep_draw_bootstrap_button(IMAGE_MODULE_INSTALL . ' (' . count($modules['new']) . ')', 'fas fa-plus', tep_href_link('modules_content.php', 'action=list_new'), null, null, 'btn-danger');
@@ -192,9 +196,9 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_MODULES; ?></th>
-              <th><?php echo TABLE_HEADING_GROUP; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_MODULES ?></th>
+              <th><?= TABLE_HEADING_GROUP ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION ?></th>
             </tr>
           </thead>
           <tbody>
@@ -202,25 +206,29 @@
             foreach ( $modules['new'] as $m ) {
               $module = new $m['code']();
 
-              if ((!isset($_GET['module']) || (isset($_GET['module']) && ($_GET['module'] == $module->code))) && !isset($mInfo)) {
-                $module_info = ['code' => $module->code,
-                                'title' => $module->title,
-                                'description' => $module->description,
-                                'signature' => (isset($module->signature) ? $module->signature : null),
-                                'api_version' => (isset($module->api_version) ? $module->api_version : null)];
+              if (!isset($mInfo) && (!isset($_GET['module']) || ($_GET['module'] === $module->code))) {
+                $module_info = [
+                  'code' => $module->code,
+                  'title' => $module->title,
+                  'description' => $module->description,
+                  'signature' => ($module->signature ?? null),
+                  'api_version' => ($module->api_version ?? null),
+                ];
 
                 $mInfo = new objectInfo($module_info);
               }
 
-              if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) {
+              if (isset($mInfo->code) && ($module->code == $mInfo->code) ) {
                 echo '<tr class="table-active">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('modules_content.php', 'action=list_new&module=' . $module->code) . '\'">';
+                $icon = '<a href="' . tep_href_link('modules_content.php', 'action=list_new&module=' . $module->code) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
-                <td><?php echo $module->title; ?></td>
+                <td><?= $module->title ?></td>
                 <td><?php if (is_callable([$module, 'get_group'])) { echo $module->get_group(); } elseif (isset($module->group)) { echo $module->group; } ?></td>
-                <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('modules_content.php', 'action=list_new&module=' . $module->code) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
               }
@@ -237,11 +245,11 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_MODULES; ?></th>
-              <th><?php echo TABLE_HEADING_GROUP; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_SORT_ORDER; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_MODULE_ACTIVE; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_MODULES ?></th>
+              <th><?= TABLE_HEADING_GROUP ?></th>
+              <th class="text-right"><?= TABLE_HEADING_SORT_ORDER ?></th>
+              <th class="text-right"><?= TABLE_HEADING_MODULE_ACTIVE ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION ?></th>
             </tr>
           </thead>
           <tbody>
@@ -263,7 +271,12 @@
                 foreach ($module->keys() as $key) {
                   $key = tep_db_prepare_input($key);
 
-                  $key_value_query = tep_db_query("select configuration_title, configuration_value, configuration_description, use_function, set_function from configuration where configuration_key = '" . tep_db_input($key) . "'");
+                  $key_value_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT configuration_title, configuration_value, configuration_description, use_function, set_function
+ FROM configuration
+ WHERE configuration_key = '%s'
+EOSQL
+                    , tep_db_input($key)));
                   $key_value = tep_db_fetch_array($key_value_query);
 
                   $module_info['keys'][$key] = [
@@ -278,19 +291,21 @@
                 $mInfo = new objectInfo($module_info);
               }
 
-              if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) {
+              if (isset($mInfo->code) && ($module->code == $mInfo->code) ) {
                 echo '<tr class="table-active">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('modules_content.php', 'module=' . $module->code) . '\'">';
+                $icon = '<a href="' . tep_href_link('modules_content.php', 'module=' . $module->code) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
-                <td><?php echo $module->title; ?></td>
+                <td><?= $module->title ?></td>
                 <td><?php if (is_callable([$module, 'get_group'])) { echo $module->get_group(); } elseif (isset($module->group)) { echo $module->group; } ?></td>
-                <td class="text-right"><?php echo $module->sort_order; ?></td>
+                <td class="text-right"><?= $module->sort_order ?></td>
                 <td class="text-right">
-                  <?php echo ($module->enabled == 1) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'; ?>
+                  <?= ($module->enabled == 1) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>' ?>
                 </td>
-                <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($module->code == $mInfo->code) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('modules_content.php', 'module=' . $module->code) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
               }
@@ -301,7 +316,7 @@
 <?php
   }
 ?>
-      <p class="smallText"><?php echo TEXT_MODULE_DIRECTORY . ' ' . DIR_FS_CATALOG . 'includes/modules/content/'; ?></p>
+      <p class="smallText"><?= TEXT_MODULE_DIRECTORY . ' ' . DIR_FS_CATALOG . 'includes/modules/content/' ?></p>
 
     </div>
 
@@ -317,7 +332,7 @@
         $keys .= '<strong>' . $value['title'] . '</strong><br>' . $value['description'] . '<br>';
 
         if ($value['set_function']) {
-          eval('$keys .= ' . $value['set_function'] . "'" . tep_db_input($value['value']) . "', '" . $key . "');");
+          eval('$keys .= ' . $value['set_function'] . "'" . addslashes($value['value']) . "', '" . $key . "');");
         } else {
           $keys .= tep_draw_input_field('configuration[' . $key . ']', $value['value']);
         }
@@ -358,18 +373,24 @@
             $keys .= '<strong>' . $value['title'] . '</strong><br>';
 
             if ($value['use_function']) {
-              $use_function = $value['use_function'];
-
-              if (preg_match('/->/', $use_function)) {
-                $class_method = explode('->', $use_function);
-
-                if (!isset(${$class_method[0]}) || !is_object(${$class_method[0]})) {
-                  ${$class_method[0]} = new $class_method[0]();
-                }
-
-                $use_function = [${$class_method[0]}, $class_method[1]];
+              if (strpos($value['use_function'], '->')) {
+                $class_method = explode('->', $value['use_function']);
+                $use_function = [Guarantor::ensure_global($class_method[0]), $class_method[1]];
+              } else {
+                $use_function = $value['use_function'];
               }
-              $keys .= call_user_func($use_function, $value['value']);
+
+              if (is_callable($use_function)) {
+                $keys .= call_user_func($use_function, $value['value']);
+              } else {
+                $keys .= '0';
+                $messageStack->add(
+                  sprintf(
+                    WARNING_INVALID_USE_FUNCTION,
+                    $configuration['use_function'],
+                    $configuration['configuration_title']),
+                  'warning');
+              }
             } else {
               $keys .= tep_break_string($value['value'], 40, '<br>');
             }

@@ -11,8 +11,9 @@
   - [Softaculous](https://github.com/gburton/CE-Phoenix#softaculous)
   - [Language Packs](https://github.com/gburton/CE-Phoenix#language-packs)
 * [Certified Service Providers](https://github.com/gburton/CE-Phoenix#certified-service-providers)
-* [Supporting the Project](https://github.com/gburton/CE-Phoenix#supporting-the-project)
+* [Supporting the Project](https://github.com/gburton/CE-Phoenix#how-to-support-the-phoenix-project)
   - [Join the Phoenix Club](https://github.com/gburton/CE-Phoenix#join-the-phoenix-club)
+* [Links](https://github.com/gburton/CE-Phoenix#helpful-links)
 * [Credits](https://github.com/gburton/CE-Phoenix#credits)
 
 # Phoenix
@@ -25,11 +26,17 @@ Phoenix is the official Community Version of osCommerce.
 
 ## Demo Site
 
-https://template.me.uk/phoenix/index.php
+https://template.me.uk/index.php
 
 # Installation
 
 Installation of Phoenix takes no more than a few minutes - you will need a hosting account that supports PHP (programming language) and has at least one SQL database.  Phoenix can even be installed on your home computer for testing purposes.
+
+## PHP Version
+
+Minimum | Maximum (tested)
+------------ | -------------
+7.0 | 7.4
 
 ## User Checklist
 
@@ -47,7 +54,7 @@ Installation of Phoenix takes no more than a few minutes - you will need a hosti
 - [ ] perform a test checkout
 - [ ] load your categories and products
 
-## Softaculous
+## Installation via Softaculous
 
 <img align="left" src="http://www.softaculous.com/website/images/softac_products.gif"><br>CE Phoenix can now be installed easily with just one click via [Softaculous](http://www.softaculous.com/apps/ecommerce/CE_Phoenix)<br><br>
 
@@ -56,6 +63,7 @@ Installation of Phoenix takes no more than a few minutes - you will need a hosti
 Language | URL | Credit & Thanks | Comments
 ------------ | ------------- | ------------- | -------------
 DE | https://apps.oscommerce.com/zXxXN&german-language-deutsches-sprachpaket&v=cephoenix10 | cupidare |
+DK | https://apps.oscommerce.com/n6qft&danish-dansk-for-phoenix-1-0-7-9 | Kofod | Shop Side only
 ES | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | raiwa | Certified Developer
 FR | https://apps.oscommerce.com/oqfJg&ce-phoenix-1-0-5-0-french-language-pack | artfulweb |
 NL | https://apps.oscommerce.com/NShzV&vertaling-nederlands | Fiber |
@@ -73,17 +81,7 @@ Rainer<br>[@raiwa](https://forums.oscommerce.com/profile/249059-raiwa/) | [oscad
 John<br>[@BrockleyJohn](https://forums.oscommerce.com/profile/220375-brockleyjohn/) | [sewebsites.net](https://sewebsites.net/) | Custom jobs, big or small, including adapting existing addons to CE Phoenix. Integration of stock systems and new payment methods. Addons both free and great value, soon to be added to the site.
 Preston<br>[@zipurman](https://forums.oscommerce.com/profile/406830-zipurman/) | [phoenixaddons.com](https://phoenixaddons.com/) | Any need for programming in your CE Phoenix online store, or any PHP/JS/CSS/SQL, I am happy to help. We also offer hosting on our own VMWare servers and have been building web solutions and hosting for over 20 years. The website offers some free add-ons and more coming soon. Thanks for any consideration on your projects. (CST Canada)
 
-# External Libraries
-
-https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
-
-# PHP Version
-
-Minimum | Maximum (tested)
------------- | -------------
-7.0 | 7.3
-
-# Supporting the Project
+# How to Support the Phoenix Project
 
 Help Phoenix fly high...if you or your employer is commercially dependent on Phoenix (or a previous incarnation), please help to sponsor forward movement in the code-base. Phoenix needs you as much as you need Phoenix... 
 
@@ -91,8 +89,18 @@ Thank you to all shopowners, developers, consultants and business owners who are
 
 ## Join the Phoenix Club
 
-If you wish to help steer the future direction of the software please join the Phoenix Club
-https://forums.oscommerce.com/clubs/1-phoenix/
+If you wish to help steer the future direction of the software you need to join the [Phoenix Club](https://forums.oscommerce.com/clubs/1-phoenix/)
+
+# Helpful Links
+
+Channel | URL 
+------------ | -------------
+Phoenix Club | https://forums.oscommerce.com/forum/117-topics/
+Youtube | https://www.youtube.com/channel/UCjJe0ZX3-nGzeJFEzcVUyIA/
+Discord | https://discord.com/channels/769158803769655306/769158864523231252
+External Libraries | https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
+Phoenix Cart Wiki | https://phoenixcart.org/phoenixcartwiki/index.php
+Phoenix Cart Forum | https://phoenixcart.org/forum/
 
 # Credits
 
@@ -106,4 +114,4 @@ Oranges, Lemons, Pears, Apples | Eelffica from Pixabay | https://pixabay.com/ser
 Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
 Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/
 
-Other fruit images are based on modified images from Eelffica, Rocky_H and Gerhard Gellinger
+Other fruit images are based on modified images from the named Owners.

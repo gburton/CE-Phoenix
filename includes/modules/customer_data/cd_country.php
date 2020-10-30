@@ -86,11 +86,13 @@
             ?? $customer_details['countries_name'] ?? null;
           return $customer_details[$field];
         case 'country_iso_code_3':
-          return $customer_details['country']['iso_code_3']
+          $customer_details[$field] = $customer_details['country']['iso_code_3']
             ?? $customer_details['countries_iso_code_3'] ?? null;
+          return $customer_details[$field];
         case 'country_iso_code_2':
-          return $customer_details['country']['iso_code_2']
+          $customer_details[$field] = $customer_details['country']['iso_code_2']
             ?? $customer_details['countries_iso_code_2'] ?? null;
+          return $customer_details[$field];
         case 'address_format_id':
         case 'format_id':
           $customer_details[$field] = $customer_details['format_id']
@@ -140,7 +142,7 @@
       $input = $this->draw_country_list('country_id', $country_id, $attribute)
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_COUNTRY_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {

@@ -26,27 +26,21 @@
     function getSetField() {
       global $OSCOM_PayPal;
 
-      $input = '<input type="radio" id="incontextButtonShapePill" name="incontext_button_shape" value="1"' . (OSCOM_APP_PAYPAL_EC_INCONTEXT_BUTTON_SHAPE == '1' ? ' checked="checked"' : '') . '><label for="incontextButtonShapePill">' . $OSCOM_PayPal->getDef('cfg_ec_incontext_button_shape_pill') . '</label>' .
-               '<input type="radio" id="incontextButtonShapeRect" name="incontext_button_shape" value="2"' . (OSCOM_APP_PAYPAL_EC_INCONTEXT_BUTTON_SHAPE == '2' ? ' checked="checked"' : '') . '><label for="incontextButtonShapeRect">' . $OSCOM_PayPal->getDef('cfg_ec_incontext_button_shape_rect') . '</label>';
+      $input = null;
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="incontextButtonShapePill" name="incontext_button_shape" value="1"' . (OSCOM_APP_PAYPAL_EC_INCONTEXT_BUTTON_SHAPE == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="incontextButtonShapePill">' . $OSCOM_PayPal->getDef('cfg_ec_incontext_button_shape_pill') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="incontextButtonShapeRect" name="incontext_button_shape" value="2"' . (OSCOM_APP_PAYPAL_EC_INCONTEXT_BUTTON_SHAPE == '2' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="incontextButtonShapeRect">' . $OSCOM_PayPal->getDef('cfg_ec_incontext_button_shape_rect') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="incontextButtonShapeSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#incontextButtonShapeSelection').buttonset();
-});
-</script>
+<div class="mb-3" id="incontextButtonShapeSelection">{$input}</div>
 EOT;
 
       return $result;

@@ -27,17 +27,10 @@
       $input = tep_draw_input_field('sandbox_client_id', OSCOM_APP_PAYPAL_LOGIN_SANDBOX_CLIENT_ID, 'id="inputLogInSandboxClientId"');
 
       $result = <<<EOT
-<div>
-  <p>
-    <label for="inputLogInSandboxClientId">{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div>
-    {$input}
-  </div>
-</div>
+<div class="mb-3">{$input}</div>
 EOT;
 
       return $result;

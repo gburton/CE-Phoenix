@@ -15,7 +15,7 @@
     var $title;
     var $description;
     var $sort_order = 200;
-    var $cards = array('visa' => 'Visa', 'mastercard' => 'MasterCard', 'discover' => 'Discover Card', 'amex' => 'American Express', 'maestro' => 'Maestro');
+    var $cards = ['visa' => 'Visa', 'mastercard' => 'MasterCard', 'discover' => 'Discover Card', 'amex' => 'American Express', 'maestro' => 'Maestro'];
 
     function __construct() {
       global $OSCOM_PayPal;
@@ -27,30 +27,26 @@
     function getSetField() {
       $active = explode(';', OSCOM_APP_PAYPAL_DP_CARDS);
 
-      $input = '';
+      $input = null;
 
       foreach ( $this->cards as $key => $value ) {
-        $input .= '<input type="checkbox" id="cardsSelection' . ucfirst($key) . '" name="card_types[]" value="' . $key . '"' . (in_array($key, $active) ? ' checked="checked"' : '') . '><label for="cardsSelection' . ucfirst($key) . '">' . $value . '</label>';
+        $input .= '<div class="custom-control custom-checkbox custom-control-inline">';
+          $input .= '<input type="checkbox" class="custom-control-input" id="cardsSelection' . ucfirst($key) . '" value="' . $key . '"' . (in_array($key, $active) ? ' checked="checked"' : '') . '>';
+          $input .= '<label class="custom-control-label" for="cardsSelection' . ucfirst($key) . '">' . $value . '</label>';
+        $input .= '</div>';
       }
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="cardsSelection">
-    {$input}
-    <input type="hidden" name="cards" value="" />
-  </div>
+<div class="mb-3" id="cardsSelection">
+  {$input}
+  <input type="hidden" name="cards" value="" />
 </div>
 
 <script>
 $(function() {
-  $('#cardsSelection').buttonset();
-
   $('form[name="paypalConfigure"]').submit(function() {
     $('input[name="cards"]').val($('input[name="card_types[]"]:checked').map(function() {
       return this.value;

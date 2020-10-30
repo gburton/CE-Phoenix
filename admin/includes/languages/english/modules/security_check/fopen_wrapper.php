@@ -10,6 +10,8 @@
   Released under the GNU General Public License
 */
 
-define('MODULE_SECURITY_CHECK_FOPEN_WRAPPER_TITLE', 'allow_url_fopen');
-define('MODULE_SECURITY_CHECK_FOPEN_WRAPPER_ERROR', 'allow_url_fopen must be enabled in php.ini<br>This is a hosting setting and may be able to be performed via your hosting control panel - if not, ask your host.');
-
+const MODULE_SECURITY_CHECK_FOPEN_WRAPPER_TITLE = 'allow_url_fopen';
+const MODULE_SECURITY_CHECK_FOPEN_WRAPPER_ERROR = <<<'EOT'
+allow_url_fopen should be enabled in php.ini<br>
+This is a hosting setting and may be able to be performed via your hosting control panel - if not, ask your host.
+EOT;

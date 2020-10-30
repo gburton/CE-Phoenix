@@ -23,7 +23,7 @@
 
       $content_width = (int)MODULE_CONTENT_PI_OA_CONTENT_WIDTH;
 
-      $products_options_name_query = tep_db_query("select distinct popt.* from products_options popt, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$_SESSION['languages_id'] . "' order by popt.products_options_name");
+      $products_options_name_query = tep_db_query("select distinct po.products_options_id, po.products_options_name from products_options po, products_attributes patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = po.products_options_id and po.language_id = '" . (int)$_SESSION['languages_id'] . "' order by po.sort_order, po.products_options_name");
 
       if (tep_db_num_rows($products_options_name_query)) {
         $fr_input = $fr_required = '';
@@ -41,7 +41,7 @@
             $option_choices[] = ['id' => '', 'text' => MODULE_CONTENT_PI_OA_ENFORCE_SELECTION];
           }
 
-          $products_options_query = tep_db_query("select pov.*, pa.* from products_attributes pa, products_options_values pov where pa.products_id = " . (int)$_GET['products_id'] . " and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$_SESSION['languages_id'] . "'");
+          $products_options_query = tep_db_query("select pov.*, pa.* from products_attributes pa, products_options_values pov where pa.products_id = " . (int)$_GET['products_id'] . " and pa.options_id = '" . (int)$products_options_name['products_options_id'] . "' and pa.options_values_id = pov.products_options_values_id and pov.language_id = '" . (int)$_SESSION['languages_id'] . "' order by pov.sort_order, pov.products_options_values_name");
           while ($products_options = tep_db_fetch_array($products_options_query)) {
             $text = $products_options['products_options_values_name'];
             if ($products_options['options_values_price'] != '0') {

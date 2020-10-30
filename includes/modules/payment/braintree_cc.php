@@ -128,54 +128,54 @@
         $tokens_query = tep_db_query("SELECT id, card_type, number_filtered, expiry_date FROM customers_braintree_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_added");
 
         if ( tep_db_num_rows($tokens_query) > 0 ) {
-          $content .= '<table id="braintree_table" border="0" width="100%" cellspacing="0" cellpadding="2">';
+          $content .= '<table class="table" id="braintree_table">';
 
           while ( $tokens = tep_db_fetch_array($tokens_query) ) {
             $content .= '<tr class="moduleRow" id="braintree_card_' . (int)$tokens['id'] . '">'
-                      . '  <td width="40" valign="top"><input type="radio" name="braintree_card" value="' . (int)$tokens['id'] . '" /></td>'
-                      . '  <td valign="top">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>'
+                      . '  <td><input type="radio" name="braintree_card" value="' . (int)$tokens['id'] . '" /></td>'
+                      . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>'
                       . '</tr>';
 
             if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
               $content .= '<tr class="moduleRowExtra" id="braintree_card_cvv_' . (int)$tokens['id'] . '">'
-                        . '  <td width="40" valign="top">&nbsp;</td>'
-                        . '  <td valign="top">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_CVV . '&nbsp;<input type="text" size="5" maxlength="4" autocomplete="off" data-encrypted-name="token_cvv[' . (int)$tokens['id'] . ']" /></td>'
+                        . '  <td>&nbsp;</td>'
+                        . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_CVV . '&nbsp;<input type="text" size="5" maxlength="4" autocomplete="off" data-encrypted-name="token_cvv[' . (int)$tokens['id'] . ']" /></td>'
                         . '</tr>';
             }
           }
 
           $content .= '<tr class="moduleRow" id="braintree_card_0">'
-                    . '  <td width="40" valign="top"><input type="radio" name="braintree_card" value="0" /></td>'
-                    . '  <td valign="top">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_NEW . '</td>'
+                    . '  <td><input type="radio" name="braintree_card" value="0" /></td>'
+                    . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_NEW . '</td>'
                     . '</tr>'
                     . '</table>';
         }
       }
 
-      $content .= '<table id="braintree_table_new_card" border="0" width="100%" cellspacing="0" cellpadding="2">'
+      $content .= '<table class="table" id="braintree_table_new_card">'
                 . '<tr>'
-                . '  <td width="30%">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_OWNER . '</td>'
+                . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_OWNER . '</td>'
                 . '  <td>' . tep_draw_input_field('name', $order->billing['firstname'] . ' ' . $order->billing['lastname']) . '</td>'
                 . '</tr>'
                 . '<tr>'
-                . '  <td width="30%">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_NUMBER . '</td>'
+                . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_NUMBER . '</td>'
                 . '  <td><input type="text" maxlength="20" autocomplete="off" data-encrypted-name="number" /></td>'
                 . '</tr>'
                 . '<tr>'
-                . '  <td width="30%">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_EXPIRY . '</td>'
+                . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_EXPIRY . '</td>'
                 . '  <td class="date-fields">' . tep_draw_pull_down_menu('month', $months) . ' / ' . tep_draw_pull_down_menu('year', $years) . '</td>'
                 . '</tr>';
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
         $content .= '<tr>'
-                  . '  <td width="30%">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_CVV . '</td>'
+                  . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_CVV . '</td>'
                   . '  <td><input type="text" size="5" maxlength="4" autocomplete="off" data-encrypted-name="cvv" /></td>'
                   . '</tr>';
       }
 
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
         $content .= '<tr>'
-                  . '  <td width="30%">&nbsp;</td>'
+                  . '  <td class="w-25">&nbsp;</td>'
                   . '  <td>' . tep_draw_checkbox_field('cc_save', 'true') . ' ' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_SAVE . '</td>'
                   . '</tr>';
       }

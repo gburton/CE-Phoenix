@@ -161,7 +161,7 @@
           $curr_check = tep_db_query("SELECT currency FROM orders WHERE orders_id = " . (int)$order_id);
           $curr = tep_db_fetch_array($curr_check);
 
-          if ( ($curr['currency'] != $order->info['currency']) || ($_SESSION['cartID'] != substr($_SESSION['cart_PayPal_Standard_ID'], 0, strlen($_SESSION['cartID']))) ) {
+          if ( ($curr['currency'] != $GLOBALS['order']->info['currency']) || ($_SESSION['cartID'] != substr($_SESSION['cart_PayPal_Standard_ID'], 0, strlen($_SESSION['cartID']))) ) {
             $check_query = tep_db_query('SELECT orders_id FROM orders_status_history WHERE orders_id = ' . (int)$order_id . ' LIMIT 1');
 
             if (tep_db_num_rows($check_query) < 1) {
@@ -186,7 +186,7 @@
     }
 
     function process_button() {
-      global $order;
+      global $order, $customer_data;
 
       $total_tax = $order->info['tax'];
 
@@ -235,6 +235,7 @@
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
         $parameters['address_override'] = '1';
+        $customer_data->get('country', $order->delivery);
         $parameters['first_name'] = $customer_data->get('firstname', $order->delivery);
         $parameters['last_name'] = $customer_data->get('lastname', $order->delivery);
         $parameters['address1'] = $customer_data->get('street_address', $order->delivery);
@@ -248,6 +249,7 @@
         $parameters['country'] = $customer_data->get('country_iso_code_2', $order->delivery);
       } else {
         $parameters['no_shipping'] = '1';
+        $customer_data->get('country', $order->billing);
         $parameters['first_name'] = $customer_data->get('firstname', $order->billing);
         $parameters['last_name'] = $customer_data->get('lastname', $order->billing);
         $parameters['address1'] = $customer_data->get('street_address', $order->billing);

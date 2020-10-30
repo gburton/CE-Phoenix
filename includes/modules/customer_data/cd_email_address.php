@@ -93,7 +93,7 @@
       $input = tep_draw_input_field('email_address', $email_address, $attribute, 'email')
              . $postInput;
 
-      include $GLOBALS['oscTemplate']->map_to_template(MODULE_CUSTOMER_DATA_EMAIL_ADDRESS_TEMPLATE);
+      include $GLOBALS['oscTemplate']->map_to_template($this->base_constant('TEMPLATE'));
     }
 
     public function process(&$customer_details) {

@@ -35,10 +35,10 @@
       global $currencies, $product_info;
 
       $products_options_name_query = tep_db_query(sprintf(<<<'EOSQL'
-SELECT DISTINCT popt.products_options_id, popt.products_options_name
-  FROM products_options popt INNER JOIN products_attributes patrib ON patrib.options_id = popt.products_options_id
-  WHERE patrib.products_id = %d AND popt.language_id = %d
-  ORDER BY popt.products_options_name
+SELECT DISTINCT po.products_options_id, po.products_options_name
+  FROM products_options po INNER JOIN products_attributes patrib ON patrib.options_id = po.products_options_id
+  WHERE patrib.products_id = %d AND po.language_id = %d
+  ORDER BY po.sort_order, po.products_options_name
 EOSQL
         , (int)$_GET['products_id'], (int)$_SESSION['languages_id']));
 
@@ -62,9 +62,10 @@ EOSQL
           }
 
           $products_options_query = tep_db_query(sprintf(<<<'EOSQL'
-SELECT pov.products_options_values_id, pov.products_options_values_name, pa.options_values_price, pa.price_prefix
+SELECT pov.*, pa.*
  FROM products_attributes pa INNER JOIN products_options_values pov ON pa.options_values_id = pov.products_options_values_id
  WHERE pa.products_id = %d AND pa.options_id = %d AND pov.language_id = %d
+ ORDER BY pov.sort_order, pov.products_options_values_name 
 EOSQL
             , (int)$_GET['products_id'], (int)$products_options_name['products_options_id'], (int)$_SESSION['languages_id']));
           while ($products_options = tep_db_fetch_array($products_options_query)) {

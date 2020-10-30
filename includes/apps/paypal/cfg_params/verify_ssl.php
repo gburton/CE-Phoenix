@@ -25,28 +25,22 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-
-      $input = '<input type="radio" id="verifySslSelectionTrue" name="verify_ssl" value="1"' . (OSCOM_APP_PAYPAL_VERIFY_SSL == '1' ? ' checked="checked"' : '') . '><label for="verifySslSelectionTrue">' . $OSCOM_PayPal->getDef('cfg_verify_ssl_true') . '</label>' .
-               '<input type="radio" id="verifySslSelectionFalse" name="verify_ssl" value="0"' . (OSCOM_APP_PAYPAL_VERIFY_SSL == '0' ? ' checked="checked"' : '') . '><label for="verifySslSelectionFalse">' . $OSCOM_PayPal->getDef('cfg_verify_ssl_false') . '</label>';
+      
+      $input = null;      
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="verifySslSelectionTrue" name="verify_ssl" value="1"' . (OSCOM_APP_PAYPAL_VERIFY_SSL == '1' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="verifySslSelectionTrue">' . $OSCOM_PayPal->getDef('cfg_verify_ssl_true') . '</label>';
+      $input .= '</div>';
+      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+        $input .= '<input type="radio" class="custom-control-input" id="verifySslSelectionFalse" name="verify_ssl" value="0"' . (OSCOM_APP_PAYPAL_VERIFY_SSL == '0' ? ' checked="checked"' : '') . '>';
+        $input .= '<label class="custom-control-label" for="verifySslSelectionFalse">' . $OSCOM_PayPal->getDef('cfg_verify_ssl_false') . '</label>';
+      $input .= '</div>';
 
       $result = <<<EOT
-<div>
-  <p>
-    <label>{$this->title}</label>
+<h5>{$this->title}</h5>
+<p>{$this->description}</p>
 
-    {$this->description}
-  </p>
-
-  <div id="verifySslSelection">
-    {$input}
-  </div>
-</div>
-
-<script>
-$(function() {
-  $('#verifySslSelection').buttonset();
-});
-</script>
+<div id="verifySslSelection" class="mb-3">{$input}</div>
 EOT;
 
       return $result;
