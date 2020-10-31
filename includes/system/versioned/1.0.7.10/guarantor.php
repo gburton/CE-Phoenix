@@ -12,9 +12,9 @@
 
   class Guarantor {
 
-    public static function &ensure_global($class) {
+    public static function &ensure_global($class, ...$parameters) {
       if (!(($GLOBALS[$class] ?? null) instanceof $class)) {
-        $GLOBALS[$class] = new $class();
+        $GLOBALS[$class] = new $class(...$parameters);
       }
 
       return $GLOBALS[$class];
