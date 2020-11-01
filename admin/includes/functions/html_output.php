@@ -238,9 +238,9 @@ EOERROR
     $field .= '>';
 
     if ( $reinsert_value && is_string($requested_value = $_GET[$name] ?? $_POST[$name] ?? null) ) {
-      $field .= tep_output_string_protected(stripslashes($requested_value));
+      $field .= htmlspecialchars(stripslashes($requested_value));
     } elseif (tep_not_null($text)) {
-      $field .= tep_output_string_protected($text);
+      $field .= htmlspecialchars($text);
     }
 
     $field .= '</textarea>';

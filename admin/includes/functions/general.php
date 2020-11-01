@@ -67,6 +67,7 @@
   }
 
   function tep_output_string_protected($string) {
+    trigger_error('The tep_output_string_protected function has been deprecated.', E_USER_DEPRECATED);
     return htmlspecialchars($string);
   }
 
