@@ -23,5 +23,5 @@
   define('MODULE_NAVBAR_SHOPPING_CART_VIEW_CART', 'View Cart');
   define('MODULE_NAVBAR_SHOPPING_CART_CHECKOUT', '<i class="fas fa-angle-right fa-fw"></i> Checkout');
   
-  define('MODULE_NAVBAR_SHOPPING_CART_PRODUCT', '<a class="dropdown-item" href="' . tep_href_link('product_info.php', 'products_id=%s') . '">%s x %s</a>');
+  define('MODULE_NAVBAR_SHOPPING_CART_PRODUCT', '%s x %s');
   

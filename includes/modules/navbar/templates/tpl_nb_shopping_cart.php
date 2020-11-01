@@ -16,7 +16,9 @@
       echo '<div class="dropdown-divider"></div>' . PHP_EOL;
       echo '<div class="dropdown-cart-list">';
       foreach ($_SESSION['cart']->get_products() as $p) {
-        echo sprintf(MODULE_NAVBAR_SHOPPING_CART_PRODUCT, $p['id'], $p['quantity'], $p['name']);
+        echo '<a class="dropdown-item" href="' . tep_href_link('product_info.php', 'products_id=' . $p['id']) . '">',
+          sprintf(MODULE_NAVBAR_SHOPPING_CART_PRODUCT, $p['quantity'], $p['name']),
+          '</a>';
       }
       echo '</div>' . PHP_EOL;
       echo '<div class="dropdown-divider"></div>' . PHP_EOL;
