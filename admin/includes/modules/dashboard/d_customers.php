@@ -28,7 +28,7 @@
       parent::__construct();
 
       if ($this->enabled) {
-        $this->content_width = (int)(self::get_constant('MODULE_ADMIN_DASHBOARD_CUSTOMERS_CONTENT_WIDTH') ?? 6);
+        $this->content_width = (int)($this->base_constant('CONTENT_WIDTH') ?? 6);
       }
     }
 
@@ -47,7 +47,7 @@
 EOTEXT
 , MODULE_ADMIN_DASHBOARD_CUSTOMERS_TITLE, MODULE_ADMIN_DASHBOARD_CUSTOMERS_DATE);
 
-      $customer_limit = self::get_constant('MODULE_ADMIN_DASHBOARD_CUSTOMERS_DISPLAY') ?? 6;
+      $customer_limit = $this->base_constant('DISPLAY') ?? 6;
       $customers_query = tep_db_query(
         $customer_data->add_order_by(
           $customer_data->build_read(['id', 'sortable_name', 'date_account_created'], 'customers'), ['date_account_created' => 'DESC'])
@@ -60,7 +60,7 @@ EOTEXT
     </tr>
 EOTEXT
 , tep_href_link('customers.php', 'cID=' . (int)$customer_data->get('id', $customers) . '&action=edit'),
-  tep_output_string_protected($customer_data->get('sortable_name', $customers)),
+  htmlspecialchars($customer_data->get('sortable_name', $customers)),
   tep_date_short($customer_data->get('date_account_created', $customers)));
       }
 
