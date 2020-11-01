@@ -22,16 +22,19 @@
 
   if ($secdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/')) {
     while ($file = $secdir->read()) {
-      if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file)) {
+      if (!is_dir(DIR_FS_ADMIN . "includes/modules/security_check/$file")) {
         if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
-          $class = 'securityCheck_' . pathinfo($file, PATHINFO_FILENAME);
+          $code = pathinfo($file, PATHINFO_FILENAME);
+          $class = "securityCheck_$code";
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file);
           $$class = new $class();
 
-          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                        'class' => $class,
-                        'code' => substr($file, 0, strrpos($file, '.'))];
+          $modules[] = [
+            'title' => $$class->title ?? $code,
+            'class' => $class,
+            'code' => $code,
+          ];
         }
       }
     }
@@ -40,16 +43,19 @@
 
   if ($extdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/')) {
     while ($file = $extdir->read()) {
-      if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file)) {
+      if (!is_dir(DIR_FS_ADMIN . "includes/modules/security_check/extended/$file")) {
         if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
+          $code = pathinfo($file, PATHINFO_FILENAME);
           $class = 'securityCheckExtended_' . substr($file, 0, strrpos($file, '.'));
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file);
           $$class = new $class();
 
-          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                        'class' => $class,
-                        'code' => substr($file, 0, strrpos($file, '.'))];
+          $modules[] = [
+            'title' => $$class->title ?? $code,
+            'class' => $class,
+            'code' => $code,
+          ];
         }
       }
     }
@@ -110,10 +116,10 @@
           }
 
           echo '<tr>'; 
-            echo '<td><i class="' . $fa . '"></i> ' . tep_output_string_protected($module['title']) . '</td>';
-            echo '<td>' . tep_output_string_protected($module['code']) . '</td>';
+            echo '<td><i class="' . $fa . '"></i> ' . htmlspecialchars($module['title']) . '</td>';
+            echo '<td>' . htmlspecialchars($module['code']) . '</td>';
             echo '<td>' . $output . '</td>';
-            echo '<td class="text-right">' . ((isset($secCheck->has_doc) && $secCheck->has_doc) ? '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank"><i class="fas fa-chevron-circle-right text-info"></i></a>' : '') . '</td>';
+            echo '<td class="text-right">' . (empty($secCheck->has_doc) ? '' : '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank"><i class="fas fa-chevron-circle-right text-info"></i></a>') . '</td>';
           echo '</tr>';
         }
       ?>
@@ -122,6 +128,6 @@
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>
