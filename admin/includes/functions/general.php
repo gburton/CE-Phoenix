@@ -365,69 +365,15 @@
   }
 
   function tep_address_format($address_format_id, $address, $html, $boln, $eoln) {
-    $address_format_query = tep_db_query("SELECT address_format as format FROM address_format WHERE address_format_id = " . (int)$address_format_id);
-    $address_format = tep_db_fetch_array($address_format_query);
+    trigger_error('The tep_address_format function has been deprecated.', E_USER_DEPRECATED);
 
-    $company = tep_output_string_protected($address['company']);
-    if (isset($address['name']) && tep_not_null($address['name'])) {
-      $name = tep_output_string_protected($address['name']);
-    } elseif (isset($address['firstname']) && tep_not_null($address['firstname'])) {
-      $name = tep_output_string_protected($address['firstname']) . ' ' . tep_output_string_protected($address['lastname']);
-    } else {
-      $name = '';
-    }
-    $street = tep_output_string_protected($address['street_address']);
-    $suburb = tep_output_string_protected($address['suburb']);
-    $city = tep_output_string_protected($address['city']);
-    $state = tep_output_string_protected($address['state']);
-    if (isset($address['country_id']) && tep_not_null($address['country_id'])) {
-      $country = tep_get_country_name($address['country_id']);
+    $module = Guarantor::ensure_global('customer_data')->get_module('address');
 
-      if (isset($address['zone_id']) && tep_not_null($address['zone_id'])) {
-        $state = tep_get_zone_code($address['country_id'], $address['zone_id'], $state);
-      }
-    } elseif (isset($address['country']) && tep_not_null($address['country'])) {
-      $country = tep_output_string_protected($address['country']);
-    } else {
-      $country = '';
-    }
-    $postcode = tep_output_string_protected($address['postcode']);
-    $zip = $postcode;
-
-    if ($html) {
-// HTML Mode
-      $HR = '<hr />';
-      $hr = '<hr />';
-      if ( ($boln == '') && ($eoln == "\n") ) { // Values not specified, use rational defaults
-        $CR = '<br />';
-        $cr = '<br />';
-        $eoln = $cr;
-      } else { // Use values supplied
-        $CR = $eoln . $boln;
-        $cr = $CR;
-      }
-    } else {
-// Text Mode
-      $CR = $eoln;
-      $cr = $CR;
-      $HR = '----------------------------------------';
-      $hr = '----------------------------------------';
+    if (!isset($address['format_id'])) {
+      $address['format_id'] = $address_format_id;
     }
 
-    $statecomma = '';
-    $streets = $street;
-    if ($suburb != '') $streets = $street . $cr . $suburb;
-    if ($country == '') $country = tep_output_string_protected($address['country']);
-    if ($state != '') $statecomma = $state . ', ';
-
-    $fmt = $address_format['format'];
-    eval("\$address = \"$fmt\";");
-
-    if ( $GLOBALS['customer_data']->has('company') && (tep_not_null($company)) ) {
-      $address = $company . $cr . $address;
-    }
-
-    return $address;
+    return $module->format($address, $html, $boln, $eoln);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
