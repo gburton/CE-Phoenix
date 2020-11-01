@@ -174,18 +174,16 @@
   }
 
   function tep_get_category_tree($parent_id = '0', $spacing = '', $exclude = '', $category_tree_array = [], $include_itself = false) {
-    global $languages_id;
-
     if (!is_array($category_tree_array)) $category_tree_array = [];
     if ( (count($category_tree_array) < 1) && ($exclude !== '0') ) $category_tree_array[] = ['id' => '0', 'text' => TEXT_TOP];
 
     if ($include_itself) {
-      $category_query = tep_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.language_id = " . (int)$languages_id . " AND cd.categories_id = " . (int)$parent_id);
+      $category_query = tep_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.language_id = " . (int)$_SESSION['languages_id'] . " AND cd.categories_id = " . (int)$parent_id);
       $category = tep_db_fetch_array($category_query);
       $category_tree_array[] = ['id' => $parent_id, 'text' => $category['categories_name']];
     }
 
-    $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = cd.categories_id AND cd.language_id = " . (int)$languages_id . " AND c.parent_id = " . (int)$parent_id . " ORDER BY c.sort_order, cd.categories_name");
+    $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id'] . " AND c.parent_id = " . (int)$parent_id . " ORDER BY c.sort_order, cd.categories_name");
     while ($categories = tep_db_fetch_array($categories_query)) {
       if ($exclude != $categories['categories_id']) $category_tree_array[] = ['id' => $categories['categories_id'], 'text' => $spacing . $categories['categories_name']];
       $category_tree_array = tep_get_category_tree($categories['categories_id'], $spacing . '&nbsp;&nbsp;&nbsp;', $exclude, $category_tree_array);
@@ -195,7 +193,7 @@
   }
 
   function tep_draw_products_pull_down($name, $parameters = '', $exclude = [], $class = 'class="form-control"') {
-    global $currencies, $languages_id;
+    global $currencies;
 
     if ($exclude == '') {
       $exclude = [];
@@ -208,7 +206,7 @@
 
     $select_string .= '>';
 
-    $products_query = tep_db_query("SELECT p.products_id, pd.products_name, p.products_price FROM products p, products_description pd WHERE p.products_id = pd.products_id AND pd.language_id = " . (int)$languages_id . " ORDER BY products_name");
+    $products_query = tep_db_query("SELECT p.products_id, pd.products_name, p.products_price FROM products p, products_description pd WHERE p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY products_name");
     while ($products = tep_db_fetch_array($products_query)) {
       if (!in_array($products['products_id'], $exclude)) {
         $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . ' (' . $currencies->format($products['products_price']) . ')</option>';
@@ -240,18 +238,14 @@
   }
 
   function tep_options_name($options_id) {
-    global $languages_id;
-
-    $options = tep_db_query("SELECT products_options_name FROM products_options WHERE products_options_id = " . (int)$options_id . " AND language_id = " . (int)$languages_id);
+    $options = tep_db_query("SELECT products_options_name FROM products_options WHERE products_options_id = " . (int)$options_id . " AND language_id = " . (int)$_SESSION['languages_id']);
     $options_values = tep_db_fetch_array($options);
 
     return $options_values['products_options_name'];
   }
 
   function tep_values_name($values_id) {
-    global $languages_id;
-
-    $values = tep_db_query("SELECT products_options_values_name FROM products_options_values WHERE products_options_values_id = " . (int)$values_id . " AND language_id = " . (int)$languages_id);
+    $values = tep_db_query("SELECT products_options_values_name FROM products_options_values WHERE products_options_values_id = " . (int)$values_id . " AND language_id = " . (int)$_SESSION['languages_id']);
     $values_values = tep_db_fetch_array($values);
 
     return $values_values['products_options_values_name'];
@@ -354,14 +348,12 @@
   function tep_get_geo_zone_name($geo_zone_id) {
     $zones_query = tep_db_query("SELECT geo_zone_name FROM geo_zones WHERE geo_zone_id = " . (int)$geo_zone_id);
 
-    if (!tep_db_num_rows($zones_query)) {
-      $geo_zone_name = $geo_zone_id;
-    } else {
-      $zones = tep_db_fetch_array($zones_query);
-      $geo_zone_name = $zones['geo_zone_name'];
+    if (tep_db_num_rows($zones_query)) {
+      $zone = tep_db_fetch_array($zones_query);
+      return $zone['geo_zone_name'];
     }
 
-    return $geo_zone_name;
+    return $geo_zone_id;
   }
 
   function tep_address_format($address_format_id, $address, $html, $boln, $eoln) {
@@ -446,9 +438,10 @@
   }
 
   function tep_get_orders_status_name($orders_status_id, $language_id = '') {
-    global $languages_id;
+    if (!$language_id) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if (!$language_id) $language_id = $languages_id;
     $orders_status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . (int)$orders_status_id . " AND language_id = " . (int)$language_id);
     $orders_status = tep_db_fetch_array($orders_status_query);
 
@@ -456,10 +449,8 @@
   }
 
   function tep_get_orders_status() {
-    global $languages_id;
-
     $orders_status_array = [];
-    $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$languages_id . " ORDER BY orders_status_id");
+    $orders_status_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY orders_status_id");
     while ($orders_status = tep_db_fetch_array($orders_status_query)) {
       $orders_status_array[] = [
         'id' => $orders_status['orders_status_id'],
@@ -471,9 +462,10 @@
   }
 
   function tep_get_products_name($product_id, $language_id = 0) {
-    global $languages_id;
+    if ($language_id == 0) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if ($language_id == 0) $language_id = $languages_id;
     $product_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
     $product = tep_db_fetch_array($product_query);
 
@@ -819,15 +811,13 @@ EOSQL
   }
 
   function tep_generate_category_path($id, $from = 'category', $categories_array = [], $index = 0) {
-    global $languages_id;
-
     if ($from == 'product') {
       $categories_query = tep_db_query("SELECT categories_id FROM products_to_categories WHERE products_id = " . (int)$id);
       while ($categories = tep_db_fetch_array($categories_query)) {
         if ($categories['categories_id'] == '0') {
           $categories_array[$index][] = ['id' => '0', 'text' => TEXT_TOP];
         } else {
-          $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$categories['categories_id'] . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$languages_id);
+          $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$categories['categories_id'] . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id']);
           $category = tep_db_fetch_array($category_query);
           $categories_array[$index][] = ['id' => $categories['categories_id'], 'text' => $category['categories_name']];
           if ( (tep_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) {
@@ -838,7 +828,7 @@ EOSQL
         $index++;
       }
     } elseif ($from == 'category') {
-      $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$id . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$languages_id);
+      $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$id . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id']);
       $category = tep_db_fetch_array($category_query);
       $categories_array[$index][] = ['id' => $id, 'text' => $category['categories_name']];
       if ( (tep_not_null($category['parent_id'])) && ($category['parent_id'] != '0') ) {
@@ -1166,12 +1156,10 @@ EOSQL
   }
 
   function tep_cfg_pull_down_order_statuses($order_status_id, $key = '') {
-    global $languages_id;
-
     $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
 
     $statuses_array = [['id' => '0', 'text' => TEXT_DEFAULT]];
-    $statuses_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$languages_id . " ORDER BY orders_status_name");
+    $statuses_query = tep_db_query("SELECT orders_status_id, orders_status_name FROM orders_status WHERE language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY orders_status_name");
     while ($statuses = tep_db_fetch_array($statuses_query)) {
       $statuses_array[] = [
         'id' => $statuses['orders_status_id'],
@@ -1183,11 +1171,13 @@ EOSQL
   }
 
   function tep_get_order_status_name($order_status_id, $language_id = '') {
-    global $languages_id;
+    if ($order_status_id < 1) {
+      return TEXT_DEFAULT;
+    }
 
-    if ($order_status_id < 1) return TEXT_DEFAULT;
-
-    if (!is_numeric($language_id)) $language_id = $languages_id;
+    if (!is_numeric($language_id)) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
     $status_query = tep_db_query("SELECT orders_status_name FROM orders_status WHERE orders_status_id = " . (int)$order_status_id . " AND language_id = " . (int)$language_id);
     $status = tep_db_fetch_array($status_query);
@@ -1302,9 +1292,10 @@ EOSQL
   }
 
   function tep_get_category_seo_title($category_id, $language_id = 0) {
-    global $languages_id;
+    if ($language_id == 0) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if ($language_id == 0) $language_id = $languages_id;
     $category_query = tep_db_query("SELECT categories_seo_title FROM categories_description WHERE categories_id = " . (int)$category_id . " AND language_id = " . (int)$language_id);
     $category = tep_db_fetch_array($category_query);
 
@@ -1326,9 +1317,10 @@ EOSQL
   }
 
   function tep_get_products_seo_description($product_id, $language_id = 0) {
-    global $languages_id;
+    if ($language_id == 0) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if ($language_id == 0) $language_id = $languages_id;
     $product_query = tep_db_query("SELECT products_seo_description FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
     $product = tep_db_fetch_array($product_query);
 
@@ -1336,9 +1328,10 @@ EOSQL
   }
 
   function tep_get_products_seo_keywords($product_id, $language_id = 0) {
-    global $languages_id;
+    if ($language_id == 0) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if ($language_id == 0) $language_id = $languages_id;
     $product_query = tep_db_query("SELECT products_seo_keywords FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
     $product = tep_db_fetch_array($product_query);
 
@@ -1346,9 +1339,10 @@ EOSQL
   }
 
   function tep_get_products_seo_title($product_id, $language_id = 0) {
-    global $languages_id;
+    if ($language_id == 0) {
+      $language_id = $_SESSION['languages_id'];
+    }
 
-    if ($language_id == 0) $language_id = $languages_id;
     $product_query = tep_db_query("SELECT products_seo_title FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
     $product = tep_db_fetch_array($product_query);
 
@@ -1356,8 +1350,6 @@ EOSQL
   }
 
   function tep_draw_products($name, $parameters = '', $exclude = [], $class = 'class="form-control"') {
-    global $languages_id;
-
     $select_string = '<select name="' . $name . '"';
 
     if (tep_not_null($parameters)) $select_string .= " $parameters";
@@ -1372,7 +1364,7 @@ SELECT p.products_id, pd.products_name
  FROM products p, products_description pd
  WHERE p.products_id = pd.products_id AND pd.language_id =
 EOSQL
-      . (int)$languages_id . " ORDER BY products_name");
+      . (int)$_SESSION['languages_id'] . " ORDER BY products_name");
     while ($products = tep_db_fetch_array($products_query)) {
       if (!in_array($products['products_id'], $exclude)) {
         $select_string .= '<option value="' . $products['products_id'] . '">' . $products['products_name'] . '</option>';
