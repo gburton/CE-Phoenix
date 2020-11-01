@@ -1088,7 +1088,7 @@ EOSQL
     $message = new email();
     $message->add_message($email_text);
     $message->build_message();
-    $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
+    return $message->send($to_name, $to_email_address, $from_email_name, $from_email_address, $email_subject);
   }
 
   function tep_notify($trigger, $subject) {
