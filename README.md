@@ -66,10 +66,11 @@ DE | https://apps.oscommerce.com/zXxXN&german-language-deutsches-sprachpaket&v=c
 DK | https://apps.oscommerce.com/n6qft&danish-dansk-for-phoenix-1-0-7-9 | Kofod | Shop Side only
 ES | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | raiwa | Certified Developer
 FR | https://apps.oscommerce.com/oqfJg&ce-phoenix-1-0-5-0-french-language-pack | artfulweb |
+IT | https://github.com/bitit-it/phoenix-italian | bitit.it
 NL | https://apps.oscommerce.com/NShzV&vertaling-nederlands | Fiber |
 NO | https://apps.oscommerce.com/ecntZ&norwegian-language-pack-phoenix | ra92 |
 PT (BR) | https://apps.oscommerce.com/yLxsO&oscom2ce-phoenix-pt-brasil-v1-0-5-0 | josmar | Brazilian Portuguese
-RU | https://apps.oscommerce.com/ub5yL&russian-for-phoenix | Fredi | Contains non-core files
+RU | https://apps.oscommerce.com/ub5yL&russian-for-phoenix | Fredi | 
 
 Please be aware that language packs are maintained by volunteers so may not be up to date.
 
