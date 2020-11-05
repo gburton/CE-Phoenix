@@ -895,10 +895,10 @@ function updateNet() {
 ?>
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
-    <div class="col-4 text-right align-self-center">
+    <div class="col-sm-6 col-md-4 text-right align-self-center">
       <?php
       echo tep_draw_form('search', 'categories.php', '', 'get');
         echo '<div class="input-group mb-1">';
@@ -920,7 +920,7 @@ function updateNet() {
       echo '</form>';
       ?>
     </div>
-    <div class="col-2 text-right align-self-center">
+    <div class="col-sm-6 col-md-2 text-right align-self-center">
       <?php
       if (!isset($_GET['search'])) {
         echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-sitemap', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-danger btn-block mb-1') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-boxes', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-danger btn-block mb-1');
