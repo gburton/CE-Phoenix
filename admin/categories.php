@@ -516,9 +516,9 @@ function updateNet() {
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?= (isset($_GET['pID'])) ? sprintf(TEXT_EXISTING_PRODUCT, tep_output_generated_category_path($current_category_id)) : sprintf(TEXT_NEW_PRODUCT, tep_output_generated_category_path($current_category_id)) ?></h1>
+      <h1 class="display-4 mb-2"><?= (isset($_GET['pID'])) ? sprintf(TEXT_EXISTING_PRODUCT, $pInfo->products_name, tep_output_generated_category_path($current_category_id)) : sprintf(TEXT_NEW_PRODUCT, tep_output_generated_category_path($current_category_id)) ?></h1>
     </div>
-    <div class="col-2 text-right align-self-center">
+    <div class="col-1 text-right align-self-center">
       <?= tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', tep_get_all_get_params(['action'])), null, null, 'btn-light') ?>
     </div>
   </div>
@@ -895,10 +895,10 @@ function updateNet() {
 ?>
 
   <div class="row">
-    <div class="col">
+    <div class="col-6">
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
-    <div class="col text-right align-self-center">
+    <div class="col-4 text-right align-self-center">
       <?php
       echo tep_draw_form('search', 'categories.php', '', 'get');
         echo '<div class="input-group mb-1">';
@@ -918,6 +918,16 @@ function updateNet() {
         echo '</div>';
         echo tep_hide_session_id();
       echo '</form>';
+      ?>
+    </div>
+    <div class="col-2 text-right align-self-center">
+      <?php
+      if (!isset($_GET['search'])) {
+        echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-sitemap', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-danger btn-block mb-1') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-boxes', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-danger btn-block mb-1');
+      }
+      else {
+        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php'), null, null, 'btn-light');
+      }
       ?>
     </div>
   </div>
@@ -1035,7 +1045,7 @@ function updateNet() {
 
       <div class="row my-1">
         <div class="col"><?= TEXT_CATEGORIES . '&nbsp;' . $categories_count . '<br>' . TEXT_PRODUCTS . '&nbsp;' . $products_count ?></div>
-        <div class="col text-right mr-2"><?php if (isset($cPath_array) && (count($cPath_array) > 0)) echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', $cPath_back), null, null, 'btn-light mr-2'); if (!isset($_GET['search'])) echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-success mr-2') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-plus', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-success') ?></div>
+        <div class="col text-right mr-2"><?php if (isset($cPath_array) && (count($cPath_array) > 0)) echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', $cPath_back), null, null, 'btn-light mr-2'); if (!isset($_GET['search'])) echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-sitemap', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-boxes', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-danger') ?></div>
       </div>
 
     </div>
