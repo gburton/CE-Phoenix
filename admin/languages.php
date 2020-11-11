@@ -42,7 +42,7 @@
         tep_db_query("INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) SELECT customer_data_groups_id, " . (int)$lID . ", customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width FROM customer_data_groups WHERE language_id = " . (int)$languages_id);
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
-          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
+          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
 
         $OSCOM_Hooks->call('languages', 'insertAction');
