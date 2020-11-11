@@ -199,7 +199,7 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -245,48 +245,48 @@
     ?>
 
       <div class="form-group row">
-        <label for="cTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_TITLE; ?></label>
+        <label for="cTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_TITLE; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="cTitle" required aria-required="true" aria-describedby="TitleHelp"'); ?>
-          <small id="TitleHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_TITLE_HELP; ?></small>
+          <?= tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="cTitle" required aria-required="true" aria-describedby="TitleHelp"'); ?>
+          <small id="TitleHelp" class="form-text text-muted"><?= TEXT_ADVERT_TITLE_HELP; ?></small>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="cUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_URL; ?></label>
+        <label for="cUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_URL; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?php echo tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="cUrl" aria-describedby="URLHelp"'); ?>
-              <small id="URLHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_URL_HELP; ?></small>
+              <?= tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="cUrl" aria-describedby="URLHelp"'); ?>
+              <small id="URLHelp" class="form-text text-muted"><?= TEXT_ADVERT_URL_HELP; ?></small>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="FragmentHelp"'); ?>
-              <small id="FragmentHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_FRAGMENT_HELP; ?></small>
+              <?= tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="FragmentHelp"'); ?>
+              <small id="FragmentHelp" class="form-text text-muted"><?= TEXT_ADVERT_FRAGMENT_HELP; ?></small>
             </div>
           </div>
         </div>
       </div>
 
       <div class="form-group row">
-        <label for="cSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_SORT_ORDER; ?></label>
+        <label for="cSort" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="cSort" aria-describedby="SortHelp"'); ?>
-          <small id="SortHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_SORT_HELP; ?></small>
+          <?= tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="cSort" aria-describedby="SortHelp"'); ?>
+          <small id="SortHelp" class="form-text text-muted"><?= TEXT_ADVERT_SORT_HELP; ?></small>
         </div>
       </div>
 
       <hr>
 
       <div class="form-group row">
-        <label for="cGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_GROUP; ?></label>
+        <label for="cGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_GROUP; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?php echo tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="cGroup" class="form-control"'); ?>
+              <?= tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="cGroup" class="form-control"'); ?>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="cNewGroup"'); ?>
+              <?= tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="cNewGroup"'); ?>
             </div>
           </div>
         </div>
@@ -295,20 +295,20 @@
       <hr>
 
       <div class="form-group row">
-        <label for="cImage" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_IMAGE; ?></label>
+        <label for="cImage" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_IMAGE; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
               <div class="custom-file mb-2">
-                <?php echo tep_draw_input_field('advert_image', '', 'id="advert_image"', 'file', null, 'class="form-control-input"'); ?>
+                <?= tep_draw_input_field('advert_image', '', 'id="advert_image"', 'file', null, 'class="custom-file-input"'); ?>
                 <label class="custom-file-label" for="advert_image"></label>
               </div>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_image_local', (isset($cInfo->advert_image) ? $cInfo->advert_image : ''), 'placeholder="' . TEXT_ADVERT_IMAGE_LOCAL . '" class="form-control" id="cNewImage"'); ?>
+              <?= tep_draw_input_field('advert_image_local', (isset($cInfo->advert_image) ? $cInfo->advert_image : ''), 'placeholder="' . TEXT_ADVERT_IMAGE_LOCAL . '" class="form-control" id="cNewImage"'); ?>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_image_target', null, 'placeholder="' . TEXT_ADVERT_IMAGE_TARGET . '" class="form-control" id="cTarget"'); ?>
+              <?= tep_draw_input_field('advert_image_target', null, 'placeholder="' . TEXT_ADVERT_IMAGE_TARGET . '" class="form-control" id="cTarget"'); ?>
             </div>
           </div>
         </div>
@@ -320,13 +320,13 @@
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
         ?>
         <div class="form-group row">
-          <label for="cText_<?= $languages[$i]['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_HTML_TEXT; ?></label>
+          <label for="cText_<?= $languages[$i]['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
           <div class="col-sm-9">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']); ?></span>
               </div>
-              <?php echo tep_draw_textarea_field('advert_html_text[' . $languages[$i]['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $languages[$i]['id']), 'class="form-control" id="cText_' . $languages[$i]['id'] . '"'); ?>
+              <?= tep_draw_textarea_field('advert_html_text[' . $languages[$i]['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $languages[$i]['id']), 'class="form-control" id="cText_' . $languages[$i]['id'] . '"'); ?>
             </div>
           </div>
         </div>
@@ -335,7 +335,7 @@
       ?>
 
       <div class="alert alert-info">
-        <?php echo TEXT_ADVERT_NOTE . TEXT_INSERT_NOTE; ?>
+        <?= TEXT_ADVERT_NOTE . TEXT_INSERT_NOTE; ?>
       </div>
 
       <?php
@@ -348,7 +348,7 @@
       ?>
 
       <div class="buttonSet">
-        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg'); ?>
+        <?= tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg'); ?>
       </div>
 
     </form>
@@ -364,11 +364,11 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_ADVERT; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_GROUP; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_SORT_ORDER; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_STATUS; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_ADVERT; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_GROUP; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_SORT_ORDER; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_STATUS; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -387,9 +387,9 @@
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id']) . '\'">';
               }
 ?>
-                <td><?php echo $advert['advert_title']; ?></td>
-                <td class="text-right"><?php echo $advert['advert_group']; ?></td>
-                <td class="text-right"><?php echo $advert['sort_order'] ?? 0; ?></td>
+                <td><?= $advert['advert_title']; ?></td>
+                <td class="text-right"><?= $advert['advert_group']; ?></td>
+                <td class="text-right"><?= $advert['sort_order'] ?? 0; ?></td>
                 <td class="text-right"><?php if ($advert['status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id'] . '&action=setflag&flag=0') . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id'] . '&action=setflag&flag=1') . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
                 <td class="text-right"><?php if (isset($cInfo) && is_object($cInfo) && ($advert['advert_id'] == $cInfo->advert_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
@@ -401,8 +401,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
-        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col"><?= $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
+        <div class="col text-right mr-2"><?= $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
 
       <?php
