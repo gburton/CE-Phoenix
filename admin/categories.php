@@ -737,7 +737,7 @@ function updateNet() {
               <div class="custom-file mb-2">
                 <?php
                 echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (tep_not_null($pInfo->products_image) ? null : 'required aria-required="true" ') . 'class="custom-file-input"');
-                echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';                
+                echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';
                 ?>
               </div>
             </div>

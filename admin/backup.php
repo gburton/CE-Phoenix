@@ -344,7 +344,7 @@ EOSQL
 ?>
 
   <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
-  
+
   <div class="row no-gutters">
     <div class="col-12 col-sm-8">
       <div class="table-responsive">
@@ -404,7 +404,7 @@ EOSQL
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?= sprintf(TEXT_BACKUP_DIRECTORY, DIR_FS_BACKUP); ?></div>
         <div class="col text-right mr-2"><?php if ( ($action != 'backup') && $dir_ok && isset($dir) ) echo tep_draw_bootstrap_button(IMAGE_BACKUP, 'fas fa-download', tep_href_link('backup.php', 'action=backup'), null, null, 'btn-light mr-2'); if ( ($action != 'restorelocal') && isset($dir) ) echo tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-upload', tep_href_link('backup.php', 'action=restorelocal'), null, null, 'btn-light'); ?></div>
@@ -424,7 +424,7 @@ EOSQL
 ?>
 
     </div>
-            
+
 <?php
   $heading = [];
   $contents = [];
@@ -497,7 +497,7 @@ EOSQL
 ?>
 
   </div>
-  
+
   <script>$(document).on('change', '#upload', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>
 
 <?php

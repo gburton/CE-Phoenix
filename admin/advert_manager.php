@@ -20,7 +20,7 @@
     switch ($action) {
       case 'import':
       $languages = tep_get_languages();
-      
+
       $import_query = tep_db_query("select * from banners order by banners_id");
       while ($import = tep_db_fetch_array($import_query)) {
         $sql_data_array = ['advert_title'       => $import['banners_title'],
@@ -32,16 +32,16 @@
                            'status'             => $import['status']];
 
         tep_db_perform('advert', $sql_data_array);
-        
+
         $advert_id = tep_db_insert_id();
-        
+
         for ($i=0, $n=count($languages); $i<$n; $i++) {
           $language_id = $languages[$i]['id'];
-          
+
           $lng_data_array = ['advert_id'        => $advert_id,
                              'languages_id'     => $language_id,
                              'advert_html_text' => $import['banners_html_text']];
-                             
+
           tep_db_perform('advert_info', $lng_data_array);
         }
       }
@@ -93,7 +93,7 @@
 
         $advert_image = new upload('advert_image');
         $advert_image->parse();
-        
+
         if (!empty($advert_image->filename)) {
           $advert_image->set_destination(DIR_FS_CATALOG . 'images/' . $advert_image_target);
           if ( $advert_image->save() == false ) {
@@ -120,7 +120,7 @@
             $insert_sql_data = ['date_added' => 'now()', 'status' => '1'];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
-            
+
             $OSCOM_Hooks->call('advert_manager', 'insertAction');
 
             tep_db_perform('advert', $sql_data_array);
@@ -130,20 +130,20 @@
             $messageStack->add_session(SUCCESS_IMAGE_INSERTED, 'success');
           } elseif ($action == 'update') {
             $OSCOM_Hooks->call('advert_manager', 'updateAction');
-            
+
             tep_db_perform('advert', $sql_data_array, 'update', "advert_id = '" . (int)$advert_id . "'");
 
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
           }
-          
+
           $languages = tep_get_languages();
           for ($i=0, $n=count($languages); $i<$n; $i++) {
             $advert_html_text_array = $_POST['advert_html_text'];
-            
+
             $language_id = $languages[$i]['id'];
-            
+
             $lng_data_array['advert_html_text'] = tep_db_prepare_input($advert_html_text_array[$language_id]);
-            
+
             if ($action == 'insert') {
               $insert_sql_data = ['advert_id' => $advert_id, 'languages_id' => $language_id];
 
@@ -215,7 +215,7 @@
 <?php
   if ($action == 'new') {
     $languages = tep_get_languages();
-    
+
     $form_action = 'insert';
 
     $parameters = ['advert_title' => '', 'advert_url' => '', 'advert_fragment' => '', 'advert_group' => '', 'advert_image' => '', 'sort_order' => '', 'advert_html_text' => ''];
@@ -315,7 +315,7 @@
       </div>
 
       <hr>
-      
+
       <?php
       for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
         ?>
@@ -352,7 +352,7 @@
       </div>
 
     </form>
-    
+
     <script>$(document).on('change', '#advert_image', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>
 <?php
   } else {
@@ -451,7 +451,7 @@
             $contents[] = ['text' => sprintf(TEXT_ADVERT_INTERNAL_URL, tep_catalog_href_link($cInfo->advert_url, $fragment))];
           }
         }
-        
+
         if (tep_not_null($cInfo->advert_image)) $contents[] = ['text' => '<hr>' . tep_info_image($cInfo->advert_image, null)];
         if (tep_not_null($cInfo->advert_html_text)) $contents[] = ['text' => '<hr>' . $cInfo->advert_html_text];
 
