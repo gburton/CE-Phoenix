@@ -36,7 +36,7 @@
     $i = array_search(($default_column ?? 'PRODUCT_LIST_NAME'), $column_list, true);
     if (false !== $i) {
       $sort_column = $i;
-      $_GET['sort'] = ($sort_column + 1) . 'a';
+      $_GET['sort'] = ($sort_column + 1) . ($sort_order ?? 'a');
     }
   }
 
