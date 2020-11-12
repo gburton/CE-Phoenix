@@ -25,7 +25,7 @@
           'title' => 'Enable Address Book ID module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your shop?',
-          'set_function' => "tep_cfg_select_option(['True', 'False'], ",
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
       ];
     }
