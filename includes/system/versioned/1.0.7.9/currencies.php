@@ -35,13 +35,13 @@
     }
 
 // class methods
-    public function format($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
+    public function format($number, $calculate_currency_value = true, $currency_type = null, $currency_value = null) {
       if (empty($currency_type)) {
-        $currency_type = $_SESSION['currency'];
+        $currency_type = $_SESSION['currency'] ?? DEFAULT_CURRENCY;
       }
 
       if ($calculate_currency_value) {
-        $number *= tep_not_null($currency_value) ? $currency_value : $this->currencies[$currency_type]['value'];
+        $number *= ($currency_value ?? $this->currencies[$currency_type]['value']);
       }
 
       return $this->currencies[$currency_type]['symbol_left']
@@ -73,13 +73,13 @@
       return $this->format($this->calculate_price($products_price, $products_tax, $quantity));
     }
 
-    public function format_raw($number, $calculate_currency_value = true, $currency_type = '', $currency_value = '') {
+    public function format_raw($number, $calculate_currency_value = true, $currency_type = null, $currency_value = null) {
       if (empty($currency_type)) {
-        $currency_type = $_SESSION['currency'];
+        $currency_type = $_SESSION['currency'] ?? DEFAULT_CURRENCY;
       }
 
       if ($calculate_currency_value) {
-        $number *= tep_not_null($currency_value) ? $currency_value : $this->currencies[$currency_type]['value'];
+        $number *= ($currency_value ?? $this->currencies[$currency_type]['value']);
       }
 
       return number_format(tep_round($number, $this->currencies[$currency_type]['decimal_places']), $this->currencies[$currency_type]['decimal_places'], '.', '');
