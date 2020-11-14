@@ -373,7 +373,7 @@
           </thead>
           <tbody>
             <?php
-            $advert_query_raw = "select * from advert order by advert_group, sort_order, advert_title";
+            $advert_query_raw = "SELECT * FROM advert a, advert_info ai where a.advert_id = ai.advert_id AND ai.languages_id = '" . $_SESSION['languages_id'] . "' ORDER BY a.advert_group, a.sort_order, a.advert_title";
             $advert_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $advert_query_raw, $advert_query_numrows);
             $advert_query = tep_db_query($advert_query_raw);
             while ($advert = tep_db_fetch_array($advert_query)) {
@@ -386,7 +386,7 @@
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id']) . '\'">';
               }
-?>
+              ?>
                 <td><?= $advert['advert_title']; ?></td>
                 <td class="text-right"><?= $advert['advert_group']; ?></td>
                 <td class="text-right"><?= $advert['sort_order'] ?? 0; ?></td>
@@ -452,8 +452,8 @@
           }
         }
 
-        if (tep_not_null($cInfo->advert_image)) $contents[] = ['text' => '<hr>' . tep_info_image($cInfo->advert_image, null)];
-        if (tep_not_null($cInfo->advert_html_text)) $contents[] = ['text' => '<hr>' . $cInfo->advert_html_text];
+        if (tep_not_null($cInfo->advert_image)) $contents[] = ['text' => tep_info_image($cInfo->advert_image, null)];
+        if (tep_not_null($cInfo->advert_html_text)) $contents[] = ['text' => $cInfo->advert_html_text];
 
         if ($cInfo->date_status_change) $contents[] = ['text' => sprintf(TEXT_ADVERT_STATUS_CHANGE, tep_date_short($cInfo->date_status_change))];
       }
