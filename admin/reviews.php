@@ -226,13 +226,13 @@
           <label for="reviewReview" class="col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
           <div class="col-sm-9"><?= $rInfo->reviews_text ?></div>
         </div>
+        
+        <?= $OSCOM_Hooks->call('reviews', 'formPreview'); ?>
       </div>
       <div class="col-sm-2 text-right"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?></div>
     </div>
 
 <?php
-    echo $OSCOM_Hooks->call('reviews', 'formPreview');
-
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
       foreach($_POST as $key => $value) {
