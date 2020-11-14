@@ -33,7 +33,7 @@ SELECT r.reviews_id, r.date_added, pd.products_name, r.customers_name, r.reviews
  LIMIT %d
 EOSQL
         , (int)$_SESSION['languages_id'], (int)MODULE_ADMIN_DASHBOARD_REVIEWS_DISPLAY));
-      
+
 
       $output = '<div class="table-responsive">';
         $output .= '<table class="table table-striped table-hover mb-2">';

@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   function tep_sort_secmodules($a, $b) {
     return strcasecmp($a['title'], $b['title']);
@@ -66,7 +66,7 @@
 
   require 'includes/template_top.php';
 ?>
-  
+
   <div class="row">
     <div class="col">
       <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
@@ -75,7 +75,7 @@
       <?php echo tep_draw_bootstrap_button(BUTTON_TEXT_RELOAD, 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info'); ?>
     </div>
   </div>
-  
+
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
@@ -102,7 +102,7 @@
           } else {
             $output = $secCheck->getMessage();
           }
-          
+
           switch($secCheck->type) {
             case 'info':
             $fa = 'fas fa-fw fa-info-circle text-info';
@@ -115,7 +115,7 @@
             $fa = 'fas fa-fw fa-check-circle text-success';
           }
 
-          echo '<tr>'; 
+          echo '<tr>';
             echo '<td><i class="' . $fa . '"></i> ' . htmlspecialchars($module['title']) . '</td>';
             echo '<td>' . htmlspecialchars($module['code']) . '</td>';
             echo '<td>' . $output . '</td>';
