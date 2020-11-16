@@ -17,7 +17,7 @@
     function execute() {
       $form_output = tep_draw_form('quick_find', tep_href_link('advanced_search_result.php', '', null, false), 'get');
         $form_output .= '<div class="input-group">';
-          $form_output .= tep_draw_input_field('keywords', '', 'required aria-required="true" autocomplete="off" list="search" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search');
+          $form_output .= tep_draw_input_field('keywords', '', 'required aria-required="true" autocomplete="off" placeholder="' . TEXT_SEARCH_PLACEHOLDER . '"', 'search');
           $form_output .= '<div class="input-group-append">';
             $form_output .= '<button type="submit" class="btn btn-info btn-search"><i class="fas fa-search"></i></button>';
           $form_output .= '</div>';
