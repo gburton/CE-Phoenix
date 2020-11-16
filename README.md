@@ -60,19 +60,19 @@ Minimum | Maximum (tested)
 
 ## Language Packs
 
-Language | URL | Credit & Thanks | Comments
------------- | ------------- | ------------- | -------------
-DE | https://apps.oscommerce.com/zXxXN&german-language-deutsches-sprachpaket&v=cephoenix10 | cupidare |
-DK | https://apps.oscommerce.com/n6qft&danish-dansk-for-phoenix-1-0-7-9 | Kofod | Shop Side only
-ES | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | raiwa | Certified Developer
-FR | https://apps.oscommerce.com/oqfJg&ce-phoenix-1-0-5-0-french-language-pack | artfulweb |
+Language | URL | Credit & Thanks 
+------------ | ------------- | ------------- 
+DE | https://apps.oscommerce.com/zXxXN&german-language-deutsches-sprachpaket&v=cephoenix10 | cupidare
+DK | https://apps.oscommerce.com/n6qft&danish-dansk-for-phoenix-1-0-7-9 | Kofod 
+ES | https://github.com/raiwa/OSCOM-CE-Phoenix-Spanish-language-idioma-espanol | raiwa 
+FR | https://apps.oscommerce.com/oqfJg&ce-phoenix-1-0-5-0-french-language-pack | artfulweb 
 IT | https://github.com/bitit-it/phoenix-italian | bitit.it
-NL | https://apps.oscommerce.com/NShzV&vertaling-nederlands | Fiber |
-NO | https://apps.oscommerce.com/ecntZ&norwegian-language-pack-phoenix | ra92 |
-PT (BR) | https://apps.oscommerce.com/yLxsO&oscom2ce-phoenix-pt-brasil-v1-0-5-0 | josmar | Brazilian Portuguese
-RU | https://apps.oscommerce.com/ub5yL&russian-for-phoenix | Fredi | 
+NL | https://apps.oscommerce.com/NShzV&vertaling-nederlands | Fiber 
+NO | https://apps.oscommerce.com/ecntZ&norwegian-language-pack-phoenix | ra92 
+PT (BR) | https://apps.oscommerce.com/yLxsO&oscom2ce-phoenix-pt-brasil-v1-0-5-0 | josmar 
+RU | https://apps.oscommerce.com/ub5yL&russian-for-phoenix | Fredi 
 
-Please be aware that language packs are maintained by volunteers so may not be up to date.
+Please be aware that language packs (other than ES) are maintained by shopowners so may not be up to date, may be incomplete or may contain non-core files and definitions.
 
 # Certified Service Providers
 
