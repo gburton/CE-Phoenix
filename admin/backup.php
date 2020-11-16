@@ -459,7 +459,7 @@ EOSQL
 
       $contents = ['form' => tep_draw_form('restore', 'backup.php', 'action=restorelocalnow', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL . '<br><br>' . TEXT_INFO_BEST_THROUGH_HTTPS];
-      $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('sql_file', '', 'required="required" aria-required="true" id="upload"', 'file', null, 'class="custom-file-input"') . '<label class="custom-file-label" for="upload">&nbsp;</label></div>'];
+      $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('sql_file', '', 'required aria-required="true" id="upload"', 'file', null, 'class="custom-file-input"') . '<label class="custom-file-label" for="upload">&nbsp;</label></div>'];
       $contents[] = ['text' => TEXT_INFO_RESTORE_LOCAL_RAW_FILE];
       $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_RESTORE, 'fas fa-file-upload', null, null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('backup.php'), null, null, 'btn-light')];
       break;

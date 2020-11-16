@@ -56,15 +56,15 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_NEW_LOGO; ?></h1>
-      <div class="alert alert-danger"><?php echo TEXT_FORMAT_AND_LOCATION; ?></div>
+      <h1 class="display-4 mb-2"><?= HEADING_NEW_LOGO; ?></h1>
+      <div class="alert alert-danger"><?= TEXT_FORMAT_AND_LOCATION; ?></div>
 
       <?= tep_draw_form('logo', 'store_logo.php', 'action=save', 'post', 'enctype="multipart/form-data"'); ?>
 
         <div class="custom-file mb-2">
-          <?= tep_draw_input_field('store_logo', '', 'required="required" aria-required="true" id="inputLogo"', 'file', null, 'class="custom-file-input"'); ?>
+          <?= tep_draw_input_field('store_logo', '', 'required aria-required="true" id="inputLogo"', 'file', null, 'class="custom-file-input"'); ?>
 
-          <label class="custom-file-label" for="inputLogo"><?php echo TEXT_LOGO_IMAGE; ?></label>
+          <label class="custom-file-label" for="inputLogo"><?= TEXT_LOGO_IMAGE; ?></label>
         </div>
 
         <?php
@@ -76,7 +76,7 @@
       </form>
     </div>
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
 
       <?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' .  STORE_LOGO); ?>
       <br><small><?= DIR_FS_CATALOG . 'images/' .  STORE_LOGO; ?></small>

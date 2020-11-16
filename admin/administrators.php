@@ -45,7 +45,7 @@
   }
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('administrators', 'preAction');
 
   if (tep_not_null($action)) {
@@ -95,7 +95,7 @@
         } else {
           $messageStack->add_session(ERROR_ADMINISTRATOR_EXISTS, 'error');
         }
-        
+
         $OSCOM_Hooks->call('administrators', 'insertAction');
 
         tep_redirect(tep_href_link('administrators.php'));
@@ -180,7 +180,7 @@
           fwrite($fp, implode("\n", $htaccess_array));
           fclose($fp);
         }
-        
+
         $OSCOM_Hooks->call('administrators', 'saveAction');
 
         tep_redirect(tep_href_link('administrators.php', 'aID=' . (int)$_GET['aID']));
@@ -222,14 +222,14 @@
             fclose($fp);
           }
         }
-        
+
         $OSCOM_Hooks->call('administrators', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('administrators.php'));
         break;
     }
   }
-  
+
   $OSCOM_Hooks->call('administrators', 'postAction');
 
   $secMessageStack = new messageStack();
@@ -337,8 +337,8 @@
 
       $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'action=insert', 'post', 'autocomplete="off"')];
       $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
-      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', null, 'required="required" autocapitalize="none" aria-required="true"')];
-      $contents[] = ['text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required="required" autocapitalize="none" aria-required="true"', 'password')];
+      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', null, 'required autocapitalize="none" aria-required="true"')];
+      $contents[] = ['text' => TEXT_INFO_PASSWORD . tep_draw_input_field('password', null, 'required autocapitalize="none" aria-required="true"', 'password')];
 
       if (is_array($htpasswd_array)) {
         $contents[] = ['text' => '<div class="custom-control custom-switch">' . tep_draw_selection_field('htaccess', 'checkbox', 'true', null, 'class="custom-control-input" id="aHtpasswd"') . '<label for="aHtpasswd" class="custom-control-label text-muted"><small>' . TEXT_INFO_PROTECT_WITH_HTPASSWD . '</small></label></div>'];
@@ -351,8 +351,8 @@
 
       $contents = ['form' => tep_draw_form('administrator', 'administrators.php', 'aID=' . $aInfo->id . '&action=save', 'post', 'autocomplete="off"')];
       $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name, 'required="required" autocapitalize="none" aria-required="true"')];
-      $contents[] = ['text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required="required" autocapitalize="none" aria-required="true"', 'password')];
+      $contents[] = ['text' => TEXT_INFO_USERNAME . tep_draw_input_field('username', $aInfo->user_name, 'required autocapitalize="none" aria-required="true"')];
+      $contents[] = ['text' => TEXT_INFO_NEW_PASSWORD . tep_draw_input_field('password', null, 'required autocapitalize="none" aria-required="true"', 'password')];
 
       if (is_array($htpasswd_array)) {
         $default_flag = false;

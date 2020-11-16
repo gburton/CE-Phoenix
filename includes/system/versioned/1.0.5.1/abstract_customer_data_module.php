@@ -12,8 +12,8 @@
 
   abstract class abstract_customer_data_module extends abstract_module {
 
-    const REQUIRED_ATTRIBUTE = 'required="required" aria-required="true" ';
-    
+    const REQUIRED_ATTRIBUTE = 'required aria-required="true" ';
+
     protected $pages;
 
     public function __construct() {
