@@ -373,7 +373,7 @@
           </thead>
           <tbody>
             <?php
-            $advert_query_raw = "SELECT * FROM advert a, advert_info ai where a.advert_id = ai.advert_id AND ai.languages_id = '" . $_SESSION['languages_id'] . "' ORDER BY a.advert_group, a.sort_order, a.advert_title";
+            $advert_query_raw = "SELECT * FROM advert a, advert_info ai WHERE a.advert_id = ai.advert_id AND ai.languages_id = '" . $_SESSION['languages_id'] . "' ORDER BY a.advert_group, a.sort_order, a.advert_title";
             $advert_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $advert_query_raw, $advert_query_numrows);
             $advert_query = tep_db_query($advert_query_raw);
             while ($advert = tep_db_fetch_array($advert_query)) {
