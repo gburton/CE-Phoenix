@@ -12,7 +12,6 @@
 
   require('includes/application_top.php');
 
-  require('includes/classes/currencies.php');
   $currencies = new currencies();
 
   $action = $_GET['action'] ?? '';

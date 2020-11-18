@@ -10,7 +10,6 @@
   Released under the GNU General Public License
 */
 
-  require(DIR_FS_ADMIN . 'includes/classes/currencies.php');
   $currencies = new currencies();
 
   $ppBalanceResult = array('rpcStatus' => -1);
