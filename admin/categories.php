@@ -65,14 +65,13 @@
           tep_db_perform('categories', $sql_data_array, 'update', "categories_id = '" . (int)$categories_id . "'");
         }
 
-        $languages = tep_get_languages();
-        for ($i=0, $n=count($languages); $i<$n; $i++) {
+        foreach (tep_get_languages() as $l) {
           $categories_name_array = $_POST['categories_name'];
           $categories_description_array = $_POST['categories_description'];
           $categories_seo_description_array = $_POST['categories_seo_description'];
           $categories_seo_title_array = $_POST['categories_seo_title'];
 
-          $language_id = $languages[$i]['id'];
+          $language_id = $l['id'];
 
           $sql_data_array = ['categories_name' => tep_db_prepare_input($categories_name_array[$language_id])];
           $sql_data_array['categories_description'] = tep_db_prepare_input($categories_description_array[$language_id]);
@@ -80,7 +79,7 @@
           $sql_data_array['categories_seo_title'] = tep_db_prepare_input($categories_seo_title_array[$language_id]);
 
           if ($action == 'insert_category') {
-            $insert_sql_data = ['categories_id' => $categories_id, 'language_id' => $languages[$i]['id']];
+            $insert_sql_data = ['categories_id' => $categories_id, 'language_id' => $l['id']];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
 
@@ -90,7 +89,7 @@
           } elseif ($action == 'update_category') {
             $OSCOM_Hooks->call('categories', 'updateCategoryAction');
 
-            tep_db_perform('categories_description', $sql_data_array, 'update', "categories_id = '" . (int)$categories_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+            tep_db_perform('categories_description', $sql_data_array, 'update', "categories_id = '" . (int)$categories_id . "' and language_id = '" . (int)$l['id'] . "'");
           }
         }
 
@@ -245,9 +244,8 @@
           tep_db_perform('products', $sql_data_array, 'update', "products_id = '" . (int)$products_id . "'");
         }
 
-        $languages = tep_get_languages();
-        for ($i=0, $n=count($languages); $i<$n; $i++) {
-          $language_id = $languages[$i]['id'];
+        foreach (tep_get_languages() as $l) {
+          $language_id = $l['id'];
 
           $sql_data_array = ['products_name' => tep_db_prepare_input($_POST['products_name'][$language_id]),
                              'products_description' => tep_db_prepare_input($_POST['products_description'][$language_id]),
@@ -645,20 +643,20 @@ function updateNet() {
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
         <div class="accordion" id="productLanguageAccordion">
           <?php
-          for ($i=0, $n=count($languages); $i<$n; $i++) {
+          foreach ($languages as $l) {
             $show = ($i == 0) ? ' show' : null;
             ?>
             <div class="card">
-              <div class="card-header" id="heading<?= $languages[$i]['directory'] ?>">
-                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#<?= $languages[$i]['directory'] ?>" aria-expanded="true" aria-controls="<?= $languages[$i]['directory'] ?>"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], null, null, null, false, 'lng mr-2') . $languages[$i]['name'] ?></button>
+              <div class="card-header" id="heading<?= $l['directory'] ?>">
+                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#<?= $l['directory'] ?>" aria-expanded="true" aria-controls="<?= $l['directory'] ?>"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name'], null, null, null, false, 'lng mr-2') . $l['name'] ?></button>
               </div>
-              <div id="<?= $languages[$i]['directory'] ?>" class="collapse<?= $show ?>" aria-labelledby="heading<?= $languages[$i]['directory'] ?>" data-parent="#productLanguageAccordion">
+              <div id="<?= $l['directory'] ?>" class="collapse<?= $show ?>" aria-labelledby="heading<?= $l['directory'] ?>" data-parent="#productLanguageAccordion">
                 <div class="card-body">
                   <div class="form-group row">
                     <label for="pName" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_NAME ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_name[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $languages[$i]['id'])), 'required aria-required="true" class="form-control" id="pName"');
+                      echo tep_draw_input_field('products_name[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pName"');
                       ?>
                     </div>
                   </div>
@@ -667,7 +665,7 @@ function updateNet() {
                     <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_DESCRIPTION ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_textarea_field('products_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $languages[$i]['id'])), 'required aria-required="true" class="form-control" id="pDesc"');
+                      echo tep_draw_textarea_field('products_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pDesc"');
                       ?>
                     </div>
                   </div>
@@ -676,7 +674,7 @@ function updateNet() {
                     <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_URL ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_url[' . $languages[$i]['id'] . ']', (isset($products_url[$languages[$i]['id']]) ? stripslashes($products_url[$languages[$i]['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $languages[$i]['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
+                      echo tep_draw_input_field('products_url[' . $l['id'] . ']', (isset($products_url[$l['id']]) ? stripslashes($products_url[$l['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $l['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
                       ?>
                       <small id="pUrlHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_URL_WITHOUT_HTTP ?>
@@ -688,7 +686,7 @@ function updateNet() {
                     <label for="pSeoTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_TITLE ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_seo_title[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoHelp"');
+                      echo tep_draw_input_field('products_seo_title[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoHelp"');
                       ?>
                       <small id="pSeoHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_TITLE_HELP ?>
@@ -700,7 +698,7 @@ function updateNet() {
                     <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_textarea_field('products_seo_description[' . $languages[$i]['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"');
+                      echo tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"');
                       ?>
                       <small id="pSeoDescHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
@@ -712,7 +710,7 @@ function updateNet() {
                     <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_KEYWORDS ?></label>
                     <div class="col-sm-9">
                       <?php
-                      echo tep_draw_input_field('products_seo_keywords[' . $languages[$i]['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
+                      echo tep_draw_input_field('products_seo_keywords[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
                       ?>
                       <small id="pSeoKeywordsHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_KEYWORDS_HELP ?>
@@ -829,19 +827,18 @@ function updateNet() {
     $pInfo = new objectInfo($product);
     $products_image_name = $pInfo->products_image;
 
-    $languages = tep_get_languages();
-    for ($i=0, $n=count($languages); $i<$n; $i++) {
-      $pInfo->products_name = tep_get_products_name($pInfo->products_id, $languages[$i]['id']);
-      $pInfo->products_description = tep_get_products_description($pInfo->products_id, $languages[$i]['id']);
-      $pInfo->products_url = tep_get_products_url($pInfo->products_id, $languages[$i]['id']);
-      $pInfo->products_seo_description = tep_get_products_seo_description($pInfo->products_id, $languages[$i]['id']);
-      $pInfo->products_seo_keywords = tep_get_products_seo_keywords($pInfo->products_id, $languages[$i]['id']);
-      $pInfo->products_seo_title = tep_get_products_seo_title($pInfo->products_id, $languages[$i]['id']);
+    foreach (tep_get_languages() as $l) {
+      $pInfo->products_name = tep_get_products_name($pInfo->products_id, $l['id']);
+      $pInfo->products_description = tep_get_products_description($pInfo->products_id, $l['id']);
+      $pInfo->products_url = tep_get_products_url($pInfo->products_id, $l['id']);
+      $pInfo->products_seo_description = tep_get_products_seo_description($pInfo->products_id, $l['id']);
+      $pInfo->products_seo_keywords = tep_get_products_seo_keywords($pInfo->products_id, $l['id']);
+      $pInfo->products_seo_title = tep_get_products_seo_title($pInfo->products_id, $l['id']);
       ?>
 
       <div class="row">
         <div class="col">
-          <h1 class="display-4 mb-2"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '&nbsp;' . $pInfo->products_name ?></h1>
+          <h1 class="display-4 mb-2"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '&nbsp;' . $pInfo->products_name ?></h1>
         </div>
         <div class="col text-right align-self-center">
           <h1 class="display-4 mb-2"><?= $currencies->format($pInfo->products_price) ?></h1>
@@ -1062,32 +1059,31 @@ function updateNet() {
         $contents[] = ['text' => TEXT_NEW_CATEGORY_INTRO];
 
         $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_title_string = '';
-        $languages = tep_get_languages();
-        for ($i = 0, $n = count($languages); $i < $n; $i++) {
+        foreach (tep_get_languages() as $l) {
 
           $category_inputs_string .= '<div class="input-group mb-1">';
             $category_inputs_string .= '<div class="input-group-prepend">';
-              $category_inputs_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_inputs_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_inputs_string .= '</div>';
-            $category_inputs_string .= tep_draw_input_field('categories_name[' . $languages[$i]['id'] . ']', null, 'required aria-required="true"');
+            $category_inputs_string .= tep_draw_input_field('categories_name[' . $l['id'] . ']', null, 'required aria-required="true"');
           $category_inputs_string .= '</div>';
           $category_seo_title_string .= '<div class="input-group mb-1">';
             $category_seo_title_string .= '<div class="input-group-prepend">';
-              $category_seo_title_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_seo_title_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_seo_title_string .= '</div>';
-            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $languages[$i]['id'] . ']');
+            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $l['id'] . ']');
           $category_seo_title_string .= '</div>';
          $category_description_string .= '<div class="input-group mb-1">';
             $category_description_string .= '<div class="input-group-prepend">';
-              $category_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_description_string .= '</div>';
-            $category_description_string .= tep_draw_textarea_field('categories_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10');
+            $category_description_string .= tep_draw_textarea_field('categories_description[' . $l['id'] . ']', 'soft', '80', '10');
           $category_description_string .= '</div>';
           $category_seo_description_string .= '<div class="input-group mb-1">';
             $category_seo_description_string .= '<div class="input-group-prepend">';
-              $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_seo_description_string .= '</div>';
-            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10');
+            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $l['id'] . ']', 'soft', '80', '10');
           $category_seo_description_string .= '</div>';
         }
 
@@ -1106,31 +1102,30 @@ function updateNet() {
         $contents[] = ['text' => TEXT_EDIT_INTRO];
 
         $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_title_string = '';
-        $languages = tep_get_languages();
-        for ($i = 0, $n = count($languages); $i < $n; $i++) {
+        foreach (tep_get_languages() as $l) {
           $category_inputs_string .= '<div class="input-group mb-1">';
             $category_inputs_string .= '<div class="input-group-prepend">';
-              $category_inputs_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_inputs_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_inputs_string .= '</div>';
-            $category_inputs_string .= tep_draw_input_field('categories_name[' . $languages[$i]['id'] . ']', tep_get_category_name($cInfo->categories_id, $languages[$i]['id']), 'required aria-required="true"');
+            $category_inputs_string .= tep_draw_input_field('categories_name[' . $l['id'] . ']', tep_get_category_name($cInfo->categories_id, $l['id']), 'required aria-required="true"');
           $category_inputs_string .= '</div>';
           $category_seo_title_string .= '<div class="input-group mb-1">';
             $category_seo_title_string .= '<div class="input-group-prepend">';
-              $category_seo_title_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_seo_title_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_seo_title_string .= '</div>';
-            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $languages[$i]['id'] . ']', tep_get_category_seo_title($cInfo->categories_id, $languages[$i]['id']));
+            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $l['id'] . ']', tep_get_category_seo_title($cInfo->categories_id, $l['id']));
           $category_seo_title_string .= '</div>';
          $category_description_string .= '<div class="input-group mb-1">';
             $category_description_string .= '<div class="input-group-prepend">';
-              $category_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_description_string .= '</div>';
-            $category_description_string .= tep_draw_textarea_field('categories_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_category_description($cInfo->categories_id, $languages[$i]['id']));
+            $category_description_string .= tep_draw_textarea_field('categories_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_category_description($cInfo->categories_id, $l['id']));
           $category_description_string .= '</div>';
           $category_seo_description_string .= '<div class="input-group mb-1">';
             $category_seo_description_string .= '<div class="input-group-prepend">';
-              $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+              $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
             $category_seo_description_string .= '</div>';
-            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_category_seo_description($cInfo->categories_id, $languages[$i]['id']));
+            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_category_seo_description($cInfo->categories_id, $l['id']));
           $category_seo_description_string .= '</div>';
         }
 

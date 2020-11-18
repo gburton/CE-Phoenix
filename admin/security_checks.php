@@ -46,7 +46,7 @@
       if (!is_dir(DIR_FS_ADMIN . "includes/modules/security_check/extended/$file")) {
         if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
           $code = pathinfo($file, PATHINFO_FILENAME);
-          $class = 'securityCheckExtended_' . substr($file, 0, strrpos($file, '.'));
+          $class = "securityCheckExtended_$code";
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file);
           $$class = new $class();
@@ -69,10 +69,10 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col-sm-4 text-right align-self-center">
-      <?php echo tep_draw_bootstrap_button(BUTTON_TEXT_RELOAD, 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info'); ?>
+      <?= tep_draw_bootstrap_button(BUTTON_TEXT_RELOAD, 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info') ?>
     </div>
   </div>
 
@@ -80,9 +80,9 @@
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
         <tr>
-          <th><?php echo TABLE_HEADING_TITLE; ?></th>
-          <th><?php echo TABLE_HEADING_MODULE; ?></th>
-          <th class="w-50"><?php echo TABLE_HEADING_INFO; ?></th>
+          <th><?= TABLE_HEADING_TITLE ?></th>
+          <th><?= TABLE_HEADING_MODULE ?></th>
+          <th class="w-50"><?= TABLE_HEADING_INFO ?></th>
           <th class="text-right">&nbsp;</th>
         </tr>
       </thead>

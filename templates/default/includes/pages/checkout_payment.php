@@ -12,8 +12,8 @@
 
   $OSCOM_Hooks->register_pipeline('progress');
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('checkout_payment.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('checkout_payment.php'));
 
   require $oscTemplate->map_to_template('template_top.php', 'component');
 
@@ -22,7 +22,7 @@
 
 <h1 class="display-4"><?= HEADING_TITLE; ?></h1>
 
-<?= tep_draw_form('checkout_payment', tep_href_link('checkout_confirmation.php', '', 'SSL'), 'post', 'onsubmit="return check_form();"', true);
+<?= tep_draw_form('checkout_payment', tep_href_link('checkout_confirmation.php'), 'post', 'onsubmit="return check_form();"', true);
 
   if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
     echo '<div class="alert alert-danger">' . "\n";
@@ -89,7 +89,7 @@
       <h5 class="mb-1">
         <?php
         echo TABLE_HEADING_BILLING_ADDRESS;
-        echo sprintf(LINK_TEXT_EDIT, 'font-weight-lighter ml-3', tep_href_link('checkout_payment_address.php', '', 'SSL'));
+        printf(LINK_TEXT_EDIT, 'font-weight-lighter ml-3', tep_href_link('checkout_payment_address.php'));
         ?>
       </h5>
       <div class="border">

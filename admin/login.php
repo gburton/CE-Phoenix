@@ -154,7 +154,7 @@
       <div class="px-5 py-2">
         <?= tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
       </div>
-      
+
       <?= tep_draw_form('login', 'login.php', $parameter_string); ?>
         <ul class="list-group list-group-flush">
           <li class="list-group-item border-top"><?= tep_draw_input_field('username', null, 'required autocapitalize="none" aria-required="true" placeholder="' . TEXT_USERNAME . '"', 'text', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
@@ -162,7 +162,7 @@
           <li class="list-group-item border-bottom-0"><?= tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
         </ul>
       </form>
-      
+
 <?php
   echo $intro_text;
   if (count($languages) > 1) {

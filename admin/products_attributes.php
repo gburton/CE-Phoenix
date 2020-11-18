@@ -30,11 +30,11 @@
         $option_name_array = $_POST['option_name'];
         $sort_order_array = $_POST['sort_order'];
 
-        for ($i=0, $n=count($languages); $i<$n; $i ++) {
-          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
-          $sort_order = tep_db_prepare_input($sort_order_array[$languages[$i]['id']]);
+        foreach ($languages as $l) {
+          $option_name = tep_db_prepare_input($option_name_array[$l['id']]);
+          $sort_order = tep_db_prepare_input($sort_order_array[$l['id']]);
 
-          tep_db_query("insert into products_options (products_options_id, products_options_name, language_id, sort_order) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . tep_db_input($sort_order) . "')");
+          tep_db_query("insert into products_options (products_options_id, products_options_name, language_id, sort_order) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$l['id'] . "', '" . tep_db_input($sort_order) . "')");
         }
 
         $OSCOM_Hooks->call('products_attributes', 'addProductOptionsAction');
@@ -47,11 +47,11 @@
         $value_id = tep_db_prepare_input($_POST['value_id']);
         $option_id = tep_db_prepare_input($_POST['option_id']);
 
-        for ($i=0, $n=count($languages); $i<$n; $i ++) {
-          $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
-          $sort_order = tep_db_prepare_input($sort_order_array[$languages[$i]['id']]);
+        foreach ($languages as $l) {
+          $value_name = tep_db_prepare_input($value_name_array[$l['id']]);
+          $sort_order = tep_db_prepare_input($sort_order_array[$l['id']]);
 
-          tep_db_query("insert into products_options_values (products_options_values_id, language_id, products_options_values_name, sort_order) values ('" . (int)$value_id . "', '" . (int)$languages[$i]['id'] . "', '" . tep_db_input($value_name) . "', '" . tep_db_input($sort_order) . "')");
+          tep_db_query("insert into products_options_values (products_options_values_id, language_id, products_options_values_name, sort_order) values ('" . (int)$value_id . "', '" . (int)$l['id'] . "', '" . tep_db_input($value_name) . "', '" . tep_db_input($sort_order) . "')");
         }
 
         tep_db_query("insert into products_options_values_to_products_options (products_options_id, products_options_values_id) values ('" . (int)$option_id . "', '" . (int)$value_id . "')");
@@ -90,11 +90,11 @@
         $sort_order_array = $_POST['sort_order'];
         $option_id = tep_db_prepare_input($_POST['option_id']);
 
-        for ($i=0, $n=count($languages); $i<$n; $i ++) {
-          $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
-          $sort_order = tep_db_prepare_input($sort_order_array[$languages[$i]['id']]);
+        foreach ($languages as $l) {
+          $option_name = tep_db_prepare_input($option_name_array[$l['id']]);
+          $sort_order = tep_db_prepare_input($sort_order_array[$l['id']]);
 
-          tep_db_query("update products_options set products_options_name = '" . tep_db_input($option_name) . "', sort_order = '" . tep_db_input($sort_order) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update products_options set products_options_name = '" . tep_db_input($option_name) . "', sort_order = '" . tep_db_input($sort_order) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$l['id'] . "'");
         }
 
         $OSCOM_Hooks->call('products_attributes', 'updateOptionNameAction');
@@ -107,11 +107,11 @@
         $value_id = tep_db_prepare_input($_POST['value_id']);
         $option_id = tep_db_prepare_input($_POST['option_id']);
 
-        for ($i=0, $n=count($languages); $i<$n; $i ++) {
-          $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
-          $sort_order = tep_db_prepare_input($sort_order_array[$languages[$i]['id']]);
+        foreach ($languages as $l) {
+          $value_name = tep_db_prepare_input($value_name_array[$l['id']]);
+          $sort_order = tep_db_prepare_input($sort_order_array[$l['id']]);
 
-          tep_db_query("update products_options_values set products_options_values_name = '" . tep_db_input($value_name) . "', sort_order = '" . tep_db_input($sort_order) . "' where products_options_values_id = '" . tep_db_input($value_id) . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+          tep_db_query("update products_options_values set products_options_values_name = '" . tep_db_input($value_name) . "', sort_order = '" . tep_db_input($sort_order) . "' where products_options_values_id = '" . tep_db_input($value_id) . "' and language_id = '" . (int)$l['id'] . "'");
         }
 
         tep_db_query("update products_options_values_to_products_options set products_options_id = '" . (int)$option_id . "'  where products_options_values_id = '" . (int)$value_id . "'");
@@ -492,23 +492,23 @@ EOSQL
           $options = tep_db_query($options);
           while ($options_values = tep_db_fetch_array($options)) {
             if (($action == 'update_option') && ($_GET['option_id'] == $options_values['products_options_id'])) {
-              $inputs = $sort = null;
-              for ($i = 0, $n = count($languages); $i < $n; $i ++) {
-                $option_name = tep_db_query("select products_options_name, sort_order from products_options where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
+              $inputs = $sort = '';
+              foreach ($languages as $l) {
+                $option_name = tep_db_query("select products_options_name, sort_order from products_options where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $l['id'] . "'");
                 $option_name = tep_db_fetch_array($option_name);
 
                 $inputs .= '<div class="input-group mb-1">';
                   $inputs .= '<div class="input-group-prepend">';
-                    $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                    $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                   $inputs .= '</div>';
-                  $inputs .= '<input type="text" name="option_name[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control" value="' . $option_name['products_options_name'] . '">';
+                  $inputs .= '<input type="text" name="option_name[' . $l['id'] . ']" required aria-required="true" class="form-control" value="' . $option_name['products_options_name'] . '">';
                 $inputs .= '</div>';
 
                 $sort .= '<div class="input-group mb-1">';
                   $sort .= '<div class="input-group-prepend">';
-                    $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                    $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                   $sort .= '</div>';
-                  $sort .= '<input type="text" name="sort_order[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control" value="' . $option_name['sort_order'] . '">';
+                  $sort .= '<input type="text" name="sort_order[' . $l['id'] . ']" required aria-required="true" class="form-control" value="' . $option_name['sort_order'] . '">';
                 $sort .= '</div>';
 
               }
@@ -548,20 +548,20 @@ EOSQL
         }
 
         if ($action != 'update_option') {
-          $inputs = $sort = null;
-          for ($i = 0, $n = count($languages); $i < $n; $i ++) {
+          $inputs = $sort = '';
+          foreach ($languages as $l) {
             $inputs .= '<div class="input-group mb-1">';
               $inputs .= '<div class="input-group-prepend">';
-                $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
               $inputs .= '</div>';
-              $inputs .= '<input type="text" name="option_name[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control">';
+              $inputs .= '<input type="text" name="option_name[' . $l['id'] . ']" required aria-required="true" class="form-control">';
             $inputs .= '</div>';
 
              $sort .= '<div class="input-group mb-1">';
               $sort .= '<div class="input-group-prepend">';
-                $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
               $sort .= '</div>';
-              $sort .= '<input type="number" name="sort_order[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control">';
+              $sort .= '<input type="number" name="sort_order[' . $l['id'] . ']" required aria-required="true" class="form-control">';
             $sort .= '</div>';
 
           }
@@ -685,22 +685,22 @@ EOSQL
 
             if (($action == 'update_option_value') && ($_GET['value_id'] == $values_values['products_options_values_id'])) {
               $inputs = $sort = null;
-              for ($i = 0, $n = count($languages); $i < $n; $i ++) {
-                $value_name = tep_db_query("select products_options_values_name, sort_order from products_options_values where products_options_values_id = '" . (int)$values_values['products_options_values_id'] . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+              foreach ($languages as $l) {
+                $value_name = tep_db_query("select products_options_values_name, sort_order from products_options_values where products_options_values_id = '" . (int)$values_values['products_options_values_id'] . "' and language_id = '" . (int)$l['id'] . "'");
                 $value_name = tep_db_fetch_array($value_name);
 
                 $inputs .= '<div class="input-group mb-1">';
                   $inputs .= '<div class="input-group-prepend">';
-                    $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                    $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                   $inputs .= '</div>';
-                  $inputs .= '<input type="text" name="value_name[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control" value="' . $value_name['products_options_values_name'] . '">';
+                  $inputs .= '<input type="text" name="value_name[' . $l['id'] . ']" required aria-required="true" class="form-control" value="' . $value_name['products_options_values_name'] . '">';
                 $inputs .= '</div>';
 
                 $sort .= '<div class="input-group mb-1">';
                   $sort .= '<div class="input-group-prepend">';
-                    $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                    $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                   $sort .= '</div>';
-                  $sort .= '<input type="text" name="sort_order[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control" value="' . $value_name['sort_order'] . '">';
+                  $sort .= '<input type="text" name="sort_order[' . $l['id'] . ']" required aria-required="true" class="form-control" value="' . $value_name['sort_order'] . '">';
                 $sort .= '</div>';
               }
               ?>
@@ -765,20 +765,20 @@ EOSQL
                         echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
                       }
 
-                      $inputs = $sort = null;
-                      for ($i = 0, $n = count($languages); $i < $n; $i ++) {
+                      $inputs = $sort = '';
+                      foreach ($languages as $l) {
                         $inputs .= '<div class="input-group mb-1">';
                           $inputs .= '<div class="input-group-prepend">';
-                            $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                            $inputs .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                           $inputs .= '</div>';
-                          $inputs .= '<input type="text" name="value_name[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control">';
+                          $inputs .= '<input type="text" name="value_name[' . $l['id'] . ']" required aria-required="true" class="form-control">';
                         $inputs .= '</div>';
 
                         $sort .= '<div class="input-group mb-1">';
                           $sort .= '<div class="input-group-prepend">';
-                            $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span>';
+                            $sort .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
                           $sort .= '</div>';
-                          $sort .= '<input type="text" name="sort_order[' . $languages[$i]['id'] . ']" required aria-required="true" class="form-control">';
+                          $sort .= '<input type="text" name="sort_order[' . $l['id'] . ']" required aria-required="true" class="form-control">';
                         $sort .= '</div>';
                       }
                       ?>

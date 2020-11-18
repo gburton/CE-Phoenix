@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   $action = $_GET['action'] ?? '';
 
@@ -35,11 +35,9 @@
 
         $advert_id = tep_db_insert_id();
 
-        for ($i=0, $n=count($languages); $i<$n; $i++) {
-          $language_id = $languages[$i]['id'];
-
+        foreach ($languages as $l) {
           $lng_data_array = ['advert_id'        => $advert_id,
-                             'languages_id'     => $language_id,
+                             'languages_id'     => $l['id'],
                              'advert_html_text' => $import['banners_html_text']];
 
           tep_db_perform('advert_info', $lng_data_array);
@@ -136,11 +134,10 @@
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
           }
 
-          $languages = tep_get_languages();
-          for ($i=0, $n=count($languages); $i<$n; $i++) {
+          foreach (tep_get_languages() as $l) {
             $advert_html_text_array = $_POST['advert_html_text'];
 
-            $language_id = $languages[$i]['id'];
+            $language_id = $l['id'];
 
             $lng_data_array['advert_html_text'] = tep_db_prepare_input($advert_html_text_array[$language_id]);
 
@@ -194,7 +191,7 @@
 
   $OSCOM_Hooks->call('advert_manager', 'postAction');
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -317,16 +314,16 @@
       <hr>
 
       <?php
-      for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+      foreach ($languages as $l) {
         ?>
         <div class="form-group row">
-          <label for="cText_<?= $languages[$i]['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
+          <label for="cText_<?= $l['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
           <div class="col-sm-9">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']); ?></span>
+                <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']); ?></span>
               </div>
-              <?= tep_draw_textarea_field('advert_html_text[' . $languages[$i]['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $languages[$i]['id']), 'class="form-control" id="cText_' . $languages[$i]['id'] . '"'); ?>
+              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $l['id']), 'class="form-control" id="cText_' . $l['id'] . '"'); ?>
             </div>
           </div>
         </div>
@@ -341,8 +338,7 @@
       <?php
       if ($form_action == 'update') {
         echo $OSCOM_Hooks->call('advert_manager', 'editForm');
-      }
-      else {
+      } else {
         echo $OSCOM_Hooks->call('advert_manager', 'newForm');
       }
       ?>
@@ -377,21 +373,23 @@
             $advert_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $advert_query_raw, $advert_query_numrows);
             $advert_query = tep_db_query($advert_query_raw);
             while ($advert = tep_db_fetch_array($advert_query)) {
-              if ((!isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $advert['advert_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
+              if (!isset($cInfo) && (!isset($_GET['cID']) || ($_GET['cID'] == $advert['advert_id'])) && (substr($action, 0, 3) != 'new')) {
                 $cInfo = new objectInfo($advert);
               }
 
-              if (isset($cInfo) && is_object($cInfo) && ($advert['advert_id'] == $cInfo->advert_id)) {
+              if (isset($cInfo->advert_id) && ($advert['advert_id'] == $cInfo->advert_id)) {
                 echo '<tr class="table-active">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id']) . '\'">';
+                $icon = '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
                 <td><?= $advert['advert_title']; ?></td>
                 <td class="text-right"><?= $advert['advert_group']; ?></td>
                 <td class="text-right"><?= $advert['sort_order'] ?? 0; ?></td>
                 <td class="text-right"><?php if ($advert['status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id'] . '&action=setflag&flag=0') . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id'] . '&action=setflag&flag=1') . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
-                <td class="text-right"><?php if (isset($cInfo) && is_object($cInfo) && ($advert['advert_id'] == $cInfo->advert_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
             }
@@ -462,7 +460,7 @@
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
      echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }
@@ -470,6 +468,6 @@
   echo '</div>';
 }
 
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>
