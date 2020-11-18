@@ -26,8 +26,8 @@
 
   if (isset($_GET['payment_error']) && is_object(${$_GET['payment_error']}) && ($error = ${$_GET['payment_error']}->get_error())) {
     echo '<div class="alert alert-danger">' . "\n";
-    echo '<p class="lead"><b>' . tep_output_string_protected($error['title']) . "</b></p>\n";
-    echo '<p>' . tep_output_string_protected($error['error']) . "</p>\n";
+    echo '<p class="lead"><b>' . htmlspecialchars($error['title']) . "</b></p>\n";
+    echo '<p>' . htmlspecialchars($error['error']) . "</p>\n";
     echo '</div>';
   }
 
