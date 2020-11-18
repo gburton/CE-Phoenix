@@ -15,7 +15,7 @@
   $currencies = new currencies();
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('currencies', 'preAction');
 
   if (tep_not_null($action)) {
@@ -46,20 +46,20 @@
         if ($action == 'insert') {
           tep_db_perform('currencies', $sql_data_array);
           $currency_id = tep_db_insert_id();
-          
+
           $OSCOM_Hooks->call('currencies', 'insertAction');
-          
+
         } elseif ($action == 'save') {
           tep_db_perform('currencies', $sql_data_array, 'update', "currencies_id = '" . (int)$currency_id . "'");
-          
+
           $OSCOM_Hooks->call('currencies', 'saveAction');
         }
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
           tep_db_query("update configuration set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
         }
-        
-        $OSCOM_Hooks->call('currencies', 'insertSaveAction');        
+
+        $OSCOM_Hooks->call('currencies', 'insertSaveAction');
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page'] . '&cID=' . $currency_id));
         break;
@@ -74,16 +74,16 @@
         }
 
         tep_db_query("delete from currencies where currencies_id = '" . (int)$currencies_id . "'");
-        
+
         $OSCOM_Hooks->call('currencies', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('currencies.php', 'page=' . (int)$_GET['page']));
         break;
       case 'update':
         $converter = pathinfo(MODULE_ADMIN_CURRENCIES_INSTALLED, PATHINFO_FILENAME);
- 
+
         call_user_func([$converter, 'execute']);
-        
+
         $OSCOM_Hooks->call('currencies', 'updateAction');
 
         tep_redirect(tep_href_link('currencies.php'));
@@ -99,7 +99,7 @@
           $remove_currency = false;
           $messageStack->add(ERROR_REMOVE_DEFAULT_CURRENCY, 'error');
         }
-        
+
         $OSCOM_Hooks->call('currencies', 'deleteAction');
         break;
     }
@@ -179,7 +179,7 @@ function updateForm() {
       ?>
     </div>
   </div>
-  
+
   <div class="row no-gutters">
     <div class="col-12 col-sm-8">
       <div class="table-responsive">
@@ -226,12 +226,12 @@ function updateForm() {
           </tbody>
         </table>
       </div>
-      
+
       <div class="row my-1">
         <div class="col"><?= $currency_split->display_count($currency_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CURRENCIES) ?></div>
         <div class="col text-right mr-2"><?= $currency_split->display_links($currency_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']) ?></div>
       </div>
-      
+
       <?php
       if ( defined('MODULE_ADMIN_CURRENCIES_INSTALLED') && tep_not_null(MODULE_ADMIN_CURRENCIES_INSTALLED) ) {
         echo '<p class="mr-2">';
@@ -322,7 +322,7 @@ function updateForm() {
 ?>
 
   </div>
-  
+
 <?php
   require 'includes/template_bottom.php';
   require 'includes/application_bottom.php';
