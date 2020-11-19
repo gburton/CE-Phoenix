@@ -530,7 +530,7 @@ function updateNet() {
 
     <div class="tab-content pt-3">
       <div class="tab-pane fade show active" id="section_data_content" role="tabpanel">
-        <div class="form-group row align-items-center">
+        <div class="form-group row align-items-center" id="zStatus">
           <label class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_STATUS ?></label>
           <div class="col-sm-9">
             <div class="custom-control custom-radio custom-control-inline">
@@ -542,21 +542,17 @@ function updateNet() {
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zQty">
           <label for="pQty" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_QUANTITY ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_quantity', $pInfo->products_quantity, 'required aria-required="true" id="pQty" class="form-control w-25"');
-            ?>
+            <?= tep_draw_input_field('products_quantity', $pInfo->products_quantity, 'required aria-required="true" id="pQty" class="form-control w-25"'); ?>
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zDate">
           <label for="products_date_available" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_DATE_AVAILABLE ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_date_available', $pInfo->products_date_available, 'class="form-control w-25" id="products_date_available" aria-describedby="pDateHelp"');
-            ?>
+            <?= tep_draw_input_field('products_date_available', $pInfo->products_date_available, 'class="form-control w-25" id="products_date_available" aria-describedby="pDateHelp"');?>
             <small id="pDateHelp" class="form-text text-muted">
               <?= TEXT_PRODUCTS_DATE_AVAILABLE_HELP ?>
             </small>
@@ -565,78 +561,62 @@ function updateNet() {
 
         <hr>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zBrand">
           <label for="pBrand" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MANUFACTURER ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $pInfo->manufacturers_id, 'id="pBrand"');
-            ?>
+            <?= tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $pInfo->manufacturers_id, 'id="pBrand"'); ?>
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zModel">
           <label for="pModel" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MODEL ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_model', $pInfo->products_model, 'id="pModel"');
-            ?>
+            <?= tep_draw_input_field('products_model', $pInfo->products_model, 'id="pModel"'); ?>
           </div>
         </div>
 
         <hr>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zTax">
           <label for="pTax" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_TAX_CLASS ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $pInfo->products_tax_class_id, 'id="pTax" onchange="updateGross()"');
-            ?>
+            <?= tep_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $pInfo->products_tax_class_id, 'id="pTax" onchange="updateGross()"'); ?>
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zNet">
           <label for="pNet" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_PRICE_NET ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_price', $pInfo->products_price, 'required aria-required="true" id="pNet" class="form-control w-25" onchange="updateGross()"');
-            ?>
+            <?= tep_draw_input_field('products_price', $pInfo->products_price, 'required aria-required="true" id="pNet" class="form-control w-25" onchange="updateGross()"'); ?>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" id="zGross">
           <label for="pGross" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_PRICE_GROSS ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_price_gross', $pInfo->products_price, 'id="pGross" class="form-control w-25" onchange="updateNet()"');
-            ?>
+            <?= tep_draw_input_field('products_price_gross', $pInfo->products_price, 'id="pGross" class="form-control w-25" onchange="updateNet()"'); ?>
           </div>
         </div>
 
         <hr>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zWeight">
           <label for="pWeight" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_WEIGHT ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_weight', $pInfo->products_weight, 'id="pWeight" class="form-control w-25"');
-            ?>
+            <?= tep_draw_input_field('products_weight', $pInfo->products_weight, 'id="pWeight" class="form-control w-25"'); ?>
           </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zGtin">
           <label for="pGtin" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_GTIN ?></label>
           <div class="col-sm-9">
-            <?php
-            echo tep_draw_input_field('products_gtin', $pInfo->products_gtin, 'id="pGtin" class="form-control w-25" aria-describedby="pGtinHelp"');
-            ?>
+            <?= tep_draw_input_field('products_gtin', $pInfo->products_gtin, 'id="pGtin" class="form-control w-25" aria-describedby="pGtinHelp"'); ?>
             <small id="pGtinHelp" class="form-text text-muted">
             <?= TEXT_PRODUCTS_GTIN_HELP ?>
             </small>
           </div>
         </div>
 
-        <?php
-        echo $OSCOM_Hooks->call('categories', 'injectDataForm');
-        ?>
+        <?= $OSCOM_Hooks->call('categories', 'injectDataForm'); ?>
 
       </div>
 
@@ -652,66 +632,54 @@ function updateNet() {
               </div>
               <div id="<?= $l['directory'] ?>" class="collapse<?= $show ?>" aria-labelledby="heading<?= $l['directory'] ?>" data-parent="#productLanguageAccordion">
                 <div class="card-body">
-                  <div class="form-group row">
+                  <div class="form-group row" id="zName<?= $l['directory']; ?>">
                     <label for="pName" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_NAME ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_input_field('products_name[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pName"');
-                      ?>
+                      <?= tep_draw_input_field('products_name[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pName"'); ?>
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" id="zDesc<?= $l['directory']; ?>">
                     <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_textarea_field('products_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pDesc"');
-                      ?>
+                      <?= tep_draw_textarea_field('products_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pDesc"'); ?>
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" id="zUrl<?= $l['directory']; ?>">
                     <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_URL ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_input_field('products_url[' . $l['id'] . ']', (isset($products_url[$l['id']]) ? stripslashes($products_url[$l['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $l['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"');
-                      ?>
+                      <?= tep_draw_input_field('products_url[' . $l['id'] . ']', (isset($products_url[$l['id']]) ? stripslashes($products_url[$l['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $l['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"'); ?>
                       <small id="pUrlHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_URL_WITHOUT_HTTP ?>
                       </small>
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" id="zSeoTitle<?= $l['directory']; ?>">
                     <label for="pSeoTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_TITLE ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_input_field('products_seo_title[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoHelp"');
-                      ?>
-                      <small id="pSeoHelp" class="form-text text-muted">
+                      <?= tep_draw_input_field('products_seo_title[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoTitleHelp"'); ?>
+                      <small id="pSeoTitleHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_TITLE_HELP ?>
                       </small>
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" id="zSeoDesc<?= $l['directory']; ?>">
                     <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"');
-                      ?>
+                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"'); ?>
                       <small id="pSeoDescHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
                       </small>
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row" id="zSeoKeywords<?= $l['directory']; ?>">
                     <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_KEYWORDS ?></label>
                     <div class="col-sm-9">
-                      <?php
-                      echo tep_draw_input_field('products_seo_keywords[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"');
-                      ?>
+                      <?= tep_draw_input_field('products_seo_keywords[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"'); ?>
                       <small id="pSeoKeywordsHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_KEYWORDS_HELP ?>
                       </small>
@@ -729,7 +697,7 @@ function updateNet() {
 
       <div class="tab-pane fade" id="section_images_content" role="tabpanel">
         <div class="mb-3">
-          <div class="form-group row">
+          <div class="form-group row" id="zImg">
             <label for="pImg" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MAIN_IMAGE ?></label>
             <div class="col-sm-9">
               <div class="custom-file mb-2">
@@ -743,7 +711,7 @@ function updateNet() {
 
           <hr>
 
-          <div class="form-group row">
+          <div class="form-group row" id="zPiList">
             <div class="col-sm-3 text-left text-sm-right">
               <?= TEXT_PRODUCTS_OTHER_IMAGES ?>
               <br><a class="btn btn-info btn-sm text-white mt-2" role="button" href="#" id="add_image" onclick="addNewPiForm();return false;"><?= TEXT_PRODUCTS_ADD_LARGE_IMAGE ?></a>
@@ -775,9 +743,7 @@ function updateNet() {
             </div>
           </div>
 
-          <?php
-          echo $OSCOM_Hooks->call('categories', 'injectImageForm');
-          ?>
+          <?= $OSCOM_Hooks->call('categories', 'injectImageForm'); ?>
 
           <script>
           $('#piList').sortable({ containment: 'parent' });
@@ -800,9 +766,7 @@ function updateNet() {
         </div>
       </div>
 
-      <?php
-      echo $OSCOM_Hooks->call('categories', 'productTab');
-      ?>
+      <?= $OSCOM_Hooks->call('categories', 'productTab'); ?>
     </div>
   </div>
 

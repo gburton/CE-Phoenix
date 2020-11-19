@@ -121,7 +121,7 @@
       echo tep_draw_form('review', 'reviews.php', 'action=' . $form_action);
     }
 ?>
-    <div class="form-group row">
+    <div class="form-group row" id="zProduct">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
       <div class="col-sm-9">
         <?php
@@ -134,7 +134,7 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zCustomer">
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_FROM ?></label>
       <div class="col-sm-9">
         <?php
@@ -147,7 +147,7 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zRating">
       <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?= ENTRY_RATING ?></label>
       <div class="col-sm-9"><div class="form-check form-check-inline">
         <label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?= TEXT_BAD ?></label>
@@ -160,7 +160,7 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zReview">
       <label for="reviewReview" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
       <div class="col-sm-9"><?= tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT ?>
       </div>
@@ -202,27 +202,27 @@
 ?>
     <div class="row">
       <div class="col-sm-10">
-        <div class="form-group row">
+        <div class="form-group row" id="zProduct">
           <label for="reviewProduct" class="col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
           <div class="col-sm-9"><?= $rInfo->products_name ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zCustomer">
           <label for="reviewCustomer" class="col-sm-3 text-left text-sm-right"><?= ENTRY_FROM ?></label>
           <div class="col-sm-9"><?= $rInfo->customers_name ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zDate">
           <label for="reviewDate" class="col-sm-3 text-left text-sm-right"><?= ENTRY_DATE ?></label>
           <div class="col-sm-9"><?= tep_date_short($rInfo->date_added) ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zRating">
           <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?= ENTRY_RATING ?></label>
           <div class="col-sm-9"><?= tep_draw_stars($rInfo->reviews_rating) ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zReview">
           <label for="reviewReview" class="col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
           <div class="col-sm-9"><?= $rInfo->reviews_text ?></div>
         </div>

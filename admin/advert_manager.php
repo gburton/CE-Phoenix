@@ -241,49 +241,49 @@
     echo tep_draw_form('new_advert', 'advert_manager.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'action=' . $form_action, 'post', 'enctype="multipart/form-data"'); if ($form_action == 'update') echo tep_draw_hidden_field('advert_id', $cID);
     ?>
 
-      <div class="form-group row">
-        <label for="cTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_TITLE; ?></label>
+      <div class="form-group row" id="zTitle">
+        <label for="aTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_TITLE; ?></label>
         <div class="col-sm-9">
-          <?= tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="cTitle" required aria-required="true" aria-describedby="TitleHelp"'); ?>
-          <small id="TitleHelp" class="form-text text-muted"><?= TEXT_ADVERT_TITLE_HELP; ?></small>
+          <?= tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="aTitle" required aria-required="true" aria-describedby="aTitleHelp"'); ?>
+          <small id="aTitleHelp" class="form-text text-muted"><?= TEXT_ADVERT_TITLE_HELP; ?></small>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="cUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_URL; ?></label>
+      <div class="form-group row" id="zUrlFrag">
+        <label for="aUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_URL; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?= tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="cUrl" aria-describedby="URLHelp"'); ?>
-              <small id="URLHelp" class="form-text text-muted"><?= TEXT_ADVERT_URL_HELP; ?></small>
+              <?= tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="aUrl" aria-describedby="aUrlHelp"'); ?>
+              <small id="aUrlHelp" class="form-text text-muted"><?= TEXT_ADVERT_URL_HELP; ?></small>
             </div>
             <div class="col">
-              <?= tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="FragmentHelp"'); ?>
-              <small id="FragmentHelp" class="form-text text-muted"><?= TEXT_ADVERT_FRAGMENT_HELP; ?></small>
+              <?= tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="cFragHelp"'); ?>
+              <small id="cFragHelp" class="form-text text-muted"><?= TEXT_ADVERT_FRAGMENT_HELP; ?></small>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="cSort" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_SORT_ORDER; ?></label>
+      <div class="form-group row" id="zSort">
+        <label for="aSort" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?= tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="cSort" aria-describedby="SortHelp"'); ?>
-          <small id="SortHelp" class="form-text text-muted"><?= TEXT_ADVERT_SORT_HELP; ?></small>
+          <?= tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="aSort" aria-describedby="aSortHelp"'); ?>
+          <small id="aSortHelp" class="form-text text-muted"><?= TEXT_ADVERT_SORT_HELP; ?></small>
         </div>
       </div>
 
       <hr>
 
-      <div class="form-group row">
-        <label for="cGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_GROUP; ?></label>
+      <div class="form-group row" id="zGroup">
+        <label for="aGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_GROUP; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?= tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="cGroup" class="form-control"'); ?>
+              <?= tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="aGroup" class="form-control"'); ?>
             </div>
             <div class="col">
-              <?= tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="cNewGroup"'); ?>
+              <?= tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="aNewGroup"'); ?>
             </div>
           </div>
         </div>
@@ -291,8 +291,8 @@
 
       <hr>
 
-      <div class="form-group row">
-        <label for="cImage" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_IMAGE; ?></label>
+      <div class="form-group row" id="zImage">
+        <label class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_IMAGE; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
@@ -316,14 +316,14 @@
       <?php
       foreach ($languages as $l) {
         ?>
-        <div class="form-group row">
-          <label for="cText_<?= $l['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
+        <div class="form-group row" id="zText<?= $l['directory']; ?>">
+          <label for="aText<?= $l['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
           <div class="col-sm-9">
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']); ?></span>
               </div>
-              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $l['id']), 'class="form-control" id="cText_' . $l['id'] . '"'); ?>
+              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $l['id']), 'class="form-control" id="aText' . $l['id'] . '"'); ?>
             </div>
           </div>
         </div>

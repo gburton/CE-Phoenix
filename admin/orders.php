@@ -209,21 +209,21 @@
       <div class="tab-pane fade" id="section_status_history_content" role="tabpanel">
         <?= tep_draw_form('status', 'orders.php', tep_get_all_get_params(['action']) . 'action=update_order'); ?>
 
-          <div class="form-group row">
+          <div class="form-group row" id="zStatus">
             <label for="oStatus" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_STATUS; ?></label>
             <div class="col-sm-9">
               <?= tep_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status_id'], 'id="oStatus" class="form-control"'); ?>
             </div>
           </div>
 
-          <div class="form-group row">
+          <div class="form-group row" id="zComment">
             <label for="oComment" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_COMMENTS; ?></label>
             <div class="col-sm-9">
               <?= tep_draw_textarea_field('comments', 'soft', '60', '5', null, 'id="oComment" class="form-control"'); ?>
             </div>
           </div>
 
-          <div class="form-group row align-items-center">
+          <div class="form-group row align-items-center" id="zNotify">
             <div class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_CUSTOMER; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
               <?= tep_draw_selection_field('notify', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotify"'); ?>
@@ -231,7 +231,7 @@
             </div>
           </div>
 
-          <div class="form-group row align-items-center">
+          <div class="form-group row align-items-center" id="zNotifyComments">
             <div class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_COMMENTS; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
               <?= tep_draw_selection_field('notify_comments', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotifyComments"'); ?>

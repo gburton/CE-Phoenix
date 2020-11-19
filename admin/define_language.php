@@ -98,7 +98,7 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
     </div>
     <div class="col-sm-4 text-right align-self-center">
       <?php
@@ -129,14 +129,12 @@
 ?>
 
         <div class="alert alert-info mb-3">
-          <p class="lead mb-0"><?php echo $_GET['filename']; ?></p>
+          <p class="lead mb-0"><?= $_GET['filename']; ?></p>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zFile">
           <div class="col">
-            <?php
-            echo tep_draw_textarea_field('file_contents', 'soft', '80', '25', $contents, (($file_writeable) ? '' : 'readonly') . ' id="inputFile"');
-            ?>
+            <?= tep_draw_textarea_field('file_contents', 'soft', '80', '25', $contents, (($file_writeable) ? '' : 'readonly') . ' id="dlFile"'); ?>
           </div>
         </div>
 
@@ -152,14 +150,14 @@
       </form>
 
       <div class="alert alert-info mt-3">
-        <?php echo TEXT_EDIT_NOTE; ?>
+        <?= TEXT_EDIT_NOTE; ?>
       </div>
 
 <?php
     } else {
 ?>
       <div class="alert alert-warning text-center">
-        <?php echo TEXT_FILE_DOES_NOT_EXIST; ?>
+        <?= TEXT_FILE_DOES_NOT_EXIST; ?>
       </div>
 
 <?php
@@ -174,16 +172,16 @@
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
         <tr>
-          <th><?php echo TABLE_HEADING_FILES; ?></th>
-          <th class="text-center"><?php echo TABLE_HEADING_WRITABLE; ?></th>
-          <th class="text-right"><?php echo TABLE_HEADING_LAST_MODIFIED; ?></th>
+          <th><?= TABLE_HEADING_FILES; ?></th>
+          <th class="text-center"><?= TABLE_HEADING_WRITABLE; ?></th>
+          <th class="text-right"><?= TABLE_HEADING_LAST_MODIFIED; ?></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><a href="<?php echo tep_href_link('define_language.php', 'lngdir=' . $_GET['lngdir'] . '&filename=' . $filename); ?>"><?php echo $filename; ?></a></td>
-          <td class="text-center"><?php echo (tep_is_writable(DIR_FS_CATALOG_LANGUAGES . $filename) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'); ?></td>
-          <td class="text-right"><?php echo strftime(DATE_TIME_FORMAT, filemtime(DIR_FS_CATALOG_LANGUAGES . $filename)); ?></td>
+          <td><a href="<?= tep_href_link('define_language.php', 'lngdir=' . $_GET['lngdir'] . '&filename=' . $filename); ?>"><?= $filename; ?></a></td>
+          <td class="text-center"><?= (tep_is_writable(DIR_FS_CATALOG_LANGUAGES . $filename) ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>'); ?></td>
+          <td class="text-right"><?= strftime(DATE_TIME_FORMAT, filemtime(DIR_FS_CATALOG_LANGUAGES . $filename)); ?></td>
         </tr>
 <?php
     foreach (tep_opendir(DIR_FS_CATALOG_LANGUAGES . $_GET['lngdir']) as $file) {
