@@ -25,9 +25,9 @@
           }
         }
 
-        $OSCOM_Hooks->call('info_pages', 'setflagAction');
+        $OSCOM_Hooks->call('info_pages', 'setFlagAction');
 
-        tep_redirect(tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $_GET['pID']));
+        tep_redirect(tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . (int)$_GET['pID']));
         break;
       case 'update':
         $pages_id = tep_db_prepare_input($_GET['pID']);
@@ -64,7 +64,7 @@
 
         $OSCOM_Hooks->call('info_pages', 'updateAction');
 
-        tep_redirect(tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . $pages_id));
+        tep_redirect(tep_href_link('info_pages.php', 'page=' . (int)$_GET['page'] . '&pID=' . (int)$pages_id));
         break;
       case 'deleteconfirm':
         $pages_id = tep_db_prepare_input($_GET['pID']);
@@ -72,11 +72,10 @@
         tep_db_query("delete from pages where pages_id = '" . (int)$pages_id . "'");
         tep_db_query("delete from pages_description where pages_id = '" . (int)$pages_id . "'");
 
-        $OSCOM_Hooks->call('info_pages', 'deleteconfirmAction');
+        $OSCOM_Hooks->call('info_pages', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('info_pages.php', 'page=' . (int)$_GET['page']));
         break;
-
       case 'addnew':
         $page_status = (int)$_POST['page_status'];
         $slug        = tep_db_prepare_input($_POST['slug']);
@@ -109,7 +108,7 @@
           tep_db_perform('pages_description', $sql_data_array);
         }
 
-        $OSCOM_Hooks->call('info_pages', 'addnewAction');
+        $OSCOM_Hooks->call('info_pages', 'addNewAction');
 
         tep_redirect(tep_href_link('info_pages.php', tep_get_all_get_params(['action'])));
         break;
