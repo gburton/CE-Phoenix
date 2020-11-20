@@ -79,19 +79,19 @@
         'MODULE_CONTENT_NAVBAR_STYLE_BG' => [
           'title' => 'Background Colour Scheme',
           'value' => 'bg-light',
-          'desc' => 'What background colour should the Navbar have?  See <a target="_blank" href="https://getbootstrap.com/docs/4.5/utilities/colors/#background-color"><u>colors/#background-color</u></a>',
+          'desc' => 'What background colour should the Navbar have?  See <a target="_blank" rel="noreferrer" href="https://getbootstrap.com/docs/4.5/utilities/colors/#background-color"><u>colors/#background-color</u></a>',
           'set_func' => "tep_cfg_select_option(['bg-primary', 'bg-secondary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info', 'bg-light', 'bg-dark', 'bg-white'], ",
         ],
         'MODULE_CONTENT_NAVBAR_STYLE_FG' => [
           'title' => 'Link Colour Scheme',
           'value' => 'navbar-light',
-          'desc' => 'What foreground colour should the Navbar have?  See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#color-schemes"><u>navbar/#color-schemes</u></a>',
+          'desc' => 'What foreground colour should the Navbar have?  See <a target="_blank" rel="noreferrer" href="https://getbootstrap.com/docs/4.5/components/navbar/#color-schemes"><u>navbar/#color-schemes</u></a>',
           'set_func' => "tep_cfg_select_option(['navbar-dark', 'navbar-light'], ",
         ],
         'MODULE_CONTENT_NAVBAR_FIXED' => [
           'title' => 'Placement',
           'value' => 'default',
-          'desc' => 'Should the Navbar be Fixed/Sticky/Default behaviour? See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#placement"><u>navbar/#placement</u></a>',
+          'desc' => 'Should the Navbar be Fixed/Sticky/Default behaviour? See <a target="_blank" rel="noreferrer" href="https://getbootstrap.com/docs/4.5/components/navbar/#placement"><u>navbar/#placement</u></a>',
           'set_func' => "tep_cfg_select_option(['fixed-top', 'fixed-bottom', 'sticky-top', 'default'], ",
         ],
         'MODULE_CONTENT_NAVBAR_OFFSET' => [
@@ -102,7 +102,7 @@
         'MODULE_CONTENT_NAVBAR_COLLAPSE' => [
           'title' => 'Collapse',
           'value' => 'navbar-expand-sm',
-          'desc' => 'When should the Navbar Show? See <a target="_blank" href="https://getbootstrap.com/docs/4.5/components/navbar/#how-it-works"><u>navbar/#how-it-works</u></a>',
+          'desc' => 'When should the Navbar Show? See <a target="_blank" rel="noreferrer" href="https://getbootstrap.com/docs/4.5/components/navbar/#how-it-works"><u>navbar/#how-it-works</u></a>',
           'set_func' => "tep_cfg_select_option(['navbar-expand', 'navbar-expand-sm', 'navbar-expand-md', 'navbar-expand-lg', 'navbar-expand-xl'], ",
         ],
         'MODULE_CONTENT_NAVBAR_SORT_ORDER' => [

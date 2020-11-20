@@ -35,8 +35,8 @@
 
         <div id="headerShortcuts" class="col-sm-6">
           <ul class="nav justify-content-end">
-            <li class="nav-item"><a class="nav-link active" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">Website</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">Support</a></li>
+            <li class="nav-item"><a class="nav-link active" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Website</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Support</a></li>
           </ul>
         </div>
       </div>

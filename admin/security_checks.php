@@ -119,7 +119,7 @@
             echo '<td><i class="' . $fa . '"></i> ' . htmlspecialchars($module['title']) . '</td>';
             echo '<td>' . htmlspecialchars($module['code']) . '</td>';
             echo '<td>' . $output . '</td>';
-            echo '<td class="text-right">' . (empty($secCheck->has_doc) ? '' : '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank"><i class="fas fa-chevron-circle-right text-info"></i></a>') . '</td>';
+            echo '<td class="text-right">' . (empty($secCheck->has_doc) ? '' : '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank" rel="noreferrer"><i class="fas fa-chevron-circle-right text-info"></i></a>') . '</td>';
           echo '</tr>';
         }
       ?>

@@ -12,7 +12,7 @@
 
   define('MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_TITLE', 'WorldPay Hosted Payment Pages');
   define('MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_PUBLIC_TITLE', 'Credit Card');
-  define('MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_DESCRIPTION', '<i class="fas fa-info-circle"></i>&nbsp;<a href="http://library.oscommerce.com/Package&en&worldpay&oscom23&hosted" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br><br><i class="fas fa-external-link-alt"></i>&nbsp;<a href="http://www.worldpay.com" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">Visit WorldPay Website</a>');
+  define('MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TEXT_DESCRIPTION', '<i class="fas fa-info-circle"></i>&nbsp;<a href="http://library.oscommerce.com/Package&en&worldpay&oscom23&hosted" target="_blank" rel="noreferrer" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br><br><i class="fas fa-external-link-alt"></i>&nbsp;<a href="http://www.worldpay.com" target="_blank" rel="noreferrer" style="text-decoration: underline; font-weight: bold;">Visit WorldPay Website</a>');
 
   define('MODULE_PAYMENT_RBSWORLDPAY_HOSTED_ERROR_ADMIN_CONFIGURATION', 'This module will not load until the Installation ID parameter has been configured. Please edit and configure the settings of this module.');
 

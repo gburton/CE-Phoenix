@@ -60,7 +60,7 @@
           $capture_button = $this->getCaptureButton($status, $order);
           $void_button = $this->getVoidButton($status, $order);
           $refund_button = $this->getRefundButton($status, $order);
-          $paypal_button = $this->_app->drawButton($this->_app->getDef('button_view_at_paypal'), 'https://www.' . ($pp_server == 'sandbox' ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_view-a-trans&id=' . $status['Transaction ID'], 'info', 'target="_blank"', true);
+          $paypal_button = $this->_app->drawButton($this->_app->getDef('button_view_at_paypal'), 'https://www.' . ($pp_server == 'sandbox' ? 'sandbox.' : '') . 'paypal.com/cgi-bin/webscr?cmd=_view-a-trans&id=' . $status['Transaction ID'], 'info', 'target="_blank" rel="noreferrer"', true);
 
           $tab_title = addslashes($this->_app->getDef('tab_title'));
           $tab_link = '#section_paypal_content';

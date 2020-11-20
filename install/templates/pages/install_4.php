@@ -209,7 +209,7 @@ EOPHP;
         <p><?php echo osc_draw_button('Phoenix Club', '<img src="images/icon_phoenix.png" class="mr-2">', 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', ['newwindow' => 1], 'btn-dark btn-block'); ?></p>
       </div>
       <div class="card-footer">
-        - <a class="card-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">The Phoenix Team</a>
+        - <a class="card-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">The Phoenix Team</a>
       </div>
     </div>
   </div>

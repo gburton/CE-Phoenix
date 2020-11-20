@@ -51,7 +51,7 @@
 
             foreach ($result as $p) {
               $output .= '<tr>';
-                $output .= '<td><h6 class="m-0"><a href="' . $p['url'] . '" target="_blank">' . $p['title'] . '</strong></a> <small>(' . $p['category_title'] . ')</small></h6>' . $p['status_update'] . '</td>';
+                $output .= '<td><h6 class="m-0"><a href="' . $p['url'] . '" target="_blank" rel="noreferrer">' . $p['title'] . '</strong></a> <small>(' . $p['category_title'] . ')</small></h6>' . $p['status_update'] . '</td>';
               $output .= '</tr>';
             }
           
@@ -59,8 +59,8 @@
         $output .= '</table>';
 
         $output .= '<div class="text-right my-0 mb-2 p-1">';
-          $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-          $output .= '<a href="http://www.oscommerce.com/Services" target="_blank">' . MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_MORE_TITLE . '</a>';
+          $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
+          $output .= '<a href="http://www.oscommerce.com/Services" target="_blank" rel="noreferrer">' . MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_MORE_TITLE . '</a>';
         $output .= '</div>';
       }
 

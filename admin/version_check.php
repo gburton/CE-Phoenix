@@ -113,9 +113,9 @@
       foreach ($new_versions as $version) {
         ?>
         <tr>
-          <td><?php echo '<a href="' . $version[2] . '" target="_blank">OSCOM CE Phoenix v' . $version[0] . '</a>'; ?></td>
+          <td><?php echo '<a href="' . $version[2] . '" target="_blank" rel="noreferrer">OSCOM CE Phoenix v' . $version[0] . '</a>'; ?></td>
           <td><?php echo tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)); ?></td>
-          <td class="text-right"><?php echo '<a href="' . $version[2] . '" target="_blank"><i class="fas fa-info-circle text-info"></i></a>'; ?></td>
+          <td class="text-right"><?php echo '<a href="' . $version[2] . '" target="_blank" rel="noreferrer"><i class="fas fa-info-circle text-info"></i></a>'; ?></td>
         </tr>
         <?php
       }

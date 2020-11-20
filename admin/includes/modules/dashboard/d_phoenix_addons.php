@@ -41,7 +41,7 @@
           foreach ($feed->channel->item as $item) {
             if ($item->highlight == 1) {
               $output .= '<tr>';
-                $output .= '<td><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></td>';
+                $output .= '<td><a href="' . $item->link . '" target="_blank" rel="noreferrer">' . $item->title . '</a></td>';
                 $output .= '<td>' . $item->owner . '</td>';
                 $output .= '<td class="text-right">' . tep_draw_stars($item->rating) . '</td>';
               $output .= '</tr>';
@@ -53,8 +53,8 @@
       $output .= '</div>';
 
       $output .= '<div class="text-right my-0 p-1">';
-        $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-        $output .= '<a href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB . '</a>';
+        $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
+        $output .= '<a href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB . '</a>';
       $output .= '</div>';
 
       $output .= tep_draw_bootstrap_button(MODULE_ADMIN_DASHBOARD_PHOENIX_VIEW_ALL, 'far fa-list-alt', tep_href_link('certified_addons.php'), null, null, 'btn btn-success btn-block mb-2');
