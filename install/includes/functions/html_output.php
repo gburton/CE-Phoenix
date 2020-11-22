@@ -152,7 +152,7 @@
     if ( isset($params['params']) ) {
       $button .= ' ' . $params['params'];
     }
-    
+
     $button .= ' class="btn ';
     $button .= (isset($class)) ? $class : 'btn-outline-secondary';
     $button .= '"';
@@ -171,4 +171,3 @@
 
     return $button;
   }
-?>

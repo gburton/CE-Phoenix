@@ -35,7 +35,7 @@
           $output .= '</tr>';
         $output .= '</thead>';
         $output .= '<tbody>';
-        
+
         $count = 0;
         foreach ($feed->channel->item as $item) {
           $output .= '<tr>';
