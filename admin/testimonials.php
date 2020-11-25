@@ -224,8 +224,10 @@
 
               if (isset($tInfo) && is_object($tInfo) && ($testimonials['testimonials_id'] == $tInfo->testimonials_id) ) {
                 echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . (int)$tInfo->testimonials_id . '&action=edit') . '\'">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . (int)$testimonials['testimonials_id']) . '\'">';
+                $icon = '<a href="' . tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $testimonials['testimonials_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
                 <td><?= (int)$testimonials['customers_id']; ?></td>
@@ -238,7 +240,7 @@
                   echo '<a href="' . tep_href_link('testimonials.php', 'action=setflag&flag=1&tID=' . $testimonials['testimonials_id'] . '&page=' . (int)$_GET['page']) . '"><i class="fas fa-check-circle text-muted"></i></a>  <i class="fas fa-times-circle text-danger"></i>';
                 }
                 ?></td>
-                <td class="text-right"><?php if ( (is_object($tInfo)) && ($testimonials['testimonials_id'] == $tInfo->testimonials_id) ) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('testimonials.php', 'page=' . (int)$_GET['page'] . '&tID=' . $testimonials['testimonials_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
 <?php
     }
