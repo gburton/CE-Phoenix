@@ -23,8 +23,8 @@ const TABLE_HEADING_CATEGORIES_PRODUCTS = 'Categories / Products';
 const TABLE_HEADING_ACTION = 'Action';
 const TABLE_HEADING_STATUS = 'Status';
 
-const TEXT_NEW_PRODUCT = 'Adding Product <small>in %s</small>';
-const TEXT_EXISTING_PRODUCT = 'Editing Product <small>in %s</small>';
+const TEXT_NEW_PRODUCT = 'Adding New Product <small>in %s</small>';
+const TEXT_EXISTING_PRODUCT = 'Editing %s <small>in %s</small>';
 
 const TEXT_CATEGORIES = 'Categories';
 const TEXT_PRODUCTS = 'Products';
@@ -108,7 +108,7 @@ const TEXT_EDIT_CATEGORIES_DESCRIPTION = 'Edit the Category Description';
 
 const TEXT_CATEGORIES_SEO_DESCRIPTION = 'Category Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>';
 const TEXT_EDIT_CATEGORIES_SEO_DESCRIPTION = 'Edit the Category Meta Description for SEO:<br><small>Changes the &lt;description&gt; Meta Element.</small>';
- 
+
 const TEXT_PRODUCTS_GTIN = 'Products GTIN';
 const TEXT_PRODUCTS_GTIN_HELP = 'GTIN must be stored as 14 Digits. Any GTIN smaller than this will be zero-padded per GTIN Specifications.';
 

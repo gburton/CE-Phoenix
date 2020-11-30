@@ -238,9 +238,9 @@ EOERROR
     $field .= '>';
 
     if ( $reinsert_value && is_string($requested_value = $_GET[$name] ?? $_POST[$name] ?? null) ) {
-      $field .= tep_output_string_protected(stripslashes($requested_value));
+      $field .= htmlspecialchars(stripslashes($requested_value));
     } elseif (tep_not_null($text)) {
-      $field .= tep_output_string_protected($text);
+      $field .= htmlspecialchars($text);
     }
 
     $field .= '</textarea>';
@@ -342,7 +342,7 @@ EOERROR
       $button .= '<a id="tdb' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank"';
+        $button .= ' target="_blank" rel="noreferrer"';
       }
     } else {
       $button .= '<button id="tdb' . $button_counter . '" type="' . tep_output_string($params['type']) . '"';
@@ -406,7 +406,7 @@ EOERROR
       $button = '<a href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank" rel="noopener"';
+        $button .= ' target="_blank" rel="noreferrer"';
       }
       $closing_tag = '</a>';
     } else {

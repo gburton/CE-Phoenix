@@ -35,11 +35,11 @@
           $output .= '</tr>';
         $output .= '</thead>';
         $output .= '<tbody>';
-        
+
         $count = 0;
         foreach ($feed->channel->item as $item) {
           $output .= '<tr>';
-            $output .= '<td><a href="' . $item->link . '" target="_blank">' . $item->title . '</a></td>';
+            $output .= '<td><a href="' . $item->link . '" target="_blank" rel="noreferrer">' . $item->title . '</a></td>';
             $output .= '<td class="text-right">' . date("F j, Y", strtotime($item->pubDate)) . '</td>';
           $output .= '</tr>';
 
@@ -53,12 +53,12 @@
       $output .= '</table>';
 
       $output .= '<div class="text-right my-0 mb-2 p-1">';
-        $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-        $output .= '<a class="float-left ml-1" href="http://www.oscommerce.com/Us&News" target="_blank">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWS) . '</a> ';
-        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWSLETTER . '" href="http://www.oscommerce.com/newsletter/subscribe" target="_blank"><i class="fas fa-envelope-square fa-2x text-muted"></i></a> ';
-        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_FACEBOOK . '" href="http://www.facebook.com/pages/osCommerce/33387373079" target="_blank"><i class="fab fa-facebook-square fa-2x text-info"></i></a> ';
-        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_TWITTER . '" href="http://twitter.com/osCommerce" target="_blank"><i class="fab fa-twitter-square fa-2x text-primary"></i></a> ';
-        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_RSS . '" href="http://feeds.feedburner.com/osCommerceNewsAndBlogs" target="_blank"><i class="fas fa-rss-square fa-2x text-warning"></i></a> ';
+        $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
+        $output .= '<a class="float-left ml-1" href="http://www.oscommerce.com/Us&News" target="_blank" rel="noreferrer">' . tep_image('images/icon_oscommerce.png', MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWS) . '</a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_NEWSLETTER . '" href="http://www.oscommerce.com/newsletter/subscribe" target="_blank" rel="noreferrer"><i class="fas fa-envelope-square fa-2x text-muted"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_FACEBOOK . '" href="http://www.facebook.com/pages/osCommerce/33387373079" target="_blank" rel="noreferrer"><i class="fab fa-facebook-square fa-2x text-info"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_TWITTER . '" href="http://twitter.com/osCommerce" target="_blank" rel="noreferrer"><i class="fab fa-twitter-square fa-2x text-primary"></i></a> ';
+        $output .= '<a title="' . MODULE_ADMIN_DASHBOARD_LATEST_NEWS_ICON_RSS . '" href="http://feeds.feedburner.com/osCommerceNewsAndBlogs" target="_blank" rel="noreferrer"><i class="fas fa-rss-square fa-2x text-warning"></i></a> ';
       $output .= '</div>';
 
       return $output;

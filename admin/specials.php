@@ -142,13 +142,13 @@ EOSQL
   }
   ?>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zProduct">
       <label for="specialProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_PRODUCT ?></label>
       <div class="col-sm-9"><?= (isset($sInfo->products_name) ? tep_draw_input_field('n', $sInfo->products_name . ' (' . $currencies->format($sInfo->products_price) . ')', 'readonly class="form-control-plaintext"') : tep_draw_products_pull_down('products_id', 'id="specialProduct" required aria-required="true"', $specials_array)) . tep_draw_hidden_field('products_price', ($sInfo->products_price ?? '')) ?>
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zPrice">
       <label for="specialPrice" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_SPECIAL_PRICE ?></label>
       <div class="col-sm-9">
         <?php
@@ -157,11 +157,11 @@ EOSQL
       </div>
     </div>
 
-    <div class="form-group row">
-      <label for="expdate" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_EXPIRES_DATE ?></label>
+    <div class="form-group row" id="zDate">
+      <label for="specialDate" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_EXPIRES_DATE ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_draw_input_field('expdate', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="expdate"');
+        echo tep_draw_input_field('expdate', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="specialDate"');
         ?>
       </div>
     </div>

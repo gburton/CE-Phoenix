@@ -29,7 +29,7 @@
         $fr_input = $fr_required = '';
         if (MODULE_CONTENT_PI_OA_ENFORCE == 'True') {
           $fr_input    = FORM_REQUIRED_INPUT;
-          $fr_required = 'required="required" aria-required="true" ';
+          $fr_required = 'required aria-required="true" ';
         }
 
         $options = [];

@@ -18,23 +18,23 @@
   $attribute .= ' aria-labelledby="atGenderLabel" class="custom-control-input"';
 ?>
   <div class="form-group row align-items-center">
-    <span id="atGenderLabel" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_GENDER; ?></span>
+    <span id="atGenderLabel" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_GENDER; ?></span>
     <div class="col-sm-9">
 <?php
   $fieldset_close = null;
   if ($this->is_required()) {
     echo '    <fieldset aria-required="true">' . "\n";
-    $attribute .= ' required="required"';
+    $attribute .= ' required';
     $fieldset_close = "    </fieldset>\n";
   }
 ?>
       <div class="custom-control custom-radio custom-control-inline">
-        <?php echo tep_draw_selection_field('gender', 'radio', 'm', ('m' === $gender), 'id="genderM"' . $attribute); ?>
-        <label class="custom-control-label" for="genderM"><?php echo MALE; ?></label>
+        <?= tep_draw_selection_field('gender', 'radio', 'm', ('m' === $gender), 'id="genderM"' . $attribute); ?>
+        <label class="custom-control-label" for="genderM"><?= MALE; ?></label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <?php echo tep_draw_selection_field('gender', 'radio', 'f', ('f' === $gender), 'id="genderF"' . $attribute); ?>
-        <label class="custom-control-label" for="genderF"><?php echo FEMALE; ?></label>
+        <?= tep_draw_selection_field('gender', 'radio', 'f', ('f' === $gender), 'id="genderF"' . $attribute); ?>
+        <label class="custom-control-label" for="genderF"><?= FEMALE; ?></label>
       </div>
 <?php
   if (isset($fieldset_close)) {
@@ -43,13 +43,13 @@
 
   if (tep_not_null(ENTRY_GENDER_TEXT)) {
 ?>
-      <span id="atGender" class="form-text"><small><?php echo ENTRY_GENDER_TEXT; ?></small></span>
+      <span id="atGender" class="form-text"><small><?= ENTRY_GENDER_TEXT; ?></small></span>
 <?php
   }
 
   if ($this->is_required() && tep_not_null(FORM_REQUIRED_INPUT)) {
 ?>
-      <div class="float-right"><?php echo FORM_REQUIRED_INPUT; ?></div>
+      <div class="float-right"><?= FORM_REQUIRED_INPUT; ?></div>
 <?php
   }
 ?>

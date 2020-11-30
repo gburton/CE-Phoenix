@@ -116,43 +116,43 @@
 
     if ('preview' === $form_action) {
       echo tep_draw_form('review', 'reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID'] . '&action=' . $form_action);
-      echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added); 
+      echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id) . tep_draw_hidden_field('reviews_status', $rInfo->reviews_status) . tep_draw_hidden_field('products_id', $rInfo->products_id) . tep_draw_hidden_field('products_image', $rInfo->products_image) . tep_draw_hidden_field('date_added', $rInfo->date_added);
     } else {
       echo tep_draw_form('review', 'reviews.php', 'action=' . $form_action);
     }
 ?>
-    <div class="form-group row">
+    <div class="form-group row" id="zProduct">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
       <div class="col-sm-9">
-        <?php 
-        if (isset($rInfo->products_name)) { 
-          echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"'); 
-        } else { 
-          echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"'); 
-        } 
-        ?>     
+        <?php
+        if (isset($rInfo->products_name)) {
+          echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"');
+        } else {
+          echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"');
+        }
+        ?>
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zCustomer">
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_FROM ?></label>
       <div class="col-sm-9">
-        <?php 
-        if (isset($rInfo->customers_name)) { 
-          echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"'); 
-        } else { 
-          echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"'); 
-        } 
-        ?>     
+        <?php
+        if (isset($rInfo->customers_name)) {
+          echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"');
+        } else {
+          echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"');
+        }
+        ?>
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zRating">
       <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?= ENTRY_RATING ?></label>
       <div class="col-sm-9"><div class="form-check form-check-inline">
         <label class="form-check-label font-weight-bold text-danger mr-1" for="rating_1"><?= TEXT_BAD ?></label>
-        <?php 
-        for ($i = 1; $i <= 5; $i++) { 
+        <?php
+        for ($i = 1; $i <= 5; $i++) {
           echo tep_draw_selection_field('reviews_rating', 'radio', $i, ($i == ($rInfo->reviews_rating ?? 5)), 'class="form-check-input" id="rating_' . $i . '"');
         }
         ?>
@@ -160,7 +160,7 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row" id="zReview">
       <label for="reviewReview" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
       <div class="col-sm-9"><?= tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT ?>
       </div>
@@ -202,37 +202,37 @@
 ?>
     <div class="row">
       <div class="col-sm-10">
-        <div class="form-group row">
+        <div class="form-group row" id="zProduct">
           <label for="reviewProduct" class="col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
           <div class="col-sm-9"><?= $rInfo->products_name ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zCustomer">
           <label for="reviewCustomer" class="col-sm-3 text-left text-sm-right"><?= ENTRY_FROM ?></label>
           <div class="col-sm-9"><?= $rInfo->customers_name ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zDate">
           <label for="reviewDate" class="col-sm-3 text-left text-sm-right"><?= ENTRY_DATE ?></label>
           <div class="col-sm-9"><?= tep_date_short($rInfo->date_added) ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zRating">
           <label for="reviewRating" class="col-sm-3 text-left text-sm-right"><?= ENTRY_RATING ?></label>
           <div class="col-sm-9"><?= tep_draw_stars($rInfo->reviews_rating) ?></div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" id="zReview">
           <label for="reviewReview" class="col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
           <div class="col-sm-9"><?= $rInfo->reviews_text ?></div>
         </div>
+
+        <?= $OSCOM_Hooks->call('reviews', 'formPreview'); ?>
       </div>
       <div class="col-sm-2 text-right"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?></div>
     </div>
 
 <?php
-    echo $OSCOM_Hooks->call('reviews', 'formPreview');
-
     if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
       foreach($_POST as $key => $value) {

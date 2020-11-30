@@ -42,7 +42,7 @@
         tep_db_query("INSERT INTO customer_data_groups (customer_data_groups_id, language_id, customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width) SELECT customer_data_groups_id, " . (int)$lID . ", customer_data_groups_name, cdg_vertical_sort_order, cdg_horizontal_sort_order, customer_data_groups_width FROM customer_data_groups WHERE language_id = " . (int)$languages_id);
 
         if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
-          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($code) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
+          tep_db_query("UPDATE configuration SET configuration_value = '" . tep_db_input($sql_data['code']) . "' WHERE configuration_key = 'DEFAULT_LANGUAGE'");
         }
 
         $OSCOM_Hooks->call('languages', 'insertAction');
@@ -110,14 +110,13 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
       if (empty($action)) {
         echo tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger');
-      }
-      else {
+      } else {
         echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light');
       }
       ?>
@@ -130,10 +129,10 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_LANGUAGE_NAME; ?></th>
-              <th><?php echo TABLE_HEADING_LANGUAGE_CODE; ?></th>
-              <th><?php echo TABLE_HEADING_LANGUAGE_IMAGE; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_LANGUAGE_NAME ?></th>
+              <th><?= TABLE_HEADING_LANGUAGE_CODE ?></th>
+              <th><?= TABLE_HEADING_LANGUAGE_IMAGE ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION ?></th>
             </tr>
           </thead>
           <tbody>
@@ -147,10 +146,12 @@
                 $lInfo = new objectInfo($languages);
               }
 
-              if (isset($lInfo) && is_object($lInfo) && ($languages['languages_id'] == $lInfo->languages_id) ) {
+              if (isset($lInfo->languages_id) && ($languages['languages_id'] == $lInfo->languages_id) ) {
                 echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $lInfo->languages_id . '&action=edit') . '\'">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $languages['languages_id']) . '\'">';
+                $icon = '<a href="' . tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $languages['languages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
 
               if (DEFAULT_LANGUAGE == $languages['code']) {
@@ -159,9 +160,9 @@
                 echo '<td>' . $languages['name'] . '</td>';
               }
               ?>
-                <td><?php echo $languages['code']; ?></td>
-                <td><?php echo tep_image(tep_catalog_href_link('includes/languages/' . $languages['directory'] . '/images/' . $languages['image'], '', 'SSL')); ?></td>
-                <td class="text-right"><?php if (isset($lInfo) && is_object($lInfo) && ($languages['languages_id'] == $lInfo->languages_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('languages.php', 'page=' . (int)$_GET['page'] . '&lID=' . $languages['languages_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td><?= $languages['code'] ?></td>
+                <td><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages['directory'] . '/images/' . $languages['image'])) ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
             }
@@ -171,8 +172,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $languages_split->display_count($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_LANGUAGES); ?></div>
-        <div class="col text-right mr-2"><?php echo $languages_split->display_links($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col"><?= $languages_split->display_count($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_LANGUAGES) ?></div>
+        <div class="col text-right mr-2"><?= $languages_split->display_links($languages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']) ?></div>
       </div>
 
     </div>

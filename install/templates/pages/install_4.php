@@ -194,9 +194,9 @@ EOPHP;
 <div class="row">
   <div class="col-12 col-sm-9">
     <div class="row">
-      <div class="col"><?php echo osc_draw_button('Admin (Backend)', '<i class="fas fa-lock mr-2"></i>', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', ['newwindow' => 1], 'btn-info btn-block'); ?></div>
-      <div class="col"><?php echo osc_draw_button('Store (Frontend)', '<i class="fas fa-shopping-cart mr-2"></i>', $http_server . $http_catalog . 'index.php', 'primary', ['newwindow' => 1], 'btn-success btn-block'); ?></div>
-      <div class="col"><?php echo osc_draw_button('Phoenix Club', '<img src="images/icon_phoenix.png" class="mr-2">', 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', ['newwindow' => 1], 'btn-dark btn-block'); ?></div>
+      <div class="col"><?= osc_draw_button('Admin (Backend)', '<i class="fas fa-lock mr-2"></i>', $http_server . $http_catalog . $admin_folder . '/index.php', 'primary', ['newwindow' => 1], 'btn-info btn-block') ?></div>
+      <div class="col"><?= osc_draw_button('Store (Frontend)', '<i class="fas fa-shopping-cart mr-2"></i>', $http_server . $http_catalog . 'index.php', 'primary', ['newwindow' => 1], 'btn-success btn-block') ?></div>
+      <div class="col"><?= osc_draw_button('Phoenix Club', '<img src="images/icon_phoenix.png" class="mr-2">', 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', ['newwindow' => 1], 'btn-dark btn-block') ?></div>
     </div>
   </div>
 
@@ -206,10 +206,10 @@ EOPHP;
       <div class="card-body">
         <p>Congratulations on installing and configuring OSCOM CE Phoenix as your online store solution!</p>
         <p>We wish you all the best with the success of your online store.  Please join and participate in our community.</p>
-        <p><?php echo osc_draw_button('Phoenix Club', '<img src="images/icon_phoenix.png" class="mr-2">', 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', ['newwindow' => 1], 'btn-dark btn-block'); ?></p>
+        <p><?= osc_draw_button('Phoenix Club', '<img src="images/icon_phoenix.png" class="mr-2">', 'https://forums.oscommerce.com/clubs/1-phoenix/', 'primary', ['newwindow' => 1], 'btn-dark btn-block') ?></p>
       </div>
       <div class="card-footer">
-        - <a class="card-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">The Phoenix Team</a>
+        - <a class="card-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">The Phoenix Team</a>
       </div>
     </div>
   </div>

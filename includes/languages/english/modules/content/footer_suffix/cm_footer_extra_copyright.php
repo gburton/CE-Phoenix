@@ -16,6 +16,5 @@
 
   define('MODULE_CONTENT_FOOTER_EXTRA_COPYRIGHT_TITLE', 'Copyright Details');
   define('MODULE_CONTENT_FOOTER_EXTRA_COPYRIGHT_DESCRIPTION', 'Adds a Copyright Block to the Extra Footer Area of your site');
-  
-  define('FOOTER_TEXT_BODY', '<p>Copyright &copy; ' . date('Y') . ' <a class="text-light" href="' . tep_href_link('index.php') . '">' . STORE_NAME . '</a> &middot; Powered by <a class="text-light" href="http://www.oscommerce.com" target="_blank">OSCOM CE Phoenix</a></p>');
-  
+
+  define('FOOTER_TEXT_BODY', '<p>Copyright &copy; ' . date('Y') . ' <a class="text-light" href="' . tep_href_link('index.php') . '">' . STORE_NAME . '</a> &middot; Powered by <a class="text-light" href="http://www.oscommerce.com" target="_blank" rel="noreferrer">OSCOM CE Phoenix</a></p>');

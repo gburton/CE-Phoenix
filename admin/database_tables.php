@@ -5,58 +5,62 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2013 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
-
-  function tep_dt_get_tables() {
-    $result = [];
-
-    $tables_query = tep_db_query('show table status');
-    while ( $tables = tep_db_fetch_array($tables_query) ) {
-      $result[] = $tables['Name'];
-    }
-
-    return $result;
-  }
+  require 'includes/application_top.php';
 
   $mysql_charsets = [['id' => 'auto', 'text' => ACTION_UTF8_CONVERSION_FROM_AUTODETECT]];
 
-  $charsets_query = tep_db_query("show character set");
+  $charsets_query = tep_db_query("SHOW CHARACTER SET");
   while ( $charsets = tep_db_fetch_array($charsets_query) ) {
     $mysql_charsets[] = ['id' => $charsets['Charset'], 'text' => sprintf(ACTION_UTF8_CONVERSION_FROM, $charsets['Charset'])];
   }
 
   $action = null;
-  $actions = [['id' => 'check',
-                       'text' => ACTION_CHECK_TABLES],
-              ['id' => 'analyze',
-                       'text' => ACTION_ANALYZE_TABLES],
-              ['id' => 'optimize',
-                       'text' => ACTION_OPTIMIZE_TABLES],
-              ['id' => 'repair',
-                       'text' => ACTION_REPAIR_TABLES],
-              ['id' => 'utf8',
-                       'text' => ACTION_UTF8_CONVERSION]];
+  $actions = [
+    [
+      'id' => 'check',
+      'text' => ACTION_CHECK_TABLES,
+    ],
+    [
+      'id' => 'analyze',
+      'text' => ACTION_ANALYZE_TABLES,
+    ],
+    [
+      'id' => 'optimize',
+      'text' => ACTION_OPTIMIZE_TABLES,
+    ],
+    [
+      'id' => 'repair',
+      'text' => ACTION_REPAIR_TABLES,
+    ],
+    [
+      'id' => 'utf8',
+      'text' => ACTION_UTF8_CONVERSION,
+    ],
+  ];
 
-  if ( isset($_POST['action']) ) {
-    if ( in_array($_POST['action'], ['check', 'analyze', 'optimize', 'repair', 'utf8']) ) {
-      if ( isset($_POST['id']) && is_array($_POST['id']) && !empty($_POST['id']) ) {
-        $tables = tep_dt_get_tables();
+  if ( isset($_POST['action']) && !empty($_POST['id']) && is_array($_POST['id'])
+    && in_array($_POST['action'], ['check', 'analyze', 'optimize', 'repair', 'utf8']) )
+  {
+    $tables = [];
 
-        foreach ( $_POST['id'] as $key => $value ) {
-          if ( !in_array($value, $tables) ) {
-            unset($_POST['id'][$key]);
-          }
-        }
+    $tables_query = tep_db_query('show table status');
+    while ( $table = tep_db_fetch_array($tables_query) ) {
+      $tables[] = $table['Name'];
+    }
 
-        if ( !empty($_POST['id']) ) {
-          $action = $_POST['action'];
-        }
+    foreach ( $_POST['id'] as $key => $value ) {
+      if ( !in_array($value, $tables) ) {
+        unset($_POST['id'][$key]);
       }
+    }
+
+    if ( !empty($_POST['id']) ) {
+      $action = $_POST['action'];
     }
   }
 
@@ -67,19 +71,27 @@
     case 'repair':
       tep_set_time_limit(0);
 
-      $table_headers = [TABLE_HEADING_TABLE,
-                        TABLE_HEADING_MSG_TYPE,
-                        TABLE_HEADING_MSG,
-                        tep_draw_checkbox_field('masterblaster')];
+      $table_headers = [
+        TABLE_HEADING_TABLE,
+        TABLE_HEADING_MSG_TYPE,
+        TABLE_HEADING_MSG,
+        tep_draw_checkbox_field('masterblaster'),
+      ];
 
       $table_data = [];
 
       foreach ( $_POST['id'] as $table ) {
         $current_table = null;
+        $table = tep_db_input(tep_db_prepare_input($table));
 
-        $sql_query = tep_db_query($action . " table " . $table);
+        $sql_query = tep_db_query("$action table $table");
         while ( $sql = tep_db_fetch_array($sql_query) ) {
-          $table_data[] = [($table != $current_table) ? tep_output_string_protected($table) : '', tep_output_string_protected($sql['Msg_type']), tep_output_string_protected($sql['Msg_text']), ($table != $current_table) ? tep_draw_checkbox_field('id[]', $table, isset($_POST['id']) && in_array($table, $_POST['id'])) : ''];
+          $table_data[] = [
+            ($table === $current_table) ? '' : htmlspecialchars($table),
+            htmlspecialchars($sql['Msg_type']),
+            htmlspecialchars($sql['Msg_text']),
+            ($table === $current_table) ? '' : tep_draw_checkbox_field('id[]', $table, isset($_POST['id']) && in_array($table, $_POST['id'])),
+          ];
 
           $current_table = $table;
         }
@@ -122,20 +134,26 @@
 
         $queries = [];
 
-        $cols_query = tep_db_query("show full columns from " . $table);
+        $cols_query = tep_db_query("SHOW FULL COLUMNS FROM " . tep_db_input(tep_db_prepare_input($table)));
         while ( $cols = tep_db_fetch_array($cols_query) ) {
           if ( !empty($cols['Collation']) ) {
             if ( $_POST['from_charset'] == 'auto' ) {
-              $old_charset = substr($cols['Collation'], 0, strpos($cols['Collation'], '_'));
+              $old_charset = tep_db_prepare_input(substr($cols['Collation'], 0, strpos($cols['Collation'], '_')));
             } else {
-              $old_charset = $_POST['from_charset'];
+              $old_charset = tep_db_prepare_input($_POST['from_charset']);
             }
 
-            $queries[] = "update " . $table . " set " . $cols['Field'] . " = convert(binary convert(" . $cols['Field'] . " using " . $old_charset . ") using utf8) where char_length(" . $cols['Field'] . ") = length(convert(binary convert(" . $cols['Field'] . " using " . $old_charset . ") using utf8))";
+            $queries[] = sprintf(<<<'EOSQL'
+UPDATE %1$s
+ SET %2$s = CONVERT(BINARY CONVERT(%2$s USING %3$s) USING utf8)
+ WHERE CHAR_LENGTH(%2$s) = LENGTH(CONVERT(BINARY CONVERT(%2$s USING %3$s) USING utf8))
+EOSQL
+              , tep_db_input(tep_db_prepare_input($table)), $cols['Field'], $old_charset);
           }
         }
 
-        $query = "alter table " . $table . " convert to character set utf8 collate utf8_unicode_ci";
+        $query = sprintf("ALTER TABLE %s CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci",
+          tep_db_input(tep_db_prepare_input($table)));
 
         if ( isset($_POST['dryrun']) ) {
           $table_data[] = [$query];
@@ -158,41 +176,47 @@
         }
 
         if ( !isset($_POST['dryrun']) ) {
-          $table_data[] = [tep_output_string_protected($table),
-                           tep_output_string_protected($result),
-                           tep_draw_checkbox_field('id[]', $table, true)];
+          $table_data[] = [
+            htmlspecialchars($table),
+            htmlspecialchars($result),
+            tep_draw_checkbox_field('id[]', $table, true),
+          ];
         }
       }
 
       break;
 
     default:
-      $table_headers = [TABLE_HEADING_TABLE,
-                        TABLE_HEADING_ROWS,
-                        TABLE_HEADING_SIZE,
-                        TABLE_HEADING_ENGINE,
-                        TABLE_HEADING_COLLATION,
-                        tep_draw_checkbox_field('masterblaster')];
+      $table_headers = [
+        TABLE_HEADING_TABLE,
+        TABLE_HEADING_ROWS,
+        TABLE_HEADING_SIZE,
+        TABLE_HEADING_ENGINE,
+        TABLE_HEADING_COLLATION,
+        tep_draw_checkbox_field('masterblaster'),
+      ];
 
       $table_data = [];
 
-      $sql_query = tep_db_query('show table status');
+      $sql_query = tep_db_query('SHOW TABLE STATUS');
       while ( $sql = tep_db_fetch_array($sql_query) ) {
-        $table_data[] = [tep_output_string_protected($sql['Name']),
-                         tep_output_string_protected($sql['Rows']),
-                         round(($sql['Data_length'] + $sql['Index_length']) / 1024 / 1024, 2) . 'M',
-                         tep_output_string_protected($sql['Engine']),
-                         tep_output_string_protected($sql['Collation']),
-                         tep_draw_checkbox_field('id[]', $sql['Name'])];
+        $table_data[] = [
+          htmlspecialchars($sql['Name']),
+          htmlspecialchars($sql['Rows']),
+          round(($sql['Data_length'] + $sql['Index_length']) / 1024 / 1024, 2) . 'M',
+          htmlspecialchars($sql['Engine']),
+          htmlspecialchars($sql['Collation']),
+          tep_draw_checkbox_field('id[]', $sql['Name']),
+        ];
       }
   }
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <?php
     if ( isset($action) ) {
@@ -203,10 +227,7 @@
     ?>
   </div>
 
-<?php
-  echo tep_draw_form('sql', 'database_tables.php');
-?>
-
+  <?= tep_draw_form('sql', 'database_tables.php') ?>
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
@@ -237,20 +258,20 @@
 <?php
 if ( !isset($_POST['dryrun']) ) {
  ?>
- 
+
   <div class="row">
     <div class="col">
-      <?php 
-      echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu"'); 
+      <?php
+      echo tep_draw_pull_down_menu('action', $actions, '', 'id="sqlActionsMenu"');
       echo tep_draw_bootstrap_button(BUTTON_ACTION_GO, 'fas fa-cogs', null, null, null, 'btn-success btn-block mt-2');
       ?>
     </div>
     <div class="col">
-      <?php 
-      echo '<span class="runUtf8" style="display: none;">' . tep_draw_pull_down_menu('from_charset', $mysql_charsets) . '<br>' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>'; 
+      <?php
+      echo '<span class="runUtf8" style="display: none;">' . tep_draw_pull_down_menu('from_charset', $mysql_charsets) . '<br>' . sprintf(ACTION_UTF8_DRY_RUN, tep_draw_checkbox_field('dryrun')) . '</span>';
       ?>
     </div>
-  </div>  
+  </div>
 
   <?php
 }
@@ -283,6 +304,6 @@ $(function() {
 </script>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

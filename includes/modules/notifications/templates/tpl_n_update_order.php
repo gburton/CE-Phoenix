@@ -16,6 +16,6 @@
     tep_catalog_href_link('account_history_info.php', 'order_id=' . $data['orders_id'], 'SSL'));
   printf(MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_DATE_ORDERED .  "\n\n",
     tep_date_long($data['date_purchased']));
-  echo $notify_comments;
+  echo $data['notify_comments'];
   printf(MODULE_NOTIFICATIONS_UPDATE_ORDER_TEXT_STATUS_UPDATE, $data['status_name']);
 ?>

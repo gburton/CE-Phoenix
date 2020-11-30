@@ -35,20 +35,20 @@
 
         <div id="headerShortcuts" class="col-sm-6">
           <ul class="nav justify-content-end">
-            <li class="nav-item"><a class="nav-link active" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">Website</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">Support</a></li>
+            <li class="nav-item"><a class="nav-link active" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Website</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Support</a></li>
           </ul>
         </div>
       </div>
-      
+
       <hr>
 
-      <?php require('templates/pages/' . $page_contents); ?>
+      <?php require 'templates/pages/' . $page_contents; ?>
 
-      <footer class="card bg-light mb-3 card-body text-center">OSCOM CE Phoenix &copy; 2000-<?php echo date('Y'); ?></footer>
+      <footer class="card bg-light mb-3 card-body text-center">OSCOM CE Phoenix &copy; 2000-<?= date('Y') ?></footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js" integrity="sha512-8qmis31OQi6hIRgvkht0s6mCOittjMa9GMqtK9hes5iEQBQE/Ca6yGE5FsW36vyipGoWQswBj/QBm2JR086Rkw==" crossorigin="anonymous"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js" integrity="sha512-8qmis31OQi6hIRgvkht0s6mCOittjMa9GMqtK9hes5iEQBQE/Ca6yGE5FsW36vyipGoWQswBj/QBm2JR086Rkw==" crossorigin="anonymous"></script>
   </body>
 </html>

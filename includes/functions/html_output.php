@@ -96,9 +96,9 @@
     $field .= '>';
 
     if ( $reinsert_value && is_string($request_value = $_GET[$name] ?? $_POST[$name] ?? null) ) {
-      $field .= tep_output_string_protected(stripslashes($request_value));
+      $field .= htmlspecialchars(stripslashes($request_value));
     } elseif (tep_not_null($text)) {
-      $field .= tep_output_string_protected($text);
+      $field .= htmlspecialchars($text);
     }
 
     $field .= '</textarea>';
@@ -201,7 +201,7 @@
       $button = '<a id="btn' . $button_counter . '" href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank" rel="noopener"';
+        $button .= ' target="_blank" rel="noreferrer"';
       }
 
       $closing_tag = '</a>';

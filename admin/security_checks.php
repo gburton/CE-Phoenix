@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   function tep_sort_secmodules($a, $b) {
     return strcasecmp($a['title'], $b['title']);
@@ -22,16 +22,19 @@
 
   if ($secdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/')) {
     while ($file = $secdir->read()) {
-      if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file)) {
+      if (!is_dir(DIR_FS_ADMIN . "includes/modules/security_check/$file")) {
         if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
-          $class = 'securityCheck_' . pathinfo($file, PATHINFO_FILENAME);
+          $code = pathinfo($file, PATHINFO_FILENAME);
+          $class = "securityCheck_$code";
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/' . $file);
           $$class = new $class();
 
-          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                        'class' => $class,
-                        'code' => substr($file, 0, strrpos($file, '.'))];
+          $modules[] = [
+            'title' => $$class->title ?? $code,
+            'class' => $class,
+            'code' => $code,
+          ];
         }
       }
     }
@@ -40,16 +43,19 @@
 
   if ($extdir = @dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/')) {
     while ($file = $extdir->read()) {
-      if (!is_dir(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file)) {
+      if (!is_dir(DIR_FS_ADMIN . "includes/modules/security_check/extended/$file")) {
         if ('php' === pathinfo($file, PATHINFO_EXTENSION)) {
-          $class = 'securityCheckExtended_' . substr($file, 0, strrpos($file, '.'));
+          $code = pathinfo($file, PATHINFO_FILENAME);
+          $class = "securityCheckExtended_$code";
 
           include(DIR_FS_ADMIN . 'includes/modules/security_check/extended/' . $file);
           $$class = new $class();
 
-          $modules[] = ['title' => isset($$class->title) ? $$class->title : substr($file, 0, strrpos($file, '.')),
-                        'class' => $class,
-                        'code' => substr($file, 0, strrpos($file, '.'))];
+          $modules[] = [
+            'title' => $$class->title ?? $code,
+            'class' => $class,
+            'code' => $code,
+          ];
         }
       }
     }
@@ -60,23 +66,23 @@
 
   require 'includes/template_top.php';
 ?>
-  
+
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col-sm-4 text-right align-self-center">
-      <?php echo tep_draw_bootstrap_button(BUTTON_TEXT_RELOAD, 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info'); ?>
+      <?= tep_draw_bootstrap_button(BUTTON_TEXT_RELOAD, 'fas fa-cog', tep_href_link('security_checks.php'), null, null, 'btn-info') ?>
     </div>
   </div>
-  
+
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
         <tr>
-          <th><?php echo TABLE_HEADING_TITLE; ?></th>
-          <th><?php echo TABLE_HEADING_MODULE; ?></th>
-          <th class="w-50"><?php echo TABLE_HEADING_INFO; ?></th>
+          <th><?= TABLE_HEADING_TITLE ?></th>
+          <th><?= TABLE_HEADING_MODULE ?></th>
+          <th class="w-50"><?= TABLE_HEADING_INFO ?></th>
           <th class="text-right">&nbsp;</th>
         </tr>
       </thead>
@@ -96,7 +102,7 @@
           } else {
             $output = $secCheck->getMessage();
           }
-          
+
           switch($secCheck->type) {
             case 'info':
             $fa = 'fas fa-fw fa-info-circle text-info';
@@ -109,11 +115,11 @@
             $fa = 'fas fa-fw fa-check-circle text-success';
           }
 
-          echo '<tr>'; 
-            echo '<td><i class="' . $fa . '"></i> ' . tep_output_string_protected($module['title']) . '</td>';
-            echo '<td>' . tep_output_string_protected($module['code']) . '</td>';
+          echo '<tr>';
+            echo '<td><i class="' . $fa . '"></i> ' . htmlspecialchars($module['title']) . '</td>';
+            echo '<td>' . htmlspecialchars($module['code']) . '</td>';
             echo '<td>' . $output . '</td>';
-            echo '<td class="text-right">' . ((isset($secCheck->has_doc) && $secCheck->has_doc) ? '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank"><i class="fas fa-chevron-circle-right text-info"></i></a>' : '') . '</td>';
+            echo '<td class="text-right">' . (empty($secCheck->has_doc) ? '' : '<a href="http://library.oscommerce.com/Wiki&oscom_2_3&security_checks&' . $module['code'] . '" target="_blank" rel="noreferrer"><i class="fas fa-chevron-circle-right text-info"></i></a>') . '</td>';
           echo '</tr>';
         }
       ?>
@@ -122,6 +128,6 @@
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

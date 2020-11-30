@@ -143,7 +143,7 @@
       $button .= '<a href="' . $link . '"';
 
       if ( isset($params['newwindow']) ) {
-        $button .= ' target="_blank" rel="noopener"';
+        $button .= ' target="_blank" rel="noreferrer"';
       }
     } else {
       $button .= '<button type="' . osc_output_string($params['type']) . '"';
@@ -152,7 +152,7 @@
     if ( isset($params['params']) ) {
       $button .= ' ' . $params['params'];
     }
-    
+
     $button .= ' class="btn ';
     $button .= (isset($class)) ? $class : 'btn-outline-secondary';
     $button .= '"';
@@ -171,4 +171,3 @@
 
     return $button;
   }
-?>

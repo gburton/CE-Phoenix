@@ -55,7 +55,7 @@
 
           $order_updated = true;
         }
-        
+
         $OSCOM_Hooks->call('orders', 'updateOrderAction');
 
         if ($order_updated) {
@@ -69,7 +69,7 @@
       case 'deleteconfirm':
         $oID = tep_db_prepare_input($_GET['oID']);
 
-        tep_remove_order($oID, $_POST['restock']);
+        tep_remove_order($oID, $_POST['restock'] ?? false);
 
         $OSCOM_Hooks->call('orders', 'deleteConfirmAction');
 
@@ -85,10 +85,10 @@
 
     $orders_query = tep_db_query("SELECT orders_id FROM orders WHERE orders_id = " . (int)$oID);
     $order_exists = tep_db_num_rows($orders_query);
-    
+
     if (!$order_exists) {
       $messageStack->add_session(sprintf(ERROR_ORDER_DOES_NOT_EXIST, $oID), 'error');
-      
+
       tep_redirect(tep_href_link('orders.php'));
     }
   }
@@ -106,7 +106,7 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo sprintf(HEADING_TITLE_ORDER, (int)$oID); ?></h1>
+      <h1 class="display-4 mb-2"><?= sprintf(HEADING_TITLE_ORDER, (int)$oID); ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -120,9 +120,9 @@
 
   <div id="orderTabs">
     <ul class="nav nav-tabs">
-      <li class="nav-item"><?php echo '<a class="nav-link active" data-toggle="tab" href="#section_summary_content" role="tab">' . TAB_TITLE_SUMMARY . '</a>'; ?></li>
-      <li class="nav-item"><?php echo '<a class="nav-link" data-toggle="tab" href="#section_products_content" role="tab">' . TAB_TITLE_PRODUCTS . '</a>'; ?></li>
-      <li class="nav-item"><?php echo '<a class="nav-link" data-toggle="tab" href="#section_status_history_content" role="tab">' . TAB_TITLE_STATUS_HISTORY . '</a>'; ?></li>
+      <li class="nav-item"><?= '<a class="nav-link active" data-toggle="tab" href="#section_summary_content" role="tab">' . TAB_TITLE_SUMMARY . '</a>'; ?></li>
+      <li class="nav-item"><?= '<a class="nav-link" data-toggle="tab" href="#section_products_content" role="tab">' . TAB_TITLE_PRODUCTS . '</a>'; ?></li>
+      <li class="nav-item"><?= '<a class="nav-link" data-toggle="tab" href="#section_status_history_content" role="tab">' . TAB_TITLE_STATUS_HISTORY . '</a>'; ?></li>
     </ul>
 
     <div class="tab-content pt-3">
@@ -130,33 +130,33 @@
         <table class="table">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo ENTRY_CUSTOMER; ?></th>
-              <th><?php echo ENTRY_SHIPPING_ADDRESS; ?></th>
-              <th><?php echo ENTRY_BILLING_ADDRESS; ?></th>
+              <th><?= ENTRY_CUSTOMER; ?></th>
+              <th><?= ENTRY_SHIPPING_ADDRESS; ?></th>
+              <th><?= ENTRY_BILLING_ADDRESS; ?></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <p><?php echo $address->format($order->customer, 1, '', '<br>'); ?></p>
-                <p><?php echo $order->customer['telephone'] . '<br>' . '<a href="mailto:' . $order->customer['email_address'] . '"><u>' . $order->customer['email_address'] . '</u></a>'; ?></p>
+                <p><?= $address->format($order->customer, 1, '', '<br>'); ?></p>
+                <p><?= $order->customer['telephone'] . '<br>' . '<a href="mailto:' . $order->customer['email_address'] . '"><u>' . $order->customer['email_address'] . '</u></a>'; ?></p>
               </td>
-              <td><p><?php echo $address->format($order->delivery, 1, '', '<br>'); ?></p></td>
-              <td><p><?php echo $address->format($order->billing, 1, '', '<br>'); ?></p></td>
+              <td><p><?= $address->format($order->delivery, 1, '', '<br>'); ?></p></td>
+              <td><p><?= $address->format($order->billing, 1, '', '<br>'); ?></p></td>
             </tr>
           </tbody>
           <thead class="thead-dark">
             <tr>
-              <th><?php echo ENTRY_PAYMENT_METHOD; ?></th>
-              <th><?php echo ENTRY_STATUS; ?></th>
-              <th><?php echo ENTRY_TOTAL; ?></th>
+              <th><?= ENTRY_PAYMENT_METHOD; ?></th>
+              <th><?= ENTRY_STATUS; ?></th>
+              <th><?= ENTRY_TOTAL; ?></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><p><?php echo sprintf(TEXT_ORDER_PAYMENT, $order->info['payment_method'], $order->info['date_purchased']); ?></p></td>
-              <td><p><?php echo sprintf(TEXT_ORDER_STATUS, $order->info['orders_status'], ($order->info['last_modified'] ?? $order->info['date_purchased'])); ?></p></td>
-              <td><h1 class="display-4"><?php echo $order->info['total']; ?></h1></td>
+              <td><p><?= sprintf(TEXT_ORDER_PAYMENT, $order->info['payment_method'], $order->info['date_purchased']); ?></p></td>
+              <td><p><?= sprintf(TEXT_ORDER_STATUS, $order->info['orders_status'], ($order->info['last_modified'] ?? $order->info['date_purchased'])); ?></p></td>
+              <td><h1 class="display-4"><?= $order->info['total']; ?></h1></td>
             </tr>
           </tbody>
         </table>
@@ -165,13 +165,13 @@
         <table class="table table-striped">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_PRODUCTS; ?></th>
-              <th><?php echo TABLE_HEADING_PRODUCTS_MODEL; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_TAX; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
+              <th><?= TABLE_HEADING_PRODUCTS; ?></th>
+              <th><?= TABLE_HEADING_PRODUCTS_MODEL; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_TAX; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -207,53 +207,51 @@
 
       </div>
       <div class="tab-pane fade" id="section_status_history_content" role="tabpanel">
-        <?php echo tep_draw_form('status', 'orders.php', tep_get_all_get_params(['action']) . 'action=update_order'); ?>
+        <?= tep_draw_form('status', 'orders.php', tep_get_all_get_params(['action']) . 'action=update_order'); ?>
 
-          <div class="form-group row">
-            <label for="oStatus" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_STATUS; ?></label>
+          <div class="form-group row" id="zStatus">
+            <label for="oStatus" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_STATUS; ?></label>
             <div class="col-sm-9">
-              <?php echo tep_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status_id'], 'id="oStatus" class="form-control"'); ?>
+              <?= tep_draw_pull_down_menu('status', $orders_statuses, $order->info['orders_status_id'], 'id="oStatus" class="form-control"'); ?>
             </div>
           </div>
 
-          <div class="form-group row">
-            <label for="oComment" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NOTIFY_COMMENTS; ?></label>
+          <div class="form-group row" id="zComment">
+            <label for="oComment" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_COMMENTS; ?></label>
             <div class="col-sm-9">
-              <?php echo tep_draw_textarea_field('comments', 'soft', '60', '5', null, 'id="oComment" class="form-control"'); ?>
+              <?= tep_draw_textarea_field('comments', 'soft', '60', '5', null, 'id="oComment" class="form-control"'); ?>
             </div>
           </div>
 
-          <div class="form-group row align-items-center">
-            <div class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NOTIFY_CUSTOMER; ?></div>
+          <div class="form-group row align-items-center" id="zNotify">
+            <div class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_CUSTOMER; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
-              <?php echo tep_draw_selection_field('notify', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotify"'); ?>
-              <label for="oNotify" class="custom-control-label text-muted"><small><?php echo ENTRY_NOTIFY_CUSTOMER_TEXT; ?></small></label>
+              <?= tep_draw_selection_field('notify', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotify"'); ?>
+              <label for="oNotify" class="custom-control-label text-muted"><small><?= ENTRY_NOTIFY_CUSTOMER_TEXT; ?></small></label>
             </div>
           </div>
 
-          <div class="form-group row align-items-center">
-            <div class="col-form-label col-sm-3 text-left text-sm-right"><?php echo ENTRY_NOTIFY_COMMENTS; ?></div>
+          <div class="form-group row align-items-center" id="zNotifyComments">
+            <div class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_NOTIFY_COMMENTS; ?></div>
             <div class="col-sm-9 pl-5 custom-control custom-switch">
-              <?php echo tep_draw_selection_field('notify_comments', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotifyComments"'); ?>
-              <label for="oNotifyComments" class="custom-control-label text-muted"><small><?php echo ENTRY_NOTIFY_COMMENTS_TEXT; ?></small></label>
+              <?= tep_draw_selection_field('notify_comments', 'checkbox', 'on', 1, 'class="custom-control-input" id="oNotifyComments"'); ?>
+              <label for="oNotifyComments" class="custom-control-label text-muted"><small><?= ENTRY_NOTIFY_COMMENTS_TEXT; ?></small></label>
             </div>
           </div>
-          
-          <?php
-          echo $OSCOM_Hooks->call('orders', 'sectionStatusHistoryContentForm');
-          ?>
-          
-          <p><?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></p>
-          
+
+          <?= $OSCOM_Hooks->call('orders', 'sectionStatusHistoryContentForm'); ?>
+
+          <p><?= tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg'); ?></p>
+
         </form>
 
         <table class="table table-striped">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_DATE_ADDED; ?></th>
-              <th><?php echo TABLE_HEADING_STATUS; ?></th>
-              <th><?php echo TABLE_HEADING_COMMENTS; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_CUSTOMER_NOTIFIED; ?></th>
+              <th><?= TABLE_HEADING_DATE_ADDED; ?></th>
+              <th><?= TABLE_HEADING_STATUS; ?></th>
+              <th><?= TABLE_HEADING_COMMENTS; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_CUSTOMER_NOTIFIED; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -280,9 +278,7 @@
         </table>
       </div>
 
-      <?php
-      echo $OSCOM_Hooks->call('orders', 'orderTab');
-      ?>
+      <?= $OSCOM_Hooks->call('orders', 'orderTab'); ?>
 
     </div>
   </div>
@@ -317,7 +313,7 @@ EOSQL
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -350,12 +346,12 @@ EOSQL
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_OID; ?></th>
-              <th><?php echo TABLE_HEADING_CUSTOMERS; ?></th>
-              <th><?php echo TABLE_HEADING_ORDER_TOTAL; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_DATE_PURCHASED; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_STATUS; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_OID; ?></th>
+              <th><?= TABLE_HEADING_CUSTOMERS; ?></th>
+              <th><?= TABLE_HEADING_ORDER_TOTAL; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_DATE_PURCHASED; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_STATUS; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -373,12 +369,12 @@ EOSQL
                 $icon = '<a href="' . tep_href_link('orders.php', tep_get_all_get_params(['oID']) . 'oID=' . $orders['orders_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
-                <td><?php echo $orders['orders_id']; ?></td>
-                <td><?php echo $orders['customers_name']; ?></td>
-                <td><?php echo strip_tags($orders['order_total']); ?></td>
-                <td class="text-right"><?php echo $orders['date_purchased']; ?></td>
-                <td class="text-right"><?php echo $orders['orders_status_name']; ?></td>
-                <td class="text-right"><?php echo '<a href="' . tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $orders['orders_id'] . '&action=edit') . '"><i class="fas fa-cogs mr-2 text-dark"></i></a>' . $icon; ?></td>
+                <td><?= $orders['orders_id']; ?></td>
+                <td><?= $orders['customers_name']; ?></td>
+                <td><?= strip_tags($orders['order_total']); ?></td>
+                <td class="text-right"><?= $orders['date_purchased']; ?></td>
+                <td class="text-right"><?= $orders['orders_status_name']; ?></td>
+                <td class="text-right"><?= '<a href="' . tep_href_link('orders.php', tep_get_all_get_params(['oID', 'action']) . 'oID=' . $orders['orders_id'] . '&action=edit') . '"><i class="fas fa-cogs mr-2 text-dark"></i></a>' . $icon; ?></td>
               </tr>
               <?php
             }
@@ -388,8 +384,8 @@ EOSQL
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $orders_split->display_count($orders_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></div>
-        <div class="col text-right mr-2"><?php echo $orders_split->display_links($orders_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'oID', 'action'])); ?></div>
+        <div class="col"><?= $orders_split->display_count($orders_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></div>
+        <div class="col text-right mr-2"><?= $orders_split->display_links($orders_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'oID', 'action'])); ?></div>
       </div>
 
     </div>

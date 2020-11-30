@@ -26,7 +26,7 @@
           'title' => 'Enable Traditional Address module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your shop?',
-          'set_function' => "tep_cfg_select_option(['True', 'False'], ",
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
         ],
       ];
     }
@@ -89,13 +89,13 @@
       $address_format_query = tep_db_query("SELECT address_format AS format FROM address_format WHERE address_format_id = " . (int)$address_format_id);
       $address_format = tep_db_fetch_array($address_format_query);
 
-      $company = tep_output_string_protected($address['company'] ?? '');
-      $name = tep_output_string_protected($GLOBALS['customer_data']->get('name', $address) ?? '');
+      $company = htmlspecialchars($address['company'] ?? '');
+      $name = htmlspecialchars($GLOBALS['customer_data']->get('name', $address) ?? '');
 
-      $street = tep_output_string_protected($address['street_address']);
-      $suburb = tep_output_string_protected($address['suburb'] ?? '');
-      $city = tep_output_string_protected($address['city']);
-      $state = tep_output_string_protected($address['state'] ?? '');
+      $street = htmlspecialchars($address['street_address']);
+      $suburb = htmlspecialchars($address['suburb'] ?? '');
+      $city = htmlspecialchars($address['city']);
+      $state = htmlspecialchars($address['state'] ?? '');
       if (!empty($address['country_id'])) {
         $country = tep_get_country_name($address['country_id']);
 
@@ -103,11 +103,11 @@
           $state = tep_get_zone_code($address['country_id'], $address['zone_id'], $state);
         }
       } elseif (!empty($address['country']) && is_array($address['country'])) {
-        $country = tep_output_string_protected($address['country']['title']);
+        $country = htmlspecialchars($address['country']['title']);
       } else {
         $country = '';
       }
-      $postcode = tep_output_string_protected($address['postcode']);
+      $postcode = htmlspecialchars($address['postcode']);
       $zip = $postcode;
 
       if ($html) {

@@ -5,27 +5,22 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class d_partner_news {
-    var $code = 'd_partner_news';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
-    var $content_width = 6;
+  class d_partner_news extends abstract_module {
+
+    const CONFIG_KEY_BASE = 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_';
+
+    public $content_width = 6;
 
     function __construct() {
-      $this->title = MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_TITLE;
-      $this->description = MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_DESCRIPTION;
+      parent::__construct();
 
-      if ( defined('MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS') ) {
-        $this->sort_order = MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_SORT_ORDER;
-        $this->enabled = (MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS == 'True');
-        $this->content_width = (int)MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_CONTENT_WIDTH;
+      if ( $this->enabled ) {
+        $this->content_width = (int)($this->base_constant('CONTENT_WIDTH') ?? 6);
       }
 
       if ( !function_exists('json_decode') ) {
@@ -38,7 +33,7 @@
     function getOutput() {
       $result = $this->_getContent();
 
-      $output = null;
+      $output = '';
 
       if (is_array($result) && !empty($result)) {
         $output .= '<table class="table table-striped table-hover mb-0">';
@@ -51,16 +46,16 @@
 
             foreach ($result as $p) {
               $output .= '<tr>';
-                $output .= '<td><h6 class="m-0"><a href="' . $p['url'] . '" target="_blank">' . $p['title'] . '</strong></a> <small>(' . $p['category_title'] . ')</small></h6>' . $p['status_update'] . '</td>';
+                $output .= '<td><h6 class="m-0"><a href="' . $p['url'] . '" target="_blank" rel="noreferrer">' . $p['title'] . '</strong></a> <small>(' . $p['category_title'] . ')</small></h6>' . $p['status_update'] . '</td>';
               $output .= '</tr>';
             }
-          
-          $output .= '</tbody>';        
+
+          $output .= '</tbody>';
         $output .= '</table>';
 
         $output .= '<div class="text-right my-0 mb-2 p-1">';
-          $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-          $output .= '<a href="http://www.oscommerce.com/Services" target="_blank">' . MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_MORE_TITLE . '</a>';
+          $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
+          $output .= '<a href="http://www.oscommerce.com/Services" target="_blank" rel="noreferrer">' . MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_MORE_TITLE . '</a>';
         $output .= '</div>';
       }
 
@@ -126,26 +121,26 @@
       return $result;
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS' => [
+          'title' => 'Enable Partner News Module',
+          'value' => 'True',
+          'desc' => 'Do you want to show the latest osCommerce Partner News on the dashboard?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_CONTENT_WIDTH' => [
+          'title' => 'Content Width',
+          'value' => '6',
+          'desc' => 'What width container should the content be shown in? (12 = full width, 6 = half width).',
+          'set_func' => "tep_cfg_select_option(['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], ",
+        ],
+        'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '1100',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Partner News Module', 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS', 'True', 'Do you want to show the latest osCommerce Partner News on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '2', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_SORT_ORDER', '1100', 'Sort order of display. Lowest is displayed first.', '6', '3', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_STATUS', 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_PARTNER_NEWS_SORT_ORDER');
-    }
   }
-  

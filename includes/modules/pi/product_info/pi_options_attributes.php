@@ -48,7 +48,7 @@ EOSQL
         $fr_input = $fr_required = '';
         if (PI_OA_ENFORCE == 'True') {
           $fr_input    = FORM_REQUIRED_INPUT;
-          $fr_required = 'required="required" aria-required="true" ';
+          $fr_required = 'required aria-required="true" ';
         }
 
         $tax_rate = tep_get_tax_rate($product_info['products_tax_class_id']);
@@ -65,7 +65,7 @@ EOSQL
 SELECT pov.*, pa.*
  FROM products_attributes pa INNER JOIN products_options_values pov ON pa.options_values_id = pov.products_options_values_id
  WHERE pa.products_id = %d AND pa.options_id = %d AND pov.language_id = %d
- ORDER BY pov.sort_order, pov.products_options_values_name 
+ ORDER BY pov.sort_order, pov.products_options_values_name
 EOSQL
             , (int)$_GET['products_id'], (int)$products_options_name['products_options_id'], (int)$_SESSION['languages_id']));
           while ($products_options = tep_db_fetch_array($products_options_query)) {

@@ -5,36 +5,37 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2019 osCommerce
+  Copyright (c) 2020 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class d_reviews {
-    var $code = 'd_reviews';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
-    var $content_width = 6;
+  class d_reviews extends abstract_module {
 
-    function __construct() {
-      $this->title = MODULE_ADMIN_DASHBOARD_REVIEWS_TITLE;
-      $this->description = MODULE_ADMIN_DASHBOARD_REVIEWS_DESCRIPTION;
+    const CONFIG_KEY_BASE = 'MODULE_ADMIN_DASHBOARD_REVIEWS_';
 
-      if ( defined('MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS') ) {
-        $this->sort_order = MODULE_ADMIN_DASHBOARD_REVIEWS_SORT_ORDER;
-        $this->enabled = (MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS == 'True');
-        $this->content_width = (int)MODULE_ADMIN_DASHBOARD_REVIEWS_CONTENT_WIDTH;
+    public $content_width = 6;
+
+    public function __construct() {
+      parent::__construct();
+
+      if ($this->enabled) {
+        $this->content_width = (int)($this->base_constant('CONTENT_WIDTH') ?? 6);
       }
     }
 
     function getOutput() {
-      global $languages_id;
-      
-      $output = null;
-      
-      $output .= '<div class="table-responsive">';
+      $reviews_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT r.reviews_id, r.date_added, pd.products_name, r.customers_name, r.reviews_rating, r.reviews_status
+ FROM reviews r, products_description pd
+ WHERE pd.products_id = r.products_id and pd.language_id = %d
+ ORDER BY r.date_added DESC
+ LIMIT %d
+EOSQL
+        , (int)$_SESSION['languages_id'], (int)MODULE_ADMIN_DASHBOARD_REVIEWS_DISPLAY));
+
+
+      $output = '<div class="table-responsive">';
         $output .= '<table class="table table-striped table-hover mb-2">';
           $output .= '<thead class="thead-dark">';
             $output .= '<tr>';
@@ -47,13 +48,12 @@
           $output .= '</thead>';
           $output .= '<tbody>';
 
-          $reviews_query = tep_db_query("select r.reviews_id, r.date_added, pd.products_name, r.customers_name, r.reviews_rating, r.reviews_status from reviews r, products_description pd where pd.products_id = r.products_id and pd.language_id = '" . (int)$languages_id . "' order by r.date_added desc limit " . (int)MODULE_ADMIN_DASHBOARD_REVIEWS_DISPLAY);
           while ($reviews = tep_db_fetch_array($reviews_query)) {
             $status_icon = ($reviews['reviews_status'] == '1') ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fas fa-times-circle text-danger"></i>';
             $output .= '<tr>';
               $output .= '<td><a href="' . tep_href_link('reviews.php', 'rID=' . (int)$reviews['reviews_id'] . '&action=edit') . '">' . $reviews['products_name'] . '</a></td>';
               $output .= '<td>' . tep_date_short($reviews['date_added']) . '</td>';
-              $output .= '<td>' . tep_output_string_protected($reviews['customers_name']) . '</td>';
+              $output .= '<td>' . htmlspecialchars($reviews['customers_name']) . '</td>';
               $output .= '<td>' . tep_draw_stars($reviews['reviews_rating']) . '</td>';
               $output .= '<td class="text-right">' . $status_icon . '</td>';
             $output .= '</tr>';
@@ -66,27 +66,30 @@
       return $output;
     }
 
-    function isEnabled() {
-      return $this->enabled;
-    }
-
-    function check() {
-      return defined('MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Reviews Module', 'MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS', 'True', 'Do you want to show the latest reviews on the dashboard?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Reviews to display', 'MODULE_ADMIN_DASHBOARD_REVIEWS_DISPLAY', '5', 'This number of Reviews will display, ordered by latest added.', '6', '2', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Content Width', 'MODULE_ADMIN_DASHBOARD_REVIEWS_CONTENT_WIDTH', '6', 'What width container should the content be shown in? (12 = full width, 6 = half width).', '6', '1', 'tep_cfg_select_option(array(\'12\', \'11\', \'10\', \'9\', \'8\', \'7\', \'6\', \'5\', \'4\', \'3\', \'2\', \'1\'), ', now())"); 
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ADMIN_DASHBOARD_REVIEWS_SORT_ORDER', '800', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS', 'MODULE_ADMIN_DASHBOARD_REVIEWS_DISPLAY', 'MODULE_ADMIN_DASHBOARD_REVIEWS_CONTENT_WIDTH', 'MODULE_ADMIN_DASHBOARD_REVIEWS_SORT_ORDER');
+    protected function get_parameters() {
+      return [
+        $this->config_key_base . 'STATUS' => [
+          'title' => 'Enable Reviews Module',
+          'value' => 'True',
+          'desc' => 'Do you want to show the latest reviews on the dashboard?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        $this->config_key_base . 'DISPLAY' => [
+          'title' => 'Reviews to display',
+          'value' => '5',
+          'desc' => 'This number of Reviews will display, ordered by latest added.',
+        ],
+        $this->config_key_base . 'CONTENT_WIDTH' => [
+          'title' => 'Content Width',
+          'value' => '6',
+          'desc' => 'What width container should the content be shown in? (12 = full width, 6 = half width).',
+          'set_func' => "tep_cfg_select_option(['12', '11', '10', '9', '8', '7', '6', '5', '4', '3', '2', '1'], ",
+        ],
+        $this->config_key_base . 'SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '800',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
   }
-  

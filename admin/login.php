@@ -16,7 +16,7 @@
   require 'includes/functions/password_funcs.php';
 
   $action = $_GET['action'] ?? '';
-  
+
   $OSCOM_Hooks->call('login', 'preAction');
 
 // prepare to logout an active administrator if the login page is accessed again
@@ -80,7 +80,7 @@
         if (isset($_POST['username'])) {
           $actionRecorder->record(false);
         }
-        
+
         $OSCOM_Hooks->call('login', 'processAction');
 
         break;
@@ -91,7 +91,7 @@
         if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
           $_SESSION['auth_ignore'] = true;
         }
-        
+
         $OSCOM_Hooks->call('login', 'logoffAction');
 
         tep_redirect(tep_href_link('index.php'));
@@ -109,7 +109,7 @@
             tep_db_query("INSERT INTO administrators (user_name, user_password) VALUES ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
           }
         }
-        
+
         $OSCOM_Hooks->call('login', 'createAction');
 
         tep_redirect(tep_href_link('login.php'));
@@ -117,7 +117,7 @@
         break;
     }
   }
-  
+
   $OSCOM_Hooks->call('login', 'postAction');
 
   $languages = [];
@@ -150,27 +150,25 @@
 
   <div class="mx-auto w-75 w-md-25">
     <div class="card text-center shadow mt-5">
-      <div class="card-header text-white bg-dark"><?php echo HEADING_TITLE; ?></div>
+      <div class="card-header text-white bg-dark"><?= HEADING_TITLE; ?></div>
       <div class="px-5 py-2">
-        <?php echo tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
-
+        <?= tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
       </div>
-<?php
-  echo '      ' . tep_draw_form('login', 'login.php', $parameter_string);
-?>
 
+      <?= tep_draw_form('login', 'login.php', $parameter_string); ?>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item border-top"><?php echo tep_draw_input_field('username', null, 'required="required" autocapitalize="none" aria-required="true" placeholder="' . TEXT_USERNAME . '"', 'text', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
-          <li class="list-group-item"><?php echo tep_draw_input_field('password', null, 'required="required" autocapitalize="none" aria-required="true" placeholder="' . TEXT_PASSWORD . '"', 'password', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
-          <li class="list-group-item border-bottom-0"><?php echo tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
+          <li class="list-group-item border-top"><?= tep_draw_input_field('username', null, 'required autocapitalize="none" aria-required="true" placeholder="' . TEXT_USERNAME . '"', 'text', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
+          <li class="list-group-item"><?= tep_draw_input_field('password', null, 'required autocapitalize="none" aria-required="true" placeholder="' . TEXT_PASSWORD . '"', 'password', null, 'class="form-control text-muted border-0 text-muted"'); ?></li>
+          <li class="list-group-item border-bottom-0"><?= tep_draw_bootstrap_button($button_text, 'fas fa-key', null, null, null, 'btn-success btn-block'); ?></li>
         </ul>
       </form>
+
 <?php
   echo $intro_text;
   if (count($languages) > 1) {
 ?>
       <div class="card-footer">
-        <?php echo tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages, $language_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?>
+        <?= tep_draw_form('adminlanguage', 'index.php', '', 'get') . tep_draw_pull_down_menu('language', $languages, $language_selected, 'onchange="this.form.submit();"') . tep_hide_session_id() . '</form>'; ?>
       </div>
 <?php
   }

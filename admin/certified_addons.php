@@ -50,7 +50,7 @@
           $filter = implode(',', explode(' ', $item->title));
 
           echo '<tr data-owner="' . strtolower($item->owner) . '" data-filter="' . strtolower($filter) . '" data-tags="' . strtolower($item->tags) . '">';
-            echo '<td class="w-50"><a href="' . $item->link . '" target="_blank"><i class="fas fa-external-link-alt mr-2"></i>' . $item->title . '</a></td>';
+            echo '<td class="w-50"><a href="' . $item->link . '" target="_blank" rel="noreferrer"><i class="fas fa-external-link-alt mr-2"></i>' . $item->title . '</a></td>';
             echo '<td>' . $item->owner . '</td>';
             echo '<td>' . tep_draw_stars($item->rating) . '</td>';
             echo '<td>' . $item->remarks ?? '&nbsp;' . '</td>';

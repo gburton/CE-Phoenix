@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   $action = $_GET['action'] ?? '';
 
@@ -20,7 +20,7 @@
     switch ($action) {
       case 'import':
       $languages = tep_get_languages();
-      
+
       $import_query = tep_db_query("select * from banners order by banners_id");
       while ($import = tep_db_fetch_array($import_query)) {
         $sql_data_array = ['advert_title'       => $import['banners_title'],
@@ -32,16 +32,14 @@
                            'status'             => $import['status']];
 
         tep_db_perform('advert', $sql_data_array);
-        
+
         $advert_id = tep_db_insert_id();
-        
-        for ($i=0, $n=count($languages); $i<$n; $i++) {
-          $language_id = $languages[$i]['id'];
-          
+
+        foreach ($languages as $l) {
           $lng_data_array = ['advert_id'        => $advert_id,
-                             'languages_id'     => $language_id,
+                             'languages_id'     => $l['id'],
                              'advert_html_text' => $import['banners_html_text']];
-                             
+
           tep_db_perform('advert_info', $lng_data_array);
         }
       }
@@ -93,7 +91,7 @@
 
         $advert_image = new upload('advert_image');
         $advert_image->parse();
-        
+
         if (!empty($advert_image->filename)) {
           $advert_image->set_destination(DIR_FS_CATALOG . 'images/' . $advert_image_target);
           if ( $advert_image->save() == false ) {
@@ -120,7 +118,7 @@
             $insert_sql_data = ['date_added' => 'now()', 'status' => '1'];
 
             $sql_data_array = array_merge($sql_data_array, $insert_sql_data);
-            
+
             $OSCOM_Hooks->call('advert_manager', 'insertAction');
 
             tep_db_perform('advert', $sql_data_array);
@@ -130,20 +128,19 @@
             $messageStack->add_session(SUCCESS_IMAGE_INSERTED, 'success');
           } elseif ($action == 'update') {
             $OSCOM_Hooks->call('advert_manager', 'updateAction');
-            
+
             tep_db_perform('advert', $sql_data_array, 'update', "advert_id = '" . (int)$advert_id . "'");
 
             $messageStack->add_session(SUCCESS_IMAGE_UPDATED, 'success');
           }
-          
-          $languages = tep_get_languages();
-          for ($i=0, $n=count($languages); $i<$n; $i++) {
+
+          foreach (tep_get_languages() as $l) {
             $advert_html_text_array = $_POST['advert_html_text'];
-            
-            $language_id = $languages[$i]['id'];
-            
+
+            $language_id = $l['id'];
+
             $lng_data_array['advert_html_text'] = tep_db_prepare_input($advert_html_text_array[$language_id]);
-            
+
             if ($action == 'insert') {
               $insert_sql_data = ['advert_id' => $advert_id, 'languages_id' => $language_id];
 
@@ -194,12 +191,12 @@
 
   $OSCOM_Hooks->call('advert_manager', 'postAction');
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -215,7 +212,7 @@
 <?php
   if ($action == 'new') {
     $languages = tep_get_languages();
-    
+
     $form_action = 'insert';
 
     $parameters = ['advert_title' => '', 'advert_url' => '', 'advert_fragment' => '', 'advert_group' => '', 'advert_image' => '', 'sort_order' => '', 'advert_html_text' => ''];
@@ -244,49 +241,49 @@
     echo tep_draw_form('new_advert', 'advert_manager.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'action=' . $form_action, 'post', 'enctype="multipart/form-data"'); if ($form_action == 'update') echo tep_draw_hidden_field('advert_id', $cID);
     ?>
 
-      <div class="form-group row">
-        <label for="cTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_TITLE; ?></label>
+      <div class="form-group row" id="zTitle">
+        <label for="aTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_TITLE; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="cTitle" required aria-required="true" aria-describedby="TitleHelp"'); ?>
-          <small id="TitleHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_TITLE_HELP; ?></small>
+          <?= tep_draw_input_field('advert_title', $cInfo->advert_title, 'class="form-control" id="aTitle" required aria-required="true" aria-describedby="aTitleHelp"'); ?>
+          <small id="aTitleHelp" class="form-text text-muted"><?= TEXT_ADVERT_TITLE_HELP; ?></small>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="cUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_URL; ?></label>
+      <div class="form-group row" id="zUrlFrag">
+        <label for="aUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_URL; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?php echo tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="cUrl" aria-describedby="URLHelp"'); ?>
-              <small id="URLHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_URL_HELP; ?></small>
+              <?= tep_draw_input_field('advert_url', $cInfo->advert_url, 'class="form-control" id="aUrl" aria-describedby="aUrlHelp"'); ?>
+              <small id="aUrlHelp" class="form-text text-muted"><?= TEXT_ADVERT_URL_HELP; ?></small>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="FragmentHelp"'); ?>
-              <small id="FragmentHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_FRAGMENT_HELP; ?></small>
+              <?= tep_draw_input_field('advert_fragment', $cInfo->advert_fragment, 'placeholder="' . TEXT_ADVERT_FRAGMENT . '" class="form-control" id="cFrag" aria-describedby="cFragHelp"'); ?>
+              <small id="cFragHelp" class="form-text text-muted"><?= TEXT_ADVERT_FRAGMENT_HELP; ?></small>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="form-group row">
-        <label for="cSort" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_SORT_ORDER; ?></label>
+      <div class="form-group row" id="zSort">
+        <label for="aSort" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_SORT_ORDER; ?></label>
         <div class="col-sm-9">
-          <?php echo tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="cSort" aria-describedby="SortHelp"'); ?>
-          <small id="SortHelp" class="form-text text-muted"><?php echo TEXT_ADVERT_SORT_HELP; ?></small>
+          <?= tep_draw_input_field('sort_order', $cInfo->sort_order, 'class="form-control w-25" id="aSort" aria-describedby="aSortHelp"'); ?>
+          <small id="aSortHelp" class="form-text text-muted"><?= TEXT_ADVERT_SORT_HELP; ?></small>
         </div>
       </div>
 
       <hr>
 
-      <div class="form-group row">
-        <label for="cGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_GROUP; ?></label>
+      <div class="form-group row" id="zGroup">
+        <label for="aGroup" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_GROUP; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
-              <?php echo tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="cGroup" class="form-control"'); ?>
+              <?= tep_draw_pull_down_menu('advert_group', $groups_array, $cInfo->advert_group, 'id="aGroup" class="form-control"'); ?>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="cNewGroup"'); ?>
+              <?= tep_draw_input_field('new_advert_group', '', 'placeholder="' . TEXT_ADVERT_NEW_GROUP . '" class="form-control" id="aNewGroup"'); ?>
             </div>
           </div>
         </div>
@@ -294,39 +291,39 @@
 
       <hr>
 
-      <div class="form-group row">
-        <label for="cImage" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_IMAGE; ?></label>
+      <div class="form-group row" id="zImage">
+        <label class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_IMAGE; ?></label>
         <div class="col-sm-9">
           <div class="row">
             <div class="col">
               <div class="custom-file mb-2">
-                <?php echo tep_draw_input_field('advert_image', '', 'id="advert_image"', 'file', null, 'class="form-control-input"'); ?>
+                <?= tep_draw_input_field('advert_image', '', 'id="advert_image"', 'file', null, 'class="custom-file-input"'); ?>
                 <label class="custom-file-label" for="advert_image"></label>
               </div>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_image_local', (isset($cInfo->advert_image) ? $cInfo->advert_image : ''), 'placeholder="' . TEXT_ADVERT_IMAGE_LOCAL . '" class="form-control" id="cNewImage"'); ?>
+              <?= tep_draw_input_field('advert_image_local', (isset($cInfo->advert_image) ? $cInfo->advert_image : ''), 'placeholder="' . TEXT_ADVERT_IMAGE_LOCAL . '" class="form-control" id="cNewImage"'); ?>
             </div>
             <div class="col">
-              <?php echo tep_draw_input_field('advert_image_target', null, 'placeholder="' . TEXT_ADVERT_IMAGE_TARGET . '" class="form-control" id="cTarget"'); ?>
+              <?= tep_draw_input_field('advert_image_target', null, 'placeholder="' . TEXT_ADVERT_IMAGE_TARGET . '" class="form-control" id="cTarget"'); ?>
             </div>
           </div>
         </div>
       </div>
 
       <hr>
-      
+
       <?php
-      for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
+      foreach ($languages as $l) {
         ?>
-        <div class="form-group row">
-          <label for="cText_<?= $languages[$i]['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?php echo TEXT_ADVERT_HTML_TEXT; ?></label>
+        <div class="form-group row" id="zText<?= $l['directory']; ?>">
+          <label for="aText<?= $l['id']; ?>" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_ADVERT_HTML_TEXT; ?></label>
           <div class="col-sm-9">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']); ?></span>
+                <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']); ?></span>
               </div>
-              <?php echo tep_draw_textarea_field('advert_html_text[' . $languages[$i]['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $languages[$i]['id']), 'class="form-control" id="cText_' . $languages[$i]['id'] . '"'); ?>
+              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $l['id']), 'class="form-control" id="aText' . $l['id'] . '"'); ?>
             </div>
           </div>
         </div>
@@ -335,24 +332,23 @@
       ?>
 
       <div class="alert alert-info">
-        <?php echo TEXT_ADVERT_NOTE . TEXT_INSERT_NOTE; ?>
+        <?= TEXT_ADVERT_NOTE . TEXT_INSERT_NOTE; ?>
       </div>
 
       <?php
       if ($form_action == 'update') {
         echo $OSCOM_Hooks->call('advert_manager', 'editForm');
-      }
-      else {
+      } else {
         echo $OSCOM_Hooks->call('advert_manager', 'newForm');
       }
       ?>
 
       <div class="buttonSet">
-        <?php echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg'); ?>
+        <?= tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-images', null, null, null, 'btn-success btn-block btn-lg'); ?>
       </div>
 
     </form>
-    
+
     <script>$(document).on('change', '#advert_image', function (event) { $(this).next('.custom-file-label').html(event.target.files[0].name); });</script>
 <?php
   } else {
@@ -364,34 +360,36 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_ADVERT; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_GROUP; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_SORT_ORDER; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_STATUS; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_ADVERT; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_GROUP; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_SORT_ORDER; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_STATUS; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION; ?></th>
             </tr>
           </thead>
           <tbody>
             <?php
-            $advert_query_raw = "select * from advert order by advert_group, sort_order, advert_title";
+            $advert_query_raw = "SELECT * FROM advert a, advert_info ai WHERE a.advert_id = ai.advert_id AND ai.languages_id = '" . $_SESSION['languages_id'] . "' ORDER BY a.advert_group, a.sort_order, a.advert_title";
             $advert_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $advert_query_raw, $advert_query_numrows);
             $advert_query = tep_db_query($advert_query_raw);
             while ($advert = tep_db_fetch_array($advert_query)) {
-              if ((!isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $advert['advert_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
+              if (!isset($cInfo) && (!isset($_GET['cID']) || ($_GET['cID'] == $advert['advert_id'])) && (substr($action, 0, 3) != 'new')) {
                 $cInfo = new objectInfo($advert);
               }
 
-              if (isset($cInfo) && is_object($cInfo) && ($advert['advert_id'] == $cInfo->advert_id)) {
+              if (isset($cInfo->advert_id) && ($advert['advert_id'] == $cInfo->advert_id)) {
                 echo '<tr class="table-active">';
+                $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id']) . '\'">';
+                $icon = '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
-?>
-                <td><?php echo $advert['advert_title']; ?></td>
-                <td class="text-right"><?php echo $advert['advert_group']; ?></td>
-                <td class="text-right"><?php echo $advert['sort_order'] ?? 0; ?></td>
+              ?>
+                <td><?= $advert['advert_title']; ?></td>
+                <td class="text-right"><?= $advert['advert_group']; ?></td>
+                <td class="text-right"><?= $advert['sort_order'] ?? 0; ?></td>
                 <td class="text-right"><?php if ($advert['status'] == '1') { echo '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . (int)$advert['advert_id'] . '&action=setflag&flag=0') . '"><i class="fas fa-times-circle text-muted"></i></a>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id'] . '&action=setflag&flag=1') . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>'; } ?></td>
-                <td class="text-right"><?php if (isset($cInfo) && is_object($cInfo) && ($advert['advert_id'] == $cInfo->advert_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('advert_manager.php', 'page=' . (int)$_GET['page'] . '&cID=' . $advert['advert_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
             }
@@ -401,8 +399,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
-        <div class="col text-right mr-2"><?php echo $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col"><?= $advert_split->display_count($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ADVERTS); ?></div>
+        <div class="col text-right mr-2"><?= $advert_split->display_links($advert_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
 
       <?php
@@ -451,9 +449,9 @@
             $contents[] = ['text' => sprintf(TEXT_ADVERT_INTERNAL_URL, tep_catalog_href_link($cInfo->advert_url, $fragment))];
           }
         }
-        
-        if (tep_not_null($cInfo->advert_image)) $contents[] = ['text' => '<hr>' . tep_info_image($cInfo->advert_image, null)];
-        if (tep_not_null($cInfo->advert_html_text)) $contents[] = ['text' => '<hr>' . $cInfo->advert_html_text];
+
+        if (tep_not_null($cInfo->advert_image)) $contents[] = ['text' => tep_info_image($cInfo->advert_image, null)];
+        if (tep_not_null($cInfo->advert_html_text)) $contents[] = ['text' => $cInfo->advert_html_text];
 
         if ($cInfo->date_status_change) $contents[] = ['text' => sprintf(TEXT_ADVERT_STATUS_CHANGE, tep_date_short($cInfo->date_status_change))];
       }
@@ -462,7 +460,7 @@
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
      echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }
@@ -470,6 +468,6 @@
   echo '</div>';
 }
 
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

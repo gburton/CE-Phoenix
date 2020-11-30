@@ -31,7 +31,7 @@
     else {
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     }
-    
+
     $response = trim(curl_exec($ch));
     curl_close($ch);
 
@@ -88,12 +88,12 @@
   require('includes/template_top.php');
 ?>
 
-  <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
-  
-  <p class="lead"><?php echo TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>'; ?></p>
-  
-  <div class="<?php echo $check_message['class']; ?>">
-    <p class="lead"><?php echo $check_message['message']; ?></p>
+  <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
+
+  <p class="lead"><?= TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>' ?></p>
+
+  <div class="<?= $check_message['class'] ?>">
+    <p class="lead"><?= $check_message['message'] ?></p>
   </div>
 
 <?php
@@ -103,9 +103,9 @@
     <table class="table table-striped table-hover">
       <thead class="thead-dark">
         <tr>
-          <th><?php echo TABLE_HEADING_VERSION; ?></th>
-          <th><?php echo TABLE_HEADING_RELEASED; ?></th>
-          <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+          <th><?= TABLE_HEADING_VERSION ?></th>
+          <th><?= TABLE_HEADING_RELEASED ?></th>
+          <th class="text-right"><?= TABLE_HEADING_ACTION ?></th>
         </tr>
       </thead>
       <tbody>
@@ -113,9 +113,9 @@
       foreach ($new_versions as $version) {
         ?>
         <tr>
-          <td><?php echo '<a href="' . $version[2] . '" target="_blank">OSCOM CE Phoenix v' . $version[0] . '</a>'; ?></td>
-          <td><?php echo tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)); ?></td>
-          <td class="text-right"><?php echo '<a href="' . $version[2] . '" target="_blank"><i class="fas fa-info-circle text-info"></i></a>'; ?></td>
+          <td><?= '<a href="' . $version[2] . '" target="_blank" rel="noreferrer">OSCOM CE Phoenix v' . $version[0] . '</a>' ?></td>
+          <td><?= tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)) ?></td>
+          <td class="text-right"><?= '<a href="' . $version[2] . '" target="_blank" rel="noreferrer"><i class="fas fa-info-circle text-info"></i></a>' ?></td>
         </tr>
         <?php
       }

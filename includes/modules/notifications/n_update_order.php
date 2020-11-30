@@ -24,6 +24,9 @@
         $data['notify_comments'] = '';
       }
 
+      // templates are shop side
+      Guarantor::ensure_global('hooks', 'shop');
+
       ob_start();
       include Guarantor::ensure_global('oscTemplate')->map_to_template(__FILE__);
       echo $GLOBALS['OSCOM_Hooks']->call('siteWide', 'statusUpdateEmail', $data);

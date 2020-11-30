@@ -47,13 +47,12 @@
           tep_db_query("update manufacturers set manufacturers_image = '" . tep_db_input($manufacturers_image->filename) . "' where manufacturers_id = '" . (int)$manufacturers_id . "'");
         }
 
-        $languages = tep_get_languages();
-        for ($i=0, $n=count($languages); $i<$n; $i++) {
+        foreach (tep_get_languages() as $l) {
           $manufacturers_url_array = $_POST['manufacturers_url'];
           $manufacturers_description_array = $_POST['manufacturers_description'];
           $manufacturers_seo_description_array = $_POST['manufacturers_seo_description'];
           $manufacturers_seo_title_array = $_POST['manufacturers_seo_title'];
-          $language_id = $languages[$i]['id'];
+          $language_id = $l['id'];
 
           $sql_data_array = ['manufacturers_url' => tep_db_prepare_input($manufacturers_url_array[$language_id])];
           $sql_data_array['manufacturers_description'] = tep_db_prepare_input($manufacturers_description_array[$language_id]);
@@ -113,7 +112,7 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE; ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -133,8 +132,8 @@
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_MANUFACTURERS; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_MANUFACTURERS; ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION; ?></th>
             </tr>
           </thead>
           <tbody>
@@ -143,7 +142,7 @@
             $manufacturers_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $manufacturers_query_raw, $manufacturers_query_numrows);
             $manufacturers_query = tep_db_query($manufacturers_query_raw);
             while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
-              if ((!isset($_GET['mID']) || (isset($_GET['mID']) && ($_GET['mID'] == $manufacturers['manufacturers_id']))) && !isset($mInfo) && (substr($action, 0, 3) != 'new')) {
+              if ((!isset($_GET['mID']) || ($_GET['mID'] == $manufacturers['manufacturers_id'])) && !isset($mInfo) && (substr($action, 0, 3) != 'new')) {
                 $manufacturer_products_query = tep_db_query("select count(*) as products_count from products where manufacturers_id = '" . (int)$manufacturers['manufacturers_id'] . "'");
                 $manufacturer_products = tep_db_fetch_array($manufacturer_products_query);
 
@@ -157,7 +156,7 @@
                 echo '<tr onclick="document.location.href=\'' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . (int)$manufacturers['manufacturers_id']) . '\'">';
               }
               ?>
-                <td><?php echo $manufacturers['manufacturers_name']; ?></td>
+                <td><?= $manufacturers['manufacturers_name']; ?></td>
                 <td class="text-right"><?php if (isset($mInfo) && is_object($mInfo) && ($manufacturers['manufacturers_id'] == $mInfo->manufacturers_id)) { echo '<i class="fas fa-chevron-circle-right text-info"></i>'; } else { echo '<a href="' . tep_href_link('manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $manufacturers['manufacturers_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>'; } ?></td>
               </tr>
 <?php
@@ -168,8 +167,8 @@
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $manufacturers_split->display_count($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_MANUFACTURERS); ?></div>
-        <div class="col text-right mr-2"><?php echo $manufacturers_split->display_links($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
+        <div class="col"><?= $manufacturers_split->display_count($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_MANUFACTURERS); ?></div>
+        <div class="col text-right mr-2"><?= $manufacturers_split->display_links($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></div>
       </div>
     </div>
 
@@ -184,16 +183,15 @@
       $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'action=insert', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_NEW_INTRO];
       $contents[] = ['text' => TEXT_MANUFACTURERS_NAME . '<br>' . tep_draw_input_field('manufacturers_name')];
-      $contents[] = ['text' => TEXT_MANUFACTURERS_IMAGE . '<br><div class="custom-file mb-2">' . tep_draw_input_field('manufacturers_image', '', 'id="inputManufacturersImage"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="inputManufacturersImage">' . TEXT_MANUFACTURERS_IMAGE_LABEL . '</label></div>'];
+      $contents[] = ['text' => TEXT_MANUFACTURERS_IMAGE . '<br><div class="custom-file mb-2">' . tep_draw_input_field('manufacturers_image', '', 'id="inputManufacturersImage"', 'file', null, 'class="custom-file-input"') . '<label class="custom-file-label" for="inputManufacturersImage">' . TEXT_MANUFACTURERS_IMAGE_LABEL . '</label></div>'];
 
       $manufacturer_inputs_string = $manufacturer_description_string = $manufacturer_seo_description_string = $manufacturer_seo_title_string = '';
 
-      $languages = tep_get_languages();
-      for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-        $manufacturer_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('manufacturers_url[' . $languages[$i]['id'] . ']') . '</div>';
-        $manufacturer_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10') . '</div>';
-        $manufacturer_seo_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10') . '</div>';
-        $manufacturer_seo_title_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('manufacturers_seo_title[' . $languages[$i]['id'] . ']') . '</div>';
+      foreach (tep_get_languages() as $l) {
+        $manufacturer_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span></div>' . tep_draw_input_field('manufacturers_url[' . $l['id'] . ']') . '</div>';
+        $manufacturer_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_description[' . $l['id'] . ']', 'soft', '80', '10') . '</div>';
+        $manufacturer_seo_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_seo_description[' . $l['id'] . ']', 'soft', '80', '10') . '</div>';
+        $manufacturer_seo_title_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span></div>' . tep_draw_input_field('manufacturers_seo_title[' . $l['id'] . ']') . '</div>';
       }
 
       $contents[] = ['text' => TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string];
@@ -208,16 +206,14 @@
       $contents = ['form' => tep_draw_form('manufacturers', 'manufacturers.php', 'page=' . (int)$_GET['page'] . '&mID=' . $mInfo->manufacturers_id . '&action=save', 'post', 'enctype="multipart/form-data"')];
       $contents[] = ['text' => TEXT_EDIT_INTRO];
       $contents[] = ['text' => TEXT_MANUFACTURERS_NAME . '<br>' . tep_draw_input_field('manufacturers_name', $mInfo->manufacturers_name)];
-      $contents[] = ['text' => TEXT_MANUFACTURERS_IMAGE . '<br><div class="custom-file mb-2">' . tep_draw_input_field('manufacturers_image', '', 'id="inputManufacturersImage"', 'file', null, 'class="form-control-input"') . '<label class="custom-file-label" for="inputManufacturersImage">' . $mInfo->manufacturers_image . '</label></div>'];
+      $contents[] = ['text' => TEXT_MANUFACTURERS_IMAGE . '<br><div class="custom-file mb-2">' . tep_draw_input_field('manufacturers_image', '', 'id="inputManufacturersImage"', 'file', null, 'class="custom-file-input"') . '<label class="custom-file-label" for="inputManufacturersImage">' . $mInfo->manufacturers_image . '</label></div>'];
 
       $manufacturer_inputs_string = $manufacturer_description_string = $manufacturer_seo_description_string = $manufacturer_seo_title_string = '';
-      $languages = tep_get_languages();
-      for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-
-        $manufacturer_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('manufacturers_url[' . $languages[$i]['id'] . ']', tep_get_manufacturer_url($mInfo->manufacturers_id, $languages[$i]['id'])) . '</div>';
-        $manufacturer_seo_title_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name']) . '</span></div>' . tep_draw_input_field('manufacturers_seo_title[' . $languages[$i]['id'] . ']', tep_get_manufacturer_seo_title($mInfo->manufacturers_id, $languages[$i]['id'])) . '</div>';
-        $manufacturer_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_manufacturer_description($mInfo->manufacturers_id, $languages[$i]['id'])) . '</div>';
-        $manufacturer_seo_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $languages[$i]['directory'] . '/images/' . $languages[$i]['image'], '', 'SSL'), $languages[$i]['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_seo_description[' . $languages[$i]['id'] . ']', 'soft', '80', '10', tep_get_manufacturer_seo_description($mInfo->manufacturers_id, $languages[$i]['id'])) . '</div>';
+      foreach (tep_get_languages() as $l) {
+        $manufacturer_inputs_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span></div>' . tep_draw_input_field('manufacturers_url[' . $l['id'] . ']', tep_get_manufacturer_url($mInfo->manufacturers_id, $l['id'])) . '</div>';
+        $manufacturer_seo_title_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span></div>' . tep_draw_input_field('manufacturers_seo_title[' . $l['id'] . ']', tep_get_manufacturer_seo_title($mInfo->manufacturers_id, $l['id'])) . '</div>';
+        $manufacturer_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_manufacturer_description($mInfo->manufacturers_id, $l['id'])) . '</div>';
+        $manufacturer_seo_description_string .= '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text">' . tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name'], '', '', 'style="vertical-align: top;"') . '</span></div>' . tep_draw_textarea_field('manufacturers_seo_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_manufacturer_seo_description($mInfo->manufacturers_id, $l['id'])) . '</div>';
       }
 
       $contents[] = ['text' => TEXT_MANUFACTURERS_URL . $manufacturer_inputs_string];

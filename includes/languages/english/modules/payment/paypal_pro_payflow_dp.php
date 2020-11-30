@@ -12,7 +12,7 @@
 
   define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TEXT_TITLE', 'PayPal Payments Pro (Payflow Edition)');
   define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TEXT_PUBLIC_TITLE', 'Credit or Debit Card');
-  define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TEXT_DESCRIPTION', '<i class="fas fa-info-circle"></i>&nbsp;<a href="http://library.oscommerce.com/Package&en&paypal&oscom23&payments_pro_payflow" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br><br><i class="fas fa-external-link-alt"></i>&nbsp;<a href="https://www.paypal.com" target="_blank" rel="noopener" style="text-decoration: underline; font-weight: bold;">Visit PayPal Website</a>');
+  define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_TEXT_DESCRIPTION', '<i class="fas fa-info-circle"></i>&nbsp;<a href="http://library.oscommerce.com/Package&en&paypal&oscom23&payments_pro_payflow" target="_blank" rel="noreferrer" style="text-decoration: underline; font-weight: bold;">View Online Documentation</a><br><br><i class="fas fa-external-link-alt"></i>&nbsp;<a href="https://www.paypal.com" target="_blank" rel="noreferrer" style="text-decoration: underline; font-weight: bold;">Visit PayPal Website</a>');
 
   define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_EXPRESS_MODULE', 'PayPal mandates the PayPal Express Checkout (Payflow Edition) payment module be enabled if this module is to be activated. This module will not load until the PayPal Express Checkout (Payflow Edition) module has been installed.');
   define('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_ERROR_ADMIN_CURL', 'This module requires cURL to be enabled in PHP and will not load until it has been enabled on this webserver.');
