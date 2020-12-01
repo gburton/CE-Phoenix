@@ -623,8 +623,8 @@ function updateNet() {
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
         <div class="accordion" id="productLanguageAccordion">
           <?php
+          $show = ' show';
           foreach ($languages as $l) {
-            $show = ($i == 0) ? ' show' : null;
             ?>
             <div class="card">
               <div class="card-header" id="heading<?= $l['directory'] ?>">
@@ -690,6 +690,10 @@ function updateNet() {
             </div>
             <?php
             echo $OSCOM_Hooks->call('categories', 'injectLanguageForm');
+
+            if ('' !== $show) {
+              $show = '';
+            }
           }
           ?>
         </div>
