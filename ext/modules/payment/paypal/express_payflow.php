@@ -111,6 +111,7 @@ EOD;
               echo $output;
               exit;
             } else {
+              $OSCOM_Hooks->call('siteWide', 'postLogin');
               $_SESSION['customer_id'] = $check['customers_id'];
             }
           } else {
@@ -154,16 +155,10 @@ EOD;
               tep_mail($customer_data->get('name', $customer_details), $email_address, EMAIL_SUBJECT, $email_text, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
             }
 
-            $OSCOM_Hooks->call('siteWide', 'postAccountCreation');
-          }
-
-          $OSCOM_Hooks->call('siteWide', 'postLogin');
-          if (SESSION_RECREATE == 'True') {
-            tep_session_recreate();
+            $OSCOM_Hooks->call('siteWide', 'postRegistration');
           }
 
           $customer_id =& $_SESSION['customer_id'];
-          tep_reset_session_token();
         }
 
 // check if paypal shipping address exists in the address book

@@ -29,16 +29,6 @@
 
   if ( is_int($login_customer_id) && ($login_customer_id > 0) ) {
     $OSCOM_Hooks->call('siteWide', 'postLogin');
-    if (SESSION_RECREATE == 'True') {
-      tep_session_recreate();
-    }
-
-    $_SESSION['customer_id'] = $login_customer_id;
-
-    tep_db_query("UPDATE customers_info SET customers_info_date_of_last_logon = NOW(), customers_info_number_of_logons = customers_info_number_of_logons+1, password_reset_key = null, password_reset_date = null WHERE customers_info_id = " . (int)$_SESSION['customer_id']);
-
-    tep_reset_session_token();
-    $_SESSION['cart']->restore_contents();
 
     tep_redirect($_SESSION['navigation']->pop_snapshot_as_link());
   }

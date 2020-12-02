@@ -14,15 +14,7 @@
 
   require "includes/languages/$language/logoff.php";
 
-  unset($_SESSION['customer_id']);
-
-  unset($_SESSION['sendto']);
-  unset($_SESSION['billto']);
-  unset($_SESSION['shipping']);
-  unset($_SESSION['payment']);
-  unset($_SESSION['comments']);
-
-  $_SESSION['cart']->reset();
+  $hooks->register_pipeline('reset');
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 

@@ -151,14 +151,16 @@
   }
 
   function tep_session_recreate() {
-    global $SID;
+    if (SESSION_RECREATE !== 'True') {
+      return;
+    }
 
     $old_id = session_id();
 
     session_regenerate_id(true);
 
-    if (!empty($SID)) {
-      $SID = session_name() . '=' . session_id();
+    if (!empty($GLOBALS['SID'])) {
+      $GLOBALS['SID'] = session_name() . '=' . session_id();
     }
 
     whos_online::update_session_id($old_id, session_id());

@@ -27,23 +27,7 @@
     if (tep_form_processing_is_valid()) {
       $customer_data->create($customer_details);
 
-      $OSCOM_Hooks->call('siteWide', 'postAccountCreation');
-      $OSCOM_Hooks->call('siteWide', 'postLogin');
-
-      if (SESSION_RECREATE == 'True') {
-        tep_session_recreate();
-      }
-
-      $customer = new customer($customer_data->get('id', $customer_details));
-      $_SESSION['customer_id'] = $customer->get_id();
-      $customer_id =& $_SESSION['customers_id'];
-
-      tep_reset_session_token();
-      $_SESSION['cart']->restore_contents();
-
-      tep_notify('create_account', $customer);
-
-      tep_redirect(tep_href_link('create_account_success.php', '', 'SSL'));
+      $OSCOM_Hooks->call('siteWide', 'postRegistration');
     }
   }
 

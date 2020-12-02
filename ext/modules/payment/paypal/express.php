@@ -380,13 +380,8 @@ EOD;
             }
           }
 
-          $OSCOM_Hooks->call('siteWide', 'postAccountCreation');
-          $OSCOM_Hooks->call('siteWide', 'postLogin');
-          if ( SESSION_RECREATE === 'True' ) {
-            tep_session_recreate();
-          }
+          $OSCOM_Hooks->call('siteWide', 'postRegistration');
 
-          tep_reset_session_token();
           $customer = new customer($customer_id);
         }
 
