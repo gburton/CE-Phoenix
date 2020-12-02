@@ -178,13 +178,13 @@
     }
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_state'] = $customer_details['entry_state'];
       $db_tables['address_book']['entry_zone_id'] = $customer_details['zone_id'];
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_state'] = 'state';
       $db_tables['address_book']['entry_zone_id'] = 'zone_id';
     }

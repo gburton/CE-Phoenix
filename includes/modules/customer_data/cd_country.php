@@ -162,18 +162,18 @@
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
       $country_id = $GLOBALS['customer_data']->get('country_id', $customer_details);
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_country_id'] = $country_id;
       if ('countries' === $table) {
-        tep_guarantee_subarray($db_tables, 'countries');
+        Guarantor::guarantee_subarray($db_tables, 'countries');
         $db_tables['countries']['countries_id'] = $country_id;
       }
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_country_id'] = 'country_id';
-      tep_guarantee_subarray($db_tables, 'countries');
+      Guarantor::guarantee_subarray($db_tables, 'countries');
       $db_tables['countries'] = [];
     }
 
