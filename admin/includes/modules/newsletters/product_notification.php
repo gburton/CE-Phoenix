@@ -16,19 +16,19 @@
     public $title, $content;
 
     function __construct($title, $content) {
-      $this->show_choose_audience = true;
       $this->title = $title;
       $this->content = $content;
     }
 
     function choose_audience() {
       $products = [];
-      $products_query = tep_db_query(<<<'EOSQL'
+      $products_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT pd.products_id, pd.products_name
   FROM products p INNER JOIN products_description pd ON pd.products_id = p.products_id
-  WHERE p.products_status = 1 AND pd.language_id = 
+  WHERE p.products_status = 1 AND pd.language_id = %d
+ ORDER BY pd.products_name
 EOSQL
-        . (int)$GLOBALS['languages_id'] . ' ORDER BY pd.products_name');
+        , (int)$_SESSION['languages_id']));
       while ($product = tep_db_fetch_array($products_query)) {
         $products[] = [
           'id' => $product['products_id'],

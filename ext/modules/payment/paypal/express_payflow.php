@@ -72,7 +72,7 @@
 
       if ($response_array['RESULT'] == '0') {
         if ( !isset($_SESSION['ppeuk_secret']) || ($response_array['CUSTOM'] != $ppeuk_secret) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         }
 
         $_SESSION['payment'] = $paypal_pro_payflow_ec->code;
@@ -96,7 +96,7 @@
 
               $_SESSION['navigation']->set_snapshot();
 
-              $login_url = tep_href_link('login.php', '', 'SSL');
+              $login_url = tep_href_link('login.php');
               $login_email_address = tep_output_string($response_array['EMAIL']);
 
       $output = <<<EOD
@@ -255,7 +255,7 @@ EOD;
 
             $_SESSION['ppecuk_right_turn'] = true;
 
-            tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
+            tep_redirect(tep_href_link('checkout_shipping_address.php'));
           }
 
           if (strpos($shipping, '_')) {
@@ -272,7 +272,7 @@ EOD;
               if (isset($quote['error'])) {
                 unset($_SESSION['shipping']);
 
-                tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+                tep_redirect(tep_href_link('checkout_shipping.php'));
               } elseif ( isset($quote[0]['methods'][0]['title'], $quote[0]['methods'][0]['cost']) ) {
                 $shipping = [
                   'id' => $shipping,
@@ -284,8 +284,8 @@ EOD;
           }
         }
 
-/* useraction=commit       tep_redirect(tep_href_link('checkout_process.php', '', 'SSL')); */
-        tep_redirect(tep_href_link('checkout_confirmation.php', '', 'SSL'));
+/* useraction=commit       tep_redirect(tep_href_link('checkout_process.php')); */
+        tep_redirect(tep_href_link('checkout_confirmation.php'));
       } else {
         tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
       }
@@ -386,7 +386,7 @@ EOD;
 
             $messageStack->add_session('checkout_address', MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_ERROR_NO_SHIPPING_AVAILABLE_TO_SHIPPING_ADDRESS);
 
-            tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
+            tep_redirect(tep_href_link('checkout_shipping_address.php'));
           }
         }
       }
@@ -512,6 +512,6 @@ EOD;
       break;
   }
 
-  tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+  tep_redirect(tep_href_link('shopping_cart.php'));
 
   require 'includes/application_bottom.php';

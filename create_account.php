@@ -32,12 +32,13 @@
   }
 
   $grouped_modules = $customer_data->get_grouped_modules();
-  $customer_data_group_query = tep_db_query(<<<'EOSQL'
+  $customer_data_group_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT customer_data_groups_id, customer_data_groups_name
  FROM customer_data_groups
- WHERE language_id = 
+ WHERE language_id = %d
+ ORDER BY cdg_vertical_sort_order, cdg_horizontal_sort_order')
 EOSQL
-    . (int)$languages_id . ' ORDER BY cdg_vertical_sort_order, cdg_horizontal_sort_order');
+    , (int)$_SESSION['languages_id']));
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 
