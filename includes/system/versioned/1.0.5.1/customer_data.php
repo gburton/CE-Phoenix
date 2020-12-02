@@ -37,7 +37,7 @@
           if (method_exists($GLOBALS[$class], 'get_group')) {
             $group = $GLOBALS[$class]->get_group();
             if (is_scalar($group)) {
-              tep_guarantee_subarray($this->grouped_modules, $group);
+              Guarantor::guarantee_subarray($this->grouped_modules, $group);
               $this->grouped_modules[$group][] = &$GLOBALS[$class];
             }
           }

@@ -62,7 +62,7 @@
 
           $class = "hook_{$site}_{$group}_{$pathinfo['filename']}";
           foreach (tep_find_listeners($class) as $listener) {
-            tep_guarantee_all(
+            Guarantor::guarantee_all(
               $contents,
               $site,
               $group,
@@ -90,7 +90,7 @@ EOSQL
       $callable[] = $hook['hooks_method'];
     }
 
-    tep_guarantee_all(
+    Guarantor::guarantee_all(
       $contents,
       $hook['hooks_site'],
       $hook['hooks_group'],

@@ -9,23 +9,6 @@
   Released under the GNU General Public License
 */
 
-  function &tep_guarantee_subarray(&$data, $key) {
-    if (!isset($data[$key]) || !is_array($data[$key])) {
-      $data[$key] = [];
-    }
-
-    return $data[$key];
-  }
-
-  function &tep_guarantee_all(&$data, ...$keys) {
-    $current = &$data;
-    foreach ($keys as $key) {
-      $current = &tep_guarantee_subarray($current, $key);
-    }
-
-    return $current;
-  }
-
   class hooks {
 
     private $_site;
@@ -60,7 +43,7 @@ EOSQL
 
       while ($hook = tep_db_fetch_array($hooks_query)) {
         if ('' === $hook['hooks_class'] && function_exists($hook['hooks_method'])) {
-          tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
+          Guarantor::guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
             = $hook['hooks_method'];
           continue;
         }
@@ -75,7 +58,7 @@ EOSQL
         }
 
         if (method_exists($object, $hook['hooks_method'])) {
-          tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
+          Guarantor::guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
             = [$object, $hook['hooks_method']];
         }
       }
@@ -110,7 +93,7 @@ EOSQL
             foreach ( get_class_methods($GLOBALS[$class]) as $method ) {
               if ( substr($method, 0, $this->prefix_length) === self::PREFIX ) {
                 $action = substr($method, $this->prefix_length);
-                tep_guarantee_all($this->_hooks, $this->_site, $alias, $action)[$code]
+                Guarantor::guarantee_all($this->_hooks, $this->_site, $alias, $action)[$code]
                   = [$GLOBALS[$class], $method];
               }
             }

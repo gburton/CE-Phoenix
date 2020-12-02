@@ -9,23 +9,6 @@
   Released under the GNU General Public License
 */
 
-  function &tep_guarantee_subarray(&$data, $key) {
-    if (!isset($data[$key]) || !is_array($data[$key])) {
-      $data[$key] = [];
-    }
-
-    return $data[$key];
-  }
-
-  function &tep_guarantee_all(&$data, ...$keys) {
-    $current = &$data;
-    foreach ($keys as $key) {
-      $current = &tep_guarantee_subarray($current, $key);
-    }
-
-    return $current;
-  }
-
   class hooks {
 
     private $_site;
@@ -56,6 +39,29 @@
       }
     }
 
+    private function build_callback($class, $method) {
+      if ('' === $class) {
+        return $method;
+      }
+
+      if (isset($_SESSION[$class]) && is_callable([$_SESSION[$class], $method])) {
+        return [$_SESSION[$class], $method];
+      }
+
+      if (!class_exists($class)) {
+        return null;
+      }
+
+      if (is_callable([$class, $method])) {
+        $m = new \ReflectionMethod($class, $method);
+        if ($m->isStatic()) {
+          return [$class, $method];
+        }
+      }
+
+      return [Guarantor::ensure_global($class), $method];
+    }
+
     private function load($group, $alias) {
       $hooks_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT hooks_action, hooks_code, hooks_class, hooks_method
@@ -65,37 +71,14 @@ EOSQL
 , tep_db_input($this->_site), tep_db_input($group)));
 
       while ($hook = tep_db_fetch_array($hooks_query)) {
-        if ('' === $hook['hooks_class'] && is_callable($hook['hooks_method'])) {
-          tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
-            = $hook['hooks_method'];
-          continue;
-        }
-
-        if (!class_exists($hook['hooks_class'])) {
-          continue;
-        }
-
-        if (is_callable([$hook['hooks_class'], $hook['hooks_method']])) {
-          $method = new \ReflectionMethod($hook['hooks_class'], $hook['hooks_method']);
-          if ($method->isStatic()) {
-            tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
-              = [$hook['hooks_class'], $hook['hooks_method']];
-            continue;
-          }
-        }
-
-        if (isset($_SESSION[$hook['hooks_class']])) {
-          $object = &$_SESSION[$hook['hooks_class']];
-        } else {
-          $object = &$GLOBALS[$hook['hooks_class']];
-          if (!isset($object)) {
-            $object = new $hook['hooks_class']();
-          }
-        }
-
-        if (is_callable([$object, $hook['hooks_method']])) {
-          tep_guarantee_all($this->_hooks, $this->_site, $alias, $hook['hooks_action'])[$hook['hooks_code']]
-            = [$object, $hook['hooks_method']];
+        $callback = $this->build_callback($hook['hooks_class'], $hook['hooks_method']);
+        if (is_callable($callback)) {
+          Guarantor::guarantee_all(
+            $this->_hooks,
+            $this->_site,
+            $alias,
+            $hook['hooks_action']
+          )[$hook['hooks_code']] = $callback;
         }
       }
 
@@ -117,14 +100,14 @@ EOSQL
         foreach ($files as $file) {
           $code = pathinfo($file, PATHINFO_FILENAME);
           if ( 'php' === pathinfo($file, PATHINFO_EXTENSION) ) {
-            $class = 'hook_' . $this->_site . '_' . $group . '_' . $code;
+            $class = "hook_{$this->_site}_{$group}_{$code}";
 
-            $GLOBALS[$class] = new $class();
+            Guarantor::ensure_global($class);
 
             foreach ( get_class_methods($GLOBALS[$class]) as $method ) {
               if ( substr($method, 0, $this->prefix_length) === self::PREFIX ) {
                 $action = substr($method, $this->prefix_length);
-                tep_guarantee_all($this->_hooks, $this->_site, $alias, $action)[$code]
+                Guarantor::guarantee_all($this->_hooks, $this->_site, $alias, $action)[$code]
                   = [$GLOBALS[$class], $method];
               }
             }
@@ -139,7 +122,7 @@ EOSQL
 
       $files = [];
       foreach ($this->hook_directories as $directory) {
-        $this->register_directory($directory . $group, $group, $alias, $files);
+        $this->register_directory("$directory$group", $group, $alias, $files);
       }
 
       $this->load($group, $alias);
