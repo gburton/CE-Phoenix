@@ -89,7 +89,7 @@
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?php echo HEADING_TITLE; ?></h1>
+      <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
       <?php
@@ -134,7 +134,7 @@ EOSQL
       }
       ?>
 
-     <h5><?php echo $customer_data_group['customer_data_groups_name']; ?></h5>
+     <h5><?= $customer_data_group['customer_data_groups_name'] ?></h5>
 
       <?php
       foreach ((array)$grouped_modules[$customer_data_group['customer_data_groups_id']] as $module) {
@@ -164,9 +164,9 @@ EOSQL
         <table class="table table-striped table-hover">
           <thead class="thead-dark">
             <tr>
-              <th><?php echo TABLE_HEADING_NAME; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACCOUNT_CREATED; ?></th>
-              <th class="text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              <th><?= TABLE_HEADING_NAME ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACCOUNT_CREATED ?></th>
+              <th class="text-right"><?= TABLE_HEADING_ACTION ?></th>
             </tr>
           </thead>
           <tbody>
@@ -204,19 +204,19 @@ EOSQL
               $customer_data->get([ 'sortable_name', 'name', 'email_address', 'country_id', 'id' ], $cInfo_array);
               $cInfo = new objectInfo($cInfo_array);
 
-              $href = tep_href_link('customers.php', tep_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id . '&action=edit');
+              $href = tep_href_link('customers.php', addslashes(tep_get_all_get_params(['cID', 'action'])) . 'cID=' . $cInfo->customers_id . '&action=edit');
               $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               $css = 'class="table-active" ';
             } else {
-              $href = tep_href_link('customers.php', tep_get_all_get_params(['cID']) . 'cID=' . $customer_data->get('id', $customers));
+              $href = tep_href_link('customers.php', addslashes(tep_get_all_get_params(['cID'])) . 'cID=' . $customer_data->get('id', $customers));
               $icon = '<a href="' . $href . '"><i class="fas fa-info-circle text-muted"></i></a>';
               $css = null;
             }
             ?>
-              <tr <?php echo $css; ?>onclick="document.location.href='<?php echo $href; ?>'">
-                <td><?php echo $customer_data->get('sortable_name', $customers); ?></td>
-                <td class="text-right"><?php echo tep_date_short($info['date_account_created']); ?></td>
-                <td class="text-right"><?php echo $icon; ?></td>
+              <tr <?= $css ?>onclick="document.location.href='<?= $href ?>'">
+                <td><?= $customer_data->get('sortable_name', $customers) ?></td>
+                <td class="text-right"><?= tep_date_short($info['date_account_created']) ?></td>
+                <td class="text-right"><?= $icon ?></td>
               </tr>
               <?php
             }
@@ -226,8 +226,8 @@ EOSQL
       </div>
 
       <div class="row my-1">
-        <div class="col"><?php echo $customers_split->display_count($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CUSTOMERS); ?></div>
-        <div class="col text-right mr-2"><?php echo $customers_split->display_links($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'info', 'x', 'y', 'cID'])); ?></div>
+        <div class="col"><?= $customers_split->display_count($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CUSTOMERS) ?></div>
+        <div class="col text-right mr-2"><?= $customers_split->display_links($customers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], tep_get_all_get_params(['page', 'info', 'x', 'y', 'cID'])) ?></div>
       </div>
 
       <?php
