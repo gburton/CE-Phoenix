@@ -40,15 +40,10 @@ const HEADER_TITLE_PHOENIX_CLUB = '<span class="border-bottom border-primary">Ph
 const HEADER_TITLE_CERTIFIED_ADDONS = '<span class="border-bottom border-primary">Certified Addons & Services</span>';
 const HEADER_TITLE_LOGOFF = '<i class="fas fa-lock"></i> <span class="border-bottom border-danger"> %s, securely logoff</span>';
 
-// javascript messages
-const JS_STATE_SELECT = '-- Select Above --';
-
 // images
-const IMAGE_ANI_SEND_EMAIL = 'Sending E-Mail';
 const IMAGE_BACK = 'Back';
 const IMAGE_BACKUP = 'Backup';
 const IMAGE_CANCEL = 'Cancel';
-const IMAGE_CONFIRM = 'Confirm';
 const IMAGE_COPY = 'Copy';
 const IMAGE_COPY_TO = 'Copy To';
 const IMAGE_DETAILS = 'Details';
@@ -56,11 +51,6 @@ const IMAGE_DELETE = 'Delete';
 const IMAGE_EDIT = 'Edit';
 const IMAGE_EMAIL = 'Email';
 const IMAGE_EXPORT = 'Export';
-const IMAGE_ICON_STATUS_GREEN = 'Active';
-const IMAGE_ICON_STATUS_GREEN_LIGHT = 'Set Active';
-const IMAGE_ICON_STATUS_RED = 'Inactive';
-const IMAGE_ICON_STATUS_RED_LIGHT = 'Set Inactive';
-const IMAGE_ICON_INFO = 'Info';
 const IMAGE_INSERT = 'Insert';
 const IMAGE_LOCK = 'Lock';
 const IMAGE_MODULE_INSTALL = 'Install Module';
@@ -70,14 +60,11 @@ const IMAGE_NEW_CATEGORY = 'New Category';
 const IMAGE_NEW_COUNTRY = 'New Country';
 const IMAGE_NEW_CURRENCY = 'New Currency';
 const IMAGE_NEW_CUSTOMER_DATA_GROUP = 'New Customer Data Group';
-const IMAGE_NEW_FILE = 'New File';
-const IMAGE_NEW_FOLDER = 'New Folder';
 const IMAGE_NEW_LANGUAGE = 'New Language';
 const IMAGE_NEW_NEWSLETTER = 'New Newsletter';
 const IMAGE_NEW_PRODUCT = 'New Product';
 const IMAGE_NEW_TAX_CLASS = 'New Tax Class';
 const IMAGE_NEW_TAX_RATE = 'New Tax Rate';
-const IMAGE_NEW_TAX_ZONE = 'New Tax Zone';
 const IMAGE_NEW_ZONE = 'New Zone';
 const IMAGE_ORDERS = 'Orders';
 const IMAGE_ORDERS_INVOICE = 'Invoice';
@@ -86,7 +73,6 @@ const IMAGE_PREVIEW = 'Preview';
 const IMAGE_RESTORE = 'Restore';
 const IMAGE_RESET = 'Reset';
 const IMAGE_SAVE = 'Save';
-const IMAGE_SEARCH = 'Search';
 const IMAGE_SELECT = 'Select';
 const IMAGE_SEND = 'Send';
 const IMAGE_SEND_EMAIL = 'Send Email';
@@ -95,21 +81,8 @@ const IMAGE_UPDATE = 'Update';
 const IMAGE_UPDATE_CURRENCIES = 'Update Exchange Rate';
 const IMAGE_UPLOAD = 'Upload';
 
-const ICON_CROSS = 'False';
-const ICON_CURRENT_FOLDER = 'Current Folder';
-const ICON_DELETE = 'Delete';
-const ICON_ERROR = 'Error';
 const ICON_FILE = 'File';
 const ICON_FILE_DOWNLOAD = 'Download';
-const ICON_FOLDER = 'Folder';
-const ICON_LOCKED = 'Locked';
-const ICON_PREVIOUS_LEVEL = 'Previous Level';
-const ICON_PREVIEW = 'Preview';
-const ICON_STATISTICS = 'Statistics';
-const ICON_SUCCESS = 'Success';
-const ICON_TICK = 'True';
-const ICON_UNLOCKED = 'Unlocked';
-const ICON_WARNING = 'Warning';
 
 // constants for use in tep_prev_next_display function
 const TEXT_RESULT_PAGE = 'Page %s of %d';
