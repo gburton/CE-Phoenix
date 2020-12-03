@@ -33,8 +33,8 @@
 ?>
 
     <tr>
-      <td class="w-25"><?php echo tep_output_string_protected($key); ?></td>
-      <td><?php echo tep_output_string_protected($value); ?></td>
+      <td class="w-25"><?php echo htmlspecialchars($key); ?></td>
+      <td><?php echo htmlspecialchars($value); ?></td>
     </tr>
 
 <?php
@@ -57,8 +57,8 @@
 ?>
 
     <tr>
-      <td class="w-25"><?php echo tep_output_string_protected($key); ?></td>
-      <td><?php echo tep_output_string_protected($value); ?></td>
+      <td class="w-25"><?php echo htmlspecialchars($key); ?></td>
+      <td><?php echo htmlspecialchars($value); ?></td>
     </tr>
 
 <?php

@@ -81,18 +81,18 @@
         $response = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
         if ( in_array($response['ACK'], array('Success', 'SuccessWithWarning')) ) {
-          $result = 'Transaction ID: ' . tep_output_string_protected($response['TRANSACTIONID']) . "\n" .
-                    'Payer Status: ' . tep_output_string_protected($response['PAYERSTATUS']) . "\n" .
-                    'Address Status: ' . tep_output_string_protected($response['ADDRESSSTATUS']) . "\n" .
-                    'Payment Status: ' . tep_output_string_protected($response['PAYMENTSTATUS']) . "\n" .
-                    'Payment Type: ' . tep_output_string_protected($response['PAYMENTTYPE']) . "\n" .
-                    'Pending Reason: ' . tep_output_string_protected($response['PENDINGREASON']);
+          $result = 'Transaction ID: ' . htmlspecialchars($response['TRANSACTIONID']) . "\n" .
+                    'Payer Status: ' . htmlspecialchars($response['PAYERSTATUS']) . "\n" .
+                    'Address Status: ' . htmlspecialchars($response['ADDRESSSTATUS']) . "\n" .
+                    'Payment Status: ' . htmlspecialchars($response['PAYMENTSTATUS']) . "\n" .
+                    'Payment Type: ' . htmlspecialchars($response['PAYMENTTYPE']) . "\n" .
+                    'Pending Reason: ' . htmlspecialchars($response['PENDINGREASON']);
         }
       } elseif ( $comments['Gateway'] == 'Payflow' ) {
         $response = $this->_app->getApiResult('APP', 'PayflowInquiry', array('ORIGID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
         if ( isset($response['RESULT']) && ($response['RESULT'] == '0') ) {
-          $result = 'Transaction ID: ' . tep_output_string_protected($response['ORIGPNREF']) . "\n" .
+          $result = 'Transaction ID: ' . htmlspecialchars($response['ORIGPNREF']) . "\n" .
                     'Gateway: Payflow' . "\n";
 
           $pending_reason = $response['TRANSSTATE'];
@@ -122,10 +122,10 @@
           }
 
           if ( isset($payment_status) ) {
-            $result .= 'Payment Status: ' . tep_output_string_protected($payment_status) . "\n";
+            $result .= 'Payment Status: ' . htmlspecialchars($payment_status) . "\n";
           }
 
-          $result .= 'Pending Reason: ' . tep_output_string_protected($pending_reason) . "\n";
+          $result .= 'Pending Reason: ' . htmlspecialchars($pending_reason) . "\n";
 
           switch ( $response['AVSADDR'] ) {
             case 'Y':
@@ -231,7 +231,7 @@
           $result .= 'PayPal App: Void (' . $this->_app->formatCurrencyRaw($capture_total - $capture_value, $order['currency'], 1) . ')' . "\n";
         }
 
-        $result .= 'Transaction ID: ' . tep_output_string_protected($transaction_id);
+        $result .= 'Transaction ID: ' . htmlspecialchars($transaction_id);
 
         $sql_data_array = array('orders_id' => (int)$order['orders_id'],
                                 'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
@@ -346,8 +346,8 @@
 
           if ( $pass === true ) {
             $result = 'PayPal App: Refund (' . $tids[$id]['Amount'] . ')' . "\n" .
-                      'Transaction ID: ' . tep_output_string_protected($transaction_id) . "\n" .
-                      'Parent ID: ' . tep_output_string_protected($id);
+                      'Transaction ID: ' . htmlspecialchars($transaction_id) . "\n" .
+                      'Parent ID: ' . htmlspecialchars($id);
 
             $sql_data_array = array('orders_id' => (int)$order['orders_id'],
                                     'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,

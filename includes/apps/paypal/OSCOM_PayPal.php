@@ -674,7 +674,7 @@
 
             foreach ( $messages as $message ) {
               $m .= '<div class="alert alert-' . $type . '">';
-                $m .= tep_output_string_protected($message);
+                $m .= htmlspecialchars($message);
               $m .= '</div>';
             }            
 

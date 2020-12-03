@@ -45,7 +45,7 @@
       <td style="text-center"><span class="<?= ($log['result'] == '1') ? 'logSuccess' : 'logError'; ?>"><?= $log['module']; ?></span></td>
       <td><?= $log['action']; ?></td>
       <td><?= long2ip($log['ip_address']); ?></td>
-      <td><?= (!empty($customers_name)) ? tep_output_string_protected($customers_name) : '<i>' . $OSCOM_PayPal->getDef('guest') . '</i>'; ?></td>
+      <td><?= (!empty($customers_name)) ? htmlspecialchars($customers_name) : '<i>' . $OSCOM_PayPal->getDef('guest') . '</i>'; ?></td>
       <td><?= date(PHP_DATE_TIME_FORMAT, $log['date_added']); ?></td>
       <td class="pp-table-action text-right"><?= $OSCOM_PayPal->drawButton($OSCOM_PayPal->getDef('button_view'), tep_href_link('paypal.php', 'action=log&page=' . $_GET['page'] . '&lID=' . $log['id'] . '&subaction=view'), 'info'); ?></td>
     </tr>
