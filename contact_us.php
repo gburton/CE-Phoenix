@@ -12,7 +12,7 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/contact_us.php";
+  require language::map_to_translation('contact_us.php');
 
   if (tep_validate_form_action_is('send')) {
     $error = false;

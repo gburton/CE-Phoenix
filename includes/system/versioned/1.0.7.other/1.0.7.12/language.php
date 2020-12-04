@@ -75,39 +75,114 @@
       'zu' => 'zu|zulu',
     ];
 
-    public $catalog_languages = [];
-    public $language;
-
-    public function __construct($language = '') {
-      $languages_query = tep_db_query("SELECT languages_id, name, code, image, directory FROM languages ORDER BY sort_order");
-      while ($languages = tep_db_fetch_array($languages_query)) {
-        $this->catalog_languages[$languages['code']] = [
-          'id' => $languages['languages_id'],
-          'name' => $languages['name'],
-          'image' => $languages['image'],
-          'directory' => $languages['directory'],
+    public static function parse_browser_languages() {
+      $acceptable_locales = [];
+      foreach (explode(',', str_replace(' ', '', getenv('HTTP_ACCEPT_LANGUAGE'))) as $entry) {
+        $locale_qualities = explode(';q=', $entry);
+        $acceptable_locales[] = [
+          'locale' => $locale_qualities[0],
+          'quality' => $locale_qualities[1] ?? 1,
+          'codes' => explode('-', $locale_qualities[0]),
         ];
       }
 
-      $this->set_language($language);
+      usort($acceptable_locales, function ($a, $b) {
+        $result = $b['quality'] <=> $a['quality'];
+        if ((0 === $result) && ($b['codes'][0] === $a['codes'][0])) {
+          return count($b['codes']) <=> count($a['codes']);
+        }
+
+        return $result;
+      });
+
+      return array_filter(
+        array_map('strtolower', array_column($acceptable_locales, 'locale')),
+        function ($v) {
+          foreach (static::LANGUAGES as $language) {
+            if (preg_match("{\A(?:$v)\z}", $language)) {
+              return true;
+            }
+          }
+
+          return false;
+        });
+    }
+
+    public static function load_languages() {
+      $languages = [];
+
+      $languages_query = tep_db_query("SELECT languages_id, name, code, image, directory FROM languages ORDER BY sort_order");
+      while ($language = tep_db_fetch_array($languages_query)) {
+        $languages[$language['code']] = [
+          'id' => $language['languages_id'],
+          'name' => $language['name'],
+          'image' => $language['image'],
+          'directory' => $language['directory'],
+        ];
+      }
+
+      return $languages;
+    }
+
+    public static function negotiate($languages) {
+      $fallback = null;
+      foreach (static::parse_browser_languages() as $locale) {
+        if (isset($languages[$locale])) {
+          return $locale;
+        }
+
+        if (is_null($fallback) && isset($languages[$locale = substr($locale, 0, 2)])) {
+// if we do not yet have a fallback in case no locale matches, create one
+          $fallback = $locale;
+        }
+      }
+
+      return $fallback ?? DEFAULT_LANGUAGE;
+    }
+
+    public static function build() {
+      $languages = static::load_languages();
+
+      if (empty($_GET['language'])) {
+        $locale = static::negotiate($languages);
+      } else {
+        $locale = $_GET['language'];
+      }
+
+      $language = new static($locale, $languages);
+
+      $_SESSION['language'] = $language->language['directory'];
+      $_SESSION['languages_id'] = $language->language['id'];
+
+      return $language;
+    }
+
+    public static function map_to_translation($page) {
+      $page = "includes/languages/{$_SESSION['language']}/$page";
+      $template =& Guarantor::ensure_global('oscTemplate');
+      $translation = $template->map_to_template($page, 'translation')
+                  ?? DIR_FS_CATALOG . $page;
+
+      return file_exists($translation) ? $translation : DIR_FS_CATALOG . $page;
+    }
+
+    public $catalog_languages;
+    public $language;
+
+    public function __construct($selection = null, $languages = null) {
+      $this->catalog_languages = $languages ?? static::load_languages();
+
+      $this->set_language($selection);
     }
 
     public function set_language($language) {
-      if ( (tep_not_null($language)) && (isset($this->catalog_languages[$language])) ) {
-        $this->language = $this->catalog_languages[$language];
-      } else {
-        $this->language = $this->catalog_languages[DEFAULT_LANGUAGE];
-      }
+      $this->language = $this->catalog_languages[$language ?? DEFAULT_LANGUAGE]
+                     ?? $this->catalog_languages[DEFAULT_LANGUAGE];
     }
 
     public function get_browser_language() {
-      foreach (explode(',', getenv('HTTP_ACCEPT_LANGUAGE')) as $language) {
-        foreach (static::LANGUAGES as $key => $value) {
-          if (preg_match('/^(' . $value . ')(;q=[0-9]\\.[0-9])?$/i', $language) && isset($this->catalog_languages[$key])) {
-            $this->language = $this->catalog_languages[$key];
-            return;
-          }
-        }
-      }
+      trigger_error('The get_browser_language function has been deprecated.', E_USER_DEPRECATED);
+      $this->language = $this->catalog_languages[static::negotiate($this->catalog_languages)];
     }
+
   }

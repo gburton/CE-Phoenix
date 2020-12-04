@@ -17,7 +17,7 @@
     tep_redirect(tep_href_link('index.php'));
   }
 
-  require "includes/languages/$language/password_reset.php";
+  require language::map_to_translation('password_reset.php');
 
   $page_fields = [ 'password', 'password_confirmation' ];
 
