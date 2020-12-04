@@ -13,7 +13,7 @@
 
   </div>
 
-  <?php 
+  <?php
   if (isset($_SESSION['admin'])) {
     require 'includes/footer.php';
   }

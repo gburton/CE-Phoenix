@@ -287,7 +287,7 @@ EOD;
 /* useraction=commit       tep_redirect(tep_href_link('checkout_process.php')); */
         tep_redirect(tep_href_link('checkout_confirmation.php'));
       } else {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       }
 
       break;
@@ -506,7 +506,7 @@ EOD;
       if ($response_array['RESULT'] == '0') {
         tep_redirect($paypal_url . '&token=' . $response_array['TOKEN'] /*. '&useraction=commit'*/);
       } else {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       }
 
       break;

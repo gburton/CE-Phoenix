@@ -24,7 +24,7 @@
 
 <script src="<?= tep_catalog_href_link('ext/jquery/ui/jquery-ui-1.10.4.min.js') ?>"></script>
 
-<?php  
+<?php
   if (tep_not_null(JQUERY_DATEPICKER_I18N_CODE)) {
 ?>
 <script src="<?= tep_catalog_href_link('ext/jquery/ui/i18n/jquery.ui.datepicker-' . JQUERY_DATEPICKER_I18N_CODE . '.js') ?>"></script>
@@ -46,7 +46,7 @@ $.datepicker.setDefaults($.datepicker.regional['<?= JQUERY_DATEPICKER_I18N_CODE 
 <?php
   if (isset($_SESSION['admin'])) {
     require 'includes/header.php';
-  } 
+  }
 ?>
 
   <div id="contentText" class="col">

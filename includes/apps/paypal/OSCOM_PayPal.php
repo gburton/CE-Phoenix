@@ -118,7 +118,7 @@
 
       if ( !isset($result) ) {
         $result = [];
-        
+
         $d = DIR_FS_CATALOG . 'includes/apps/paypal/modules/';
         if ( $dir = @dir($d) ) {
           while ( $file = $dir->read() ) {
@@ -676,7 +676,7 @@
               $m .= '<div class="alert alert-' . $type . '">';
                 $m .= htmlspecialchars($message);
               $m .= '</div>';
-            }            
+            }
 
             $result[] = $m;
           }
