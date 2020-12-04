@@ -21,12 +21,16 @@
     $email_address = tep_db_prepare_input($_POST['email']);
     $enquiry = tep_db_prepare_input($_POST['enquiry']);
 
-    if (!tep_validate_email($email_address)) {
+    $email_class = $customer_data->has('email_address')
+                 ? get_class($customer_data->get_module('email_address'))
+                 : 'cd_email_address';
+
+    if (!$email_class::validate($email_address)) {
       tep_block_form_processing();
 
       $messageStack->add('contact', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
     }
-    
+
     $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     $actionRecorder = new actionRecorder('ar_contact_us', ($_SESSION['customer_id'] ?? null), $name);
