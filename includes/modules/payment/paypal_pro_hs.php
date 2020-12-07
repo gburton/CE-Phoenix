@@ -79,7 +79,7 @@
       }
 
       if ( $this->enabled === true ) {
-        if ( isset($order) && is_object($order) ) {
+        if ( isset($order->billing) ) {
           $this->update_status();
         }
       }
@@ -88,10 +88,10 @@
     function update_status() {
       global $order;
 
-      if ( ($this->enabled == true) && ((int)OSCOM_APP_PAYPAL_HS_ZONE > 0) ) {
-        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = '" . OSCOM_APP_PAYPAL_HS_ZONE . "' AND zone_country_id = '" . $order->billing['country']['id'] . "' ORDER BY zone_id");
+      if ( $this->enabled && ((int)OSCOM_APP_PAYPAL_HS_ZONE > 0) ) {
+        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = '" . (int)OSCOM_APP_PAYPAL_HS_ZONE . "' AND zone_country_id = '" . (int)$GLOBALS['customer_data']->get('country_id', $order->billing) . "' ORDER BY zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
-          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->billing['zone_id'])) {
+          if (($check['zone_id'] < 1) || ($check['zone_id'] === $GLOBALS['customer_data']->get('zone_id', $order->billing))) {
             return;
           }
         }
@@ -133,7 +133,7 @@
     }
 
     function confirmation() {
-      global $order, $order_total_modules;
+      global $order, $order_total_modules, $customer_data;
 
       $_SESSION['pphs_result'] = [];
 
@@ -172,7 +172,7 @@
         }
 
         $params = [
-          'buyer_email' => $order->customer['email_address'],
+          'buyer_email' => $customer_data->get('email_address', $order->customer),
           'cancel_return' => tep_href_link('checkout_payment.php'),
           'currency_code' => $_SESSION['currency'],
           'invoice' => $order_id,
@@ -183,15 +183,18 @@
           'shipping' => $this->_app->formatCurrencyRaw($order->info['shipping_cost']),
           'tax' => $this->_app->formatCurrencyRaw($order->info['tax']),
           'subtotal' => $this->_app->formatCurrencyRaw($order->info['total'] - $order->info['shipping_cost'] - $order->info['tax']),
-          'billing_first_name' => $order->billing['firstname'],
-          'billing_last_name' => $order->billing['lastname'],
-          'billing_address1' => $order->billing['street_address'],
-          'billing_address2' => $order->billing['suburb'],
-          'billing_city' => $order->billing['city'],
-          'billing_state' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
-          'billing_zip' => $order->billing['postcode'],
-          'billing_country' => $order->billing['country']['iso_code_2'],
-          'night_phone_b' => $order->customer['telephone'],
+          'billing_first_name' => $customer_data->get('firstname', $order->billing),
+          'billing_last_name' => $customer_data->get('lastname', $order->billing),
+          'billing_address1' => $customer_data->get('street_address', $order->billing),
+          'billing_address2' => $customer_data->get('suburb', $order->billing),
+          'billing_city' => $customer_data->get('city', $order->billing),
+          'billing_state' => tep_get_zone_code(
+            $customer_data->get('country_id', $order->billing),
+            $customer_data->get('zone_id', $order->billing),
+            $customer_data->get('state', $order->billing)),
+          'billing_zip' => $customer_data->get('postcode', $order->billing),
+          'billing_country' => $customer_data->get('country_iso_code_2', $order->billing),
+          'night_phone_b' => $customer_data->get('telephone', $order->customer),
           'template' => 'templateD',
           'item_name' => STORE_NAME,
           'showBillingAddress' => 'false',
@@ -201,14 +204,18 @@
 
         if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
           $params['address_override'] = 'true';
-          $params['first_name'] = $order->delivery['firstname'];
-          $params['last_name'] = $order->delivery['lastname'];
-          $params['address1'] = $order->delivery['street_address'];
-          $params['address2'] = $order->delivery['suburb'];
-          $params['city'] = $order->delivery['city'];
-          $params['state'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-          $params['zip'] = $order->delivery['postcode'];
-          $params['country'] = $order->delivery['country']['iso_code_2'];
+          $customer_data->get('country', $order->delivery);
+          $params['first_name'] = $customer_data->get('firstname', $order->delivery);
+          $params['last_name'] = $customer_data->get('lastname', $order->delivery);
+          $params['address1'] = $customer_data->get('street_address', $order->delivery);
+          $params['address2'] = $customer_data->get('suburb', $order->delivery);
+          $params['city'] = $customer_data->get('city', $order->delivery);
+          $params['state'] = tep_get_zone_code(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery));
+          $params['zip'] = $customer_data->get('postcode', $order->delivery);
+          $params['country'] = $customer_data->get('country_iso_code_2', $order->delivery);
         }
 
         $return_link_title = $this->_app->getDef('module_hs_button_return_to_store', ['storename' => STORE_NAME]);

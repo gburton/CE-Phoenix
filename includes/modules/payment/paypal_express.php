@@ -104,9 +104,9 @@
       global $order;
 
       if ( $this->enabled && ((int)OSCOM_APP_PAYPAL_EC_ZONE > 0) ) {
-        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)OSCOM_APP_PAYPAL_EC_ZONE . " and zone_country_id = " . (int)$order->delivery['country']['id'] . " ORDER BY zone_id");
+        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)OSCOM_APP_PAYPAL_EC_ZONE . " and zone_country_id = " . (int)$GLOBALS['customer_data']->get('country_id', $order->delivery) . " ORDER BY zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
-          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->delivery['zone_id'])) {
+          if (($check['zone_id'] < 1) || ($check['zone_id'] == $GLOBALS['customer_data']->get('zone_id', $order->delivery))) {
             return;
           }
         }
@@ -316,7 +316,7 @@ EOD;
     }
 
     function before_process_paypal() {
-      global $order, $response_array;
+      global $order, $response_array, $customer_data;
 
       if ( !isset($_SESSION['appPayPalEcResult']) ) {
         tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php'));
@@ -344,13 +344,17 @@ EOD;
       ];
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
-        $params['PAYMENTREQUEST_0_SHIPTONAME'] = $order->delivery['name'];
-        $params['PAYMENTREQUEST_0_SHIPTOSTREET'] = $order->delivery['street_address'];
-        $params['PAYMENTREQUEST_0_SHIPTOSTREET2'] = $order->delivery['suburb'];
-        $params['PAYMENTREQUEST_0_SHIPTOCITY'] = $order->delivery['city'];
-        $params['PAYMENTREQUEST_0_SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-        $params['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'] = $order->delivery['country']['iso_code_2'];
-        $params['PAYMENTREQUEST_0_SHIPTOZIP'] = $order->delivery['postcode'];
+        $customer_data->get('country', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTOSTATE'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->delivery),
+          $customer_data->get('zone_id', $order->delivery),
+          $customer_data->get('state', $order->delivery));
+        $params['PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE'] = $customer_data->get('country_iso_code_2', $order->delivery);
+        $params['PAYMENTREQUEST_0_SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
       }
 
       $response_array = $this->_app->getApiResult('EC', 'DoExpressCheckoutPayment', $params);
@@ -373,7 +377,7 @@ EOD;
     }
 
     function before_process_payflow() {
-      global $order, $response_array;
+      global $order, $response_array, $customer_data;
 
       if ( !isset($_SESSION['appPayPalEcResult']) ) {
         tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php'));
@@ -394,7 +398,7 @@ EOD;
       }
 
       $params = [
-        'EMAIL' => $order->customer['email_address'],
+        'EMAIL' => $customer_data->get('email_address', $order->customer),
         'TOKEN' => $_SESSION['appPayPalEcResult']['TOKEN'],
         'PAYERID' => $_SESSION['appPayPalEcResult']['PAYERID'],
         'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
@@ -402,13 +406,17 @@ EOD;
       ];
 
       if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
-        $params['SHIPTONAME'] = $order->delivery['name'];
-        $params['SHIPTOSTREET'] = $order->delivery['street_address'];
-        $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
-        $params['SHIPTOCITY'] = $order->delivery['city'];
-        $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-        $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
-        $params['SHIPTOZIP'] = $order->delivery['postcode'];
+        $customer_data->get('country', $order->delivery);
+        $params['SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+        $params['SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+        $params['SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+        $params['SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+        $params['SHIPTOSTATE'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->delivery),
+          $customer_data->get('zone_id', $order->delivery),
+          $customer_data->get('state', $order->delivery));
+        $params['SHIPTOCOUNTRY'] = $customer_data->get('country_iso_code_2', $order->delivery);
+        $params['SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
       }
 
       $response_array = $this->_app->getApiResult('EC', 'PayflowDoExpressCheckoutPayment', $params);
