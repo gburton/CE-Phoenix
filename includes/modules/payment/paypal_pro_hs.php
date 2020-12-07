@@ -173,12 +173,12 @@
 
         $params = [
           'buyer_email' => $order->customer['email_address'],
-          'cancel_return' => tep_href_link('checkout_payment.php', '', 'SSL'),
+          'cancel_return' => tep_href_link('checkout_payment.php'),
           'currency_code' => $_SESSION['currency'],
           'invoice' => $order_id,
           'custom' => $_SESSION['customer_id'],
           'paymentaction' => OSCOM_APP_PAYPAL_HS_TRANSACTION_METHOD == '1' ? 'sale' : 'authorization',
-          'return' => tep_href_link('checkout_process.php', '', 'SSL'),
+          'return' => tep_href_link('checkout_process.php'),
           'notify_url' => tep_href_link('ext/modules/payment/paypal/pro_hosted_ipn.php', '', 'SSL', false, false),
           'shipping' => $this->_app->formatCurrencyRaw($order->info['shipping_cost']),
           'tax' => $this->_app->formatCurrencyRaw($order->info['tax']),
@@ -222,8 +222,8 @@
 
       $_SESSION['pphs_key'] = tep_create_random_value(16);
 
-      $iframe_url = tep_href_link('ext/modules/payment/paypal/hosted_checkout.php', 'key=' . $_SESSION['pphs_key'], 'SSL');
-      $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs', 'SSL');
+      $iframe_url = tep_href_link('ext/modules/payment/paypal/hosted_checkout.php', 'key=' . $_SESSION['pphs_key']);
+      $form_url = tep_href_link('checkout_payment.php', 'payment_error=paypal_pro_hs');
 
 // include jquery if it doesn't exist in the template
       $output = <<<EOD
@@ -312,7 +312,7 @@ EOD;
       unset($_SESSION['pphs_result']);
       unset($_SESSION['pphs_key']);
 
-      tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_success.php'));
     }
 
     function after_process() {
@@ -384,15 +384,15 @@ EOD;
           $total_query = tep_db_query("SELECT value FROM orders_total WHERE orders_id = '" . (int)$order['orders_id'] . "' and class = 'ot_total' limit 1");
           $total = tep_db_fetch_array($total_query);
 
-          $comment_status = 'Transaction ID: ' . tep_output_string_protected($tx_transaction_id) . "\n"
-                          . 'Payer Status: ' . tep_output_string_protected($tx_payer_status) . "\n"
-                          . 'Address Status: ' . tep_output_string_protected($tx_address_status) . "\n"
-                          . 'Payment Status: ' . tep_output_string_protected($tx_payment_status) . "\n"
-                          . 'Payment Type: ' . tep_output_string_protected($tx_payment_type) . "\n"
-                          . 'Pending Reason: ' . tep_output_string_protected($tx_pending_reason);
+          $comment_status = 'Transaction ID: ' . htmlspecialchars($tx_transaction_id) . "\n"
+                          . 'Payer Status: ' . htmlspecialchars($tx_payer_status) . "\n"
+                          . 'Address Status: ' . htmlspecialchars($tx_address_status) . "\n"
+                          . 'Payment Status: ' . htmlspecialchars($tx_payment_status) . "\n"
+                          . 'Payment Type: ' . htmlspecialchars($tx_payment_type) . "\n"
+                          . 'Pending Reason: ' . htmlspecialchars($tx_pending_reason);
 
           if ( $tx_amount != $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) ) {
-            $comment_status .= "\n" . 'OSCOM Error Total Mismatch: PayPal transaction value (' . tep_output_string_protected($tx_amount) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
+            $comment_status .= "\n" . 'OSCOM Error Total Mismatch: PayPal transaction value (' . htmlspecialchars($tx_amount) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
           } elseif ( $tx_payment_status == 'Completed' ) {
             $new_order_status = (OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID > 0 ? OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID : $new_order_status);
           }

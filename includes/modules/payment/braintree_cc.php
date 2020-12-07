@@ -104,7 +104,7 @@
       for ($i = 1; $i <= 12; $i++) {
         $months[] = [
           'id' => tep_output_string(sprintf('%02d', $i)),
-          'text' => tep_output_string_protected(sprintf('%02d', $i)),
+          'text' => htmlspecialchars(sprintf('%02d', $i)),
         ];
       }
 
@@ -114,7 +114,7 @@
       for ($i = $today['year']; $i < $today['year'] + 10; $i++) {
         $years[] = [
           'id' => tep_output_string(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
-          'text' => tep_output_string_protected(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
+          'text' => htmlspecialchars(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
         ];
       }
 
@@ -133,7 +133,7 @@
           while ( $tokens = tep_db_fetch_array($tokens_query) ) {
             $content .= '<tr class="moduleRow" id="braintree_card_' . (int)$tokens['id'] . '">'
                       . '  <td><input type="radio" name="braintree_card" value="' . (int)$tokens['id'] . '" /></td>'
-                      . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>'
+                      . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . htmlspecialchars($tokens['number_filtered']) . '&nbsp;&nbsp;' . htmlspecialchars(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . htmlspecialchars($tokens['card_type']) . '</td>'
                       . '</tr>';
 
             if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {

@@ -291,10 +291,10 @@
         $response_array = $this->_app->getApiResult('DP', 'DoDirectPayment', $params);
 
         if ( !in_array($response_array['ACK'], ['Success', 'SuccessWithWarning']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0'])));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required')));
       }
     }
 
@@ -398,10 +398,10 @@
               break;
           }
 
-          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message, 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required')));
       }
     }
 
@@ -418,18 +418,18 @@
 
       $details = $this->_app->getApiResult('APP', 'GetTransactionDetails', ['TRANSACTIONID' => $response_array['TRANSACTIONID']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
-      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['TRANSACTIONID']) . "\n";
+      $result = 'Transaction ID: ' . htmlspecialchars($response_array['TRANSACTIONID']) . "\n";
 
       if ( in_array($details['ACK'], ['Success', 'SuccessWithWarning']) ) {
-        $result .= 'Payer Status: ' . tep_output_string_protected($details['PAYERSTATUS']) . "\n"
-                 . 'Address Status: ' . tep_output_string_protected($details['ADDRESSSTATUS']) . "\n"
-                 . 'Payment Status: ' . tep_output_string_protected($details['PAYMENTSTATUS']) . "\n"
-                 . 'Payment Type: ' . tep_output_string_protected($details['PAYMENTTYPE']) . "\n"
-                 . 'Pending Reason: ' . tep_output_string_protected($details['PENDINGREASON']) . "\n";
+        $result .= 'Payer Status: ' . htmlspecialchars($details['PAYERSTATUS']) . "\n"
+                 . 'Address Status: ' . htmlspecialchars($details['ADDRESSSTATUS']) . "\n"
+                 . 'Payment Status: ' . htmlspecialchars($details['PAYMENTSTATUS']) . "\n"
+                 . 'Payment Type: ' . htmlspecialchars($details['PAYMENTTYPE']) . "\n"
+                 . 'Pending Reason: ' . htmlspecialchars($details['PENDINGREASON']) . "\n";
       }
 
-      $result .= 'AVS Code: ' . tep_output_string_protected($response_array['AVSCODE']) . "\n"
- . 'CVV2 Match: ' . tep_output_string_protected($response_array['CVV2MATCH']);
+      $result .= 'AVS Code: ' . htmlspecialchars($response_array['AVSCODE']) . "\n"
+ . 'CVV2 Match: ' . htmlspecialchars($response_array['CVV2MATCH']);
 
       $sql_data = [
         'orders_id' => $order_id,
@@ -447,10 +447,10 @@
 
       $details = $this->_app->getApiResult('APP', 'PayflowInquiry', ['ORIGID' => $response_array['PNREF']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
-      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n"
+      $result = 'Transaction ID: ' . htmlspecialchars($response_array['PNREF']) . "\n"
               . 'Gateway: Payflow' . "\n"
-              . 'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n"
-              . 'Response: ' . tep_output_string_protected($response_array['RESPMSG']) . "\n";
+              . 'PayPal ID: ' . htmlspecialchars($response_array['PPREF']) . "\n"
+              . 'Response: ' . htmlspecialchars($response_array['RESPMSG']) . "\n";
 
       if ( isset($details['RESULT']) && ($details['RESULT'] == '0') ) {
         $pending_reason = $details['TRANSSTATE'];
@@ -480,10 +480,10 @@
         }
 
         if ( isset($payment_status) ) {
-          $result .= 'Payment Status: ' . tep_output_string_protected($payment_status) . "\n";
+          $result .= 'Payment Status: ' . htmlspecialchars($payment_status) . "\n";
         }
 
-        $result .= 'Pending Reason: ' . tep_output_string_protected($pending_reason) . "\n";
+        $result .= 'Pending Reason: ' . htmlspecialchars($pending_reason) . "\n";
       }
 
       switch ( $response_array['AVSADDR'] ) {

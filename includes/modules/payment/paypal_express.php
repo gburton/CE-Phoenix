@@ -81,7 +81,7 @@
         unset($_SESSION['appPayPalEcRightTurn']);
 
         if ( isset($_SESSION['payment']) && ($_SESSION['payment'] == $this->code) ) {
-          tep_redirect(tep_href_link('checkout_confirmation.php', '', 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php'));
         }
       }
 
@@ -145,13 +145,13 @@
             $image_button = $this->_app->getDef('module_ec_button_url');
           }
 
-          $button_title = tep_output_string_protected($this->_app->getDef('module_ec_button_title'));
+          $button_title = htmlspecialchars($this->_app->getDef('module_ec_button_title'));
 
           if ( OSCOM_APP_PAYPAL_EC_STATUS == '0' ) {
             $button_title .= ' (' . $this->code . '; Sandbox)';
           }
 
-          $string .= '<a id="ppECButtonClassicLink" href="' . tep_href_link('ext/modules/payment/paypal/express.php', '', 'SSL') . '"><img id="ppECButtonClassic" src="' . $image_button . '" border="0" alt="" title="' . $button_title . '" /></a>';
+          $string .= '<a id="ppECButtonClassicLink" href="' . tep_href_link('ext/modules/payment/paypal/express.php') . '"><img id="ppECButtonClassic" src="' . $image_button . '" border="0" alt="" title="' . $button_title . '" /></a>';
         } else {
           $string .= '<script src="https://www.paypalobjects.com/api/checkout.js"></script>';
 
@@ -160,9 +160,9 @@
 
           $server = (OSCOM_APP_PAYPAL_EC_STATUS === '1') ? 'production' : 'sandbox';
 
-          $ppecset_url = tep_href_link('ext/modules/payment/paypal/express.php', 'format=json', 'SSL');
+          $ppecset_url = tep_href_link('ext/modules/payment/paypal/express.php', 'format=json');
 
-          $ppecerror_url = tep_href_link('ext/modules/payment/paypal/express.php', 'osC_Action=setECError', 'SSL');
+          $ppecerror_url = tep_href_link('ext/modules/payment/paypal/express.php', 'osC_Action=setECError');
 
           switch (OSCOM_APP_PAYPAL_EC_INCONTEXT_BUTTON_COLOR) {
             case '3':
@@ -243,13 +243,13 @@ EOD;
       } else {
         $image_button = $this->_app->getDef('module_ec_button_url');
 
-        $button_title = tep_output_string_protected($this->_app->getDef('module_ec_button_title'));
+        $button_title = htmlspecialchars($this->_app->getDef('module_ec_button_title'));
 
         if (OSCOM_APP_PAYPAL_EC_STATUS == '0') {
           $button_title .= ' (' . $this->code . '; Sandbox)';
         }
 
-        $string .= '<a id="ppECButtonPfLink" href="' . tep_href_link('ext/modules/payment/paypal/express.php', '', 'SSL') . '"><img id="ppECButtonPf" src="' . $image_button . '" border="0" alt="" title="' . $button_title . '" /></a>';
+        $string .= '<a id="ppECButtonPfLink" href="' . tep_href_link('ext/modules/payment/paypal/express.php') . '"><img id="ppECButtonPf" src="' . $image_button . '" border="0" alt="" title="' . $button_title . '" /></a>';
       }
 
       return $string;
@@ -270,20 +270,20 @@ EOD;
       global $order;
 
       if ( !isset($_SESSION['appPayPalEcResult']) ) {
-        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php', '', 'SSL'));
+        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php'));
       }
 
       if ( OSCOM_APP_PAYPAL_GATEWAY == '1' ) { // PayPal
         if ( !in_array($_SESSION['appPayPalEcResult']['ACK'], ['Success', 'SuccessWithWarning']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($_SESSION['appPayPalEcResult']['L_LONGMESSAGE0']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($_SESSION['appPayPalEcResult']['L_LONGMESSAGE0'])));
         } elseif ( !isset($_SESSION['appPayPalEcSecret']) || ($_SESSION['appPayPalEcResult']['PAYMENTREQUEST_0_CUSTOM'] != $_SESSION['appPayPalEcSecret']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         }
       } else { // Payflow
         if ($_SESSION['appPayPalEcResult']['RESULT'] != '0') {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($_SESSION['appPayPalEcResult']['OSCOM_ERROR_MESSAGE']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($_SESSION['appPayPalEcResult']['OSCOM_ERROR_MESSAGE'])));
         } elseif ( !isset($_SESSION['appPayPalEcSecret']) || ($_SESSION['appPayPalEcResult']['CUSTOM'] != $_SESSION['appPayPalEcSecret']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         }
       }
 
@@ -319,15 +319,15 @@ EOD;
       global $order, $response_array;
 
       if ( !isset($_SESSION['appPayPalEcResult']) ) {
-        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php', '', 'SSL'));
+        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php'));
       }
 
       if ( in_array($_SESSION['appPayPalEcResult']['ACK'], ['Success', 'SuccessWithWarning']) ) {
         if ( !isset($_SESSION['appPayPalEcSecret']) || ($_SESSION['appPayPalEcResult']['PAYMENTREQUEST_0_CUSTOM'] != $_SESSION['appPayPalEcSecret']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         }
       } else {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($_SESSION['appPayPalEcResult']['L_LONGMESSAGE0']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($_SESSION['appPayPalEcResult']['L_LONGMESSAGE0'])));
       }
 
       if (empty($_SESSION['comments']) && isset($_POST['ppecomments']) && tep_not_null($_POST['ppecomments'])) {
@@ -368,7 +368,7 @@ EOD;
           tep_redirect($paypal_url);
         }
 
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0'])));
       }
     }
 
@@ -376,15 +376,15 @@ EOD;
       global $order, $response_array;
 
       if ( !isset($_SESSION['appPayPalEcResult']) ) {
-        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php', '', 'SSL'));
+        tep_redirect(tep_href_link('ext/modules/payment/paypal/express.php'));
       }
 
       if ( $_SESSION['appPayPalEcResult']['RESULT'] == '0' ) {
         if ( !isset($_SESSION['appPayPalEcSecret']) || ($_SESSION['appPayPalEcResult']['CUSTOM'] != $_SESSION['appPayPalEcSecret']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         }
       } else {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($_SESSION['appPayPalEcResult']['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($_SESSION['appPayPalEcResult']['OSCOM_ERROR_MESSAGE'])));
       }
 
       if ( empty($_SESSION['comments']) && isset($_POST['ppecomments']) && tep_not_null($_POST['ppecomments']) ) {
@@ -414,7 +414,7 @@ EOD;
       $response_array = $this->_app->getApiResult('EC', 'PayflowDoExpressCheckoutPayment', $params);
 
       if ( $response_array['RESULT'] != '0' ) {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       }
     }
 
@@ -429,12 +429,12 @@ EOD;
     function after_process_paypal() {
       global $response_array, $order_id;
 
-      $pp_result = 'Transaction ID: ' . tep_output_string_protected($response_array['PAYMENTINFO_0_TRANSACTIONID']) . "\n" .
-                   'Payer Status: ' . tep_output_string_protected($_SESSION['appPayPalEcResult']['PAYERSTATUS']) . "\n" .
-                   'Address Status: ' . tep_output_string_protected($_SESSION['appPayPalEcResult']['ADDRESSSTATUS']) . "\n" .
-                   'Payment Status: ' . tep_output_string_protected($response_array['PAYMENTINFO_0_PAYMENTSTATUS']) . "\n" .
-                   'Payment Type: ' . tep_output_string_protected($response_array['PAYMENTINFO_0_PAYMENTTYPE']) . "\n" .
-                   'Pending Reason: ' . tep_output_string_protected($response_array['PAYMENTINFO_0_PENDINGREASON']);
+      $pp_result = 'Transaction ID: ' . htmlspecialchars($response_array['PAYMENTINFO_0_TRANSACTIONID']) . "\n" .
+                   'Payer Status: ' . htmlspecialchars($_SESSION['appPayPalEcResult']['PAYERSTATUS']) . "\n" .
+                   'Address Status: ' . htmlspecialchars($_SESSION['appPayPalEcResult']['ADDRESSSTATUS']) . "\n" .
+                   'Payment Status: ' . htmlspecialchars($response_array['PAYMENTINFO_0_PAYMENTSTATUS']) . "\n" .
+                   'Payment Type: ' . htmlspecialchars($response_array['PAYMENTINFO_0_PAYMENTTYPE']) . "\n" .
+                   'Pending Reason: ' . htmlspecialchars($response_array['PAYMENTINFO_0_PENDINGREASON']);
 
       $sql_data = [
         'orders_id' => $order_id,
@@ -453,14 +453,14 @@ EOD;
     function after_process_payflow() {
       global $response_array, $order_id;
 
-      $pp_result = 'Transaction ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n" .
+      $pp_result = 'Transaction ID: ' . htmlspecialchars($response_array['PNREF']) . "\n" .
                    'Gateway: Payflow' . "\n" .
-                   'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n" .
-                   'Payer Status: ' . tep_output_string_protected($_SESSION['appPayPalEcResult']['PAYERSTATUS']) . "\n" .
-                   'Address Status: ' . tep_output_string_protected($_SESSION['appPayPalEcResult']['ADDRESSSTATUS']) . "\n" .
-                   'Payment Status: ' . tep_output_string_protected($response_array['PENDINGREASON']) . "\n" .
-                   'Payment Type: ' . tep_output_string_protected($response_array['PAYMENTTYPE']) . "\n" .
-                   'Response: ' . tep_output_string_protected($response_array['RESPMSG']) . "\n";
+                   'PayPal ID: ' . htmlspecialchars($response_array['PPREF']) . "\n" .
+                   'Payer Status: ' . htmlspecialchars($_SESSION['appPayPalEcResult']['PAYERSTATUS']) . "\n" .
+                   'Address Status: ' . htmlspecialchars($_SESSION['appPayPalEcResult']['ADDRESSSTATUS']) . "\n" .
+                   'Payment Status: ' . htmlspecialchars($response_array['PENDINGREASON']) . "\n" .
+                   'Payment Type: ' . htmlspecialchars($response_array['PAYMENTTYPE']) . "\n" .
+                   'Response: ' . htmlspecialchars($response_array['RESPMSG']) . "\n";
 
       $sql_data = [
         'orders_id' => $order_id,
@@ -479,7 +479,7 @@ EOD;
       $response = $this->_app->getApiResult('APP', 'PayflowInquiry', ['ORIGID' => $response_array['PNREF']]);
 
       if ( isset($response['RESULT']) && ($response['RESULT'] == '0') ) {
-        $result = 'Transaction ID: ' . tep_output_string_protected($response['ORIGPNREF']) . "\n" .
+        $result = 'Transaction ID: ' . htmlspecialchars($response['ORIGPNREF']) . "\n" .
                   'Gateway: Payflow' . "\n";
 
         $pending_reason = $response['TRANSSTATE'];
@@ -509,10 +509,10 @@ EOD;
         }
 
         if ( isset($payment_status) ) {
-          $result .= 'Payment Status: ' . tep_output_string_protected($payment_status) . "\n";
+          $result .= 'Payment Status: ' . htmlspecialchars($payment_status) . "\n";
         }
 
-        $result .= 'Pending Reason: ' . tep_output_string_protected($pending_reason) . "\n";
+        $result .= 'Pending Reason: ' . htmlspecialchars($pending_reason) . "\n";
 
         switch ( $response['AVSADDR'] ) {
           case 'Y':
