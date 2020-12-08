@@ -47,7 +47,7 @@
           'title' => 'Autocomplete',
           'value' => 'address-line2',
           'desc' => 'How do you want the suburb to be autocompleted?',
-          'set_func' => "tep_cfg_select_option(['address-level3', 'address-line2'], ",
+          'set_func' => "tep_cfg_select_option(['address-level3', 'address-line2', 'off'], ",
         ],
         static::CONFIG_KEY_BASE . 'PAGES' => [
           'title' => 'Pages',
