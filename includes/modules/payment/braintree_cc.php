@@ -176,7 +176,7 @@
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
         $content .= '<tr>'
                   . '  <td class="w-25">&nbsp;</td>'
-                  . '  <td>' . tep_draw_checkbox_field('cc_save', 'true') . ' ' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_SAVE . '</td>'
+                  . '  <td>' . tep_draw_selection_field('cc_save', 'checkbox', 'true') . ' ' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_SAVE . '</td>'
                   . '</tr>';
       }
 
