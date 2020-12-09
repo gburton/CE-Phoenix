@@ -36,7 +36,7 @@
 SELECT customer_data_groups_id, customer_data_groups_name
  FROM customer_data_groups
  WHERE language_id = %d
- ORDER BY cdg_vertical_sort_order, cdg_horizontal_sort_order')
+ ORDER BY cdg_vertical_sort_order, cdg_horizontal_sort_order
 EOSQL
     , (int)$_SESSION['languages_id']));
 
