@@ -31,7 +31,7 @@
 
       foreach ( $this->cards as $key => $value ) {
         $input .= '<div class="custom-control custom-checkbox custom-control-inline">';
-          $input .= '<input type="checkbox" class="custom-control-input" id="cardsSelection' . ucfirst($key) . '" value="' . $key . '"' . (in_array($key, $active) ? ' checked="checked"' : '') . '>';
+          $input .= '<input type="checkbox" class="custom-control-input" id="cardsSelection' . ucfirst($key) . '" name="card_types[]" value="' . $key . '"' . (in_array($key, $active) ? ' checked="checked"' : '') . '>';
           $input .= '<label class="custom-control-label" for="cardsSelection' . ucfirst($key) . '">' . $value . '</label>';
         $input .= '</div>';
       }
