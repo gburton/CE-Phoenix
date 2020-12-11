@@ -99,9 +99,10 @@ Channel | URL
 Phoenix Club | https://forums.oscommerce.com/forum/117-topics/
 Youtube | https://www.youtube.com/channel/UCjJe0ZX3-nGzeJFEzcVUyIA/
 Discord | https://discord.gg/3pzfrtMAX4
-External Libraries | https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
+External Libraries | https://github.com/gburton/CE-Phoenix/wiki/External-Libraries
 Phoenix Cart Wiki | https://phoenixcart.org/phoenixcartwiki/index.php
 Phoenix Cart Forum | https://phoenixcart.org/forum/
+Github Discussions | https://github.com/gburton/CE-Phoenix/discussions
 
 # Credits
 
