@@ -31,7 +31,7 @@
         ],
         'MODULE_NAVBAR_BRAND_CONTENT_PLACEMENT' => [
           'title' => 'Content Placement Group',
-          'value' => 'Left',
+          'value' => 'Home',
           'desc' => 'This is a special module that must be placed in the Home Group.  Lowest is loaded first, per Group.',
           'set_func' => "tep_cfg_select_option(['Home'], ",
         ],
