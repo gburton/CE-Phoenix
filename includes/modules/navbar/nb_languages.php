@@ -41,7 +41,7 @@
           'title' => 'Content Placement',
           'value' => 'Right',
           'desc' => 'Should the module be loaded in the Left or Right or the Home area of the Navbar?',
-          'set_func' => "tep_cfg_select_option(['Left', 'Right', 'Home'], ",
+          'set_func' => "tep_cfg_select_option(['Home', 'Left', 'Center', 'Right'], ",
         ],
         'MODULE_NAVBAR_LANGUAGES_SORT_ORDER' => [
           'title' => 'Sort Order',

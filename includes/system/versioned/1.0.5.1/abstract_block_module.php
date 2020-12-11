@@ -26,6 +26,9 @@
           case 'Left':
             $this->group = 'navbar_modules_left';
             break;
+          case 'Center':
+            $this->group = 'navbar_modules_center';
+            break;
           case 'Right':
             $this->group = 'navbar_modules_right';
             break;
