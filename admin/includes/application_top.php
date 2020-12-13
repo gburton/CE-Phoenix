@@ -28,7 +28,7 @@
 
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
-  
+
   $OSCOM_Hooks = new hooks('admin');
   $OSCOM_Hooks->register('system');
   $OSCOM_Hooks->generate('system', 'startApplication');
