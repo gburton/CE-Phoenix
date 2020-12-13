@@ -13,7 +13,7 @@
   class nb_account extends abstract_block_module {
 
     const CONFIG_KEY_BASE = 'MODULE_NAVBAR_ACCOUNT_';
-    
+
     public $group = 'navbar_modules_left';
 
     function getOutput() {

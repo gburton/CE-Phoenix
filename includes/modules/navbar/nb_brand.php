@@ -13,7 +13,7 @@
   class nb_brand extends abstract_block_module {
 
     const CONFIG_KEY_BASE = 'MODULE_NAVBAR_BRAND_';
-    
+
     public $group = 'navbar_modules_left';
 
     function getOutput() {

@@ -6,7 +6,7 @@
         echo $oscTemplate->getBlocks('navbar_modules_home');
       echo '</div>' . PHP_EOL;
     }
-    ?>      
+    ?>
     <div class="collapse navbar-collapse" id="collapseCoreNav">
       <?php
       if ($oscTemplate->hasBlocks('navbar_modules_left')) {
@@ -23,7 +23,7 @@
         echo '<ul class="navbar-nav ml-auto">' . PHP_EOL;
           echo $oscTemplate->getBlocks('navbar_modules_right');
         echo '</ul>' . PHP_EOL;
-      }    
+      }
       ?>
     </div>
   </div>
