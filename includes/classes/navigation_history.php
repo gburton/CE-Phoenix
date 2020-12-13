@@ -27,7 +27,7 @@
       global $cPath;
 
       for ($i = 0, $n = count($this->path); $i < $n; $i++) {
-        if ($this->path[$i]['page'] == $PHP_SELF) {
+        if ($this->path[$i]['page'] == $GLOBALS['PHP_SELF']) {
           if (!isset($cPath)) {
             array_splice($this->path, ($i));
             break;
