@@ -49,7 +49,7 @@
           return dirname($file) . '/templates/tpl_' . basename($file);
         case 'ext':
           $file = static::extract_relative_path($file);
-          return DIR_FS_CATALOG . "templates/default/includes/$file";
+          return DIR_FS_CATALOG . $file;
         case 'translation':
           return DIR_FS_CATALOG . $file;
         case 'literal':
