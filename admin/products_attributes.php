@@ -380,8 +380,6 @@ EOSQL
             </tr>
             <?php
             if (DOWNLOAD_ENABLED == 'true') {
-              $products_attributes_maxdays  = DOWNLOAD_MAX_DAYS;
-              $products_attributes_maxcount = DOWNLOAD_MAX_COUNT;
               ?>
               <tr>
                 <td colspan="6">
@@ -389,11 +387,11 @@ EOSQL
                     <tr>
                       <td><?= TABLE_HEADING_DOWNLOAD ?></td>
                       <td><?= TABLE_TEXT_FILENAME ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_filename', $products_attributes_filename, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_filename', '', 'class="form-control"') ?></td>
                       <td><?= TABLE_TEXT_MAX_DAYS ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_maxdays', $products_attributes_maxdays, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_maxdays', DOWNLOAD_MAX_DAYS, 'class="form-control"') ?></td>
                       <td><?= TABLE_TEXT_MAX_COUNT ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_maxcount', $products_attributes_maxcount, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_maxcount', DOWNLOAD_MAX_COUNT, 'class="form-control"') ?></td>
                     </tr>
                   </table>
                 </td>
