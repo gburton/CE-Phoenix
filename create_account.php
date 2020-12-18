@@ -13,7 +13,7 @@
   require 'includes/application_top.php';
 
 // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/create_account.php";
+  require language::map_to_translation('create_account.php');
 
   $message_stack_area = 'create_account';
 

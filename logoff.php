@@ -12,7 +12,7 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/logoff.php";
+  require language::map_to_translation('logoff.php');
 
   $hooks->register_pipeline('reset');
 

@@ -17,7 +17,7 @@
     if ( !isset($_GET['cookie_test']) ) {
       $all_get = tep_get_all_get_params();
 
-      tep_redirect(tep_href_link('login.php', (empty($all_get) ? '' : "$all_get&") . 'cookie_test=1', 'SSL'));
+      tep_redirect(tep_href_link('login.php', (empty($all_get) ? '' : "$all_get&") . 'cookie_test=1'));
     }
 
     tep_redirect(tep_href_link('cookie_usage.php'));
@@ -33,6 +33,6 @@
     tep_redirect($_SESSION['navigation']->pop_snapshot_as_link());
   }
 
-  require "includes/languages/$language/login.php";
+  require language::map_to_translation('login.php');
   require $oscTemplate->map_to_template(__FILE__, 'page');
   require 'includes/application_bottom.php';

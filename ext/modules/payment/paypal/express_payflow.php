@@ -23,7 +23,7 @@
     $customer_id = 0;
   }
 
-  require "includes/languages/$language/create_account.php";
+  require language::map_to_translation('create_account.php');
 
   $paypal_pro_payflow_ec = new paypal_pro_payflow_ec();
 
@@ -239,7 +239,7 @@ EOD;
           $shipping =& $_SESSION['shipping'];
 
           if ( ot_shipping::is_eligible_free_shipping($order->delivery['country_id'], $order->info['total']) ) {
-            include "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
 
             $shipping = 'free_free';
           } elseif ( tep_count_shipping_modules() > 0 ) {
@@ -355,7 +355,7 @@ EOD;
         $shipping_modules = new shipping();
 
         if ( ot_shipping::is_eligible_free_shipping($order->delivery['country_id'], $order->info['total']) ) {
-          include "includes/languages/$language/modules/order_total/ot_shipping.php";
+          include language::map_to_translation('modules/order_total/ot_shipping.php');
 
           $quotes[] = [
             'id' => 'free_free',

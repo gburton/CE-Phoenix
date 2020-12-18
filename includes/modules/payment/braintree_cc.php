@@ -213,7 +213,7 @@
               }
 
               if ( empty($braintree_token_cvv) ) {
-                tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv', 'SSL'));
+                tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv'));
               }
             }
           }
@@ -244,28 +244,28 @@
         }
 
         if ( empty($cc_owner) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardowner', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardowner'));
         }
 
         if ( empty($cc_number) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardnumber', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardnumber'));
         }
 
         if ( !isset($cc_expires_month) || !in_array($cc_expires_month, $months) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( !isset($cc_expires_year) || !in_array($cc_expires_year, $years) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( ($cc_expires_year == date('Y')) && ($cc_expires_month < date('m')) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
           if ( empty($cc_cvv) ) {
-            tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv', 'SSL'));
+            tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv'));
           }
         }
       }
@@ -381,7 +381,7 @@
         }
       }
 
-      tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL'));
+      tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code));
     }
 
     public function after_process() {

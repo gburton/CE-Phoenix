@@ -22,7 +22,7 @@
     tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
-  require DIR_FS_CATALOG . "includes/languages/$language/create_account.php";
+  require language::map_to_translation('create_account.php');
 
   if ( !isset($_SESSION['sendto']) ) {
     if ( isset($_SESSION['customer_id']) ) {
@@ -170,7 +170,7 @@
           $shipping_modules = new shipping();
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
 
             $quotes_array[] = [
               'id' => 'free_free',
@@ -480,7 +480,7 @@ EOD;
           $_SESSION['shipping'] = false;
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
 
             $_SESSION['shipping'] = 'free_free';
           } elseif ( tep_count_shipping_modules() > 0 ) {
@@ -720,7 +720,7 @@ EOD;
           $shipping_modules = new shipping();
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
             $quotes_array[] = [
               'id' => 'free_free',
               'name' => FREE_SHIPPING_TITLE,
