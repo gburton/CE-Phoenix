@@ -121,12 +121,12 @@
         return;
       }
 
-      tep_guarantee_subarray($db_tables, 'customers');
+      Guarantor::guarantee_subarray($db_tables, 'customers');
       $db_tables['customers']['customers_password'] = tep_encrypt_password($customer_details['password']);
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'customers');
+      Guarantor::guarantee_subarray($db_tables, 'customers');
       $db_tables['customers']['customers_password'] = 'password';
     }
 

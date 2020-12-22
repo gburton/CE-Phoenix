@@ -24,10 +24,10 @@
     }
 
     public function add_current_page() {
-      global $PHP_SELF, $request_type, $cPath;
+      global $cPath;
 
       for ($i = 0, $n = count($this->path); $i < $n; $i++) {
-        if ($this->path[$i]['page'] == $PHP_SELF) {
+        if ($this->path[$i]['page'] == $GLOBALS['PHP_SELF']) {
           if (!isset($cPath)) {
             array_splice($this->path, ($i));
             break;
@@ -55,18 +55,15 @@
       }
 
       $this->path[] = [
-        'page' => $PHP_SELF,
-        'mode' => $request_type,
+        'page' => $GLOBALS['PHP_SELF'],
         'get' => $this->filter_parameters($_GET),
         'post' => $this->filter_parameters($_POST),
       ];
     }
 
     public function remove_current_page() {
-      global $PHP_SELF;
-
       $last_entry_position = count($this->path) - 1;
-      if ($this->path[$last_entry_position]['page'] == $PHP_SELF) {
+      if ($this->path[$last_entry_position]['page'] == $GLOBALS['PHP_SELF']) {
         unset($this->path[$last_entry_position]);
       }
     }
@@ -75,14 +72,12 @@
       if (isset($page['page'])) {
         $this->snapshot = [
           'page' => $page['page'],
-          'mode' => $page['mode'],
-          'get' => $this->filter_parameters($page['get']),
-          'post' => $this->filter_parameters($page['post']),
+          'get' => $this->filter_parameters($page['get'] ?? []),
+          'post' => $this->filter_parameters($page['post'] ?? []),
         ];
       } else {
         $this->snapshot = [
           'page' => $GLOBALS['PHP_SELF'],
-          'mode' => $GLOBALS['request_type'],
           'get' => $this->filter_parameters($_GET),
           'post' => $this->filter_parameters($_POST),
         ];
@@ -97,7 +92,6 @@
       $pos = (count($this->path) - 1 - $history);
       $this->snapshot = [
         'page' => $this->path[$pos]['page'],
-        'mode' => $this->path[$pos]['mode'],
         'get' => $this->path[$pos]['get'],
         'post' => $this->path[$pos]['post'],
       ];
@@ -110,8 +104,7 @@
 
       $origin_href = tep_href_link(
         $this->snapshot['page'],
-        tep_array_to_string($this->snapshot['get'], [session_name()]),
-        $this->snapshot['mode']);
+        tep_array_to_string($this->snapshot['get'], [session_name()]));
 
       $this->clear_snapshot();
       return $origin_href;
@@ -136,7 +129,7 @@
       if (count($this->snapshot) > 0) {
         echo '<br><br>';
 
-        echo $this->snapshot['mode'] . ' ' . $this->snapshot['page'] . '?' . tep_array_to_string($this->snapshot['get'], [session_name()]) . '<br>';
+        echo $this->snapshot['page'] . '?' . tep_array_to_string($this->snapshot['get'], [session_name()]) . '<br>';
       }
     }
 

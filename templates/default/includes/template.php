@@ -22,8 +22,9 @@
     ];
 
     public function __construct() {
+      $hooks =& Guarantor::ensure_global('hooks', 'shop');
       foreach ($this->_base_hook_directories as $directory) {
-        $GLOBALS['hooks']->add_directory($directory);
+        $hooks->add_directory($directory);
       }
 
       spl_autoload_register([$this, 'autoload_hooks'], true, true);
@@ -49,6 +50,8 @@
         case 'ext':
           $file = static::extract_relative_path($file);
           return DIR_FS_CATALOG . "templates/default/includes/$file";
+        case 'translation':
+          return DIR_FS_CATALOG . $file;
         case 'literal':
         default:
           return DIR_FS_CATALOG . "templates/default/$file";

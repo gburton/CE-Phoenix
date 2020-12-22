@@ -24,7 +24,7 @@
     protected function get_parameters() {
       return [
         'MODULE_NAVBAR_SHOPPING_CART_STATUS' => [
-          'title' => 'Enable Shopping Cart Module',
+          'title' => 'Enable Module',
           'value' => 'True',
           'desc' => 'Do you want to add the module to your Navbar?',
           'set_func' => "tep_cfg_select_option(['True', 'False'], ",
@@ -33,7 +33,7 @@
           'title' => 'Content Placement Group',
           'value' => 'Right',
           'desc' => 'Where should the module be loaded?  Lowest is loaded first, per Group.',
-          'set_func' => "tep_cfg_select_option(['Left', 'Right', 'Home'], ",
+          'set_func' => "tep_cfg_select_option(['Home', 'Left', 'Center', 'Right'], ",
         ],
         'MODULE_NAVBAR_SHOPPING_CART_SORT_ORDER' => [
           'title' => 'Sort Order',
@@ -44,4 +44,3 @@
     }
 
   }
-  

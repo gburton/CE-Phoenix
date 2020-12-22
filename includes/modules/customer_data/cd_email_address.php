@@ -131,12 +131,12 @@
     }
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'customers');
+      Guarantor::guarantee_subarray($db_tables, 'customers');
       $db_tables['customers']['customers_email_address'] = $customer_details['email_address'];
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'customers');
+      Guarantor::guarantee_subarray($db_tables, 'customers');
       $db_tables['customers']['customers_email_address'] = 'email_address';
     }
 

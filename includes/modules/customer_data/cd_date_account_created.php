@@ -43,12 +43,12 @@
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'customers_info');
+      Guarantor::guarantee_subarray($db_tables, 'customers_info');
       $db_tables['customers_info']['customers_info_date_account_created'] = 'date_account_created';
     }
 
     public function add_order_by(&$columns, $criterion, $direction) {
-      tep_guarantee_subarray($columns, 'customers_info');
+      Guarantor::guarantee_subarray($columns, 'customers_info');
       $columns['customers_info']['customers_info_date_account_created'] = $direction;
     }
 

@@ -121,7 +121,7 @@
 
     if (isset($class_files[$class])) {
       if (isset($_SESSION['language']) && DIR_FS_CATALOG . 'includes/modules' === substr($class_files[$class], 0, $modules_directory_length)) {
-        $language_file = DIR_FS_CATALOG . 'includes/languages/' . $_SESSION['language'] . '/modules' . substr($class_files[$class], $modules_directory_length);
+        $language_file = language::map_to_translation('modules' . substr($class_files[$class], $modules_directory_length));
         if (file_exists($language_file)) {
           include $language_file;
         }

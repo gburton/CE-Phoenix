@@ -15,13 +15,13 @@
   $currencies = new currencies();
 
   // calculate category path
-  $cPath = $_GET['cPath'] ?? '';
-  if (tep_not_null($cPath)) {
-    $cPath_array = tep_parse_category_path($cPath);
+  if (empty($_GET['cPath'])) {
+    $current_category_id = 0;
+    $cPath = '';
+  } else {
+    $cPath_array = tep_parse_category_path($_GET['cPath']);
     $cPath = implode('_', $cPath_array);
     $current_category_id = end($cPath_array);
-  } else {
-    $current_category_id = 0;
   }
 
   const DIR_FS_CATALOG_IMAGES = DIR_FS_CATALOG . 'images/';
@@ -623,8 +623,8 @@ function updateNet() {
       <div class="tab-pane fade" id="section_general_content" role="tabpanel">
         <div class="accordion" id="productLanguageAccordion">
           <?php
+          $show = ' show';
           foreach ($languages as $l) {
-            $show = ($i == 0) ? ' show' : null;
             ?>
             <div class="card">
               <div class="card-header" id="heading<?= $l['directory'] ?>">
@@ -690,6 +690,10 @@ function updateNet() {
             </div>
             <?php
             echo $OSCOM_Hooks->call('categories', 'injectLanguageForm');
+
+            if ('' !== $show) {
+              $show = '';
+            }
           }
           ?>
         </div>
@@ -990,15 +994,11 @@ function updateNet() {
               <?php
             }
 
-            $cPath_back = '';
-            if (isset($cPath_array) && count($cPath_array) > 0) {
-              $cPath_back .= $cPath_array[0];
-              for ($i=1, $n=count($cPath_array)-1; $i<$n; $i++) {
-                $cPath_back .= '_' . $cPath_array[$i];
-              }
+            if (isset($cPath_array) && count($cPath_array) > 1) {
+              $cPath_back = 'cPath=' . implode('_', array_slice($cPath_array, 0, -1)) . '&';
+            } else {
+              $cPath_back = '';
             }
-
-            $cPath_back = (tep_not_null($cPath_back)) ? 'cPath=' . $cPath_back . '&' : '';
             ?>
           </tbody>
         </table>
@@ -1006,7 +1006,7 @@ function updateNet() {
 
       <div class="row my-1">
         <div class="col"><?= TEXT_CATEGORIES . '&nbsp;' . $categories_count . '<br>' . TEXT_PRODUCTS . '&nbsp;' . $products_count ?></div>
-        <div class="col text-right mr-2"><?php if (isset($cPath_array) && (count($cPath_array) > 0)) echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', $cPath_back), null, null, 'btn-light mr-2'); if (!isset($_GET['search'])) echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-sitemap', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-boxes', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-danger') ?></div>
+        <div class="col text-right mr-2"><?php if (isset($cPath_array) && (count($cPath_array) > 0)) echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', $cPath_back), null, null, 'btn-light mr-2'); if (!isset($_GET['search'])) echo tep_draw_bootstrap_button(IMAGE_NEW_CATEGORY, 'fas fa-sitemap', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_category'), null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_NEW_PRODUCT, 'fas fa-boxes', tep_href_link('categories.php', 'cPath=' . $cPath . '&action=new_product'), null, null, 'btn-danger'); ?></div>
       </div>
 
     </div>

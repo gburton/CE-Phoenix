@@ -12,7 +12,7 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/contact_us.php";
+  require language::map_to_translation('contact_us.php');
 
   if (tep_validate_form_action_is('send')) {
     $error = false;
@@ -21,13 +21,15 @@
     $email_address = tep_db_prepare_input($_POST['email']);
     $enquiry = tep_db_prepare_input($_POST['enquiry']);
 
-    if (!tep_validate_email($email_address)) {
+    $email_class = $customer_data->has('email_address')
+                 ? get_class($customer_data->get_module('email_address'))
+                 : 'cd_email_address';
+
+    if (!$email_class::validate($email_address)) {
       tep_block_form_processing();
 
       $messageStack->add('contact', ENTRY_EMAIL_ADDRESS_CHECK_ERROR);
     }
-    
-    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     $actionRecorder = new actionRecorder('ar_contact_us', ($_SESSION['customer_id'] ?? null), $name);
     if (!$actionRecorder->canPerform()) {
@@ -37,6 +39,8 @@
 
       $messageStack->add('contact', sprintf(ERROR_ACTION_RECORDER, (defined('MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_MINUTES') ? (int)MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_MINUTES : 15)));
     }
+
+    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     if (tep_form_processing_is_valid()) {
       tep_mail(STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS, sprintf(EMAIL_SUBJECT, STORE_NAME), $enquiry, $name, $email_address);

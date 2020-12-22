@@ -59,7 +59,7 @@
     }
 
     public function add_order_by(&$columns, $criterion, $direction) {
-      tep_guarantee_subarray($columns, 'customers');
+      Guarantor::guarantee_subarray($columns, 'customers');
       $columns['customers']['customers_lastname'] = $direction;
       $columns['customers']['customers_firstname'] = $direction;
     }

@@ -65,7 +65,7 @@
 
         $OSCOM_Hooks->call('testimonials', 'addNewAction');
 
-        tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params([('action'])));
+        tep_redirect(tep_href_link('testimonials.php', tep_get_all_get_params(['action'])));
         break;
     }
   }

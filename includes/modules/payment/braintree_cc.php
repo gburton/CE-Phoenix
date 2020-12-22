@@ -104,7 +104,7 @@
       for ($i = 1; $i <= 12; $i++) {
         $months[] = [
           'id' => tep_output_string(sprintf('%02d', $i)),
-          'text' => tep_output_string_protected(sprintf('%02d', $i)),
+          'text' => htmlspecialchars(sprintf('%02d', $i)),
         ];
       }
 
@@ -114,7 +114,7 @@
       for ($i = $today['year']; $i < $today['year'] + 10; $i++) {
         $years[] = [
           'id' => tep_output_string(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
-          'text' => tep_output_string_protected(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
+          'text' => htmlspecialchars(strftime('%Y',mktime(0, 0, 0, 1, 1, $i))),
         ];
       }
 
@@ -133,7 +133,7 @@
           while ( $tokens = tep_db_fetch_array($tokens_query) ) {
             $content .= '<tr class="moduleRow" id="braintree_card_' . (int)$tokens['id'] . '">'
                       . '  <td><input type="radio" name="braintree_card" value="' . (int)$tokens['id'] . '" /></td>'
-                      . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . tep_output_string_protected($tokens['number_filtered']) . '&nbsp;&nbsp;' . tep_output_string_protected(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . tep_output_string_protected($tokens['card_type']) . '</td>'
+                      . '  <td>' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_LAST_4 . '&nbsp;' . htmlspecialchars($tokens['number_filtered']) . '&nbsp;&nbsp;' . htmlspecialchars(substr($tokens['expiry_date'], 0, 2) . '/' . substr($tokens['expiry_date'], 2)) . '&nbsp;&nbsp;' . htmlspecialchars($tokens['card_type']) . '</td>'
                       . '</tr>';
 
             if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
@@ -155,7 +155,7 @@
       $content .= '<table class="table" id="braintree_table_new_card">'
                 . '<tr>'
                 . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_OWNER . '</td>'
-                . '  <td>' . tep_draw_input_field('name', $order->billing['firstname'] . ' ' . $order->billing['lastname']) . '</td>'
+                . '  <td>' . tep_draw_input_field('name', $GLOBALS['customer_data']->get('name', $order->billing)) . '</td>'
                 . '</tr>'
                 . '<tr>'
                 . '  <td class="w-25">' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_NUMBER . '</td>'
@@ -176,7 +176,7 @@
       if ( MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True' ) {
         $content .= '<tr>'
                   . '  <td class="w-25">&nbsp;</td>'
-                  . '  <td>' . tep_draw_checkbox_field('cc_save', 'true') . ' ' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_SAVE . '</td>'
+                  . '  <td>' . tep_draw_selection_field('cc_save', 'checkbox', 'true') . ' ' . MODULE_PAYMENT_BRAINTREE_CC_CREDITCARD_SAVE . '</td>'
                   . '</tr>';
       }
 
@@ -192,7 +192,7 @@
     }
 
     public function before_process() {
-      global $order;
+      global $order, $customer_data;
 
       $this->token = null;
       $braintree_token_cvv = null;
@@ -213,7 +213,7 @@
               }
 
               if ( empty($braintree_token_cvv) ) {
-                tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv', 'SSL'));
+                tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv'));
               }
             }
           }
@@ -244,28 +244,28 @@
         }
 
         if ( empty($cc_owner) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardowner', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardowner'));
         }
 
         if ( empty($cc_number) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardnumber', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardnumber'));
         }
 
         if ( !isset($cc_expires_month) || !in_array($cc_expires_month, $months) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( !isset($cc_expires_year) || !in_array($cc_expires_year, $years) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( ($cc_expires_year == date('Y')) && ($cc_expires_month < date('m')) ) {
-          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires', 'SSL'));
+          tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardexpires'));
         }
 
         if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
           if ( empty($cc_cvv) ) {
-            tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv', 'SSL'));
+            tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code . '&error=cardcvv'));
           }
         }
       }
@@ -279,27 +279,28 @@
 
       $_SESSION['currency'] = $this->getTransactionCurrency();
 
+      $customer_data->get('country', $order->billing);
       $data = [
         'amount' => $this->format_raw($order->info['total'], $_SESSION['currency']),
         'merchantAccountId' => $this->getMerchantAccountId($_SESSION['currency']),
         'creditCard' => ['cardholderName' => $cc_owner],
         'customer' => [
-          'firstName' => $order->customer['firstname'],
-          'lastName' => $order->customer['lastname'],
-          'company' => $order->customer['company'],
-          'phone' => $order->customer['telephone'],
-          'email' => $order->customer['email_address'],
+          'firstName' => $customer_data->get('firstname', $order->customer),
+          'lastName' => $customer_data->get('lastname', $order->customer),
+          'company' => $customer_data->get('company', $order->customer),
+          'phone' => $customer_data->get('telephone', $order->customer),
+          'email' => $customer_data->get('email_address', $order->customer),
         ],
         'billing' => [
-          'firstName' => $order->billing['firstname'],
-          'lastName' => $order->billing['lastname'],
-          'company' => $order->billing['company'],
-          'streetAddress' => $order->billing['street_address'],
-          'extendedAddress' => $order->billing['suburb'],
-          'locality' => $order->billing['city'],
-          'region' => tep_get_zone_name($order->billing['country_id'], $order->billing['zone_id'], $order->billing['state']),
-          'postalCode' => $order->billing['postcode'],
-          'countryCodeAlpha2' => $order->billing['country']['iso_code_2'],
+          'firstName' => $customer_data->get('firstname', $order->billing),
+          'lastName' => $customer_data->get('lastname', $order->billing),
+          'company' => $customer_data->get('company', $order->billing),
+          'streetAddress' => $customer_data->get('street_address', $order->billing),
+          'extendedAddress' => $customer_data->get('suburb', $order->billing),
+          'locality' => $customer_data->get('city', $order->billing),
+          'region' => tep_get_zone_name($customer_data->get('country_id', $order->billing), $customer_data->get('zone_id', $order->billing), $customer_data->get('state', $order->billing)),
+          'postalCode' => $customer_data->get('postcode', $order->billing),
+          'countryCodeAlpha2' => $customer_data->get('country_iso_code_2', $order->billing),
         ],
         'options' => [],
       ];
@@ -309,20 +310,30 @@
       }
 
       if ( $order->content_type != 'virtual' ) {
+        $customer_data->get('country', $order->delivery);
         $data['shipping'] = [
-          'firstName' => $order->delivery['firstname'],
-          'lastName' => $order->delivery['lastname'],
-          'company' => $order->delivery['company'],
-          'streetAddress' => $order->delivery['street_address'],
-          'extendedAddress' => $order->delivery['suburb'],
-          'locality' => $order->delivery['city'],
-          'region' => tep_get_zone_name($order->delivery['country_id'], $order->delivery['zone_id'], $order->delivery['state']),
-          'postalCode' => $order->delivery['postcode'],
-          'countryCodeAlpha2' => $order->delivery['country']['iso_code_2'],
+          'firstName' => $customer_data->get('firstname', $order->delivery),
+          'lastName' => $customer_data->get('lastname', $order->delivery),
+          'company' => $customer_data->get('company', $order->delivery),
+          'streetAddress' => $customer_data->get('street_address', $order->delivery),
+          'extendedAddress' => $customer_data->get('suburb', $order->delivery),
+          'locality' => $customer_data->get('city', $order->delivery),
+          'region' => tep_get_zone_name(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery)),
+          'postalCode' => $customer_data->get('postcode', $order->delivery),
+          'countryCodeAlpha2' => $customer_data->get('country_iso_code_2', $order->delivery),
         ];
       }
 
-      if ( !isset($this->token) ) {
+      if ( isset($this->token) ) {
+        $data['paymentMethodToken'] = $this->token;
+
+        if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
+          $data['creditCard']['cvv'] = $braintree_token_cvv;
+        }
+      } else {
         $data['creditCard']['number'] = $cc_number;
         $data['creditCard']['expirationMonth'] = $cc_expires_month;
         $data['creditCard']['expirationYear'] = $cc_expires_year;
@@ -333,12 +344,6 @@
 
         if ( (MODULE_PAYMENT_BRAINTREE_CC_TOKENS == 'True') && isset($_POST['cc_save']) && ($_POST['cc_save'] == 'true') ) {
           $data['options']['storeInVaultOnSuccess'] = true;
-        }
-      } else {
-        $data['paymentMethodToken'] = $this->token;
-
-        if ( MODULE_PAYMENT_BRAINTREE_CC_VERIFY_WITH_CVV == 'True' ) {
-          $data['creditCard']['cvv'] = $braintree_token_cvv;
         }
       }
 
@@ -376,7 +381,7 @@
         }
       }
 
-      tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL'));
+      tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=' . $this->code));
     }
 
     public function after_process() {
@@ -390,7 +395,7 @@
         $number = tep_db_prepare_input($this->result->transaction->creditCard['last4']);
         $expiry = tep_db_prepare_input($this->result->transaction->creditCard['expirationMonth'] . $this->result->transaction->creditCard['expirationYear']);
 
-        $check_query = tep_db_query("SELECT id FROM customers_braintree_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' AND braintree_token = '" . tep_db_input($token) . "' limit 1");
+        $check_query = tep_db_query("SELECT id FROM customers_braintree_tokens WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' AND braintree_token = '" . tep_db_input($token) . "' LIMIT 1");
         if ( tep_db_num_rows($check_query) < 1 ) {
           $sql_data = [
             'customers_id' => (int)$_SESSION['customer_id'],

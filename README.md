@@ -97,11 +97,12 @@ If you wish to help steer the future direction of the software you need to join 
 Channel | URL 
 ------------ | -------------
 Phoenix Club | https://forums.oscommerce.com/forum/117-topics/
-Youtube | https://www.youtube.com/channel/UCjJe0ZX3-nGzeJFEzcVUyIA/
-Discord | https://discord.gg/3pzfrtMAX4
-External Libraries | https://github.com/gburton/Responsive-osCommerce/wiki/External-Libraries
-Phoenix Cart Wiki | https://phoenixcart.org/phoenixcartwiki/index.php
-Phoenix Cart Forum | https://phoenixcart.org/forum/
+Phoenix (Youtube) | https://www.youtube.com/channel/UCjJe0ZX3-nGzeJFEzcVUyIA/
+Zipurman Coding (Youtube) | https://www.youtube.com/user/zipurman/videos
+Support (Discord) | https://discord.gg/3pzfrtMAX4
+Phoenix Cart (Wiki) | https://phoenixcart.org/phoenixcartwiki/index.php
+Phoenix Cart (Forum) | https://phoenixcart.org/forum/
+Github (Discussions) | https://github.com/gburton/CE-Phoenix/discussions
 
 # Credits
 

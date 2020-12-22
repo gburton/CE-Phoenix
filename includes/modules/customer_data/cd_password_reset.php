@@ -37,7 +37,7 @@
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'customers_info');
+      Guarantor::guarantee_subarray($db_tables, 'customers_info');
       $db_tables['customers_info']['password_reset_key'] = null;
       $db_tables['customers_info']['password_reset_date'] = null;
     }

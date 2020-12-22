@@ -28,7 +28,7 @@
 
 // make a connection to the database... now
   tep_db_connect() or die('Unable to connect to database server!');
-  
+
   $OSCOM_Hooks = new hooks('admin');
   $OSCOM_Hooks->register('system');
   $OSCOM_Hooks->generate('system', 'startApplication');
@@ -69,16 +69,7 @@
 
 // set the language
   if (!isset($_SESSION['language']) || isset($_GET['language'])) {
-    $lng = new language();
-
-    if (tep_not_null($_GET['language'] ?? '')) {
-      $lng->set_language($_GET['language']);
-    } else {
-      $lng->get_browser_language();
-    }
-
-    $_SESSION['language'] = $lng->language['directory'];
-    $_SESSION['languages_id'] = $lng->language['id'];
+    $lng = language::build();
   }
 
 // register session variables globally

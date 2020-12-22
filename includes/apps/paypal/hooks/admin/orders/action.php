@@ -34,7 +34,7 @@
         if ( tep_db_num_rows($ppstatus_query) ) {
           $ppstatus = tep_db_fetch_array($ppstatus_query);
 
-          $pp = array();
+          $pp = [];
 
           foreach ( explode("\n", $ppstatus['comments']) as $s ) {
             if ( !empty($s) && (strpos($s, ':') !== false) ) {
@@ -78,21 +78,21 @@
       $result = null;
 
       if ( !isset($comments['Gateway']) ) {
-        $response = $this->_app->getApiResult('APP', 'GetTransactionDetails', array('TRANSACTIONID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+        $response = $this->_app->getApiResult('APP', 'GetTransactionDetails', ['TRANSACTIONID' => $comments['Transaction ID']], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
-        if ( in_array($response['ACK'], array('Success', 'SuccessWithWarning')) ) {
-          $result = 'Transaction ID: ' . tep_output_string_protected($response['TRANSACTIONID']) . "\n" .
-                    'Payer Status: ' . tep_output_string_protected($response['PAYERSTATUS']) . "\n" .
-                    'Address Status: ' . tep_output_string_protected($response['ADDRESSSTATUS']) . "\n" .
-                    'Payment Status: ' . tep_output_string_protected($response['PAYMENTSTATUS']) . "\n" .
-                    'Payment Type: ' . tep_output_string_protected($response['PAYMENTTYPE']) . "\n" .
-                    'Pending Reason: ' . tep_output_string_protected($response['PENDINGREASON']);
+        if ( in_array($response['ACK'], ['Success', 'SuccessWithWarning']) ) {
+          $result = 'Transaction ID: ' . htmlspecialchars($response['TRANSACTIONID']) . "\n" .
+                    'Payer Status: ' . htmlspecialchars($response['PAYERSTATUS']) . "\n" .
+                    'Address Status: ' . htmlspecialchars($response['ADDRESSSTATUS']) . "\n" .
+                    'Payment Status: ' . htmlspecialchars($response['PAYMENTSTATUS']) . "\n" .
+                    'Payment Type: ' . htmlspecialchars($response['PAYMENTTYPE']) . "\n" .
+                    'Pending Reason: ' . htmlspecialchars($response['PENDINGREASON']);
         }
       } elseif ( $comments['Gateway'] == 'Payflow' ) {
-        $response = $this->_app->getApiResult('APP', 'PayflowInquiry', array('ORIGID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+        $response = $this->_app->getApiResult('APP', 'PayflowInquiry', ['ORIGID' => $comments['Transaction ID']], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
         if ( isset($response['RESULT']) && ($response['RESULT'] == '0') ) {
-          $result = 'Transaction ID: ' . tep_output_string_protected($response['ORIGPNREF']) . "\n" .
+          $result = 'Transaction ID: ' . htmlspecialchars($response['ORIGPNREF']) . "\n" .
                     'Gateway: Payflow' . "\n";
 
           $pending_reason = $response['TRANSSTATE'];
@@ -122,10 +122,10 @@
           }
 
           if ( isset($payment_status) ) {
-            $result .= 'Payment Status: ' . tep_output_string_protected($payment_status) . "\n";
+            $result .= 'Payment Status: ' . htmlspecialchars($payment_status) . "\n";
           }
 
-          $result .= 'Pending Reason: ' . tep_output_string_protected($pending_reason) . "\n";
+          $result .= 'Pending Reason: ' . htmlspecialchars($pending_reason) . "\n";
 
           switch ( $response['AVSADDR'] ) {
             case 'Y':
@@ -170,11 +170,13 @@
       }
 
       if ( !empty($result) ) {
-        $sql_data_array = array('orders_id' => (int)$order['orders_id'],
-                                'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                                'date_added' => 'now()',
-                                'customer_notified' => '0',
-                                'comments' => $result);
+        $sql_data_array = [
+          'orders_id' => (int)$order['orders_id'],
+          'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+          'date_added' => 'NOW()',
+          'customer_notified' => '0',
+          'comments' => $result,
+        ];
 
         tep_db_perform('orders_status_history', $sql_data_array);
 
@@ -194,26 +196,30 @@
 
       if ( $this->_app->formatCurrencyRaw($_POST['ppCaptureAmount'], $order['currency'], 1) < $capture_value ) {
         $capture_value = $this->_app->formatCurrencyRaw($_POST['ppCaptureAmount'], $order['currency'], 1);
-        $capture_final = (isset($_POST['ppCatureComplete']) && ($_POST['ppCatureComplete'] == 'true')) ? true : false;
+        $capture_final = (isset($_POST['ppCatureComplete']) && ($_POST['ppCatureComplete'] === 'true'));
       }
 
       if ( !isset($comments['Gateway']) ) {
-        $params = array('AUTHORIZATIONID' => $comments['Transaction ID'],
-                        'AMT' => $capture_value,
-                        'CURRENCYCODE' => $order['currency'],
-                        'COMPLETETYPE' => ($capture_final === true) ? 'Complete' : 'NotComplete');
+        $params = [
+          'AUTHORIZATIONID' => $comments['Transaction ID'],
+          'AMT' => $capture_value,
+          'CURRENCYCODE' => $order['currency'],
+          'COMPLETETYPE' => ($capture_final === true) ? 'Complete' : 'NotComplete',
+        ];
 
         $response = $this->_app->getApiResult('APP', 'DoCapture', $params, (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
-        if ( in_array($response['ACK'], array('Success', 'SuccessWithWarning')) ) {
+        if ( in_array($response['ACK'], ['Success', 'SuccessWithWarning']) ) {
           $transaction_id = $response['TRANSACTIONID'];
 
           $pass = true;
         }
       } elseif ( $comments['Gateway'] == 'Payflow' ) {
-        $params = array('ORIGID' => $comments['Transaction ID'],
-                        'AMT' => $capture_value,
-                        'CAPTURECOMPLETE' => ($capture_final === true) ? 'Y' : 'N');
+        $params = [
+          'ORIGID' => $comments['Transaction ID'],
+          'AMT' => $capture_value,
+          'CAPTURECOMPLETE' => ($capture_final === true) ? 'Y' : 'N',
+        ];
 
         $response = $this->_app->getApiResult('APP', 'PayflowCapture', $params, (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
@@ -231,13 +237,15 @@
           $result .= 'PayPal App: Void (' . $this->_app->formatCurrencyRaw($capture_total - $capture_value, $order['currency'], 1) . ')' . "\n";
         }
 
-        $result .= 'Transaction ID: ' . tep_output_string_protected($transaction_id);
+        $result .= 'Transaction ID: ' . htmlspecialchars($transaction_id);
 
-        $sql_data_array = array('orders_id' => (int)$order['orders_id'],
-                                'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                                'date_added' => 'now()',
-                                'customer_notified' => '0',
-                                'comments' => $result);
+        $sql_data_array = [
+          'orders_id' => (int)$order['orders_id'],
+          'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+          'date_added' => 'NOW()',
+          'customer_notified' => '0',
+          'comments' => $result,
+        ];
 
         tep_db_perform('orders_status_history', $sql_data_array);
 
@@ -253,13 +261,13 @@
       $pass = false;
 
       if ( !isset($comments['Gateway']) ) {
-        $response = $this->_app->getApiResult('APP', 'DoVoid', array('AUTHORIZATIONID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+        $response = $this->_app->getApiResult('APP', 'DoVoid', ['AUTHORIZATIONID' => $comments['Transaction ID']], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
-        if ( in_array($response['ACK'], array('Success', 'SuccessWithWarning')) ) {
+        if ( in_array($response['ACK'], ['Success', 'SuccessWithWarning']) ) {
           $pass = true;
         }
       } elseif ( $comments['Gateway'] == 'Payflow' ) {
-        $response = $this->_app->getApiResult('APP', 'PayflowVoid', array('ORIGID' => $comments['Transaction ID']), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+        $response = $this->_app->getApiResult('APP', 'PayflowVoid', ['ORIGID' => $comments['Transaction ID']], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
         if ( isset($response['RESULT']) && ($response['RESULT'] == '0') ) {
           $pass = true;
@@ -278,11 +286,13 @@
 
         $result = 'PayPal App: Void (' . $capture_total . ')';
 
-        $sql_data_array = array('orders_id' => (int)$order['orders_id'],
-                                'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                                'date_added' => 'now()',
-                                'customer_notified' => '0',
-                                'comments' => $result);
+        $sql_data_array = [
+          'orders_id' => (int)$order['orders_id'],
+          'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+          'date_added' => 'NOW()',
+          'customer_notified' => '0',
+          'comments' => $result,
+        ];
 
         tep_db_perform('orders_status_history', $sql_data_array);
 
@@ -296,7 +306,7 @@
       global $messageStack;
 
       if ( isset($_POST['ppRefund']) ) {
-        $tids = array();
+        $tids = [];
 
         $ppr_query = tep_db_query("select comments from orders_status_history where orders_id = '" . (int)$order['orders_id'] . "' and orders_status_id = '" . (int)OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID . "' and comments like 'PayPal App: %' order by date_added desc");
         if ( tep_db_num_rows($ppr_query) ) {
@@ -315,7 +325,7 @@
           $tids[$comments['Transaction ID']]['Amount'] = $this->_app->formatCurrencyRaw($order['total'], $order['currency'], $order['currency_value']);
         }
 
-        $rids = array();
+        $rids = [];
 
         foreach ( $_POST['ppRefund'] as $id ) {
           if ( isset($tids[$id]) && !isset($tids[$id]['Refund']) ) {
@@ -327,15 +337,15 @@
           $pass = false;
 
           if ( !isset($comments['Gateway']) ) {
-            $response = $this->_app->getApiResult('APP', 'RefundTransaction', array('TRANSACTIONID' => $id), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+            $response = $this->_app->getApiResult('APP', 'RefundTransaction', ['TRANSACTIONID' => $id], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
-            if ( in_array($response['ACK'], array('Success', 'SuccessWithWarning')) ) {
+            if ( in_array($response['ACK'], ['Success', 'SuccessWithWarning']) ) {
               $transaction_id = $response['REFUNDTRANSACTIONID'];
 
               $pass = true;
             }
           } elseif ( $comments['Gateway'] == 'Payflow' ) {
-            $response = $this->_app->getApiResult('APP', 'PayflowRefund', array('ORIGID' => $id), (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
+            $response = $this->_app->getApiResult('APP', 'PayflowRefund', ['ORIGID' => $id], (strpos($order['payment_method'], 'Sandbox') === false) ? 'live' : 'sandbox');
 
             if ( isset($response['RESULT']) && ($response['RESULT'] == '0') ) {
               $transaction_id = $response['PNREF'];
@@ -346,20 +356,22 @@
 
           if ( $pass === true ) {
             $result = 'PayPal App: Refund (' . $tids[$id]['Amount'] . ')' . "\n" .
-                      'Transaction ID: ' . tep_output_string_protected($transaction_id) . "\n" .
-                      'Parent ID: ' . tep_output_string_protected($id);
+                      'Transaction ID: ' . htmlspecialchars($transaction_id) . "\n" .
+                      'Parent ID: ' . htmlspecialchars($id);
 
-            $sql_data_array = array('orders_id' => (int)$order['orders_id'],
-                                    'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
-                                    'date_added' => 'now()',
-                                    'customer_notified' => '0',
-                                    'comments' => $result);
+            $sql_data_array = [
+              'orders_id' => (int)$order['orders_id'],
+              'orders_status_id' => OSCOM_APP_PAYPAL_TRANSACTIONS_ORDER_STATUS_ID,
+              'date_added' => 'NOW()',
+              'customer_notified' => '0',
+              'comments' => $result,
+            ];
 
             tep_db_perform('orders_status_history', $sql_data_array);
 
-            $messageStack->add_session($this->_app->getDef('ms_success_refundTransaction', array('refund_amount' => $tids[$id]['Amount'])), 'success');
+            $messageStack->add_session($this->_app->getDef('ms_success_refundTransaction', ['refund_amount' => $tids[$id]['Amount']]), 'success');
           } else {
-            $messageStack->add_session($this->_app->getDef('ms_error_refundTransaction', array('refund_amount' => $tids[$id]['Amount'])), 'error');
+            $messageStack->add_session($this->_app->getDef('ms_error_refundTransaction', ['refund_amount' => $tids[$id]['Amount']]), 'error');
           }
         }
       }

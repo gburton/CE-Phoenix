@@ -10,6 +10,10 @@
   Released under the GNU General Public License
 */
 
+  if (!isset($default_column)) {
+    $default_column = 'PRODUCT_LIST_NAME';
+  }
+
   $column_orderings = array_filter([
     'PRODUCT_LIST_MODEL' => " ORDER BY p.products_model%s, pd.products_name",
     'PRODUCT_LIST_NAME' => " ORDER BY pd.products_name%s",
@@ -20,8 +24,8 @@
     'PRODUCT_LIST_PRICE' => " ORDER BY final_price%s, pd.products_name",
     'PRODUCT_LIST_ID' => " ORDER BY p.products_id%s, pd.products_name",
     'PRODUCT_LIST_ORDERED' => " ORDER BY p.products_ordered%s, pd.products_name",
-  ], function ($k) {
-    return (constant($k) > 0);
+  ], function ($k) use ($default_column) {
+    return ((constant($k) > 0) || ($k === $default_column));
   }, ARRAY_FILTER_USE_KEY);
 
   uksort($column_orderings, function ($a, $b) {
@@ -33,11 +37,15 @@
   if ( (isset($_GET['sort'])) && (preg_match('/^[1-9][ad]$/', $_GET['sort'])) && (substr($_GET['sort'], 0, -1) <= count($column_list)) ) {
     $sort_column = intval(substr($_GET['sort'], 0 , -1)) - 1;
   } else {
-    $i = array_search(($default_column ?? 'PRODUCT_LIST_NAME'), $column_list, true);
-    if (false !== $i) {
-      $sort_column = $i;
-      $_GET['sort'] = ($sort_column + 1) . ($sort_order ?? 'a');
+    $sort_column = array_search($default_column, $column_list, true);
+    if (false === $sort_column) {
+      $sort_column = 0;
+      error_log(sprintf(
+        'Cannot find default sort column:  [%s]',
+        $default_column));
     }
+
+    $_GET['sort'] = ($sort_column + 1) . ($sort_order ?? 'a');
   }
 
   $direction = ('d' === substr($_GET['sort'], -1)) ? ' DESC' : '';
@@ -45,7 +53,7 @@
   $parameters = [
     'column_list' => &$column_list,
     'column_orderings' => &$column_orderings,
-    'default_column' => $default_column ?? null,
+    'default_column' => &$default_column,
     'direction' => &$direction,
     'listing_sql' => &$listing_sql,
     'sort_column' => &$sort_column,

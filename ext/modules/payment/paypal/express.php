@@ -19,10 +19,10 @@
   $paypal_express = new paypal_express();
 
   if ( !$paypal_express->check() || !$paypal_express->enabled ) {
-    tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+    tep_redirect(tep_href_link('shopping_cart.php'));
   }
 
-  require DIR_FS_CATALOG . "includes/languages/$language/create_account.php";
+  require language::map_to_translation('create_account.php');
 
   if ( !isset($_SESSION['sendto']) ) {
     if ( isset($_SESSION['customer_id']) ) {
@@ -72,7 +72,7 @@
         unset($_SESSION['billto']);
       }
 
-      tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+      tep_redirect(tep_href_link('shopping_cart.php'));
 
       break;
     case 'callbackSet':
@@ -170,7 +170,7 @@
           $shipping_modules = new shipping();
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
 
             $quotes_array[] = [
               'id' => 'free_free',
@@ -266,7 +266,7 @@
       break;
     case 'retrieve':
       if ( ($_SESSION['cart']->count_contents() < 1) || empty($_GET['token']) || !isset($_SESSION['appPayPalEcSecret']) ) {
-        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       if ( !isset($_SESSION['appPayPalEcResult']) || ($appPayPalEcResult['TOKEN'] != $_GET['token']) ) {
@@ -293,11 +293,11 @@
       if ( $pass === true ) {
         if ( OSCOM_APP_PAYPAL_GATEWAY == '1' ) { // PayPal
           if ( $appPayPalEcResult['PAYMENTREQUEST_0_CUSTOM'] != $_SESSION['appPayPalEcSecret'] ) {
-            tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+            tep_redirect(tep_href_link('shopping_cart.php'));
           }
         } else { // Payflow
           if ( $appPayPalEcResult['CUSTOM'] != $_SESSION['appPayPalEcSecret'] ) {
-            tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+            tep_redirect(tep_href_link('shopping_cart.php'));
           }
         }
 
@@ -321,7 +321,7 @@
 
               $_SESSION['navigation']->set_snapshot();
 
-              $login_url = tep_href_link('login.php', '', 'SSL');
+              $login_url = tep_href_link('login.php');
               $login_email_address = tep_output_string($appPayPalEcResult['EMAIL']);
 
       $output = <<<EOD
@@ -380,13 +380,8 @@ EOD;
             }
           }
 
-          $OSCOM_Hooks->call('siteWide', 'postAccountCreation');
-          $OSCOM_Hooks->call('siteWide', 'postLogin');
-          if ( SESSION_RECREATE === 'True' ) {
-            tep_session_recreate();
-          }
+          $OSCOM_Hooks->call('siteWide', 'postRegistration');
 
-          tep_reset_session_token();
           $customer = new customer($customer_id);
         }
 
@@ -485,7 +480,7 @@ EOD;
           $_SESSION['shipping'] = false;
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
 
             $_SESSION['shipping'] = 'free_free';
           } elseif ( tep_count_shipping_modules() > 0 ) {
@@ -537,7 +532,7 @@ EOD;
 
             $_SESSION['appPayPalEcRightTurn'] = true;
 
-            tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
+            tep_redirect(tep_href_link('checkout_shipping_address.php'));
           }
 
           if (strpos($_SESSION['shipping'], '_')) {
@@ -554,7 +549,7 @@ EOD;
               if (isset($quote['error'])) {
                 unset($_SESSION['shipping']);
 
-                tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+                tep_redirect(tep_href_link('checkout_shipping.php'));
               } elseif ( (isset($quote[0]['methods'][0]['title'])) && (isset($quote[0]['methods'][0]['cost'])) ) {
                 $_SESSION['shipping'] = [
                   'id' => $_SESSION['shipping'],
@@ -570,11 +565,11 @@ EOD;
         }
 
         if ( isset($_SESSION['shipping']) ) {
-          tep_redirect(tep_href_link('checkout_confirmation.php', '', 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php'));
         } else {
           $_SESSION['appPayPalEcRightTurn'] = true;
 
-          tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+          tep_redirect(tep_href_link('checkout_shipping.php'));
         }
       } else {
         if ( OSCOM_APP_PAYPAL_GATEWAY == '1' ) { // PayPal
@@ -583,7 +578,7 @@ EOD;
           $messageStack->add_session('header', $appPayPalEcResult['OSCOM_ERROR_MESSAGE'], 'error');
         }
 
-        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       break;
@@ -591,7 +586,7 @@ EOD;
     default:
 // if there is nothing in the customer's cart, redirect to the shopping cart page
       if ( $_SESSION['cart']->count_contents() < 1 ) {
-        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       if ( OSCOM_APP_PAYPAL_EC_STATUS == '1' ) {
@@ -725,7 +720,7 @@ EOD;
           $shipping_modules = new shipping();
 
           if ( ot_shipping::is_eligible_free_shipping($customer_data->get('country_id', $order->delivery), $order->info['total']) ) {
-            include DIR_FS_CATALOG . "includes/languages/$language/modules/order_total/ot_shipping.php";
+            include language::map_to_translation('modules/order_total/ot_shipping.php');
             $quotes_array[] = [
               'id' => 'free_free',
               'name' => FREE_SHIPPING_TITLE,
@@ -755,7 +750,7 @@ EOD;
 
             $messageStack->add_session('checkout_address', $paypal_express->_app->getDef('module_ec_error_no_shipping_available'), 'error');
 
-            tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
+            tep_redirect(tep_href_link('checkout_shipping_address.php'));
           }
         }
 
@@ -905,7 +900,7 @@ EOD;
 
           tep_redirect($paypal_url . 'token=' . $response_array['TOKEN']);
         } else {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0'])));
         }
       } else { // Payflow
         $params['CUSTOM'] = $_SESSION['appPayPalEcSecret'];
@@ -922,13 +917,13 @@ EOD;
         if ( $response_array['RESULT'] == '0' ) {
           tep_redirect($paypal_url . 'token=' . $response_array['TOKEN']);
         } else {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
         }
       }
 
       break;
   }
 
-  tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+  tep_redirect(tep_href_link('shopping_cart.php'));
 
   require DIR_FS_CATALOG . 'includes/application_bottom.php';

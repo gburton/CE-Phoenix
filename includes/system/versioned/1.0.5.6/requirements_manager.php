@@ -152,7 +152,7 @@
         }
 
         if (in_array($requirement, $object::REQUIRES)) {
-          tep_guarantee_subarray($this->matched_requirers, $requirement);
+          Guarantor::guarantee_subarray($this->matched_requirers, $requirement);
           $this->matched_requirers[$requirement][] = get_class($object);
         }
       }

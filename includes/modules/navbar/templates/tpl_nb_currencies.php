@@ -1,13 +1,13 @@
 <li class="nav-item dropdown nb-currencies">
   <a class="nav-link dropdown-toggle" href="#" id="navDropdownCurrencies" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <?php echo sprintf(MODULE_NAVBAR_CURRENCIES_SELECTED_CURRENCY, $_SESSION['currency']); ?>
+    <?= sprintf(MODULE_NAVBAR_CURRENCIES_SELECTED_CURRENCY, $_SESSION['currency']) ?>
   </a>
-  <div class="dropdown-menu<?php echo (('Right' === MODULE_NAVBAR_CURRENCIES_CONTENT_PLACEMENT) ? ' dropdown-menu-right' : ''); ?>" aria-labelledby="navDropdownCurrencies">
+  <div class="dropdown-menu<?= (('Right' === MODULE_NAVBAR_CURRENCIES_CONTENT_PLACEMENT) ? ' dropdown-menu-right' : '') ?>" aria-labelledby="navDropdownCurrencies">
     <?php
     foreach ($GLOBALS['currencies']->currencies as $key => $value) {
-      echo '<a class="dropdown-item" href="' 
-      . tep_href_link($GLOBALS['PHP_SELF'], tep_get_all_get_params(['language', 'currency']) . 'currency=' . $key, $GLOBALS['request_type']) . '">' 
-      . $value['title'] 
+      echo '<a class="dropdown-item" href="'
+      . tep_href_link($GLOBALS['PHP_SELF'], tep_get_all_get_params(['language', 'currency']) . 'currency=' . $key, $GLOBALS['request_type']) . '">'
+      . $value['title']
       . '</a>' . PHP_EOL;
     }
     ?>

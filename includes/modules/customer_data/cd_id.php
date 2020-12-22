@@ -48,7 +48,7 @@
         $table = 'customers';
       }
 
-      tep_guarantee_subarray($db_tables, $table);
+      Guarantor::guarantee_subarray($db_tables, $table);
       $db_tables[$table]['customers_id'] = $this->get('id', $customer_details);
     }
 
@@ -57,12 +57,12 @@
         $table = 'customers';
       }
 
-      tep_guarantee_subarray($db_tables, $table);
+      Guarantor::guarantee_subarray($db_tables, $table);
       $db_tables[$table]['customers_id'] = 'id';
     }
 
     public function add_order_by(&$columns, $criterion, $direction) {
-      tep_guarantee_subarray($columns, 'customers');
+      Guarantor::guarantee_subarray($columns, 'customers');
       $columns['customers']['customers_id'] = $direction;
     }
 

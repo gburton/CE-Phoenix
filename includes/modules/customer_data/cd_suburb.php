@@ -47,7 +47,7 @@
           'title' => 'Autocomplete',
           'value' => 'address-line2',
           'desc' => 'How do you want the suburb to be autocompleted?',
-          'set_func' => "tep_cfg_select_option(['address-level3', 'address-line2'], ",
+          'set_func' => "tep_cfg_select_option(['address-level3', 'address-line2', 'off'], ",
         ],
         static::CONFIG_KEY_BASE . 'PAGES' => [
           'title' => 'Pages',
@@ -125,12 +125,12 @@
     }
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_suburb'] = $customer_details['suburb'];
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['entry_suburb'] = 'suburb';
     }
 

@@ -16,19 +16,19 @@
     public $title, $content;
 
     function __construct($title, $content) {
-      $this->show_choose_audience = true;
       $this->title = $title;
       $this->content = $content;
     }
 
     function choose_audience() {
       $products = [];
-      $products_query = tep_db_query(<<<'EOSQL'
+      $products_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT pd.products_id, pd.products_name
   FROM products p INNER JOIN products_description pd ON pd.products_id = p.products_id
-  WHERE p.products_status = 1 AND pd.language_id = 
+  WHERE p.products_status = 1 AND pd.language_id = %d
+ ORDER BY pd.products_name
 EOSQL
-        . (int)$GLOBALS['languages_id'] . ' ORDER BY pd.products_name');
+        , (int)$_SESSION['languages_id']));
       while ($product = tep_db_fetch_array($products_query)) {
         $products[] = [
           'id' => $product['products_id'],
@@ -161,7 +161,7 @@ function selectAll(FormName, SelectBox) {
       $audience = [];
 
       $db_tables = $customer_data->build_db_tables(['id', 'name', 'email_address'], 'customers');
-      tep_guarantee_subarray($db_tables, 'customers');
+      Guarantor::guarantee_subarray($db_tables, 'customers');
       $db_tables['customers']['customers_id'] = null;
       $built = query::rtrim_string_once(customer_query::build_specified_columns($db_tables), query::COLUMN_SEPARATOR)
              . ' FROM' . customer_query::build_joins($db_tables, []);

@@ -18,7 +18,7 @@
     public $form_action_url = 'https://www.secpay.com/java-bin/ValCard';
 
     public function process_button() {
-      global $order, $currencies;
+      global $order, $currencies, $customer_data;
 
       switch (MODULE_PAYMENT_PAYPOINT_SECPAY_CURRENCY) {
         case 'Default Currency':
@@ -58,25 +58,27 @@
       $trans_id_string = STORE_NAME . date('Ymdhis');
       $trans_id = str_replace(' ', '_', $trans_id_string);
 
+      $customer_data->get('country', $order->billing);
+      $customer_data->get('country', $order->delivery);
       $process_button_string = tep_draw_hidden_field('merchant', MODULE_PAYMENT_PAYPOINT_SECPAY_MERCHANT_ID)
                              . tep_draw_hidden_field('trans_id', $trans_id)
                              . tep_draw_hidden_field('amount', number_format($order->info['total'] * $currencies->get_value($sec_currency), $currencies->currencies[$sec_currency]['decimal_places'], '.', ''))
-                             . tep_draw_hidden_field('bill_name', $order->billing['name'])
-                             . tep_draw_hidden_field('bill_addr_1', $order->billing['street_address'])
-                             . tep_draw_hidden_field('bill_addr_2', $order->billing['suburb'])
-                             . tep_draw_hidden_field('bill_city', $order->billing['city'])
-                             . tep_draw_hidden_field('bill_state', $order->billing['state'])
-                             . tep_draw_hidden_field('bill_post_code', $order->billing['postcode'])
-                             . tep_draw_hidden_field('bill_country', $order->billing['country']['title'])
-                             . tep_draw_hidden_field('bill_tel', $order->customer['telephone'])
-                             . tep_draw_hidden_field('bill_email', $order->customer['email_address'])
-                             . tep_draw_hidden_field('ship_name', $order->delivery['name'])
-                             . tep_draw_hidden_field('ship_addr_1', $order->delivery['street_address'])
-                             . tep_draw_hidden_field('ship_addr_2', $order->delivery['suburb'])
-                             . tep_draw_hidden_field('ship_city', $order->delivery['city'])
-                             . tep_draw_hidden_field('ship_state', $order->delivery['state'])
-                             . tep_draw_hidden_field('ship_post_code', $order->delivery['postcode'])
-                             . tep_draw_hidden_field('ship_country', $order->delivery['country']['title'])
+                             . tep_draw_hidden_field('bill_name', $customer_data->get('name', $order->billing))
+                             . tep_draw_hidden_field('bill_addr_1', $customer_data->get('street_address', $order->billing))
+                             . tep_draw_hidden_field('bill_addr_2', $customer_data->get('suburb', $order->billing))
+                             . tep_draw_hidden_field('bill_city', $customer_data->get('city', $order->billing))
+                             . tep_draw_hidden_field('bill_state', $customer_data->get('state', $order->billing))
+                             . tep_draw_hidden_field('bill_post_code', $customer_data->get('postcode', $order->billing))
+                             . tep_draw_hidden_field('bill_country', $customer_data->get('country_name', $order->billing))
+                             . tep_draw_hidden_field('bill_tel', $customer_data->get('telephone', $order->customer))
+                             . tep_draw_hidden_field('bill_email', $customer_data->get('email_address', $order->customer))
+                             . tep_draw_hidden_field('ship_name', $customer_data->get('name', $order->delivery))
+                             . tep_draw_hidden_field('ship_addr_1', $customer_data->get('street_address', $order->delivery))
+                             . tep_draw_hidden_field('ship_addr_2', $customer_data->get('suburb', $order->delivery))
+                             . tep_draw_hidden_field('ship_city', $customer_data->get('city', $order->delivery))
+                             . tep_draw_hidden_field('ship_state', $customer_data->get('state', $order->delivery))
+                             . tep_draw_hidden_field('ship_post_code', $customer_data->get('postcode', $order->delivery))
+                             . tep_draw_hidden_field('ship_country', $customer_data->get('country_name', $order->delivery))
                              . tep_draw_hidden_field('currency', $sec_currency)
                              . tep_draw_hidden_field('callback', tep_href_link('checkout_process.php', '', 'SSL', false) . ';' . tep_href_link('checkout_payment.php', 'payment_error=' . $this->code, 'SSL', false))
                              . tep_draw_hidden_field(session_name(), session_id())

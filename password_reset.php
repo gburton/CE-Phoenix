@@ -17,7 +17,7 @@
     tep_redirect(tep_href_link('index.php'));
   }
 
-  require "includes/languages/$language/password_reset.php";
+  require language::map_to_translation('password_reset.php');
 
   $page_fields = [ 'password', 'password_confirmation' ];
 
@@ -27,7 +27,9 @@
     $email_address = tep_db_prepare_input($_GET['account']);
     $password_key = tep_db_prepare_input($_GET['key']);
 
-    if ( (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) || !tep_validate_email($email_address) ) {
+    $email_class = get_class($customer_data->get_module('email_address'));
+
+    if ( (strlen($email_address) < ENTRY_EMAIL_ADDRESS_MIN_LENGTH) || !$email_class::validate($email_address) ) {
       $error = true;
 
       $messageStack->add_session('password_forgotten', TEXT_NO_EMAIL_ADDRESS_FOUND);
@@ -61,7 +63,6 @@
 
   if (tep_validate_form_action_is('process')) {
     $customer_details = $customer_data->process($page_fields);
-    $OSCOM_Hooks->call('siteWide', 'injectFormVerify');
 
     if (tep_form_processing_is_valid()) {
       $customer_data->update(['password' => $customer_data->get('password', $customer_details)], ['id' => (int)$customer_data->get('id', $check_customer)]);
@@ -70,9 +71,9 @@
 
       $messageStack->add_session('login', SUCCESS_PASSWORD_RESET, 'success');
 
-      tep_redirect(tep_href_link('login.php', '', 'SSL'));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
-  
+
   require $oscTemplate->map_to_template(__FILE__, 'page');
   require 'includes/application_bottom.php';

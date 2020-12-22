@@ -113,24 +113,24 @@
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
       if (('both' === $table) || ('customers' === $table)) {
-        tep_guarantee_subarray($db_tables, 'customers');
+        Guarantor::guarantee_subarray($db_tables, 'customers');
         $db_tables['customers']['customers_firstname'] = $customer_details['firstname'] ?? null;
       }
 
       if (('both' === $table) || ('address_book' === $table)) {
-        tep_guarantee_subarray($db_tables, 'address_book');
+        Guarantor::guarantee_subarray($db_tables, 'address_book');
         $db_tables['address_book']['entry_firstname'] = $customer_details['entry_firstname'] ?? $customer_details['firstname'] ?? null;
       }
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
       if ('both' == $table || 'customers' == $table) {
-        tep_guarantee_subarray($db_tables, 'customers');
+        Guarantor::guarantee_subarray($db_tables, 'customers');
         $db_tables['customers']['customers_firstname'] = 'firstname';
       }
 
       if ('both' == $table || 'address_book' == $table) {
-        tep_guarantee_subarray($db_tables, 'address_book');
+        Guarantor::guarantee_subarray($db_tables, 'address_book');
         $db_tables['address_book']['entry_firstname'] = isset($db_tables['customers']['customers_firstname']) ? null : 'firstname';
       }
     }

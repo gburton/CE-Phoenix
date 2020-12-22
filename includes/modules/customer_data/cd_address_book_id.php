@@ -38,12 +38,12 @@
     }
 
     public function build_db_values(&$db_tables, $customer_details, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['address_book_id'] = $customer_details['address_book_id'];
     }
 
     public function build_db_aliases(&$db_tables, $table = 'both') {
-      tep_guarantee_subarray($db_tables, 'address_book');
+      Guarantor::guarantee_subarray($db_tables, 'address_book');
       $db_tables['address_book']['address_book_id'] = null;
     }
 

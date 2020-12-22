@@ -283,14 +283,13 @@ EOSQL
               </tr>
               <?php
               if (DOWNLOAD_ENABLED == 'true') {
-                $download_query_raw ="select products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount from products_attributes_download where products_attributes_id='" . $attributes_values['products_attributes_id'] . "'";
-                $download_query = tep_db_query($download_query_raw);
-                if (tep_db_num_rows($download_query) > 0) {
-                  $download = tep_db_fetch_array($download_query);
-                  $products_attributes_filename = $download['products_attributes_filename'];
-                  $products_attributes_maxdays  = $download['products_attributes_maxdays'];
-                  $products_attributes_maxcount = $download['products_attributes_maxcount'];
-                }
+                $download_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount
+ FROM products_attributes_download
+ WHERE products_attributes_id = %d
+EOSQL
+                  , (int)$attributes_values['products_attributes_id']));
+                $download = tep_db_fetch_array($download_query);
                 ?>
                 <tr>
                   <td colspan="6">
@@ -298,11 +297,11 @@ EOSQL
                       <tr>
                         <td><?= TABLE_HEADING_DOWNLOAD ?></td>
                         <td><?= TABLE_TEXT_FILENAME ?></td>
-                        <td><?= tep_draw_input_field('products_attributes_filename', $products_attributes_filename, 'class="form-control"') ?></td>
+                        <td><?= tep_draw_input_field('products_attributes_filename', $download['products_attributes_filename'] ?? '', 'class="form-control"') ?></td>
                         <td><?= TABLE_TEXT_MAX_DAYS ?></td>
-                        <td><?= tep_draw_input_field('products_attributes_maxdays', $products_attributes_maxdays, 'class="form-control"') ?></td>
+                        <td><?= tep_draw_input_field('products_attributes_maxdays', $download['products_attributes_maxdays'] ?? '', 'class="form-control"') ?></td>
                         <td><?= TABLE_TEXT_MAX_COUNT ?></td>
-                        <td><?= tep_draw_input_field('products_attributes_maxcount', $products_attributes_maxcount, 'class="form-control"') ?></td>
+                        <td><?= tep_draw_input_field('products_attributes_maxcount', $download['products_attributes_maxcount'] ?? '', 'class="form-control"') ?></td>
                       </tr>
                     </table>
                   </td>
@@ -380,8 +379,6 @@ EOSQL
             </tr>
             <?php
             if (DOWNLOAD_ENABLED == 'true') {
-              $products_attributes_maxdays  = DOWNLOAD_MAX_DAYS;
-              $products_attributes_maxcount = DOWNLOAD_MAX_COUNT;
               ?>
               <tr>
                 <td colspan="6">
@@ -389,11 +386,11 @@ EOSQL
                     <tr>
                       <td><?= TABLE_HEADING_DOWNLOAD ?></td>
                       <td><?= TABLE_TEXT_FILENAME ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_filename', $products_attributes_filename, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_filename', '', 'class="form-control"') ?></td>
                       <td><?= TABLE_TEXT_MAX_DAYS ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_maxdays', $products_attributes_maxdays, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_maxdays', DOWNLOAD_MAX_DAYS, 'class="form-control"') ?></td>
                       <td><?= TABLE_TEXT_MAX_COUNT ?></td>
-                      <td><?= tep_draw_input_field('products_attributes_maxcount', $products_attributes_maxcount, 'class="form-control"') ?></td>
+                      <td><?= tep_draw_input_field('products_attributes_maxcount', DOWNLOAD_MAX_COUNT, 'class="form-control"') ?></td>
                     </tr>
                   </table>
                 </td>

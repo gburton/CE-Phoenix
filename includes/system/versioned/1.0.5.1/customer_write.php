@@ -67,7 +67,7 @@
 
       foreach ($foreign_keys as $foreign_key => $tables) {
         foreach ($tables as $db_table) {
-          tep_guarantee_subarray($criteria, $db_table);
+          Guarantor::guarantee_subarray($criteria, $db_table);
           if (!isset($criteria[$db_table][$foreign_key])) {
             $foreign_table = self::rtrim_string_once($foreign_key, self::IDENTIFIER_SUFFIX);
             $criteria[$db_table][$foreign_key] = $criteria[$foreign_table][$foreign_key];

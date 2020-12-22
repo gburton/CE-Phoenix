@@ -101,9 +101,9 @@
       global $order;
 
       if ( ($this->enabled == true) && ((int)OSCOM_APP_PAYPAL_DP_ZONE > 0) ) {
-        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = '" . OSCOM_APP_PAYPAL_DP_ZONE . "' and zone_country_id = '" . $order->delivery['country']['id'] . "' order by zone_id");
+        $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)OSCOM_APP_PAYPAL_DP_ZONE . " and zone_country_id = " . (int)$customer_data->get('country_id', $order->delivery) . " order by zone_id");
         while ($check = tep_db_fetch_array($check_query)) {
-          if (($check['zone_id'] < 1) || ($check['zone_id'] == $order->delivery['zone_id'])) {
+          if (($check['zone_id'] < 1) || ($check['zone_id'] == $customer_data->get('zone_id', $order->delivery))) {
             return;
           }
         }
@@ -167,7 +167,7 @@
                . '  </tr>'
                . '  <tr>'
                . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>'
-               . '    <td>' . tep_draw_input_field('cc_owner', $order->billing['name']) . '</td>'
+               . '    <td>' . tep_draw_input_field('cc_owner', $customer_data->get('name', $order->billing)) . '</td>'
                . '  </tr>'
                . '  <tr>'
                . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_number') . '</td>'
@@ -217,9 +217,10 @@
     }
 
     function before_process_paypal() {
-      global $order, $response_array;
+      global $order, $response_array, $customer_data;
 
-      if ( isset($_POST['cc_owner']) && !empty($_POST['cc_owner']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) && isset($_POST['cc_number_nh-dns']) && !empty($_POST['cc_number_nh-dns']) ) {
+      if ( !empty($_POST['cc_owner']) && !empty($_POST['cc_number_nh-dns']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) ) {
+        $customer_data->get('country', $order->billing);
         $params = [
           'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
           'CREDITCARDTYPE' => $_POST['cc_type'],
@@ -228,14 +229,17 @@
           'CVV2' => $_POST['cc_cvc_nh-dns'],
           'FIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
           'LASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
-          'STREET' => $order->billing['street_address'],
-          'STREET2' => $order->billing['suburb'],
-          'CITY' => $order->billing['city'],
-          'STATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
-          'COUNTRYCODE' => $order->billing['country']['iso_code_2'],
-          'ZIP' => $order->billing['postcode'],
-          'EMAIL' => $order->customer['email_address'],
-          'SHIPTOPHONENUM' => $order->customer['telephone'],
+          'STREET' => $customer_data->get('street_address', $order->billing),
+          'STREET2' => $customer_data->get('suburb', $order->billing),
+          'CITY' => $customer_data->get('city', $order->billing),
+          'STATE' => tep_get_zone_code(
+            $customer_data->get('country_id', $order->billing),
+            $customer_data->get('zone_id', $order->billing),
+            $customer_data->get('state', $order->billing)),
+          'COUNTRYCODE' => $customer_data->get('country_iso_code_2', $order->billing),
+          'ZIP' => $customer_data->get('postcode', $order->billing),
+          'EMAIL' => $customer_data->get('email_address', $order->customer),
+          'SHIPTOPHONENUM' => $customer_data->get('telephone', $order->customer),
           'CURRENCYCODE' => $order->info['currency'],
         ];
 
@@ -245,13 +249,17 @@
         }
 
         if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
-          $params['SHIPTONAME'] = $order->delivery['name'];
-          $params['SHIPTOSTREET'] = $order->delivery['street_address'];
-          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
-          $params['SHIPTOCITY'] = $order->delivery['city'];
-          $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-          $params['SHIPTOCOUNTRYCODE'] = $order->delivery['country']['iso_code_2'];
-          $params['SHIPTOZIP'] = $order->delivery['postcode'];
+          $customer_data->get('country', $order->delivery);
+          $params['SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+          $params['SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+          $params['SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+          $params['SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+          $params['SHIPTOSTATE'] = tep_get_zone_code(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery));
+          $params['SHIPTOCOUNTRYCODE'] = $customer_data->get('country_iso_code_2', $order->delivery);
+          $params['SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
         }
 
         $item_params = [];
@@ -291,43 +299,51 @@
         $response_array = $this->_app->getApiResult('DP', 'DoDirectPayment', $params);
 
         if ( !in_array($response_array['ACK'], ['Success', 'SuccessWithWarning']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0']), 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . stripslashes($response_array['L_LONGMESSAGE0'])));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required')));
       }
     }
 
     function before_process_payflow() {
-      global $order, $response_array;
+      global $order, $response_array, $customer_data;
 
       if ( !empty($_POST['cc_owner']) && !empty($_POST['cc_number_nh-dns']) && isset($_POST['cc_type']) && $this->isCardAccepted($_POST['cc_type']) ) {
+        $customer_data->get('country', $order->billing);
         $params = [
           'AMT' => $this->_app->formatCurrencyRaw($order->info['total']),
           'CURRENCY' => $order->info['currency'],
           'BILLTOFIRSTNAME' => substr($_POST['cc_owner'], 0, strpos($_POST['cc_owner'], ' ')),
           'BILLTOLASTNAME' => substr($_POST['cc_owner'], strpos($_POST['cc_owner'], ' ')+1),
-          'BILLTOSTREET' => $order->billing['street_address'],
-          'BILLTOSTREET2' => $order->billing['suburb'],
-          'BILLTOCITY' => $order->billing['city'],
-          'BILLTOSTATE' => tep_get_zone_code($order->billing['country']['id'], $order->billing['zone_id'], $order->billing['state']),
-          'BILLTOCOUNTRY' => $order->billing['country']['iso_code_2'],
-          'BILLTOZIP' => $order->billing['postcode'],
-          'EMAIL' => $order->customer['email_address'],
+          'BILLTOSTREET' => $customer_data->get('street_address', $order->billing),
+          'BILLTOSTREET2' => $customer_data->get('suburb', $order->billing),
+          'BILLTOCITY' => $customer_data->get('city', $order->billing),
+          'BILLTOSTATE' => tep_get_zone_code(
+            $customer_data->get('country_id', $order->billing),
+            $customer_data->get('zone_id', $order->billing),
+            $customer_data->get('state', $order->billing)),
+          'BILLTOCOUNTRY' => $customer_data->get('country_iso_code_2', $order->billing),
+          'BILLTOZIP' => $customer_data->get('postcode', $order->billing),
+          'EMAIL' => $customer_data->get('email_address', $order->customer),
           'ACCT' => $_POST['cc_number_nh-dns'],
           'EXPDATE' => $_POST['cc_expires_month'] . $_POST['cc_expires_year'],
           'CVV2' => $_POST['cc_cvc_nh-dns'],
         ];
 
         if ( is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0) ) {
-          $params['SHIPTOFIRSTNAME'] = $order->delivery['firstname'];
-          $params['SHIPTOLASTNAME'] = $order->delivery['lastname'];
-          $params['SHIPTOSTREET'] = $order->delivery['street_address'];
-          $params['SHIPTOSTREET2'] = $order->delivery['suburb'];
-          $params['SHIPTOCITY'] = $order->delivery['city'];
-          $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-          $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
-          $params['SHIPTOZIP'] = $order->delivery['postcode'];
+          $customer_data->get('country', $order->delivery);
+          $params['SHIPTOFIRSTNAME'] = $customer_data->get('firstname', $order->delivery);
+          $params['SHIPTOLASTNAME'] = $customer_data->get('lastname', $order->delivery);
+          $params['SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+          $params['SHIPTOSTREET2'] = $customer_data->get('suburb', $order->delivery);
+          $params['SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+          $params['SHIPTOSTATE'] = tep_get_zone_code(
+            $customer_data->get('country_id', $order->delivery),
+            $customer_data->get('zone_id', $order->delivery),
+            $customer_data->get('state', $order->delivery));
+          $params['SHIPTOCOUNTRY'] = $customer_data->get('country_iso_code_2', $order->delivery);
+          $params['SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
         }
 
         $item_params = [];
@@ -398,10 +414,10 @@
               break;
           }
 
-          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message, 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $error_message));
         }
       } else {
-        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required'), 'SSL'));
+        tep_redirect(tep_href_link('checkout_confirmation.php', 'error_message=' . $this->_app->getDef('module_dp_error_all_fields_required')));
       }
     }
 
@@ -418,18 +434,18 @@
 
       $details = $this->_app->getApiResult('APP', 'GetTransactionDetails', ['TRANSACTIONID' => $response_array['TRANSACTIONID']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
-      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['TRANSACTIONID']) . "\n";
+      $result = 'Transaction ID: ' . htmlspecialchars($response_array['TRANSACTIONID']) . "\n";
 
       if ( in_array($details['ACK'], ['Success', 'SuccessWithWarning']) ) {
-        $result .= 'Payer Status: ' . tep_output_string_protected($details['PAYERSTATUS']) . "\n"
-                 . 'Address Status: ' . tep_output_string_protected($details['ADDRESSSTATUS']) . "\n"
-                 . 'Payment Status: ' . tep_output_string_protected($details['PAYMENTSTATUS']) . "\n"
-                 . 'Payment Type: ' . tep_output_string_protected($details['PAYMENTTYPE']) . "\n"
-                 . 'Pending Reason: ' . tep_output_string_protected($details['PENDINGREASON']) . "\n";
+        $result .= 'Payer Status: ' . htmlspecialchars($details['PAYERSTATUS']) . "\n"
+                 . 'Address Status: ' . htmlspecialchars($details['ADDRESSSTATUS']) . "\n"
+                 . 'Payment Status: ' . htmlspecialchars($details['PAYMENTSTATUS']) . "\n"
+                 . 'Payment Type: ' . htmlspecialchars($details['PAYMENTTYPE']) . "\n"
+                 . 'Pending Reason: ' . htmlspecialchars($details['PENDINGREASON']) . "\n";
       }
 
-      $result .= 'AVS Code: ' . tep_output_string_protected($response_array['AVSCODE']) . "\n"
- . 'CVV2 Match: ' . tep_output_string_protected($response_array['CVV2MATCH']);
+      $result .= 'AVS Code: ' . htmlspecialchars($response_array['AVSCODE']) . "\n"
+ . 'CVV2 Match: ' . htmlspecialchars($response_array['CVV2MATCH']);
 
       $sql_data = [
         'orders_id' => $order_id,
@@ -447,10 +463,10 @@
 
       $details = $this->_app->getApiResult('APP', 'PayflowInquiry', ['ORIGID' => $response_array['PNREF']], (OSCOM_APP_PAYPAL_DP_STATUS == '1') ? 'live' : 'sandbox');
 
-      $result = 'Transaction ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n"
+      $result = 'Transaction ID: ' . htmlspecialchars($response_array['PNREF']) . "\n"
               . 'Gateway: Payflow' . "\n"
-              . 'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n"
-              . 'Response: ' . tep_output_string_protected($response_array['RESPMSG']) . "\n";
+              . 'PayPal ID: ' . htmlspecialchars($response_array['PPREF']) . "\n"
+              . 'Response: ' . htmlspecialchars($response_array['RESPMSG']) . "\n";
 
       if ( isset($details['RESULT']) && ($details['RESULT'] == '0') ) {
         $pending_reason = $details['TRANSSTATE'];
@@ -480,10 +496,10 @@
         }
 
         if ( isset($payment_status) ) {
-          $result .= 'Payment Status: ' . tep_output_string_protected($payment_status) . "\n";
+          $result .= 'Payment Status: ' . htmlspecialchars($payment_status) . "\n";
         }
 
-        $result .= 'Pending Reason: ' . tep_output_string_protected($pending_reason) . "\n";
+        $result .= 'Pending Reason: ' . htmlspecialchars($pending_reason) . "\n";
       }
 
       switch ( $response_array['AVSADDR'] ) {
