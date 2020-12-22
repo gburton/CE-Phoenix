@@ -219,11 +219,7 @@ function update_zone(theForm) {
                     $num_zones_query = tep_db_query("select count(*) as num_zones from zones_to_geo_zones where geo_zone_id = '" . (int)$zones['geo_zone_id'] . "' group by geo_zone_id");
                     $num_zones = tep_db_fetch_array($num_zones_query);
 
-                    if ($num_zones['num_zones'] > 0) {
-                      $zones['num_zones'] = $num_zones['num_zones'];
-                    } else {
-                      $zones['num_zones'] = 0;
-                    }
+                    $zones['num_zones'] = $num_zones['num_zones'] ?? 0;
 
                     $zInfo = new objectInfo($zones);
                   }
