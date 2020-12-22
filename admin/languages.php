@@ -64,7 +64,7 @@
       case 'deleteconfirm':
         $lID = tep_db_prepare_input($_GET['lID']);
 
-        $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_CURRENCY . "'");
+        $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_LANGUAGE . "'");
         $lng = tep_db_fetch_array($lng_query);
         if ($lng['languages_id'] == $lID) {
           $remove_language = false;
