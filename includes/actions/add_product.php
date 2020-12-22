@@ -17,7 +17,7 @@
 
       if (isset($_POST['products_id'])) {
         $pid = (int)$_POST['products_id'];
-        $attributes = $_POST['id'] ?? '';
+        $attributes = $_POST['id'] ?? null;
 
         $qty = (!empty($_POST['qty'])) ? (int)$_POST['qty'] : 1;
 
