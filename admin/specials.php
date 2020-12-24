@@ -178,7 +178,7 @@ EOSQL
 
   </form>
 
-  <script>$('#expdate').datepicker({ dateFormat: 'yy-mm-dd' });</script>
+  <script>$('#specialDate').datepicker({ dateFormat: 'yy-mm-dd' });</script>
 
 <?php
   } else {
