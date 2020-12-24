@@ -167,7 +167,7 @@
                . '  </tr>'
                . '  <tr>'
                . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_owner') . '</td>'
-               . '    <td>' . tep_draw_input_field('cc_owner', $customer_data->get('name', $order->billing)) . '</td>'
+               . '    <td>' . tep_draw_input_field('cc_owner', $GLOBALS['customer_data']->get('name', $order->billing)) . '</td>'
                . '  </tr>'
                . '  <tr>'
                . '    <td class="w-25">' . $this->_app->getDef('module_dp_field_card_number') . '</td>'
