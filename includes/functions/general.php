@@ -73,7 +73,7 @@
   function tep_random_select($query) {
     $random_product = '';
     $random_query = tep_db_query($query);
-    $num_rows = tep_db_num_rows($random_query);
+    $num_rows = mysqli_num_rows($random_query);
     if ($num_rows > 0) {
       $random_row = tep_rand(0, ($num_rows - 1));
       tep_db_data_seek($random_query, $random_row);
@@ -222,7 +222,7 @@
 // TABLES: zones
   function tep_get_zone_name($country_id, $zone_id, $default_zone) {
     $zone_query = tep_db_query("SELECT zone_name FROM zones WHERE zone_country_id = " . (int)$country_id . " AND zone_id = " . (int)$zone_id);
-    if (tep_db_num_rows($zone_query)) {
+    if (mysqli_num_rows($zone_query)) {
       $zone = tep_db_fetch_array($zone_query);
       return $zone['zone_name'];
     } else {
@@ -282,7 +282,7 @@
 
     if (!isset($tax_rates[$class_id][$country_id][$zone_id]['rate'])) {
       $tax_query = tep_db_query("SELECT sum(tax_rate) AS tax_rate FROM tax_rates tr LEFT JOIN zones_to_geo_zones za ON (tr.tax_zone_id = za.geo_zone_id) LEFT JOIN geo_zones tz ON (tz.geo_zone_id = tr.tax_zone_id) WHERE (za.zone_country_id is null or za.zone_country_id = '0' or za.zone_country_id = " . (int)$country_id . ") AND (za.zone_id is null or za.zone_id = '0' or za.zone_id = " . (int)$zone_id . ") AND tr.tax_class_id = " . (int)$class_id . " group by tr.tax_priority");
-      if (tep_db_num_rows($tax_query)) {
+      if (mysqli_num_rows($tax_query)) {
         $tax_multiplier = 1.0;
         while ($tax = tep_db_fetch_array($tax_query)) {
           $tax_multiplier *= 1.0 + ($tax['tax_rate'] / 100);
@@ -305,7 +305,7 @@
 
     if (!isset($tax_rates[$class_id][$country_id][$zone_id]['description'])) {
       $tax_query = tep_db_query("SELECT tax_description FROM tax_rates tr LEFT JOIN zones_to_geo_zones za ON (tr.tax_zone_id = za.geo_zone_id) LEFT JOIN geo_zones tz ON (tz.geo_zone_id = tr.tax_zone_id) WHERE (za.zone_country_id is null or za.zone_country_id = '0' or za.zone_country_id = " . (int)$country_id . ") AND (za.zone_id is null or za.zone_id = '0' or za.zone_id = " . (int)$zone_id . ") AND tr.tax_class_id = " . (int)$class_id . " ORDER BY tr.tax_priority");
-      if (tep_db_num_rows($tax_query)) {
+      if (mysqli_num_rows($tax_query)) {
         $tax_description = '';
         while ($tax = tep_db_fetch_array($tax_query)) {
           $tax_description .= $tax['tax_description'] . ' + ';
@@ -599,7 +599,7 @@
     $cPath = '';
 
     $category_query = tep_db_query("SELECT p2c.categories_id FROM products p, products_to_categories p2c WHERE p.products_id = " . (int)$products_id . " AND p.products_status = 1 AND p.products_id = p2c.products_id LIMIT 1");
-    if (tep_db_num_rows($category_query)) {
+    if (mysqli_num_rows($category_query)) {
       $category = tep_db_fetch_array($category_query);
 
       $categories = [];
@@ -985,7 +985,7 @@
   function tep_require_login($parameters = null) {
     if (!isset($_SESSION['customer_id'])) {
       $_SESSION['navigation']->set_snapshot($parameters);
-      tep_redirect(tep_href_link('login.php', '', 'SSL'));
+      tep_redirect(tep_href_link('login.php'));
     }
   }
 

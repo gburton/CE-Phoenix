@@ -73,14 +73,14 @@
           break;
         }
 
-        tep_db_query("DELETE FROM categories_description WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_description WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_options WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_options_values WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM manufacturers_info WHERE languages_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM orders_status WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM categories_description WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_description WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_options WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_options_values WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM manufacturers_info WHERE languages_id = " . (int)$lID);
+        tep_db_query("DELETE FROM orders_status WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM customer_data_groups WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM languages WHERE languages_id = " . (int)$lID);
 
         $OSCOM_Hooks->call('languages', 'deleteConfirmAction');
 
@@ -89,7 +89,7 @@
       case 'delete':
         $lID = tep_db_prepare_input($_GET['lID']);
 
-        $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = '" . (int)$lID . "'");
+        $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$lID);
         $lng = tep_db_fetch_array($lng_query);
 
         $remove_language = true;
@@ -137,12 +137,12 @@
           </thead>
           <tbody>
             <?php
-            $languages_query_raw = "select * from languages order by sort_order";
+            $languages_query_raw = "SELECT * FROM languages ORDER BY sort_order";
             $languages_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $languages_query_raw, $languages_query_numrows);
             $languages_query = tep_db_query($languages_query_raw);
 
             while ($languages = tep_db_fetch_array($languages_query)) {
-              if ((!isset($_GET['lID']) || (isset($_GET['lID']) && ($_GET['lID'] == $languages['languages_id']))) && !isset($lInfo) && (substr($action, 0, 3) != 'new')) {
+              if (!isset($lInfo) && (!isset($_GET['lID']) || ($_GET['lID'] == $languages['languages_id'])) && (substr($action, 0, 3) != 'new')) {
                 $lInfo = new objectInfo($languages);
               }
 
@@ -230,7 +230,7 @@
 
   if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
     echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }

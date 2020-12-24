@@ -11,10 +11,11 @@
 */
 
   class OSCOM_PayPal_DP_Cfg_status {
-    var $default = '1';
-    var $title;
-    var $description;
-    var $sort_order = 100;
+
+    public $default = '1';
+    public $title;
+    public $description;
+    public $sort_order = 100;
 
     function __construct() {
       global $OSCOM_PayPal;
@@ -25,9 +26,8 @@
 
     function getSetField() {
       global $OSCOM_PayPal;
-      
-      $input = null;      
-      $input .= '<div class="custom-control custom-radio custom-control-inline">';
+
+      $input = '<div class="custom-control custom-radio custom-control-inline">';
         $input .= '<input type="radio" class="custom-control-input" id="statusSelectionLive" name="status" value="1"' . (OSCOM_APP_PAYPAL_DP_STATUS == '1' ? ' checked="checked"' : '') . '>';
         $input .= '<label class="custom-control-label" for="statusSelectionLive">' . $OSCOM_PayPal->getDef('cfg_dp_status_live') . '</label>';
       $input .= '</div>';
@@ -44,10 +44,9 @@
 <h5>{$this->title}</h5>
 <p>{$this->description}</p>
 
-<div class="mb-3" id="statusSelection">{$input}</div> 
+<div class="mb-3" id="statusSelection">{$input}</div>
 EOT;
 
       return $result;
     }
   }
-?>
