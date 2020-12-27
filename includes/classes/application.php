@@ -79,7 +79,7 @@
       }
 
       $this->fix_numeric_locale();
-      return 'includes/languages/' . $_SESSION['language'] . '.php';
+      return language::map_to_translation('.php');
     }
 
     public function ensure_navigation_history() {
