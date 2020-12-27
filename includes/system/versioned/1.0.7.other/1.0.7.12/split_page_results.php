@@ -27,24 +27,33 @@
 
       $page = $_GET[$this->page_name] ?? $_POST[$this->page_name] ?? '';
 
-      if (empty($page) || !is_numeric($page)) $page = 1;
+      if (empty($page) || !is_numeric($page)) {
+        $page = 1;
+      }
       $this->current_page_number = $page;
 
       $this->number_of_rows_per_page = $max_rows;
 
       $pos_to = strlen($this->sql_query);
-      $pos_from = stripos($this->sql_query, ' FROM', 0);
+      $pos_from = stripos($this->sql_query, ' FROM');
+      $pos_where = strripos($this->sql_query, ' WHERE') ?: $pos_from;
 
-      $pos_group_by = stripos($this->sql_query, ' GROUP BY', $pos_from);
-      if (($pos_group_by < $pos_to) && ($pos_group_by != false)) $pos_to = $pos_group_by;
+      $pos_group_by = stripos($this->sql_query, ' GROUP BY', $pos_where);
+      if ($pos_group_by && ($pos_group_by < $pos_to)) {
+        $pos_to = $pos_group_by;
+      }
 
-      $pos_having = stripos($this->sql_query, ' HAVING', $pos_from);
-      if (($pos_having < $pos_to) && ($pos_having != false)) $pos_to = $pos_having;
+      $pos_having = stripos($this->sql_query, ' HAVING', $pos_where);
+      if ($pos_having && ($pos_having < $pos_to)) {
+        $pos_to = $pos_having;
+      }
 
-      $pos_order_by = stripos($this->sql_query, ' ORDER BY', $pos_from);
-      if (($pos_order_by < $pos_to) && ($pos_order_by != false)) $pos_to = $pos_order_by;
+      $pos_order_by = stripos($this->sql_query, ' ORDER BY', $pos_where);
+      if ($pos_order_by && ($pos_order_by < $pos_to)) {
+        $pos_to = $pos_order_by;
+      }
 
-      if (stripos($this->sql_query, 'distinct') || stripos($this->sql_query, 'group by')) {
+      if (stripos($this->sql_query, 'DISTINCT') || stripos($this->sql_query, 'GROUP BY', $pos_where)) {
         $count_string = 'DISTINCT ' . tep_db_input($count_key);
       } else {
         $count_string = tep_db_input($count_key);
