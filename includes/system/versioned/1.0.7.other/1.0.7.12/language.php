@@ -112,7 +112,7 @@
       $languages = [];
 
       $languages_query = tep_db_query("SELECT languages_id, name, code, image, directory FROM languages ORDER BY sort_order");
-      while ($language = tep_db_fetch_array($languages_query)) {
+      while ($language = $languages_query->fetch_assoc()) {
         $languages[$language['code']] = [
           'id' => $language['languages_id'],
           'name' => $language['name'],

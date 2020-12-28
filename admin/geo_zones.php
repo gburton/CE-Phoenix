@@ -16,7 +16,7 @@
 
   $OSCOM_Hooks->call('geo_zones', 'preSaction');
 
-  if (tep_not_null($saction)) {
+  if (!Text::is_empty($saction)) {
     switch ($saction) {
       case 'insert_sub':
         $zID = tep_db_prepare_input($_GET['zID']);
@@ -36,7 +36,7 @@
         $zone_country_id = tep_db_prepare_input($_POST['zone_country_id']);
         $zone_id = tep_db_prepare_input($_POST['zone_id']);
 
-        tep_db_query("UPDATE zones_to_geo_zones SET geo_zone_id = " . (int)$zID . ", zone_country_id = " . (int)$zone_country_id . ", zone_id = " . (tep_not_null($zone_id) ? (int)$zone_id : 'NULL') . ", last_modified = NOW() WHERE association_id = " . (int)$sID);
+        tep_db_query("UPDATE zones_to_geo_zones SET geo_zone_id = " . (int)$zID . ", zone_country_id = " . (int)$zone_country_id . ", zone_id = " . (Text::is_empty($zone_id) ? 'NULL' : (int)$zone_id) . ", last_modified = NOW() WHERE association_id = " . (int)$sID);
 
         $OSCOM_Hooks->call('geo_zones', 'saveSubSaction');
 
@@ -60,7 +60,7 @@
 
   $OSCOM_Hooks->call('geo_zones', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'insert_zone':
         $geo_zone_name = tep_db_prepare_input($_POST['geo_zone_name']);
@@ -165,22 +165,22 @@ EOSQL
                 , (int)$_GET['zID']);
               $zones_split = new splitPageResults($_GET['spage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_query_raw, $zones_query_numrows);
               $zones_query = tep_db_query($zones_query_raw);
-              while ($zones = tep_db_fetch_array($zones_query)) {
-                if (!isset($sInfo) && (!isset($_GET['sID']) || ($_GET['sID'] == $zones['association_id'])) && (substr($action, 0, 3) != 'new')) {
-                  $sInfo = new objectInfo($zones);
+              while ($zone = $zones_query->fetch_assoc()) {
+                if (!isset($sInfo) && (!isset($_GET['sID']) || ($_GET['sID'] == $zone['association_id'])) && (substr($action, 0, 3) != 'new')) {
+                  $sInfo = new objectInfo($zone);
                 }
 
                 $query_string = 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=';
-                if (isset($sInfo->association_id) && ($zones['association_id'] == $sInfo->association_id)) {
+                if (isset($sInfo->association_id) && ($zone['association_id'] == $sInfo->association_id)) {
                   echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('geo_zones.php', $query_string . $sInfo->association_id . '&saction=edit') . '\'">';
                   $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
                 } else {
-                  echo '<tr onclick="document.location.href=\'' . tep_href_link('geo_zones.php', $query_string . $zones['association_id']) . '\'">';
-                  $icon = '<a href="' . tep_href_link('geo_zones.php', $query_string . $zones['association_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+                  echo '<tr onclick="document.location.href=\'' . tep_href_link('geo_zones.php', $query_string . $zone['association_id']) . '\'">';
+                  $icon = '<a href="' . tep_href_link('geo_zones.php', $query_string . $zone['association_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
                 }
                 ?>
-                  <td><?= $zones['countries_name'] ?? TEXT_ALL_COUNTRIES ?></td>
-                  <td><?= $zones['zone_name'] ?? PLEASE_SELECT ?></td>
+                  <td><?= $zone['countries_name'] ?? TEXT_ALL_COUNTRIES ?></td>
+                  <td><?= $zone['zone_name'] ?? PLEASE_SELECT ?></td>
                   <td class="text-right"><?= $icon ?>&nbsp;</td>
                 </tr>
                 <?php
@@ -223,25 +223,25 @@ EOSQL
                 $zones_query_raw = "SELECT * FROM geo_zones ORDER BY geo_zone_name";
                 $zones_split = new splitPageResults($_GET['zpage'], MAX_DISPLAY_SEARCH_RESULTS, $zones_query_raw, $zones_query_numrows);
                 $zones_query = tep_db_query($zones_query_raw);
-                while ($zones = tep_db_fetch_array($zones_query)) {
-                  if ((!isset($_GET['zID']) || (isset($_GET['zID']) && ($_GET['zID'] == $zones['geo_zone_id']))) && !isset($zInfo) && (substr($action, 0, 3) != 'new')) {
-                    $num_zones_query = tep_db_query("SELECT COUNT(*) AS num_zones FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zones['geo_zone_id'] . " GROUP BY geo_zone_id");
-                    $num_zones = tep_db_fetch_array($num_zones_query);
+                while ($zone = $zones_query->fetch_assoc()) {
+                  if ((!isset($_GET['zID']) || (isset($_GET['zID']) && ($_GET['zID'] == $zone['geo_zone_id']))) && !isset($zInfo) && (substr($action, 0, 3) != 'new')) {
+                    $num_zones_query = tep_db_query("SELECT COUNT(*) AS num_zones FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zone['geo_zone_id'] . " GROUP BY geo_zone_id");
+                    $num_zones = $num_zones_query->fetch_assoc();
 
-                    $zones['num_zones'] = $num_zones['num_zones'] ?? 0;
+                    $zone['num_zones'] = $num_zones['num_zones'] ?? 0;
 
-                    $zInfo = new objectInfo($zones);
+                    $zInfo = new objectInfo($zone);
                   }
 
-                  if (isset($zInfo->geo_zone_id) && ($zones['geo_zone_id'] == $zInfo->geo_zone_id)) {
+                  if (isset($zInfo->geo_zone_id) && ($zone['geo_zone_id'] == $zInfo->geo_zone_id)) {
                     echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list') . '\'">';
                     $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
                   } else {
-                    echo '<tr onclick="document.location.href=\'' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zones['geo_zone_id']) . '\'">';
-                    $icon = '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' .  $zones['geo_zone_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+                    echo '<tr onclick="document.location.href=\'' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zone['geo_zone_id']) . '\'">';
+                    $icon = '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' .  $zone['geo_zone_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
                   }
                   ?>
-                  <td><?= '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zones['geo_zone_id'] . '&action=list') . '"><i class="fas fa-folder text-warning"></i></a>&nbsp;' . $zones['geo_zone_name'] ?></td>
+                  <td><?= '<a href="' . tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zone['geo_zone_id'] . '&action=list') . '"><i class="fas fa-folder text-warning"></i></a>&nbsp;' . $zone['geo_zone_name'] ?></td>
                   <td class="text-right"><?= $icon ?>&nbsp;</td>
                 </tr>
                 <?php
@@ -297,7 +297,9 @@ EOSQL
 
           $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=edit'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $sInfo->association_id . '&saction=delete'), null, null, 'btn-danger')];
           $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, null) . ' ' . tep_date_short($sInfo->date_added)];
-          if (tep_not_null($sInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, null) . ' ' . tep_date_short($sInfo->last_modified)];
+          if (!Text::is_empty($sInfo->last_modified)) {
+            $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, null) . ' ' . tep_date_short($sInfo->last_modified)];
+          }
         }
         break;
     }
@@ -336,14 +338,16 @@ EOSQL
           $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=edit_zone'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=delete_zone'), null, null, 'btn-danger mr-2') . tep_draw_bootstrap_button(IMAGE_DETAILS, 'fas fa-eye', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=list'), null, null, 'btn-info')];
           $contents[] = ['text' => sprintf(TEXT_INFO_NUMBER_ZONES, $zInfo->num_zones)];
           $contents[] = ['text' => sprintf(TEXT_INFO_DATE_ADDED, tep_date_short($zInfo->date_added))];
-          if (tep_not_null($zInfo->last_modified)) $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($zInfo->last_modified))];
+          if (!Text::is_empty($zInfo->last_modified)) {
+            $contents[] = ['text' => sprintf(TEXT_INFO_LAST_MODIFIED, tep_date_short($zInfo->last_modified))];
+          }
           $contents[] = ['text' => sprintf(TEXT_INFO_ZONE_DESCRIPTION, $zInfo->geo_zone_description)];
         }
         break;
     }
   }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box();
       echo $box->infoBox($heading, $contents);

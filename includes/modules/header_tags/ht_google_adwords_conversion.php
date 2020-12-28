@@ -23,16 +23,16 @@
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate, $lng;
+      global $lng;
 
-      if ( ($PHP_SELF == 'checkout_success.php') && isset($_SESSION['customer_id']) ) {
-        $order_query = tep_db_query("SELECT orders_id, currency, currency_value FROM orders WHERE customers_id = '" . (int)$_SESSION['customer_id'] . "' ORDER BY date_purchased DESC LIMIT 1");
+      if ( ($GLOBALS['PHP_SELF'] == 'checkout_success.php') && isset($_SESSION['customer_id']) ) {
+        $order_query = tep_db_query("SELECT orders_id, currency, currency_value FROM orders WHERE customers_id = " . (int)$_SESSION['customer_id'] . " ORDER BY date_purchased DESC LIMIT 1");
 
-        if (tep_db_num_rows($order_query) == 1) {
-          $order = tep_db_fetch_array($order_query);
+        if (mysqli_num_rows($order_query) == 1) {
+          $order = $order_query->fetch_assoc();
 
-          $order_subtotal_query = tep_db_query("SELECT value FROM orders_total WHERE orders_id = '" . (int)$order['orders_id'] . "' AND class='ot_subtotal'");
-          $order_subtotal = tep_db_fetch_array($order_subtotal_query);
+          $order_subtotal_query = tep_db_query("SELECT value FROM orders_total WHERE orders_id = " . (int)$order['orders_id'] . " AND class='ot_subtotal'");
+          $order_subtotal = $order_subtotal_query->fetch_assoc();
 
           if (!isset($lng) || !($lng instanceof language)) {
             $lng = new language();
@@ -48,10 +48,10 @@
           }
 
           $conversion_id = (int)MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_ID;
-          $conversion_language = tep_output_string_protected($language_code);
+          $conversion_language = htmlspecialchars($language_code);
           $conversion_format = (int)MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_FORMAT;
-          $conversion_color = tep_output_string_protected(MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_COLOR);
-          $conversion_label = tep_output_string_protected(MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_LABEL);
+          $conversion_color = htmlspecialchars(MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_COLOR);
+          $conversion_label = htmlspecialchars(MODULE_HEADER_TAGS_GOOGLE_ADWORDS_CONVERSION_LABEL);
           $conversion_value = $this->format_raw($order_subtotal['value'], $order['currency'], $order['currency_value']);
 
           $output = <<<EOD
@@ -73,7 +73,7 @@ var google_conversion_value = {$conversion_value};
 </noscript>
 EOD;
 
-          $oscTemplate->addBlock($output, $this->group);
+          $GLOBALS['oscTemplate']->addBlock($output, $this->group);
         }
       }
     }

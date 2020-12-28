@@ -16,7 +16,7 @@
 
   $OSCOM_Hooks->call('languages', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     if ('insert' == $action || 'save' == $action) {
       $sql_data = [
         'name' => tep_db_prepare_input($_POST['name']),
@@ -65,7 +65,7 @@
         $lID = tep_db_prepare_input($_GET['lID']);
 
         $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_LANGUAGE . "'");
-        $lng = tep_db_fetch_array($lng_query);
+        $lng = $lng_query->fetch_assoc();
         if ($lng['languages_id'] == $lID) {
           $remove_language = false;
           $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
@@ -90,7 +90,7 @@
         $lID = tep_db_prepare_input($_GET['lID']);
 
         $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$lID);
-        $lng = tep_db_fetch_array($lng_query);
+        $lng = $lng_query->fetch_assoc();
 
         $remove_language = true;
         if ($lng['code'] == DEFAULT_LANGUAGE) {
@@ -113,12 +113,10 @@
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
-      <?php
-      if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger');
-      } else {
-        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light');
-      }
+      <?=
+      empty($action)
+      ? tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger')
+      : tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light')
       ?>
     </div>
   </div>
@@ -141,7 +139,7 @@
             $languages_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $languages_query_raw, $languages_query_numrows);
             $languages_query = tep_db_query($languages_query_raw);
 
-            while ($languages = tep_db_fetch_array($languages_query)) {
+            while ($languages = $languages_query->fetch_assoc()) {
               if (!isset($lInfo) && (!isset($_GET['lID']) || ($_GET['lID'] == $languages['languages_id'])) && (substr($action, 0, 3) != 'new')) {
                 $lInfo = new objectInfo($languages);
               }
@@ -228,7 +226,7 @@
       break;
   }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box();
       echo $box->infoBox($heading, $contents);

@@ -70,7 +70,7 @@ SELECT hooks_action, hooks_code, hooks_class, hooks_method
 EOSQL
 , tep_db_input($this->_site), tep_db_input($group)));
 
-      while ($hook = tep_db_fetch_array($hooks_query)) {
+      while ($hook = $hooks_query->fetch_assoc()) {
         $callback = $this->build_callback($hook['hooks_class'], $hook['hooks_method']);
         if (is_callable($callback)) {
           Guarantor::guarantee_all(

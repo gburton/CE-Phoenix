@@ -30,7 +30,7 @@
 
   $OSCOM_Hooks->call('categories', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE products SET products_status = '" . (int)$_GET['flag'] . "', products_last_modified = NOW() WHERE products_id = " . (int)$_GET['pID']);
@@ -119,7 +119,7 @@
           for ($i=0, $n=count($categories); $i<$n; $i++) {
             $product_ids_query = tep_db_query("SELECT products_id FROM products_to_categories WHERE categories_id = " . (int)$categories[$i]['id']);
 
-            while ($product_ids = tep_db_fetch_array($product_ids_query)) {
+            while ($product_ids = $product_ids_query->fetch_assoc()) {
               $products[$product_ids['products_id']]['categories'][] = $categories[$i]['id'];
             }
           }
@@ -128,7 +128,7 @@
             $category_ids = implode(', ', array_map('intval', array_column($value, 'categories')));
 
             $check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$key . " AND categories_id NOT IN (" . $category_ids . ")");
-            $check = tep_db_fetch_array($check_query);
+            $check = $check_query->fetch_assoc();
             if ($check['total'] < '1') {
               $products_delete[$key] = $key;
             }
@@ -158,7 +158,7 @@
           }
 
           $product_categories_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$product_id);
-          $product_categories = tep_db_fetch_array($product_categories_query);
+          $product_categories = $product_categories_query->fetch_assoc();
 
           if ($product_categories['total'] == '0') {
             tep_remove_product($product_id);
@@ -195,7 +195,7 @@
         $new_parent_id = tep_db_prepare_input($_POST['move_to_category_id']);
 
         $duplicate_check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$products_id . " AND categories_id = " . (int)$new_parent_id);
-        $duplicate_check = tep_db_fetch_array($duplicate_check_query);
+        $duplicate_check = $duplicate_check_query->fetch_assoc();
         if ($duplicate_check['total'] < 1) tep_db_query("UPDATE products_to_categories SET categories_id = " . (int)$new_parent_id . " WHERE products_id = " . (int)$products_id . " AND categories_id = " . (int)$current_category_id);
 
         $OSCOM_Hooks->call('categories', 'moveProductConfirmAction');
@@ -216,7 +216,7 @@
           'products_status' => tep_db_prepare_input($_POST['products_status']),
           'products_tax_class_id' => tep_db_prepare_input($_POST['products_tax_class_id']),
           'manufacturers_id' => (int)tep_db_prepare_input($_POST['manufacturers_id']),
-          'products_gtin' => (tep_not_null($_POST['products_gtin'])) ? str_pad(tep_db_prepare_input($_POST['products_gtin']), 14, '0', STR_PAD_LEFT) : 'NULL',
+          'products_gtin' => (Text::is_empty($_POST['products_gtin'])) ? 'NULL' : str_pad(tep_db_prepare_input($_POST['products_gtin']), 14, '0', STR_PAD_LEFT),
         ];
 
         $products_image = new upload('products_image');
@@ -305,9 +305,9 @@
 
         $product_images_query = tep_db_query("SELECT image FROM products_images WHERE products_id = " . (int)$products_id . " AND id NOT IN (" . implode(', ', $piArray) . ")");
         if (mysqli_num_rows($product_images_query)) {
-          while ($product_images = tep_db_fetch_array($product_images_query)) {
+          while ($product_images = $product_images_query->fetch_assoc()) {
             $duplicate_image_query = tep_db_query("SELECT COUNT(*) AS total FROM products_images WHERE image = '" . tep_db_input($product_images['image']) . "'");
-            $duplicate_image = tep_db_fetch_array($duplicate_image_query);
+            $duplicate_image = $duplicate_image_query->fetch_assoc();
 
             if ($duplicate_image['total'] < 2) {
               if (file_exists(DIR_FS_CATALOG_IMAGES . $product_images['image'])) {
@@ -331,7 +331,7 @@
           if ($_POST['copy_as'] == 'link') {
             if ($categories_id != $current_category_id) {
               $check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$products_id . " AND categories_id = " . (int)$categories_id);
-              $check = tep_db_fetch_array($check_query);
+              $check = $check_query->fetch_assoc();
               if ($check['total'] < '1') {
                 tep_db_query("INSERT INTO products_to_categories (products_id, categories_id) VALUES (" . (int)$products_id . ", " . (int)$categories_id . ")");
               }
@@ -427,12 +427,12 @@
 
     if (isset($_GET['pID']) && empty($_POST)) {
       $product_query = tep_db_query("SELECT pd.*, p.*, DATE_FORMAT(p.products_date_available, '%Y-%m-%d') AS products_date_available FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['pID'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$languages_id);
-      $product = tep_db_fetch_array($product_query);
+      $product = $product_query->fetch_assoc();
 
       $pInfo->objectInfo($product);
 
       $product_images_query = tep_db_query("SELECT id, image, htmlcontent, sort_order FROM products_images WHERE products_id = " . (int)$product['products_id'] . " ORDER BY sort_order");
-      while ($product_images = tep_db_fetch_array($product_images_query)) {
+      while ($product_images = $product_images_query->fetch_assoc()) {
         $pInfo->products_larger_images[] = [
           'id' => $product_images['id'],
           'image' => $product_images['image'],
@@ -444,13 +444,13 @@
 
     $manufacturers_array = [['id' => '', 'text' => TEXT_NONE]];
     $manufacturers_query = tep_db_query("SELECT manufacturers_id, manufacturers_name FROM manufacturers ORDER BY manufacturers_name");
-    while ($manufacturers = tep_db_fetch_array($manufacturers_query)) {
+    while ($manufacturers = $manufacturers_query->fetch_assoc()) {
       $manufacturers_array[] = ['id' => $manufacturers['manufacturers_id'], 'text' => $manufacturers['manufacturers_name']];
     }
 
     $tax_class_array = [['id' => '0', 'text' => TEXT_NONE]];
     $tax_class_query = tep_db_query("SELECT tax_class_id, tax_class_title FROM tax_class ORDER BY tax_class_title");
-    while ($tax_class = tep_db_fetch_array($tax_class_query)) {
+    while ($tax_class = $tax_class_query->fetch_assoc()) {
       $tax_class_array[] = ['id' => $tax_class['tax_class_id'], 'text' => $tax_class['tax_class_title']];
     }
 
@@ -707,9 +707,9 @@ function updateNet() {
             <label for="pImg" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MAIN_IMAGE ?></label>
             <div class="col-sm-9">
               <div class="custom-file mb-2">
-                <?php
-                echo tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (tep_not_null($pInfo->products_image) ? null : 'required aria-required="true" ') . 'class="custom-file-input"');
-                echo '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';
+                <?=
+                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($pInfo->products_image) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"'),
+                '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>'
                 ?>
               </div>
             </div>
@@ -782,7 +782,7 @@ function updateNet() {
   </script>
 
   <?=
-  tep_draw_hidden_field('products_date_added', (tep_not_null($pInfo->products_date_added) ? $pInfo->products_date_added : date('Y-m-d'))),
+  tep_draw_hidden_field('products_date_added', (Text::is_empty($pInfo->products_date_added) ? date('Y-m-d') : $pInfo->products_date_added)),
   tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mt-3 mb-1'),
   tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . (isset($_GET['pID']) ? '&pID=' . (int)$_GET['pID'] : '')), null, null, 'btn-light')
   ?>
@@ -792,7 +792,7 @@ function updateNet() {
 <?php
   } elseif ($action == 'new_product_preview') {
     $product_query = tep_db_query("SELECT p.*, pd.* FROM products p, products_description pd WHERE p.products_id = pd.products_id AND p.products_id = " . (int)$_GET['pID']);
-    $product = tep_db_fetch_array($product_query);
+    $product = $product_query->fetch_assoc();
 
     $pInfo = new objectInfo($product);
     $products_image_name = $pInfo->products_image;
@@ -919,7 +919,7 @@ function updateNet() {
             }
             $categories_count = mysqli_num_rows($categories_query);
 
-            while ($categories = tep_db_fetch_array($categories_query)) {
+            while ($categories = $categories_query->fetch_assoc()) {
               // Get parent_id for subcategories if search
               if (isset($_GET['search'])) {
                 $cPath= $categories['parent_id'];
@@ -954,14 +954,14 @@ function updateNet() {
             }
             $products_count = mysqli_num_rows($products_query);
 
-            while ($products = tep_db_fetch_array($products_query)) {
+            while ($products = $products_query->fetch_assoc()) {
         // Get categories_id for product if search
               if (isset($_GET['search'])) $cPath = $products['categories_id'];
 
               if ( !isset($pInfo) && !isset($cInfo) && (!isset($_GET['pID']) && !isset($_GET['cID']) || (isset($_GET['pID']) && ($_GET['pID'] == $products['products_id']))) && (substr($action, 0, 3) != 'new')) {
         // find out the rating average from customer reviews
                 $reviews_query = tep_db_query("SELECT (AVG(reviews_rating) / 5 * 100) AS average_rating FROM reviews WHERE products_id = " . (int)$products['products_id']);
-                $reviews = tep_db_fetch_array($reviews_query);
+                $reviews = $reviews_query->fetch_assoc();
                 $pInfo_array = array_merge($products, $reviews);
                 $pInfo = new objectInfo($pInfo_array);
               }
@@ -1100,7 +1100,7 @@ function updateNet() {
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
         break;
       case 'delete_category':
-        $subcategory_products_check = tep_db_fetch_array(tep_db_query("SELECT COUNT(*) AS total FROM (SELECT categories_id AS id FROM categories WHERE parent_id = '" . (int)$_GET['cID'] . "' UNION SELECT p2c.products_id AS id FROM products_to_categories p2c LEFT JOIN products_to_categories self ON p2c.products_id = self.products_id AND p2c.categories_id != self.categories_id WHERE p2c.categories_id = '" . (int)$_GET['cID'] . "' AND self.categories_id IS NULL ) combined"));
+        $subcategory_products_check = tep_db_query("SELECT COUNT(*) AS total FROM (SELECT categories_id AS id FROM categories WHERE parent_id = '" . (int)$_GET['cID'] . "' UNION SELECT p2c.products_id AS id FROM products_to_categories p2c LEFT JOIN products_to_categories self ON p2c.products_id = self.products_id AND p2c.categories_id != self.categories_id WHERE p2c.categories_id = '" . (int)$_GET['cID'] . "' AND self.categories_id IS NULL ) combined")->fetch_assoc();
 
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_CATEGORY];
 
@@ -1171,7 +1171,9 @@ function updateNet() {
 
             $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('categories.php', 'cPath=' . $category_path_string . '&cID=' . $cInfo->categories_id . '&action=edit_category'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('categories.php', 'cPath=' . $category_path_string . '&cID=' . $cInfo->categories_id . '&action=delete_category'), null, null, 'btn-danger mr-2')];
             $contents[] = ['text' => TEXT_DATE_ADDED . ' ' . tep_date_short($cInfo->date_added)];
-            if (tep_not_null($cInfo->last_modified)) $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->last_modified)];
+            if (!Text::is_empty($cInfo->last_modified)) {
+              $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($cInfo->last_modified)];
+            }
             $contents[] = ['text' => tep_info_image($cInfo->categories_image, $cInfo->categories_name, HEADING_IMAGE_WIDTH, HEADING_IMAGE_HEIGHT) . '<br>' . $cInfo->categories_image];
 
             $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', tep_href_link('categories.php', 'cPath=' . $category_path_string . '&cID=' . $cInfo->categories_id . '&action=move_category'), null, null, 'btn-light')];
@@ -1181,8 +1183,12 @@ function updateNet() {
 
             $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=new_product'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=delete_product'), null, null, 'btn-danger mr-2')];
             $contents[] = ['text' => TEXT_DATE_ADDED . ' ' . tep_date_short($pInfo->products_date_added)];
-            if (tep_not_null($pInfo->products_last_modified)) $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($pInfo->products_last_modified)];
-            if (date('Y-m-d') < $pInfo->products_date_available) $contents[] = ['text' => TEXT_DATE_AVAILABLE . ' ' . tep_date_short($pInfo->products_date_available)];
+            if (!Text::is_empty($pInfo->products_last_modified)) {
+              $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($pInfo->products_last_modified)];
+            }
+            if (date('Y-m-d') < $pInfo->products_date_available) {
+              $contents[] = ['text' => TEXT_DATE_AVAILABLE . ' ' . tep_date_short($pInfo->products_date_available)];
+            }
             $contents[] = ['text' => tep_info_image($pInfo->products_image, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '<br>' . $pInfo->products_image];
             $contents[] = ['text' => TEXT_PRODUCTS_PRICE_INFO . ' ' . $currencies->format($pInfo->products_price) . '<br>' . TEXT_PRODUCTS_QUANTITY_INFO . ' ' . $pInfo->products_quantity];
             $contents[] = ['text' => TEXT_PRODUCTS_AVERAGE_RATING . ' ' . number_format($pInfo->average_rating, 2) . '%'];
@@ -1196,7 +1202,7 @@ function updateNet() {
         break;
     }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box();
       echo $box->infoBox($heading, $contents);

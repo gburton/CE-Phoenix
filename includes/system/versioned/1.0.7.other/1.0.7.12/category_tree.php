@@ -24,7 +24,7 @@ SELECT c.categories_id, c.parent_id, c.categories_image, cd.categories_name, cd.
 EOSQL
           , (int)$_SESSION['languages_id']));
 
-        while ( $category = tep_db_fetch_array($categories_query) ) {
+        while ( $category = $categories_query->fetch_assoc() ) {
           Guarantor::guarantee_subarray(
             $this->_data,
             $category['parent_id']

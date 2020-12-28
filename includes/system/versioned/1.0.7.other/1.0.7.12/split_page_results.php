@@ -60,7 +60,7 @@
       }
 
       $count_query = tep_db_query("SELECT COUNT(" . $count_string . ") AS total " . substr($this->sql_query, $pos_from, ($pos_to - $pos_from)));
-      $count = tep_db_fetch_array($count_query);
+      $count = $count_query->fetch_assoc();
 
       $this->number_of_rows = $count['total'];
 

@@ -102,7 +102,7 @@
 
       if ( ($this->enabled == true) && ((int)OSCOM_APP_PAYPAL_DP_ZONE > 0) ) {
         $check_query = tep_db_query("SELECT zone_id FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)OSCOM_APP_PAYPAL_DP_ZONE . " and zone_country_id = " . (int)$customer_data->get('country_id', $order->delivery) . " order by zone_id");
-        while ($check = tep_db_fetch_array($check_query)) {
+        while ($check = $check_query->fetch_assoc()) {
           if (($check['zone_id'] < 1) || ($check['zone_id'] == $customer_data->get('zone_id', $order->delivery))) {
             return;
           }
@@ -559,7 +559,7 @@
 
     public function check() {
       $check_query = tep_db_query("SELECT configuration_value FROM configuration WHERE configuration_key = 'OSCOM_APP_PAYPAL_DP_STATUS'");
-      if ( $check = tep_db_fetch_array($check_query) ) {
+      if ( $check = $check_query->fetch_assoc() ) {
         return tep_not_null($check['configuration_value']);
       }
 
