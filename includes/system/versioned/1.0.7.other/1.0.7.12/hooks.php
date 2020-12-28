@@ -130,8 +130,8 @@ EOSQL
 
     public function register_page() {
       $this->page = pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME);
-      $this->register('siteWide', $this->page);
       $this->register($this->page);
+      $this->register_pipeline('siteWide');
       $this->call('siteWide', 'injectAppTop');
     }
 
@@ -142,7 +142,7 @@ EOSQL
     }
 
     public function call($group, $action, &$parameters = []) {
-      if (('siteWide' === $group) || in_array($group, $this->pipelines)) {
+      if (in_array($group, $this->pipelines)) {
         $group = $this->page;
       }
 
