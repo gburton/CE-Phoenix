@@ -18,7 +18,7 @@
 
   $OSCOM_Hooks->call('specials', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
@@ -31,7 +31,7 @@
         $products_id = tep_db_prepare_input($_POST['products_id']);
         $products_price = tep_db_prepare_input($_POST['products_price']);
         $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expdate = tep_db_prepare_input($_POST['expdate']);
+        $expires_date = tep_db_prepare_input($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
           $specials_price = substr($specials_price, 0, -1);
@@ -42,12 +42,13 @@
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
-        $expires_date = '';
-        if (tep_not_null($expdate)) {
-          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
+        if (Text::is_empty($expires_date)) {
+          $expires_date = '';
+        } else {
+          $expires_date = substr($expires_date, 0, 4) . substr($expires_date, 5, 2) . substr($expires_date, 8, 2);
         }
 
-        tep_db_query("INSERT INTO specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) VALUES (" . (int)$products_id . ", '" . tep_db_input($specials_price) . "', NOW(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", 1)");
+        tep_db_query("INSERT INTO specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) VALUES (" . (int)$products_id . ", '" . tep_db_input($specials_price) . "', NOW(), " . (Text::is_empty($expires_date) ? 'NULL' : "'" . tep_db_input($expires_date) . "'") . ", 1)");
 
         $OSCOM_Hooks->call('specials', 'insertAction');
 
@@ -58,22 +59,23 @@
         $specials_id = tep_db_prepare_input($_POST['specials_id']);
         $products_price = tep_db_prepare_input($_POST['products_price']);
         $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expdate = tep_db_prepare_input($_POST['expdate']);
+        $expires_date = tep_db_prepare_input($_POST['expdate']);
 
-        if (substr($specials_price, -1) == '%') {
+        if (substr($specials_price, -1) === '%') {
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
-        $expires_date = '';
-        if (tep_not_null($expdate)) {
-          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
+        if (Text::is_empty($expires_date)) {
+          $expires_date = '';
+        } else {
+          $expires_date = substr($expires_date, 0, 4) . substr($expires_date, 5, 2) . substr($expires_date, 8, 2);
         }
 
-        tep_db_query("UPDATE specials SET specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = NOW(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'NULL') . " where specials_id = " . (int)$specials_id);
+        tep_db_query("UPDATE specials SET specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = NOW(), expires_date = " . (Text::is_empty($expires_date) ? 'NULL' : "'" . tep_db_input($expires_date) . "'") . " where specials_id = " . (int)$specials_id);
 
         $OSCOM_Hooks->call('specials', 'updateAction');
 
-        tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . $specials_id));
+        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
         break;
       case 'deleteconfirm':
         $specials_id = tep_db_prepare_input($_GET['sID']);
@@ -82,7 +84,7 @@
 
         $OSCOM_Hooks->call('specials', 'deleteConfirmAction');
 
-        tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
+        tep_redirect(tep_href_link('specials.php', isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : ''));
         break;
     }
   }
@@ -259,7 +261,7 @@ EOSQL
       }
       break;
   }
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box();
       echo $box->infoBox($heading, $contents);
