@@ -36,7 +36,7 @@
         $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
       }
 
-      return tep_ltrim_once($file, $base_path);
+      return Text::ltrim_once($file, $base_path);
     }
 
     public static function _get_template_mapping_for($file, $type) {

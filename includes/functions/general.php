@@ -72,12 +72,14 @@
 ////
 // Return a random row from a database query
   function tep_random_select($query) {
+    trigger_error('The tep_random_select function has been deprecated.', E_USER_DEPRECATED);
     $random_product = '';
     $random_query = tep_db_query($query);
-    $num_rows = mysqli_num_rows($random_query);
-    if ($num_rows > 0) {
-      $random_row = tep_rand(0, ($num_rows - 1));
-      tep_db_data_seek($random_query, $random_row);
+    $last_row = mysqli_num_rows($random_query);
+    if ($last_row > 0) {
+      $last_row--;
+      $random_row = ($last_row > 0) ? mt_rand(0, $last_row) : 0;
+      $random_query->data_seek($random_row);
       $random_product = $random_query->fetch_assoc();
     }
 
@@ -88,12 +90,7 @@
 // Return a product's name
 // TABLES: products
   function tep_get_products_name($product_id, $language_id = null) {
-    if (empty($language_id)) $language_id = $_SESSION['languages_id'];
-
-    $product_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
-
-    return $product['products_name'];
+    return Product::fetch_name($product_id, $language_id);
   }
 
 ////
@@ -989,10 +986,6 @@
   }
 
   function tep_ltrim_once($s, $prefix) {
-    $length = strlen($prefix);
-    if (substr($s, 0, $length) === $prefix) {
-      return substr($s, $length);
-    }
-
-    return $s;
+    trigger_error('The tep_ltrim_once function has been deprecated.', E_USER_DEPRECATED);
+    return Text::ltrim_once($s, $prefix);
   }

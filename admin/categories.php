@@ -386,45 +386,32 @@ EOSQL
   $base_url = HTTP_SERVER . DIR_WS_ADMIN;
 
   if ($action == 'new_product') {
-    $parameters = ['products_name' => '',
-                   'products_description' => '',
-                   'products_url' => '',
-                   'products_id' => '',
-                   'products_quantity' => '',
-                   'products_model' => '',
-                   'products_image' => '',
-                   'products_larger_images' => [],
-                   'products_price' => '',
-                   'products_weight' => '',
-                   'products_date_added' => '',
-                   'products_last_modified' => '',
-                   'products_date_available' => '',
-                   'products_status' => '',
-                   'products_tax_class_id' => '',
-                   'manufacturers_id' => ''];
-    $parameters['products_gtin'] = '';
-    $parameters['products_seo_description'] = '';
-    $parameters['products_seo_keywords'] = '';
-    $parameters['products_seo_title'] = '';
-
-    $pInfo = new objectInfo($parameters);
-
     if (isset($_GET['pID']) && empty($_POST)) {
-      $product_query = tep_db_query("SELECT pd.*, p.*, DATE_FORMAT(p.products_date_available, '%Y-%m-%d') AS products_date_available FROM products p, products_description pd WHERE p.products_id = " . (int)$_GET['pID'] . " AND p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id']);
-      $product = $product_query->fetch_assoc();
-
-      $pInfo->objectInfo($product);
-
-      $product_images_query = tep_db_query("SELECT id, image, htmlcontent, sort_order FROM products_images WHERE products_id = " . (int)$product['products_id'] . " ORDER BY sort_order");
-      while ($product_images = $product_images_query->fetch_assoc()) {
-        $pInfo->products_larger_images[] = [
-          'id' => $product_images['id'],
-          'image' => $product_images['image'],
-          'htmlcontent' => $product_images['htmlcontent'],
-          'sort_order' => $product_images['sort_order'],
-        ];
-      }
+      $product = product_by_id($_GET['pID']);
+    } else {
+      $product = new Product([
+        'products_name' => '',
+        'products_description' => '',
+        'products_url' => '',
+        'products_id' => '',
+        'products_quantity' => '',
+        'products_model' => '',
+        'products_image' => '',
+        'products_price' => '',
+        'products_weight' => '',
+        'products_date_added' => '',
+        'products_last_modified' => '',
+        'products_date_available' => '',
+        'products_status' => '',
+        'products_tax_class_id' => '',
+        'manufacturers_id' => '',
+        'products_gtin' => '',
+        'products_seo_description' => '',
+        'products_seo_keywords' => '',
+        'products_seo_title' => '',
+      ]);
     }
+    $translations = $product->get('translations');
 
     $manufacturers_array = [['id' => '', 'text' => TEXT_NONE]];
     $manufacturers_query = tep_db_query("SELECT manufacturers_id, manufacturers_name FROM manufacturers ORDER BY manufacturers_name");
@@ -438,12 +425,7 @@ EOSQL
       $tax_class_array[] = ['id' => $tax_class['tax_class_id'], 'text' => $tax_class['tax_class_title']];
     }
 
-    $languages = tep_get_languages();
-
-    if (!isset($pInfo->products_status)) {
-      $pInfo->products_status = '1';
-    }
-    $out_status = ('0' === $pInfo->products_status);
+    $out_status = ('0' === $product->get('status'));
     $in_status = !$out_status;
 
     $form_action = (isset($_GET['pID'])) ? 'update_product' : 'insert_product';
@@ -500,7 +482,7 @@ function updateNet() {
 
   <div class="row">
     <div class="col">
-      <h1 class="display-4 mb-2"><?= (isset($_GET['pID'])) ? sprintf(TEXT_EXISTING_PRODUCT, $pInfo->products_name, tep_output_generated_category_path($current_category_id)) : sprintf(TEXT_NEW_PRODUCT, tep_output_generated_category_path($current_category_id)) ?></h1>
+      <h1 class="display-4 mb-2"><?= (isset($_GET['pID'])) ? sprintf(TEXT_EXISTING_PRODUCT, $product->get('name'), tep_output_generated_category_path($current_category_id)) : sprintf(TEXT_NEW_PRODUCT, tep_output_generated_category_path($current_category_id)) ?></h1>
     </div>
     <div class="col-1 text-right align-self-center">
       <?= tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('categories.php', tep_get_all_get_params(['action'])), null, null, 'btn-light') ?>
@@ -531,14 +513,14 @@ function updateNet() {
         <div class="form-group row" id="zQty">
           <label for="pQty" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_QUANTITY ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_quantity', $pInfo->products_quantity, 'required aria-required="true" id="pQty" class="form-control w-25"') ?>
+            <?= tep_draw_input_field('products_quantity', $product->get('in_stock'), 'required aria-required="true" id="pQty" class="form-control w-25"') ?>
           </div>
         </div>
 
         <div class="form-group row" id="zDate">
           <label for="products_date_available" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_DATE_AVAILABLE ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_date_available', $pInfo->products_date_available, 'class="form-control w-25" id="products_date_available" aria-describedby="pDateHelp"');?>
+            <?= tep_draw_input_field('products_date_available', $product->get('date_available'), 'class="form-control w-25" id="products_date_available" aria-describedby="pDateHelp"');?>
             <small id="pDateHelp" class="form-text text-muted">
               <?= TEXT_PRODUCTS_DATE_AVAILABLE_HELP ?>
             </small>
@@ -550,14 +532,14 @@ function updateNet() {
         <div class="form-group row" id="zBrand">
           <label for="pBrand" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MANUFACTURER ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $pInfo->manufacturers_id, 'id="pBrand"') ?>
+            <?= tep_draw_pull_down_menu('manufacturers_id', $manufacturers_array, $product->get('manufacturers_id'), 'id="pBrand"') ?>
           </div>
         </div>
 
         <div class="form-group row" id="zModel">
           <label for="pModel" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_MODEL ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_model', $pInfo->products_model, 'id="pModel"') ?>
+            <?= tep_draw_input_field('products_model', $product->get('model'), 'id="pModel"') ?>
           </div>
         </div>
 
@@ -566,20 +548,20 @@ function updateNet() {
         <div class="form-group row" id="zTax">
           <label for="pTax" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_TAX_CLASS ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $pInfo->products_tax_class_id, 'id="pTax" onchange="updateGross()"') ?>
+            <?= tep_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $product->get('tax_class_id'), 'id="pTax" onchange="updateGross()"') ?>
           </div>
         </div>
 
         <div class="form-group row" id="zNet">
           <label for="pNet" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_PRICE_NET ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_price', $pInfo->products_price, 'required aria-required="true" id="pNet" class="form-control w-25" onchange="updateGross()"') ?>
+            <?= tep_draw_input_field('products_price', $product->get('price'), 'required aria-required="true" id="pNet" class="form-control w-25" onchange="updateGross()"') ?>
           </div>
         </div>
         <div class="form-group row" id="zGross">
           <label for="pGross" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_PRICE_GROSS ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_price_gross', $pInfo->products_price, 'id="pGross" class="form-control w-25" onchange="updateNet()"') ?>
+            <?= tep_draw_input_field('products_price_gross', $product->get('price'), 'id="pGross" class="form-control w-25" onchange="updateNet()"') ?>
           </div>
         </div>
 
@@ -588,14 +570,14 @@ function updateNet() {
         <div class="form-group row" id="zWeight">
           <label for="pWeight" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_WEIGHT ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_weight', $pInfo->products_weight, 'id="pWeight" class="form-control w-25"') ?>
+            <?= tep_draw_input_field('products_weight', $product->get('weight'), 'id="pWeight" class="form-control w-25"') ?>
           </div>
         </div>
 
         <div class="form-group row" id="zGtin">
           <label for="pGtin" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_GTIN ?></label>
           <div class="col-sm-9">
-            <?= tep_draw_input_field('products_gtin', $pInfo->products_gtin, 'id="pGtin" class="form-control w-25" aria-describedby="pGtinHelp"') ?>
+            <?= tep_draw_input_field('products_gtin', $product->get('gtin'), 'id="pGtin" class="form-control w-25" aria-describedby="pGtinHelp"') ?>
             <small id="pGtinHelp" class="form-text text-muted">
             <?= TEXT_PRODUCTS_GTIN_HELP ?>
             </small>
@@ -610,7 +592,7 @@ function updateNet() {
         <div class="accordion" id="productLanguageAccordion">
           <?php
           $show = ' show';
-          foreach ($languages as $l) {
+          foreach (tep_get_languages() as $l) {
             ?>
             <div class="card">
               <div class="card-header" id="heading<?= $l['directory'] ?>">
@@ -621,21 +603,21 @@ function updateNet() {
                   <div class="form-group row" id="zName<?= $l['directory'] ?>">
                     <label for="pName" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_NAME ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_input_field('products_name[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_name($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pName"') ?>
+                      <?= tep_draw_input_field('products_name[' . $l['id'] . ']', $translations[$l['id']]['name'] ?? '', 'required aria-required="true" class="form-control" id="pName"') ?>
                     </div>
                   </div>
 
                   <div class="form-group row" id="zDesc<?= $l['directory'] ?>">
                     <label for="pDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_textarea_field('products_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_description($pInfo->products_id, $l['id'])), 'required aria-required="true" class="form-control" id="pDesc"') ?>
+                      <?= tep_draw_textarea_field('products_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['description'] ?? '', 'required aria-required="true" class="form-control" id="pDesc"') ?>
                     </div>
                   </div>
 
                   <div class="form-group row" id="zUrl<?= $l['directory'] ?>">
                     <label for="pUrl" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_URL ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_input_field('products_url[' . $l['id'] . ']', (isset($products_url[$l['id']]) ? stripslashes($products_url[$l['id']]) : (empty($pInfo->products_id) ? '' : tep_get_products_url($pInfo->products_id, $l['id']))), 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"') ?>
+                      <?= tep_draw_input_field('products_url[' . $l['id'] . ']', $translations[$l['id']]['url'] ?? '', 'class="form-control" id="pUrl" aria-describedby="pUrlHelp"') ?>
                       <small id="pUrlHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_URL_WITHOUT_HTTP ?>
                       </small>
@@ -645,7 +627,7 @@ function updateNet() {
                   <div class="form-group row" id="zSeoTitle<?= $l['directory'] ?>">
                     <label for="pSeoTitle" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_TITLE ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_input_field('products_seo_title[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_title($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoTitle" aria-describedby="pSeoTitleHelp"') ?>
+                      <?= tep_draw_input_field('products_seo_title[' . $l['id'] . ']', $translations[$l['id']]['seo_title'] ?? '', 'class="form-control" id="pSeoTitle" aria-describedby="pSeoTitleHelp"') ?>
                       <small id="pSeoTitleHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_TITLE_HELP ?>
                       </small>
@@ -655,7 +637,7 @@ function updateNet() {
                   <div class="form-group row" id="zSeoDesc<?= $l['directory'] ?>">
                     <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', (empty($pInfo->products_id) ? '' : tep_get_products_seo_description($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
+                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['seo_title'] ?? '', 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
                       <small id="pSeoDescHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
                       </small>
@@ -665,7 +647,7 @@ function updateNet() {
                   <div class="form-group row" id="zSeoKeywords<?= $l['directory'] ?>">
                     <label for="pSeoKeywords" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_KEYWORDS ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_input_field('products_seo_keywords[' . $l['id'] . ']', (empty($pInfo->products_id) ? '' : tep_get_products_seo_keywords($pInfo->products_id, $l['id'])), 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"') ?>
+                      <?= tep_draw_input_field('products_seo_keywords[' . $l['id'] . ']', $translations[$l['id']]['seo_keywords'] ?? '', 'class="form-control" id="pSeoKeywords" placeholder="' . PLACEHOLDER_COMMA_SEPARATION . '" aria-describedby="pSeoKeywordsHelp"') ?>
                       <small id="pSeoKeywordsHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_KEYWORDS_HELP ?>
                       </small>
@@ -692,8 +674,8 @@ function updateNet() {
             <div class="col-sm-9">
               <div class="custom-file mb-2">
                 <?=
-                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($pInfo->products_image) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"');
-                '<label class="custom-file-label" for="pImg">' . $pInfo->products_image . '</label>';
+                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($product->get('image')) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"');
+                '<label class="custom-file-label" for="pImg">' . $product->get('image') . '</label>';
                 ?>
               </div>
             </div>
@@ -708,9 +690,7 @@ function updateNet() {
             </div>
             <div class="col-sm-9" id="piList">
               <?php
-              $pi_counter = 0;
-
-              foreach ($pInfo->products_larger_images as $pi) {
+              foreach ($product->get('images') as $pi_counter => $pi) {
                 $pi_counter++;
                 echo '<div class="row mb-2" id="piId' . $pi_counter . '">';
                   echo '<div class="col">';
@@ -766,7 +746,7 @@ function updateNet() {
   </script>
 
   <?=
-  tep_draw_hidden_field('products_date_added', (Text::is_empty($pInfo->products_date_added) ? date('Y-m-d') : $pInfo->products_date_added)),
+  tep_draw_hidden_field('products_date_added', ($product->get('date_added') ?: date('Y-m-d'))),
   tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mt-3 mb-1'),
   tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . (isset($_GET['pID']) ? '&pID=' . (int)$_GET['pID'] : '')), null, null, 'btn-light')
   ?>
@@ -775,53 +755,44 @@ function updateNet() {
 
 <?php
   } elseif ('new_product_preview' === $action) {
-    $product_query = tep_db_query("SELECT p.*, pd.* FROM products p, products_description pd WHERE p.products_id = pd.products_id AND p.products_id = " . (int)$_GET['pID']);
-    $product = $product_query->fetch_assoc();
-
-    $pInfo = new objectInfo($product);
-    $products_image_name = $pInfo->products_image;
+    $product = product_by_id::build($_GET['pID']);
+    $translations = $product->get('translations');
 
     foreach (tep_get_languages() as $l) {
-      $pInfo->products_name = tep_get_products_name($pInfo->products_id, $l['id']);
-      $pInfo->products_description = tep_get_products_description($pInfo->products_id, $l['id']);
-      $pInfo->products_url = tep_get_products_url($pInfo->products_id, $l['id']);
-      $pInfo->products_seo_description = tep_get_products_seo_description($pInfo->products_id, $l['id']);
-      $pInfo->products_seo_keywords = tep_get_products_seo_keywords($pInfo->products_id, $l['id']);
-      $pInfo->products_seo_title = tep_get_products_seo_title($pInfo->products_id, $l['id']);
       ?>
 
       <div class="row">
         <div class="col">
-          <h1 class="display-4 mb-2"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '&nbsp;' . $pInfo->products_name ?></h1>
+          <h1 class="display-4 mb-2"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '&nbsp;' . $translations[$l['id']]['name'] ?></h1>
         </div>
         <div class="col text-right align-self-center">
-          <h1 class="display-4 mb-2"><?= $currencies->format($pInfo->products_price) ?></h1>
+          <h1 class="display-4 mb-2"><?= $product->format('price') ?></h1>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?= TEXT_PRODUCTS_DESCRIPTION ?></div>
-        <div class="col-sm-9"><?= $pInfo->products_description ?></div>
+        <div class="col-sm-9"><?= $translations[$l['id']]['description'] ?></div>
       </div>
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?= TEXT_PRODUCTS_IMAGE ?></div>
-        <div class="col-sm-9"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $products_image_name) ?></div>
+        <div class="col-sm-9"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $product->get('image')) ?></div>
       </div>
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?= TEXT_PRODUCTS_URL ?></div>
-        <div class="col-sm-9"><?= $pInfo->products_url ?>&nbsp;</div>
+        <div class="col-sm-9"><?= $translations[$l['id']]['url'] ?>&nbsp;</div>
       </div>
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?= TEXT_PRODUCT_DATE_ADDED ?></div>
-        <div class="col-sm-9"><?= $pInfo->products_date_added ?></div>
+        <div class="col-sm-9"><?= $product->get('date_added') ?></div>
       </div>
 
       <div class="row">
         <div class="col-sm-3 text-left text-sm-right font-weight-bold"><?= TEXT_PRODUCT_DATE_AVAILABLE ?></div>
-        <div class="col-sm-9"><?= $pInfo->products_date_available ?>&nbsp;</div>
+        <div class="col-sm-9"><?= $product->get('date_available') ?>&nbsp;</div>
       </div>
       <?php
     }
@@ -837,7 +808,7 @@ function updateNet() {
       }
     } else {
       $back_url = 'categories.php';
-      $back_url_params = 'cPath=' . $cPath . '&pID=' . $pInfo->products_id;
+      $back_url_params = 'cPath=' . $cPath . '&pID=' . (int)$product->get('id');
     }
 
     echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link($back_url, $back_url_params), null, null, 'btn-light');
@@ -947,31 +918,28 @@ function updateNet() {
               if (isset($_GET['search'])) {
                 $cPath = $products['categories_id'];
               }
+              $p = new Product($products);
 
-              if ( !isset($pInfo) && !isset($cInfo) && (!isset($_GET['pID']) && !isset($_GET['cID']) || (isset($_GET['pID']) && ($_GET['pID'] == $products['products_id']))) && (substr($action, 0, 3) != 'new')) {
-        // find out the rating average from customer reviews
-                $reviews_query = tep_db_query("SELECT (AVG(reviews_rating) / 5 * 100) AS average_rating FROM reviews WHERE products_id = " . (int)$products['products_id']);
-                $reviews = $reviews_query->fetch_assoc();
-                $pInfo_array = array_merge($products, $reviews);
-                $pInfo = new objectInfo($pInfo_array);
+              if ( !isset($product) && !isset($cInfo) && (!isset($_GET['pID']) && !isset($_GET['cID']) || (isset($_GET['pID']) && ($_GET['pID'] == $p->get('id')))) && (Text::is_prefixed_by($action, 'new'))) {
+                $product = $p;
               }
 
-              $icons = '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product_preview&read=only') . '"><i class="fas fa-eye mr-2 text-dark"></i></a>'
-                     . '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product') . '"><i class="fas fa-cogs mr-2 text-dark"></i></a>';
-              if (isset($pInfo->products_id) && ($products['products_id'] == $pInfo->products_id) ) {
-                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id'] . '&action=new_product_preview&read=only') . '\'">';
+              $icons = '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . (int)$p->get('id') . '&action=new_product_preview&read=only') . '"><i class="fas fa-eye mr-2 text-dark"></i></a>'
+                     . '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . (int)$p->get('id') . '&action=new_product') . '"><i class="fas fa-cogs mr-2 text-dark"></i></a>';
+              if (isset($product) && ($p->get('id') == $product->get('id')) ) {
+                echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $p->get('id') . '&action=new_product_preview&read=only') . '\'">';
                 $icons .= '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id']) . '\'">';
-                $icons .= '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $products['products_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $p->get('id')) . '\'">';
+                $icons .= '<a href="' . tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $p->get('id')) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
-                <th><?= $products['products_name'] ?></th>
+                <th><?= $p->get('name') ?></th>
                 <td class="text-center">
                   <?=
-                  ($products['products_status'] == '1')
-                  ? '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('categories.php', 'action=setflag&flag=0&pID=' . $products['products_id'] . '&cPath=' . $cPath) . '"><i class="fas fa-times-circle text-muted"></i></a>'
-                  : '<a href="' . tep_href_link('categories.php', 'action=setflag&flag=1&pID=' . $products['products_id'] . '&cPath=' . $cPath) . '"><i class="fas fa-check-circle text-muted"></i></a>  <i class="fas fa-times-circle text-danger"></i>'
+                  ($p->get('status') == '1')
+                  ? '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('categories.php', 'action=setflag&flag=0&pID=' . $p->get('id') . '&cPath=' . $cPath) . '"><i class="fas fa-times-circle text-muted"></i></a>'
+                  : '<a href="' . tep_href_link('categories.php', 'action=setflag&flag=1&pID=' . $p->get('id') . '&cPath=' . $cPath) . '"><i class="fas fa-check-circle text-muted"></i></a>  <i class="fas fa-times-circle text-danger"></i>'
                   ?>
                 </td>
                 <td class="text-right"><?= $icons ?></td>
@@ -980,7 +948,7 @@ function updateNet() {
             }
 
             if (isset($cPath_array) && count($cPath_array) > 1) {
-              $cPath_back = 'cPath=' . implode('_', array_slice($cPath_array, 0, -1)) . '&';
+              $cPath_back = 'cPath=' . implode('_', array_slice($cPath_array, 0, -1));
             } else {
               $cPath_back = '';
             }
@@ -1051,30 +1019,38 @@ function updateNet() {
         $contents[] = ['text' => TEXT_EDIT_INTRO];
 
         $category_inputs_string = $category_description_string = $category_seo_description_string = $category_seo_title_string = '';
-        foreach (tep_get_languages() as $l) {
+        $translations_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT l.*, cd.*
+ FROM languages l LEFT JOIN categories_description cd
+   ON l.languages_id = cd.language_id AND cd.categories_id = %d
+ ORDER BY l.sort_order
+EOSQL
+          , $cInfo->categories_id));
+        while ($l = $translations_query->fetch_assoc()) {
+          $language_icon = tep_image(tep_catalog_href_link("includes/languages/{$l['directory']}/images/{$l['image']}"), $l['name']);
           $category_inputs_string .= '<div class="input-group mb-1">';
             $category_inputs_string .= '<div class="input-group-prepend">';
-              $category_inputs_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
+              $category_inputs_string .= '<span class="input-group-text">'. $language_icon . '</span>';
             $category_inputs_string .= '</div>';
-            $category_inputs_string .= tep_draw_input_field('categories_name[' . $l['id'] . ']', tep_get_category_name($cInfo->categories_id, $l['id']), 'required aria-required="true"');
+            $category_inputs_string .= tep_draw_input_field('categories_name[' . $l['languages_id'] . ']', $l['categories_name'] ?? '', 'required aria-required="true"');
           $category_inputs_string .= '</div>';
           $category_seo_title_string .= '<div class="input-group mb-1">';
             $category_seo_title_string .= '<div class="input-group-prepend">';
-              $category_seo_title_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
+              $category_seo_title_string .= '<span class="input-group-text">'. $language_icon . '</span>';
             $category_seo_title_string .= '</div>';
-            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $l['id'] . ']', tep_get_category_seo_title($cInfo->categories_id, $l['id']));
+            $category_seo_title_string .= tep_draw_input_field('categories_seo_title[' . $l['languages_id'] . ']', $l['categories_seo_title'] ?? '');
           $category_seo_title_string .= '</div>';
          $category_description_string .= '<div class="input-group mb-1">';
             $category_description_string .= '<div class="input-group-prepend">';
-              $category_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
+              $category_description_string .= '<span class="input-group-text">'. $language_icon . '</span>';
             $category_description_string .= '</div>';
-            $category_description_string .= tep_draw_textarea_field('categories_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_category_description($cInfo->categories_id, $l['id']));
+            $category_description_string .= tep_draw_textarea_field('categories_description[' . $l['languages_id'] . ']', 'soft', '80', '10', $l['categories_description'] ?? '');
           $category_description_string .= '</div>';
           $category_seo_description_string .= '<div class="input-group mb-1">';
             $category_seo_description_string .= '<div class="input-group-prepend">';
-              $category_seo_description_string .= '<span class="input-group-text">'. tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']) . '</span>';
+              $category_seo_description_string .= '<span class="input-group-text">'. $language_icon . '</span>';
             $category_seo_description_string .= '</div>';
-            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $l['id'] . ']', 'soft', '80', '10', tep_get_category_seo_description($cInfo->categories_id, $l['id']));
+            $category_seo_description_string .= tep_draw_textarea_field('categories_seo_description[' . $l['languages_id'] . ']', 'soft', '80', '10', $l['categories_seo_description'] ?? '');
           $category_seo_description_string .= '</div>';
         }
 
@@ -1085,7 +1061,11 @@ function updateNet() {
         $contents[] = ['text' => TEXT_EDIT_CATEGORIES_IMAGE . tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $cInfo->categories_image, $cInfo->categories_name)];
         $contents[] = ['text' => '<div class="custom-file mb-2">' . tep_draw_input_field('categories_image', '', 'id="cImg"', 'file', null, 'class="custom-file-input"') . '<label class="custom-file-label" for="cImg">' .  $cInfo->categories_image . '</label></div>'];
         $contents[] = ['text' => TEXT_EDIT_SORT_ORDER . '<br>' . tep_draw_input_field('sort_order', $cInfo->sort_order, 'size="2"')];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
+        $contents[] = [
+          'class' => 'text-center',
+          'text' => tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg mb-1')
+                  . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light'),
+        ];
         break;
       case 'delete_category':
         $subcategory_products_check = tep_db_query("SELECT COUNT(*) AS total FROM (SELECT categories_id AS id FROM categories WHERE parent_id = " . (int)$_GET['cID'] . " UNION SELECT p2c.products_id AS id FROM products_to_categories p2c LEFT JOIN products_to_categories self ON p2c.products_id = self.products_id AND p2c.categories_id != self.categories_id WHERE p2c.categories_id = " . (int)$_GET['cID'] . " AND self.categories_id IS NULL ) combined")->fetch_assoc();
@@ -1095,7 +1075,9 @@ function updateNet() {
         $contents = ['form' => tep_draw_form('categories', 'categories.php', 'action=delete_category_confirm&cPath=' . $cPath) . tep_draw_hidden_field('categories_id', $cInfo->categories_id)];
         $contents[] = ['text' => TEXT_DELETE_CATEGORY_INTRO];
         $contents[] = ['text' => '<strong>' . $cInfo->categories_name . '</strong>'];
-        if ($subcategory_products_check['total'] > 0) $contents[] = ['text' => TEXT_DELETE_WARNING];
+        if ($subcategory_products_check['total'] > 0) {
+          $contents[] = ['text' => TEXT_DELETE_WARNING];
+        }
         $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&cID=' . $cInfo->categories_id), null, null, 'btn-light')];
         break;
       case 'move_category':
@@ -1109,12 +1091,12 @@ function updateNet() {
       case 'delete_product':
         $heading[] = ['text' => TEXT_INFO_HEADING_DELETE_PRODUCT];
 
-        $contents = ['form' => tep_draw_form('products', 'categories.php', 'action=delete_product_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $pInfo->products_id)];
+        $contents = ['form' => tep_draw_form('products', 'categories.php', 'action=delete_product_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $product->get('id'))];
         $contents[] = ['text' => TEXT_DELETE_PRODUCT_INTRO];
-        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $pInfo->products_name];
+        $contents[] = ['class' => 'text-center text-uppercase font-weight-bold', 'text' => $product->get('name')];
 
         $product_categories_string = '';
-        foreach (tep_generate_category_path($pInfo->products_id, 'product') as $i => $product_categories) {
+        foreach (tep_generate_category_path($product->get('id'), 'product') as $i => $product_categories) {
           $category_path = implode('&nbsp;&gt;&nbsp;', array_column($product_categories, 'text'));
 
           $product_categories_string .= '<div class="custom-control custom-switch">';
@@ -1124,26 +1106,29 @@ function updateNet() {
         }
 
         $contents[] = ['text' => $product_categories_string];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', null, 'primary', null, 'btn-danger btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times',  tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $product->get('id')), null, null, 'btn-light')];
         break;
       case 'move_product':
         $heading[] = ['text' => TEXT_INFO_HEADING_MOVE_PRODUCT];
 
-        $contents = ['form' => tep_draw_form('products', 'categories.php', 'action=move_product_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $pInfo->products_id)];
-        $contents[] = ['text' => sprintf(TEXT_MOVE_PRODUCTS_INTRO, $pInfo->products_name)];
-        $contents[] = ['text' => TEXT_INFO_CURRENT_CATEGORIES . '<br><i>' . tep_output_generated_category_path($pInfo->products_id, 'product') . '</i>'];
-        $contents[] = ['text' => sprintf(TEXT_MOVE, $pInfo->products_name) . '<br>' . tep_draw_pull_down_menu('move_to_category_id', tep_get_category_tree(), $current_category_id)];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', null, null, null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id), null, null, 'btn-light')];
+        $contents = ['form' => tep_draw_form('products', 'categories.php', 'action=move_product_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $product->get('id'))];
+        $contents[] = ['text' => sprintf(TEXT_MOVE_PRODUCTS_INTRO, $product->get('name'))];
+        $contents[] = ['text' => TEXT_INFO_CURRENT_CATEGORIES . '<br><i>' . tep_output_generated_category_path($product->get('id'), 'product') . '</i>'];
+        $contents[] = ['text' => sprintf(TEXT_MOVE, $product->get('name')) . '<br>' . tep_draw_pull_down_menu('move_to_category_id', tep_get_category_tree(), $current_category_id)];
+        $contents[] = [
+          'class' => 'text-center',
+          'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', null, null, null, 'btn-success btn-block btn-lg mb-1')
+                  . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $product->get('id')), null, null, 'btn-light')];
         break;
       case 'copy_to':
         $heading[] = ['text' => TEXT_INFO_HEADING_COPY_TO];
 
-        $contents = ['form' => tep_draw_form('copy_to', 'categories.php', 'action=copy_to_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $pInfo->products_id)];
+        $contents = ['form' => tep_draw_form('copy_to', 'categories.php', 'action=copy_to_confirm&cPath=' . $cPath) . tep_draw_hidden_field('products_id', $product->get('id'))];
         $contents[] = ['text' => TEXT_INFO_COPY_TO_INTRO];
-        $contents[] = ['text' => TEXT_INFO_CURRENT_CATEGORIES . '<br><i>' . tep_output_generated_category_path($pInfo->products_id, 'product') . '</i>'];
+        $contents[] = ['text' => TEXT_INFO_CURRENT_CATEGORIES . '<br><i>' . tep_output_generated_category_path($product->get('id'), 'product') . '</i>'];
         $contents[] = ['text' => TEXT_CATEGORIES . '<br>' . tep_draw_pull_down_menu('categories_id', tep_get_category_tree(), $current_category_id)];
         $contents[] = ['text' => TEXT_HOW_TO_COPY . '<br><div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('copy_as', 'radio', 'link', true, 'id="cLink" class="custom-control-input"') . '<label class="custom-control-label" for="cLink">' . TEXT_COPY_AS_LINK . '</label></div><br><div class="custom-control custom-radio custom-control-inline">' . tep_draw_selection_field('copy_as', 'radio', 'duplicate', null, 'id="dLink" class="custom-control-input"') . '<label class="custom-control-label" for="dLink">' . TEXT_COPY_AS_DUPLICATE . '</label></div>'];
-        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_COPY, 'fas fa-copy', null, null, null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id), null, null, 'btn-light')];
+        $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_COPY, 'fas fa-copy', null, null, null, 'btn-success btn-block btn-lg mb-1') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $product->get('id')), null, null, 'btn-light')];
         break;
       default:
         if ($categories_count + $products_count > 0) {
@@ -1164,21 +1149,29 @@ function updateNet() {
 
             $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', tep_href_link('categories.php', 'cPath=' . $category_path_string . '&cID=' . $cInfo->categories_id . '&action=move_category'), null, null, 'btn-light')];
 
-          } elseif (isset($pInfo) && is_object($pInfo)) { // product info box contents
-            $heading[] = ['text' => tep_get_products_name($pInfo->products_id, $_SESSION['languages_id'])];
+          } elseif (isset($product) && ($product instanceof Product)) { // product info box contents
+            $heading[] = ['text' => $product->get('name')];
 
-            $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=new_product'), null, null, 'btn-warning mr-2') . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=delete_product'), null, null, 'btn-danger mr-2')];
-            $contents[] = ['text' => TEXT_DATE_ADDED . ' ' . tep_date_short($pInfo->products_date_added)];
-            if (!Text::is_empty($pInfo->products_last_modified)) {
-              $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($pInfo->products_last_modified)];
+            $contents[] = [
+              'class' => 'text-center',
+              'text' => tep_draw_bootstrap_button(IMAGE_EDIT, 'fas fa-cogs', tep_href_link('categories.php', 'action=new_product&cPath=' . $cPath . '&pID=' . $product->get('id')), null, null, 'btn-warning mr-2')
+                      . tep_draw_bootstrap_button(IMAGE_DELETE, 'fas fa-trash', tep_href_link('categories.php', 'action=delete_product&cPath=' . $cPath . '&pID=' . $product->get('id')), null, null, 'btn-danger mr-2'),
+            ];
+            $contents[] = ['text' => TEXT_DATE_ADDED . ' ' . tep_date_short($product->get('date_added'))];
+            if (!Text::is_empty($product->get('last_modified'))) {
+              $contents[] = ['text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($product->get('last_modified'))];
             }
-            if (date('Y-m-d') < $pInfo->products_date_available) {
-              $contents[] = ['text' => TEXT_DATE_AVAILABLE . ' ' . tep_date_short($pInfo->products_date_available)];
+            if (date('Y-m-d') < $product->get('date_available')) {
+              $contents[] = ['text' => TEXT_DATE_AVAILABLE . ' ' . tep_date_short($product->get('date_available'))];
             }
-            $contents[] = ['text' => tep_info_image($pInfo->products_image, $pInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '<br>' . $pInfo->products_image];
-            $contents[] = ['text' => TEXT_PRODUCTS_PRICE_INFO . ' ' . $currencies->format($pInfo->products_price) . '<br>' . TEXT_PRODUCTS_QUANTITY_INFO . ' ' . $pInfo->products_quantity];
-            $contents[] = ['text' => TEXT_PRODUCTS_AVERAGE_RATING . ' ' . number_format($pInfo->average_rating, 2) . '%'];
-            $contents[] = ['class' => 'text-center', 'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=move_product'), null, null, 'btn-light mr-2') . tep_draw_bootstrap_button(IMAGE_COPY_TO, 'fas fa-copy', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=copy_to'), null, null, 'btn-light')];
+            $contents[] = ['text' => tep_info_image($product->get('image'), $product->get('name'), SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '<br>' . $product->get('image')];
+            $contents[] = ['text' => TEXT_PRODUCTS_PRICE_INFO . ' ' . $product->format('price') . '<br>' . TEXT_PRODUCTS_QUANTITY_INFO . ' ' . $product->get('quantity')];
+            $contents[] = ['text' => TEXT_PRODUCTS_AVERAGE_RATING . ' ' . number_format($product->get('review_percentile'), 2) . '%'];
+            $contents[] = [
+              'class' => 'text-center',
+              'text' => tep_draw_bootstrap_button(IMAGE_MOVE, 'fas fa-arrows-alt', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $product->get('id') . '&action=move_product'), null, null, 'btn-light mr-2')
+                      . tep_draw_bootstrap_button(IMAGE_COPY_TO, 'fas fa-copy', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $product->get('id') . '&action=copy_to'), null, null, 'btn-light'),
+            ];
           }
         } else { // create category/product info
           $heading[] = ['text' => EMPTY_CATEGORY];

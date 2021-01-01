@@ -14,7 +14,7 @@
       parent::__construct();
 
       foreach ($data as $key => $value) {
-        $trimmed_key = tep_ltrim_once($key, 'products_');
+        $trimmed_key = Text::ltrim_once($key, 'products_');
 
         $this->_data[isset($data[$trimmed_key]) ? $key : $trimmed_key] = $value;
       }

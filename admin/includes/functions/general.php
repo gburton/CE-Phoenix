@@ -36,15 +36,10 @@
     header('Location: ' . $url);
 
     if (STORE_PAGE_PARSE_TIME == 'true') {
-      global $logger;
-
-      if (!is_object($logger)) {
-        $logger = new logger();
-      }
-      $logger->timer_stop();
+      Guarantor::ensure_global('logger')->timer_stop();
     }
 
-    exit;
+    exit();
   }
 
 ////
@@ -56,14 +51,11 @@
 
   function tep_output_string($string, $translate = false, $protected = false) {
     if ($protected) {
+      trigger_error('Calling the tep_output_string function with $protected true has been deprecated.', E_USER_DEPRECATED);
       return htmlspecialchars($string);
     }
 
-    if (!$translate) {
-      $translate = ['"' => '&quot;'];
-    }
-
-    return strtr(trim($string), $translate);
+    return Text::output($string, $translate);
   }
 
   function tep_output_string_protected($string) {
@@ -72,9 +64,7 @@
   }
 
   function tep_sanitize_string($string) {
-    $patterns = ['/ +/','/[<>]/'];
-    $replace = [' ', '_'];
-    return preg_replace($patterns, $replace, trim($string));
+    return Text::sanitize($string);
   }
 
   function tep_customers_name($customers_id) {
@@ -84,30 +74,12 @@
   }
 
   function tep_get_path($current_category_id = '') {
-    global $cPath_array;
-
-    if (empty($cPath_array)) {
+    if (empty($GLOBALS['cPath_array'])) {
       $cPath_new = $current_category_id;
     } elseif ('' === $current_category_id) {
-      $cPath_new = implode('_', $cPath_array);
+      $cPath_new = implode('_', $GLOBALS['cPath_array']);
     } else {
-      $last_category_query = tep_db_query("SELECT parent_id FROM categories WHERE categories_id = " . (int)$cPath_array[(count($cPath_array)-1)]);
-      $last_category = $last_category_query->fetch_assoc();
-
-      $current_category_query = tep_db_query("SELECT parent_id FROM categories WHERE categories_id = " . (int)$current_category_id );
-      $current_category = $current_category_query->fetch_assoc();
-
-      if ($last_category['parent_id'] == $current_category['parent_id']) {
-        $cPath_new = implode('_', array_slice($cPath_array, 0, -1));
-      } else {
-        $cPath_new = implode('_', $cPath_array);
-      }
-
-      if (!Text::is_empty($cPath_new)) {
-        $cPath_new .= '_';
-      }
-
-      $cPath_new .= $current_category_id;
+      $cPath_new = Guarantor::ensure_global('category_tree')->find_path($current_category_id);
     }
 
     return 'cPath=' . $cPath_new;
@@ -175,19 +147,18 @@
   }
 
   function tep_get_category_tree($parent_id = '0', $spacing = '', $exclude = '', $category_tree_array = [], $include_itself = false) {
+    $category_tree =& Guarantor::ensure_global('category_tree');
     if (!is_array($category_tree_array)) $category_tree_array = [];
     if ( (count($category_tree_array) < 1) && ($exclude !== '0') ) $category_tree_array[] = ['id' => '0', 'text' => TEXT_TOP];
 
     if ($include_itself) {
-      $category_query = tep_db_query("SELECT cd.categories_name FROM categories_description cd WHERE cd.language_id = " . (int)$_SESSION['languages_id'] . " AND cd.categories_id = " . (int)$parent_id);
-      $category = $category_query->fetch_assoc();
-      $category_tree_array[] = ['id' => $parent_id, 'text' => $category['categories_name']];
+      $category_tree_array[] = ['id' => $parent_id, 'text' => $category_tree->get($parent_id, 'name')];
     }
 
     $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id'] . " AND c.parent_id = " . (int)$parent_id . " ORDER BY c.sort_order, cd.categories_name");
-    while ($categories = $categories_query->fetch_assoc()) {
-      if ($exclude != $categories['categories_id']) $category_tree_array[] = ['id' => $categories['categories_id'], 'text' => $spacing . $categories['categories_name']];
-      $category_tree_array = tep_get_category_tree($categories['categories_id'], $spacing . '&nbsp;&nbsp;&nbsp;', $exclude, $category_tree_array);
+    foreach ($category_tree->get_children() as $category_id) {
+      if ($exclude != $category_id) $category_tree_array[] = ['id' => $category_id, 'text' => $spacing . $category_tree->get($category_id, 'name')];
+      $category_tree_array = tep_get_category_tree($category_id, $spacing . '&nbsp;&nbsp;&nbsp;', $exclude, $category_tree_array);
     }
 
     return $category_tree_array;
@@ -388,20 +359,13 @@
   }
 
   function tep_get_uprid($prid, $params) {
-    $uprid = $prid;
-    if ( (is_array($params)) && (!strstr($prid, '{')) ) {
-      foreach ($params as $option => $value) {
-        $uprid = $uprid . '{' . $option . '}' . $value;
-      }
-    }
-
-    return $uprid;
+    trigger_error('The tep_get_uprid function has been deprecated.', E_USER_DEPRECATED);
+    return Product::build_uprid($prid, $params);
   }
 
   function tep_get_prid($uprid) {
-    $pieces = explode('{', $uprid);
-
-    return $pieces[0];
+    trigger_error('The tep_get_prid function has been deprecated.', E_USER_DEPRECATED);
+    return Product::build_prid($uprid);
   }
 
   function tep_get_languages() {
@@ -416,6 +380,7 @@
   }
 
   function tep_get_category_name($category_id, $language_id) {
+    trigger_error('The tep_get_category_name function has been deprecated.', E_USER_DEPRECATED);
     $category_query = tep_db_query("SELECT categories_name FROM categories_description WHERE categories_id = " . (int)$category_id . " AND language_id = " . (int)$language_id);
     $category = $category_query->fetch_assoc();
 
@@ -444,28 +409,20 @@
   }
 
   function tep_get_products_name($product_id, $language_id = 0) {
-    if ($language_id == 0) {
-      $language_id = $_SESSION['languages_id'];
-    }
-
-    $product_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
-
-    return $product['products_name'];
+    trigger_error('The tep_get_products_name function has been deprecated.', E_USER_DEPRECATED);
+    return Product::fetch_name($product_id, $language_id);
   }
 
   function tep_get_products_description($product_id, $language_id) {
-    $product_query = tep_db_query("SELECT products_description FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
+    trigger_error('The tep_get_products_description function has been deprecated.', E_USER_DEPRECATED);
 
-    return $product['products_description'];
+    return product_by_id::build($product_id)->get('translations')[$language_id]['description'];
   }
 
   function tep_get_products_url($product_id, $language_id) {
-    $product_query = tep_db_query("SELECT products_url FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
+    trigger_error('The tep_get_products_url function has been deprecated.', E_USER_DEPRECATED);
 
-    return $product['products_url'];
+    return product_by_id::build($product_id)->get('translations')[$language_id]['url'];
   }
 
 ////
@@ -709,7 +666,7 @@ EOSQL
       }
 
       $string .= '<br /><label><input type="checkbox" name="' . $key_name . '[]" value="' . $key . '"';
-      if (array_key_exists($key, $key_values)) {
+      if (isset($key_values[$key]) || array_key_exists($key, $key_values)) {
         $string .= ' checked="checked"';
       }
       $string .= ' />' . $value . '</label>';
@@ -781,33 +738,28 @@ EOSQL
     return $data;
   }
 
-  function tep_generate_category_path($id, $from = 'category', $categories_array = [], $index = 0) {
+  function tep_generate_category_path($id, $from = 'category', $categories = [], $index = 0) {
+    $category_tree =& Guarantor::ensure_global('category_tree');
     if ($from == 'product') {
       $categories_query = tep_db_query("SELECT categories_id FROM products_to_categories WHERE products_id = " . (int)$id);
-      while ($categories = $categories_query->fetch_assoc()) {
-        if ($categories['categories_id'] == '0') {
-          $categories_array[$index][] = ['id' => '0', 'text' => TEXT_TOP];
+      while ($category = $categories_query->fetch_assoc()) {
+        $categories[$index] = [];
+        if ($category['categories_id'] == '0') {
+          $categories[$index][] = ['id' => '0', 'text' => TEXT_TOP];
         } else {
-          $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$categories['categories_id'] . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id']);
-          $category = $category_query->fetch_assoc();
-          $categories_array[$index][] = ['id' => $categories['categories_id'], 'text' => $category['categories_name']];
-          if ( !empty($category['parent_id']) ) {
-            $categories_array = tep_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
-          }
-          $categories_array[$index] = array_reverse($categories_array[$index]);
+          $categories = tep_generate_category_path($category['categories_id'], 'category', $categories, $index);
         }
         $index++;
       }
     } elseif ($from == 'category') {
-      $category_query = tep_db_query("SELECT cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = " . (int)$id . " AND c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id']);
-      $category = $category_query->fetch_assoc();
-      $categories_array[$index][] = ['id' => $id, 'text' => $category['categories_name']];
-      if ( !empty($category['parent_id']) ) {
-        $categories_array = tep_generate_category_path($category['parent_id'], 'category', $categories_array, $index);
+      $ancestors = array_reverse($category_tree->get_ancestors($id));
+      $ancestors[] = $id;
+      foreach ($ancestors as $category_id) {
+        $categories[$index][] = ['id' => $category_id, 'text' => $category_tree->get($category_id, 'name')];
       }
     }
 
-    return $categories_array;
+    return $categories;
   }
 
   function tep_output_generated_category_path($id, $from = 'category') {
@@ -1193,7 +1145,7 @@ EOSQL
           $result = @tempnam($file, 'osc');
           if (is_string($result) && file_exists($result)) {
             unlink($result);
-            return (strpos($result, $file) === 0) ? true : false;
+            return (strpos($result, $file) === 0);
           }
         } else {
           $handle = @fopen($file, 'r+');
@@ -1202,7 +1154,7 @@ EOSQL
             return true;
           }
         }
-      } else{
+      } else {
         $dir = dirname($file);
         if (file_exists($dir) && is_dir($dir) && tep_is_writable($dir)) {
           return true;
@@ -1215,6 +1167,7 @@ EOSQL
   }
 
   function tep_get_category_description($category_id, $language_id) {
+    trigger_error('The tep_get_category_description function has been deprecated.', E_USER_DEPRECATED);
     $category_query = tep_db_query("SELECT categories_description FROM categories_description WHERE categories_id = " . (int)$category_id . " AND language_id = " . (int)$language_id);
     $category = $category_query->fetch_assoc();
 
@@ -1229,6 +1182,7 @@ EOSQL
   }
 
   function tep_get_category_seo_description($category_id, $language_id) {
+    trigger_error('The tep_get_category_seo_description function has been deprecated.', E_USER_DEPRECATED);
     $category_query = tep_db_query("SELECT categories_seo_description FROM categories_description WHERE categories_id = " . (int)$category_id . " AND language_id = " . (int)$language_id);
     $category = $category_query->fetch_assoc();
 
@@ -1236,6 +1190,7 @@ EOSQL
   }
 
   function tep_get_category_seo_title($category_id, $language_id = 0) {
+    trigger_error('The tep_get_category_seo_title function has been deprecated.', E_USER_DEPRECATED);
     if ($language_id == 0) {
       $language_id = $_SESSION['languages_id'];
     }
@@ -1261,36 +1216,21 @@ EOSQL
   }
 
   function tep_get_products_seo_description($product_id, $language_id = 0) {
-    if ($language_id == 0) {
-      $language_id = $_SESSION['languages_id'];
-    }
+    trigger_error('The tep_get_products_seo_description function has been deprecated.', E_USER_DEPRECATED);
 
-    $product_query = tep_db_query("SELECT products_seo_description FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
-
-    return $product['products_seo_description'];
+    return product_by_id::build($product_id)->get('translations')[$language_id]['seo_description'];
   }
 
   function tep_get_products_seo_keywords($product_id, $language_id = 0) {
-    if ($language_id == 0) {
-      $language_id = $_SESSION['languages_id'];
-    }
+    trigger_error('The tep_get_products_seo_keywords function has been deprecated.', E_USER_DEPRECATED);
 
-    $product_query = tep_db_query("SELECT products_seo_keywords FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
-
-    return $product['products_seo_keywords'];
+    return product_by_id::build($product_id)->get('translations')[$language_id]['seo_keywords'];
   }
 
   function tep_get_products_seo_title($product_id, $language_id = 0) {
-    if ($language_id == 0) {
-      $language_id = $_SESSION['languages_id'];
-    }
+    trigger_error('The tep_get_products_seo_title function has been deprecated.', E_USER_DEPRECATED);
 
-    $product_query = tep_db_query("SELECT products_seo_title FROM products_description WHERE products_id = " . (int)$product_id . " AND language_id = " . (int)$language_id);
-    $product = $product_query->fetch_assoc();
-
-    return $product['products_seo_title'];
+    return product_by_id::build($product_id)->get('translations')[$language_id]['seo_title'];
   }
 
   function tep_draw_products($name, $parameters = '', $exclude = [], $class = 'class="form-control"') {
@@ -1385,10 +1325,6 @@ EOSQL
   }
 
   function tep_ltrim_once($s, $prefix) {
-    $length = strlen($prefix);
-    if (substr($s, 0, $length) === $prefix) {
-      return substr($s, $length);
-    }
-
-    return $s;
+    trigger_error('The tep_ltrim_once function has been deprecated.', E_USER_DEPRECATED);
+    return Text::ltrim_once($s, $prefix);
   }
