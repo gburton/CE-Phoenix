@@ -19,11 +19,11 @@
   if (!Text::is_empty($action)) {
     if ('insert' == $action || 'save' == $action) {
       $sql_data = [
-        'name' => tep_db_prepare_input($_POST['name']),
-        'code' => tep_db_prepare_input(substr($_POST['code'], 0, 2)),
-        'image' => tep_db_prepare_input($_POST['image']),
-        'directory' => tep_db_prepare_input($_POST['directory']),
-        'sort_order' => (int)tep_db_prepare_input($_POST['sort_order']),
+        'name' => Text::prepare($_POST['name']),
+        'code' => Text::prepare(substr($_POST['code'], 0, 2)),
+        'image' => Text::prepare($_POST['image']),
+        'directory' => Text::prepare($_POST['directory']),
+        'sort_order' => (int)Text::prepare($_POST['sort_order']),
       ];
     }
 
@@ -50,7 +50,7 @@
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'save':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
         tep_db_perform('languages', $sql_data, 'update', "languages_id = " . (int)$lID);
 
         if (isset($_POST['default']) && $_POST['default'] == 'on') {
@@ -62,7 +62,7 @@
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'deleteconfirm':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
 
         $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_LANGUAGE . "'");
         $lng = $lng_query->fetch_assoc();
@@ -87,7 +87,7 @@
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
         break;
       case 'delete':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
 
         $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$lID);
         $lng = $lng_query->fetch_assoc();

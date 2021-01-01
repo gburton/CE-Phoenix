@@ -17,13 +17,13 @@
     public function __construct() {
       parent::__construct(__FILE__);
 
-      if (static::get_constant('MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_JS_PLACEMENT') != 'Header') {
+      if (static::get_constant('MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_JS_PLACEMENT') !== 'Header') {
         $this->group = 'footer_scripts';
       }
     }
 
     function execute() {
-      global $PHP_SELF, $oscTemplate;
+      global $currencies;
 
       if (Text::is_empty(MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_ID)) {
         return;
@@ -31,7 +31,7 @@
 
       $header = '<script>
   var _gaq = _gaq || [];
-  _gaq.push([\'_setAccount\', \'' . tep_output_string(MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_ID) . '\']);
+  _gaq.push([\'_setAccount\', \'' . Text::output(MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_ID) . '\']);
   _gaq.push([\'_trackPageview\']);' . "\n";
 
       if ( (MODULE_HEADER_TAGS_GOOGLE_ANALYTICS_EC_TRACKING === 'True') && (basename($GLOBALS['PHP_SELF']) === 'checkout_success.php') && isset($_SESSION['customer_id']) ) {
@@ -49,10 +49,10 @@
 
           $header .= '  _gaq.push([\'_addTrans\',
     \'' . (int)$order['orders_id'] . '\', // order ID - required
-    \'' . tep_output_string(STORE_NAME) . '\', // store name
-    \'' . (isset($totals['ot_total']) ? $this->format_raw($totals['ot_total'], DEFAULT_CURRENCY) : 0) . '\', // total - required
-    \'' . (isset($totals['ot_tax']) ? $this->format_raw($totals['ot_tax'], DEFAULT_CURRENCY) : 0) . '\', // tax
-    \'' . (isset($totals['ot_shipping']) ? $this->format_raw($totals['ot_shipping'], DEFAULT_CURRENCY) : 0) . '\', // shipping
+    \'' . Text::output(STORE_NAME) . '\', // store name
+    \'' . (isset($totals['ot_total']) ? $currencies->format_raw($totals['ot_total'], DEFAULT_CURRENCY) : 0) . '\', // total - required
+    \'' . (isset($totals['ot_tax']) ? $currencies->format_raw($totals['ot_tax'], DEFAULT_CURRENCY) : 0) . '\', // tax
+    \'' . (isset($totals['ot_shipping']) ? $currencies->format_raw($totals['ot_shipping'], DEFAULT_CURRENCY) : 0) . '\', // shipping
     \'' . htmlspecialchars($order['billing_city']) . '\', // city
     \'' . htmlspecialchars($order['billing_state']) . '\', // state or province
     \'' . htmlspecialchars($order['billing_country']) . '\' // country
@@ -66,9 +66,9 @@
             $header .= '  _gaq.push([\'_addItem\',
     \'' . (int)$order['orders_id'] . '\', // order ID - required
     \'' . (int)$order_products['products_id'] . '\', // SKU/code - required
-    \'' . tep_output_string($order_products['products_name']) . '\', // product name
-    \'' . tep_output_string($category['categories_name']) . '\', // category
-    \'' . $this->format_raw($order_products['final_price']) . '\', // unit price - required
+    \'' . Text::output($order_products['products_name']) . '\', // product name
+    \'' . Text::output($category['categories_name']) . '\', // category
+    \'' . $currencies->format_raw($order_products['final_price']) . '\', // unit price - required
     \'' . (int)$order_products['products_quantity'] . '\' // quantity - required
   ]);' . "\n";
           }
@@ -85,20 +85,6 @@
 </script>' . "\n";
 
       $GLOBALS['oscTemplate']->addBlock($header, $this->group);
-    }
-
-    function format_raw($number, $currency_code = '', $currency_value = '') {
-      global $currencies;
-
-      if (empty($currency_code) || !$currencies->is_set($currency_code)) {
-        $currency_code = $_SESSION['currency'];
-      }
-
-      if (empty($currency_value) || !is_numeric($currency_value)) {
-        $currency_value = $currencies->currencies[$currency_code]['value'];
-      }
-
-      return number_format(tep_round($number * $currency_value, $currencies->currencies[$currency_code]['decimal_places']), $currencies->currencies[$currency_code]['decimal_places'], '.', '');
     }
 
     protected function get_parameters() {

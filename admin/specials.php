@@ -28,10 +28,10 @@
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;
       case 'insert':
-        $products_id = tep_db_prepare_input($_POST['products_id']);
-        $products_price = tep_db_prepare_input($_POST['products_price']);
-        $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expires_date = tep_db_prepare_input($_POST['expdate']);
+        $products_id = Text::prepare($_POST['products_id']);
+        $products_price = Text::prepare($_POST['products_price']);
+        $specials_price = Text::prepare($_POST['specials_price']);
+        $expires_date = Text::prepare($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
           $specials_price = substr($specials_price, 0, -1);
@@ -56,10 +56,10 @@
 
         break;
       case 'update':
-        $specials_id = tep_db_prepare_input($_POST['specials_id']);
-        $products_price = tep_db_prepare_input($_POST['products_price']);
-        $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expires_date = tep_db_prepare_input($_POST['expdate']);
+        $specials_id = Text::prepare($_POST['specials_id']);
+        $products_price = Text::prepare($_POST['products_price']);
+        $specials_price = Text::prepare($_POST['specials_price']);
+        $expires_date = Text::prepare($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
@@ -78,7 +78,7 @@
         tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
         break;
       case 'deleteconfirm':
-        $specials_id = tep_db_prepare_input($_GET['sID']);
+        $specials_id = Text::prepare($_GET['sID']);
 
         tep_db_query("DELETE FROM specials WHERE specials_id = " . (int)$specials_id);
 

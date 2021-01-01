@@ -26,10 +26,10 @@
         tep_redirect(tep_href_link('reviews.php', 'rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
         break;
       case 'update':
-        $reviews_id = tep_db_prepare_input($_GET['rID']);
-        $reviews_rating = tep_db_prepare_input($_POST['reviews_rating']);
-        $reviews_text = tep_db_prepare_input($_POST['reviews_text']);
-        $reviews_status = tep_db_prepare_input($_POST['reviews_status']);
+        $reviews_id = Text::prepare($_GET['rID']);
+        $reviews_rating = Text::prepare($_POST['reviews_rating']);
+        $reviews_text = Text::prepare($_POST['reviews_text']);
+        $reviews_status = Text::prepare($_POST['reviews_status']);
 
         tep_db_query("UPDATE reviews SET reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = NOW() WHERE reviews_id = " . (int)$reviews_id);
         tep_db_query("UPDATE reviews_description SET reviews_text = '" . tep_db_input($reviews_text) . "' WHERE reviews_id = " . (int)$reviews_id);
@@ -39,7 +39,7 @@
         tep_redirect(tep_href_link('reviews.php', 'rID=' . $reviews_id(isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
         break;
       case 'deleteconfirm':
-        $reviews_id = tep_db_prepare_input($_GET['rID']);
+        $reviews_id = Text::prepare($_GET['rID']);
 
         tep_db_query("DELETE FROM reviews WHERE reviews_id = " . (int)$reviews_id);
         tep_db_query("DELETE FROM reviews_description WHERE reviews_id = " . (int)$reviews_id);
@@ -49,10 +49,10 @@
         tep_redirect(tep_href_link('reviews.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
         break;
       case 'addnew':
-        $products_id = tep_db_prepare_input($_POST['products_id']);
-        $customer_id = tep_db_prepare_input($_POST['customer_id']);
-        $review = tep_db_prepare_input($_POST['reviews_text']);
-        $rating = tep_db_prepare_input($_POST['reviews_rating']);
+        $products_id = Text::prepare($_POST['products_id']);
+        $customer_id = Text::prepare($_POST['customer_id']);
+        $review = Text::prepare($_POST['reviews_text']);
+        $rating = Text::prepare($_POST['reviews_rating']);
 
         tep_db_query("INSERT INTO reviews (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) VALUES (" . (int)$products_id . ", " . (int)$customer_id . ", '" . tep_customers_name($customer_id) . "', " . (int)$rating . ", NOW(), 1)");
         $insert_id = tep_db_insert_id();
@@ -91,7 +91,7 @@
     if ( ('edit' === $action) && isset($_GET['rID']) ) {
       $form_action = 'preview';
 
-      $rID = tep_db_prepare_input($_GET['rID']);
+      $rID = Text::prepare($_GET['rID']);
 
       $reviews_query = tep_db_query("SELECT r.*, rd.* FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = " . (int)$rID);
       $reviews = $reviews_query->fetch_assoc();
@@ -189,7 +189,7 @@
       $rInfo = new objectInfo($_POST);
       echo tep_draw_form('update', 'reviews.php', 'action=update&rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''), 'post', 'enctype="multipart/form-data"');
     } else {
-      $rID = tep_db_prepare_input($_GET['rID']);
+      $rID = Text::prepare($_GET['rID']);
 
       $reviews_query = tep_db_query("SELECT r.*, rd.* FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = " . (int)$rID);
       $reviews = $reviews_query->fetch_assoc();

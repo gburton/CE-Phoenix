@@ -829,7 +829,7 @@ EOSQL
         @unlink($image);
       }
     }
-    
+
     tep_db_query("DELETE FROM products_images WHERE products_id = " . (int)$product_id);
     tep_db_query("DELETE FROM specials WHERE products_id = " . (int)$product_id);
     tep_db_query("DELETE FROM products_to_categories WHERE products_id = " . (int)$product_id);
