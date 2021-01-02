@@ -54,7 +54,7 @@
     }
 
     public function calculate_price($products_price, $products_tax, $quantity = 1) {
-      return tep_round(tep_add_tax($products_price, $products_tax), $this->currencies[$_SESSION['currency']]['decimal_places']) * $quantity;
+      return tep_round(tep_add_tax($products_price, $products_tax), $this->currencies[$_SESSION['currency'] ?? DEFAULT_CURRENCY]['decimal_places']) * $quantity;
     }
 
     public function is_set($code) {

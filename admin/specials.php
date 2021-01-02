@@ -151,7 +151,7 @@ EOSQL
     <div class="form-group row" id="zPrice">
       <label for="specialPrice" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_SPECIAL_PRICE ?></label>
       <div class="col-sm-9">
-        <?= tep_draw_input_field('specials_price', ($sInfo->specials_new_products_price ?? ''), 'required aria-required="true" class="form-control" id="specialPrice"', null, 'tel') ?>
+        <?= tep_draw_input_field('specials_price', ($sInfo->specials_new_products_price ?? ''), 'required aria-required="true" class="form-control" id="specialPrice"') ?>
       </div>
     </div>
 

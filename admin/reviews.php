@@ -75,12 +75,10 @@
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
-      <?php
-      if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-star', tep_href_link('reviews.php', 'action=new'), null, null, 'btn-danger');
-      } else if ('new' === $action) {
-        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2');
-      }
+      <?=
+      empty($action)
+      ? tep_draw_bootstrap_button(IMAGE_BUTTON_ADD_REVIEW, 'fas fa-star', tep_href_link('reviews.php', 'action=new'), null, null, 'btn-danger')
+      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('reviews.php'), null, null, 'btn-light mt-2')
       ?>
     </div>
   </div>
@@ -93,30 +91,29 @@
 
       $rID = Text::prepare($_GET['rID']);
 
-      $reviews_query = tep_db_query("SELECT r.*, rd.* FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = " . (int)$rID);
-      $reviews = $reviews_query->fetch_assoc();
-
-      $products_query = tep_db_query("SELECT products_image FROM products WHERE products_id = " . (int)$reviews['products_id']);
-      $products = $products_query->fetch_assoc();
-
-      $products_name_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$reviews['products_id'] . " AND language_id = " . (int)$_SESSION['languages_id']);
-      $products_name = $products_name_query->fetch_assoc();
-
-      $rInfo_array = array_merge($reviews, $products, $products_name);
-      $rInfo = new objectInfo($rInfo_array);
+      $reviews_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT r.*, rd.*, p.products_image, pd.products_name
+ FROM reviews r
+   INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id
+   LEFT JOIN products p ON p.products_id = r.products_id
+   LEFT JOIN products_description pd ON r.products_id = pd.products_id AND pd.language_id = %d
+ WHERE r.reviews_id = %d
+ ORDER BY rd.languages_id = %d DESC
+ LIMIT 1
+EOSQL
+        , (int)$_SESSION['languages_id'], (int)$rID, (int)$_SESSION['languages_id']));
+      $rInfo = $reviews_query->fetch_object();
 
       if (!isset($rInfo->reviews_status)) {
         $rInfo->reviews_status = '1';
       }
-      $out_status = (0 == $rInfo->reviews_status);
-      $in_status = !$out_status;
     } else {
       $rInfo = new objectInfo([]);
     }
 
     if ('preview' === $form_action) {
-      echo tep_draw_form('review', 'reviews.php', 'action=preview&rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
-      echo tep_draw_hidden_field('reviews_id', $rInfo->reviews_id),
+      echo tep_draw_form('review', 'reviews.php', 'action=preview&rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')),
+           tep_draw_hidden_field('reviews_id', $rInfo->reviews_id),
            tep_draw_hidden_field('reviews_status', $rInfo->reviews_status),
            tep_draw_hidden_field('products_id', $rInfo->products_id),
            tep_draw_hidden_field('products_image', $rInfo->products_image),
@@ -128,12 +125,10 @@
     <div class="form-group row" id="zProduct">
       <label for="reviewProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
       <div class="col-sm-9">
-        <?php
-        if (isset($rInfo->products_name)) {
-          echo tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"');
-        } else {
-          echo tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"');
-        }
+        <?=
+        isset($rInfo->products_name)
+        ? tep_draw_input_field('products_name', $rInfo->products_name, 'readonly class="form-control-plaintext"')
+        : tep_draw_products('products_id', 'id="reviewProduct" class="form-control" required aria-required="true"')
         ?>
       </div>
     </div>
@@ -141,12 +136,10 @@
     <div class="form-group row" id="zCustomer">
       <label for="reviewCustomer" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_FROM ?></label>
       <div class="col-sm-9">
-        <?php
-        if (isset($rInfo->customers_name)) {
-          echo tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"');
-        } else {
-          echo tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"');
-        }
+        <?=
+        isset($rInfo->customers_name)
+        ? tep_draw_input_field('customers_name', $rInfo->customers_name, 'readonly class="form-control-plaintext"')
+        : tep_draw_customers('customer_id', 'id="reviewCustomer" class="form-control" required aria-required="true"')
         ?>
       </div>
     </div>
@@ -166,49 +159,49 @@
 
     <div class="form-group row" id="zReview">
       <label for="reviewReview" class="col-form-label col-sm-3 text-left text-sm-right"><?= ENTRY_REVIEW ?></label>
-      <div class="col-sm-9"><?= tep_draw_textarea_field('reviews_text', null, null, '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT ?>
+      <div class="col-sm-9"><?= tep_draw_textarea_field('reviews_text', null, '', '5', $rInfo->reviews_text ?? '', 'class="form-control" required aria-required="true"') . ENTRY_REVIEW_TEXT ?>
       </div>
     </div>
 
     <?= $OSCOM_Hooks->call('reviews', ('new' === $action) ? 'formNew' : 'formEdit') ?>
 
     <div class="text-right">
-      <?php
-      if ('new' === $action) {
-        echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2');
-      } else {
-        echo tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2') . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'page=' . (int)$_GET['page'] . '&rID=' . $_GET['rID']), null, null, 'btn-light');
-      }
+      <?=
+      ('new' === $action)
+      ? tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success mr-2')
+      : tep_draw_bootstrap_button(IMAGE_PREVIEW, 'fas fa-eye', null, null, null, 'btn-info mr-2')
+        . tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-times', tep_href_link('reviews.php', 'rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')), null, null, 'btn-light')
       ?>
     </div>
 
   </form>
 <?php
   } elseif ('preview' === $action) {
-    if (([] !== $_POST)) {
-      $rInfo = new objectInfo($_POST);
-      echo tep_draw_form('update', 'reviews.php', 'action=update&rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''), 'post', 'enctype="multipart/form-data"');
-    } else {
+    if ([] === $_POST) {
       $rID = Text::prepare($_GET['rID']);
 
-      $reviews_query = tep_db_query("SELECT r.*, rd.* FROM reviews r INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id WHERE r.reviews_id = " . (int)$rID);
-      $reviews = $reviews_query->fetch_assoc();
-
-      $products_query = tep_db_query("SELECT products_image FROM products WHERE products_id = " . (int)$reviews['products_id']);
-      $products = $products_query->fetch_assoc();
-
-      $products_name_query = tep_db_query("SELECT products_name FROM products_description WHERE products_id = " . (int)$reviews['products_id'] . " AND language_id = " . (int)$_SESSION['languages_id']);
-      $products_name = $products_name_query->fetch_assoc();
-
-      $rInfo_array = array_merge($reviews, $products, $products_name);
-      $rInfo = new objectInfo($rInfo_array);
+      $reviews_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT r.*, rd.*, p.products_image, pd.products_name
+ FROM reviews r
+   INNER JOIN reviews_description rd ON r.reviews_id = rd.reviews_id
+   LEFT JOIN products p ON p.products_id = r.products_id
+   LEFT JOIN products_description pd ON r.products_id = pd.products_id AND pd.language_id = %d
+ WHERE r.reviews_id = %d
+ ORDER BY rd.languages_id = %d DESC
+ LIMIT 1
+EOSQL
+        , (int)$_SESSION['languages_id'], (int)$rID, (int)$_SESSION['languages_id']));
+      $rInfo = $reviews_query->fetch_object();
+    } else {
+      $rInfo = new objectInfo($_POST);
+      echo tep_draw_form('update', 'reviews.php', 'action=update&rID=' . $_GET['rID'] . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''), 'post', 'enctype="multipart/form-data"');
     }
 ?>
     <div class="row">
       <div class="col-sm-10">
         <div class="form-group row" id="zProduct">
           <label for="reviewProduct" class="col-sm-3 text-left text-sm-right"><?= ENTRY_PRODUCT ?></label>
-          <div class="col-sm-9"><?= $rInfo->products_name ?></div>
+          <div class="col-sm-9"><?= $rInfo->products_name ?? '' ?></div>
         </div>
 
         <div class="form-group row" id="zCustomer">
@@ -233,7 +226,7 @@
 
         <?= $OSCOM_Hooks->call('reviews', 'formPreview'); ?>
       </div>
-      <div class="col-sm-2 text-right"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $rInfo->products_image, $rInfo->products_name, SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?></div>
+      <div class="col-sm-2 text-right"><?= tep_image(HTTP_CATALOG_SERVER . DIR_WS_CATALOG . 'images/' . $rInfo->products_image ?? '', $rInfo->products_name ?? '', SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) ?></div>
     </div>
 
 <?php

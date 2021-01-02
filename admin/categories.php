@@ -882,7 +882,7 @@ function updateNet() {
                 $cPath= $categories['parent_id'];
               }
 
-              if ((!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['cID']) && ($_GET['cID'] == $categories['categories_id']))) && !isset($cInfo) && (substr($action, 0, 3) != 'new')) {
+              if (!isset($cInfo) && (!isset($_GET['pID']) && !isset($_GET['cID']) || (isset($_GET['cID']) && ($_GET['cID'] == $categories['categories_id']))) && !Text::is_prefixed_by($action, 'new')) {
                 $cInfo = new objectInfo($categories);
               }
 
@@ -920,7 +920,7 @@ function updateNet() {
               }
               $p = new Product($products);
 
-              if ( !isset($product) && !isset($cInfo) && (!isset($_GET['pID']) && !isset($_GET['cID']) || (isset($_GET['pID']) && ($_GET['pID'] == $p->get('id')))) && (Text::is_prefixed_by($action, 'new'))) {
+              if ( !isset($product) && !isset($cInfo) && (!isset($_GET['cID']) && !isset($_GET['pID']) || (isset($_GET['pID']) && ($_GET['pID'] == $p->get('id')))) && !Text::is_prefixed_by($action, 'new')) {
                 $product = $p;
               }
 
@@ -1133,10 +1133,8 @@ EOSQL
       default:
         if ($categories_count + $products_count > 0) {
           if (isset($cInfo) && is_object($cInfo)) { // category info box contents
-            $category_path_string = implode(
-              '_',
-              array_reverse(array_slice(
-                tep_generate_category_path($cInfo->categories_id)[0] ?? [], 0, -1)));
+            Guarantor::ensure_global('category_tree');
+            $category_path_string = $category_tree->find_path($category_tree->get_parent_id($cInfo->categories_id));
 
             $heading[] = ['text' => $cInfo->categories_name];
 

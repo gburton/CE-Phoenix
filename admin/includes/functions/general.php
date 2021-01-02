@@ -156,7 +156,7 @@
     }
 
     $categories_query = tep_db_query("SELECT c.categories_id, cd.categories_name, c.parent_id FROM categories c, categories_description cd WHERE c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id'] . " AND c.parent_id = " . (int)$parent_id . " ORDER BY c.sort_order, cd.categories_name");
-    foreach ($category_tree->get_children() as $category_id) {
+    foreach ($category_tree->get_children($parent_id) as $category_id) {
       if ($exclude != $category_id) $category_tree_array[] = ['id' => $category_id, 'text' => $spacing . $category_tree->get($category_id, 'name')];
       $category_tree_array = tep_get_category_tree($category_id, $spacing . '&nbsp;&nbsp;&nbsp;', $exclude, $category_tree_array);
     }
