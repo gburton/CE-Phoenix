@@ -19,7 +19,7 @@
     }
 
     function execute() {
-      global $oscTemplate, $current_category_id, $OSCOM_category, $brand;
+      global $current_category_id, $category_tree, $brand;
 
       $content_width = MODULE_CONTENT_IP_TITLE_CONTENT_WIDTH;
 
@@ -27,8 +27,8 @@
         $cm_name  = $brand->getData('manufacturers_name');
         $cm_image = $brand->getData('manufacturers_image');
       } else {
-        $cm_name  = $OSCOM_category->getData($current_category_id, 'name');
-        $cm_image = $OSCOM_category->getData($current_category_id, 'image');
+        $cm_name  = $category_tree->get($current_category_id, 'name');
+        $cm_image = $category_tree->get($current_category_id, 'image');
       }
 
       $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];

@@ -19,14 +19,11 @@
     }
 
     public function execute() {
-      global $current_category_id, $OSCOM_category;
+      $category_name = $GLOBALS['category_tree']->get($GLOBALS['current_category_id'], 'name');
 
-      $content_width  = MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH;
-      $category_card_layout = MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW;
-
-      $category_name  = $OSCOM_category->getData($current_category_id, 'name');
-      $category_level = $OSCOM_category->setMaximumLevel(1);
-      $category_array = $OSCOM_category->buildBranchArray($current_category_id, $category_level);
+      $display_tree = new tree_display($GLOBALS['category_tree']);
+      $display_tree->setMaximumLevel(1);
+      $categories = $display_tree->buildBranchArray($GLOBALS['current_category_id']);
 
       $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
       include 'includes/modules/content/cm_template.php';

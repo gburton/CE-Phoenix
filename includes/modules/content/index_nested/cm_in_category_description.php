@@ -19,13 +19,9 @@
     }
 
     public function execute() {
-      global $current_category_id, $OSCOM_category;
+      $category_description = $GLOBALS['category_tree']->get($GLOBALS['current_category_id'], 'description');
 
-      $content_width = MODULE_CONTENT_IN_CATEGORY_DESCRIPTION_CONTENT_WIDTH;
-
-      $category_description = $OSCOM_category->getData($current_category_id, 'description');
-
-      if (tep_not_null($category_description)) {
+      if (!Text::is_empty($category_description)) {
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
         include 'includes/modules/content/cm_template.php';
       }
