@@ -82,6 +82,10 @@
       return language::map_to_translation('.php');
     }
 
+    public function set_template_title() {
+      $GLOBALS['oscTemplate']->setTitle(TITLE);
+    }
+
     public function ensure_navigation_history() {
       if (!isset($_SESSION['navigation']) || !($_SESSION['navigation'] instanceof navigationHistory)) {
         $_SESSION['navigation'] = new navigationHistory();

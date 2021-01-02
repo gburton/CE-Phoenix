@@ -12,7 +12,7 @@
 
   class oscTemplate {
 
-    private $_title = TITLE;
+    private $_title;
     private $_blocks = [];
     private $_content = [];
     public $_data = [];
