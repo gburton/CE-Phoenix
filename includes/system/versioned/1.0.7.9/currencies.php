@@ -21,7 +21,7 @@
     public function __construct() {
       $this->currencies = [];
       $currencies_query = tep_db_query("SELECT code, title, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, value FROM currencies");
-      while ($currencies = tep_db_fetch_array($currencies_query)) {
+      while ($currencies = $currencies_query->fetch_assoc()) {
         $this->currencies[$currencies['code']] = [
           'title' => $currencies['title'],
           'symbol_left' => $currencies['symbol_left'],
@@ -58,7 +58,7 @@
     }
 
     public function is_set($code) {
-      return isset($this->currencies[$code]) && tep_not_null($this->currencies[$code]);
+      return isset($this->currencies[$code]) && !Text::is_empty($this->currencies[$code]);
     }
 
     public function get_value($code) {
