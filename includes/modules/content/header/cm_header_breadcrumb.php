@@ -53,7 +53,7 @@ EOSQL;
 
           $breadcrumb->prepend($breadcrumb_category, tep_href_link('index.php', 'cPath=' . $cPath));
         }
-      } elseif (isset($_GET['manufacturers_id'])) {
+      } elseif (!empty($_GET['manufacturers_id'])) {
         if ( ( 'True' !== $this->base_constant('MANUFACTURER_SEO_OVERRIDE') ) || Text::is_empty($breadcrumb_brand = $brand->getData('manufacturers_seo_title'))) {
           $breadcrumb_brand = $brand->getData('manufacturers_name');
         }
