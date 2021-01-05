@@ -80,14 +80,18 @@
   need to enter every country code into the Country fields. For most
   shops, you will not want to enter every country.  This is often
   because of too much fraud from certain places. If a country is not
-  listed, then the module will add a $0.00 shipping charge and will
+  listed, it will give an error.
+
+  If the shipping weight is larger than the largest amount set in the
+  table then the module will add a $0.00 shipping charge and will
   indicate that shipping is not available to that destination.
   PLEASE NOTE THAT THE ORDER CAN STILL BE COMPLETED AND PROCESSED!
 
   It appears that the osC shipping system automatically rounds the
   shipping weight up to the nearest whole unit.  This makes it more
   difficult to design precise shipping tables.  If you want to, you
-  can hack the shipping.php file to get rid of the rounding.
+  can modify this module to duplicate the weight calculation without
+  the rounding.
 
 */
 
@@ -95,33 +99,34 @@
 
     const CONFIG_KEY_BASE = 'MODULE_SHIPPING_ZONES_';
 
-    // CUSTOMIZE THIS SETTING FOR THE NUMBER OF ZONES NEEDED
+// CUSTOMIZE THIS SETTING FOR THE NUMBER OF ZONES NEEDED
     const ZONE_COUNT = 1;
 
-// class methods
     public function quote($method = '') {
       global $order, $shipping_weight, $shipping_num_boxes;
 
-      $dest_zone = false;
-      $error = false;
+      $this->quotes = [
+        'id' => $this->code,
+        'module' => MODULE_SHIPPING_ZONES_TEXT_TITLE,
+      ];
 
+      $dest_zone = false;
       for ($i = 1; $i <= static::ZONE_COUNT; $i++) {
-        if (in_array($order->delivery['country']['iso_code_2'], explode(';', $this->base_constant('COUNTRIES_' . $i)))) {
+        if (in_array($order->delivery['country']['iso_code_2'], explode(';', $this->base_constant("COUNTRIES_$i")))) {
           $dest_zone = $i;
           break;
         }
       }
 
       if (false === $dest_zone) {
-        $error = true;
+        $this->quotes['error'] = MODULE_SHIPPING_ZONES_INVALID_ZONE;
+        error_log(sprintf('Unmatched zone:  [%s]', $order->delivery['country']['iso_code_2']));
       } else {
-        $shipping = false;
-        $zones_cost = $this->base_constant('COST_' . $dest_zone);
-
-        $zones_table = preg_split('/[:,]/' , $zones_cost);
+        $zones_table = preg_split('/[:,]/' , $this->base_constant("COST_$dest_zone"));
         for ($i = 0, $size = count($zones_table); $i < $size; $i += 2) {
           if ($shipping_weight <= $zones_table[$i]) {
-            $shipping = $zones_table[$i+1];
+            $shipping_cost = ($zones_table[$i+1] * $GLOBALS['shipping_num_boxes'])
+                           + $this->base_constant("HANDLING_$dest_zone");
             $shipping_method = MODULE_SHIPPING_ZONES_TEXT_WAY
                              . ' ' . $order->delivery['country']['iso_code_2']
                              . ' : ' . $shipping_weight
@@ -130,28 +135,13 @@
           }
         }
 
-        if (false === $shipping) {
-          $shipping_cost = 0;
-          $shipping_method = MODULE_SHIPPING_ZONES_UNDEFINED_RATE;
-        } else {
-          $shipping_cost = ($shipping * $shipping_num_boxes) + $this->base_constant('HANDLING_' . $dest_zone);
-        }
-      }
-
-      $this->quotes = [
-        'id' => $this->code,
-        'module' => MODULE_SHIPPING_ZONES_TEXT_TITLE,
-        'methods' => [[
+        $this->quotes['methods'] = [[
           'id' => $this->code,
-          'title' => $shipping_method,
-          'cost' => $shipping_cost,
-        ]],
-      ];
+          'title' => $shipping_method ?? MODULE_SHIPPING_ZONES_UNDEFINED_RATE,
+          'cost' => $shipping_cost ?? 0,
+        ]];
 
-      $this->quote_common();
-
-      if ($error) {
-        $this->quotes['error'] = MODULE_SHIPPING_ZONES_INVALID_ZONE;
+        $this->quote_common();
       }
 
       return $this->quotes;
@@ -181,18 +171,22 @@
 
       for ($i = 1; $i <= static::ZONE_COUNT; $i++) {
         $parameters = array_merge($parameters, [
-          $this->config_key_base . 'COUNTRIES_' . $i => [
-            'title' => 'Zone ' . $i . ' Countries',
+          "{$this->config_key_base}COUNTRIES_$i" => [
+            'title' => "Zone $i Countries",
             'value' => (($i == 1) ? 'US;CA' : ''),
-            'desc' => 'Semi-colon separated list of two character ISO country codes that are part of Zone ' . $i . '.',
+            'desc' => "Semi-colon separated list of two character ISO country codes that are part of Zone $i.",
           ],
-          $this->config_key_base . 'COST_' . $i => [
-            'title' => 'Zone ' . $i . ' Shipping Table',
+          "{$this->config_key_base}COST_$i" => [
+            'title' => "Zone $i Shipping Table",
             'value' => '3:8.50,7:10.50,99:20.00',
-            'desc' => 'Shipping rates to Zone ' . $i . ' destinations based on a group of maximum order weights. Example: 3:8.50,7:10.50,... Weights less than or equal to 3 would cost 8.50 for Zone ' . $i . ' destinations.',
+            'desc' => <<<"EOT"
+Shipping rates to Zone $i destinations based on a group of maximum order weights.
+Example: 3:8.50,7:10.50,...
+Weights less than or equal to 3 would cost 8.50 for Zone $i destinations.
+EOT,
           ],
-          $this->config_key_base . 'HANDLING_' . $i => [
-            'title' => 'Zone ' . $i . ' Handling Fee',
+          "{$this->config_key_base}HANDLING_$i" => [
+            'title' => "Zone $i Handling Fee",
             'value' => '0',
             'desc' => 'Handling Fee for this shipping zone',
           ],
