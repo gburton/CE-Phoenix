@@ -387,7 +387,7 @@ EOSQL
 
   if ($action == 'new_product') {
     if (isset($_GET['pID']) && empty($_POST)) {
-      $product = product_by_id($_GET['pID']);
+      $product = product_by_id::build($_GET['pID']);
     } else {
       $product = new Product([
         'products_name' => '',
