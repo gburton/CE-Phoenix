@@ -815,10 +815,10 @@ EOSQL
       @unlink($image);
     }
 
-    $product_images_query = tep_db_query(spritnf(<<<'EOSQL'
+    $product_images_query = tep_db_query(sprintf(<<<'EOSQL'
 SELECT dpi.image
  FROM products_images dpi
-   LEFT JOIN products_image pi ON dpi.image = pi.image AND dpi.products_id != pi.products_id
+   LEFT JOIN products_images pi ON dpi.image = pi.image AND dpi.products_id != pi.products_id
  WHERE dpi.products_id = %d AND pi.image IS NULL
 EOSQL
       , (int)$product_id));
