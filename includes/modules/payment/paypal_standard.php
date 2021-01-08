@@ -175,6 +175,11 @@
         }
 
         if ($insert_order) {
+          if ( isset($order->info['payment_method_raw']) ) {
+            $order->info['payment_method'] = $order->info['payment_method_raw'];
+            unset($order->info['payment_method_raw']);
+          }
+
           require 'includes/system/segments/checkout/build_order_totals.php';
           require 'includes/system/segments/checkout/insert_order.php';
 
