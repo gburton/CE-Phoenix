@@ -13,7 +13,7 @@
   class Text {
 
     public static function is_empty(string $s = null) {
-      return is_null($s) ?: ('' === $s);
+      return is_null($s) || ('' === trim($s));
     }
 
     public static function is_prefixed_by(string $s, string $prefix) {
