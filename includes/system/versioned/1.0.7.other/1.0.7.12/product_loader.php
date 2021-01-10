@@ -132,7 +132,7 @@ EOSQL
       while ($review_data = $reviews_query->fetch_assoc()) {
         $review = [];
         foreach ($review_data as $key => $value) {
-          $trimmed_key = tep_ltrim_once($key, 'reviews_');
+          $trimmed_key = Text::ltrim_once($key, 'reviews_');
 
           $review[isset($review_data[$trimmed_key]) ? $key : $trimmed_key] = $value;
         }
@@ -179,7 +179,7 @@ EOSQL
       while ($data = $translations_query->fetch_assoc()) {
         $translation = [];
         foreach ($data as $key => $value) {
-          $trimmed_key = tep_ltrim_once($key, 'products_');
+          $trimmed_key = Text::ltrim_once($key, 'products_');
 
           $translation[isset($data[$trimmed_key]) ? $key : $trimmed_key] = $value;
         }
