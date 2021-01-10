@@ -690,7 +690,8 @@ function updateNet() {
             </div>
             <div class="col-sm-9" id="piList">
               <?php
-              foreach ($product->get('images') as $pi_counter => $pi) {
+              $pi_counter = 0;
+              foreach ($product->get('images') as $pi) {
                 $pi_counter++;
                 echo '<div class="row mb-2" id="piId' . $pi_counter . '">';
                   echo '<div class="col">';
