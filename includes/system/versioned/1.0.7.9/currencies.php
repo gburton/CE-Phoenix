@@ -58,7 +58,7 @@
     }
 
     public function is_set($code) {
-      return isset($this->currencies[$code]) && !Text::is_empty($this->currencies[$code]);
+      return !empty($this->currencies[$code]['value']) && is_numeric($this->currencies[$code]['value']);
     }
 
     public function get_value($code) {
