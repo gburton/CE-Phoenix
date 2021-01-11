@@ -5,7 +5,7 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2021 osCommerce
 
   Released under the GNU General Public License
 */
@@ -14,22 +14,24 @@
 
     const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_CATEGORY_TITLE_';
 
-    function __construct() {
+    public function __construct() {
       parent::__construct(__FILE__);
     }
 
-    function execute() {
-      global $PHP_SELF, $oscTemplate, $current_category_id, $OSCOM_category;
+    public function execute() {
+      global $current_category_id, $category_tree;
 
-      if ( (basename($PHP_SELF) == 'index.php') && ($current_category_id > 0) ) {
-        $category_seo_title = $OSCOM_category->getData($current_category_id, 'seo_title');
-        $category_name      = $OSCOM_category->getData($current_category_id, 'name');
-      
-        if ( tep_not_null($category_seo_title) && (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_TITLE_OVERRIDE == 'True') ) {
-          $oscTemplate->setTitle($category_seo_title . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
-        } else {
-          $oscTemplate->setTitle($category_name . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR . $oscTemplate->getTitle());
+      if ( ($current_category_id > 0) && ('index.php' === basename($GLOBALS['PHP_SELF'])) ) {
+        if ( (MODULE_HEADER_TAGS_CATEGORY_TITLE_SEO_TITLE_OVERRIDE !== 'True')
+          || Text::is_empty($category_title =  $category_tree->get($current_category_id, 'seo_title')) )
+        {
+          $category_title = $category_tree->get($current_category_id, 'name');
         }
+
+        $GLOBALS['oscTemplate']->setTitle(
+          $category_title
+          . MODULE_HEADER_TAGS_CATEGORY_SEO_SEPARATOR
+          . $GLOBALS['oscTemplate']->getTitle());
       }
     }
 
@@ -56,4 +58,3 @@
     }
 
   }
-  

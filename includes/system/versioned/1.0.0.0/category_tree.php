@@ -1,15 +1,16 @@
 <?php
 /**
  * osCommerce Online Merchant
- * 
+ *
  * @copyright Copyright (c) 2018 osCommerce; http://www.oscommerce.com
  * @license GNU General Public License; http://www.oscommerce.com/gpllicense.txt
  */
 
   class category_tree {
-    protected $_data = array();
+    protected $_data = [];
 
-    var $root_category_id = 0,
+    public
+        $root_category_id = 0,
         $max_level = 0,
         $root_start_string = '',
         $root_end_string = '',
@@ -25,7 +26,7 @@
         $spacer_string = '',
         $spacer_multiplier = 1,
         $follow_cpath = false,
-        $cpath_array = array(),
+        $cpath_array = [],
         $cpath_start_string = '',
         $cpath_end_string = '';
 
@@ -39,11 +40,13 @@
         $categories_query = tep_db_query("select c.categories_id, c.parent_id, c.categories_image, cd.categories_name, cd.categories_description, cd.categories_seo_description, cd.categories_seo_title from categories c, categories_description cd where c.categories_id = cd.categories_id and cd.language_id = '" . (int)$_SESSION['languages_id']. "' order by c.parent_id, c.sort_order, cd.categories_name");
 
         while ( $categories = tep_db_fetch_array($categories_query) ) {
-          $this->_data[$categories['parent_id']][$categories['categories_id']] = array('name'            => $categories['categories_name'],
-                                                                                       'image'           => $categories['categories_image'],                                                                          
-                                                                                       'description'     => $categories['categories_description'],
-                                                                                       'seo_description' => $categories['categories_seo_description'],
-                                                                                       'seo_title'       => $categories['categories_seo_title']);
+          $this->_data[$categories['parent_id']][$categories['categories_id']] = [
+            'name'            => $categories['categories_name'],
+            'image'           => $categories['categories_image'],
+            'description'     => $categories['categories_description'],
+            'seo_description' => $categories['categories_seo_description'],
+            'seo_title'       => $categories['categories_seo_title'],
+          ];
         }
 
         $_category_tree_data = $this->_data;
@@ -100,8 +103,8 @@
               $result .= $this->_buildBranch($category_id, $level+1);
             }
           }
-          
-          $result .= $this->child_end_string;          
+
+          $result .= $this->child_end_string;
         }
       }
 
@@ -112,7 +115,7 @@
 
     function buildBranchArray($parent_id, $level = 0, $result = '') {
       if (empty($result)) {
-        $result = array();
+        $result = [];
       }
 
       if (isset($this->_data[$parent_id])) {
@@ -123,9 +126,11 @@
             $category_link = $category_id;
           }
 
-          $result[] = array('id' => $category_link,
-                            'image' => $category['image'],          
-                            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name']);
+          $result[] = [
+            'id' => $category_link,
+            'image' => $category['image'],
+            'title' => str_repeat($this->spacer_string, $this->spacer_multiplier * $level) . $category['name'],
+          ];
 
           if (isset($this->_data[$category_id]) && (($this->max_level == '0') || ($this->max_level > $level+1))) {
             if ($this->follow_cpath === true) {
@@ -206,7 +211,7 @@
       return false;
     }
 
-    function getChildren($category_id, &$array = array()) {
+    function getChildren($category_id, &$array = []) {
       foreach ($this->_data as $parent => $categories) {
         if ($parent == $category_id) {
           foreach ($categories as $id => $info) {
@@ -232,11 +237,13 @@
       foreach ( $this->_data as $parent => $categories ) {
         foreach ( $categories as $category_id => $info ) {
           if ( $id == $category_id ) {
-            $data = array('id'                => $id,
-                          'name'              => $info['name'],
-                          'parent_id'         => $parent,
-                          'image'             => $info['image']);
-                          
+            $data = [
+              'id'                => $id,
+              'name'              => $info['name'],
+              'parent_id'         => $parent,
+              'image'             => $info['image'],
+            ];
+
             $data['description']     = $info['description'];
             $data['seo_description'] = $info['seo_description'];
             $data['seo_title']       = $info['seo_title'];

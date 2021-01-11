@@ -18,7 +18,7 @@
 
   $OSCOM_Hooks->call('specials', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'setflag':
         tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
@@ -28,26 +28,27 @@
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;
       case 'insert':
-        $products_id = tep_db_prepare_input($_POST['products_id']);
-        $products_price = tep_db_prepare_input($_POST['products_price']);
-        $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expdate = tep_db_prepare_input($_POST['expdate']);
+        $products_id = Text::prepare($_POST['products_id']);
+        $products_price = Text::prepare($_POST['products_price']);
+        $specials_price = Text::prepare($_POST['specials_price']);
+        $expires_date = Text::prepare($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
           $specials_price = substr($specials_price, 0, -1);
           $new_special_insert_query = tep_db_query("SELECT products_id, products_price FROM products WHERE products_id = " . (int)$products_id);
-          $new_special_insert = tep_db_fetch_array($new_special_insert_query);
+          $new_special_insert = $new_special_insert_query->fetch_assoc();
 
           $products_price = $new_special_insert['products_price'];
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
-        $expires_date = '';
-        if (tep_not_null($expdate)) {
-          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
+        if (Text::is_empty($expires_date)) {
+          $expires_date = '';
+        } else {
+          $expires_date = substr($expires_date, 0, 4) . substr($expires_date, 5, 2) . substr($expires_date, 8, 2);
         }
 
-        tep_db_query("INSERT INTO specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) VALUES (" . (int)$products_id . ", '" . tep_db_input($specials_price) . "', NOW(), " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'null') . ", 1)");
+        tep_db_query("INSERT INTO specials (products_id, specials_new_products_price, specials_date_added, expires_date, status) VALUES (" . (int)$products_id . ", '" . tep_db_input($specials_price) . "', NOW(), " . (Text::is_empty($expires_date) ? 'NULL' : "'" . tep_db_input($expires_date) . "'") . ", 1)");
 
         $OSCOM_Hooks->call('specials', 'insertAction');
 
@@ -55,34 +56,35 @@
 
         break;
       case 'update':
-        $specials_id = tep_db_prepare_input($_POST['specials_id']);
-        $products_price = tep_db_prepare_input($_POST['products_price']);
-        $specials_price = tep_db_prepare_input($_POST['specials_price']);
-        $expdate = tep_db_prepare_input($_POST['expdate']);
+        $specials_id = Text::prepare($_POST['specials_id']);
+        $products_price = Text::prepare($_POST['products_price']);
+        $specials_price = Text::prepare($_POST['specials_price']);
+        $expires_date = Text::prepare($_POST['expdate']);
 
-        if (substr($specials_price, -1) == '%') {
+        if (substr($specials_price, -1) === '%') {
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
-        $expires_date = '';
-        if (tep_not_null($expdate)) {
-          $expires_date = substr($expdate, 0, 4) . substr($expdate, 5, 2) . substr($expdate, 8, 2);
+        if (Text::is_empty($expires_date)) {
+          $expires_date = '';
+        } else {
+          $expires_date = substr($expires_date, 0, 4) . substr($expires_date, 5, 2) . substr($expires_date, 8, 2);
         }
 
-        tep_db_query("UPDATE specials SET specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = NOW(), expires_date = " . (tep_not_null($expires_date) ? "'" . tep_db_input($expires_date) . "'" : 'NULL') . " where specials_id = " . (int)$specials_id);
+        tep_db_query("UPDATE specials SET specials_new_products_price = '" . tep_db_input($specials_price) . "', specials_last_modified = NOW(), expires_date = " . (Text::is_empty($expires_date) ? 'NULL' : "'" . tep_db_input($expires_date) . "'") . " where specials_id = " . (int)$specials_id);
 
         $OSCOM_Hooks->call('specials', 'updateAction');
 
-        tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . $specials_id));
+        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
         break;
       case 'deleteconfirm':
-        $specials_id = tep_db_prepare_input($_GET['sID']);
+        $specials_id = Text::prepare($_GET['sID']);
 
         tep_db_query("DELETE FROM specials WHERE specials_id = " . (int)$specials_id);
 
         $OSCOM_Hooks->call('specials', 'deleteConfirmAction');
 
-        tep_redirect(tep_href_link('specials.php', 'page=' . (int)$_GET['page']));
+        tep_redirect(tep_href_link('specials.php', isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : ''));
         break;
     }
   }
@@ -97,12 +99,10 @@
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
-      <?php
-      if (empty($action)) {
-        echo tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'action=new'), null, null, 'btn-danger');
-      } else {
-        echo tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2');
-      }
+      <?=
+      empty($action)
+      ? tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'action=new'), null, null, 'btn-danger')
+      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2')
       ?>
     </div>
   </div>
@@ -119,7 +119,7 @@ SELECT p.products_id, pd.products_name, p.products_price, s.specials_new_product
  WHERE s.specials_id = %d
 EOSQL
         , (int)$_SESSION['languages_id'], (int)$_GET['sID']));
-      $product = tep_db_fetch_array($product_query);
+      $product = $product_query->fetch_assoc();
 
       $sInfo = new objectInfo($product);
     } else {
@@ -127,10 +127,10 @@ EOSQL
 
 // create an array of products on special, which will be excluded from the pull down menu of products
 // (when creating a new product on special)
-      $specials_array = [];
+      $specials = [];
       $specials_query = tep_db_query("SELECT p.products_id FROM products p INNER JOIN specials s ON s.products_id = p.products_id");
-      while ($specials = tep_db_fetch_array($specials_query)) {
-        $specials_array[] = $specials['products_id'];
+      while ($special = $specials_query->fetch_assoc()) {
+        $specials[] = $special['products_id'];
       }
     }
 ?>
@@ -144,25 +144,21 @@ EOSQL
 
     <div class="form-group row" id="zProduct">
       <label for="specialProduct" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_PRODUCT ?></label>
-      <div class="col-sm-9"><?= (isset($sInfo->products_name) ? tep_draw_input_field('n', $sInfo->products_name . ' (' . $currencies->format($sInfo->products_price) . ')', 'readonly class="form-control-plaintext"') : tep_draw_products_pull_down('products_id', 'id="specialProduct" required aria-required="true"', $specials_array)) . tep_draw_hidden_field('products_price', ($sInfo->products_price ?? '')) ?>
+      <div class="col-sm-9"><?= (isset($sInfo->products_name) ? tep_draw_input_field('n', $sInfo->products_name . ' (' . $currencies->format($sInfo->products_price) . ')', 'readonly class="form-control-plaintext"') : tep_draw_products_pull_down('products_id', 'id="specialProduct" required aria-required="true"', $specials)) . tep_draw_hidden_field('products_price', ($sInfo->products_price ?? '')) ?>
       </div>
     </div>
 
     <div class="form-group row" id="zPrice">
       <label for="specialPrice" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_SPECIAL_PRICE ?></label>
       <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('specials_price', ($sInfo->specials_new_products_price ?? ''), 'required aria-required="true" class="form-control" id="specialPrice"', null, 'tel');
-        ?>
+        <?= tep_draw_input_field('specials_price', ($sInfo->specials_new_products_price ?? ''), 'required aria-required="true" class="form-control" id="specialPrice"') ?>
       </div>
     </div>
 
     <div class="form-group row" id="zDate">
       <label for="specialDate" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_SPECIALS_EXPIRES_DATE ?></label>
       <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('expdate', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="specialDate"');
-        ?>
+        <?= tep_draw_input_field('expdate', (isset($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'class="form-control" id="specialDate"') ?>
       </div>
     </div>
 
@@ -170,15 +166,15 @@ EOSQL
       <?= TEXT_SPECIALS_PRICE_TIP ?>
     </div>
 
-    <?php
-    echo $OSCOM_Hooks->call('specials', 'formNew');
+    <?=
+    $OSCOM_Hooks->call('specials', 'formNew'),
 
-    echo tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg');
+    tep_draw_bootstrap_button(IMAGE_SAVE, 'fas fa-save', null, 'primary', null, 'btn-success btn-block btn-lg')
     ?>
 
   </form>
 
-  <script>$('#expdate').datepicker({ dateFormat: 'yy-mm-dd' });</script>
+  <script>$('#specialDate').datepicker({ dateFormat: 'yy-mm-dd' });</script>
 
 <?php
   } else {
@@ -202,26 +198,23 @@ EOSQL
             $specials_query_raw = "SELECT p.*, pd.*, s.* FROM specials s INNER JOIN products p ON p.products_id = s.products_id INNER JOIN products_description pd ON p.products_id = pd.products_id AND pd.language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY pd.products_name";
             $specials_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $specials_query_raw, $specials_query_numrows);
             $specials_query = tep_db_query($specials_query_raw);
-            while ($specials = tep_db_fetch_array($specials_query)) {
-              if (!isset($sInfo) && (!isset($_GET['sID']) || ($_GET['sID'] == $specials['specials_id']))) {
-                $products_query = tep_db_query("SELECT products_image FROM products WHERE products_id = " . (int)$specials['products_id']);
-                $products = tep_db_fetch_array($products_query);
-                $sInfo_array = array_merge($specials, $products);
-                $sInfo = new objectInfo($sInfo_array);
+            while ($special = $specials_query->fetch_assoc()) {
+              if (!isset($sInfo) && (!isset($_GET['sID']) || ($_GET['sID'] == $special['specials_id']))) {
+                $sInfo = new objectInfo($special);
               }
 
-              if (isset($sInfo->specials_id) && ($specials['specials_id'] == $sInfo->specials_id)) {
+              if (isset($sInfo->specials_id) && ($special['specials_id'] == $sInfo->specials_id)) {
                 echo '<tr class="table-active" onclick="document.location.href=\'' . tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . (int)$sInfo->specials_id . '&action=edit') . '\'">' . "\n";
                 $icon = '<i class="fas fa-chevron-circle-right text-info"></i>';
               } else {
-                echo '<tr onclick="document.location.href=\'' . tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . (int)$specials['specials_id']) . '\'">' . "\n";
-                $icon = '<a href="' . tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . $specials['specials_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
+                echo '<tr onclick="document.location.href=\'' . tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . (int)$special['specials_id']) . '\'">' . "\n";
+                $icon = '<a href="' . tep_href_link('specials.php', 'page=' . (int)$_GET['page'] . '&sID=' . $special['specials_id']) . '"><i class="fas fa-info-circle text-muted"></i></a>';
               }
               ?>
-                <td><?= $specials['products_name'] ?></td>
-                <td><?= $currencies->format($specials['products_price']) ?></td>
-                <td class="text-danger"><?= $currencies->format($specials['specials_new_products_price']) ?></td>
-                <td class="text-right"><?= ($specials['status'] == '1') ? '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('specials.php', 'action=setflag&flag=0&id=' . (int)$specials['specials_id']) . '"><i class="fas fa-times-circle text-muted"></i></a>' : '<a href="' . tep_href_link('specials.php', 'action=setflag&flag=1&id=' . (int)$specials['specials_id']) . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>' ?></td>
+                <td><?= $special['products_name'] ?></td>
+                <td><?= $currencies->format($special['products_price']) ?></td>
+                <td class="text-danger"><?= $currencies->format($special['specials_new_products_price']) ?></td>
+                <td class="text-right"><?= ($special['status'] == '1') ? '<i class="fas fa-check-circle text-success"></i> <a href="' . tep_href_link('specials.php', 'action=setflag&flag=0&id=' . (int)$special['specials_id']) . '"><i class="fas fa-times-circle text-muted"></i></a>' : '<a href="' . tep_href_link('specials.php', 'action=setflag&flag=1&id=' . (int)$special['specials_id']) . '"><i class="fas fa-check-circle text-muted"></i></a> <i class="fas fa-times-circle text-danger"></i>' ?></td>
                 <td class="text-right"><?= $icon ?></td>
               </tr>
 <?php
@@ -268,7 +261,7 @@ EOSQL
       }
       break;
   }
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box();
       echo $box->infoBox($heading, $contents);

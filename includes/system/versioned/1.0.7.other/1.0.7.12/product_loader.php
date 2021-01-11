@@ -19,9 +19,11 @@
       'images' => 'Product::load_images',
       'link' => 'Product::build_link',
       'notify' => 'Product::load_notify',
+      'review_percentile' => 'Product::load_reviews',
       'review_rating' => 'Product::load_reviews',
       'reviews' => 'Product::load_reviews',
       'tax_rate' => 'Product::load_tax_rate',
+      'translations' => 'Product::load_translations',
     ];
 
     public static function load_attributes($product, $language_id = null) {
@@ -39,7 +41,7 @@ EOSQL
       , (int)($language_id ?? $_SESSION['languages_id']), (int)$product->get('id')));
 
       $attributes = [];
-      while ($attribute = tep_db_fetch_array($attributes_query)) {
+      while ($attribute = $attributes_query->fetch_assoc()) {
         if (!isset($attributes[$attribute['options_id']])) {
           $attributes[$attribute['options_id']] = [
             'name' => $attribute['products_options_name'],
@@ -81,7 +83,7 @@ EOSQL
         , (int)$product->get('id')));
 
       $categories = [];
-      while ($category = tep_db_fetch_array($categories_query)) {
+      while ($category = $categories_query->fetch_assoc()) {
         $categories[] = $category['categories_id'];
       }
 
@@ -99,7 +101,7 @@ EOSQL
         , (int)$product->get('id')));
 
       $images = [];
-      while ($image = tep_db_fetch_array($images_query)) {
+      while ($image = $images_query->fetch_assoc()) {
         $images[] = $image;
       }
 
@@ -113,7 +115,7 @@ SELECT date_added FROM product_notifications WHERE products_id = %d AND customer
 EOSQL
         , (int)$product->get('id'), (int)$_SESSION['customer_id']));
 
-      $product->set('notify', tep_db_num_rows($notifications_query));
+      $product->set('notify', mysqli_num_rows($notifications_query));
       return $product->get('notify');
     }
 
@@ -127,10 +129,10 @@ EOSQL
 
       $sum = 0;
       $reviews = [];
-      while ($review_data = tep_db_fetch_array($reviews_query)) {
+      while ($review_data = $reviews_query->fetch_assoc()) {
         $review = [];
         foreach ($review_data as $key => $value) {
-          $trimmed_key = tep_ltrim_once($key, 'reviews_');
+          $trimmed_key = Text::ltrim_once($key, 'reviews_');
 
           $review[isset($review_data[$trimmed_key]) ? $key : $trimmed_key] = $value;
         }
@@ -139,6 +141,8 @@ EOSQL
         $reviews[] = $review;
       }
 
+      $product->set('review_percentile',
+        number_format(count($reviews) ? (20 * $sum / count($reviews)) : 0, 2));
       $product->set('review_rating',
         number_format(count($reviews) ? ($sum / count($reviews)) : 0, 2));
       $product->set('reviews', $reviews);
@@ -150,14 +154,41 @@ EOSQL
       if (isset($GLOBALS['customer'])) {
         $tax_rate = tep_get_tax_rate(
           $product->get('tax_class_id'),
-          $GLOBALS['customer']->get_country_id(),
-          $GLOBALS['customer']->get_zone_id());
+          $GLOBALS['customer']->get('country_id'),
+          $GLOBALS['customer']->get('zone_id'));
       } else {
         $tax_rate = tep_get_tax_rate($product->get('tax_class_id'));
       }
 
       $product->set('tax_rate', $tax_rate);
       return $tax_rate;
+    }
+
+    public static function load_translations($product) {
+      if (!$product->get('id')) {
+        return [];
+      }
+
+      $translations_query = tep_db_query(sprintf(<<<'EOSQL'
+SELECT *
+ FROM products_description
+ WHERE products_id = %d
+EOSQL
+        , $product->get('id')));
+      $translations = [];
+      while ($data = $translations_query->fetch_assoc()) {
+        $translation = [];
+        foreach ($data as $key => $value) {
+          $trimmed_key = Text::ltrim_once($key, 'products_');
+
+          $translation[isset($data[$trimmed_key]) ? $key : $trimmed_key] = $value;
+        }
+
+        $translations[$translation['language_id']] = $translation;
+      }
+
+      $product->set('translations', $translations);
+      return $translations;
     }
 
   }

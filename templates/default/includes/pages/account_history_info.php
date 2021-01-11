@@ -10,18 +10,18 @@
   Released under the GNU General Public License
 */
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('account.php', '', 'SSL'));
-  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('account_history.php', '', 'SSL'));
-  $breadcrumb->add(sprintf(NAVBAR_TITLE_3, $_GET['order_id']), tep_href_link('account_history_info.php', 'order_id=' . $_GET['order_id'], 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('account.php'));
+  $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('account_history.php'));
+  $breadcrumb->add(sprintf(NAVBAR_TITLE_3, $_GET['order_id']), tep_href_link('account_history_info.php', 'order_id=' . $_GET['order_id']));
 
   require $oscTemplate->map_to_template('template_top.php', 'component');
 ?>
 
 <div class="row">
-  <div class="col-7"><h1 class="display-4"><?php echo HEADING_TITLE; ?></h1></div>
+  <div class="col-7"><h1 class="display-4"><?= HEADING_TITLE ?></h1></div>
   <div class="col text-right">
-    <h4><?php echo sprintf(HEADING_ORDER_NUMBER, $_GET['order_id']) . ' <span class="badge badge-secondary">' . $order->info['orders_status'] . '</span>'; ?></h4>
-    <p><?php echo '<strong>' . HEADING_ORDER_DATE . '</strong> ' . tep_date_long($order->info['date_purchased']); ?></p>
+    <h4><?= sprintf(HEADING_ORDER_NUMBER, $_GET['order_id']) . ' <span class="badge badge-secondary">' . $order->info['orders_status'] . '</span>' ?></h4>
+    <p><?= '<strong>' . HEADING_ORDER_DATE . '</strong> ' . tep_date_long($order->info['date_purchased']) ?></p>
   </div>
 </div>
 
@@ -30,15 +30,15 @@
       <table class="table table-hover table-bordered">
         <thead class="thead-dark">
           <tr>
-            <th colspan="2"><?php echo HEADING_PRODUCTS; ?></th>
+            <th colspan="2"><?= HEADING_PRODUCTS ?></th>
             <?php
   if (count($order->info['tax_groups']) > 1) {
 ?>
-            <th class="text-right"><?php echo HEADING_TAX; ?></th>
+            <th class="text-right"><?= HEADING_TAX ?></th>
               <?php
   }
 ?>
-            <th class="text-right"><?php echo HEADING_TOTAL; ?></th>
+            <th class="text-right"><?= HEADING_TOTAL ?></th>
           </tr>
         </thead>
         <tbody>
@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <h4><?php echo HEADING_ORDER_HISTORY; ?></h4>
+  <h4><?= HEADING_ORDER_HISTORY ?></h4>
 
   <ul class="list-group">
 <?php
@@ -105,10 +105,10 @@ SELECT os.orders_status_name, osh.date_added, osh.comments
  ORDER BY osh.date_added
 EOSQL
     , (int)$_GET['order_id'], (int)$_SESSION['languages_id']));
-  while ($statuses = tep_db_fetch_array($statuses_query)) {
+  while ($statuses = $statuses_query->fetch_assoc()) {
     echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
     echo '<h6>' . $statuses['orders_status_name'] . '</h6>';
-    echo (empty($statuses['comments']) ? '' : '<p>' . nl2br(tep_output_string_protected($statuses['comments'])) . '</p>');
+    echo (empty($statuses['comments']) ? '' : '<p>' . nl2br(htmlspecialchars($statuses['comments'])) . '</p>');
     echo '<span class="badge badge-secondary badge-pill"><i class="far fa-clock mr-1"></i>' . $statuses['date_added'] . '</span>';
     echo '</li>';
   }
@@ -124,7 +124,7 @@ EOSQL
 ?>
 
   <div class="buttonSet my-2">
-    <?php echo tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account_history.php', tep_get_all_get_params(['order_id']), 'SSL'), null, null, 'btn-light'); ?>
+    <?= tep_draw_button(IMAGE_BUTTON_BACK, 'fas fa-angle-left', tep_href_link('account_history.php', tep_get_all_get_params(['order_id'])), null, null, 'btn-light') ?>
   </div>
 
 <?php

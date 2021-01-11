@@ -5,61 +5,49 @@
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
-  Copyright (c) 2016 osCommerce
+  Copyright (c) 2021 osCommerce
 
   Released under the GNU General Public License
 */
 
-  class ht_category_seo {
-    var $code = 'ht_category_seo';
-    var $group = 'header_tags';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+  class ht_category_seo extends abstract_executable_module {
 
-    function __construct() {
-      $this->title = MODULE_HEADER_TAGS_CATEGORY_SEO_TITLE;
-      $this->description = MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION;
+    const CONFIG_KEY_BASE = 'MODULE_HEADER_TAGS_CATEGORY_SEO_';
 
-      if ( defined('MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS') ) {
-        $this->sort_order = MODULE_HEADER_TAGS_CATEGORY_SEO_SORT_ORDER;
-        $this->enabled = (MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS == 'True');
-      }
+    public function __construct() {
+      parent::__construct(__FILE__);
     }
 
-    function execute() {
-      global $PHP_SELF, $oscTemplate, $current_category_id, $OSCOM_category;
+    public function execute() {
+      if ( ($GLOBALS['current_category_id'] > 0) && ('index.php' === basename($GLOBALS['PHP_SELF'])) ) {
+        $category_seo_description = $GLOBALS['category_tree']->get($GLOBALS['current_category_id'], 'seo_description');
 
-      if ( (basename($PHP_SELF) == 'index.php') && ($current_category_id > 0) ){
-        $category_seo_description = $OSCOM_category->getData($current_category_id, 'seo_description');
-        
-        if (tep_not_null($category_seo_description)) {
-          $oscTemplate->addBlock('<meta name="description" content="' . tep_output_string($category_seo_description) . '" />' . PHP_EOL, $this->group);
+        if (!Text::is_empty($category_seo_description)) {
+          $GLOBALS['oscTemplate']->addBlock('<meta name="description" content="' . Text::output($category_seo_description) . '" />' . PHP_EOL, $this->group);
         }
       }
     }
 
-    function isEnabled() {
-      return $this->enabled;
+    protected function get_parameters() {
+      return [
+        'MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS' => [
+          'title' => 'Enable Category Meta Module',
+          'value' => 'True',
+          'desc' => 'Do you want to allow Category Meta Tags to be added to the page header?',
+          'set_func' => "tep_cfg_select_option(['True', 'False'], ",
+        ],
+        'MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION_STATUS' => [
+          'title' => 'Display Category Meta Description',
+          'value' => 'True',
+          'desc' => "These help your site and your site's visitors.",
+          'set_func' => "tep_cfg_select_option(['True'], ",
+        ],
+        'MODULE_HEADER_TAGS_CATEGORY_SEO_SORT_ORDER' => [
+          'title' => 'Sort Order',
+          'value' => '0',
+          'desc' => 'Sort order of display. Lowest is displayed first.',
+        ],
+      ];
     }
 
-    function check() {
-      return defined('MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS');
-    }
-
-    function install() {
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Category Meta Module', 'MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS', 'True', 'Do you want to allow Category Meta Tags to be added to the page header?', '6', '1', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Display Category Meta Description', 'MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION_STATUS', 'True', 'These help your site and your sites visitors.', '6', '0', 'tep_cfg_select_option(array(\'True\'), ', now())");
-      tep_db_query("insert into configuration (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_HEADER_TAGS_CATEGORY_SEO_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
-    }
-
-    function remove() {
-      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");
-    }
-
-    function keys() {
-      return array('MODULE_HEADER_TAGS_CATEGORY_SEO_STATUS', 'MODULE_HEADER_TAGS_CATEGORY_SEO_DESCRIPTION_STATUS', 'MODULE_HEADER_TAGS_CATEGORY_SEO_SORT_ORDER');
-    }
   }
-  

@@ -2,14 +2,16 @@
   if (isset($testimonials_query)) {
 ?>
 
-<div class="col-sm-<?php echo $content_width; ?> cm-t-list">
+<div class="col-sm-<?= (int)MODULE_CONTENT_TESTIMONIALS_LIST_CONTENT_WIDTH ?> cm-t-list">
   <div class="row">
     <?php
-    while ($testimonials = tep_db_fetch_array($testimonials_query)) {
-      echo '<div class="col-sm-' . $item_width . '">' . PHP_EOL;
+    while ($testimonials = $testimonials_query->fetch_assoc()) {
+      echo '<div class="col-sm-' . (int)MODULE_CONTENT_TESTIMONIALS_LIST_CONTENT_WIDTH_EACH . '">' . PHP_EOL;
         echo '<blockquote class="blockquote">' . PHP_EOL;
           echo nl2br($testimonials['testimonials_text']) . PHP_EOL;
-          echo '<footer class="blockquote-footer">' . sprintf(MODULE_CONTENT_TESTIMONIALS_LIST_WRITERS_NAME_DATE, tep_output_string_protected($testimonials['customers_name']), tep_date_short($testimonials['date_added'])) . '</footer>' . PHP_EOL;
+          echo '<footer class="blockquote-footer">',
+                  sprintf(MODULE_CONTENT_TESTIMONIALS_LIST_WRITERS_NAME_DATE, htmlspecialchars($testimonials['customers_name']), tep_date_short($testimonials['date_added'])),
+               '</footer>' . PHP_EOL;
         echo '</blockquote>' . PHP_EOL;
       echo '</div>' . PHP_EOL;
     }
@@ -17,10 +19,10 @@
   </div>
   <div class="row align-items-center">
     <div class="col-sm-6 d-none d-sm-block">
-      <?php echo $testimonials_split->display_count(MODULE_CONTENT_TESTIMONIALS_DISPLAY_NUMBER); ?>
+      <?= $testimonials_split->display_count(MODULE_CONTENT_TESTIMONIALS_DISPLAY_NUMBER) ?>
     </div>
     <div class="col-sm-6">
-      <?php echo $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(['page', 'info'])); ?>
+      <?= $testimonials_split->display_links(MAX_DISPLAY_PAGE_LINKS, tep_get_all_get_params(['page', 'info'])) ?>
     </div>
   </div>
 </div>
@@ -31,7 +33,7 @@
 
 <div class="col">
   <div class="alert alert-info" role="alert">
-    <?php echo MODULE_CONTENT_TESTIMONIALS_LIST_NO_TESTIMONIALS; ?>
+    <?= MODULE_CONTENT_TESTIMONIALS_LIST_NO_TESTIMONIALS ?>
   </div>
 </div>
 

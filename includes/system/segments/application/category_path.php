@@ -10,25 +10,29 @@
   Released under the GNU General Public License
 */
 
-// calculate category path
-  if (isset($_GET['cPath'])) {
-    $cPath = $_GET['cPath'];
-  } elseif (isset($_GET['products_id']) && !isset($_GET['manufacturers_id'])) {
-    $cPath = tep_get_product_path($_GET['products_id']);
-  } else {
-    $cPath = '';
+  if (isset($_GET['products_id'])) {
+    $product = product_by_id::build((int)$_GET['products_id']);
   }
 
-  if (tep_not_null($cPath)) {
-    $cPath_array = tep_parse_category_path($cPath);
-    $cPath = implode('_', $cPath_array);
+// calculate category path
+  if (isset($_GET['cPath'])) {
+    $cPath_array = Guarantor::ensure_global('category_tree')->parse_path($_GET['cPath']);
     $current_category_id = end($cPath_array);
+  } elseif (isset($_GET['manufacturers_id'])) {
+    $brand = new manufacturer((int)$_GET['manufacturers_id']);
+  } elseif (isset($product) && $product->get('status')) {
+    $current_category_id = $product->get('categories')[0] ?? 0;
+    $cPath_array = array_reverse(
+      Guarantor::ensure_global('category_tree')->get_ancestors($current_category_id));
+    $cPath_array[] = $current_category_id;
+  }
 
-    $OSCOM_category = new category_tree();
-  } else {
+  if (!isset($current_category_id)) {
     $current_category_id = 0;
+  }
 
-    if (isset($_GET['manufacturers_id'])) {
-      $brand = new manufacturer((int)$_GET['manufacturers_id']);
-    }
+  $cPath = isset($cPath_array) ? implode('_', $cPath_array) : '';
+
+  if (isset($category_tree)) {
+    $OSCOM_category = &$category_tree;
   }

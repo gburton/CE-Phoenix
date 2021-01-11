@@ -1,7 +1,7 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-in-category-listing">
-  <div class="<?php echo $category_card_layout; ?>">    
+<div class="col-sm-<?= (int)MODULE_CONTENT_IN_CATEGORY_LISTING_CONTENT_WIDTH ?> cm-in-category-listing">
+  <div class="<?= MODULE_CONTENT_IN_CATEGORY_LISTING_DISPLAY_ROW ?>">
     <?php
-    foreach ($category_array as $k => $v) {
+    foreach ($categories as $v) {
       echo '<div class="col">';
         echo '<div class="card is-category mb-2 card-body text-center border-0">';
           echo '<a href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . tep_image('images/' . $v['image'], htmlspecialchars($v['title'])) . '</a>';
@@ -9,7 +9,7 @@
             echo '<a class="card-link" href="' . tep_href_link('index.php', 'cPath=' . $v['id']) . '">' . $v['title'] . '</a>';
           echo '</div>';
         echo '</div>' . PHP_EOL;
-      echo '</div>';        
+      echo '</div>';
     }
     ?>
   </div>

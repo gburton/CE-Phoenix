@@ -19,7 +19,7 @@
     }
 
     public function execute() {
-      global $breadcrumb, $cPath_array, $OSCOM_category, $brand;
+      global $breadcrumb, $cPath_array, $category_tree, $brand;
 
       // add the products model to the breadcrumb trail
       if (isset($_GET['products_id'])) {
@@ -34,7 +34,7 @@ NULLIF(p.products_model, ''), pd.products_name) AS products_model
 EOSQL;
 
         $model_query = tep_db_query(sprintf($model_sql, (int)$_GET['products_id'], (int)$_SESSION['languages_id']));
-        if ($model = tep_db_fetch_array($model_query)) {
+        if ($model = $model_query->fetch_assoc()) {
           $breadcrumb->prepend($model['products_model'], tep_href_link('product_info.php', 'products_id=' . (int)$_GET['products_id']));
         }
       }
@@ -45,14 +45,16 @@ EOSQL;
         while (count($categories) > 0) {
           $cPath = implode('_', $categories);
           $category_id = array_pop($categories);
-          if ( ( 'True' !== $this->base_constant('CATEGORY_SEO_OVERRIDE') ) || !tep_not_null($breadcrumb_category = $OSCOM_category->getData($category_id, 'seo_title')) ) {
-            $breadcrumb_category = $OSCOM_category->getData($category_id, 'name');
+          if ( ( 'True' !== $this->base_constant('CATEGORY_SEO_OVERRIDE') )
+            || Text::is_empty($breadcrumb_category = $category_tree->get($category_id, 'seo_title')) )
+          {
+            $breadcrumb_category = $category_tree->get($category_id, 'name');
           }
 
           $breadcrumb->prepend($breadcrumb_category, tep_href_link('index.php', 'cPath=' . $cPath));
         }
-      } elseif (isset($_GET['manufacturers_id'])) {
-        if ( ( 'True' !== $this->base_constant('MANUFACTURER_SEO_OVERRIDE') ) || !tep_not_null($breadcrumb_brand = $brand->getData('manufacturers_seo_title'))) {
+      } elseif (!empty($_GET['manufacturers_id'])) {
+        if ( ( 'True' !== $this->base_constant('MANUFACTURER_SEO_OVERRIDE') ) || Text::is_empty($breadcrumb_brand = $brand->getData('manufacturers_seo_title'))) {
           $breadcrumb_brand = $brand->getData('manufacturers_name');
         }
 

@@ -12,27 +12,27 @@
 
   $OSCOM_Hooks->register_pipeline('progress');
 
-  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));
+  $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php'));
   $breadcrumb->add(NAVBAR_TITLE_2);
 
   require $oscTemplate->map_to_template('template_top.php', 'component');
 ?>
 
-<h1 class="display-4"><?php echo HEADING_TITLE; ?></h1>
+<h1 class="display-4"><?= HEADING_TITLE ?></h1>
 
 <?php
   if ($messageStack->size('checkout_confirmation') > 0) {
     echo $messageStack->output('checkout_confirmation');
   }
 
-  $form_action_url = ${$_SESSION['payment']}->form_action_url ?? tep_href_link('checkout_process.php', '', 'SSL');
+  $form_action_url = ${$_SESSION['payment']}->form_action_url ?? tep_href_link('checkout_process.php');
 
   echo tep_draw_form('checkout_confirmation', $form_action_url, 'post');
 ?>
 
   <div class="row">
     <div class="col-sm-7">
-      <h5 class="mb-1"><?php echo LIST_PRODUCTS; ?><small><a class="font-weight-lighter ml-2" href="<?php echo tep_href_link('shopping_cart.php', '', 'SSL'); ?>"><?php echo TEXT_EDIT; ?></a></small></h5>
+      <h5 class="mb-1"><?= LIST_PRODUCTS ?><small><a class="font-weight-lighter ml-2" href="<?= tep_href_link('shopping_cart.php') ?>"><?= TEXT_EDIT ?></a></small></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
           <?php
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="col-sm-5">
-      <h5 class="mb-1"><?php echo ORDER_DETAILS; ?></h5>
+      <h5 class="mb-1"><?= ORDER_DETAILS ?></h5>
       <div class="border">
         <ul class="list-group list-group-flush">
           <?php
@@ -71,26 +71,26 @@
   if ($_SESSION['sendto']) {
     echo '<li class="list-group-item">';
     echo '<i class="fas fa-shipping-fast fa-fw fa-3x float-right text-black-50"></i>';
-    echo '<h5 class="mb-0">' . HEADING_DELIVERY_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping_address.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
+    echo '<h5 class="mb-0">' . HEADING_DELIVERY_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping_address.php') . '">' . TEXT_EDIT . '</a></small></h5>';
     echo '<p class="w-100 mb-1">' . $address->format($order->delivery, 1, ' ', '<br>') . '</p>';
     echo '</li>';
   }
 
   echo '<li class="list-group-item">';
   echo '<i class="fas fa-file-invoice-dollar fa-fw fa-3x float-right text-black-50"></i>';
-  echo '<h5 class="mb-0">' . HEADING_BILLING_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment_address.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
+  echo '<h5 class="mb-0">' . HEADING_BILLING_ADDRESS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment_address.php') . '">' . TEXT_EDIT . '</a></small></h5>';
   echo '<p class="w-100 mb-1">' . $address->format($order->billing, 1, ' ', '<br>') . '</p>';
   echo '</li>';
 
   if ($order->info['shipping_method']) {
     echo '<li class="list-group-item">';
-    echo '<h5 class="mb-1">' . HEADING_SHIPPING_METHOD . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
+    echo '<h5 class="mb-1">' . HEADING_SHIPPING_METHOD . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_shipping.php') . '">' . TEXT_EDIT . '</a></small></h5>';
     echo '<p class="w-100 mb-1">' . $order->info['shipping_method'] . '</p>';
     echo '</li>';
   }
 
   echo '<li class="list-group-item">';
-  echo '<h5 class="mb-1">' . HEADING_PAYMENT_METHOD . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment.php', '', 'SSL') . '">' . TEXT_EDIT . '</a></small></h5>';
+  echo '<h5 class="mb-1">' . HEADING_PAYMENT_METHOD . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment.php') . '">' . TEXT_EDIT . '</a></small></h5>';
   echo '<p class="w-100 mb-1">' . $order->info['payment_method'] . '</p>';
   echo '</li>';
 ?>
@@ -103,14 +103,14 @@
   <?php
   if (tep_not_null($order->info['comments'])) {
 ?>
-  <h5 class="mb-1"><?php echo HEADING_ORDER_COMMENTS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment.php', '', 'SSL') . '">' .TEXT_EDIT . '</a></small>'; ?></h5>
+  <h5 class="mb-1"><?= HEADING_ORDER_COMMENTS . '<small><a class="font-weight-lighter ml-2" href="' . tep_href_link('checkout_payment.php') . '">' .TEXT_EDIT . '</a></small>' ?></h5>
 
   <div class="border mb-3">
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
         <i class="fas fa-comments fa-fw fa-3x float-right text-black-50"></i>
         <?php
-    echo nl2br(tep_output_string_protected($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']);
+    echo nl2br(htmlspecialchars($order->info['comments'])) . tep_draw_hidden_field('comments', $order->info['comments']);
 ?>
       </li>
     </ul>
@@ -124,7 +124,7 @@
 ?>
   <hr>
 
-  <h5 class="mb-1"><?php echo HEADING_PAYMENT_INFORMATION; ?></h5>
+  <h5 class="mb-1"><?= HEADING_PAYMENT_INFORMATION ?></h5>
 
   <div class="row">
     <?php

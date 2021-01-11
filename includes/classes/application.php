@@ -79,7 +79,11 @@
       }
 
       $this->fix_numeric_locale();
-      return 'includes/languages/' . $_SESSION['language'] . '.php';
+      return language::map_to_translation('.php');
+    }
+
+    public function set_template_title() {
+      $GLOBALS['oscTemplate']->setTitle(TITLE);
     }
 
     public function ensure_navigation_history() {

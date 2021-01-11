@@ -70,7 +70,7 @@ SELECT hooks_action, hooks_code, hooks_class, hooks_method
 EOSQL
 , tep_db_input($this->_site), tep_db_input($group)));
 
-      while ($hook = tep_db_fetch_array($hooks_query)) {
+      while ($hook = $hooks_query->fetch_assoc()) {
         $callback = $this->build_callback($hook['hooks_class'], $hook['hooks_method']);
         if (is_callable($callback)) {
           Guarantor::guarantee_all(
@@ -130,8 +130,8 @@ EOSQL
 
     public function register_page() {
       $this->page = pathinfo($GLOBALS['PHP_SELF'], PATHINFO_FILENAME);
-      $this->register('siteWide', $this->page);
       $this->register($this->page);
+      $this->register_pipeline('siteWide');
       $this->call('siteWide', 'injectAppTop');
     }
 
@@ -142,7 +142,7 @@ EOSQL
     }
 
     public function call($group, $action, &$parameters = []) {
-      if (('siteWide' === $group) || in_array($group, $this->pipelines)) {
+      if (in_array($group, $this->pipelines)) {
         $group = $this->page;
       }
 

@@ -19,7 +19,7 @@
     public function __construct() {
       parent::__construct();
 
-      if ( !defined('MODULE_PAYMENT_INSTALLED') || !tep_not_null(MODULE_PAYMENT_INSTALLED) || !in_array('paypal_pro_payflow_dp.php', explode(';', MODULE_PAYMENT_INSTALLED)) || !defined('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_STATUS') || (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_STATUS != 'True') ) {
+      if ( !defined('MODULE_PAYMENT_INSTALLED') || Text::is_empty(MODULE_PAYMENT_INSTALLED) || !in_array('paypal_pro_payflow_dp.php', explode(';', MODULE_PAYMENT_INSTALLED)) || !defined('MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_STATUS') || (MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_DP_STATUS != 'True') ) {
         $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_ERROR_DIRECT_MODULE . '</div>' . $this->description;
 
         $this->enabled = false;
@@ -41,7 +41,7 @@
       }
 
       if ( $this->enabled === true ) {
-        if ( !tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR) || !tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD) ) {
+        if ( Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR) || Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD) ) {
           $this->description = '<div class="alert alert-warning">' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_ERROR_ADMIN_CONFIGURATION . '</div>' . $this->description;
 
           $this->enabled = false;
@@ -55,13 +55,13 @@
     }
 
     public function checkout_initialization_method() {
-      $button_title = tep_output_string_protected(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_TEXT_BUTTON);
+      $button_title = htmlspecialchars(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_TEXT_BUTTON);
 
       if ( MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_TRANSACTION_SERVER == 'Sandbox' ) {
         $button_title .= ' (' . $this->code . '; Sandbox)';
       }
 
-      $string = '<a href="' . tep_href_link('ext/modules/payment/paypal/express_payflow.php', '', 'SSL') . '"><img src="' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_BUTTON . '" border="0" alt="" title="' . $button_title . '" /></a>';
+      $string = '<a href="' . tep_href_link('ext/modules/payment/paypal/express_payflow.php') . '"><img src="' . MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_BUTTON . '" border="0" alt="" title="' . $button_title . '" /></a>';
 
       return $string;
     }
@@ -70,15 +70,15 @@
       global $messageStack, $order;
 
       if (!isset($_SESSION['ppeuk_token'])) {
-        tep_redirect(tep_href_link('ext/modules/payment/paypal/express_payflow.php', '', 'SSL'));
+        tep_redirect(tep_href_link('ext/modules/payment/paypal/express_payflow.php'));
       }
 
       $response_array = $this->getExpressCheckoutDetails($_SESSION['ppeuk_token']);
 
       if ($response_array['RESULT'] != '0') {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       } elseif ( !isset($_SESSION['ppeuk_secret']) || ($response_array['CUSTOM'] != $_SESSION['ppeuk_secret']) ) {
-        tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php'));
       }
 
       $_SESSION['ppeuk_order_total_check'] = true;
@@ -102,30 +102,30 @@
     }
 
     public function before_process() {
-      global $order, $response_array;
+      global $order, $response_array, $customer_data;
 
       if (!isset($_SESSION['ppeuk_token'])) {
-        tep_redirect(tep_href_link('ext/modules/payment/paypal/express_payflow.php', '', 'SSL'));
+        tep_redirect(tep_href_link('ext/modules/payment/paypal/express_payflow.php'));
       }
 
       $response_array = $this->getExpressCheckoutDetails($_SESSION['ppeuk_token']);
 
       if ($response_array['RESULT'] == '0') {
         if ( !isset($_SESSION['ppeuk_secret']) || ($response_array['CUSTOM'] != $_SESSION['ppeuk_secret']) ) {
-          tep_redirect(tep_href_link('shopping_cart.php', '', 'SSL'));
+          tep_redirect(tep_href_link('shopping_cart.php'));
         } elseif ( !isset($_SESSION['ppeuk_order_total_check']) ) {
-          tep_redirect(tep_href_link('checkout_confirmation.php', '', 'SSL'));
+          tep_redirect(tep_href_link('checkout_confirmation.php'));
         }
       } else {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       }
 
       if ( isset($_SESSION['ppeuk_order_total_check']) ) {
         unset($_SESSION['ppeuk_order_total_check']);
       }
 
-      if (empty($_SESSION['comments']) && isset($_POST['ppecomments']) && tep_not_null($_POST['ppecomments'])) {
-        $_SESSION['comments'] = tep_db_prepare_input($_POST['ppecomments']);
+      if (empty($_SESSION['comments']) && isset($_POST['ppecomments']) && !Text::is_empty($_POST['ppecomments'])) {
+        $_SESSION['comments'] = Text::prepare($_POST['ppecomments']);
 
         $order->info['comments'] = $_SESSION['comments'];
       }
@@ -139,31 +139,34 @@
       ];
 
       if (is_numeric($_SESSION['sendto']) && ($_SESSION['sendto'] > 0)) {
-        $params['SHIPTONAME'] = $order->delivery['name'];
-        $params['SHIPTOSTREET'] = $order->delivery['street_address'];
-        $params['SHIPTOCITY'] = $order->delivery['city'];
-        $params['SHIPTOSTATE'] = tep_get_zone_code($order->delivery['country']['id'], $order->delivery['zone_id'], $order->delivery['state']);
-        $params['SHIPTOCOUNTRY'] = $order->delivery['country']['iso_code_2'];
-        $params['SHIPTOZIP'] = $order->delivery['postcode'];
+        $params['SHIPTONAME'] = $customer_data->get('name', $order->delivery);
+        $params['SHIPTOSTREET'] = $customer_data->get('street_address', $order->delivery);
+        $params['SHIPTOCITY'] = $customer_data->get('city', $order->delivery);
+        $params['SHIPTOSTATE'] = tep_get_zone_code(
+          $customer_data->get('country_id', $order->delivery),
+          $customer_data->get('zone_id', $order->delivery),
+          $customer_data->get('state', $order->delivery));
+        $params['SHIPTOCOUNTRY'] = $customer_data->get('country_iso_code_2', $order->delivery);
+        $params['SHIPTOZIP'] = $customer_data->get('postcode', $order->delivery);
       }
 
       $response_array = $this->doExpressCheckoutPayment($params);
 
       if ($response_array['RESULT'] != '0') {
-        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE']), 'SSL'));
+        tep_redirect(tep_href_link('shopping_cart.php', 'error_message=' . urlencode($response_array['OSCOM_ERROR_MESSAGE'])));
       }
     }
 
     public function after_process() {
       global $response_array;
 
-      $pp_result = 'Payflow ID: ' . tep_output_string_protected($response_array['PNREF']) . "\n"
-                 . 'PayPal ID: ' . tep_output_string_protected($response_array['PPREF']) . "\n\n"
-                 . 'Payer Status: ' . tep_output_string_protected($_SESSION['ppeuk_payerstatus']) . "\n"
-                 . 'Address Status: ' . tep_output_string_protected($_SESSION['ppeuk_addressstatus']) . "\n\n"
-                 . 'Payment Status: ' . tep_output_string_protected($response_array['PENDINGREASON']) . "\n"
-                 . 'Payment Type: ' . tep_output_string_protected($response_array['PAYMENTTYPE']) . "\n"
-                 . 'Response: ' . tep_output_string_protected($response_array['RESPMSG']);
+      $pp_result = 'Payflow ID: ' . htmlspecialchars($response_array['PNREF']) . "\n"
+                 . 'PayPal ID: ' . htmlspecialchars($response_array['PPREF']) . "\n\n"
+                 . 'Payer Status: ' . htmlspecialchars($_SESSION['ppeuk_payerstatus']) . "\n"
+                 . 'Address Status: ' . htmlspecialchars($_SESSION['ppeuk_addressstatus']) . "\n\n"
+                 . 'Payment Status: ' . htmlspecialchars($response_array['PENDINGREASON']) . "\n"
+                 . 'Payment Type: ' . htmlspecialchars($response_array['PAYMENTTYPE']) . "\n"
+                 . 'Response: ' . htmlspecialchars($response_array['RESPMSG']);
 
       $sql_data = [
         'orders_id' => $GLOBALS['order']->get_id(),
@@ -311,7 +314,7 @@
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       }
 
-      if ( tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PROXY) ) {
+      if ( !Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PROXY) ) {
         curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, true);
         curl_setopt($curl, CURLOPT_PROXY, MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PROXY);
       }
@@ -346,15 +349,15 @@
       }
 
       $params = [
-        'USER' => (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR),
+        'USER' => (Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME),
         'VENDOR' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR,
         'PARTNER' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PARTNER,
         'PWD' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD,
         'TENDER' => 'P',
         'TRXTYPE' => ((MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_TRANSACTION_METHOD == 'Sale') ? 'S' : 'A'),
         'ACTION' => 'S',
-        'RETURNURL' => tep_href_link('ext/modules/payment/paypal/express_payflow.php', 'osC_Action=retrieve', 'SSL'),
-        'CANCELURL' => tep_href_link('shopping_cart.php', '', 'SSL'),
+        'RETURNURL' => tep_href_link('ext/modules/payment/paypal/express_payflow.php', 'osC_Action=retrieve'),
+        'CANCELURL' => tep_href_link('shopping_cart.php'),
       ];
 
       if (is_array($parameters) && !empty($parameters)) {
@@ -406,7 +409,7 @@
       }
 
       $params = [
-        'USER' => (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR),
+        'USER' => (Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME),
         'VENDOR' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR,
         'PARTNER' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PARTNER,
         'PWD' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD,
@@ -469,7 +472,7 @@
       }
 
       $params = [
-        'USER' => (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR),
+        'USER' => (Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME),
         'VENDOR' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR,
         'PARTNER' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PARTNER,
         'PWD' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD,
@@ -529,7 +532,7 @@
     }
 
     function sendDebugEmail($response = []) {
-      if (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_DEBUG_EMAIL)) {
+      if (!Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_DEBUG_EMAIL)) {
         $email_body = '';
 
         if (!empty($response)) {
@@ -624,7 +627,7 @@ EOD;
       }
 
       $params = [
-        'USER' => (tep_not_null(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR),
+        'USER' => (Text::is_empty(MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME) ? MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR : MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_USERNAME),
         'VENDOR' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_VENDOR,
         'PARTNER' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PARTNER,
         'PWD' => MODULE_PAYMENT_PAYPAL_PRO_PAYFLOW_EC_PASSWORD,

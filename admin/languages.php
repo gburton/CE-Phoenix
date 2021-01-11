@@ -16,14 +16,14 @@
 
   $OSCOM_Hooks->call('languages', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     if ('insert' == $action || 'save' == $action) {
       $sql_data = [
-        'name' => tep_db_prepare_input($_POST['name']),
-        'code' => tep_db_prepare_input(substr($_POST['code'], 0, 2)),
-        'image' => tep_db_prepare_input($_POST['image']),
-        'directory' => tep_db_prepare_input($_POST['directory']),
-        'sort_order' => (int)tep_db_prepare_input($_POST['sort_order']),
+        'name' => Text::prepare($_POST['name']),
+        'code' => Text::prepare(substr($_POST['code'], 0, 2)),
+        'image' => Text::prepare($_POST['image']),
+        'directory' => Text::prepare($_POST['directory']),
+        'sort_order' => (int)Text::prepare($_POST['sort_order']),
       ];
     }
 
@@ -50,7 +50,7 @@
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'save':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
         tep_db_perform('languages', $sql_data, 'update', "languages_id = " . (int)$lID);
 
         if (isset($_POST['default']) && $_POST['default'] == 'on') {
@@ -62,10 +62,10 @@
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'lID=' . $lID));
         break;
       case 'deleteconfirm':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
 
-        $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_CURRENCY . "'");
-        $lng = tep_db_fetch_array($lng_query);
+        $lng_query = tep_db_query("SELECT languages_id FROM languages WHERE code = '" . DEFAULT_LANGUAGE . "'");
+        $lng = $lng_query->fetch_assoc();
         if ($lng['languages_id'] == $lID) {
           $remove_language = false;
           $messageStack->add(ERROR_REMOVE_DEFAULT_LANGUAGE, 'error');
@@ -73,24 +73,24 @@
           break;
         }
 
-        tep_db_query("DELETE FROM categories_description WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_description WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_options WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM products_options_values WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM manufacturers_info WHERE languages_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM orders_status WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM customer_data_groups WHERE language_id = '" . (int)$lID . "'");
-        tep_db_query("DELETE FROM languages WHERE languages_id = '" . (int)$lID . "'");
+        tep_db_query("DELETE FROM categories_description WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_description WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_options WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM products_options_values WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM manufacturers_info WHERE languages_id = " . (int)$lID);
+        tep_db_query("DELETE FROM orders_status WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM customer_data_groups WHERE language_id = " . (int)$lID);
+        tep_db_query("DELETE FROM languages WHERE languages_id = " . (int)$lID);
 
         $OSCOM_Hooks->call('languages', 'deleteConfirmAction');
 
         tep_redirect(tep_href_link('languages.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] : '')));
         break;
       case 'delete':
-        $lID = tep_db_prepare_input($_GET['lID']);
+        $lID = Text::prepare($_GET['lID']);
 
-        $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = '" . (int)$lID . "'");
-        $lng = tep_db_fetch_array($lng_query);
+        $lng_query = tep_db_query("SELECT code FROM languages WHERE languages_id = " . (int)$lID);
+        $lng = $lng_query->fetch_assoc();
 
         $remove_language = true;
         if ($lng['code'] == DEFAULT_LANGUAGE) {
@@ -113,12 +113,10 @@
       <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
     </div>
     <div class="col text-right align-self-center">
-      <?php
-      if (empty($action)) {
-        echo tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger');
-      } else {
-        echo tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light');
-      }
+      <?=
+      empty($action)
+      ? tep_draw_bootstrap_button(IMAGE_NEW_LANGUAGE, 'fas fa-comment-dots', tep_href_link('languages.php', 'action=new'), null, null, 'btn-danger')
+      : tep_draw_bootstrap_button(IMAGE_BACK, 'fas fa-angle-left', tep_href_link('languages.php'), null, null, 'btn-light')
       ?>
     </div>
   </div>
@@ -137,12 +135,12 @@
           </thead>
           <tbody>
             <?php
-            $languages_query_raw = "select * from languages order by sort_order";
+            $languages_query_raw = "SELECT * FROM languages ORDER BY sort_order";
             $languages_split = new splitPageResults($_GET['page'], MAX_DISPLAY_SEARCH_RESULTS, $languages_query_raw, $languages_query_numrows);
             $languages_query = tep_db_query($languages_query_raw);
 
-            while ($languages = tep_db_fetch_array($languages_query)) {
-              if ((!isset($_GET['lID']) || (isset($_GET['lID']) && ($_GET['lID'] == $languages['languages_id']))) && !isset($lInfo) && (substr($action, 0, 3) != 'new')) {
+            while ($languages = $languages_query->fetch_assoc()) {
+              if (!isset($lInfo) && (!isset($_GET['lID']) || ($_GET['lID'] == $languages['languages_id'])) && (substr($action, 0, 3) != 'new')) {
                 $lInfo = new objectInfo($languages);
               }
 
@@ -228,9 +226,9 @@
       break;
   }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }

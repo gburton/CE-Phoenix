@@ -19,17 +19,15 @@
     }
 
     function execute() {
-      global $current_category_id, $OSCOM_category, $brand;
+      global $current_category_id, $category_tree, $brand;
 
       if (($brand ?? null) instanceof manufacturer) {
         $cm_description = $brand->getData('manufacturers_description');
       } else {
-        $cm_description = $OSCOM_category->getData($current_category_id, 'description');
+        $cm_description = $category_tree->get($current_category_id, 'description');
       }
 
       if (tep_not_null($cm_description)) {
-        $content_width = MODULE_CONTENT_IP_CATEGORY_DESCRIPTION_CONTENT_WIDTH;
-
         $tpl_data = [ 'group' => $this->group, 'file' => __FILE__ ];
         include 'includes/modules/content/cm_template.php';
       }
