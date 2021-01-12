@@ -1,12 +1,12 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-pi-gallery">
   <?php
   $pi_image .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="0">';
-  $pi_image .= tep_image('images/' . $active_image['image'], tep_db_output( $active_image['htmlcontent']));
+  $pi_image .= tep_image('images/' . $active_image['image'], htmlspecialchars( $active_image['htmlcontent']));
   $pi_image .= '</a>';
 
   $first_img_indicator = '<li data-target="#carousel" data-slide-to="0" class="pointer active"></li>';
   $first_img = '<div class="carousel-item text-center active">';
-  $first_img .= tep_image('images/' . $active_image['image'], tep_db_output($active_image['htmlcontent']), null, null, 'loading="lazy"');
+  $first_img .= tep_image('images/' . $active_image['image'], htmlspecialchars($active_image['htmlcontent']), '', '', 'loading="lazy"');
   $first_img .= '</div>';
 
   // now create the thumbs
@@ -16,18 +16,18 @@
       $n = $k+1;
       $pi_thumb .= '<div class="' . $thumbnail_width . '">';
       $pi_thumb .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="' . $n . '">';
-      $pi_thumb .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
+      $pi_thumb .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
       $pi_thumb .= '</a>';
       $pi_thumb .= '</div>';
     }
     $pi_thumb .= '</div>';
 
-    $other_img_indicator = $other_img = null;
+    $other_img_indicator = $other_img = '';
     foreach ($other_images as $k => $v) {
       $n = $k+1;
       $other_img_indicator .= '<li data-target="#carousel" data-slide-to="' . $n . '" class="pointer"></li>';
       $other_img .= '<div class="carousel-item text-center">';
-      $other_img .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
+      $other_img .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
       if (tep_not_null($v['htmlcontent'])) {
         $other_img .= '<div class="carousel-caption d-none d-md-block">';
         $other_img .= $v['htmlcontent'];

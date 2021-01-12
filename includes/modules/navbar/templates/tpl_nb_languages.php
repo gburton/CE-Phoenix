@@ -8,7 +8,7 @@
       echo '<a class="dropdown-item" href="'
            . tep_href_link($GLOBALS['PHP_SELF'], tep_get_all_get_params(['language', 'currency']) . 'language=' . $key, $GLOBALS['request_type'])
            . '">'
-           . tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), null, null, null, false)
+           . tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), '', '', '', false)
            . ' ' . $value['name'] . '</a>' . PHP_EOL;
     }
     ?>
