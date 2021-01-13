@@ -157,10 +157,14 @@
       return $language;
     }
 
-    public static function map_to_translation($page) {
+    public static function map_to_translation($page, $language = null) {
+      if (is_null($language)) {
+        $language = $_SESSION['language'];
+      }
+
       $page = ('.php' === $page)
-            ? "includes/languages/{$_SESSION['language']}.php"
-            : "includes/languages/{$_SESSION['language']}/$page";
+            ? "includes/languages/$language.php"
+            : "includes/languages/$language/$page";
       $template =& Guarantor::ensure_global('oscTemplate');
       $translation = $template->map_to_template($page, 'translation')
                   ?? DIR_FS_CATALOG . $page;
