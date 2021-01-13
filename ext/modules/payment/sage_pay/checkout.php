@@ -27,16 +27,16 @@
 
 // avoid hack attempts during the checkout procedure by checking the internal cartID
   if ((isset($_SESSION['cart']->cartID, $_SESSION['cartID']) && $_SESSION['cart']->cartID !== $_SESSION['cartID'])) {
-    tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_shipping.php'));
   }
 
 // if no shipping method has been selected, redirect the customer to the shipping method selection page
   if (!isset($_SESSION['shipping'])) {
-    tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_shipping.php'));
   }
 
   if (!isset($_SESSION['payment']) || (($_SESSION['payment'] != 'sage_pay_direct') && ($_SESSION['payment'] != 'sage_pay_server')) || (($_SESSION['payment'] == 'sage_pay_server') && !isset($_SESSION['sage_pay_server_nexturl']))) {
-    tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_payment.php'));
   }
 
 // load the selected payment module
@@ -47,7 +47,7 @@
   $payment_modules->update_status();
 
   if ( ( is_array($payment_modules->modules) && (count($payment_modules->modules) > 1) && !is_object(${$_SESSION['payment']}) ) || (is_object(${$_SESSION['payment']}) && (${$_SESSION['payment']}->enabled == false)) ) {
-    tep_redirect(tep_href_link('checkout_payment.php', 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED), 'SSL'));
+    tep_redirect(tep_href_link('checkout_payment.php', 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED)));
   }
 
   if (is_array($payment_modules->modules)) {
@@ -74,10 +74,10 @@
     }
   }
 
-  require "includes/languages/$language/checkout_confirmation.php";
+  require language::map_to_translation('checkout_confirmation.php');
 
   if ($_SESSION['payment'] == 'sage_pay_direct') {
-    $iframe_url = tep_href_link('ext/modules/payment/sage_pay/direct_3dauth.php', '', 'SSL');
+    $iframe_url = tep_href_link('ext/modules/payment/sage_pay/direct_3dauth.php');
   } else {
     $iframe_url = $sage_pay_server_nexturl;
   }

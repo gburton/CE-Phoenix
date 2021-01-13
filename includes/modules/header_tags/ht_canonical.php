@@ -23,11 +23,11 @@
 
       switch (basename($PHP_SELF)) {
         case 'index.php':
-          if (isset($cPath) && tep_not_null($cPath) && ($current_category_id > 0) && ($GLOBALS['category_depth'] != 'top')) {
+          if (isset($cPath) && !Text::is_empty($cPath) && ($current_category_id > 0) && ($GLOBALS['category_depth'] != 'top')) {
             $canonical = Guarantor::ensure_global('category_tree')->find_path($current_category_id);
 
             return tep_href_link('index.php', 'view=all&cPath=' . $canonical, 'SSL', false);
-          } elseif (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
+          } elseif (isset($_GET['manufacturers_id']) && !Text::is_empty($_GET['manufacturers_id'])) {
             return tep_href_link('index.php', 'view=all&manufacturers_id=' . (int)$_GET['manufacturers_id'], 'SSL', false);
           }
 
