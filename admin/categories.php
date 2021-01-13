@@ -388,6 +388,7 @@ EOSQL
   if ($action == 'new_product') {
     if (isset($_GET['pID']) && empty($_POST)) {
       $product = product_by_id::build($_GET['pID']);
+      $translations = $product->get('translations');
     } else {
       $product = new Product([
         'products_name' => '',
@@ -411,7 +412,6 @@ EOSQL
         'products_seo_title' => '',
       ]);
     }
-    $translations = $product->get('translations');
 
     $manufacturers_array = [['id' => '', 'text' => TEXT_NONE]];
     $manufacturers_query = tep_db_query("SELECT manufacturers_id, manufacturers_name FROM manufacturers ORDER BY manufacturers_name");
