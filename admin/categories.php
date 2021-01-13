@@ -674,8 +674,8 @@ function updateNet() {
             <div class="col-sm-9">
               <div class="custom-file mb-2">
                 <?=
-                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($product->get('image')) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"');
-                '<label class="custom-file-label" for="pImg">' . $product->get('image') . '</label>';
+                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($product->get('image')) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"'),
+                '<label class="custom-file-label" for="pImg">', $product->get('image'), '</label>'
                 ?>
               </div>
             </div>
