@@ -41,11 +41,11 @@
     $_SESSION['shipping'] = $shipping_modules->cheapest();
   }
 
-  require "includes/languages/$language/checkout_shipping.php";
+  require language::map_to_translation('checkout_shipping.php');
 
   if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') && !$_SESSION['shipping'] ) {
     $messageStack->add_session('checkout_address', ERROR_NO_SHIPPING_AVAILABLE_TO_SHIPPING_ADDRESS);
-    tep_redirect(tep_href_link('checkout_shipping_address.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_shipping_address.php'));
   }
 
   require $oscTemplate->map_to_template(__FILE__, 'page');

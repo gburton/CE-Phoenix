@@ -15,7 +15,7 @@
   require 'includes/system/segments/checkout/pipeline.php';
 
   // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/checkout_shipping_address.php";
+  require language::map_to_translation('checkout_shipping_address.php');
 
   $message_stack_area = 'checkout_address';
 
@@ -33,7 +33,7 @@
 
       unset($_SESSION['shipping']);
 
-      tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_shipping.php'));
     }
   } elseif (isset($_POST['address']) && tep_validate_form_action_is('select')) {
     // change to the selected shipping destination
@@ -45,7 +45,7 @@
         unset($_SESSION['shipping']);
       }
 
-      tep_redirect(tep_href_link('checkout_shipping.php', '', 'SSL'));
+      tep_redirect(tep_href_link('checkout_shipping.php'));
     } else {
       unset($_SESSION['sendto']);
     }

@@ -16,7 +16,7 @@
 
   $message_stack_area = 'account_edit';
 // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/account_edit.php";
+  require language::map_to_translation('account_edit.php');
 
   if (tep_validate_form_action_is('process')) {
     $customer_details = $customer_data->process($customer_data->get_fields_for_page('account_edit'));
@@ -28,7 +28,7 @@
 
       $messageStack->add_session('account', SUCCESS_ACCOUNT_UPDATED, 'success');
 
-      tep_redirect(tep_href_link('account.php', '', 'SSL'));
+      tep_redirect(tep_href_link('account.php'));
     }
   }
 

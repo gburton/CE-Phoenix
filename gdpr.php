@@ -18,7 +18,7 @@
   $port_my_data = [];
   $OSCOM_Hooks->call('gdpr', 'injectData');
 
-  require "includes/languages/$language/gdpr.php";
+  require language::map_to_translation('gdpr.php');
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 

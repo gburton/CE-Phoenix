@@ -14,7 +14,7 @@
 
   $OSCOM_Hooks->register_pipeline('loginRequired');
 
-  require "includes/languages/$language/address_book.php";
+  require language::map_to_translation('address_book.php');
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 
