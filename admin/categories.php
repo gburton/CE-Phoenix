@@ -389,7 +389,7 @@ EOSQL
 
   if ($action == 'new_product') {
     if (isset($_GET['pID']) && empty($_POST)) {
-      $product = product_by_id::build($_GET['pID']);
+      $product = product_by_id::administer($_GET['pID']);
       $translations = $product->get('translations');
     } else {
       $product = new Product([
@@ -758,7 +758,7 @@ function updateNet() {
 
 <?php
   } elseif ('new_product_preview' === $action) {
-    $product = product_by_id::build($_GET['pID']);
+    $product = product_by_id::administer($_GET['pID']);
     $translations = $product->get('translations');
 
     foreach (tep_get_languages() as $l) {
