@@ -33,6 +33,10 @@
       return $s;
     }
 
+    public static function normalize(string $s) {
+      return trim(stripslashes($s));
+    }
+
     public static function output(string $s, $translate = false) {
       return strtr(trim($s), $translate ?: ['"' => '&quot;']);
     }
