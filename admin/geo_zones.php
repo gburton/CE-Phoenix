@@ -63,8 +63,8 @@
   if (!Text::is_empty($action)) {
     switch ($action) {
       case 'insert_zone':
-        $geo_zone_name = Text::prepare($_POST['geo_zone_name']);
-        $geo_zone_description = Text::prepare($_POST['geo_zone_description']);
+        $geo_zone_name = Text::normalize($_POST['geo_zone_name']);
+        $geo_zone_description = Text::normalize($_POST['geo_zone_description']);
 
         tep_db_query("INSERT INTO geo_zones (geo_zone_name, geo_zone_description, date_added) VALUES ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', NOW())");
         $new_zone_id = tep_db_insert_id();
@@ -75,8 +75,8 @@
         break;
       case 'save_zone':
         $zID = Text::prepare($_GET['zID']);
-        $geo_zone_name = Text::prepare($_POST['geo_zone_name']);
-        $geo_zone_description = Text::prepare($_POST['geo_zone_description']);
+        $geo_zone_name = Text::normalize($_POST['geo_zone_name']);
+        $geo_zone_description = Text::normalize($_POST['geo_zone_description']);
 
         tep_db_query("UPDATE geo_zones SET geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = NOW() WHERE geo_zone_id = " . (int)$zID);
 

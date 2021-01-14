@@ -28,7 +28,7 @@
       case 'update':
         $reviews_id = Text::prepare($_GET['rID']);
         $reviews_rating = Text::prepare($_POST['reviews_rating']);
-        $reviews_text = Text::prepare($_POST['reviews_text']);
+        $reviews_text = Text::normalize($_POST['reviews_text']);
         $reviews_status = Text::prepare($_POST['reviews_status']);
 
         tep_db_query("UPDATE reviews SET reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = NOW() WHERE reviews_id = " . (int)$reviews_id);
@@ -51,7 +51,7 @@
       case 'addnew':
         $products_id = Text::prepare($_POST['products_id']);
         $customer_id = Text::prepare($_POST['customer_id']);
-        $review = Text::prepare($_POST['reviews_text']);
+        $review = Text::normalize($_POST['reviews_text']);
         $rating = Text::prepare($_POST['reviews_rating']);
 
         tep_db_query("INSERT INTO reviews (products_id, customers_id, customers_name, reviews_rating, date_added, reviews_status) VALUES (" . (int)$products_id . ", " . (int)$customer_id . ", '" . tep_customers_name($customer_id) . "', " . (int)$rating . ", NOW(), 1)");

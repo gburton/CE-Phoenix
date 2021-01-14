@@ -31,7 +31,7 @@
         $sort_order_array = $_POST['sort_order'];
 
         foreach ($languages as $l) {
-          $option_name = Text::prepare($option_name_array[$l['id']]);
+          $option_name = Text::normalize($option_name_array[$l['id']]);
           $sort_order = Text::prepare($sort_order_array[$l['id']]);
 
           tep_db_query("INSERT INTO products_options (products_options_id, products_options_name, language_id, sort_order) VALUES (" . (int)$products_options_id . ", '" . tep_db_input($option_name) . "', " . (int)$l['id'] . ", '" . tep_db_input($sort_order) . "')");
@@ -48,7 +48,7 @@
         $option_id = Text::prepare($_POST['option_id']);
 
         foreach ($languages as $l) {
-          $value_name = Text::prepare($value_name_array[$l['id']]);
+          $value_name = Text::normalize($value_name_array[$l['id']]);
           $sort_order = Text::prepare($sort_order_array[$l['id']]);
 
           tep_db_query("INSERT INTO products_options_values (products_options_values_id, language_id, products_options_values_name, sort_order) VALUES (" . (int)$value_id . ", " . (int)$l['id'] . ", '" . tep_db_input($value_name) . "', '" . tep_db_input($sort_order) . "')");
@@ -72,7 +72,7 @@
         $products_attributes_id = tep_db_insert_id();
 
         if (DOWNLOAD_ENABLED == 'true') {
-          $products_attributes_filename = Text::prepare($_POST['products_attributes_filename']);
+          $products_attributes_filename = Text::normalize($_POST['products_attributes_filename']);
           $products_attributes_maxdays = Text::prepare($_POST['products_attributes_maxdays']);
           $products_attributes_maxcount = Text::prepare($_POST['products_attributes_maxcount']);
 
@@ -91,7 +91,7 @@
         $option_id = Text::prepare($_POST['option_id']);
 
         foreach ($languages as $l) {
-          $option_name = Text::prepare($option_name_array[$l['id']]);
+          $option_name = Text::normalize($option_name_array[$l['id']]);
           $sort_order = Text::prepare($sort_order_array[$l['id']]);
 
           tep_db_query("UPDATE products_options SET products_options_name = '" . tep_db_input($option_name) . "', sort_order = '" . tep_db_input($sort_order) . "' WHERE products_options_id = " . (int)$option_id . " AND language_id = " . (int)$l['id']);
@@ -108,7 +108,7 @@
         $option_id = Text::prepare($_POST['option_id']);
 
         foreach ($languages as $l) {
-          $value_name = Text::prepare($value_name_array[$l['id']]);
+          $value_name = Text::normalize($value_name_array[$l['id']]);
           $sort_order = Text::prepare($sort_order_array[$l['id']]);
 
           tep_db_query("UPDATE products_options_values SET products_options_values_name = '" . tep_db_input($value_name) . "', sort_order = '" . tep_db_input($sort_order) . "' WHERE products_options_values_id = '" . tep_db_input($value_id) . "' AND language_id = " . (int)$l['id']);
@@ -131,7 +131,7 @@
         tep_db_query("UPDATE products_attributes SET products_id = " . (int)$products_id . ", options_id = " . (int)$options_id . ", options_values_id = " . (int)$values_id . ", options_values_price = '" . (float)tep_db_input($value_price) . "', price_prefix = '" . tep_db_input($price_prefix) . "' WHERE products_attributes_id = " . (int)$attribute_id);
 
         if (DOWNLOAD_ENABLED == 'true') {
-          $products_attributes_filename = Text::prepare($_POST['products_attributes_filename']);
+          $products_attributes_filename = Text::normalize($_POST['products_attributes_filename']);
           $products_attributes_maxdays = Text::prepare($_POST['products_attributes_maxdays']);
           $products_attributes_maxcount = Text::prepare($_POST['products_attributes_maxcount']);
 

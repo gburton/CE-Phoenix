@@ -19,10 +19,10 @@
   if (!Text::is_empty($action)) {
     if ('insert' == $action || 'save' == $action) {
       $sql_data = [
-        'name' => Text::prepare($_POST['name']),
-        'code' => Text::prepare(substr($_POST['code'], 0, 2)),
-        'image' => Text::prepare($_POST['image']),
-        'directory' => Text::prepare($_POST['directory']),
+        'name' => Text::normalize($_POST['name']),
+        'code' => Text::normalize(substr($_POST['code'], 0, 2)),
+        'image' => Text::normalize($_POST['image']),
+        'directory' => Text::normalize($_POST['directory']),
         'sort_order' => (int)Text::prepare($_POST['sort_order']),
       ];
     }
