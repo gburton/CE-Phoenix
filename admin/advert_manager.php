@@ -452,7 +452,7 @@
         }
 
         if (!Text::is_empty($cInfo->advert_image)) {
-          $contents[] = ['text' => tep_info_image($cInfo->advert_image, null)];
+          $contents[] = ['text' => tep_info_image($cInfo->advert_image, $cInfo->advert_image)];
         }
         if (!Text::is_empty($cInfo->advert_html_text)) {
           $contents[] = ['text' => $cInfo->advert_html_text];
