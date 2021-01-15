@@ -190,7 +190,7 @@
 Shipping rates to Zone $i destinations based on a group of maximum order weights.
 Example: 3:8.50,7:10.50,...
 Weights less than or equal to 3 would cost 8.50 for Zone $i destinations.
-EOT,
+EOT
           ],
           "{$this->config_key_base}HANDLING_$i" => [
             'title' => "Zone $i Handling Fee",
