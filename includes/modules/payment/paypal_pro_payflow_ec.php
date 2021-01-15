@@ -125,7 +125,7 @@
       }
 
       if (empty($_SESSION['comments']) && isset($_POST['ppecomments']) && !Text::is_empty($_POST['ppecomments'])) {
-        $_SESSION['comments'] = Text::prepare($_POST['ppecomments']);
+        $_SESSION['comments'] = Text::input($_POST['ppecomments']);
 
         $order->info['comments'] = $_SESSION['comments'];
       }

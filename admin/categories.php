@@ -42,9 +42,9 @@
       case 'insert_category':
       case 'update_category':
         if (isset($_POST['categories_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $categories_id = Text::input($_POST['categories_id']);
         }
-        $sort_order = Text::prepare($_POST['sort_order']);
+        $sort_order = Text::input($_POST['sort_order']);
 
         $sql_data = ['sort_order' => (int)$sort_order];
 
@@ -69,10 +69,10 @@
 
         foreach (tep_get_languages() as $l) {
           $sql_data = [
-            'categories_name' => Text::normalize($_POST['categories_name'][$l['id']]),
-            'categories_description' => Text::normalize($_POST['categories_description'][$l['id']]),
-            'categories_seo_description' => Text::normalize($_POST['categories_seo_description'][$l['id']]),
-            'categories_seo_title' => Text::normalize($_POST['categories_seo_title'][$l['id']]),
+            'categories_name' => Text::prepare($_POST['categories_name'][$l['id']]),
+            'categories_description' => Text::prepare($_POST['categories_description'][$l['id']]),
+            'categories_seo_description' => Text::prepare($_POST['categories_seo_description'][$l['id']]),
+            'categories_seo_title' => Text::prepare($_POST['categories_seo_title'][$l['id']]),
           ];
 
           if ($action == 'insert_category') {
@@ -103,7 +103,7 @@
         break;
       case 'delete_category_confirm':
         if (isset($_POST['categories_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $categories_id = Text::input($_POST['categories_id']);
 
           $category_tree = new category_tree();
           $descendants = array_reverse($category_tree->get_descendants($categories_id));
@@ -134,7 +134,7 @@ EOSQL
         break;
       case 'delete_product_confirm':
         if (isset($_POST['products_id'], $_POST['product_categories']) && is_array($_POST['product_categories'])) {
-          $product_id = Text::prepare($_POST['products_id']);
+          $product_id = Text::input($_POST['products_id']);
           $product_categories = implode(', ', array_map('intval', $_POST['product_categories']));
 
           tep_db_query("DELETE FROM products_to_categories WHERE products_id = " . (int)$product_id . " AND categories_id IN (" . $product_categories . ")");
@@ -153,8 +153,8 @@ EOSQL
         break;
       case 'move_category_confirm':
         if (isset($_POST['categories_id']) && ($_POST['categories_id'] != $_POST['move_to_category_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
-          $new_parent_id = Text::prepare($_POST['move_to_category_id']);
+          $categories_id = Text::input($_POST['categories_id']);
+          $new_parent_id = Text::input($_POST['move_to_category_id']);
 
           $path = explode('_', tep_get_generated_category_path_ids($new_parent_id));
 
@@ -173,8 +173,8 @@ EOSQL
 
         break;
       case 'move_product_confirm':
-        $products_id = Text::prepare($_POST['products_id']);
-        $new_parent_id = Text::prepare($_POST['move_to_category_id']);
+        $products_id = Text::input($_POST['products_id']);
+        $new_parent_id = Text::input($_POST['move_to_category_id']);
 
         $duplicate_check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$products_id . " AND categories_id = " . (int)$new_parent_id);
         $duplicate_check = $duplicate_check_query->fetch_assoc();
@@ -189,26 +189,26 @@ EOSQL
       case 'insert_product':
       case 'update_product':
         if (isset($_GET['pID'])) {
-          $products_id = Text::prepare($_GET['pID']);
+          $products_id = Text::input($_GET['pID']);
         }
-        $products_date_available = Text::prepare($_POST['products_date_available']);
+        $products_date_available = Text::input($_POST['products_date_available']);
 
         $sql_data = [
-          'products_quantity' => (int)Text::prepare($_POST['products_quantity']),
-          'products_model' => Text::normalize($_POST['products_model']),
-          'products_price' => Text::prepare($_POST['products_price']),
+          'products_quantity' => (int)Text::input($_POST['products_quantity']),
+          'products_model' => Text::prepare($_POST['products_model']),
+          'products_price' => Text::input($_POST['products_price']),
           'products_date_available' => (date('Y-m-d') < $products_date_available) ? $products_date_available : 'NULL',
-          'products_weight' => (float)Text::prepare($_POST['products_weight']),
-          'products_status' => Text::prepare($_POST['products_status']),
-          'products_tax_class_id' => Text::prepare($_POST['products_tax_class_id']),
-          'manufacturers_id' => (int)Text::prepare($_POST['manufacturers_id']),
-          'products_gtin' => (Text::is_empty($_POST['products_gtin'])) ? 'NULL' : str_pad(Text::normalize($_POST['products_gtin']), 14, '0', STR_PAD_LEFT),
+          'products_weight' => (float)Text::input($_POST['products_weight']),
+          'products_status' => Text::input($_POST['products_status']),
+          'products_tax_class_id' => Text::input($_POST['products_tax_class_id']),
+          'manufacturers_id' => (int)Text::input($_POST['manufacturers_id']),
+          'products_gtin' => (Text::is_empty($_POST['products_gtin'])) ? 'NULL' : str_pad(Text::prepare($_POST['products_gtin']), 14, '0', STR_PAD_LEFT),
         ];
 
         $products_image = new upload('products_image');
         $products_image->set_destination(DIR_FS_CATALOG_IMAGES);
         if ($products_image->parse() && $products_image->save()) {
-          $sql_data['products_image'] = Text::normalize($products_image->filename);
+          $sql_data['products_image'] = Text::prepare($products_image->filename);
         }
 
         if ($action == 'insert_product') {
@@ -232,12 +232,12 @@ EOSQL
           $language_id = $l['id'];
 
           $sql_data = [
-            'products_name' => Text::normalize($_POST['products_name'][$language_id]),
-            'products_description' => Text::normalize($_POST['products_description'][$language_id]),
-            'products_url' => Text::normalize($_POST['products_url'][$language_id]),
-            'products_seo_description' => Text::normalize($_POST['products_seo_description'][$language_id]),
-            'products_seo_keywords' => Text::normalize($_POST['products_seo_keywords'][$language_id]),
-            'products_seo_title' => Text::normalize($_POST['products_seo_title'][$language_id]),
+            'products_name' => Text::prepare($_POST['products_name'][$language_id]),
+            'products_description' => Text::prepare($_POST['products_description'][$language_id]),
+            'products_url' => Text::prepare($_POST['products_url'][$language_id]),
+            'products_seo_description' => Text::prepare($_POST['products_seo_description'][$language_id]),
+            'products_seo_keywords' => Text::prepare($_POST['products_seo_keywords'][$language_id]),
+            'products_seo_title' => Text::prepare($_POST['products_seo_title'][$language_id]),
           ];
 
           if ($action == 'insert_product') {
@@ -259,12 +259,12 @@ EOSQL
           if (preg_match('{\Aproducts_image_large_([0-9]+)\z}', $key, $matches)) {
             $pi_sort_order++;
 
-            $sql_data = ['htmlcontent' => Text::normalize($_POST['products_image_htmlcontent_' . $matches[1]]), 'sort_order' => $pi_sort_order];
+            $sql_data = ['htmlcontent' => Text::prepare($_POST['products_image_htmlcontent_' . $matches[1]]), 'sort_order' => $pi_sort_order];
 
             $t = new upload($key);
             $t->set_destination(DIR_FS_CATALOG_IMAGES);
             if ($t->parse() && $t->save()) {
-              $sql_data['image'] = Text::normalize($t->filename);
+              $sql_data['image'] = Text::prepare($t->filename);
             }
 
             tep_db_perform('products_images', $sql_data, 'update', "products_id = " . (int)$products_id . " AND id = " . (int)$matches[1]);
@@ -272,14 +272,14 @@ EOSQL
             $piArray[] = (int)$matches[1];
           } elseif (preg_match('{\Aproducts_image_large_new_([0-9]+)\z}', $key, $matches)) {
 // Insert new large product images
-            $sql_data = ['products_id' => (int)$products_id, 'htmlcontent' => Text::normalize($_POST['products_image_htmlcontent_new_' . $matches[1]])];
+            $sql_data = ['products_id' => (int)$products_id, 'htmlcontent' => Text::prepare($_POST['products_image_htmlcontent_new_' . $matches[1]])];
 
             $t = new upload($key);
             $t->set_destination(DIR_FS_CATALOG_IMAGES);
             if ($t->parse() && $t->save()) {
               $pi_sort_order++;
 
-              $sql_data['image'] = Text::normalize($t->filename);
+              $sql_data['image'] = Text::prepare($t->filename);
               $sql_data['sort_order'] = $pi_sort_order;
 
               tep_db_perform('products_images', $sql_data);
@@ -311,8 +311,8 @@ EOSQL
         break;
       case 'copy_to_confirm':
         if (isset($_POST['products_id'], $_POST['categories_id'])) {
-          $products_id = Text::prepare($_POST['products_id']);
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $products_id = Text::input($_POST['products_id']);
+          $categories_id = Text::input($_POST['categories_id']);
 
           if ($_POST['copy_as'] == 'link') {
             if ($categories_id == $current_category_id) {
@@ -870,7 +870,7 @@ function updateNet() {
           <tbody>
             <?php
             if (isset($_GET['search'])) {
-              $search = Text::normalize($_GET['search']);
+              $search = Text::prepare($_GET['search']);
 
               $categories_query = tep_db_query("SELECT c.*, cd.* FROM categories c, categories_description cd WHERE c.categories_id = cd.categories_id AND cd.language_id = " . (int)$_SESSION['languages_id'] . " AND cd.categories_name LIKE '%" . tep_db_input($search) . "%' ORDER BY c.sort_order, cd.categories_name");
             } else {

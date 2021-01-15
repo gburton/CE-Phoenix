@@ -15,7 +15,7 @@
   require 'includes/system/segments/checkout/pipeline.php';
 
   if (isset($_POST['comments']) && !Text::is_empty($_POST['comments'])) {
-    $_SESSION['comments'] = Text::prepare($_POST['comments']);
+    $_SESSION['comments'] = Text::input($_POST['comments']);
   } elseif (!isset($_SESSION['comments']) && !array_key_exists('comments', $_SESSION)) {
     $_SESSION['comments'] = null;
   }

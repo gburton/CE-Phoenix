@@ -42,7 +42,7 @@
     }
 
     if (isset($_GET['keywords'])) {
-      $keywords = Text::prepare($_GET['keywords']);
+      $keywords = Text::input($_GET['keywords']);
     }
 
     $price_check_error = false;
@@ -138,7 +138,7 @@
           $where_str .= " " . $search_keyword . " ";
           break;
         default:
-          $keyword = Text::prepare($search_keyword);
+          $keyword = Text::input($search_keyword);
           $where_str .= "(";
           if ( (defined('MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS')) && (MODULE_HEADER_TAGS_PRODUCT_META_KEYWORDS_STATUS == 'True') ) {
             $where_str .= "pd.products_seo_keywords LIKE '%" . tep_db_input($keyword) . "%' OR ";

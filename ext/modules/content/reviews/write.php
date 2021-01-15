@@ -55,9 +55,9 @@
   }
 
   if (tep_validate_form_action_is('process')) {
-    $rating = Text::prepare($_POST['rating']);
-    $review = Text::prepare($_POST['review']);
-    $nickname = Text::prepare($_POST['nickname']);
+    $rating = Text::input($_POST['rating']);
+    $review = Text::input($_POST['review']);
+    $nickname = Text::input($_POST['nickname']);
 
     if ((ALLOW_ALL_REVIEWS === 'false') && ($_POST['nickname'] != $customer->get('short_name'))) {
       $nickname = sprintf(VERIFIED_BUYER, $nickname);

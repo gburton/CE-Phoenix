@@ -22,7 +22,7 @@
 
   if (tep_validate_form_action_is('process')) {
     if (isset($_POST['product_global']) && is_numeric($_POST['product_global'])) {
-      $product_global = Text::prepare($_POST['product_global']);
+      $product_global = Text::input($_POST['product_global']);
     } else {
       $product_global = '0';
     }

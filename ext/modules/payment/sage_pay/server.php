@@ -23,7 +23,7 @@
   $result = null;
 
   if ( isset($_GET['skcode']) && isset($_POST['VPSSignature']) && isset($_POST['VPSTxId']) && isset($_POST['VendorTxCode']) && isset($_POST['Status']) ) {
-    $skcode = Text::prepare($_GET['skcode']);
+    $skcode = Text::input($_GET['skcode']);
 
     $sp_query = tep_db_query('select securitykey from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
     if ( mysqli_num_rows($sp_query) ) {
@@ -127,7 +127,7 @@
             $transaction_details_string .= $k . ': ' . $v . "\n";
           }
 
-          $transaction_details_string = Text::prepare($transaction_details_string);
+          $transaction_details_string = Text::input($transaction_details_string);
 
           tep_db_query('update sagepay_server_securitykeys set verified = 1, transaction_details = "' . tep_db_input($transaction_details_string) . '" where code = "' . tep_db_input($skcode) . '"');
 

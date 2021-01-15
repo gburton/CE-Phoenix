@@ -21,7 +21,7 @@
   $password_reset_initiated = false;
 
   if (tep_validate_form_action_is('process')) {
-    $email_address = Text::prepare($_POST['email_address']);
+    $email_address = Text::input($_POST['email_address']);
 
     $check_customer_query = tep_db_query($customer_data->build_read(['name', 'id'], 'customers', ['email_address' => $email_address]));
     if ($check_customer = $check_customer_query->fetch_assoc()) {

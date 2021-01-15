@@ -26,7 +26,7 @@
   $message_stack_area = 'account_password';
 
   if (tep_validate_form_action_is('process')) {
-    $password_current = Text::prepare($_POST['password_current']);
+    $password_current = Text::input($_POST['password_current']);
 
     $customer_details = $customer_data->process($page_fields);
 

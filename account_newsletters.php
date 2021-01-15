@@ -27,7 +27,7 @@
 
   if (tep_validate_form_action_is('process')) {
     if (isset($_POST['newsletter_general']) && is_numeric($_POST['newsletter_general'])) {
-      $newsletter_general = Text::prepare($_POST['newsletter_general']);
+      $newsletter_general = Text::input($_POST['newsletter_general']);
     } else {
       $newsletter_general = 0;
     }

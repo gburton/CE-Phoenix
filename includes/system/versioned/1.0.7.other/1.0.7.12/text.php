@@ -12,6 +12,10 @@
 
   class Text {
 
+    public static function input(string $s) {
+      return trim(static::sanitize(stripslashes($s)));
+    }
+
     public static function is_empty(string $s = null) {
       return is_null($s) || ('' === trim($s));
     }
@@ -33,16 +37,12 @@
       return $s;
     }
 
-    public static function normalize(string $s) {
-      return trim(stripslashes($s));
-    }
-
     public static function output(string $s, $translate = false) {
       return strtr(trim($s), $translate ?: ['"' => '&quot;']);
     }
 
     public static function prepare(string $s) {
-      return trim(static::sanitize(stripslashes($s)));
+      return trim(stripslashes($s));
     }
 
     public static function rtrim_once(string $s, string $suffix) {
