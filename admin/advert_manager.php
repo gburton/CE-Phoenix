@@ -323,7 +323,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><?= tep_image(tep_catalog_href_link('includes/languages/' . $l['directory'] . '/images/' . $l['image']), $l['name']); ?></span>
               </div>
-              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', adverts::advert_get_html_text($cInfo->advert_id ?? 0, $l['id']), 'class="form-control" id="aText' . $l['id'] . '"'); ?>
+              <?= tep_draw_textarea_field('advert_html_text[' . $l['id'] . ']', 'soft', '60', '5', empty($cInfo->advert_id) ? '' : adverts::advert_get_html_text($cInfo->advert_id, $l['id']), 'class="form-control" id="aText' . $l['id'] . '"') ?>
             </div>
           </div>
         </div>
