@@ -639,7 +639,7 @@ function updateNet() {
                   <div class="form-group row" id="zSeoDesc<?= $l['directory'] ?>">
                     <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['seo_title'] ?? '', 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
+                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['seo_description'] ?? '', 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
                       <small id="pSeoDescHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
                       </small>
