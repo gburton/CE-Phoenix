@@ -62,28 +62,28 @@
   function tep_session_start() {
     $sane_session_id = true;
 
-    if ( isset($_GET[tep_session_name()]) ) {
-      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_GET[tep_session_name()]) == false) ) {
-        unset($_GET[tep_session_name()]);
+    if ( isset($_GET[session_name()]) ) {
+      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_GET[session_name()]) == false) ) {
+        unset($_GET[session_name()]);
 
         $sane_session_id = false;
       }
     }
 
-    if ( isset($_POST[tep_session_name()]) ) {
-      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_POST[tep_session_name()]) == false) ) {
-        unset($_POST[tep_session_name()]);
+    if ( isset($_POST[session_name()]) ) {
+      if ( (SESSION_FORCE_COOKIE_USE == 'True') || (preg_match('/^[a-zA-Z0-9,-]+$/', $_POST[session_name()]) == false) ) {
+        unset($_POST[session_name()]);
 
         $sane_session_id = false;
       }
     }
 
-    if ( isset($_COOKIE[tep_session_name()]) ) {
-      if ( preg_match('/^[a-zA-Z0-9,-]+$/', $_COOKIE[tep_session_name()]) == false ) {
+    if ( isset($_COOKIE[session_name()]) ) {
+      if ( preg_match('/^[a-zA-Z0-9,-]+$/', $_COOKIE[session_name()]) == false ) {
         $session_data = session_get_cookie_params();
 
-        setcookie(tep_session_name(), '', time()-42000, $session_data['path'], $session_data['domain']);
-        unset($_COOKIE[tep_session_name()]);
+        setcookie(session_name(), '', time()-42000, $session_data['path'], $session_data['domain']);
+        unset($_COOKIE[session_name()]);
 
         $sane_session_id = false;
       }
@@ -99,6 +99,7 @@
   }
 
   function tep_session_register($variable) {
+    trigger_error('The tep_session_register function has been deprecated.', E_USER_DEPRECATED);
     if (!isset($GLOBALS[$variable])) {
       $GLOBALS[$variable] = null;
     }
@@ -109,14 +110,17 @@
   }
 
   function tep_session_is_registered($variable) {
+    trigger_error('The tep_session_is_registered function has been deprecated.', E_USER_DEPRECATED);
     return isset($_SESSION) && array_key_exists($variable, $_SESSION);
   }
 
   function tep_session_unregister($variable) {
+    trigger_error('The tep_session_unregister function has been deprecated.', E_USER_DEPRECATED);
     unset($_SESSION[$variable]);
   }
 
   function tep_session_id($sessid = '') {
+    trigger_error('The tep_session_id function has been deprecated.', E_USER_DEPRECATED);
     if ($sessid != '') {
       return session_id($sessid);
     } else {
@@ -125,6 +129,7 @@
   }
 
   function tep_session_name($name = '') {
+    trigger_error('The tep_session_name function has been deprecated.', E_USER_DEPRECATED);
     if ($name != '') {
       return session_name($name);
     } else {
@@ -133,21 +138,23 @@
   }
 
   function tep_session_close() {
+    trigger_error('The tep_session_close function has been deprecated.', E_USER_DEPRECATED);
     return session_write_close();
   }
 
   function tep_session_destroy() {
-    if ( isset($_COOKIE[tep_session_name()]) ) {
+    if ( isset($_COOKIE[session_name()]) ) {
       $session_data = session_get_cookie_params();
 
-      setcookie(tep_session_name(), '', time()-42000, $session_data['path'], $session_data['domain']);
-      unset($_COOKIE[tep_session_name()]);
+      setcookie(session_name(), '', time()-42000, $session_data['path'], $session_data['domain']);
+      unset($_COOKIE[session_name()]);
     }
 
     return session_destroy();
   }
 
   function tep_session_save_path($path = '') {
+    trigger_error('The tep_session_save_path function has been deprecated.', E_USER_DEPRECATED);
     if ($path != '') {
       return session_save_path($path);
     } else {
