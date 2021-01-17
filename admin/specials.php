@@ -21,7 +21,7 @@
   if (!Text::is_empty($action)) {
     switch ($action) {
       case 'setflag':
-        tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
+        tep_db_query("UPDATE specials SET status = '" . (int)$_GET['flag'] . "', date_status_change = NOW() WHERE specials_id = " . (int)$_GET['id']);
 
         $OSCOM_Hooks->call('specials', 'setFlagAction');
 
