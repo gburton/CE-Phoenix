@@ -43,7 +43,7 @@
       }
     }
 
-    public function get_template_mapping_for($file, $type, $code = null) {
+    public function get_template_mapping_for($file, $type) {
       $template_file = static::_get_template_mapping_for($file, $type);
 
       return file_exists($template_file)
