@@ -143,13 +143,12 @@
               'zone' => Text::input($response['address']['region']),
               'zone_id' => 0,
               'postcode' => Text::input($response['address']['postal_code']),
-              'country' => Text::input($response['address']['country']),
+              'country_iso_code_2' => Text::input($response['address']['country']),
               'country_id' => 0,
               'address_format_id' => 1,
             ];
 
-
-            $country_query = tep_db_query("SELECT countries_id, address_format_id FROM countries WHERE countries_iso_code_2 = '" . tep_db_input($ship_country) . "' LIMIT 1");
+            $country_query = tep_db_query("SELECT countries_id, address_format_id FROM countries WHERE countries_iso_code_2 = '" . tep_db_input($customer_details['country_iso_code_2']) . "' LIMIT 1");
             if ($country = $country_query->fetch_assoc()) {
               $customer_details['country_id'] = $country['countries_id'];
               $customer_details['address_format_id'] = $country['address_format_id'];
