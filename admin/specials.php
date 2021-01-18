@@ -62,6 +62,7 @@
         $expires_date = Text::input($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
+          $specials_price = substr($specials_price, 0, -1);
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
