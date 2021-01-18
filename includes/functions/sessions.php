@@ -26,7 +26,7 @@
 
     function _sess_read($key) {
       $value_query = tep_db_query("SELECT value FROM sessions WHERE sesskey = '" . tep_db_input($key) . "'");
-      $value = tep_db_fetch_array($value_query);
+      $value = $value_query->fetch_assoc();
 
       return $value['value'] ?? '';
     }
