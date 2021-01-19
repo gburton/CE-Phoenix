@@ -17,7 +17,7 @@
     public function execute() {
       global $PHP_SELF, $lng;
 
-      if (Text::is_prefixed_by($PHP_SELF, 'checkout')) {
+      if (!Text::is_prefixed_by($PHP_SELF, 'checkout')) {
         if (!isset($lng) || !($lng instanceof language)) {
           $lng = new language();
         }
