@@ -218,7 +218,7 @@ EOSQL
             $testimonials_query = tep_db_query($testimonials_query_raw);
             while ($testimonials = $testimonials_query->fetch_assoc()) {
               if (!isset($tInfo) && (!isset($_GET['tID']) || ($_GET['tID'] == $testimonials['testimonials_id']))) {
-                $testimonials_text_query = tep_db_query("SELECT td.* FROM testimonials_description td WHERE td.testimonials_id = " . (int)$testimonials['testimonials_id'] . " ORDER BY languages_id = " . (int)$_SESSION['languages_id'] . " DESC LIMIT 1");
+                $testimonials_text_query = tep_db_query("SELECT * FROM testimonials_description WHERE testimonials_id = " . (int)$testimonials['testimonials_id'] . " ORDER BY languages_id = " . (int)$_SESSION['languages_id'] . " DESC LIMIT 1");
                 $testimonials_text = $testimonials_text_query->fetch_assoc();
 
                 $tInfo_array = array_merge($testimonials, $testimonials_text);
