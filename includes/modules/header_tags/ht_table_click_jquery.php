@@ -35,7 +35,7 @@
         $pages_array = page_selection::_get_pages(MODULE_HEADER_TAGS_TABLE_CLICK_JQUERY_PAGES);
 
         if (in_array(basename($PHP_SELF), $pages_array)) {
-          $oscTemplate->addBlock('<script>$(\'.table tr.table-selection\').click(function() { $(\'.table tr\').removeClass(\'success\').find(\'input\').prop(\'checked\', false); $(this).addClass(\'success\').find(\'input\').prop(\'checked\', true); });</script>', $this->group);
+          $oscTemplate->addBlock('<script>$(\'.table tr.table-selection\').click(function() { $(\'.table tr.table-selection\').removeClass(\'success\').find(\'input\').prop(\'checked\', false); $(this).addClass(\'success\').find(\'input\').prop(\'checked\', true); });</script>', $this->group);
         }
       }
     }
