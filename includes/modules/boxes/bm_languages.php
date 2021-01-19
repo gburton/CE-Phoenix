@@ -27,7 +27,7 @@
           $parameters = tep_get_all_get_params(['language', 'currency']) . 'language=';
           foreach ($lng->catalog_languages as $key => $value) {
             $languages_string .= ' <a href="' . tep_href_link($PHP_SELF, "$parameters$key") . '">'
-                               . tep_image(language::map_to_translation("/images/{$value['image']}", $value['directory']), htmlspecialchars($value['name']), '', '', '', false)
+                               . tep_image(language::map_to_translation("images/{$value['image']}", $value['directory']), htmlspecialchars($value['name']), '', '', '', false)
                                . '</a> ';
           }
 
