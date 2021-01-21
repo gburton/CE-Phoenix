@@ -87,7 +87,7 @@
     }
 
     $redirect = false;
-    if ('login.php' !== basename($current_page)) {
+    if ('login.php' !== $current_page) {
       if (!isset($_SESSION['redirect_origin'])) {
         $_SESSION['redirect_origin'] = [
           'page' => $current_page,
