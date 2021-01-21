@@ -47,7 +47,7 @@
       // workaround; padding needs to be set last
       $oscTemplate->addBlock($custom_css, 'footer_scripts');
 
-      if ( defined('MODULE_CONTENT_NAVBAR_INSTALLED') && tep_not_null(MODULE_CONTENT_NAVBAR_INSTALLED) ) {
+      if ( defined('MODULE_CONTENT_NAVBAR_INSTALLED') && !Text::is_empty(MODULE_CONTENT_NAVBAR_INSTALLED) ) {
         $nav_array = explode(';', MODULE_CONTENT_NAVBAR_INSTALLED);
 
         $navbar_modules = [];
