@@ -79,6 +79,14 @@
       $acceptable_locales = [];
       foreach (explode(',', str_replace(' ', '', getenv('HTTP_ACCEPT_LANGUAGE'))) as $entry) {
         $locale_qualities = explode(';q=', $entry);
+        switch ($locale_qualities[0]) {
+          case '':
+            continue 2;
+          case '*':
+            $locale_qualities[0] = DEFAULT_LANGUAGE;
+            break;
+        }
+
         $acceptable_locales[] = [
           'locale' => $locale_qualities[0],
           'quality' => $locale_qualities[1] ?? 1,
