@@ -76,7 +76,7 @@
 
         $OSCOM_Hooks->call('specials', 'updateAction');
 
-        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
+        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
         break;
       case 'deleteconfirm':
         $specials_id = Text::input($_GET['sID']);
@@ -103,7 +103,7 @@
       <?=
       empty($action)
       ? tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'action=new'), null, null, 'btn-danger')
-      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2')
+      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php', tep_get_all_get_params(['action'])), null, null, 'btn-light mt-2')
       ?>
     </div>
   </div>
