@@ -21,17 +21,17 @@
   if (!Text::is_empty($action)) {
     switch ($action) {
       case 'setflag':
-        tep_db_query("UPDATE specials SET status = '" . $_GET['flag'] . "', expires_date = NULL, date_status_change = NULL WHERE specials_id = " . (int)$_GET['id']);
+        tep_db_query("UPDATE specials SET status = '" . (int)$_GET['flag'] . "', date_status_change = NOW() WHERE specials_id = " . (int)$_GET['id']);
 
         $OSCOM_Hooks->call('specials', 'setFlagAction');
 
         tep_redirect(tep_href_link('specials.php', (isset($_GET['page']) ? 'page=' . (int)$_GET['page'] . '&' : '') . 'sID=' . $_GET['id']));
         break;
       case 'insert':
-        $products_id = Text::prepare($_POST['products_id']);
-        $products_price = Text::prepare($_POST['products_price']);
-        $specials_price = Text::prepare($_POST['specials_price']);
-        $expires_date = Text::prepare($_POST['expdate']);
+        $products_id = Text::input($_POST['products_id']);
+        $products_price = Text::input($_POST['products_price']);
+        $specials_price = Text::input($_POST['specials_price']);
+        $expires_date = Text::input($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
           $specials_price = substr($specials_price, 0, -1);
@@ -56,12 +56,13 @@
 
         break;
       case 'update':
-        $specials_id = Text::prepare($_POST['specials_id']);
-        $products_price = Text::prepare($_POST['products_price']);
-        $specials_price = Text::prepare($_POST['specials_price']);
-        $expires_date = Text::prepare($_POST['expdate']);
+        $specials_id = Text::input($_POST['specials_id']);
+        $products_price = Text::input($_POST['products_price']);
+        $specials_price = Text::input($_POST['specials_price']);
+        $expires_date = Text::input($_POST['expdate']);
 
         if (substr($specials_price, -1) === '%') {
+          $specials_price = substr($specials_price, 0, -1);
           $specials_price = ($products_price - (($specials_price / 100) * $products_price));
         }
 
@@ -75,10 +76,10 @@
 
         $OSCOM_Hooks->call('specials', 'updateAction');
 
-        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : ''));
+        tep_redirect(tep_href_link('specials.php', 'sID=' . $specials_id . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
         break;
       case 'deleteconfirm':
-        $specials_id = Text::prepare($_GET['sID']);
+        $specials_id = Text::input($_GET['sID']);
 
         tep_db_query("DELETE FROM specials WHERE specials_id = " . (int)$specials_id);
 
@@ -102,7 +103,7 @@
       <?=
       empty($action)
       ? tep_draw_bootstrap_button(BUTTON_INSERT_SPECIAL, 'fas fa-funnel-dollar', tep_href_link('specials.php', 'action=new'), null, null, 'btn-danger')
-      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php'), null, null, 'btn-light mt-2')
+      : tep_draw_bootstrap_button(IMAGE_CANCEL, 'fas fa-angle-left', tep_href_link('specials.php', tep_get_all_get_params(['action'])), null, null, 'btn-light mt-2')
       ?>
     </div>
   </div>

@@ -42,9 +42,9 @@
       case 'insert_category':
       case 'update_category':
         if (isset($_POST['categories_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $categories_id = Text::input($_POST['categories_id']);
         }
-        $sort_order = Text::prepare($_POST['sort_order']);
+        $sort_order = Text::input($_POST['sort_order']);
 
         $sql_data = ['sort_order' => (int)$sort_order];
 
@@ -103,7 +103,7 @@
         break;
       case 'delete_category_confirm':
         if (isset($_POST['categories_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $categories_id = Text::input($_POST['categories_id']);
 
           $category_tree = new category_tree();
           $descendants = array_reverse($category_tree->get_descendants($categories_id));
@@ -134,7 +134,7 @@ EOSQL
         break;
       case 'delete_product_confirm':
         if (isset($_POST['products_id'], $_POST['product_categories']) && is_array($_POST['product_categories'])) {
-          $product_id = Text::prepare($_POST['products_id']);
+          $product_id = Text::input($_POST['products_id']);
           $product_categories = implode(', ', array_map('intval', $_POST['product_categories']));
 
           tep_db_query("DELETE FROM products_to_categories WHERE products_id = " . (int)$product_id . " AND categories_id IN (" . $product_categories . ")");
@@ -153,8 +153,8 @@ EOSQL
         break;
       case 'move_category_confirm':
         if (isset($_POST['categories_id']) && ($_POST['categories_id'] != $_POST['move_to_category_id'])) {
-          $categories_id = Text::prepare($_POST['categories_id']);
-          $new_parent_id = Text::prepare($_POST['move_to_category_id']);
+          $categories_id = Text::input($_POST['categories_id']);
+          $new_parent_id = Text::input($_POST['move_to_category_id']);
 
           $path = explode('_', tep_get_generated_category_path_ids($new_parent_id));
 
@@ -173,8 +173,8 @@ EOSQL
 
         break;
       case 'move_product_confirm':
-        $products_id = Text::prepare($_POST['products_id']);
-        $new_parent_id = Text::prepare($_POST['move_to_category_id']);
+        $products_id = Text::input($_POST['products_id']);
+        $new_parent_id = Text::input($_POST['move_to_category_id']);
 
         $duplicate_check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_to_categories WHERE products_id = " . (int)$products_id . " AND categories_id = " . (int)$new_parent_id);
         $duplicate_check = $duplicate_check_query->fetch_assoc();
@@ -188,18 +188,20 @@ EOSQL
         break;
       case 'insert_product':
       case 'update_product':
-        if (isset($_GET['pID'])) $products_id = Text::prepare($_GET['pID']);
-        $products_date_available = Text::prepare($_POST['products_date_available']);
+        if (isset($_GET['pID'])) {
+          $products_id = Text::input($_GET['pID']);
+        }
+        $products_date_available = Text::input($_POST['products_date_available']);
 
         $sql_data = [
-          'products_quantity' => (int)Text::prepare($_POST['products_quantity']),
+          'products_quantity' => (int)Text::input($_POST['products_quantity']),
           'products_model' => Text::prepare($_POST['products_model']),
-          'products_price' => Text::prepare($_POST['products_price']),
+          'products_price' => Text::input($_POST['products_price']),
           'products_date_available' => (date('Y-m-d') < $products_date_available) ? $products_date_available : 'NULL',
-          'products_weight' => (float)Text::prepare($_POST['products_weight']),
-          'products_status' => Text::prepare($_POST['products_status']),
-          'products_tax_class_id' => Text::prepare($_POST['products_tax_class_id']),
-          'manufacturers_id' => (int)Text::prepare($_POST['manufacturers_id']),
+          'products_weight' => (float)Text::input($_POST['products_weight']),
+          'products_status' => Text::input($_POST['products_status']),
+          'products_tax_class_id' => Text::input($_POST['products_tax_class_id']),
+          'manufacturers_id' => (int)Text::input($_POST['manufacturers_id']),
           'products_gtin' => (Text::is_empty($_POST['products_gtin'])) ? 'NULL' : str_pad(Text::prepare($_POST['products_gtin']), 14, '0', STR_PAD_LEFT),
         ];
 
@@ -309,8 +311,8 @@ EOSQL
         break;
       case 'copy_to_confirm':
         if (isset($_POST['products_id'], $_POST['categories_id'])) {
-          $products_id = Text::prepare($_POST['products_id']);
-          $categories_id = Text::prepare($_POST['categories_id']);
+          $products_id = Text::input($_POST['products_id']);
+          $categories_id = Text::input($_POST['categories_id']);
 
           if ($_POST['copy_as'] == 'link') {
             if ($categories_id == $current_category_id) {
@@ -387,7 +389,8 @@ EOSQL
 
   if ($action == 'new_product') {
     if (isset($_GET['pID']) && empty($_POST)) {
-      $product = product_by_id::build($_GET['pID']);
+      $product = product_by_id::administer($_GET['pID']);
+      $translations = $product->get('translations');
     } else {
       $product = new Product([
         'products_name' => '',
@@ -411,7 +414,6 @@ EOSQL
         'products_seo_title' => '',
       ]);
     }
-    $translations = $product->get('translations');
 
     $manufacturers_array = [['id' => '', 'text' => TEXT_NONE]];
     $manufacturers_query = tep_db_query("SELECT manufacturers_id, manufacturers_name FROM manufacturers ORDER BY manufacturers_name");
@@ -637,7 +639,7 @@ function updateNet() {
                   <div class="form-group row" id="zSeoDesc<?= $l['directory'] ?>">
                     <label for="pSeoDesc" class="col-form-label col-sm-3 text-left text-sm-right"><?= TEXT_PRODUCTS_SEO_DESCRIPTION ?></label>
                     <div class="col-sm-9">
-                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['seo_title'] ?? '', 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
+                      <?= tep_draw_textarea_field('products_seo_description[' . $l['id'] . ']', 'soft', '70', '15', $translations[$l['id']]['seo_description'] ?? '', 'class="form-control" id="pSeoDesc"  aria-describedby="pSeoDescHelp"') ?>
                       <small id="pSeoDescHelp" class="form-text text-muted">
                         <?= TEXT_PRODUCTS_SEO_DESCRIPTION_HELP ?>
                       </small>
@@ -674,8 +676,8 @@ function updateNet() {
             <div class="col-sm-9">
               <div class="custom-file mb-2">
                 <?=
-                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($product->get('image')) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"');
-                '<label class="custom-file-label" for="pImg">' . $product->get('image') . '</label>';
+                tep_draw_input_field('products_image', '', 'id="pImg"', 'file', null, (Text::is_empty($product->get('image')) ? 'required aria-required="true" ' : null) . 'class="custom-file-input"'),
+                '<label class="custom-file-label" for="pImg">', $product->get('image'), '</label>'
                 ?>
               </div>
             </div>
@@ -724,7 +726,7 @@ function updateNet() {
           function addNewPiForm() {
             piSize++;
 
-            $('#piList').append('<div class="row mb-2" id="piId' + piSize + '"><div class="col"><div class="custom-file mb-2"><input type="file" class="form-control-input" id="pImg' + piSize + '" name="products_image_large_new_' + piSize + '"><label class="custom-file-input" for="pImg' + piSize + '">&nbsp;</label></div></div><div class="col"><textarea name="products_image_htmlcontent_new_' + piSize + '" wrap="soft" class="form-control" cols="70" rows="3"></textarea><small class="form-text text-muted"><?= TEXT_PRODUCTS_LARGE_IMAGE_HTML_CONTENT ?></small></div><div class="col-1"><i class="fas fa-arrows-alt-v mr-2"></i><a class="piDel" data-pi-id="' + piSize + '"><i class="fas fa-trash text-danger"></i></a></div></div>');
+            $('#piList').append('<div class="row mb-2" id="piId' + piSize + '"><div class="col"><div class="custom-file mb-2"><input type="file" class="custom-file-input" id="pImg' + piSize + '" name="products_image_large_new_' + piSize + '"><label class="custom-file-label" for="pImg' + piSize + '">&nbsp;</label></div></div><div class="col"><textarea name="products_image_htmlcontent_new_' + piSize + '" wrap="soft" class="form-control" cols="70" rows="3"></textarea><small class="form-text text-muted"><?= TEXT_PRODUCTS_LARGE_IMAGE_HTML_CONTENT ?></small></div><div class="col-1"><i class="fas fa-arrows-alt-v mr-2"></i><a class="piDel" data-pi-id="' + piSize + '"><i class="fas fa-trash text-danger"></i></a></div></div>');
           }
 
           $('a.piDel').click(function(e){
@@ -756,7 +758,7 @@ function updateNet() {
 
 <?php
   } elseif ('new_product_preview' === $action) {
-    $product = product_by_id::build($_GET['pID']);
+    $product = product_by_id::administer($_GET['pID']);
     $translations = $product->get('translations');
 
     foreach (tep_get_languages() as $l) {

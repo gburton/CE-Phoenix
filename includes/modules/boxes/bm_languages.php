@@ -15,9 +15,9 @@
     const CONFIG_KEY_BASE = 'MODULE_BOXES_LANGUAGES_';
 
     public function execute() {
-      global $PHP_SELF, $lng, $request_type;
+      global $PHP_SELF, $lng;
 
-      if (substr(basename($PHP_SELF), 0, 8) !== 'checkout') {
+      if (!Text::is_prefixed_by($PHP_SELF, 'checkout')) {
         if (!isset($lng) || !($lng instanceof language)) {
           $lng = new language();
         }
@@ -25,9 +25,12 @@
         if (count($lng->catalog_languages) > 1) {
           $languages_string = '';
           $parameters = tep_get_all_get_params(['language', 'currency']) . 'language=';
-          foreach($lng->catalog_languages as $key => $value) {
-            $languages_string .= ' <a href="' . tep_href_link($PHP_SELF, "$parameters$key", $request_type) . '">'
-                               . tep_image('includes/languages/' .  $value['directory'] . '/images/' . $value['image'], htmlspecialchars($value['name']), null, null, null, false)
+          foreach ($lng->catalog_languages as $key => $value) {
+            $image = Text::ltrim_once(
+              language::map_to_translation("images/{$value['image']}", $value['directory']),
+              DIR_FS_CATALOG);
+            $languages_string .= ' <a href="' . tep_href_link($PHP_SELF, "$parameters$key") . '">'
+                               . tep_image($image, htmlspecialchars($value['name']), '', '', '', false)
                                . '</a> ';
           }
 

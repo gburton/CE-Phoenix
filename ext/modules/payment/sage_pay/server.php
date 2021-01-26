@@ -11,26 +11,25 @@
 */
 
   chdir('../../../../');
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   if ( !defined('MODULE_PAYMENT_SAGE_PAY_SERVER_STATUS') || (MODULE_PAYMENT_SAGE_PAY_SERVER_STATUS != 'True') ) {
-    exit;
+    exit();
   }
 
-  include('includes/languages/' . $language . '/modules/payment/sage_pay_server.php');
-  include('includes/modules/payment/sage_pay_server.php');
+  include language::map_to_translation('/modules/payment/sage_pay_server.php');
   $sage_pay_server = new sage_pay_server();
 
   $result = null;
 
   if ( isset($_GET['skcode']) && isset($_POST['VPSSignature']) && isset($_POST['VPSTxId']) && isset($_POST['VendorTxCode']) && isset($_POST['Status']) ) {
-    $skcode = tep_db_prepare_input($_GET['skcode']);
+    $skcode = Text::input($_GET['skcode']);
 
     $sp_query = tep_db_query('select securitykey from sagepay_server_securitykeys where code = "' . tep_db_input($skcode) . '" limit 1');
-    if ( tep_db_num_rows($sp_query) ) {
-      $sp = tep_db_fetch_array($sp_query);
+    if ( mysqli_num_rows($sp_query) ) {
+      $sp = $sp_query->fetch_assoc();
 
-      $transaction_details = array('ID' => $_POST['VPSTxId']);
+      $transaction_details = ['ID' => $_POST['VPSTxId']];
 
       $sig = $_POST['VPSTxId'] . $_POST['VendorTxCode'] . $_POST['Status'];
 
@@ -128,7 +127,7 @@
             $transaction_details_string .= $k . ': ' . $v . "\n";
           }
 
-          $transaction_details_string = tep_db_prepare_input($transaction_details_string);
+          $transaction_details_string = Text::input($transaction_details_string);
 
           tep_db_query('update sagepay_server_securitykeys set verified = 1, transaction_details = "' . tep_db_input($transaction_details_string) . '" where code = "' . tep_db_input($skcode) . '"');
 
@@ -138,9 +137,9 @@
           $error = isset($_POST['StatusDetail']) ? $sage_pay_server->getErrorMessageNumber($_POST['StatusDetail']) : null;
 
           if ( MODULE_PAYMENT_SAGE_PAY_SERVER_PROFILE_PAGE == 'Normal' ) {
-            $error_url = tep_href_link('checkout_payment.php', 'payment_error=' . $sage_pay_server->code . (tep_not_null($error) ? '&error=' . $error : ''), 'SSL', false);
+            $error_url = tep_href_link('checkout_payment.php', 'payment_error=' . $sage_pay_server->code . (Text::is_empty($error) ? '' : '&error=' . $error), 'SSL', false);
           } else {
-            $error_url = tep_href_link('ext/modules/payment/sage_pay/redirect.php', 'payment_error=' . $sage_pay_server->code . (tep_not_null($error) ? '&error=' . $error : ''), 'SSL', false);
+            $error_url = tep_href_link('ext/modules/payment/sage_pay/redirect.php', 'payment_error=' . $sage_pay_server->code . (Text::is_empty($error) ? '' : '&error=' . $error), 'SSL', false);
           }
 
           $result = 'Status=OK' . chr(13) . chr(10) .
@@ -168,7 +167,6 @@
 
   tep_session_destroy();
 
-  exit;
+  exit();
 
-  require('includes/application_bottom.php');
-?>
+  require 'includes/application_bottom.php';

@@ -11,30 +11,21 @@
 */
 
   class actionRecorder {
-    var $_module;
-    var $_user_id;
-    var $_user_name;
+
+    public $_module;
+    public $_user_id;
+    public $_user_name;
 
     function __construct($module, $user_id = null, $user_name = null) {
-      global $language, $PHP_SELF;
+      $module = Text::sanitize(str_replace(' ', '', $module));
 
-      $module = tep_sanitize_string(str_replace(' ', '', $module));
-
-      if (defined('MODULE_ACTION_RECORDER_INSTALLED') && tep_not_null(MODULE_ACTION_RECORDER_INSTALLED)) {
-        if (tep_not_null($module) && in_array($module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)), explode(';', MODULE_ACTION_RECORDER_INSTALLED))) {
-          if (!class_exists($module)) {
-            if (file_exists('includes/modules/action_recorder/' . $module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)))) {
-              include('includes/languages/' . $language . '/modules/action_recorder/' . $module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)));
-              include('includes/modules/action_recorder/' . $module . '.' . substr($PHP_SELF, (strrpos($PHP_SELF, '.')+1)));
-            } else {
-              return false;
-            }
-          }
-        } else {
-          return false;
-        }
-      } else {
-        return false;
+      if (!defined('MODULE_ACTION_RECORDER_INSTALLED')
+        || Text::is_empty(MODULE_ACTION_RECORDER_INSTALLED)
+        || Text::is_empty($module)
+        || !in_array("$module.php", explode(';', MODULE_ACTION_RECORDER_INSTALLED))
+        || !class_exists($module))
+      {
+        return;
       }
 
       $this->_module = $module;
@@ -52,7 +43,7 @@
     }
 
     function canPerform() {
-      if (tep_not_null($this->_module)) {
+      if (!Text::is_empty($this->_module)) {
         return $GLOBALS[$this->_module]->canPerform($this->_user_id, $this->_user_name);
       }
 
@@ -60,27 +51,26 @@
     }
 
     function getTitle() {
-      if (tep_not_null($this->_module)) {
+      if (!Text::is_empty($this->_module)) {
         return $GLOBALS[$this->_module]->title;
       }
     }
 
     function getIdentifier() {
-      if (tep_not_null($this->_module)) {
+      if (!Text::is_empty($this->_module)) {
         return $GLOBALS[$this->_module]->identifier;
       }
     }
 
     function record($success = true) {
-      if (tep_not_null($this->_module)) {
-        tep_db_query("insert into action_recorder (module, user_id, user_name, identifier, success, date_added) values ('" . tep_db_input($this->_module) . "', '" . (int)$this->_user_id . "', '" . tep_db_input($this->_user_name) . "', '" . tep_db_input($this->getIdentifier()) . "', '" . ($success == true ? 1 : 0) . "', now())");
+      if (!Text::is_empty($this->_module)) {
+        tep_db_query("INSERT INTO action_recorder (module, user_id, user_name, identifier, success, date_added) VALUES ('" . tep_db_input($this->_module) . "', '" . (int)$this->_user_id . "', '" . tep_db_input($this->_user_name) . "', '" . tep_db_input($this->getIdentifier()) . "', '" . ($success ? 1 : 0) . "', NOW())");
       }
     }
 
     function expireEntries() {
-      if (tep_not_null($this->_module)) {
+      if (!Text::is_empty($this->_module)) {
         return $GLOBALS[$this->_module]->expireEntries();
       }
     }
   }
-?>

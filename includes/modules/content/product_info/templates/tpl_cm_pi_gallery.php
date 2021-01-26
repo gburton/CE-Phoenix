@@ -1,12 +1,12 @@
-<div class="col-sm-<?php echo $content_width; ?> cm-pi-gallery">
+<div class="col-sm-<?= (int)MODULE_CONTENT_PI_GALLERY_CONTENT_WIDTH ?> cm-pi-gallery">
   <?php
   $pi_image .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="0">';
-  $pi_image .= tep_image('images/' . $active_image['image'], tep_db_output( $active_image['htmlcontent']));
+  $pi_image .= tep_image('images/' . $active_image['image'], htmlspecialchars( $active_image['htmlcontent']));
   $pi_image .= '</a>';
 
   $first_img_indicator = '<li data-target="#carousel" data-slide-to="0" class="pointer active"></li>';
   $first_img = '<div class="carousel-item text-center active">';
-  $first_img .= tep_image('images/' . $active_image['image'], tep_db_output($active_image['htmlcontent']), null, null, 'loading="lazy"');
+  $first_img .= tep_image('images/' . $active_image['image'], htmlspecialchars($active_image['htmlcontent']), '', '', 'loading="lazy"');
   $first_img .= '</div>';
 
   // now create the thumbs
@@ -14,21 +14,21 @@
     $pi_thumb .= '<div class="row">';
     foreach ($other_images as $k => $v) {
       $n = $k+1;
-      $pi_thumb .= '<div class="' . $thumbnail_width . '">';
+      $pi_thumb .= '<div class="' . MODULE_CONTENT_PI_GALLERY_CONTENT_WIDTH_EACH . '">';
       $pi_thumb .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="' . $n . '">';
-      $pi_thumb .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
+      $pi_thumb .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
       $pi_thumb .= '</a>';
       $pi_thumb .= '</div>';
     }
     $pi_thumb .= '</div>';
 
-    $other_img_indicator = $other_img = null;
+    $other_img_indicator = $other_img = '';
     foreach ($other_images as $k => $v) {
       $n = $k+1;
       $other_img_indicator .= '<li data-target="#carousel" data-slide-to="' . $n . '" class="pointer"></li>';
       $other_img .= '<div class="carousel-item text-center">';
-      $other_img .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
-      if (tep_not_null($v['htmlcontent'])) {
+      $other_img .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
+      if (!Text::is_empty($v['htmlcontent'])) {
         $other_img .= '<div class="carousel-caption d-none d-md-block">';
         $other_img .= $v['htmlcontent'];
         $other_img .= '</div>';
@@ -51,6 +51,7 @@
       $indicators .= $other_img_indicator;
       $indicators .= '</ol>';
     }
+
     $modal_gallery_footer = <<<mgf
 <div id="lightbox" class="modal fade" role="dialog">
   <div class="modal-dialog {$modal_size}" role="document">
@@ -73,12 +74,12 @@
 </div>
 mgf;
 
-    $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
+    $GLOBALS['oscTemplate']->addBlock($modal_gallery_footer, 'footer_scripts');
 
     $modal_clicker = <<<mc
 <script>$(document).ready(function() { $('a.lb').click(function(e) { var s = $(this).data('slide'); $('#lightbox').carousel(s); }); });</script>
 mc;
-    $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
+    $GLOBALS['oscTemplate']->addBlock($modal_clicker, 'footer_scripts');
   }
 
   echo $pi_image;

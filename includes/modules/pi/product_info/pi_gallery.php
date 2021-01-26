@@ -37,87 +37,90 @@
       $content_width = $this->content_width;
       $thumbnail_width = PI_GALLERY_CONTENT_WIDTH_EACH;
 
-      $pi_image = $pi_thumb = null;
+      $pi_image = $pi_thumb = '';
 
-      if (tep_not_null($product_info['products_image'])) {
-        $album_name = sprintf(PI_GALLERY_ALBUM_NAME, $product_info['products_name']);
-        $album_exit = PI_GALLERY_ALBUM_CLOSE;
+      if (Text::is_empty($product_info['products_image'])) {
+        return;
+      }
 
-        $pi_html = [];
-        $pi_html[0] = ['image' => $product_info['products_image'], 'htmlcontent' => $product_info['products_name']];
+      $album_name = sprintf(PI_GALLERY_ALBUM_NAME, $product_info['products_name']);
+      $album_exit = PI_GALLERY_ALBUM_CLOSE;
 
-        $pi_query = tep_db_query("select image, htmlcontent from products_images where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
-        $pi_total = tep_db_num_rows($pi_query);
+      $pi_html = [];
+      $pi_html[0] = ['image' => $product_info['products_image'], 'htmlcontent' => $product_info['products_name']];
 
-        if ($pi_total > 0) {
-          $pi_counter = 1;
+      $pi_query = tep_db_query("SELECT image, htmlcontent FROM products_images WHERE products_id = " . (int)$product_info['products_id'] . " ORDER BY sort_order");
+      $pi_total = mysqli_num_rows($pi_query);
 
-          while ($pi = tep_db_fetch_array($pi_query)) {
-            $pi_html[$pi_counter] = $pi;
+      if ($pi_total > 0) {
+        $pi_counter = 1;
 
-            $pi_counter++;
-          }
+        while ($pi = $pi_query->fetch_assoc()) {
+          $pi_html[$pi_counter] = $pi;
+
+          $pi_counter++;
         }
+      }
 
-        $active_image = array_shift($pi_html);
-        $other_images = $pi_html;
+      $active_image = array_shift($pi_html);
+      $other_images = $pi_html;
 
-        $modal_size = PI_GALLERY_MODAL_SIZE;
+      $modal_size = PI_GALLERY_MODAL_SIZE;
 
-        $pi_image .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="0">';
-          $pi_image .= tep_image('images/' . $active_image['image'], tep_db_output( $active_image['htmlcontent']));
-        $pi_image .= '</a>';
+      $pi_image .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="0">';
+        $pi_image .= tep_image('images/' . $active_image['image'], htmlspecialchars( $active_image['htmlcontent']));
+      $pi_image .= '</a>';
 
-        $first_img_indicator = '<li data-target="#carousel" data-slide-to="0" class="pointer active"></li>';
-        $first_img = '<div class="carousel-item text-center active">';
-          $first_img .= tep_image('images/' . $active_image['image'], tep_db_output($active_image['htmlcontent']), null, null, 'loading="lazy"');
-        $first_img .= '</div>';
+      $first_img_indicator = '<li data-target="#carousel" data-slide-to="0" class="pointer active"></li>';
+      $first_img = '<div class="carousel-item text-center active">';
+        $first_img .= tep_image('images/' . $active_image['image'], htmlspecialchars($active_image['htmlcontent']), '', '', 'loading="lazy"');
+      $first_img .= '</div>';
 
-        // now create the thumbs
-        $other_img_indicator = $other_img = '';
-        if (count($other_images) > 0) {
-          $pi_thumb .= '<div class="row">';
-          foreach ($other_images as $k => $v) {
-            $n = $k+1;
-            $pi_thumb .= '<div class="' . $thumbnail_width . '">';
-              $pi_thumb .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="' . $n . '">';
-                $pi_thumb .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
-              $pi_thumb .= '</a>';
-            $pi_thumb .= '</div>';
-          }
+// now create the thumbs
+      $other_img_indicator = $other_img = '';
+      if (count($other_images) > 0) {
+        $pi_thumb .= '<div class="row">';
+        foreach ($other_images as $k => $v) {
+          $n = $k+1;
+          $pi_thumb .= '<div class="' . $thumbnail_width . '">';
+            $pi_thumb .= '<a href="#lightbox" class="lb" data-toggle="modal" data-slide="' . $n . '">';
+              $pi_thumb .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
+            $pi_thumb .= '</a>';
           $pi_thumb .= '</div>';
+        }
+        $pi_thumb .= '</div>';
 
-          foreach ($other_images as $k => $v) {
-            $n = $k+1;
-            $other_img_indicator .= '<li data-target="#carousel" data-slide-to="' . $n . '" class="pointer"></li>';
-            $other_img .= '<div class="carousel-item text-center">';
-            $other_img .= tep_image('images/' . $v['image'], null, null, null, 'loading="lazy"');
-            if (tep_not_null($v['htmlcontent'])) {
-              $other_img .= '<div class="carousel-caption d-none d-md-block">';
-                $other_img .= $v['htmlcontent'];
-              $other_img .= '</div>';
-            }
+        foreach ($other_images as $k => $v) {
+          $n = $k+1;
+          $other_img_indicator .= '<li data-target="#carousel" data-slide-to="' . $n . '" class="pointer"></li>';
+          $other_img .= '<div class="carousel-item text-center">';
+          $other_img .= tep_image('images/' . $v['image'], '', '', '', 'loading="lazy"');
+          if (!Text::is_empty($v['htmlcontent'])) {
+            $other_img .= '<div class="carousel-caption d-none d-md-block">';
+              $other_img .= $v['htmlcontent'];
             $other_img .= '</div>';
           }
+          $other_img .= '</div>';
         }
+      }
 
-        $tpl_data = ['group' => $this->group, 'file' => __FILE__];
-        include 'includes/modules/block_template.php';
+      $tpl_data = ['group' => $this->group, 'file' => __FILE__];
+      include 'includes/modules/block_template.php';
 
-        $swipe_arrows = '';
-        if (PI_GALLERY_SWIPE_ARROWS == 'True') {
-          $swipe_arrows = '<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a><a class="carousel-control-next" href="#carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>';
-        }
+      $swipe_arrows = '';
+      if (PI_GALLERY_SWIPE_ARROWS == 'True') {
+        $swipe_arrows = '<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span></a><a class="carousel-control-next" href="#carousel" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span></a>';
+      }
 
-        $indicators = '';
-        if (PI_GALLERY_INDICATORS == 'True') {
-          $indicators .= '<ol class="carousel-indicators">';
-            $indicators .= $first_img_indicator;
-            $indicators .= $other_img_indicator;
-          $indicators .= '</ol>';
-        }
+      $indicators = '';
+      if (PI_GALLERY_INDICATORS == 'True') {
+        $indicators .= '<ol class="carousel-indicators">';
+          $indicators .= $first_img_indicator;
+          $indicators .= $other_img_indicator;
+        $indicators .= '</ol>';
+      }
 
-        $modal_gallery_footer = <<<mgf
+      $modal_gallery_footer = <<<mgf
 <div id="lightbox" class="modal fade" role="dialog">
   <div class="modal-dialog {$modal_size}" role="document">
     <div class="modal-content">
@@ -139,17 +142,16 @@
 </div>
 mgf;
 
-        $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
+      $oscTemplate->addBlock($modal_gallery_footer, 'footer_scripts');
 
-        $modal_clicker = <<<mc
+      $modal_clicker = <<<mc
 <script>$(document).ready(function() { $('a.lb').click(function(e) { var s = $(this).data('slide'); $('#lightbox').carousel(s); }); });</script>
 mc;
-        $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
-      }
+      $oscTemplate->addBlock($modal_clicker, 'footer_scripts');
     }
 
     function display_layout() {
-      return call_user_func(array('cm_pi_modular', 'display_layout'));
+      return cm_pi_modular::display_layout();
     }
 
     protected function get_parameters() {

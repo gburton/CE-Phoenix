@@ -26,13 +26,13 @@
   if (!Text::is_empty($action)) {
     switch ($action) {
       case 'add_product_options':
-        $products_options_id = Text::prepare($_POST['products_options_id']);
+        $products_options_id = Text::input($_POST['products_options_id']);
         $option_name_array = $_POST['option_name'];
         $sort_order_array = $_POST['sort_order'];
 
         foreach ($languages as $l) {
           $option_name = Text::prepare($option_name_array[$l['id']]);
-          $sort_order = Text::prepare($sort_order_array[$l['id']]);
+          $sort_order = Text::input($sort_order_array[$l['id']]);
 
           tep_db_query("INSERT INTO products_options (products_options_id, products_options_name, language_id, sort_order) VALUES (" . (int)$products_options_id . ", '" . tep_db_input($option_name) . "', " . (int)$l['id'] . ", '" . tep_db_input($sort_order) . "')");
         }
@@ -44,12 +44,12 @@
       case 'add_product_option_values':
         $value_name_array = $_POST['value_name'];
         $sort_order_array = $_POST['sort_order'];
-        $value_id = Text::prepare($_POST['value_id']);
-        $option_id = Text::prepare($_POST['option_id']);
+        $value_id = Text::input($_POST['value_id']);
+        $option_id = Text::input($_POST['option_id']);
 
         foreach ($languages as $l) {
           $value_name = Text::prepare($value_name_array[$l['id']]);
-          $sort_order = Text::prepare($sort_order_array[$l['id']]);
+          $sort_order = Text::input($sort_order_array[$l['id']]);
 
           tep_db_query("INSERT INTO products_options_values (products_options_values_id, language_id, products_options_values_name, sort_order) VALUES (" . (int)$value_id . ", " . (int)$l['id'] . ", '" . tep_db_input($value_name) . "', '" . tep_db_input($sort_order) . "')");
         }
@@ -61,11 +61,11 @@
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'add_product_attributes':
-        $products_id = Text::prepare($_POST['products_id']);
-        $options_id = Text::prepare($_POST['options_id']);
-        $values_id = Text::prepare($_POST['values_id']);
-        $value_price = Text::prepare($_POST['value_price']);
-        $price_prefix = Text::prepare($_POST['price_prefix']);
+        $products_id = Text::input($_POST['products_id']);
+        $options_id = Text::input($_POST['options_id']);
+        $values_id = Text::input($_POST['values_id']);
+        $value_price = Text::input($_POST['value_price']);
+        $price_prefix = Text::input($_POST['price_prefix']);
 
         tep_db_query("INSERT INTO products_attributes (products_id, options_id, options_values_id, options_values_price, price_prefix) VALUES (" . (int)$products_id . ", " . (int)$options_id . ", " . (int)$values_id . ", '" . (float)tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
 
@@ -73,8 +73,8 @@
 
         if (DOWNLOAD_ENABLED == 'true') {
           $products_attributes_filename = Text::prepare($_POST['products_attributes_filename']);
-          $products_attributes_maxdays = Text::prepare($_POST['products_attributes_maxdays']);
-          $products_attributes_maxcount = Text::prepare($_POST['products_attributes_maxcount']);
+          $products_attributes_maxdays = Text::input($_POST['products_attributes_maxdays']);
+          $products_attributes_maxcount = Text::input($_POST['products_attributes_maxcount']);
 
           if (!Text::is_empty($products_attributes_filename)) {
             tep_db_query("INSERT INTO products_attributes_download (products_attributes_id, products_attributes_filename, products_attributes_maxdays, products_attributes_maxcount) VALUES (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
@@ -88,11 +88,11 @@
       case 'update_option_name':
         $option_name_array = $_POST['option_name'];
         $sort_order_array = $_POST['sort_order'];
-        $option_id = Text::prepare($_POST['option_id']);
+        $option_id = Text::input($_POST['option_id']);
 
         foreach ($languages as $l) {
           $option_name = Text::prepare($option_name_array[$l['id']]);
-          $sort_order = Text::prepare($sort_order_array[$l['id']]);
+          $sort_order = Text::input($sort_order_array[$l['id']]);
 
           tep_db_query("UPDATE products_options SET products_options_name = '" . tep_db_input($option_name) . "', sort_order = '" . tep_db_input($sort_order) . "' WHERE products_options_id = " . (int)$option_id . " AND language_id = " . (int)$l['id']);
         }
@@ -104,12 +104,12 @@
       case 'update_value':
         $value_name_array = $_POST['value_name'];
         $sort_order_array = $_POST['sort_order'];
-        $value_id = Text::prepare($_POST['value_id']);
-        $option_id = Text::prepare($_POST['option_id']);
+        $value_id = Text::input($_POST['value_id']);
+        $option_id = Text::input($_POST['option_id']);
 
         foreach ($languages as $l) {
           $value_name = Text::prepare($value_name_array[$l['id']]);
-          $sort_order = Text::prepare($sort_order_array[$l['id']]);
+          $sort_order = Text::input($sort_order_array[$l['id']]);
 
           tep_db_query("UPDATE products_options_values SET products_options_values_name = '" . tep_db_input($value_name) . "', sort_order = '" . tep_db_input($sort_order) . "' WHERE products_options_values_id = '" . tep_db_input($value_id) . "' AND language_id = " . (int)$l['id']);
         }
@@ -121,19 +121,19 @@
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'update_product_attribute':
-        $products_id = Text::prepare($_POST['products_id']);
-        $options_id = Text::prepare($_POST['options_id']);
-        $values_id = Text::prepare($_POST['values_id']);
-        $value_price = Text::prepare($_POST['value_price']);
-        $price_prefix = Text::prepare($_POST['price_prefix']);
-        $attribute_id = Text::prepare($_POST['attribute_id']);
+        $products_id = Text::input($_POST['products_id']);
+        $options_id = Text::input($_POST['options_id']);
+        $values_id = Text::input($_POST['values_id']);
+        $value_price = Text::input($_POST['value_price']);
+        $price_prefix = Text::input($_POST['price_prefix']);
+        $attribute_id = Text::input($_POST['attribute_id']);
 
         tep_db_query("UPDATE products_attributes SET products_id = " . (int)$products_id . ", options_id = " . (int)$options_id . ", options_values_id = " . (int)$values_id . ", options_values_price = '" . (float)tep_db_input($value_price) . "', price_prefix = '" . tep_db_input($price_prefix) . "' WHERE products_attributes_id = " . (int)$attribute_id);
 
         if (DOWNLOAD_ENABLED == 'true') {
           $products_attributes_filename = Text::prepare($_POST['products_attributes_filename']);
-          $products_attributes_maxdays = Text::prepare($_POST['products_attributes_maxdays']);
-          $products_attributes_maxcount = Text::prepare($_POST['products_attributes_maxcount']);
+          $products_attributes_maxdays = Text::input($_POST['products_attributes_maxdays']);
+          $products_attributes_maxcount = Text::input($_POST['products_attributes_maxcount']);
 
           if (!Text::is_empty($products_attributes_filename)) {
             tep_db_query("REPLACE INTO products_attributes_download SET products_attributes_id = " . (int)$attribute_id . ", products_attributes_filename = '" . tep_db_input($products_attributes_filename) . "', products_attributes_maxdays = '" . tep_db_input($products_attributes_maxdays) . "', products_attributes_maxcount = '" . tep_db_input($products_attributes_maxcount) . "'");
@@ -145,7 +145,7 @@
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'delete_option':
-        $option_id = Text::prepare($_GET['option_id']);
+        $option_id = Text::input($_GET['option_id']);
 
         tep_db_query("DELETE FROM products_options WHERE products_options_id = " . (int)$option_id);
 
@@ -154,7 +154,7 @@
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'delete_value':
-        $value_id = Text::prepare($_GET['value_id']);
+        $value_id = Text::input($_GET['value_id']);
 
         tep_db_query("DELETE FROM products_options_values WHERE products_options_values_id = " . (int)$value_id);
         tep_db_query("DELETE FROM products_options_values_to_products_options WHERE products_options_values_id = " . (int)$value_id);
@@ -164,7 +164,7 @@
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
       case 'delete_attribute':
-        $attribute_id = Text::prepare($_GET['attribute_id']);
+        $attribute_id = Text::input($_GET['attribute_id']);
 
         tep_db_query("DELETE FROM products_attributes WHERE products_attributes_id = " . (int)$attribute_id);
 

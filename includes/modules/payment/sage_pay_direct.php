@@ -555,7 +555,7 @@
         'orders_status_id' => MODULE_PAYMENT_SAGE_PAY_DIRECT_TRANSACTION_ORDER_STATUS_ID,
         'date_added' => 'NOW()',
         'customer_notified' => '0',
-        'comments' => tep_db_input(Text::prepare($result_string)),
+        'comments' => tep_db_input(Text::input($result_string)),
       ];
 
       tep_db_perform('orders_status_history', $sql_data);
@@ -939,7 +939,7 @@ EOD;
         }
       }
 
-      tep_db_query("DELETE FROM customers_sagepay_tokens WHERE id = " . (int)$token_id . " AND sagepay_token = '" . tep_db_input(Text::prepare($token)) . "' AND customers_id = " . (int)$_SESSION['customer_id']);
+      tep_db_query("DELETE FROM customers_sagepay_tokens WHERE id = " . (int)$token_id . " AND sagepay_token = '" . tep_db_input(Text::input($token)) . "' AND customers_id = " . (int)$_SESSION['customer_id']);
 
       return (tep_db_affected_rows() === 1);
     }

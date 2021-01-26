@@ -79,6 +79,14 @@
       $acceptable_locales = [];
       foreach (explode(',', str_replace(' ', '', getenv('HTTP_ACCEPT_LANGUAGE'))) as $entry) {
         $locale_qualities = explode(';q=', $entry);
+        switch ($locale_qualities[0]) {
+          case '':
+            continue 2;
+          case '*':
+            $locale_qualities[0] = DEFAULT_LANGUAGE;
+            break;
+        }
+
         $acceptable_locales[] = [
           'locale' => $locale_qualities[0],
           'quality' => $locale_qualities[1] ?? 1,
@@ -157,10 +165,14 @@
       return $language;
     }
 
-    public static function map_to_translation($page) {
+    public static function map_to_translation($page, $language = null) {
+      if (is_null($language)) {
+        $language = $_SESSION['language'];
+      }
+
       $page = ('.php' === $page)
-            ? "includes/languages/{$_SESSION['language']}.php"
-            : "includes/languages/{$_SESSION['language']}/$page";
+            ? "includes/languages/$language.php"
+            : "includes/languages/$language/$page";
       $template =& Guarantor::ensure_global('oscTemplate');
       $translation = $template->map_to_template($page, 'translation')
                   ?? DIR_FS_CATALOG . $page;

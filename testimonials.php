@@ -12,7 +12,7 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/testimonials.php";
+  require language::map_to_translation('testimonials.php');
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 

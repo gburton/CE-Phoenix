@@ -10,7 +10,7 @@
   Released under the GNU General Public License
 */
 
-  require('includes/application_top.php');
+  require 'includes/application_top.php';
 
   $htaccess_array = null;
   $htpasswd_array = null;
@@ -48,18 +48,18 @@
 
   $OSCOM_Hooks->call('administrators', 'preAction');
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'insert':
         require('includes/functions/password_funcs.php');
 
-        $username = tep_db_prepare_input($_POST['username']);
-        $password = tep_db_prepare_input($_POST['password']);
+        $username = Text::prepare($_POST['username']);
+        $password = Text::prepare($_POST['password']);
 
-        $check_query = tep_db_query("select id from administrators where user_name = '" . tep_db_input($username) . "' limit 1");
+        $check_query = tep_db_query("SELECT id FROM administrators WHERE user_name = '" . tep_db_input($username) . "' LIMIT 1");
 
-        if (tep_db_num_rows($check_query) < 1) {
-          tep_db_query("insert into administrators (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
+        if (mysqli_num_rows($check_query) < 1) {
+          tep_db_query("INSERT INTO administrators (user_name, user_password) VALUES ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");
 
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=count($htpasswd_array); $i<$n; $i++) {
@@ -103,11 +103,11 @@
       case 'save':
         require('includes/functions/password_funcs.php');
 
-        $username = tep_db_prepare_input($_POST['username']);
-        $password = tep_db_prepare_input($_POST['password']);
+        $username = Text::prepare($_POST['username']);
+        $password = Text::prepare($_POST['password']);
 
-        $check_query = tep_db_query("select id, user_name from administrators where id = '" . (int)$_GET['aID'] . "'");
-        $check = tep_db_fetch_array($check_query);
+        $check_query = tep_db_query("SELECT id, user_name FROM administrators WHERE id = " . (int)$_GET['aID']);
+        $check = $check_query->fetch_assoc();
 
 // update username in current session if changed
         if ( ($check['id'] == $admin['id']) && ($check['user_name'] != $admin['username']) ) {
@@ -129,9 +129,9 @@
           }
         }
 
-        tep_db_query("update administrators set user_name = '" . tep_db_input($username) . "' where id = '" . (int)$_GET['aID'] . "'");
+        tep_db_query("UPDATE administrators SET user_name = '" . tep_db_input($username) . "' WHERE id = " . (int)$_GET['aID']);
 
-        if (tep_not_null($password)) {
+        if (!Text::is_empty($password)) {
 // update password in htpasswd
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=count($htpasswd_array); $i<$n; $i++) {
@@ -147,7 +147,7 @@
             }
           }
 
-          tep_db_query("update administrators set user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' where id = '" . (int)$_GET['aID'] . "'");
+          tep_db_query("UPDATE administrators SET user_password = '" . tep_db_input(tep_encrypt_password($password)) . "' WHERE id = " . (int)$_GET['aID']);
         } elseif (!isset($_POST['htaccess']) || ($_POST['htaccess'] != 'true')) {
           if (is_array($htpasswd_array)) {
             for ($i=0, $n=count($htpasswd_array); $i<$n; $i++) {
@@ -186,16 +186,16 @@
         tep_redirect(tep_href_link('administrators.php', 'aID=' . (int)$_GET['aID']));
         break;
       case 'deleteconfirm':
-        $id = tep_db_prepare_input($_GET['aID']);
+        $id = Text::input($_GET['aID']);
 
-        $check_query = tep_db_query("select id, user_name from administrators where id = '" . (int)$id . "'");
-        $check = tep_db_fetch_array($check_query);
+        $check_query = tep_db_query("SELECT id, user_name FROM administrators WHERE id = " . (int)$id);
+        $check = $check_query->fetch_assoc();
 
         if ($admin['id'] == $check['id']) {
-          tep_session_unregister('admin');
+          unset($_SESSION['admin']);
         }
 
-        tep_db_query("delete from administrators where id = '" . (int)$id . "'");
+        tep_db_query("DELETE FROM administrators WHERE id = " . (int)$id);
 
         if (is_array($htpasswd_array)) {
           for ($i=0, $n=count($htpasswd_array); $i<$n; $i++) {
@@ -244,7 +244,7 @@
     $secMessageStack->add(HTPASSWD_PERMISSIONS, 'error');
   }
 
-  require('includes/template_top.php');
+  require 'includes/template_top.php';
 ?>
 
   <div class="row">
@@ -275,8 +275,8 @@
           </thead>
           <tbody>
             <?php
-            $admins_query = tep_db_query("select id, user_name from administrators order by user_name");
-            while ($admins = tep_db_fetch_array($admins_query)) {
+            $admins_query = tep_db_query("SELECT id, user_name FROM administrators ORDER BY user_name");
+            while ($admins = $admins_query->fetch_assoc()) {
               if (!isset($aInfo) && (!isset($_GET['aID']) || ($_GET['aID'] == $admins['id'])) && (substr($action, 0, 3) != 'new')) {
                 $aInfo = new objectInfo($admins);
               }
@@ -388,9 +388,9 @@
       break;
   }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
-      $box = new box;
+      $box = new box();
       echo $box->infoBox($heading, $contents);
     echo '</div>';
   }
@@ -399,6 +399,6 @@
   </div>
 
 <?php
-  require('includes/template_bottom.php');
-  require('includes/application_bottom.php');
+  require 'includes/template_bottom.php';
+  require 'includes/application_bottom.php';
 ?>

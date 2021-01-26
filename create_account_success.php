@@ -12,8 +12,7 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/create_account_success.php";
+  require language::map_to_translation('create_account_success.php');
   require $oscTemplate->map_to_template(__FILE__, 'page');
 
   require 'includes/application_bottom.php';
-?>

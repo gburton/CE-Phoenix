@@ -21,15 +21,15 @@
   $OSCOM_Hooks->register_pipeline('loginRequired', $parameters);
 
   if (!isset($_SESSION['sage_pay_direct_acsurl'])) {
-    tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_payment.php'));
   }
 
   if (!isset($_SESSION['payment']) || ($_SESSION['payment'] != 'sage_pay_direct')) {
-    tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
+    tep_redirect(tep_href_link('checkout_payment.php'));
   }
 
-  require "includes/languages/$language/checkout_confirmation.php";
-  require "includes/languages/$language/modules/payment/sage_pay_direct.php";
+  require language::map_to_translation('checkout_confirmation.php');
+  require language::map_to_translation('modules/payment/sage_pay_direct.php');
 
   require $oscTemplate->map_to_template(__FILE__, 'ext');
   require 'includes/application_bottom.php';

@@ -12,9 +12,9 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/specials.php";
+  require language::map_to_translation('specials.php');
 
-  $listing_sql = <<<'EOSQL'
+  $listing_sql = sprintf(<<<'EOSQL'
 SELECT p.*, pd.*, m.*,
   IF(s.status, s.specials_new_products_price, NULL) AS specials_new_products_price,
   IF(s.status, s.specials_new_products_price, p.products_price) AS final_price,
@@ -25,9 +25,9 @@ SELECT p.*, pd.*, m.*,
     INNER JOIN products p ON p.products_id = pd.products_id
     LEFT JOIN manufacturers m ON p.manufacturers_id = m.manufacturers_id
     LEFT JOIN specials s ON p.products_id = s.products_id
- WHERE p.products_status = 1 AND s.status = 1 AND pd.language_id = 
+ WHERE p.products_status = 1 AND s.status = 1 AND pd.language_id = %d
 EOSQL
-  . (int)$languages_id;
+    , (int)$_SESSION['languages_id']);
 
   require $oscTemplate->map_to_template(__FILE__, 'page');
 

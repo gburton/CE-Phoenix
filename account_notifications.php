@@ -15,14 +15,14 @@
   $OSCOM_Hooks->register_pipeline('loginRequired');
 
 // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/account_notifications.php";
+  require language::map_to_translation('account_notifications.php');
 
   $global_query = tep_db_query("SELECT global_product_notifications FROM customers_info WHERE customers_info_id = " . (int)$_SESSION['customer_id']);
-  $global = tep_db_fetch_array($global_query);
+  $global = $global_query->fetch_assoc();
 
   if (tep_validate_form_action_is('process')) {
     if (isset($_POST['product_global']) && is_numeric($_POST['product_global'])) {
-      $product_global = tep_db_prepare_input($_POST['product_global']);
+      $product_global = Text::input($_POST['product_global']);
     } else {
       $product_global = '0';
     }
@@ -41,7 +41,7 @@
 
       if (count($products_parsed) > 0) {
         $check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_notifications WHERE customers_id = " . (int)$_SESSION['customer_id'] . " AND products_id NOT IN (" . implode(',', $products_parsed) . ")");
-        $check = tep_db_fetch_array($check_query);
+        $check = $check_query->fetch_assoc();
 
         if ($check['total'] > 0) {
           tep_db_query("DELETE FROM products_notifications WHERE customers_id = " . (int)$_SESSION['customer_id'] . " AND products_id NOT IN (" . implode(',', $products_parsed) . ")");
@@ -49,7 +49,7 @@
       }
     } else {
       $check_query = tep_db_query("SELECT COUNT(*) AS total FROM products_notifications WHERE customers_id = " . (int)$_SESSION['customer_id']);
-      $check = tep_db_fetch_array($check_query);
+      $check = $check_query->fetch_assoc();
 
       if ($check['total'] > 0) {
         tep_db_query("DELETE FROM products_notifications WHERE customers_id = " . (int)$_SESSION['customer_id']);
@@ -58,7 +58,7 @@
 
     $messageStack->add_session('account', SUCCESS_NOTIFICATIONS_UPDATED, 'success');
 
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
   require $oscTemplate->map_to_template(__FILE__, 'page');

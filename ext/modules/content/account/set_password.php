@@ -14,27 +14,27 @@
   require 'includes/application_top.php';
 
   if (!isset($_SESSION['customer_id'])) {
-    tep_redirect(tep_href_link('login.php', '', 'SSL'));
+    tep_redirect(tep_href_link('login.php'));
   }
 
   if ( MODULE_CONTENT_ACCOUNT_SET_PASSWORD_ALLOW_PASSWORD != 'True' ) {
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
   if (!$customer_data->has(['password'])) {
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
   $check_customer_query = tep_db_query($customer_data->build_read(['password'], 'both', ['id' => (int)$_SESSION['customer_id']]));
-  $check_customer = tep_db_fetch_array($check_customer_query);
+  $check_customer = $check_customer_query->fetch_assoc();
 
   // only allow to set the password when it is blank
   if ( !empty($customer_data->get('password', $check_customer)) ) {
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/modules/content/account/cm_account_set_password.php";
+  require language::map_to_translation('modules/content/account/cm_account_set_password.php');
 
   $page_fields = ['password', 'password_confirmation'];
 
@@ -48,7 +48,7 @@
 
       $messageStack->add_session('account', MODULE_CONTENT_ACCOUNT_SET_PASSWORD_SUCCESS_PASSWORD_SET, 'success');
 
-      tep_redirect(tep_href_link('account.php', '', 'SSL'));
+      tep_redirect(tep_href_link('account.php'));
     }
   }
 

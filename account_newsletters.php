@@ -15,19 +15,19 @@
   $OSCOM_Hooks->register_pipeline('loginRequired');
 
   if (!$customer_data->has(['newsletter'])) {
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
 // needs to be included earlier to set the success message in the messageStack
-  require "includes/languages/$language/account_newsletters.php";
+  require language::map_to_translation('account_newsletters.php');
 
   $customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$_SESSION['customer_id']]);
   $newsletter_query = tep_db_query($customer_data->build_read(['newsletter'], 'customers', ['id' => (int)$_SESSION['customer_id']]));
-  $newsletter = tep_db_fetch_array($newsletter_query);
+  $newsletter = $newsletter_query->fetch_assoc();
 
   if (tep_validate_form_action_is('process')) {
     if (isset($_POST['newsletter_general']) && is_numeric($_POST['newsletter_general'])) {
-      $newsletter_general = tep_db_prepare_input($_POST['newsletter_general']);
+      $newsletter_general = Text::input($_POST['newsletter_general']);
     } else {
       $newsletter_general = 0;
     }
@@ -39,7 +39,7 @@
 
     $messageStack->add_session('account', SUCCESS_NEWSLETTER_UPDATED, 'success');
 
-    tep_redirect(tep_href_link('account.php', '', 'SSL'));
+    tep_redirect(tep_href_link('account.php'));
   }
 
   require $oscTemplate->map_to_template(__FILE__, 'page');

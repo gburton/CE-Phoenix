@@ -20,7 +20,7 @@
 
   $action = $_GET['action'] ?? '';
 
-  if (tep_not_null($action)) {
+  if (!Text::is_empty($action)) {
     switch ($action) {
       case 'forget':
         tep_db_query("DELETE FROM configuration WHERE configuration_key = 'DB_LAST_RESTORE'");
@@ -51,7 +51,7 @@ EOSQL
         fputs($fp, $schema);
 
         $tables_query = tep_db_query('SHOW TABLES');
-        while ($tables = tep_db_fetch_array($tables_query)) {
+        while ($tables = $tables_query->fetch_assoc()) {
           $table = reset($tables);
 
           $schema = "\n" . 'DROP TABLE IF EXISTS ' . $table . ';' . "\n" .
@@ -59,7 +59,7 @@ EOSQL
 
           $table_list = [];
           $fields_query = tep_db_query("SHOW FIELDS FROM " . $table);
-          while ($fields = tep_db_fetch_array($fields_query)) {
+          while ($fields = $fields_query->fetch_assoc()) {
             $table_list[] = $fields['Field'];
 
             $schema .= '  ' . $fields['Field'] . ' ' . $fields['Type'];
@@ -84,7 +84,7 @@ EOSQL
 // add the keys
           $index = [];
           $keys_query = tep_db_query("SHOW KEYS FROM " . $table);
-          while ($keys = tep_db_fetch_array($keys_query)) {
+          while ($keys = $keys_query->fetch_assoc()) {
             $kname = $keys['Key_name'];
 
             if (!isset($index[$kname])) {
@@ -118,19 +118,19 @@ EOSQL
 // dump the data
           if ( ($table != 'sessions' ) && ($table != 'whos_online') ) {
             $rows_query = tep_db_query("SELECT " . implode(',', $table_list) . " FROM " . $table);
-            while ($rows = tep_db_fetch_array($rows_query)) {
+            while ($rows = $rows_query->fetch_assoc()) {
               $schema = 'INSERT INTO ' . $table . ' (' . implode(', ', $table_list) . ') VALUES (';
 
               foreach ($table_list as $i) {
                 if (!isset($rows[$i])) {
                   $schema .= 'NULL, ';
-                } elseif (tep_not_null($rows[$i])) {
+                } elseif (Text::is_empty($rows[$i])) {
+                  $schema .= "'', ";
+                } else {
                   $row = addslashes($rows[$i]);
                   $row = preg_replace("/\n#/", "\n".'\#', $row);
 
-                  $schema .= '\'' . $row . '\', ';
-                } else {
-                  $schema .= '\'\', ';
+                  $schema .= "'$row', ";
                 }
               }
 
@@ -278,7 +278,7 @@ EOSQL
             tep_db_query($sql_statement);
           }
 
-          tep_session_close();
+          session_write_close();
 
           tep_db_query("DELETE FROM whos_online");
           tep_db_query("DELETE FROM sessions");
@@ -308,7 +308,7 @@ EOSQL
 
             echo $buffer;
 
-            exit;
+            exit();
           }
         } else {
           $messageStack->add(ERROR_DOWNLOAD_LINK_NOT_ACCEPTABLE, 'error');
@@ -488,7 +488,7 @@ EOSQL
       break;
   }
 
-  if ( (tep_not_null($heading)) && (tep_not_null($contents)) ) {
+  if ( ([] !== $heading) && ([] !== $contents) ) {
     echo '<div class="col-12 col-sm-4">';
       $box = new box;
       echo $box->infoBox($heading, $contents);

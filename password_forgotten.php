@@ -12,19 +12,19 @@
 
   require 'includes/application_top.php';
 
-  require "includes/languages/$language/password_forgotten.php";
+  require language::map_to_translation('password_forgotten.php');
 
   if (!$customer_data->has(['email_address'])) {
-    tep_redirect(tep_href_link('index.php', '', 'SSL'));
+    tep_redirect(tep_href_link('index.php'));
   }
 
   $password_reset_initiated = false;
 
   if (tep_validate_form_action_is('process')) {
-    $email_address = tep_db_prepare_input($_POST['email_address']);
+    $email_address = Text::input($_POST['email_address']);
 
     $check_customer_query = tep_db_query($customer_data->build_read(['name', 'id'], 'customers', ['email_address' => $email_address]));
-    if ($check_customer = tep_db_fetch_array($check_customer_query)) {
+    if ($check_customer = $check_customer_query->fetch_assoc()) {
       $actionRecorder = new actionRecorder('ar_reset_password', $customer_data->get('id', $check_customer), $email_address);
 
       if ($actionRecorder->canPerform()) {

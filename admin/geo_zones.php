@@ -19,9 +19,9 @@
   if (!Text::is_empty($saction)) {
     switch ($saction) {
       case 'insert_sub':
-        $zID = Text::prepare($_GET['zID']);
-        $zone_country_id = Text::prepare($_POST['zone_country_id']);
-        $zone_id = Text::prepare($_POST['zone_id']);
+        $zID = Text::input($_GET['zID']);
+        $zone_country_id = Text::input($_POST['zone_country_id']);
+        $zone_id = Text::input($_POST['zone_id']);
 
         tep_db_query("INSERT INTO zones_to_geo_zones (zone_country_id, zone_id, geo_zone_id, date_added) VALUES (" . (int)$zone_country_id . ", " . (int)$zone_id . ", " . (int)$zID . ", NOW())");
         $new_subzone_id = tep_db_insert_id();
@@ -31,10 +31,10 @@
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $new_subzone_id));
         break;
       case 'save_sub':
-        $sID = Text::prepare($_GET['sID']);
-        $zID = Text::prepare($_GET['zID']);
-        $zone_country_id = Text::prepare($_POST['zone_country_id']);
-        $zone_id = Text::prepare($_POST['zone_id']);
+        $sID = Text::input($_GET['sID']);
+        $zID = Text::input($_GET['zID']);
+        $zone_country_id = Text::input($_POST['zone_country_id']);
+        $zone_id = Text::input($_POST['zone_id']);
 
         tep_db_query("UPDATE zones_to_geo_zones SET geo_zone_id = " . (int)$zID . ", zone_country_id = " . (int)$zone_country_id . ", zone_id = " . (Text::is_empty($zone_id) ? 'NULL' : (int)$zone_id) . ", last_modified = NOW() WHERE association_id = " . (int)$sID);
 
@@ -43,7 +43,7 @@
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&sID=' . $_GET['sID']));
         break;
       case 'deleteconfirm_sub':
-        $sID = Text::prepare($_GET['sID']);
+        $sID = Text::input($_GET['sID']);
 
         tep_db_query("DELETE FROM zones_to_geo_zones WHERE association_id = '" . (int)$sID . "'");
 
@@ -74,7 +74,7 @@
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $new_zone_id));
         break;
       case 'save_zone':
-        $zID = Text::prepare($_GET['zID']);
+        $zID = Text::input($_GET['zID']);
         $geo_zone_name = Text::prepare($_POST['geo_zone_name']);
         $geo_zone_description = Text::prepare($_POST['geo_zone_description']);
 
@@ -85,7 +85,7 @@
         tep_redirect(tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']));
         break;
       case 'deleteconfirm_zone':
-        $zID = Text::prepare($_GET['zID']);
+        $zID = Text::input($_GET['zID']);
 
         tep_db_query("DELETE FROM geo_zones WHERE geo_zone_id = " . (int)$zID);
         tep_db_query("DELETE FROM zones_to_geo_zones WHERE geo_zone_id = " . (int)$zID);

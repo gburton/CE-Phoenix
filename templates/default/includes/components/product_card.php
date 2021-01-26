@@ -1,8 +1,8 @@
-  <a href="<?= $product->get('link') ?>"><?= tep_image('images/' . $product->get('image'), htmlspecialchars($product->get('name')), null, null, null, true, 'card-img-top') ?></a>
+  <a href="<?= $product->get('link') ?>"><?= tep_image('images/' . $product->get('image'), htmlspecialchars($product->get('name')), '', '', '', true, 'card-img-top') ?></a>
   <div class="card-body">
     <h5 class="card-title"><a href="<?= $product->get('link') ?>"><?= $product->get('name') ?></a></h5>
     <h6 class="card-subtitle mb-2 text-muted"><?= $product->hype_price() ?></h6>
-    <?= $card['extra'] ?? null ?>
+    <?= $card['extra'] ?? '' ?>
   </div>
 
 <?php

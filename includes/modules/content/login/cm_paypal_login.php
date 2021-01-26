@@ -35,7 +35,7 @@
     public $enabled = false;
     public $_app;
 
-    function __construct() {
+    public function __construct() {
       $this->_app = new OSCOM_PayPal();
       $this->_app->loadLanguageFile('modules/LOGIN/LOGIN.php');
 
@@ -62,7 +62,7 @@
         }
 
         if ( $this->enabled === true ) {
-          if ( ((OSCOM_APP_PAYPAL_LOGIN_STATUS == '1') && (!tep_not_null(OSCOM_APP_PAYPAL_LOGIN_LIVE_CLIENT_ID) || !tep_not_null(OSCOM_APP_PAYPAL_LOGIN_LIVE_SECRET))) || ((OSCOM_APP_PAYPAL_LOGIN_STATUS == '0') && (!tep_not_null(OSCOM_APP_PAYPAL_LOGIN_SANDBOX_CLIENT_ID) || !tep_not_null(OSCOM_APP_PAYPAL_LOGIN_SANDBOX_SECRET))) ) {
+          if ( ((OSCOM_APP_PAYPAL_LOGIN_STATUS == '1') && (Text::is_empty(OSCOM_APP_PAYPAL_LOGIN_LIVE_CLIENT_ID) || Text::is_empty(OSCOM_APP_PAYPAL_LOGIN_LIVE_SECRET))) || ((OSCOM_APP_PAYPAL_LOGIN_STATUS == '0') && (Text::is_empty(OSCOM_APP_PAYPAL_LOGIN_SANDBOX_CLIENT_ID) || Text::is_empty(OSCOM_APP_PAYPAL_LOGIN_SANDBOX_SECRET))) ) {
             $this->description .= '<div class="alert alert-warning">' . $this->_app->getDef('module_login_error_credentials') . '</div>';
 
             $this->enabled = false;
@@ -71,7 +71,7 @@
       }
     }
 
-    function execute() {
+    public function execute() {
       if ( isset($_GET['action']) ) {
         if ( $_GET['action'] == 'paypal_login' ) {
           $this->preLogin();
@@ -96,27 +96,27 @@
       include 'includes/modules/content/cm_template.php';
     }
 
-    function guarantee_address($customer_id, $address) {
+    public function guarantee_address($customer_id, $address) {
       $address['id'] = $customer_id;
       $check_query = tep_db_query($GLOBALS['customer_data']->build_read(['address_book_id'], 'address_book', $address) . " LIMIT 1");
-      if ($check = tep_db_fetch_array($check_query)) {
+      if ($check = $check_query->fetch_assoc()) {
         $_SESSION['sendto'] = $check['address_book_id'];
       } else {
         $GLOBALS['customer_data']->create($address, 'address_book');
       }
     }
 
-    function preLogin() {
+    public function preLogin() {
       global $customer_data;
 
-      $return_url = tep_href_link('login.php', '', 'SSL');
+      $return_url = tep_href_link('login.php');
 
       if ( isset($_GET['code']) ) {
         $_SESSION['paypal_login_customer_id'] = false;
 
         $params = [
           'code' => $_GET['code'],
-          'redirect_uri' => str_replace('&amp;', '&', tep_href_link('login.php', 'action=paypal_login', 'SSL')),
+          'redirect_uri' => str_replace('&amp;', '&', tep_href_link('login.php', 'action=paypal_login')),
         ];
 
         $response_token = $this->_app->getApiResult('LOGIN', 'GrantToken', $params);
@@ -136,28 +136,27 @@
             $_SESSION['paypal_login_access_token'] = $response_token['access_token'];
             $_SESSION['paypal_login_customer_id'] = false;
             $customer_details = [
-              'firstname' => tep_db_prepare_input($response['given_name']),
-              'lastname' => tep_db_prepare_input($response['family_name']),
-              'address' => tep_db_prepare_input($response['address']['street_address']),
-              'city' => tep_db_prepare_input($response['address']['locality']),
-              'zone' => tep_db_prepare_input($response['address']['region']),
+              'firstname' => Text::input($response['given_name']),
+              'lastname' => Text::input($response['family_name']),
+              'address' => Text::input($response['address']['street_address']),
+              'city' => Text::input($response['address']['locality']),
+              'zone' => Text::input($response['address']['region']),
               'zone_id' => 0,
-              'postcode' => tep_db_prepare_input($response['address']['postal_code']),
-              'country' => tep_db_prepare_input($response['address']['country']),
+              'postcode' => Text::input($response['address']['postal_code']),
+              'country_iso_code_2' => Text::input($response['address']['country']),
               'country_id' => 0,
               'address_format_id' => 1,
             ];
 
-
-            $country_query = tep_db_query("SELECT countries_id, address_format_id FROM countries WHERE countries_iso_code_2 = '" . tep_db_input($ship_country) . "' LIMIT 1");
-            if ($country = tep_db_fetch_array($country_query)) {
+            $country_query = tep_db_query("SELECT countries_id, address_format_id FROM countries WHERE countries_iso_code_2 = '" . tep_db_input($customer_details['country_iso_code_2']) . "' LIMIT 1");
+            if ($country = $country_query->fetch_assoc()) {
               $customer_details['country_id'] = $country['countries_id'];
               $customer_details['address_format_id'] = $country['address_format_id'];
             }
 
             if ($customer_details['country_id'] > 0) {
               $zone_query = tep_db_query("SELECT zone_id FROM zones WHERE zone_country_id = '" . (int)$customer_details['country_id'] . "' AND (zone_name = '" . tep_db_input($customer_details['zone']) . "' or zone_code = '" . tep_db_input($customer_details['zone']) . "') LIMIT 1");
-              if ($zone = tep_db_fetch_array($zone_query)) {
+              if ($zone = $zone_query->fetch_assoc()) {
                 $customer_details['zone_id'] = $zone['zone_id'];
               }
             }
@@ -167,10 +166,10 @@
               $this->guarantee_address($_SESSION['customer_id'], $customer_details);
             } else {
 // check if e-mail address exists in database and log in or create customer account
-              $email_address = tep_db_prepare_input($response['email']);
+              $email_address = Text::input($response['email']);
 
               $check_query = tep_db_query($customer_data->build_read(['id'], 'customers', ['email_address' => $email_address]) . ' LIMIT 1');
-              if ($check = tep_db_fetch_array($check_query)) {
+              if ($check = $check_query->fetch_assoc()) {
                 $_SESSION['paypal_login_customer_id'] = (int)$customer_data->get('id', $check);
                 $this->guarantee_address($_SESSION['paypal_login_customer_id'], $customer_details);
               } else {
@@ -183,7 +182,7 @@
                 ];
 
                 if ($this->hasAttribute('phone') && !empty($response['phone_number'])) {
-                  $customer_details['telephone'] = tep_db_prepare_input($response['phone_number']);
+                  $customer_details['telephone'] = Text::input($response['phone_number']);
                 }
 
                 if ($customer_details['zone_id'] > 0) {
@@ -201,17 +200,17 @@
 
             $_SESSION['billto'] = $_SESSION['sendto'];
 
-            $return_url = tep_href_link('login.php', 'action=paypal_login_process', 'SSL');
+            $return_url = tep_href_link('login.php', 'action=paypal_login_process');
           }
         }
       }
 
       echo '<script>window.opener.location.href="' . str_replace('&amp;', '&', $return_url) . '";window.close();</script>';
 
-      exit;
+      exit();
     }
 
-    function postLogin() {
+    public function postLogin() {
       if ( false !== ($_SESSION['paypal_login_customer_id'] ?? false) ) {
         $GLOBALS['login_customer_id'] = $_SESSION['paypal_login_customer_id'];
       }
@@ -220,7 +219,7 @@
 
 // Register PayPal Express Checkout as the default payment method
       if ( 'paypal_express' !== ($_SESSION['payment'] ?? null) ) {
-        if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
+        if (defined('MODULE_PAYMENT_INSTALLED') && !Text::is_empty(MODULE_PAYMENT_INSTALLED)) {
           if ( in_array('paypal_express.php', explode(';', MODULE_PAYMENT_INSTALLED)) ) {
             $ppe = new paypal_express();
 
@@ -233,31 +232,31 @@
       }
     }
 
-    function isEnabled() {
+    public function isEnabled() {
       return $this->enabled;
     }
 
-    function check() {
+    public function check() {
       return defined('OSCOM_APP_PAYPAL_LOGIN_STATUS');
     }
 
-    function install() {
+    public function install() {
       tep_redirect(tep_href_link('paypal.php', 'action=configure&subaction=install&module=LOGIN'));
     }
 
-    function remove() {
+    public function remove() {
       tep_redirect(tep_href_link('paypal.php', 'action=configure&subaction=uninstall&module=LOGIN'));
     }
 
-    function keys() {
+    public function keys() {
       return ['OSCOM_APP_PAYPAL_LOGIN_CONTENT_WIDTH', 'OSCOM_APP_PAYPAL_LOGIN_SORT_ORDER'];
     }
 
-    function hasAttribute($attribute) {
+    public function hasAttribute($attribute) {
       return in_array($attribute, explode(';', OSCOM_APP_PAYPAL_LOGIN_ATTRIBUTES));
     }
 
-    function get_default_attributes() {
+    public function get_default_attributes() {
       $data = [];
 
       foreach ( $this->get_attributes() as $group => $attributes ) {

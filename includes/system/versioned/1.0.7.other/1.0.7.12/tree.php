@@ -22,7 +22,7 @@
     }
 
     public function get_descendants($id, &$results = []) {
-      foreach (array_keys($this->_data[$id]) as $child_id) {
+      foreach ($this->get_children($id) as $child_id) {
         $results[] = $child_id;
         $this->get_descendants($child_id, $results);
       }

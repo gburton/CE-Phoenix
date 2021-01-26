@@ -25,11 +25,11 @@
     function getMessage() {
       if (defined('DIR_FS_SESSION') && DIR_FS_SESSION) {
         if (!is_dir(DIR_FS_SESSION)) {
-          return WARNING_SESSION_DIRECTORY_NON_EXISTENT;
+          return sprintf(WARNING_SESSION_DIRECTORY_NON_EXISTENT, session_save_path());
         }
 
         if (!is_writable(DIR_FS_SESSION)) {
-          return WARNING_SESSION_DIRECTORY_NOT_WRITEABLE;
+          return sprintf(WARNING_SESSION_DIRECTORY_NOT_WRITEABLE, session_save_path());
         }
       }
     }
