@@ -91,7 +91,7 @@
     $get_url = '';
     foreach ($_GET as $key => $value) {
       if (!in_array($key, $excludes)) {
-        $get_url .= $key . '=' . $value . '&';
+        $get_url .= urlencode($key) . '=' . urlencode($value) . '&';
       }
     }
 
