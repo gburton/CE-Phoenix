@@ -45,12 +45,12 @@
   When you enter these country lists, enter them into the Zone X Countries
   fields, where "X" is the number of the zone.  They should be entered as
   two character ISO country codes in all capital letters.  They should be
-  separated by commas with no spaces or other punctuation. For example:
+  separated by semi-colons with no spaces or other punctuation. For example:
     1: US
     2: CA
-    3: AT,BE,GB,FR,DE,GL,IS,IE,IT,NO,NL,DK,PL,ES,SE,CH,FI,PT,IL,GR
-    4: JP,AU,NZ,SG
-    5: TW,CN,HK
+    3: AT;BE;GB;FR;DE;GL;IS;IE;IT;NO;NL;DK;PL;ES;SE;CH;FI;PT;IL;GR
+    4: JP;AU;NZ;SG
+    5: TW;CN;HK
 
   Now you need to set up the shipping rate tables for each zone.  Again,
   some time and effort will go into setting the appropriate rates.  You
