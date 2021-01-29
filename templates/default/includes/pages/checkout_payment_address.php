@@ -10,7 +10,7 @@
   Released under the GNU General Public License
   */
 
-  $OSCOM_Hooks->register('progress');
+  $OSCOM_Hooks->register_pipeline('progress');
 
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_payment.php'));
   $breadcrumb->add(NAVBAR_TITLE_2, tep_href_link('checkout_payment_address.php'));
