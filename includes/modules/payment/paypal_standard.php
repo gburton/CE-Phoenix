@@ -224,7 +224,7 @@
         'currency_code' => $_SESSION['currency'],
         'invoice' => $this->extract_order_id(),
         'custom' => $_SESSION['customer_id'],
-        'notify_url' => tep_href_link('ext/modules/payment/paypal/standard_ipn.php', (isset($ipn_language) ? 'language=' . $ipn_language : ''), false, false),
+        'notify_url' => tep_href_link('ext/modules/payment/paypal/standard_ipn.php', (isset($ipn_language) ? 'language=' . $ipn_language : ''), 'SSL', false, false),
         'rm' => '2',
         'return' => tep_href_link('checkout_process.php'),
         'cancel_return' => tep_href_link('checkout_payment.php'),
