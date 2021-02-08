@@ -153,7 +153,7 @@ EOSQL;
 
       $parameters = [
         'builder' => $builder,
-        'order' => $order,
+        'order' => &$order,
       ];
       $GLOBALS['OSCOM_Hooks']->call('siteWide', 'databaseOrderBuild', $parameters);
     }
