@@ -50,7 +50,7 @@ EOSQL;
       $this->order =& $order;
 
       $order_query = tep_db_query("SELECT * FROM orders WHERE orders_id = " . (int)$this->order->get_id());
-      $this->data = tep_db_fetch_array($order_query);
+      $this->data = $order_query->fetch_assoc();
     }
 
     protected function extract_address($prefix) {
@@ -72,7 +72,7 @@ EOSQL;
       $order_status_query = tep_db_query(sprintf(
         "SELECT orders_status_name FROM orders_status WHERE orders_status_id = %d AND language_id = %d",
         (int)$this->data['orders_status'], (int)$_SESSION['languages_id']));
-      $order_status = tep_db_fetch_array($order_status_query);
+      $order_status = $order_status_query->fetch_assoc();
 
       $this->order->info = [
         'currency' => $this->data['currency'],
@@ -98,7 +98,7 @@ EOSQL;
 
     public function build_totals() {
       $totals_query = tep_db_query("SELECT title, text, class FROM orders_total WHERE orders_id = " . (int)$this->order->get_id() . " ORDER BY sort_order");
-      while ($total = tep_db_fetch_array($totals_query)) {
+      while ($total = $totals_query->fetch_assoc()) {
         $this->order->totals[] =  [
           'title' => $total['title'],
           'text' => $total['text'],
@@ -117,7 +117,7 @@ EOSQL;
 
     public function build_products() {
       $order_products_query = tep_db_query("SELECT * FROM orders_products WHERE orders_id = " . (int)$this->order->get_id());
-      while ($order_product = tep_db_fetch_array($order_products_query)) {
+      while ($order_product = $order_products_query->fetch_assoc()) {
         $current = [];
         foreach (static::$column_keys as $order_key => $database_key) {
           $current[$order_key] = $order_product[$database_key];
@@ -127,9 +127,9 @@ EOSQL;
           static::$attributes_sql,
           (int)$this->order->get_id(),
           (int)$order_product['orders_products_id']));
-        if (tep_db_num_rows($attributes_query)) {
+        if (mysqli_num_rows($attributes_query)) {
           $current['attributes'] = [];
-          while ($attribute = tep_db_fetch_array($attributes_query)) {
+          while ($attribute = $attributes_query->fetch_assoc()) {
             $current['attributes'][] = $attribute;
           }
         }
@@ -139,6 +139,10 @@ EOSQL;
       }
     }
 
+    public function get($key) {
+      return $this->data[$key] ?? null;
+    }
+
     public static function build(&$order) {
       $builder = new database_order_builder($order);
 
@@ -146,6 +150,12 @@ EOSQL;
       $builder->build_addresses();
       $builder->build_totals();
       $builder->build_products();
+
+      $parameters = [
+        'builder' => $builder,
+        'order' => &$order,
+      ];
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'databaseOrderBuild', $parameters);
     }
 
   }

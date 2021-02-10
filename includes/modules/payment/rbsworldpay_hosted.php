@@ -139,7 +139,7 @@
                              . tep_draw_hidden_field('M_sid', session_id())
                              . tep_draw_hidden_field('M_cid', $_SESSION['customer_id'])
                              . tep_draw_hidden_field('M_lang', $_SESSION['language'])
-                             . tep_draw_hidden_field('M_hash', build_hash($order_id));
+                             . tep_draw_hidden_field('M_hash', $this->build_hash($order_id));
 
       if (MODULE_PAYMENT_RBSWORLDPAY_HOSTED_TRANSACTION_METHOD == 'Pre-Authorization') {
         $process_button_string .= tep_draw_hidden_field('authMode', 'E');
@@ -157,7 +157,7 @@
 
       $order_id = $this->extract_order_id();
 
-      if (!isset($_GET['hash']) || ($_GET['hash'] != build_hash($order_id))) {
+      if (!isset($_GET['hash']) || ($_GET['hash'] != $this->build_hash($order_id))) {
         $this->sendDebugEmail();
 
         tep_redirect(tep_href_link('shopping_cart.php'));

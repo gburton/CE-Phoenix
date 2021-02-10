@@ -128,7 +128,7 @@ EOSQL;
           (int)$value,
           (int)$_SESSION['languages_id']));
 
-        $attributes[] = tep_db_fetch_array($attributes_query);
+        $attributes[] = $attributes_query->fetch_assoc();
       }
 
       return $attributes;
@@ -168,6 +168,12 @@ EOSQL;
       if (DISPLAY_PRICE_WITH_TAX != 'true') {
         $order->info['total'] += $order->info['tax'];
       }
+
+      $parameters = [
+        'builder' => $builder,
+        'order' => &$order,
+      ];
+      $GLOBALS['OSCOM_Hooks']->call('siteWide', 'cartOrderBuild', $parameters);
 
       return $order;
     }

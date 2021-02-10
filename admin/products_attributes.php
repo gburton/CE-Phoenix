@@ -755,7 +755,7 @@ EOSQL
                     <div class="col-3">
                       <select name="option_id" class="form-control">
                       <?php
-                      $options = tep_db_query("SELECT products_options_id, products_options_name FROM products_options WHERE language_id = '" . $_SESSION['languages_id'] . "' ORDER BY products_options_name");
+                      $options = tep_db_query("SELECT * FROM products_options WHERE language_id = '" . $_SESSION['languages_id'] . "' ORDER BY products_options_name");
                       while ($options_values = $options->fetch_assoc()) {
                         echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
                       }
