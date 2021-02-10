@@ -470,8 +470,8 @@ EOSQL
     <h1 class="display-4"><?= HEADING_TITLE_OPT ?></h1>
 
     <?php
-    $options = "SELECT * FROM products_options WHERE language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY sort_order";
-    $options_split = new splitPageResults($option_page, MAX_ROW_LISTS_OPTIONS, $options, $options_query_numrows);
+    $options_sql = "SELECT * FROM products_options WHERE language_id = " . (int)$_SESSION['languages_id'] . " ORDER BY sort_order";
+    $options_split = new splitPageResults($option_page, MAX_ROW_LISTS_OPTIONS, $options_sql, $options_query_numrows);
     ?>
 
     <p class="my-2 text-right mr-2"><?= $options_split->display_links($options_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $option_page, 'value_page=' . $value_page . '&attribute_page=' . $attribute_page, 'option_page') ?></p>
@@ -488,8 +488,8 @@ EOSQL
         <tbody>
           <?php
           $next_id = 1;
-          $options = tep_db_query($options);
-          while ($options_values = $options->fetch_assoc()) {
+          $options_query = tep_db_query($options_sql);
+          while ($options_values = $options_query->fetch_assoc()) {
             if (($action == 'update_option') && ($_GET['option_id'] == $options_values['products_options_id'])) {
               $inputs = $sort = '';
               foreach ($languages as $l) {
@@ -755,7 +755,7 @@ EOSQL
                     <div class="col-3">
                       <select name="option_id" class="form-control">
                       <?php
-                      $options = tep_db_query("SELECT * FROM products_options WHERE language_id = '" . $_SESSION['languages_id'] . "' ORDER BY products_options_name");
+                      $options = tep_db_query("SELECT products_options_id, products_options_name FROM products_options WHERE language_id = '" . $_SESSION['languages_id'] . "' ORDER BY products_options_name");
                       while ($options_values = $options->fetch_assoc()) {
                         echo '<option name="' . $options_values['products_options_name'] . '" value="' . $options_values['products_options_id'] . '">' . $options_values['products_options_name'] . '</option>';
                       }
