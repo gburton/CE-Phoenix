@@ -56,6 +56,8 @@
 
               $actionRecorder->_user_id = $_SESSION['admin']['id'];
               $actionRecorder->record();
+              
+              $OSCOM_Hooks->call('login', 'processActionSuccess');
 
               if (isset($_SESSION['redirect_origin'])) {
                 $page = $redirect_origin['page'];
@@ -68,6 +70,8 @@
                 tep_redirect(tep_href_link('index.php'));
               }
             }
+            
+            $OSCOM_Hooks->call('login', 'processActionFail');
           }
 
           if (isset($_POST['username'])) {
