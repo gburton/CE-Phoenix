@@ -16,14 +16,14 @@
 ?>
 
 <div class="row">
-  <h1 class="display-4 col-sm-8"><?= $product_info['products_name'] ?></h1>
-  <h2 class="display-4 col-sm-4 text-left text-sm-right"><?= $products_price ?></h2>
+  <h1 class="display-4 col-sm-8"><?= $product->get('name') ?></h1>
+  <h2 class="display-4 col-sm-4 text-left text-sm-right"><?= $product->hype_price() ?></h2>
 </div>
 
 <?= tep_draw_form('review', tep_href_link('ext/modules/content/reviews/write.php', 'action=process&products_id=' . (int)$_GET['products_id']), 'post', 'enctype="multipart/form-data"', true) ?>
 
   <div class="alert alert-warning" role="alert">
-    <?= sprintf(TEXT_REVIEW_WRITING, htmlspecialchars($customer->get_short_name()), $product_info['products_name']) ?>
+    <?= sprintf(TEXT_REVIEW_WRITING, htmlspecialchars($customer->get('short_name')), $product->get('name')) ?>
   </div>
 
   <div class="form-group row">
@@ -69,8 +69,8 @@
   <hr>
 
   <div class="row">
-    <div class="col-sm-8"><?= $product_info['products_description'] ?>...</div>
-    <div class="col-sm-4"><?= tep_image('images/' . $product_info['products_image'], htmlspecialchars($product_info['products_name'])) ?></div>
+    <div class="col-sm-8"><?= $product->get('description') ?>...</div>
+    <div class="col-sm-4"><?= tep_image('images/' . $product->get('image'), htmlspecialchars($product->get('name'))) ?></div>
   </div>
 
 </form>
