@@ -2,10 +2,10 @@
 /*
   $Id$
 
-  osCommerce, Open Source E-Commerce Solutions
-  http://www.oscommerce.com
+  CE Phoenix, E-Commerce made Easy
+  https://phoenixcart.org
 
-  Copyright (c) 2020 osCommerce
+  Copyright (c) 2021 Phoenix Cart
 
   Released under the GNU General Public License
 */
@@ -32,21 +32,26 @@
     }
 
     public static function _edit_pages($values, $key) {
-      global $PHP_SELF;
-
-      $file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
       $files_array = [];
-      if ($dir = @dir(DIR_FS_CATALOG)) {
-        while ($file = $dir->read()) {
-          if (!is_dir(DIR_FS_CATALOG . $file)) {
-            if (substr($file, strrpos($file, '.')) == $file_extension) {
-              $files_array[] = $file;
-            }
-          }
+      
+      // main files
+      foreach (new DirectoryIterator(DIR_FS_CATALOG) as $file) {
+        if ($file->isFile() && ($file->getExtension() == 'php')) {
+          $files_array[] = $file->getFilename();
         }
-        sort($files_array);
-        $dir->close();
       }
+            
+      // ext files
+      $dir = new RecursiveDirectoryIterator(DIR_FS_CATALOG . 'ext/modules/content/');
+      $iterator = new RecursiveIteratorIterator($dir);
+
+      foreach ($iterator as $file) {
+        if ($file->isFile() && ($file->getExtension() == 'php')) {
+          $files_array[] = $file->getFilename();
+        }
+      }
+            
+      $files_array = array_unique($files_array);
 
       $values_array = explode(';', $values);
 
