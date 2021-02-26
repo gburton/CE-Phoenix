@@ -1,14 +1,14 @@
 <?php
 /*
- $Id$
+  $Id$
 
- osCommerce, Open Source E-Commerce Solutions
- http://www.oscommerce.com
+  CE Phoenix, E-Commerce made Easy
+  https://phoenixcart.org
 
- Copyright (c) 2020 osCommerce
+  Copyright (c) 2021 Phoenix Cart
 
- Released under the GNU General Public License
- */
+  Released under the GNU General Public License
+*/
 
   $hooks->register_pipeline('checkout');
   foreach ($hooks->generate(null, 'startApplication') as $result) {
