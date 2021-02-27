@@ -12,9 +12,9 @@
 ?>
 
 <div class="alert alert-info" role="alert">
-  <h1>Welcome to OSCOM CE Phoenix</h1>
+  <h1>Welcome to CE Phoenix</h1>
 
-  <p>OSCOM CE Phoenix helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials and more to successfully build your online business.</p>
+  <p>CE Phoenix helps you sell products worldwide with your own online store. Its Administration Tool manages products, customers, orders, newsletters, specials and more to successfully build your online business.</p>
   <p>Phoenix has attracted a community of store owners and developers who support each other and have provided many free and paid-for add-ons that will extend the features and potential of your online store.</p>
 </div>
 

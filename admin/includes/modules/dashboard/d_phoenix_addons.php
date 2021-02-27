@@ -53,8 +53,8 @@
       $output .= '</div>';
 
       $output .= '<div class="text-right my-0 p-1">';
-        $output .= '<a class="float-left" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
-        $output .= '<a href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">' . MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB . '</a>';
+        $output .= '<a class="float-left" href="https://phoenixcart.org/forum/" target="_blank" rel="noreferrer">' . tep_image('images/icon_phoenix.png', 'Phoenix') . '</a> ';
+        $output .= '<a href="https://phoenixcart.org/forum/" target="_blank" rel="noreferrer">' . MODULE_ADMIN_DASHBOARD_PHOENIX_JOIN_CLUB . '</a>';
       $output .= '</div>';
 
       $output .= tep_draw_bootstrap_button(MODULE_ADMIN_DASHBOARD_PHOENIX_VIEW_ALL, 'far fa-list-alt', tep_href_link('certified_addons.php'), null, null, 'btn btn-success btn-block mb-2');

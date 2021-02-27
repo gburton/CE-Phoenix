@@ -90,7 +90,7 @@
 
   <h1 class="display-4 mb-2"><?= HEADING_TITLE ?></h1>
 
-  <p class="lead"><?= TITLE_INSTALLED_VERSION . ' <strong>OSCOM CE Phoenix v' . $current_version . '</strong>' ?></p>
+  <p class="lead"><?= TITLE_INSTALLED_VERSION . ' <strong>CE Phoenix v' . $current_version . '</strong>' ?></p>
 
   <div class="<?= $check_message['class'] ?>">
     <p class="lead"><?= $check_message['message'] ?></p>
@@ -113,7 +113,7 @@
       foreach ($new_versions as $version) {
         ?>
         <tr>
-          <td><?= '<a href="' . $version[2] . '" target="_blank" rel="noreferrer">OSCOM CE Phoenix v' . $version[0] . '</a>' ?></td>
+          <td><?= '<a href="' . $version[2] . '" target="_blank" rel="noreferrer">CE Phoenix v' . $version[0] . '</a>' ?></td>
           <td><?= tep_date_long(substr($version[1], 0, 4) . '-' . substr($version[1], 4, 2) . '-' . substr($version[1], 6, 2)) ?></td>
           <td class="text-right"><?= '<a href="' . $version[2] . '" target="_blank" rel="noreferrer"><i class="fas fa-info-circle text-info"></i></a>' ?></td>
         </tr>

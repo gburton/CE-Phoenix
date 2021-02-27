@@ -633,7 +633,7 @@
         if ( is_numeric($version) ) {
           $this->_version = $version;
         } else {
-          trigger_error('OSCOM APP [PAYPAL]: Could not read App version number.');
+          trigger_error('APP [PAYPAL]: Could not read App version number.');
         }
       }
 

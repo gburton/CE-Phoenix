@@ -692,7 +692,7 @@
 // $email_text        The text of the eMail, may contain HTML entities
 // $from_email_name   The name of the sender, e.g. Shop Administration
 // $from_email_adress The eMail address of the sender,
-//                    e.g. info@mytepshop.com
+//                    e.g. test@example.com
   function tep_mail($to_name, $to_email_address, $email_subject, $email_text, $from_email_name, $from_email_address) {
     if (SEND_EMAILS !== 'true') {
       return false;

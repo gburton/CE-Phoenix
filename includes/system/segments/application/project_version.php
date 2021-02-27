@@ -11,4 +11,4 @@
 */
 
 // define the project version --- obsolete, now retrieved with tep_get_version()
-  const PROJECT_VERSION = 'OSCOM CE Phoenix';
+  const PROJECT_VERSION = 'CE Phoenix';

@@ -156,7 +156,7 @@
     <div class="card text-center shadow mt-5">
       <div class="card-header text-white bg-dark"><?= HEADING_TITLE; ?></div>
       <div class="px-5 py-2">
-        <?= tep_image('images/CE-Phoenix.png', 'OSCOM CE Phoenix',  null, null, 'class="card-img-top"'); ?>
+        <?= tep_image('images/CE-Phoenix.png', 'CE Phoenix',  null, null, 'class="card-img-top"'); ?>
       </div>
 
       <?= tep_draw_form('login', 'login.php', $parameter_string); ?>

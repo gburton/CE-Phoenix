@@ -399,7 +399,7 @@ EOD;
                           . 'Pending Reason: ' . htmlspecialchars($tx_pending_reason);
 
           if ( $tx_amount != $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) ) {
-            $comment_status .= "\n" . 'OSCOM Error Total Mismatch: PayPal transaction value (' . htmlspecialchars($tx_amount) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
+            $comment_status .= "\n" . 'Error Total Mismatch: PayPal transaction value (' . htmlspecialchars($tx_amount) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
           } elseif ( $tx_payment_status == 'Completed' ) {
             $new_order_status = (OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID > 0 ? OSCOM_APP_PAYPAL_HS_ORDER_STATUS_ID : $new_order_status);
           }

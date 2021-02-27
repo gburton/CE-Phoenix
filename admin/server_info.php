@@ -19,57 +19,7 @@
       $info = tep_get_system_information();
     break;
 
-    case 'submit':
-      $target_host = 'usage.oscommerce.com';
-      $target_path = '/submit.php';
-
-      $encoded = base64_encode(serialize(tep_get_system_information()));
-
-      $response = false;
-
-      if (function_exists('curl_init')) {
-        $data = ['info' => $encoded];
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://' . $target_host . $target_path);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $response = trim(curl_exec($ch));
-        curl_close($ch);
-      } else {
-        if ($fp = @fsockopen($target_host, 80, $errno, $errstr, 30)) {
-          $data = 'info=' . $encoded;
-
-          fputs($fp, "POST " . $target_path . " HTTP/1.1\r\n");
-          fputs($fp, "Host: " . $target_host . "\r\n");
-          fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-          fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-          fputs($fp, "Connection: close\r\n\r\n");
-          fputs($fp, $data."\r\n\r\n");
-
-          $response = '';
-
-          while (!feof($fp)) {
-            $response .= fgets($fp, 4096);
-          }
-
-          fclose($fp);
-
-          $response = trim(substr($response, strrpos($response, "\r\n\r\n")));
-        }
-      }
-
-      if ($response != 'OK') {
-        $messageStack->add_session(ERROR_INFO_SUBMIT, 'error');
-      } else {
-        $messageStack->add_session(SUCCESS_INFO_SUBMIT, 'success');
-      }
-
-      tep_redirect(tep_href_link('server_info.php'));
-    break;
-
-    case 'save':
+   case 'save':
       $info = tep_get_system_information();
       $info_file = 'server_info-' . date('YmdHis') . '.txt';
       header('Content-type: text/plain');
@@ -101,8 +51,6 @@
     
     echo tep_draw_bootstrap_button(BUTTON_SAVE_TO_DISK, 'fas fa-save', tep_href_link('server_info.php', 'action=save'), 'primary', null, 'btn-success btn-block btn-lg my-2');
 
-    echo tep_draw_bootstrap_button(BUTTON_SEND_TO_OSCOMMERCE, 'fas fa-file-upload', tep_href_link('server_info.php', 'action=submit'), 'primary', null, 'btn-light');
-    
   } else {
     $server = parse_url(HTTP_SERVER);
 ?>

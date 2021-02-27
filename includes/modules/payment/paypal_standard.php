@@ -609,7 +609,7 @@
                           . 'Pending Reason: ' . htmlspecialchars($pptx_params['pending_reason']);
 
           if ( $pptx_params['mc_gross'] != $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) ) {
-            $comment_status .= "\n" . 'OSCOM Error Total Mismatch: PayPal transaction value (' . htmlspecialchars($pptx_params['mc_gross']) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
+            $comment_status .= "\n" . 'Error Total Mismatch: PayPal transaction value (' . htmlspecialchars($pptx_params['mc_gross']) . ') does not match order value (' . $this->_app->formatCurrencyRaw($total['value'], $order['currency'], $order['currency_value']) . ')';
           }
 
           if ( $is_ipn === true ) {
