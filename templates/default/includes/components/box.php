@@ -5,10 +5,14 @@
 </div>
 
 <?php
-/**
- * osCommerce Online Merchant
- *
- * @copyright Copyright (c) 2020 osCommerce; http://www.oscommerce.com
- * @license BSD License; http://www.oscommerce.com/bsdlicense.txt
- */
+/*
+  $Id$
+
+  CE Phoenix, E-Commerce made Easy
+  https://phoenixcart.org
+
+  Copyright (c) 2021 Phoenix Cart
+
+  Released under the GNU General Public License
+*/
 ?>

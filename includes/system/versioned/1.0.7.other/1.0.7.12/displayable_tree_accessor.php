@@ -1,10 +1,14 @@
 <?php
-/**
- * osCommerce Online Merchant
- *
- * @copyright Copyright (c) 2020 osCommerce; http://www.oscommerce.com
- * @license GNU General Public License; http://www.oscommerce.com/gpllicense.txt
- */
+/*
+  $Id$
+
+  CE Phoenix, E-Commerce made Easy
+  https://phoenixcart.org
+
+  Copyright (c) 2021 Phoenix Cart
+
+  Released under the GNU General Public License
+*/
 
   abstract class displayable_tree_accessor {
 
