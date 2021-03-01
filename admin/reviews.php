@@ -36,7 +36,7 @@
 
         $OSCOM_Hooks->call('reviews', 'updateAction');
 
-        tep_redirect(tep_href_link('reviews.php', 'rID=' . $reviews_id(isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
+        tep_redirect(tep_href_link('reviews.php', 'rID=' . $reviews_id . (isset($_GET['page']) ? '&page=' . (int)$_GET['page'] : '')));
         break;
       case 'deleteconfirm':
         $reviews_id = Text::input($_GET['rID']);
