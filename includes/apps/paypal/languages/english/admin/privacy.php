@@ -2,7 +2,7 @@ privacy_title = Privacy Policy
 
 privacy_body = <h5>API Credentials</h5>
 
-<p>The PayPal App for OSCOM CE Phoenix allows store owners to automatically setup and configure the App with their PayPal API credentials without the need to enter them manually. This is performed securely by granting osCommerce access to retrieve the API credentials from the store owners PayPal account.</p>
+<p>The PayPal App for CE Phoenix allows store owners to automatically setup and configure the App with their PayPal API credentials without the need to enter them manually. This is performed securely by granting osCommerce access to retrieve the API credentials from the store owners PayPal account.</p>
 
 <p>Granting osCommerce access allows the following limited information to be retrieved from the store owners PayPal account:</p>
 

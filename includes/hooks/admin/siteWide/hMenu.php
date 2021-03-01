@@ -77,7 +77,7 @@ class hook_admin_siteWide_hMenu {
       }
 
       $output .= '<nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark">';
-        $output .= '<a class="navbar-brand" href="' . tep_href_link('index.php') . '">' . tep_image('images/CE-Phoenix-30-30.png', 'OSCOM CE Phoenix v' . tep_get_version(), 30, 30, null, false) . '</a>';
+        $output .= '<a class="navbar-brand" href="' . tep_href_link('index.php') . '">' . tep_image('images/CE-Phoenix-30-30.png', 'CE Phoenix v' . tep_get_version(), 30, 30, null, false) . '</a>';
         $output .= '<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdmin" aria-controls="navbarAdmin" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>';
         $output .= '<div class="collapse navbar-collapse" id="navbarAdmin">';
           $output .= '<ul class="navbar-nav mr-auto">' . $mr . '</ul>';
@@ -86,7 +86,7 @@ class hook_admin_siteWide_hMenu {
 
       $output .= '<div class="col bg-light mb-1 border-bottom d-print-none">';
         $output .= '<ul class="nav justify-content-end">';
-          $output .= '<li class="nav-item"><a class="nav-link" target="_blank" rel="noreferrer" href="https://forums.oscommerce.com/clubs/1-phoenix/">' .tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_PHOENIX_CLUB . '</a></li>';
+          $output .= '<li class="nav-item"><a class="nav-link" target="_blank" rel="noreferrer" href="https://phoenixcart.org/forum/">' .tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_PHOENIX_CLUB . '</a></li>';
           $output .= '<li class="nav-item"><a class="nav-link" target="_blank" rel="noreferrer" href="https://phoenixcart.org/phoenixcartwiki/index.php">' . HEADER_TITLE_PHOENIX_WIKI . '</a></li>';
           $output .= '<li class="nav-item"><a class="nav-link" href="' . tep_href_link('certified_addons.php') . '">' . tep_image('images/icon_phoenix.png', 'Phoenix') . ' ' . HEADER_TITLE_CERTIFIED_ADDONS . '</a></li>';
           $output .= '<li class="nav-item"><a class="nav-link" href="' . tep_catalog_href_link() . '">' . HEADER_TITLE_ONLINE_CATALOG . '</a></li>';

@@ -90,13 +90,13 @@ Thank you to all shopowners, developers, consultants and business owners who are
 
 ## Join the Phoenix Club
 
-If you wish to help steer the future direction of the software you need to join the [Phoenix Club](https://forums.oscommerce.com/clubs/1-phoenix/)
+If you wish to help steer the future direction of the software you need to join the [Phoenix Club](https://phoenixcart.org/forum/)
 
 # Helpful Links
 
 Channel | URL 
 ------------ | -------------
-Phoenix Club | https://forums.oscommerce.com/forum/117-topics/
+Phoenix Club | https://phoenixcart.org/forum/
 Phoenix (Youtube) | https://www.youtube.com/channel/UCjJe0ZX3-nGzeJFEzcVUyIA/
 Zipurman Coding (Youtube) | https://www.youtube.com/user/zipurman/videos
 Support (Discord) | https://discord.gg/3pzfrtMAX4
@@ -110,8 +110,7 @@ Images in the default installation are copyright their respective owners;
 
 Image | Owner | Usage
 ------------ | ------------- | -------------
-osCommerce Logo | osCommerce | https://www.oscommerce.com/Us&Legal#TrademarkPolicy
-Phoenix Logo | G Burton | Phoenix Logo may not be used without prior written permission from the copyright owner.
+Phoenix Logo | Phoenix Cart | https://phoenixcart.org Phoenix Logo may not be used without prior written permission from the copyright owner.
 Oranges, Lemons, Pears, Apples | Eelffica from Pixabay | https://pixabay.com/service/license/
 Tomatoes | Rocky_H from Pixabay | https://pixabay.com/service/license/
 Heart | Gerhard Gellinger from Pixabay | https://pixabay.com/service/license/

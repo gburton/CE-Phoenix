@@ -30,13 +30,13 @@
     <div class="container">
       <div class="row">
         <div id="storeLogo" class="col-sm-6">
-          <a href="index.php"><img src="images/phoenix.png" title="OSCOM CE Phoenix" style="margin: 10px 10px 0 10px;" /></a>
+          <a href="index.php"><img src="images/phoenix.png" title="CE Phoenix" style="margin: 10px 10px 0 10px;" /></a>
         </div>
 
         <div id="headerShortcuts" class="col-sm-6">
           <ul class="nav justify-content-end">
-            <li class="nav-item"><a class="nav-link active" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Website</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://forums.oscommerce.com/clubs/1-phoenix/" target="_blank" rel="noreferrer">Support</a></li>
+            <li class="nav-item"><a class="nav-link active" href="https://phoenixcart.org/" target="_blank" rel="noreferrer">Website</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://phoenixcart.org/forum/" target="_blank" rel="noreferrer">Support</a></li>
           </ul>
         </div>
       </div>
@@ -45,7 +45,7 @@
 
       <?php require 'templates/pages/' . $page_contents; ?>
 
-      <footer class="card bg-light mb-3 card-body text-center">OSCOM CE Phoenix &copy; 2000-<?= date('Y') ?></footer>
+      <footer class="card bg-light mb-3 card-body text-center">CE Phoenix &copy; 2000-<?= date('Y') ?></footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
